@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portail d'Administration Logistique — CargoLink Africa</title>
   <meta name="description" content="Espace d'administration réservé à l'équipe opérationnelle CargoLink Africa. Traitement des devis et gestion du transit Chine-Afrique.">
-  <link rel="stylesheet" href="css/style.css?v=10.0">
+  <link rel="stylesheet" href="css/style.css?v=11.0">
   <script src="js/lucide.min.js"></script>
   <script>if (!window.lucide) document.write('<script src="https://unpkg.com/lucide@latest"><\/script>');</script>
 </head>
@@ -139,7 +139,7 @@
       <div class="admin-panels-grid">
 
         <!-- PANEL 1: QUOTE CALCULATOR -->
-        <div class="card" style="padding: 24px;">
+        <div class="card admin-card">
           <div class="admin-panel-card-header">
             <div>
               <span class="badge" style="background: var(--orange-light); color: var(--orange-hover); margin-bottom: 4px;">CALCULATEUR DE COÛTS LOGISTIQUES</span>
@@ -148,7 +148,7 @@
             <span class="badge" style="background: var(--blue-light); color: var(--blue-primary);">Réf: DEV-2026-9410</span>
           </div>
 
-          <div style="background: var(--bg-main); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); margin-bottom: 20px; font-size: 13px;">
+          <div class="admin-info-box">
             <div><strong>Client :</strong> Jean Marc Koffi (+229 97 00 11 22)</div>
             <div><strong>Produit :</strong> 20 Montres Connectées SmartFit Pro X</div>
             <div><strong>Destination :</strong> Cotonou, Bénin • Mode : Fret Aérien</div>
@@ -158,44 +158,44 @@
           <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
             
             <div>
-              <label style="font-size: 11px; font-weight: 800; color: var(--text-muted);">1. PRIX D'ACHAT FOURNISSEUR CHINE (FCFA)</label>
-              <input type="number" id="calcProdCost" value="125000" oninput="calculateAdminQuoteTotal()" style="width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); font-weight: 700; font-size: 14px;">
+              <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); display: block; margin-bottom: 4px;">1. PRIX D'ACHAT FOURNISSEUR CHINE (FCFA)</label>
+              <input type="number" id="calcProdCost" value="125000" oninput="calculateAdminQuoteTotal()" class="admin-input">
             </div>
 
             <div>
-              <label style="font-size: 11px; font-weight: 800; color: var(--text-muted);">2. TRANSPORT LOCAL CHINE + CONTRÔLE QUALITÉ (FCFA)</label>
-              <input type="number" id="calcChinaFreight" value="15000" oninput="calculateAdminQuoteTotal()" style="width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); font-weight: 700; font-size: 14px;">
+              <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); display: block; margin-bottom: 4px;">2. TRANSPORT LOCAL CHINE + CONTRÔLE QUALITÉ (FCFA)</label>
+              <input type="number" id="calcChinaFreight" value="15000" oninput="calculateAdminQuoteTotal()" class="admin-input">
             </div>
 
             <div>
-              <label style="font-size: 11px; font-weight: 800; color: var(--text-muted);">3. FRET INTERNATIONAL AÉRIEN / MARITIME (FCFA)</label>
-              <input type="number" id="calcIntlFreight" value="35000" oninput="calculateAdminQuoteTotal()" style="width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); font-weight: 700; font-size: 14px;">
+              <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); display: block; margin-bottom: 4px;">3. FRET INTERNATIONAL AÉRIEN / MARITIME (FCFA)</label>
+              <input type="number" id="calcIntlFreight" value="35000" oninput="calculateAdminQuoteTotal()" class="admin-input">
             </div>
 
             <div>
-              <label style="font-size: 11px; font-weight: 800; color: var(--text-muted);">4. DOUANE ESTIMÉE + LIVRAISON LOCALE (FCFA)</label>
-              <input type="number" id="calcCustoms" value="20000" oninput="calculateAdminQuoteTotal()" style="width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); font-weight: 700; font-size: 14px;">
+              <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); display: block; margin-bottom: 4px;">4. DOUANE ESTIMÉE + LIVRAISON LOCALE (FCFA)</label>
+              <input type="number" id="calcCustoms" value="20000" oninput="calculateAdminQuoteTotal()" class="admin-input">
             </div>
 
             <div>
-              <label style="font-size: 11px; font-weight: 800; color: var(--text-muted);">5. FRAIS DE SERVICE CARGOLINK AFRICA (FCFA)</label>
-              <input type="number" id="calcServiceFee" value="10000" oninput="calculateAdminQuoteTotal()" style="width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); font-weight: 700; font-size: 14px;">
+              <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); display: block; margin-bottom: 4px;">5. FRAIS DE SERVICE CARGOLINK AFRICA (FCFA)</label>
+              <input type="number" id="calcServiceFee" value="10000" oninput="calculateAdminQuoteTotal()" class="admin-input">
             </div>
 
           </div>
 
-          <div style="background: var(--navy-dark); color: #FFF; padding: 16px; border-radius: var(--radius-md); text-align: center; margin-bottom: 20px;">
+          <div class="admin-total-box">
             <div style="font-size: 11px; color: var(--text-light); font-weight: 700;">TOTAL CALCULÉ DEVIS CLIENT</div>
-            <div style="font-size: 28px; font-weight: 900; color: var(--orange-primary); font-family: var(--font-heading);" id="calcTotalSumDisplay">205 000 FCFA</div>
+            <div style="font-size: clamp(22px, 6vw, 28px); font-weight: 900; color: var(--orange-primary); font-family: var(--font-heading);" id="calcTotalSumDisplay">205 000 FCFA</div>
           </div>
 
-          <button class="btn btn-orange" style="width: 100%; font-size: 15px;" onclick="sendAdminQuoteToClient()">
-            <i data-lucide="send" style="width: 18px;"></i> Envoyer le Devis au Client (WhatsApp & Dashboard)
+          <button class="btn btn-orange admin-btn" onclick="sendAdminQuoteToClient()">
+            <i data-lucide="send" style="width: 18px; flex-shrink: 0;"></i> Envoyer le Devis au Client (WhatsApp & Dashboard)
           </button>
         </div>
 
         <!-- PANEL 2: ORDER LOGISTICS STATUS UPDATER -->
-        <div class="card" style="padding: 24px;">
+        <div class="card admin-card">
           <div class="admin-panel-card-header">
             <div>
               <span class="badge" style="background: var(--green-bg); color: var(--green-success); margin-bottom: 4px;">GESTION DU TRANSIT LOGISTIQUE</span>
@@ -204,15 +204,15 @@
             <span class="badge" style="background: var(--navy-dark); color: #FFF;">CMD-2026-45892</span>
           </div>
 
-          <div style="background: var(--bg-main); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); margin-bottom: 20px; font-size: 13px;">
+          <div class="admin-info-box">
             <div><strong>Client :</strong> Jean Marc Koffi</div>
             <div><strong>Colis :</strong> 50 Casques Bluetooth ANC SoundBass</div>
             <div><strong>Statut Actuel :</strong> <span id="adminCurrentStatusBadge" style="font-weight: 800; color: var(--orange-primary);">9. En transit international (Vol AF-842)</span></div>
           </div>
 
           <div style="margin-bottom: 24px;">
-            <label style="font-size: 12px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 8px;">AVANCER LA TIMELINE LOGISTIQUE (14 ÉTAPES) :</label>
-            <select id="adminStatusSelector" style="width: 100%; padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-light); font-size: 14px; font-weight: 700; outline: none; background: #FFF;">
+            <label style="font-size: 11px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 6px;">AVANCER LA TIMELINE LOGISTIQUE (14 ÉTAPES) :</label>
+            <select id="adminStatusSelector" class="admin-input" style="background: #FFF;">
               <option value="1">1. Paiement en attente</option>
               <option value="2">2. Commande confirmée (Paiement validé)</option>
               <option value="3">3. Achat fournisseur en cours</option>
@@ -231,12 +231,12 @@
           </div>
 
           <div style="margin-bottom: 24px;">
-            <label style="font-size: 12px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 6px;">NOTE LOGISTIQUE / OBSERVATION INTERNE</label>
-            <textarea id="adminLogisticsNote" placeholder="Ex: Décollage effectué de Guangzhou Baiyun à 06:15 UTC. Arrivée prévue Cotonou le 24 Juillet..." style="width: 100%; height: 90px; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); font-size: 13px; outline: none; font-family: var(--font-body);"></textarea>
+            <label style="font-size: 11px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 6px;">NOTE LOGISTIQUE / OBSERVATION INTERNE</label>
+            <textarea id="adminLogisticsNote" placeholder="Ex: Décollage effectué de Guangzhou Baiyun à 06:15 UTC. Arrivée prévue Cotonou le 24 Juillet..." class="admin-input" style="height: 90px;"></textarea>
           </div>
 
-          <button class="btn btn-primary" style="width: 100%; font-size: 15px;" onclick="updateAdminLogisticsStatus()">
-            <i data-lucide="refresh-cw" style="width: 18px;"></i> Publier la Mise à Jour & Notifier le Client
+          <button class="btn btn-primary admin-btn" onclick="updateAdminLogisticsStatus()">
+            <i data-lucide="refresh-cw" style="width: 18px; flex-shrink: 0;"></i> Publier la Mise à Jour & Notifier le Client
           </button>
         </div>
 
