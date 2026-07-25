@@ -1,0 +1,19 @@
+@import '../css/style.css';
+
+/* Next.js & React Compatibility Fixes */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-main, #F8FAFC);
+  color: var(--text-main, #0F172A);
+  font-family: var(--font-body, system-ui, -apple-system, sans-serif);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
