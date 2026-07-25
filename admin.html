@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portail d'Administration Logistique — CargoLink Africa</title>
   <meta name="description" content="Espace d'administration réservé à l'équipe opérationnelle CargoLink Africa. Traitement des devis et gestion du transit Chine-Afrique.">
-  <link rel="stylesheet" href="css/style.css?v=9.0">
+  <link rel="stylesheet" href="css/style.css?v=10.0">
   <script src="js/lucide.min.js"></script>
   <script>if (!window.lucide) document.write('<script src="https://unpkg.com/lucide@latest"><\/script>');</script>
 </head>
@@ -103,30 +103,30 @@
   <!-- ADMIN METRICS HEADER -->
   <section style="background: var(--navy-dark); color: #FFF; padding: 36px 0;">
     <div class="container">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-        <h1 style="font-size: 26px; color: #FFF; font-weight: 900;">Tableau de Bord Administrateur Logistique</h1>
-        <span class="badge" style="background: var(--orange-primary); color: #FFF;">Écurie Active : Guangzhou Hub ➔ Cotonou Port/Aéroport</span>
+      <div class="admin-header-row">
+        <h1 style="font-size: clamp(20px, 5vw, 26px); color: #FFF; font-weight: 900; word-break: break-word;">Tableau de Bord Administrateur Logistique</h1>
+        <span class="badge" style="background: var(--orange-primary); color: #FFF; flex-shrink: 0;">Écurie Active : Guangzhou Hub ➔ Cotonou</span>
       </div>
 
-      <div class="grid-5" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="admin-kpi-grid">
         <div style="background: rgba(255,255,255,0.06); padding: 16px; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
           <div style="font-size: 11px; color: var(--text-light); font-weight: 700;">DEMANDES DE DEVIS À TRAITER</div>
-          <div style="font-size: 26px; font-weight: 900; color: var(--orange-primary); font-family: var(--font-heading);">3 Nouvelles</div>
+          <div style="font-size: 24px; font-weight: 900; color: var(--orange-primary); font-family: var(--font-heading);">3 Nouvelles</div>
         </div>
 
         <div style="background: rgba(255,255,255,0.06); padding: 16px; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
           <div style="font-size: 11px; color: var(--text-light); font-weight: 700;">COLIS EN TRANSIT INTERNATIONAL</div>
-          <div style="font-size: 26px; font-weight: 900; color: var(--green-success); font-family: var(--font-heading);">14 Commandes</div>
+          <div style="font-size: 24px; font-weight: 900; color: var(--green-success); font-family: var(--font-heading);">14 Commandes</div>
         </div>
 
         <div style="background: rgba(255,255,255,0.06); padding: 16px; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
           <div style="font-size: 11px; color: var(--text-light); font-weight: 700;">VALEUR MARCHANDISE EXPÉDIÉE</div>
-          <div style="font-size: 24px; font-weight: 900; color: #FFF; font-family: var(--font-heading);">18,4M FCFA</div>
+          <div style="font-size: 22px; font-weight: 900; color: #FFF; font-family: var(--font-heading); white-space: nowrap;">18,4M FCFA</div>
         </div>
 
         <div style="background: rgba(255,255,255,0.06); padding: 16px; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
           <div style="font-size: 11px; color: var(--text-light); font-weight: 700;">INCIDENTS / RETARDS</div>
-          <div style="font-size: 24px; font-weight: 900; color: #10B981;">0 Alerte majeure</div>
+          <div style="font-size: 22px; font-weight: 900; color: #10B981;">0 Alerte majeure</div>
         </div>
       </div>
 
@@ -136,14 +136,14 @@
   <!-- ADMIN MAIN PANELS -->
   <section style="padding: 40px 0;">
     <div class="container">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 36px;">
+      <div class="admin-panels-grid">
 
         <!-- PANEL 1: QUOTE CALCULATOR -->
-        <div class="card" style="padding: 28px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--bg-subtle);">
+        <div class="card" style="padding: 24px;">
+          <div class="admin-panel-card-header">
             <div>
               <span class="badge" style="background: var(--orange-light); color: var(--orange-hover); margin-bottom: 4px;">CALCULATEUR DE COÛTS LOGISTIQUES</span>
-              <h2 style="font-size: 20px; font-weight: 900; color: var(--navy-dark);">Élaborer un Devis Officiel</h2>
+              <h2 style="font-size: 19px; font-weight: 900; color: var(--navy-dark);">Élaborer un Devis Officiel</h2>
             </div>
             <span class="badge" style="background: var(--blue-light); color: var(--blue-primary);">Réf: DEV-2026-9410</span>
           </div>
@@ -195,11 +195,11 @@
         </div>
 
         <!-- PANEL 2: ORDER LOGISTICS STATUS UPDATER -->
-        <div class="card" style="padding: 28px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--bg-subtle);">
+        <div class="card" style="padding: 24px;">
+          <div class="admin-panel-card-header">
             <div>
               <span class="badge" style="background: var(--green-bg); color: var(--green-success); margin-bottom: 4px;">GESTION DU TRANSIT LOGISTIQUE</span>
-              <h2 style="font-size: 20px; font-weight: 900; color: var(--navy-dark);">Mise à jour Statut Colis</h2>
+              <h2 style="font-size: 19px; font-weight: 900; color: var(--navy-dark);">Mise à jour Statut Colis</h2>
             </div>
             <span class="badge" style="background: var(--navy-dark); color: #FFF;">CMD-2026-45892</span>
           </div>
