@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Détail Produit — CargoLink Africa</title>
   <meta name="description" content="Consultez les spécifications, fournisseurs vérifiés et estimatifs d'expédition Chine → Afrique.">
-  <link rel="stylesheet" href="css/style.css?v=6.0">
+  <link rel="stylesheet" href="css/style.css?v=7.0">
   <script src="js/lucide.min.js"></script>
   <script>if (!window.lucide) document.write('<script src="https://unpkg.com/lucide@latest"><\/script>');</script>
 </head>
@@ -165,18 +165,18 @@
   <!-- PRODUCT DETAIL SECTION -->
   <section style="padding: 50px 0;">
     <div class="container">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; background: #FFF; border-radius: var(--radius-xl); padding: 36px; border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+      <div class="product-detail-layout">
 
         <!-- Left Gallery -->
         <div>
-          <div style="height: 380px; background: #F8FAFC; border-radius: var(--radius-lg); overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; border: 1px solid var(--border-light);">
+          <div style="height: 360px; max-height: 75vw; background: #F8FAFC; border-radius: var(--radius-lg); overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; border: 1px solid var(--border-light);">
             <img id="mainProductImg" src="images/assets/item_7.jpg" alt="Produit" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
           <div style="display: flex; gap: 12px;">
-            <div style="width: 80px; height: 80px; border-radius: 12px; overflow: hidden; border: 2px solid var(--orange-primary); cursor: pointer;">
+            <div style="width: 70px; height: 70px; border-radius: 12px; overflow: hidden; border: 2px solid var(--orange-primary); cursor: pointer;">
               <img src="images/assets/item_7.jpg" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
-            <div style="width: 80px; height: 80px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-light); cursor: pointer; opacity: 0.7;">
+            <div style="width: 70px; height: 70px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-light); cursor: pointer; opacity: 0.7;">
               <img src="images/assets/item_3.jpg" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
           </div>
@@ -184,12 +184,12 @@
 
         <!-- Right Product Info -->
         <div>
-          <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+          <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
             <span class="badge" style="background: var(--green-bg); color: var(--green-success);"><i data-lucide="shield-check" style="width: 14px;"></i> Usine Vérifiée Shenzhen</span>
             <span class="badge" style="background: var(--orange-light); color: var(--orange-hover);">Top Vente Revendeurs</span>
           </div>
 
-          <h1 id="productDetailTitle" style="font-size: 30px; font-weight: 900; margin-bottom: 10px;">Montre Connectée SmartFit Pro X</h1>
+          <h1 id="productDetailTitle" style="font-size: clamp(20px, 5vw, 30px); font-weight: 900; margin-bottom: 10px; word-break: break-word;">Montre Connectée SmartFit Pro X</h1>
           <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">
             Écran tactile HD 1,43" AMOLED, étanchéité IP68, mesure du rythme cardiaque et de l'oxygène sanguin. Compatible Android & iOS.
           </p>
@@ -197,8 +197,8 @@
           <!-- Price & MOQ Box -->
           <div style="background: var(--bg-main); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border-light); margin-bottom: 24px;">
             <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">PRIX ESTIMATIF UNITAIRE EN AFRIQUE</div>
-            <div style="display: flex; align-items: baseline; gap: 12px;">
-              <span id="productDetailPrice" style="font-size: 32px; font-weight: 900; color: var(--orange-primary); font-family: var(--font-heading);">12 500 FCFA</span>
+            <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
+              <span id="productDetailPrice" style="font-size: clamp(24px, 6vw, 32px); font-weight: 900; color: var(--orange-primary); font-family: var(--font-heading); white-space: nowrap;">12 500 FCFA</span>
               <span style="font-size: 13px; color: var(--text-muted); font-weight: 600;">(MOQ : <span id="productDetailMOQ">10</span> pièces)</span>
             </div>
             <p style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">* Inclus le coût d'achat usine et l'estimation de transport aérien groupé.</p>
@@ -207,20 +207,20 @@
           <!-- Quantity Selector -->
           <div style="margin-bottom: 24px;">
             <label style="font-size: 13px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 8px;">QUANTITÉ SOUHAITÉE :</label>
-            <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
               <button class="btn btn-primary btn-pill-sm" onclick="adjustQty(-5)">-</button>
               <input type="number" id="inputQty" value="10" min="10" style="width: 80px; padding: 10px; text-align: center; font-weight: 800; font-size: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
               <button class="btn btn-primary btn-pill-sm" onclick="adjustQty(5)">+</button>
-              <span style="font-size: 13px; color: var(--text-muted); font-weight: 600;">Total estimé : <strong id="textTotalEst" style="color: var(--navy-dark);">125 000 FCFA</strong></span>
+              <span style="font-size: 13px; color: var(--text-muted); font-weight: 600;">Total estimé : <strong id="textTotalEst" style="color: var(--navy-dark); white-space: nowrap;">125 000 FCFA</strong></span>
             </div>
           </div>
 
           <!-- Actions -->
-          <div style="display: flex; gap: 14px;">
-            <button class="btn btn-orange" style="flex: 1; font-size: 16px; padding: 14px;" onclick="submitQuoteForProduct()">
+          <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+            <button class="btn btn-orange" style="flex: 1; min-width: 200px; font-size: 16px; padding: 14px;" onclick="submitQuoteForProduct()">
               <i data-lucide="file-plus" style="width: 18px;"></i> Obtenir un Devis Officiel
             </button>
-            <a href="catalog.html" class="btn btn-primary" style="padding: 14px;">Retour</a>
+            <a href="catalog.html" class="btn btn-primary" style="padding: 14px; text-align: center;">Retour</a>
           </div>
         </div>
 

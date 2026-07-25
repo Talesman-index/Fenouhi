@@ -1378,7 +1378,7 @@ a {
 }
 
 /* ==========================================================================
-   CATALOG RESPONSIVE LAYOUT
+   CATALOG & PRODUCT DETAIL RESPONSIVE LAYOUT
    ========================================================================== */
 .catalog-layout-grid {
   display: grid;
@@ -1386,10 +1386,26 @@ a {
   gap: 36px;
 }
 
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  background: #FFF;
+  border-radius: var(--radius-xl);
+  padding: 36px;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+
 @media (max-width: 992px) {
   .catalog-layout-grid {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+  .product-detail-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 20px;
   }
 }
 
