@@ -47,12 +47,12 @@ export default function Header() {
 
       {/* MAIN NAVIGATION HEADER */}
       <header className="main-header">
-        <div className="container main-header-content">
+        <div className="container header-grid">
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <button className="mobile-menu-btn" onClick={toggleDrawer} aria-label="Menu Mobile">
               {drawerOpen ? <X style={{ width: 22, color: "var(--navy-dark)" }} /> : <Menu style={{ width: 22, color: "var(--navy-dark)" }} />}
             </button>
-            <Link href="/" className="logo-box">
+            <Link href="/" className="brand-logo">
               <svg className="logo-img" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="40" height="40" rx="10" fill="#0F172A"/>
                 <path d="M20 8L31 29H24.5L20 20L15.5 29H9L20 8Z" fill="#165491"/>
@@ -65,8 +65,8 @@ export default function Header() {
             </Link>
           </div>
 
-          <div className="search-bar-wrap">
-            <input type="text" className="search-input" placeholder="Rechercher un produit, une usine en Chine, une référence..." />
+          <div className="header-search-bar">
+            <input type="text" placeholder="Rechercher un produit, une usine en Chine, une référence..." />
             <button className="search-submit-btn" aria-label="Rechercher">
               <Search style={{ width: 18 }} />
             </button>

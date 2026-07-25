@@ -17,3 +17,84 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+/* Header Logo & Layout Strict Constraints */
+svg.logo-img, .logo-img {
+  width: 42px !important;
+  height: 42px !important;
+  max-width: 42px !important;
+  max-height: 42px !important;
+  flex-shrink: 0 !important;
+  display: block !important;
+}
+
+.logo-box, .brand-logo {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  text-decoration: none !important;
+}
+
+.logo-text-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.logo-text-main {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  color: var(--navy-dark, #0F172A) !important;
+  line-height: 1 !important;
+  letter-spacing: -0.5px !important;
+}
+
+.logo-text-sub {
+  font-size: 8.5px !important;
+  font-weight: 800 !important;
+  color: var(--blue-primary, #165491) !important;
+  letter-spacing: 0.5px !important;
+  margin-top: 2px !important;
+}
+
+.header-grid {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 20px !important;
+}
+
+.header-search-bar {
+  flex: 1 !important;
+  max-width: 540px !important;
+  display: flex !important;
+  align-items: center !important;
+  background: #F8FAFC !important;
+  border: 1.5px solid var(--border-light, #E2E8F0) !important;
+  border-radius: 9999px !important;
+  padding: 4px 6px 4px 18px !important;
+}
+
+.header-search-bar input {
+  flex: 1 !important;
+  border: none !important;
+  background: transparent !important;
+  outline: none !important;
+  font-size: 13.5px !important;
+  font-family: inherit !important;
+  color: var(--navy-dark, #0F172A) !important;
+  font-weight: 600 !important;
+}
+
+/* Mobile Responsive Header Rules */
+@media (max-width: 768px) {
+  .header-grid {
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+  }
+  .header-search-bar {
+    order: 3 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
