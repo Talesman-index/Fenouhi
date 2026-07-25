@@ -9,12 +9,12 @@ export default function HomePage() {
   const [searchUrl, setSearchUrl] = useState("");
 
   const categories = [
-    { name: "High-Tech & Audio", img: "/images/assets/cat_audio.jpg", link: "/catalog?cat=electronics" },
-    { name: "Mode & Chaussures", img: "/images/assets/cat_shoes.jpg", link: "/catalog?cat=fashion" },
-    { name: "Gros & Grossistes", img: "/images/assets/cat_wholesale.jpg", link: "/catalog?cat=wholesale" },
-    { name: "Beauté & Soins", img: "/images/assets/cat_beauty.jpg", link: "/catalog?cat=beauty" },
-    { name: "Électroménager", img: "/images/assets/cat_home.jpg", link: "/catalog?cat=appliances" },
-    { name: "Outillage & PME", img: "/images/assets/cat_tools.jpg", link: "/catalog?cat=machinery" },
+    { name: "High-Tech & Audio", img: "/images/assets/item_3.jpg", link: "/catalog?cat=electronics" },
+    { name: "Mode & Chaussures", img: "/images/assets/item_4.jpg", link: "/catalog?cat=fashion" },
+    { name: "Gros & Grossistes", img: "/images/assets/hero_bag.png", link: "/catalog?cat=wholesale" },
+    { name: "Beauté & Soins", img: "/images/assets/item_5.jpg", link: "/catalog?cat=beauty" },
+    { name: "Électroménager", img: "/images/assets/item_1.jpg", link: "/catalog?cat=appliances" },
+    { name: "Outillage & PME", img: "/images/assets/item_9.jpg", link: "/catalog?cat=machinery" },
   ];
 
   const deals = [
@@ -97,7 +97,7 @@ export default function HomePage() {
             {categories.map((c, idx) => (
               <Link key={idx} href={c.link} className="category-circle-card">
                 <div className="category-circle-box">
-                  <img src={c.img} alt={c.name} />
+                  <img src={c.img} alt="" />
                 </div>
                 <div className="category-circle-name">{c.name}</div>
               </Link>
