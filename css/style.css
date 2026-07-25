@@ -390,10 +390,6 @@ a {
   transition: transform 0.4s ease;
 }
 
-.hero-banner-main:hover .hero-banner-main-img {
-  transform: translateY(-53%) scale(1.05);
-}
-
 .hero-banner-side {
   background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
   border-radius: var(--radius-xl);
@@ -435,8 +431,13 @@ a {
   transition: transform 0.4s ease;
 }
 
-.hero-banner-side:hover .hero-banner-side-img {
-  transform: scale(1.06) rotate(-2deg);
+@media (hover: hover) {
+  .hero-banner-main:hover .hero-banner-main-img {
+    transform: translateY(-53%) scale(1.05);
+  }
+  .hero-banner-side:hover .hero-banner-side-img {
+    transform: scale(1.06) rotate(-2deg);
+  }
 }
 
 .hero-dots {
@@ -1156,6 +1157,20 @@ a {
   }
   .hero-banner-main-content {
     max-width: 100%;
+  }
+  .hero-banner-main:hover .hero-banner-main-img,
+  .hero-banner-main:active .hero-banner-main-img,
+  .hero-banner-main:focus .hero-banner-main-img,
+  .hero-banner-side:hover .hero-banner-side-img,
+  .hero-banner-side:active .hero-banner-side-img,
+  .hero-banner-side:focus .hero-banner-side-img,
+  .category-circle-card:hover .category-circle-box img,
+  .category-circle-card:active .category-circle-box img,
+  .deal-product-card:hover .deal-card-img-box img,
+  .deal-product-card:active .deal-card-img-box img,
+  .promo-banner-card:hover .promo-banner-card-img,
+  .promo-banner-card:active .promo-banner-card-img {
+    transform: none !important;
   }
   .ai-search-pill-box {
     flex-direction: column;
