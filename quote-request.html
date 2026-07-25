@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demande de Devis Sur-Mesure — CargoLink Africa</title>
+  <meta name="description" content="Soumettez un lien, une photo ou une description de produit en Chine pour obtenir un devis global d'importation sans engagement.">
+  <link rel="stylesheet" href="css/style.css?v=3.0">
+  <script src="js/lucide.min.js"></script>
+  <script>if (!window.lucide) document.write('<script src="https://unpkg.com/lucide@latest"><\/script>');</script>
+</head>
+<body>
+
+  <!-- MOBILE DRAWER OVERLAY -->
+  <div class="mobile-drawer-overlay" id="mobileDrawerOverlay" onclick="closeMobileDrawer()"></div>
+
+  <!-- SLIDE-IN MOBILE NAVIGATION DRAWER -->
+  <aside class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div class="drawer-header">
+      <img src="images/cargolink_logo_light.svg" alt="CargoLink Africa" class="logo-img">
+      <button class="drawer-close-btn" onclick="closeMobileDrawer()">
+        <i data-lucide="x" style="width: 20px;"></i>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <div>
+        <div class="drawer-section-title">Navigation Principale</div>
+        <ul class="drawer-nav-list">
+          <li><a href="index.html" class="drawer-nav-link"><i data-lucide="home"></i> Accueil</a></li>
+          <li><a href="catalog.html" class="drawer-nav-link"><i data-lucide="grid"></i> Catalogue Produits</a></li>
+          <li><a href="quote-request.html" class="drawer-nav-link active"><i data-lucide="calculator"></i> Demander un Devis</a></li>
+          <li><a href="dashboard.html" class="drawer-nav-link"><i data-lucide="package-search"></i> Suivi de Colis & Dashboard</a></li>
+          <li><a href="admin.html" class="drawer-nav-link"><i data-lucide="shield"></i> Administration</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="drawer-section-title">Catégories Populaires</div>
+        <ul class="drawer-nav-list">
+          <li><a href="catalog.html?cat=electronics" class="drawer-nav-link"><i data-lucide="smartphone"></i> High-Tech & SmartFit</a></li>
+          <li><a href="catalog.html?cat=sneakers" class="drawer-nav-link"><i data-lucide="footprints"></i> Sneakers & Sport</a></li>
+          <li><a href="catalog.html?cat=fashion" class="drawer-nav-link"><i data-lucide="shirt"></i> Mode & Vêtements</a></li>
+          <li><a href="catalog.html?cat=machinery" class="drawer-nav-link"><i data-lucide="cpu"></i> Équipements & PME</a></li>
+          <li><a href="catalog.html?cat=beauty" class="drawer-nav-link"><i data-lucide="sparkles"></i> Beauté & Soins</a></li>
+        </ul>
+      </div>
+
+      <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-light);">
+        <a href="quote-request.html" class="btn btn-orange" style="width: 100%; text-align: center; justify-content: center;">
+          <i data-lucide="send" style="width: 16px;"></i> Devis Express Chine
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="container top-bar-container">
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <span class="top-bar-item"><i data-lucide="globe" style="width: 14px; height: 14px;"></i> Français (FR)</span>
+        <span style="color: var(--border-light);">|</span>
+        <span class="top-bar-item"><i data-lucide="message-square" style="width: 14px; height: 14px; color: var(--green-success);"></i> Support WhatsApp Direct 7j/7</span>
+      </div>
+
+      <div class="top-bar-links">
+        <div class="top-bar-item" onclick="showToast('Livraison sélectionnée : Cotonou, Bénin 🇧🇯')">
+          <i data-lucide="map-pin" style="width: 14px; height: 14px; color: var(--orange-primary);"></i>
+          <span>Livrer à : <strong style="color: var(--navy-dark);">🇧🇯 Bénin (Cotonou)</strong></span>
+          <i data-lucide="chevron-down" style="width: 12px; height: 12px;"></i>
+        </div>
+
+        <span style="color: var(--border-light);">|</span>
+
+        <a href="dashboard.html" class="top-bar-item">
+          <i data-lucide="truck" style="width: 14px; height: 14px;"></i>
+          <span>Suivi N° Commande</span>
+        </a>
+
+        <span style="color: var(--border-light);">|</span>
+
+        <a href="admin.html" class="top-bar-item" style="color: var(--orange-primary); font-weight: 700;">
+          <i data-lucide="shield" style="width: 14px; height: 14px;"></i>
+          <span>Espace Admin</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN HEADER -->
+  <header class="main-header">
+    <div class="container header-grid">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button class="mobile-hamburger-btn" onclick="openMobileDrawer()" title="Menu Mobile">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+
+        <a href="index.html" class="brand-logo" title="CargoLink Africa — Logistics Chine Africa">
+          <img src="images/cargolink_logo.svg" alt="CargoLink Africa" class="logo-img">
+        </a>
+      </div>
+
+      <!-- MAIN SEARCH BAR WITH CATEGORY DROPDOWN -->
+      <div class="header-search-bar">
+        <select class="search-cat-select" id="headerCategorySelect">
+          <option value="all">Toutes Catégories</option>
+          <option value="electronics">High-Tech & Mobiles</option>
+          <option value="fashion">Mode & Chaussures</option>
+          <option value="appliances">Électroménager</option>
+          <option value="machinery">Machines PME</option>
+          <option value="beauty">Beauté & Santé</option>
+        </select>
+        <input type="text" id="mainHeaderSearchInput" placeholder="Que recherchez-vous ? (ex: iPhone 16, baskets, caméra, scelleuse...)">
+        <button class="search-submit-btn" onclick="executeMainHeaderSearch()">
+          <i data-lucide="search" style="width: 18px;"></i>
+        </button>
+      </div>
+
+      <!-- HEADER ACTIONS -->
+      <div class="header-actions">
+        <a href="quote-request.html" class="header-action-item">
+          <i data-lucide="file-plus" style="width: 22px; color: var(--orange-primary);"></i>
+          <div>
+            <div style="font-size: 10px; color: var(--text-muted); font-weight: 700;">DEMANDER UN</div>
+            <div>Devis Rapide</div>
+          </div>
+        </a>
+
+        <a href="dashboard.html" class="header-action-item">
+          <i data-lucide="user" style="width: 22px; color: var(--navy-dark);"></i>
+          <div>
+            <div style="font-size: 10px; color: var(--text-muted); font-weight: 700;">ESPACE</div>
+            <div>Mon Compte</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- SUB NAV BAR -->
+  <nav class="subnav-bar">
+    <div class="container">
+      <ul class="subnav-list">
+        <li><a href="catalog.html" class="subnav-link"><i data-lucide="menu" style="width: 16px;"></i> Toutes les catégories</a></li>
+        <li><a href="catalog.html?cat=electronics" class="subnav-link">Smartphones & High-Tech</a></li>
+        <li><a href="catalog.html?cat=fashion" class="subnav-link">Mode & Vêtements</a></li>
+        <li><a href="catalog.html?cat=sourcing" class="subnav-link">Sourcing Sacs & Bagages</a></li>
+        <li><a href="catalog.html?cat=appliances" class="subnav-link">Maison & Électroménager</a></li>
+        <li><a href="catalog.html?cat=machinery" class="subnav-link">Outillage & Machines PME</a></li>
+        <li><a href="catalog.html?cat=beauty" class="subnav-link">Beauté & Cosmétiques</a></li>
+        <li><a href="dashboard.html?tab=orders" class="subnav-link" style="color: var(--orange-primary);"><i data-lucide="map-pin" style="width: 16px;"></i> Suivi Colis Chine → Afrique</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HEADER HERO -->
+  <header style="background: var(--navy-dark); color: #FFF; padding: 45px 0 55px; border-bottom: 4px solid var(--orange-primary);">
+    <div class="container" style="text-align: center;">
+      <span class="badge" style="margin-bottom: 12px; background: rgba(255,255,255,0.15); color: #FFF; font-size: 12px; letter-spacing: 1px;">SOURCING DIRECT CHINE ➔ AFRIQUE</span>
+      <h1 style="font-size: 34px; color: #FFF; font-weight: 900; margin-bottom: 10px;">Demander un Devis d'Importation Gratuit</h1>
+      <p style="font-size: 15px; color: #CBD5E1; max-width: 660px; margin: 0 auto; line-height: 1.5;">
+        Vous avez une photo, un lien 1688 / Taobao / Alibaba ou une description de produit ? Notre équipe basée à Guangzhou et Shenzhen s'occupe de trouver le meilleur prix et d'assurer votre livraison.
+      </p>
+    </div>
+  </header>
+
+  <!-- FORM & SIDEBAR SECTION -->
+  <section style="padding: 50px 0; background: var(--bg-main);">
+    <div class="container">
+      
+      <div class="quote-layout-grid">
+        
+        <!-- LEFT COLUMN: MAIN SOURCING FORM -->
+        <div style="background: #FFF; border-radius: var(--radius-xl); border: 1px solid var(--border-light); padding: 36px; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
+          
+          <!-- STEPPER INDICATOR HEADER -->
+          <div style="display: flex; justify-content: space-between; align-items: center; background: #F8FAFC; padding: 14px 20px; border-radius: var(--radius-md); margin-bottom: 32px; border: 1px solid var(--border-light);">
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 13px; color: var(--orange-primary);">
+              <span style="width: 24px; height: 24px; background: var(--orange-primary); color: #FFF; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
+              <span>Produit</span>
+            </div>
+            <div style="color: #CBD5E1;"><i data-lucide="chevron-right" style="width: 16px;"></i></div>
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 13px; color: var(--navy-dark);">
+              <span style="width: 24px; height: 24px; background: var(--navy-dark); color: #FFF; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
+              <span>Expédition & Douane</span>
+            </div>
+            <div style="color: #CBD5E1;"><i data-lucide="chevron-right" style="width: 16px;"></i></div>
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 13px; color: var(--navy-dark);">
+              <span style="width: 24px; height: 24px; background: var(--navy-dark); color: #FFF; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">3</span>
+              <span>Coordonnées</span>
+            </div>
+          </div>
+
+          <form id="quoteRequestForm" onsubmit="handleQuoteSubmit(event)">
+            
+            <!-- STEP 1: PRODUCT INFO -->
+            <div style="margin-bottom: 36px;">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--bg-subtle);">
+                <i data-lucide="package" style="width: 22px; color: var(--orange-primary);"></i>
+                <h3 style="font-size: 20px; font-weight: 900; color: var(--navy-dark);">1. Informations sur le Produit</h3>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div>
+                  <label style="font-size: 13px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 6px;">NOM OU DESCRIPTION DU PRODUIT *</label>
+                  <input type="text" id="quoteProductName" required placeholder="Ex: Lot de 50 casques Bluetooth ANC SoundBass" style="width: 100%; padding: 14px 16px; border-radius: var(--radius-md); border: 1.5px solid var(--border-light); font-size: 15px; outline: none; font-weight: 600;">
+                </div>
+
+                <div>
+                  <label style="font-size: 13px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 6px;">LIEN DU FOURNISSEUR (1688 / ALIBABA / TAOBAO) OU RÉFÉRENCE</label>
+                  <input type="text" id="quoteProductLink" placeholder="Ex: https://detail.1688.com/offer/6842910... ou référence d'article" style="width: 100%; padding: 14px 16px; border-radius: var(--radius-md); border: 1.5px solid var(--border-light); font-size: 14px; outline: none;">
+                </div>
+
+                <div class="grid-2">
+                  <div>
+                    <label style="font-size: 13px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 6px;">QUANTITÉ SOUHAITÉE *</label>
+                    <input type="number" id="quoteQty" required value="20" min="1" style="width: 100%; padding: 14px 16px; border-radius: var(--radius-md); border: 1.5px solid var(--border-light); font-size: 15px; outline: none; font-weight: 800;">
+                  </div>
+                  <div>
+                    <label style="font-size: 13px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 6px;">BUDGET CIBLE ESTIMÉ (FCFA)</label>
+                    <input type="text" id="quoteTargetBudget" placeholder="Ex: 200 000 FCFA" style="width: 100%; padding: 14px 16px; border-radius: var(--radius-md); border: 1.5px solid var(--border-light); font-size: 15px; outline: none;">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 2: LOGISTICS & DESTINATION -->
+            <div style="margin-bottom: 36px;">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--bg-subtle);">
+                <i data-lucide="truck" style="width: 22px; color: var(--orange-primary);"></i>
+                <h3 style="font-size: 20px; font-weight: 900; color: var(--navy-dark);">2. Destination & Mode d'Expédition</h3>
+              </div>
+
+              <div class="grid-2" style="margin-bottom: 20px;">
+                <div>
+                  <label style="font-size: 13px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 6px;">PAYS DE LIVRAISON *</label>
+                  <select id="quoteCountry" required style="width: 100%; padding: 14px 16px; border-radius: var(--radius-md); border: 1.5px solid var(--border-light); font-size: 15px; outline: none; background: #FFF; font-weight: 700;">
+                    <option value="Bénin">Bénin (Cotonou)</option>
+                    <option value="Togo">Togo (Lomé)</option>
+                    <option value="Côte d'Ivoire">Côte d'Ivoire (Abidjan)</option>
+                    <option value="Sénégal">Sénégal (Dakar)</option>
+                    <option value="Cameroun">Cameroun (Douala)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style="font-size: 13px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 6px;">VILLE DE RÉCEPTION *</label>
+                  <input type="text" id="quoteCity" required value="Cotonou" style="width: 100%; padding: 14px 16px; border-radius: var(--radius-md); border: 1.5px solid var(--border-light); font-size: 15px; outline: none; font-weight: 600;">
+                </div>
+              </div>
+
+              <div>
+                <label style="font-size: 13px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 10px;">MODE D'EXPÉDITION SOUHAITÉ *</label>
+                <div class="grid-2">
+                  <label style="background: var(--bg-main); border: 2px solid var(--orange-primary); padding: 16px; border-radius: var(--radius-md); cursor: pointer; display: flex; align-items: flex-start; gap: 12px; transition: all 0.2s ease;">
+                    <input type="radio" name="shippingMode" value="aérien" checked style="accent-color: var(--orange-primary); margin-top: 3px;">
+                    <div>
+                      <div style="font-weight: 800; font-size: 14.5px; color: var(--navy-dark); display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="plane" style="width: 18px; color: var(--orange-primary);"></i> Fret Aérien (5 - 10j)
+                      </div>
+                      <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Vol cargo direct + dédouanement express</div>
+                    </div>
+                  </label>
+
+                  <label style="background: var(--bg-main); border: 1px solid var(--border-light); padding: 16px; border-radius: var(--radius-md); cursor: pointer; display: flex; align-items: flex-start; gap: 12px; transition: all 0.2s ease;">
+                    <input type="radio" name="shippingMode" value="maritime" style="accent-color: var(--orange-primary); margin-top: 3px;">
+                    <div>
+                      <div style="font-weight: 800; font-size: 14.5px; color: var(--navy-dark); display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="ship" style="width: 18px; color: var(--navy-dark);"></i> Fret Maritime (30 - 45j)
+                      </div>
+                      <div style="font-size: 11.5px; color: var(--text-muted);">Conteneur LCL/FCL pour gros volumes</div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 3: CONTACT INFO -->
+            <div style="margin-bottom: 36px;">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--bg-subtle);">
+                <i data-lucide="user-check" style="width: 22px; color: var(--orange-primary);"></i>
+                <h3 style="font-size: 20px; font-weight: 900; color: var(--navy-dark);">3. Coordonnées de Réception</h3>
+              </div>
+
+              <div class="grid-2" style="margin-bottom: 16px;">
+                <div>
+                  <label style="font-size: 13px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 6px;">NOM & PRÉNOM *</label>
+                  <input type="text" id="quoteClientName" required placeholder="Jean Marc Koffi" style="width: 100%; padding: 14px 16px; border-radius: var(--radius-md); border: 1.5px solid var(--border-light); font-size: 15px; outline: none; font-weight: 600;">
+                </div>
+
+                <div>
+                  <label style="font-size: 13px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 6px;">NUMÉRO WHATSAPP (RÉCEPTION DEVIS) *</label>
+                  <input type="text" id="quoteClientPhone" required placeholder="+229 97 00 11 22" style="width: 100%; padding: 14px 16px; border-radius: var(--radius-md); border: 1.5px solid var(--border-light); font-size: 15px; outline: none; font-weight: 600;">
+                </div>
+              </div>
+
+              <div>
+                <label style="font-size: 13px; font-weight: 800; color: var(--navy-dark); display: block; margin-bottom: 6px;">EMAIL (POUR COPIE DU DEVIS) *</label>
+                <input type="email" id="quoteClientEmail" required placeholder="jean.koffi@example.com" style="width: 100%; padding: 14px 16px; border-radius: var(--radius-md); border: 1.5px solid var(--border-light); font-size: 15px; outline: none;">
+              </div>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button type="submit" class="btn btn-orange" style="width: 100%; font-size: 18px; padding: 18px; border-radius: 12px; display: flex; justify-content: center; align-items: center; gap: 10px; box-shadow: 0 4px 16px rgba(22, 84, 145, 0.3);">
+              <i data-lucide="send" style="width: 20px;"></i> Soumettre Ma Demande de Devis (Réponse sous < 2h)
+            </button>
+            <div style="font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
+              <i data-lucide="check-circle" style="width: 14px; color: var(--green-success);"></i> Demande 100% gratuite et sans engagement • 0 frais cachés
+            </div>
+
+          </form>
+
+        </div>
+
+        <!-- RIGHT COLUMN: TRUST & SIDEBAR WIDGETS -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          
+          <!-- Summary Trust Card -->
+          <div style="background: var(--navy-dark); color: #FFF; border-radius: var(--radius-xl); padding: 28px; box-shadow: var(--shadow-md);">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.12);">
+              <i data-lucide="shield-check" style="width: 26px; color: #38BDF8;"></i>
+              <h4 style="font-size: 18px; font-weight: 900; color: #FFF;">Garanties Sourcing CargoLink</h4>
+            </div>
+
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px; font-size: 14px; color: #CBD5E1;">
+              <li style="display: flex; gap: 12px; align-items: flex-start;">
+                <i data-lucide="zap" style="width: 18px; color: #38BDF8; flex-shrink: 0; margin-top: 2px;"></i>
+                <div>
+                  <strong style="color: #FFF;">Réponse sous 2 heures ouvrées</strong><br>
+                  Devis clair tout inclus (prix produit + transport + douane).
+                </div>
+              </li>
+              <li style="display: flex; gap: 12px; align-items: flex-start;">
+                <i data-lucide="globe-2" style="width: 18px; color: #38BDF8; flex-shrink: 0; margin-top: 2px;"></i>
+                <div>
+                  <strong style="color: #FFF;">Bureaux en Chine (Guangzhou & Shenzhen)</strong><br>
+                  Négociation directe avec usines certifiées 1688 / Taobao.
+                </div>
+              </li>
+              <li style="display: flex; gap: 12px; align-items: flex-start;">
+                <i data-lucide="check-square" style="width: 18px; color: #38BDF8; flex-shrink: 0; margin-top: 2px;"></i>
+                <div>
+                  <strong style="color: #FFF;">Contrôle Qualité & Photos HD</strong><br>
+                  Vérification physique du colis avant expédition.
+                </div>
+              </li>
+              <li style="display: flex; gap: 12px; align-items: flex-start;">
+                <i data-lucide="credit-card" style="width: 18px; color: #38BDF8; flex-shrink: 0; margin-top: 2px;"></i>
+                <div>
+                  <strong style="color: #FFF;">Paiement Sécurisé Mobile Money</strong><br>
+                  Kkiapay, Celtiis, MTN, Moov & Carte Bancaire.
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Direct WhatsApp Assistance Widget -->
+          <div style="background: #ECFDF5; border: 1.5px solid #10B981; border-radius: var(--radius-xl); padding: 24px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <i data-lucide="message-square" style="width: 22px; color: #047857;"></i>
+              <div style="font-weight: 900; font-size: 16px; color: #047857;">Besoin d'aide immédiate ?</div>
+            </div>
+            <p style="font-size: 13px; color: #065F46; line-height: 1.4; margin-bottom: 16px;">
+              Vous hésitez sur la quantité ou le mode de transport ? Échangez en direct sur WhatsApp avec notre responsable sourcing.
+            </p>
+            <a href="https://wa.me/22997000000" target="_blank" class="btn" style="background: #10B981; color: #FFF; width: 100%; justify-content: center; font-weight: 800; font-size: 14px;">
+              <i data-lucide="message-circle" style="width: 16px;"></i> Discuter sur WhatsApp 7j/7
+            </a>
+          </div>
+
+          <!-- Client Testimonial Widget -->
+          <div style="background: #FFF; border: 1px solid var(--border-light); border-radius: var(--radius-xl); padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+            <div style="display: flex; gap: 4px; color: #F59E0B; margin-bottom: 8px;">
+              <i data-lucide="star" style="width: 14px; fill: #F59E0B; color: #F59E0B;"></i>
+              <i data-lucide="star" style="width: 14px; fill: #F59E0B; color: #F59E0B;"></i>
+              <i data-lucide="star" style="width: 14px; fill: #F59E0B; color: #F59E0B;"></i>
+              <i data-lucide="star" style="width: 14px; fill: #F59E0B; color: #F59E0B;"></i>
+              <i data-lucide="star" style="width: 14px; fill: #F59E0B; color: #F59E0B;"></i>
+            </div>
+            <p style="font-size: 13px; color: var(--text-muted); font-style: italic; line-height: 1.5; margin-bottom: 12px;">
+              "CargoLink a trouvé mon fournisseur sur 1688 et a géré la douane jusqu'à Cotonou sans aucun souci. Le devis reçu sous 1h était exact au franc près !"
+            </p>
+            <div style="font-size: 12px; font-weight: 800; color: var(--navy-dark);">— Aristide A., Commerçant à Dantokpa (Bénin)</div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXACT MAQUETTE E-MAX FOOTER -->
+  <footer class="footer-wrapper">
+    <div class="container">
+      
+      <!-- 4 WHITE FLOATING GUARANTEE CARDS -->
+      <div class="guarantee-cards-row">
+        <div class="guarantee-card">
+          <div class="guarantee-card-icon"><i data-lucide="store" style="width: 28px; height: 28px;"></i></div>
+          <div>
+            <div class="guarantee-card-title">Retrait Entrepôt Gratuit</div>
+            <div class="guarantee-card-sub">Dépôt Cotonou & Guangzhou</div>
+          </div>
+        </div>
+
+        <div class="guarantee-card">
+          <div class="guarantee-card-icon"><i data-lucide="box" style="width: 28px; height: 28px;"></i></div>
+          <div>
+            <div class="guarantee-card-title">Fret Aérien & Maritime</div>
+            <div class="guarantee-card-sub">Livraison express 5-10 jours</div>
+          </div>
+        </div>
+
+        <div class="guarantee-card">
+          <div class="guarantee-card-icon"><i data-lucide="credit-card" style="width: 28px; height: 28px;"></i></div>
+          <div>
+            <div class="guarantee-card-title">Paiement Flexible</div>
+            <div class="guarantee-card-sub">Kkiapay, Celtiis, MTN, Moov</div>
+          </div>
+        </div>
+
+        <div class="guarantee-card">
+          <div class="guarantee-card-icon"><i data-lucide="headphones" style="width: 28px; height: 28px;"></i></div>
+          <div>
+            <div class="guarantee-card-title">Assistance 7j/7</div>
+            <div class="guarantee-card-sub">Support WhatsApp dédié</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 NAVIGATION COLUMNS -->
+      <div class="footer-nav-grid">
+        <div>
+          <div class="footer-col-title">À propos de CargoLink</div>
+          <ul class="footer-col-links">
+            <li><a href="index.html">Présentation de la plateforme</a></li>
+            <li><a href="#">Réseau d'usines partenaires</a></li>
+            <li><a href="#">Entrepôts Guangzhou & Shenzhen</a></li>
+            <li><a href="#">Dédouanement Afrique de l'Ouest</a></li>
+            <li><a href="#">Programme Revendeurs PME</a></li>
+            <li><a href="#">Diversité & Inclusion</a></li>
+            <li><a href="#">Carrières & Partenariats</a></li>
+            <li><a href="#">Mentions & Directives</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Commandes & Achats</div>
+          <ul class="footer-col-links">
+            <li><a href="dashboard.html?tab=orders">Vérifier le statut du colis</a></li>
+            <li><a href="#">Politique d'Expédition & Fret</a></li>
+            <li><a href="#">Retours & Garanties Colis</a></li>
+            <li><a href="#">Garantie Meilleur Prix Usine</a></li>
+            <li><a href="quote-request.html">Demande de Devis Sur-Mesure</a></li>
+            <li><a href="#">Programme Trade-In / Import</a></li>
+            <li><a href="#">Bons d'achat & Avantages PME</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Catégories Populaires</div>
+          <ul class="footer-col-links">
+            <li><a href="catalog.html?cat=electronics">Smartphones & High-Tech</a></li>
+            <li><a href="catalog.html?cat=fashion">Mode & Chaussures Gros</a></li>
+            <li><a href="catalog.html?cat=appliances">Maison & Électroménager</a></li>
+            <li><a href="catalog.html?cat=machinery">Machines & Outillage PME</a></li>
+            <li><a href="catalog.html?cat=beauty">Beauté & Cosmétiques</a></li>
+            <li><a href="catalog.html">Toutes les catégories</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Support & Services</div>
+          <ul class="footer-col-links">
+            <li><a href="#">Espace Fournisseurs Chine</a></li>
+            <li><a href="#">Contactez le Support Client</a></li>
+            <li><a href="#">Gestion des litiges colis</a></li>
+            <li><a href="#">Garantie Remboursement CargoLink</a></li>
+          </ul>
+
+          <div class="region-country-box">
+            <div class="region-country-label">Pays de Livraison</div>
+            <select class="region-select-pill" onchange="showToast('Pays mis à jour')">
+              <option>🇧🇯 Bénin (Cotonou)</option>
+              <option>🇹🇬 Togo (Lomé)</option>
+              <option>🇨🇮 Côte d'Ivoire (Abidjan)</option>
+              <option>🇸🇳 Sénégal (Dakar)</option>
+              <option>🇨🇲 Cameroun (Douala)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM 2 WIDGET COLUMNS -->
+      <div class="footer-bottom-widgets">
+        <div>
+          <div class="widget-title">Moyens de Paiement Sécurisés</div>
+          <div class="payment-methods-row">
+            <div class="pay-logo-badge" title="Kkiapay"><img src="images/payments/kkiapay.png" alt="Kkiapay"></div>
+            <div class="pay-logo-badge" title="Celtiis Cash"><img src="images/payments/celtiis.png" alt="Celtiis"></div>
+            <div class="pay-logo-badge" title="MTN Mobile Money"><img src="images/payments/mtn.png" alt="MTN Mobile Money"></div>
+            <div class="pay-logo-badge" title="Moov Africa"><img src="images/payments/moov.png" alt="Moov Africa"></div>
+            <div class="pay-logo-badge" title="VISA"><img src="images/payments/visa.png" alt="VISA"></div>
+            <div class="pay-logo-badge" title="Mastercard"><img src="images/payments/mastercard.png" alt="Mastercard"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="widget-title">Restez Connecté</div>
+          <div class="social-circle-buttons">
+            <a href="https://facebook.com" target="_blank" class="social-circle-btn" title="Facebook">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </a>
+            <a href="https://instagram.com" target="_blank" class="social-circle-btn" title="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="https://wa.me/22997000000" target="_blank" class="social-circle-btn" title="WhatsApp Direct">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="social-circle-btn" title="LinkedIn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEGAL BOTTOM BAR -->
+      <div class="footer-legal-bar">
+        <div>© 2026 CargoLink Africa. Tous droits réservés.</div>
+        <div class="footer-legal-links">
+          <a href="#">Politique de Confidentialité</a>
+          <a href="#">Conditions d'Utilisation</a>
+          <a href="#">Politique de Garantie</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

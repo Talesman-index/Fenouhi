@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 66" width="270" height="66">
+  <defs>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#165491" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#165491" />
+    </linearGradient>
+  </defs>
+
+  <!-- Logo Mark Icon -->
+  <rect x="4" y="9" width="48" height="48" rx="14" fill="url(#logoGrad)" />
+  
+  <!-- Cargo Ship / Wings Vector Icon -->
+  <path d="M16 37 L28 21 L40 37 H34 L28 29 L22 37 Z" fill="#FFFFFF" />
+  <path d="M18 40 H38 C38 44 33 46 28 46 C23 46 18 44 18 40 Z" fill="url(#accentGrad)" />
+  <circle cx="28" cy="19" r="3" fill="#38BDF8" />
+
+  <!-- Typography -->
+  <text x="64" y="34" font-family="'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="24" font-weight="900" fill="#0F172A" letter-spacing="-0.3">Cargo<tspan fill="#165491">Link</tspan></text>
+  
+  <!-- AFRICA Pill Badge (Positioned safely after CargoLink) -->
+  <rect x="195" y="16" width="58" height="19" rx="9.5" fill="#165491" />
+  <text x="224" y="29.5" font-family="'Outfit', system-ui, sans-serif" font-size="9.5" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">AFRICA</text>
+  
+  <!-- Subtitle (Moved down for generous vertical breathing space) -->
+  <text x="65" y="52" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="8.5" font-weight="700" fill="#64748B" letter-spacing="1.2">LOGISTIQUE CHINE - AFRIQUE</text>
+</svg>

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Client & Suivi Logistique — CargoLink Africa</title>
+  <meta name="description" content="Espace client CargoLink Africa. Suivez vos commandes en temps réel et validez vos devis d'importation.">
+  <link rel="stylesheet" href="css/style.css?v=3.0">
+  <script src="js/lucide.min.js"></script>
+  <script>if (!window.lucide) document.write('<script src="https://unpkg.com/lucide@latest"><\/script>');</script>
+</head>
+<body>
+
+  <!-- MOBILE DRAWER OVERLAY -->
+  <div class="mobile-drawer-overlay" id="mobileDrawerOverlay" onclick="closeMobileDrawer()"></div>
+
+  <!-- SLIDE-IN MOBILE NAVIGATION DRAWER -->
+  <aside class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div class="drawer-header">
+      <img src="images/cargolink_logo_light.svg" alt="CargoLink Africa" class="logo-img">
+      <button class="drawer-close-btn" onclick="closeMobileDrawer()">
+        <i data-lucide="x" style="width: 20px;"></i>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <div>
+        <div class="drawer-section-title">Navigation Principale</div>
+        <ul class="drawer-nav-list">
+          <li><a href="index.html" class="drawer-nav-link"><i data-lucide="home"></i> Accueil</a></li>
+          <li><a href="catalog.html" class="drawer-nav-link"><i data-lucide="grid"></i> Catalogue Produits</a></li>
+          <li><a href="quote-request.html" class="drawer-nav-link"><i data-lucide="calculator"></i> Demander un Devis</a></li>
+          <li><a href="dashboard.html" class="drawer-nav-link active"><i data-lucide="package-search"></i> Suivi de Colis & Dashboard</a></li>
+          <li><a href="admin.html" class="drawer-nav-link"><i data-lucide="shield"></i> Administration</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="drawer-section-title">Catégories Populaires</div>
+        <ul class="drawer-nav-list">
+          <li><a href="catalog.html?cat=electronics" class="drawer-nav-link"><i data-lucide="smartphone"></i> High-Tech & SmartFit</a></li>
+          <li><a href="catalog.html?cat=sneakers" class="drawer-nav-link"><i data-lucide="footprints"></i> Sneakers & Sport</a></li>
+          <li><a href="catalog.html?cat=fashion" class="drawer-nav-link"><i data-lucide="shirt"></i> Mode & Vêtements</a></li>
+          <li><a href="catalog.html?cat=machinery" class="drawer-nav-link"><i data-lucide="cpu"></i> Équipements & PME</a></li>
+          <li><a href="catalog.html?cat=beauty" class="drawer-nav-link"><i data-lucide="sparkles"></i> Beauté & Soins</a></li>
+        </ul>
+      </div>
+
+      <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-light);">
+        <a href="quote-request.html" class="btn btn-orange" style="width: 100%; text-align: center; justify-content: center;">
+          <i data-lucide="send" style="width: 16px;"></i> Devis Express Chine
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="container top-bar-container">
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <span class="top-bar-item"><i data-lucide="globe" style="width: 14px; height: 14px;"></i> Français (FR)</span>
+        <span style="color: var(--border-light);">|</span>
+        <span class="top-bar-item"><i data-lucide="message-square" style="width: 14px; height: 14px; color: var(--green-success);"></i> Support WhatsApp Direct 7j/7</span>
+      </div>
+
+      <div class="top-bar-links">
+        <div class="top-bar-item" onclick="showToast('Livraison sélectionnée : Cotonou, Bénin 🇧🇯')">
+          <i data-lucide="map-pin" style="width: 14px; height: 14px; color: var(--orange-primary);"></i>
+          <span>Livrer à : <strong style="color: var(--navy-dark);">🇧🇯 Bénin (Cotonou)</strong></span>
+          <i data-lucide="chevron-down" style="width: 12px; height: 12px;"></i>
+        </div>
+
+        <span style="color: var(--border-light);">|</span>
+
+        <a href="dashboard.html" class="top-bar-item">
+          <i data-lucide="truck" style="width: 14px; height: 14px;"></i>
+          <span>Suivi N° Commande</span>
+        </a>
+
+        <span style="color: var(--border-light);">|</span>
+
+        <a href="admin.html" class="top-bar-item" style="color: var(--orange-primary); font-weight: 700;">
+          <i data-lucide="shield" style="width: 14px; height: 14px;"></i>
+          <span>Espace Admin</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN HEADER -->
+  <header class="main-header">
+    <div class="container header-grid">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button class="mobile-hamburger-btn" onclick="openMobileDrawer()" title="Menu Mobile">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+
+        <a href="index.html" class="brand-logo" title="CargoLink Africa — Logistics Chine Africa">
+          <img src="images/cargolink_logo.svg" alt="CargoLink Africa" class="logo-img">
+        </a>
+      </div>
+
+      <!-- MAIN SEARCH BAR WITH CATEGORY DROPDOWN -->
+      <div class="header-search-bar">
+        <select class="search-cat-select" id="headerCategorySelect">
+          <option value="all">Toutes Catégories</option>
+          <option value="electronics">High-Tech & Mobiles</option>
+          <option value="fashion">Mode & Chaussures</option>
+          <option value="appliances">Électroménager</option>
+          <option value="machinery">Machines PME</option>
+          <option value="beauty">Beauté & Santé</option>
+        </select>
+        <input type="text" id="mainHeaderSearchInput" placeholder="Que recherchez-vous ? (ex: iPhone 16, baskets, caméra, scelleuse...)">
+        <button class="search-submit-btn" onclick="executeMainHeaderSearch()">
+          <i data-lucide="search" style="width: 18px;"></i>
+        </button>
+      </div>
+
+      <!-- HEADER ACTIONS -->
+      <div class="header-actions">
+        <a href="quote-request.html" class="header-action-item">
+          <i data-lucide="file-plus" style="width: 22px; color: var(--orange-primary);"></i>
+          <div>
+            <div style="font-size: 10px; color: var(--text-muted); font-weight: 700;">DEMANDER UN</div>
+            <div>Devis Rapide</div>
+          </div>
+        </a>
+
+        <a href="dashboard.html" class="header-action-item">
+          <i data-lucide="user" style="width: 22px; color: var(--navy-dark);"></i>
+          <div>
+            <div style="font-size: 10px; color: var(--text-muted); font-weight: 700;">ESPACE</div>
+            <div>Mon Compte</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- SUB NAV BAR -->
+  <nav class="subnav-bar">
+    <div class="container">
+      <ul class="subnav-list">
+        <li><a href="catalog.html" class="subnav-link"><i data-lucide="menu" style="width: 16px;"></i> Toutes les catégories</a></li>
+        <li><a href="catalog.html?cat=electronics" class="subnav-link">Smartphones & High-Tech</a></li>
+        <li><a href="catalog.html?cat=fashion" class="subnav-link">Mode & Vêtements</a></li>
+        <li><a href="catalog.html?cat=sourcing" class="subnav-link">Sourcing Sacs & Bagages</a></li>
+        <li><a href="catalog.html?cat=appliances" class="subnav-link">Maison & Électroménager</a></li>
+        <li><a href="catalog.html?cat=machinery" class="subnav-link">Outillage & Machines PME</a></li>
+        <li><a href="catalog.html?cat=beauty" class="subnav-link">Beauté & Cosmétiques</a></li>
+        <li><a href="dashboard.html?tab=orders" class="subnav-link active" style="color: var(--orange-primary);"><i data-lucide="map-pin" style="width: 16px;"></i> Suivi Colis Chine → Afrique</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- DASHBOARD HEADER -->
+  <section style="background: var(--navy-dark); color: #FFF; padding: 40px 0 50px;">
+    <div class="container">
+      <div class="dashboard-header-row">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="width: 56px; height: 56px; background: var(--orange-primary); color: #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 22px;">
+            J
+          </div>
+          <div>
+            <div style="font-size: 13px; color: var(--text-light); font-weight: 600;">Bienvenue sur votre espace client</div>
+            <h1 style="font-size: 28px; color: #FFF; font-weight: 900;">Jean Marc Koffi 👋</h1>
+          </div>
+        </div>
+        <a href="quote-request.html" class="btn btn-orange">
+          <i data-lucide="plus" style="width: 18px;"></i> Nouvelle Demande
+        </a>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="dashboard-kpi-grid">
+        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); padding: 18px; border-radius: var(--radius-md);">
+          <div style="font-size: 11px; color: var(--text-light); font-weight: 700; margin-bottom: 6px;">DEVIS EN ATTENTE</div>
+          <div style="font-size: 22px; font-weight: 900; color: #FFF; font-family: var(--font-heading);" id="kpiPendingQuotes">1 Devis Disponible</div>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); padding: 18px; border-radius: var(--radius-md);">
+          <div style="font-size: 11px; color: var(--text-light); font-weight: 700; margin-bottom: 6px;">COMMANDES EN TRANSIT</div>
+          <div style="font-size: 22px; font-weight: 900; color: var(--green-success); font-family: var(--font-heading);" id="kpiActiveOrders">1 En Transit (Air)</div>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); padding: 18px; border-radius: var(--radius-md);">
+          <div style="font-size: 11px; color: var(--text-light); font-weight: 700; margin-bottom: 6px;">DESTINATION LIVRAISON</div>
+          <div style="font-size: 18px; font-weight: 900; color: #FFF;">Cotonou, Bénin</div>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); padding: 18px; border-radius: var(--radius-md);">
+          <div style="font-size: 11px; color: var(--text-light); font-weight: 700; margin-bottom: 6px;">WHATSAPP ALERTES</div>
+          <div style="font-size: 18px; font-weight: 900; color: #10B981;">Actif (+229 97...)</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DASHBOARD MAIN CONTENT -->
+  <section style="padding: 50px 0;">
+    <div class="container">
+      
+      <!-- TABS -->
+      <div class="dashboard-tabs-row">
+        <button id="tabBtnQuotes" class="btn btn-primary" onclick="switchDashboardTab('quotes')">
+          <i data-lucide="file-text" style="width: 18px;"></i> Mes Devis à Valider (1)
+        </button>
+        <button id="tabBtnOrders" class="btn btn-outline" onclick="switchDashboardTab('orders')">
+          <i data-lucide="truck" style="width: 18px;"></i> Suivi Logistique & Commandes (1)
+        </button>
+      </div>
+
+      <!-- TAB CONTENT 1: QUOTES -->
+      <div id="tabContentQuotes">
+        <h2 style="font-size: 22px; margin-bottom: 20px;">Devis Reçus & Proposition Tarifaire</h2>
+
+        <div class="card" style="margin-bottom: 24px; padding: 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light);">
+            <div>
+              <span class="badge" style="background: var(--orange-light); color: var(--orange-hover); margin-bottom: 8px;">DEVIS VALIDÉ PAR CARGOLINK</span>
+              <h3 style="font-size: 20px; font-weight: 900; color: var(--navy-dark);">Devis N° DEV-2026-9410</h3>
+              <p style="font-size: 13px; color: var(--text-muted);">Demande : Lot de 20 Montres Connectées SmartFit Pro X</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 12px; color: var(--text-muted); font-weight: 700;">TOTAL GLOBAL À PAYER</div>
+              <div style="font-size: 32px; font-weight: 900; color: var(--orange-primary); font-family: var(--font-heading);">205 000 FCFA</div>
+              <div style="font-size: 11px; color: var(--amber-warning); font-weight: 700;">Valide jusqu'au 30 Juillet 2026</div>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-main); border-radius: var(--radius-md); padding: 20px; margin-bottom: 24px; border: 1px solid var(--border-light);">
+            <h4 style="font-size: 14px; font-weight: 800; color: var(--navy-dark); margin-bottom: 14px;">DÉTAIL DÉCOMPOSÉ DE LA FACTURE :</h4>
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-muted);">1. Prix d'achat des produits en Chine (20 pièces × 6 250 F) :</span>
+                <span style="font-weight: 700;">125 000 FCFA</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-muted);">2. Transport local usine ➔ dépôt Guangzhou + Contrôle Qualité :</span>
+                <span style="font-weight: 700;">15 000 FCFA</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-muted);">3. Fret Aérien International Express (Vol direct Chine-Bénin) :</span>
+                <span style="font-weight: 700;">35 000 FCFA</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-muted);">4. Estimation Dédouanement + Livraison locale Cotonou :</span>
+                <span style="font-weight: 700;">20 000 FCFA</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-muted);">5. Frais de service CargoLink Africa (Assurance incluse) :</span>
+                <span style="font-weight: 700;">10 000 FCFA</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 16px; justify-content: flex-end;">
+            <button class="btn btn-outline" onclick="showToast('Devis refusé.')">Refuser</button>
+            <button class="btn btn-orange" onclick="openPaymentModal('DEV-2026-9410', 205000)">
+              <i data-lucide="smartphone" style="width: 18px;"></i> Payer par Mobile Money (205 000 FCFA)
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB CONTENT 2: ORDERS & TRACKING -->
+      <div id="tabContentOrders" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <div>
+            <h2 style="font-size: 22px; margin-bottom: 4px;">Suivi Logistique en Temps Réel</h2>
+            <p style="font-size: 14px; color: var(--text-muted);">Progression de votre commande du dépôt chinois jusqu'à votre livraison à Cotonou.</p>
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <input type="text" id="orderSearchTrackInput" value="CMD-2026-45892" style="padding: 10px 16px; border-radius: var(--radius-md); border: 1px solid var(--border-light); font-weight: 800;">
+            <button class="btn btn-primary btn-sm" onclick="trackOrderSearch()">Inspecter</button>
+          </div>
+        </div>
+
+        <div class="card" style="padding: 32px; margin-bottom: 32px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light);">
+            <div>
+              <span class="badge" style="background: var(--green-bg); color: var(--green-success); margin-bottom: 6px;">COMMANDE PAYÉE & CONFIRMÉE</span>
+              <h3 style="font-size: 24px; font-weight: 900; color: var(--navy-dark);">Commande N° CMD-2026-45892</h3>
+              <p style="font-size: 13px; color: var(--text-muted);">Article : 50 Casques Bluetooth ANC SoundBass • Mode : Fret Aérien Express</p>
+            </div>
+            <div style="text-align: right;">
+              <span class="badge" style="background: var(--orange-light); color: var(--orange-hover); font-size: 13px; padding: 6px 14px;">Étape 9/14 : En Transit International</span>
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Numéro Vol Cargo : <strong>AF-842 Guangzhou-Cotonou</strong></div>
+            </div>
+          </div>
+
+          <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 20px; color: var(--navy-dark);">PARCOURS LOGISTIQUE CHINE ➔ AFRIQUE :</h4>
+
+          <div class="timeline" id="logisticsTimeline">
+            <div class="timeline-item completed">
+              <div class="timeline-dot"><i data-lucide="check" style="width: 14px; color: #FFF;"></i></div>
+              <div class="timeline-title">1. Paiement en attente</div>
+              <div class="timeline-date"><i data-lucide="calendar" style="width: 14px;"></i> 15 Juillet 2026 - 10:15</div>
+            </div>
+
+            <div class="timeline-item completed">
+              <div class="timeline-dot"><i data-lucide="check" style="width: 14px; color: #FFF;"></i></div>
+              <div class="timeline-title">2. Commande confirmée (Paiement Mobile Money validé)</div>
+              <div class="timeline-date"><i data-lucide="credit-card" style="width: 14px;"></i> 15 Juillet 2026 - 10:30 • Réf: MTN-894102</div>
+            </div>
+
+            <div class="timeline-item completed">
+              <div class="timeline-dot"><i data-lucide="check" style="width: 14px; color: #FFF;"></i></div>
+              <div class="timeline-title">3. Achat auprès du fournisseur en Chine</div>
+              <div class="timeline-date"><i data-lucide="building-2" style="width: 14px;"></i> 16 Juillet 2026 - 08:00 • Usine Shenzhen</div>
+            </div>
+
+            <div class="timeline-item completed">
+              <div class="timeline-dot"><i data-lucide="check" style="width: 14px; color: #FFF;"></i></div>
+              <div class="timeline-title">4. Produit acheté & expédié au dépôt chinois</div>
+              <div class="timeline-date"><i data-lucide="truck" style="width: 14px;"></i> 17 Juillet 2026 - 14:20</div>
+            </div>
+
+            <div class="timeline-item completed">
+              <div class="timeline-dot"><i data-lucide="check" style="width: 14px; color: #FFF;"></i></div>
+              <div class="timeline-title">5. Réception au dépôt principal (Guangzhou)</div>
+              <div class="timeline-date"><i data-lucide="warehouse" style="width: 14px;"></i> 18 Juillet 2026 - 09:10 • Guangzhou, Chine 🇨🇳</div>
+            </div>
+
+            <div class="timeline-item completed">
+              <div class="timeline-dot"><i data-lucide="check" style="width: 14px; color: #FFF;"></i></div>
+              <div class="timeline-title">6. Contrôle qualité & Emballage renforcé</div>
+              <div class="timeline-date"><i data-lucide="shield-check" style="width: 14px;"></i> 18 Juillet 2026 - 16:45 • Photos de conformité validées</div>
+            </div>
+
+            <div class="timeline-item completed">
+              <div class="timeline-dot"><i data-lucide="check" style="width: 14px; color: #FFF;"></i></div>
+              <div class="timeline-title">7. Préparation du bordereau de douane</div>
+              <div class="timeline-date"><i data-lucide="file-text" style="width: 14px;"></i> 19 Juillet 2026 - 11:00</div>
+            </div>
+
+            <div class="timeline-item completed">
+              <div class="timeline-dot"><i data-lucide="check" style="width: 14px; color: #FFF;"></i></div>
+              <div class="timeline-title">8. Chargement fret aérien prêt pour décollage</div>
+              <div class="timeline-date"><i data-lucide="package" style="width: 14px;"></i> 20 Juillet 2026 - 22:30 • Aéroport Guangzhou Baiyun</div>
+            </div>
+
+            <div class="timeline-item active">
+              <div class="timeline-dot"><i data-lucide="plane" style="width: 14px; color: #FFF;"></i></div>
+              <div class="timeline-title" style="color: var(--orange-primary);">9. En transit international (Vol AF-842)</div>
+              <div class="timeline-date"><i data-lucide="navigation" style="width: 14px; color: var(--orange-primary);"></i> 22 Juillet 2026 - 06:15 • <strong>Statut actuel : En vol vers Cotonou ✈️</strong></div>
+            </div>
+
+            <div class="timeline-item pending">
+              <div class="timeline-dot"><i data-lucide="clock" style="width: 14px; color: #94A3B8;"></i></div>
+              <div class="timeline-title">10. Arrivée à l'aéroport / port de destination</div>
+              <div class="timeline-date">Prévu le 24 Juillet 2026</div>
+            </div>
+
+            <div class="timeline-item pending">
+              <div class="timeline-dot"><i data-lucide="clock" style="width: 14px; color: #94A3B8;"></i></div>
+              <div class="timeline-title">11. Inspection & Dédouanement local</div>
+              <div class="timeline-date">Prévu le 25 Juillet 2026</div>
+            </div>
+
+            <div class="timeline-item pending">
+              <div class="timeline-dot"><i data-lucide="clock" style="width: 14px; color: #94A3B8;"></i></div>
+              <div class="timeline-title">12. Arrivée au dépôt local (Dépôt Cotonou Akpakpa)</div>
+              <div class="timeline-date">Prévu le 26 Juillet 2026</div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-title">13. Remise au livreur local</div>
+              <div class="timeline-date">En attente</div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-title">14. Commande livrée au client</div>
+              <div class="timeline-date">En attente</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MOBILE MONEY / KKIAPAY PAYMENT MODAL -->
+  <div id="paymentModal" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px;">
+    <div style="background: #FFF; border-radius: 24px; padding: 32px; max-width: 460px; width: 100%; box-shadow: var(--shadow-lg); text-align: center; position: relative;">
+      <button onclick="closePaymentModal()" style="position: absolute; top: 18px; right: 18px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted);">✕</button>
+
+      <div style="width: 56px; height: 56px; background: var(--green-bg); color: var(--green-success); border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
+        <i data-lucide="smartphone" style="width: 32px; height: 32px;"></i>
+      </div>
+
+      <h3 style="font-size: 22px; font-weight: 900; margin-bottom: 4px;">Paiement Sécurisé Devis</h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Règlement du devis <strong id="modalQuoteRef">DEV-2026-9410</strong></p>
+
+      <div style="background: var(--bg-main); padding: 14px; border-radius: 14px; margin-bottom: 20px; font-size: 24px; font-weight: 900; color: var(--orange-primary); font-family: var(--font-heading);" id="modalAmountText">
+        205 000 FCFA
+      </div>
+
+      <!-- SELECT PAYMENT PROVIDER WITH LOGOS -->
+      <div style="text-align: left; margin-bottom: 20px;">
+        <label style="font-size: 12px; font-weight: 800; color: var(--text-muted); display: block; margin-bottom: 8px;">CHOISISSEZ VOTRE MOYEN DE PAIEMENT</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <button class="btn btn-outline" style="border-color: var(--orange-primary); background: var(--orange-light); font-size: 12px; padding: 10px;" onclick="selectOperator(this, 'Kkiapay')">
+            <img src="images/payments/kkiapay.png" style="height: 18px;"> Kkiapay
+          </button>
+          <button class="btn btn-outline" style="font-size: 12px; padding: 10px;" onclick="selectOperator(this, 'Celtiis')">
+            <img src="images/payments/celtiis.png" style="height: 18px;"> Celtiis Cash
+          </button>
+          <button class="btn btn-outline" style="font-size: 12px; padding: 10px;" onclick="selectOperator(this, 'MTN')">
+            <img src="images/payments/mtn.png" style="height: 18px;"> MTN Money
+          </button>
+          <button class="btn btn-outline" style="font-size: 12px; padding: 10px;" onclick="selectOperator(this, 'Moov')">
+            <img src="images/payments/moov.png" style="height: 18px;"> Moov Africa
+          </button>
+        </div>
+      </div>
+
+      <div style="text-align: left; margin-bottom: 24px;">
+        <label style="font-size: 12px; font-weight: 800; color: var(--text-muted); display: block; margin-bottom: 6px;">NUMÉRO DE TÉLÉPHONE COMPTE</label>
+        <input type="text" id="payPhoneNumber" value="+229 97 00 11 22" style="width: 100%; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); font-weight: 800; font-size: 15px;">
+      </div>
+
+      <button class="btn btn-orange" style="width: 100%; font-size: 16px; padding: 14px;" onclick="confirmMobileMoneyPay()">
+        Confirmer & Payer Maintenant <i data-lucide="check-circle-2" style="width: 18px;"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- EXACT MAQUETTE E-MAX FOOTER -->
+  <footer class="footer-wrapper">
+    <div class="container">
+      
+      <!-- 4 WHITE FLOATING GUARANTEE CARDS -->
+      <div class="guarantee-cards-row">
+        <div class="guarantee-card">
+          <div class="guarantee-card-icon"><i data-lucide="store" style="width: 28px; height: 28px;"></i></div>
+          <div>
+            <div class="guarantee-card-title">Retrait Entrepôt Gratuit</div>
+            <div class="guarantee-card-sub">Dépôt Cotonou & Guangzhou</div>
+          </div>
+        </div>
+
+        <div class="guarantee-card">
+          <div class="guarantee-card-icon"><i data-lucide="box" style="width: 28px; height: 28px;"></i></div>
+          <div>
+            <div class="guarantee-card-title">Fret Aérien & Maritime</div>
+            <div class="guarantee-card-sub">Livraison express 5-10 jours</div>
+          </div>
+        </div>
+
+        <div class="guarantee-card">
+          <div class="guarantee-card-icon"><i data-lucide="credit-card" style="width: 28px; height: 28px;"></i></div>
+          <div>
+            <div class="guarantee-card-title">Paiement Flexible</div>
+            <div class="guarantee-card-sub">Kkiapay, Celtiis, MTN, Moov</div>
+          </div>
+        </div>
+
+        <div class="guarantee-card">
+          <div class="guarantee-card-icon"><i data-lucide="headphones" style="width: 28px; height: 28px;"></i></div>
+          <div>
+            <div class="guarantee-card-title">Assistance 7j/7</div>
+            <div class="guarantee-card-sub">Support WhatsApp dédié</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 NAVIGATION COLUMNS -->
+      <div class="footer-nav-grid">
+        <div>
+          <div class="footer-col-title">À propos de CargoLink</div>
+          <ul class="footer-col-links">
+            <li><a href="index.html">Présentation de la plateforme</a></li>
+            <li><a href="#">Réseau d'usines partenaires</a></li>
+            <li><a href="#">Entrepôts Guangzhou & Shenzhen</a></li>
+            <li><a href="#">Dédouanement Afrique de l'Ouest</a></li>
+            <li><a href="#">Programme Revendeurs PME</a></li>
+            <li><a href="#">Diversité & Inclusion</a></li>
+            <li><a href="#">Carrières & Partenariats</a></li>
+            <li><a href="#">Mentions & Directives</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Commandes & Achats</div>
+          <ul class="footer-col-links">
+            <li><a href="dashboard.html?tab=orders">Vérifier le statut du colis</a></li>
+            <li><a href="#">Politique d'Expédition & Fret</a></li>
+            <li><a href="#">Retours & Garanties Colis</a></li>
+            <li><a href="#">Garantie Meilleur Prix Usine</a></li>
+            <li><a href="quote-request.html">Demande de Devis Sur-Mesure</a></li>
+            <li><a href="#">Programme Trade-In / Import</a></li>
+            <li><a href="#">Bons d'achat & Avantages PME</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Catégories Populaires</div>
+          <ul class="footer-col-links">
+            <li><a href="catalog.html?cat=electronics">Smartphones & High-Tech</a></li>
+            <li><a href="catalog.html?cat=fashion">Mode & Chaussures Gros</a></li>
+            <li><a href="catalog.html?cat=appliances">Maison & Électroménager</a></li>
+            <li><a href="catalog.html?cat=machinery">Machines & Outillage PME</a></li>
+            <li><a href="catalog.html?cat=beauty">Beauté & Cosmétiques</a></li>
+            <li><a href="catalog.html">Toutes les catégories</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Support & Services</div>
+          <ul class="footer-col-links">
+            <li><a href="#">Espace Fournisseurs Chine</a></li>
+            <li><a href="#">Contactez le Support Client</a></li>
+            <li><a href="#">Gestion des litiges colis</a></li>
+            <li><a href="#">Garantie Remboursement CargoLink</a></li>
+          </ul>
+
+          <div class="region-country-box">
+            <div class="region-country-label">Pays de Livraison</div>
+            <select class="region-select-pill" onchange="showToast('Pays mis à jour')">
+              <option>🇧🇯 Bénin (Cotonou)</option>
+              <option>🇹🇬 Togo (Lomé)</option>
+              <option>🇨🇮 Côte d'Ivoire (Abidjan)</option>
+              <option>🇸🇳 Sénégal (Dakar)</option>
+              <option>🇨🇲 Cameroun (Douala)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM 2 WIDGET COLUMNS -->
+      <div class="footer-bottom-widgets">
+        <div>
+          <div class="widget-title">Moyens de Paiement Sécurisés</div>
+          <div class="payment-methods-row">
+            <div class="pay-logo-badge" title="Kkiapay"><img src="images/payments/kkiapay.png" alt="Kkiapay"></div>
+            <div class="pay-logo-badge" title="Celtiis Cash"><img src="images/payments/celtiis.png" alt="Celtiis"></div>
+            <div class="pay-logo-badge" title="MTN Mobile Money"><img src="images/payments/mtn.png" alt="MTN Mobile Money"></div>
+            <div class="pay-logo-badge" title="Moov Africa"><img src="images/payments/moov.png" alt="Moov Africa"></div>
+            <div class="pay-logo-badge" title="VISA"><img src="images/payments/visa.png" alt="VISA"></div>
+            <div class="pay-logo-badge" title="Mastercard"><img src="images/payments/mastercard.png" alt="Mastercard"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="widget-title">Restez Connecté</div>
+          <div class="social-circle-buttons">
+            <a href="https://facebook.com" target="_blank" class="social-circle-btn" title="Facebook">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </a>
+            <a href="https://instagram.com" target="_blank" class="social-circle-btn" title="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="https://wa.me/22997000000" target="_blank" class="social-circle-btn" title="WhatsApp Direct">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="social-circle-btn" title="LinkedIn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEGAL BOTTOM BAR -->
+      <div class="footer-legal-bar">
+        <div>© 2026 CargoLink Africa. Tous droits réservés.</div>
+        <div class="footer-legal-links">
+          <a href="#">Politique de Confidentialité</a>
+          <a href="#">Conditions d'Utilisation</a>
+          <a href="#">Politique de Garantie</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
