@@ -1,11 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminSidebar from "@/components/AdminSidebar";
+import { createClient } from "@/lib/supabase/client";
 import { Send, RefreshCw, Calculator, Shield, CheckCircle2 } from "lucide-react";
+import type { Profile } from "@/types/supabase";
 
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState("calc");
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  useEffect(() => {
+    async function loadProfile() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+
+        if (data) {
+          setProfile(data as Profile);
+        }
+      }
+    }
+
+    loadProfile();
+  }, []);
 
   // Calculator State
   const [prodCost, setProdCost] = useState(125000);
@@ -37,6 +60,9 @@ export default function AdminPage() {
             <h1 className="hero-page-title" style={{ color: "var(--navy-dark)", fontSize: 26, margin: 0 }}>
               Tableau de Bord Administrateur Logistique
             </h1>
+            <p style={{ fontSize: 13.5, color: "var(--text-muted)", margin: "4px 0 0" }}>
+              Agent connecté : <strong>{profile ? `${profile.first_name} ${profile.last_name}` : "Admin"}</strong> • Rôle : <strong style={{ color: "var(--blue-primary)" }}>{profile?.role || "admin"}</strong>
+            </p>
           </div>
           <span className="badge" style={{ background: "var(--navy-dark)", color: "#FFF" }}>
             Guangzhou Hub ➔ Cotonou
@@ -65,7 +91,7 @@ export default function AdminPage() {
 
         {/* MAIN ADMIN LAYOUT */}
         <div className="grid-sidebar-layout" style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 24 }}>
-          <AdminSidebar activeTab={activeTab} onSelectTab={setActiveTab} />
+          <AdminSidebar activeTab={activeTab} onSelectTab={setActiveTab} profile={profile} />
 
           <div className="admin-panels-grid" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             

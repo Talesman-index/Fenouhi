@@ -1,16 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { 
   Menu, X, Search, ShieldCheck, Package, FileText, PlusCircle, 
-  Home, Grid, Truck, Shield, Headphones, Building
+  Home, Grid, Truck, Shield, Headphones, Building, User, LogIn
 } from "lucide-react";
 
 export default function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    async function checkAuth() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      setIsLoggedIn(!!user);
+    }
+    checkAuth();
+  }, [pathname]);
 
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);
 
@@ -61,7 +72,17 @@ export default function Header() {
             </button>
           </div>
 
-          <div className="header-actions">
+          <div className="header-actions" style={{ display: "flex", gap: 10, alignItems: "center" }}>
+            {isLoggedIn ? (
+              <Link href="/dashboard" className="btn btn-primary btn-pill-sm" style={{ background: "var(--navy-dark)" }}>
+                <User style={{ width: 16 }} /> Mon Espace
+              </Link>
+            ) : (
+              <Link href="/auth/login" className="btn btn-primary btn-pill-sm" style={{ background: "rgba(15,23,42,0.08)", color: "var(--navy-dark)" }}>
+                <LogIn style={{ width: 16 }} /> Connexion
+              </Link>
+            )}
+
             <Link href="/quote-request" className="btn btn-orange btn-pill-sm">
               <PlusCircle style={{ width: 16 }} /> Devis Gratuit
             </Link>
@@ -133,6 +154,15 @@ export default function Header() {
                 <li style={{ padding: "12px 0", borderBottom: "1px solid var(--border-light)" }}>
                   <Link href="/dashboard" onClick={toggleDrawer} style={{ fontWeight: 800, color: "var(--navy-dark)" }}>Suivi de Colis & Dashboard</Link>
                 </li>
+                {isLoggedIn ? (
+                  <li style={{ padding: "12px 0", borderBottom: "1px solid var(--border-light)" }}>
+                    <Link href="/dashboard" onClick={toggleDrawer} style={{ fontWeight: 800, color: "var(--orange-primary)" }}>Mon Espace Client</Link>
+                  </li>
+                ) : (
+                  <li style={{ padding: "12px 0", borderBottom: "1px solid var(--border-light)" }}>
+                    <Link href="/auth/login" onClick={toggleDrawer} style={{ fontWeight: 800, color: "var(--navy-dark)" }}>Se Connecter / S'inscrire</Link>
+                  </li>
+                )}
                 <li style={{ padding: "12px 0", borderBottom: "1px solid var(--border-light)" }}>
                   <Link href="/admin" onClick={toggleDrawer} style={{ fontWeight: 800, color: "var(--blue-primary)" }}>Portail Administration</Link>
                 </li>

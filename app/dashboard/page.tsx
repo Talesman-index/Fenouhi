@@ -1,13 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import TrackingTimeline from "@/components/TrackingTimeline";
 import Link from "next/link";
-import { Package, Clock, CheckCircle, FileText, ArrowRight } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { Package, Clock, CheckCircle, FileText, ArrowRight, User } from "lucide-react";
+import type { Profile } from "@/types/supabase";
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("orders");
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  useEffect(() => {
+    async function loadProfile() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+
+        if (data) {
+          setProfile(data as Profile);
+        }
+      }
+    }
+
+    loadProfile();
+  }, []);
 
   return (
     <div style={{ padding: "40px 0", background: "var(--bg-main)" }}>
@@ -19,7 +42,7 @@ export default function DashboardPage() {
               Espace Client & Suivi Logistique
             </h1>
             <p style={{ fontSize: 13.5, color: "var(--text-muted)", margin: "4px 0 0" }}>
-              Bienvenue Jean Marc Koffi • Vos commandes et devis d'importation en temps réel.
+              Bienvenue <strong>{profile ? `${profile.first_name} ${profile.last_name}` : "Client"}</strong> • Type de compte : <strong style={{ color: "var(--orange-primary)" }}>{profile?.account_type || "Individuel"}</strong> • Email : {profile?.email || ""}
             </p>
           </div>
 
@@ -31,7 +54,7 @@ export default function DashboardPage() {
         {/* MAIN DASHBOARD LAYOUT */}
         <div className="grid-sidebar-layout" style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 24 }}>
           {/* SIDEBAR */}
-          <DashboardSidebar activeTab={activeTab} onSelectTab={setActiveTab} />
+          <DashboardSidebar activeTab={activeTab} onSelectTab={setActiveTab} profile={profile} />
 
           {/* MAIN TAB CONTENT */}
           <div style={{ display: "flex", gap: 24, flexDirection: "column" }}>
@@ -92,7 +115,24 @@ export default function DashboardPage() {
               </div>
             )}
 
-            {activeTab !== "orders" && activeTab !== "quotes" && (
+            {activeTab === "profile" && profile && (
+              <div className="card admin-card" style={{ padding: 28 }}>
+                <h3 style={{ fontSize: 20, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 16 }}>
+                  Mon Profil & Informations Personnelles
+                </h3>
+                <div style={{ display: "flex", flexDirection: "column", gap: 12, fontSize: 14 }}>
+                  <div><strong>Nom & Prénom :</strong> {profile.first_name} {profile.last_name}</div>
+                  <div><strong>Email :</strong> {profile.email}</div>
+                  <div><strong>Téléphone :</strong> {profile.phone || "Non renseigné"}</div>
+                  <div><strong>Pays :</strong> {profile.country || "Non renseigné"}</div>
+                  <div><strong>Ville :</strong> {profile.city || "Non renseignée"}</div>
+                  <div><strong>Type de compte :</strong> {profile.account_type}</div>
+                  <div><strong>Rôle attribué :</strong> {profile.role}</div>
+                </div>
+              </div>
+            )}
+
+            {activeTab !== "orders" && activeTab !== "quotes" && activeTab !== "profile" && (
               <div className="card" style={{ padding: 32, textAlign: "center" }}>
                 <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)" }}>Section en cours d'actualisation</h3>
                 <p style={{ fontSize: 13.5, color: "var(--text-muted)" }}>Vos données sont synchronisées en temps réel.</p>
