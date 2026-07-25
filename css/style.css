@@ -1410,13 +1410,27 @@ a {
 }
 
 /* ==========================================================================
-   QUOTE REQUEST 2-COLUMN & STEPPER LAYOUT
+   QUOTE REQUEST LAYOUT & CARD RESPONSIVE
    ========================================================================== */
 .quote-layout-grid {
   display: grid;
   grid-template-columns: 1fr 380px;
   gap: 32px;
   align-items: start;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.quote-form-card {
+  background: #FFF;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-light);
+  padding: 36px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .quote-stepper-bar {
@@ -1428,12 +1442,15 @@ a {
   border-radius: var(--radius-md);
   margin-bottom: 32px;
   border: 1px solid var(--border-light);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 @media (max-width: 992px) {
   .quote-layout-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
   }
 }
 
@@ -1442,10 +1459,11 @@ a {
     overflow-x: auto;
     white-space: nowrap;
     justify-content: flex-start;
-    gap: 14px;
-    padding: 12px 14px;
+    gap: 10px;
+    padding: 10px 12px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    max-width: 100%;
   }
   .quote-stepper-bar::-webkit-scrollbar {
     display: none;
@@ -1453,11 +1471,15 @@ a {
   .quote-stepper-bar > div {
     flex-shrink: 0;
   }
+  .quote-stepper-bar span {
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 576px) {
-  .quote-layout-grid > div:first-child {
-    padding: 20px !important;
+  .quote-form-card {
+    padding: 16px !important;
+    border-radius: var(--radius-lg) !important;
   }
 }
 
@@ -1499,6 +1521,13 @@ a {
   gap: 16px;
 }
 
+.dashboard-quote-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
 .dashboard-quote-item-row {
   display: flex;
   justify-content: space-between;
@@ -1532,6 +1561,21 @@ a {
     gap: 4px;
     padding-bottom: 10px;
     border-bottom: 1px dashed var(--border-light);
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard-quote-actions {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+  .dashboard-quote-actions button,
+  .dashboard-quote-actions a {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    font-size: 13.5px !important;
+    padding: 12px 14px !important;
   }
 }
 
