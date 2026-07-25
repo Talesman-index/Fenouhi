@@ -40,34 +40,34 @@ export default function Header() {
 
   return (
     <>
-      {/* MAIN NAVIGATION HEADER */}
-      <header className="main-header" style={{ background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", padding: "10px 0", position: "sticky", top: 0, zIndex: 500 }}>
+      {/* MAIN NAVIGATION HEADER (SPACIOUS 14PX VERTICAL PADDING) */}
+      <header className="main-header" style={{ background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", padding: "14px 0", position: "sticky", top: 0, zIndex: 500 }}>
         <div className="container">
           
           {/* TOP ROW: LOGO, SEARCH (DESKTOP) & ACTIONS */}
           <div className="header-top-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
             
             {/* LOGO & HAMBURGER */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
               <button className="mobile-menu-btn" onClick={toggleDrawer} aria-label="Menu Mobile">
                 <Menu style={{ width: 24, height: 24, color: "#0F172A" }} />
               </button>
               
-              <Link href="/" className="brand-logo" style={{ display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
-                <svg className="logo-img" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 36, height: 36, flexShrink: 0 }}>
+              <Link href="/" className="brand-logo" style={{ display: "inline-flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+                <svg className="logo-img" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 38, height: 38, flexShrink: 0 }}>
                   <rect width="40" height="40" rx="10" fill="#0F172A"/>
                   <path d="M20 8L31 29H24.5L20 20L15.5 29H9L20 8Z" fill="#165491"/>
                   <circle cx="20" cy="14" r="3" fill="#FFF"/>
                 </svg>
                 <div className="logo-text-wrap" style={{ display: "flex", flexDirection: "column" }}>
-                  <span className="logo-text-main" style={{ fontSize: 20, fontWeight: 900, color: "#0F172A", lineHeight: 1, letterSpacing: "-0.5px" }}>CargoLink</span>
-                  <span className="logo-text-sub" style={{ fontSize: 8, fontWeight: 800, color: "#165491", letterSpacing: "0.5px", marginTop: 2 }}>LOGISTIQUE CHINE - AFRIQUE</span>
+                  <span className="logo-text-main" style={{ fontSize: 21, fontWeight: 900, color: "#0F172A", lineHeight: 1, letterSpacing: "-0.5px" }}>CargoLink</span>
+                  <span className="logo-text-sub" style={{ fontSize: 8.5, fontWeight: 800, color: "#165491", letterSpacing: "0.5px", marginTop: 3 }}>LOGISTIQUE CHINE - AFRIQUE</span>
                 </div>
               </Link>
             </div>
 
-            {/* SEARCH BAR (DESKTOP ONLY) */}
-            <div className="header-search-bar desktop-only" style={{ flex: 1, maxWidth: 520, display: "flex", alignItems: "center", background: "#F1F5F9", border: "1.5px solid #E2E8F0", borderRadius: 9999, padding: "4px 6px 4px 16px" }}>
+            {/* SEARCH BAR (DESKTOP ONLY - HIDDEN ON MOBILE/TABLET STRICTLY) */}
+            <div className="header-search-bar desktop-only">
               <span style={{ color: "#38BDF8", marginRight: 8, display: "flex", alignItems: "center", fontSize: 15 }}>✦</span>
               <input 
                 type="text" 
@@ -86,11 +86,11 @@ export default function Header() {
               </Link>
             </div>
 
-            {/* RIGHT CONTROLS */}
+            {/* RIGHT CONTROLS (ONLY DEVIS GRATUIT ON MOBILE) */}
             <div className="header-right-actions" style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
               
               {/* LOCATION PICKER (DESKTOP ONLY) */}
-              <div className="desktop-only" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#475569", cursor: "pointer" }}>
+              <div className="desktop-only" style={{ alignItems: "center", gap: 6, fontSize: 12, color: "#475569", cursor: "pointer" }}>
                 <MapPin style={{ width: 15, color: "#0F172A" }} />
                 <div>
                   <div style={{ fontSize: 9, color: "#94A3B8" }}>Delivering to</div>
@@ -99,49 +99,50 @@ export default function Header() {
               </div>
 
               {/* CURRENCY SELECTOR (DESKTOP ONLY) */}
-              <div className="desktop-only" style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 800, color: "#0F172A", cursor: "pointer" }}>
+              <div className="desktop-only" style={{ alignItems: "center", gap: 4, fontSize: 12, fontWeight: 800, color: "#0F172A", cursor: "pointer" }}>
                 <span>🇧🇯 FCFA</span>
                 <ChevronDown style={{ width: 13 }} />
               </div>
 
-              {/* USER / AUTH BUTTONS */}
+              {/* USER / AUTH BUTTONS (DESKTOP ONLY) */}
               {isLoggedIn ? (
-                <Link href="/dashboard" className="btn btn-pill-sm" style={{ background: "#0F172A", color: "#FFF", padding: "7px 14px", fontSize: 12.5, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 5 }}>
+                <Link href="/dashboard" className="btn btn-pill-sm desktop-only" style={{ background: "#0F172A", color: "#FFF", padding: "8px 16px", fontSize: 13, fontWeight: 800, borderRadius: 9999, alignItems: "center", gap: 6 }}>
                   <User style={{ width: 14 }} /> <span>Mon Espace</span>
                 </Link>
               ) : (
-                <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                  <Link href="/auth/login" className="btn btn-pill-sm" style={{ background: "rgba(15,23,42,0.06)", color: "#0F172A", padding: "7px 14px", fontSize: 12.5, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>
+                <div className="desktop-only" style={{ gap: 6, alignItems: "center" }}>
+                  <Link href="/auth/login" className="btn btn-pill-sm" style={{ background: "rgba(15,23,42,0.06)", color: "#0F172A", padding: "8px 16px", fontSize: 13, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
                     <LogIn style={{ width: 14 }} /> <span>Sign In</span>
                   </Link>
-                  <Link href="/auth/sign-up" className="btn btn-pill-sm desktop-only" style={{ background: "#0F172A", color: "#FFF", padding: "7px 14px", fontSize: 12.5, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>
+                  <Link href="/auth/sign-up" className="btn btn-pill-sm" style={{ background: "#0F172A", color: "#FFF", padding: "8px 16px", fontSize: 13, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
                     <UserPlus style={{ width: 14 }} /> <span>S'inscrire</span>
                   </Link>
                 </div>
               )}
 
-              <Link href="/quote-request" className="btn btn-orange btn-pill-sm" style={{ padding: "7px 14px", fontSize: 12.5, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>
-                <PlusCircle style={{ width: 14 }} /> <span>Devis Gratuit</span>
+              {/* DEVIS GRATUIT BUTTON (ALWAYS VISIBLE - DESKTOP & MOBILE) */}
+              <Link href="/quote-request" className="btn btn-orange btn-pill-sm" style={{ padding: "8.5px 18px", fontSize: 13, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
+                <PlusCircle style={{ width: 15 }} /> <span>Devis Gratuit</span>
               </Link>
             </div>
           </div>
 
-          {/* MOBILE SEARCH ROW (DISPLAYED ONLY ON MOBILE/TABLET < 1025PX) */}
-          <div className="mobile-search-row" style={{ marginTop: 10 }}>
-            <div style={{ display: "flex", alignItems: "center", background: "#F1F5F9", border: "1.5px solid #E2E8F0", borderRadius: 9999, padding: "5px 6px 5px 14px", width: "100%" }}>
-              <span style={{ color: "#38BDF8", marginRight: 6, fontSize: 14 }}>✦</span>
+          {/* MOBILE SEARCH ROW (SINGLE SEARCH BAR WITH ELEGANT PADDING < 1025PX) */}
+          <div className="mobile-search-row" style={{ marginTop: 14, marginBottom: 2 }}>
+            <div style={{ display: "flex", alignItems: "center", background: "#F1F5F9", border: "1.5px solid #E2E8F0", borderRadius: 9999, padding: "7px 8px 7px 16px", width: "100%" }}>
+              <span style={{ color: "#38BDF8", marginRight: 8, fontSize: 15 }}>✦</span>
               <input 
                 type="text" 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search for any product or factory in China..." 
-                style={{ flex: 1, border: "none", background: "transparent", outline: "none", fontSize: 12.5, fontWeight: 600, color: "#0F172A" }}
+                style={{ flex: 1, border: "none", background: "transparent", outline: "none", fontSize: 13, fontWeight: 600, color: "#0F172A" }}
               />
               <Link 
                 href={`/quote-request?url=${encodeURIComponent(searchQuery)}`}
-                style={{ width: 30, height: 30, background: "#0F172A", color: "#FFF", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", flexShrink: 0 }}
+                style={{ width: 32, height: 32, background: "#0F172A", color: "#FFF", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", flexShrink: 0 }}
               >
-                <Search style={{ width: 13 }} />
+                <Search style={{ width: 14 }} />
               </Link>
             </div>
           </div>
