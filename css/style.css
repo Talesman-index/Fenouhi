@@ -1363,13 +1363,40 @@ a {
 }
 
 /* ==========================================================================
-   QUOTE REQUEST 2-COLUMN LAYOUT
+   CATALOG RESPONSIVE LAYOUT
+   ========================================================================== */
+.catalog-layout-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 36px;
+}
+
+@media (max-width: 992px) {
+  .catalog-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* ==========================================================================
+   QUOTE REQUEST 2-COLUMN & STEPPER LAYOUT
    ========================================================================== */
 .quote-layout-grid {
   display: grid;
   grid-template-columns: 1fr 380px;
   gap: 32px;
   align-items: start;
+}
+
+.quote-stepper-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #F8FAFC;
+  padding: 14px 20px;
+  border-radius: var(--radius-md);
+  margin-bottom: 32px;
+  border: 1px solid var(--border-light);
 }
 
 @media (max-width: 992px) {
@@ -1379,9 +1406,69 @@ a {
   }
 }
 
+@media (max-width: 768px) {
+  .quote-stepper-bar {
+    overflow-x: auto;
+    white-space: nowrap;
+    justify-content: flex-start;
+    gap: 14px;
+    padding: 12px 14px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .quote-stepper-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .quote-stepper-bar > div {
+    flex-shrink: 0;
+  }
+}
+
 @media (max-width: 576px) {
   .quote-layout-grid > div:first-child {
     padding: 20px !important;
+  }
+}
+
+/* ==========================================================================
+   DASHBOARD QUOTE CARD RESPONSIVE
+   ========================================================================== */
+.dashboard-quote-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light);
+  gap: 16px;
+}
+
+.dashboard-quote-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-quote-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .dashboard-quote-card-header > div:last-child {
+    text-align: left !important;
+  }
+  .dashboard-quote-card-header .quote-total-price {
+    font-size: 24px !important;
+    white-space: nowrap;
+  }
+  .dashboard-quote-item-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--border-light);
   }
 }
 

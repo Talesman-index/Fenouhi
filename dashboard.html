@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Client & Suivi Logistique — CargoLink Africa</title>
   <meta name="description" content="Espace client CargoLink Africa. Suivez vos commandes en temps réel et validez vos devis d'importation.">
-  <link rel="stylesheet" href="css/style.css?v=3.0">
+  <link rel="stylesheet" href="css/style.css?v=4.0">
   <script src="js/lucide.min.js"></script>
   <script>if (!window.lucide) document.write('<script src="https://unpkg.com/lucide@latest"><\/script>');</script>
 </head>
@@ -216,7 +216,7 @@
         <h2 style="font-size: 22px; margin-bottom: 20px;">Devis Reçus & Proposition Tarifaire</h2>
 
         <div class="card" style="margin-bottom: 24px; padding: 28px;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light);">
+          <div class="dashboard-quote-card-header">
             <div>
               <span class="badge" style="background: var(--orange-light); color: var(--orange-hover); margin-bottom: 8px;">DEVIS VALIDÉ PAR CARGOLINK</span>
               <h3 style="font-size: 20px; font-weight: 900; color: var(--navy-dark);">Devis N° DEV-2026-9410</h3>
@@ -224,7 +224,7 @@
             </div>
             <div style="text-align: right;">
               <div style="font-size: 12px; color: var(--text-muted); font-weight: 700;">TOTAL GLOBAL À PAYER</div>
-              <div style="font-size: 32px; font-weight: 900; color: var(--orange-primary); font-family: var(--font-heading);">205 000 FCFA</div>
+              <div class="quote-total-price" style="font-size: 32px; font-weight: 900; color: var(--orange-primary); font-family: var(--font-heading); white-space: nowrap;">205 000 FCFA</div>
               <div style="font-size: 11px; color: var(--amber-warning); font-weight: 700;">Valide jusqu'au 30 Juillet 2026</div>
             </div>
           </div>
@@ -232,25 +232,25 @@
           <div style="background: var(--bg-main); border-radius: var(--radius-md); padding: 20px; margin-bottom: 24px; border: 1px solid var(--border-light);">
             <h4 style="font-size: 14px; font-weight: 800; color: var(--navy-dark); margin-bottom: 14px;">DÉTAIL DÉCOMPOSÉ DE LA FACTURE :</h4>
             <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
-              <div style="display: flex; justify-content: space-between;">
+              <div class="dashboard-quote-item-row">
                 <span style="color: var(--text-muted);">1. Prix d'achat des produits en Chine (20 pièces × 6 250 F) :</span>
-                <span style="font-weight: 700;">125 000 FCFA</span>
+                <span style="font-weight: 700; white-space: nowrap;">125 000 FCFA</span>
               </div>
-              <div style="display: flex; justify-content: space-between;">
+              <div class="dashboard-quote-item-row">
                 <span style="color: var(--text-muted);">2. Transport local usine ➔ dépôt Guangzhou + Contrôle Qualité :</span>
-                <span style="font-weight: 700;">15 000 FCFA</span>
+                <span style="font-weight: 700; white-space: nowrap;">15 000 FCFA</span>
               </div>
-              <div style="display: flex; justify-content: space-between;">
+              <div class="dashboard-quote-item-row">
                 <span style="color: var(--text-muted);">3. Fret Aérien International Express (Vol direct Chine-Bénin) :</span>
-                <span style="font-weight: 700;">35 000 FCFA</span>
+                <span style="font-weight: 700; white-space: nowrap;">35 000 FCFA</span>
               </div>
-              <div style="display: flex; justify-content: space-between;">
+              <div class="dashboard-quote-item-row">
                 <span style="color: var(--text-muted);">4. Estimation Dédouanement + Livraison locale Cotonou :</span>
-                <span style="font-weight: 700;">20 000 FCFA</span>
+                <span style="font-weight: 700; white-space: nowrap;">20 000 FCFA</span>
               </div>
-              <div style="display: flex; justify-content: space-between;">
+              <div class="dashboard-quote-item-row">
                 <span style="color: var(--text-muted);">5. Frais de service CargoLink Africa (Assurance incluse) :</span>
-                <span style="font-weight: 700;">10 000 FCFA</span>
+                <span style="font-weight: 700; white-space: nowrap;">10 000 FCFA</span>
               </div>
             </div>
           </div>
