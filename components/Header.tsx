@@ -5,13 +5,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { 
-  Menu, X, Search, ShieldCheck, Package, FileText, PlusCircle, 
-  Home, Grid, Truck, Shield, Headphones, Building, User, LogIn
+  Menu, X, Search, PlusCircle, Grid, User, LogIn, UserPlus,
+  MapPin, ChevronDown, Gift, Radio, Home, Package, ShieldCheck, 
+  HelpCircle, Building2, ShoppingBag
 } from "lucide-react";
 
 export default function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const pathname = usePathname();
 
   useEffect(() => {
@@ -23,154 +25,315 @@ export default function Header() {
     checkAuth();
   }, [pathname]);
 
+  useEffect(() => {
+    if (drawerOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [drawerOpen]);
+
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);
 
   return (
     <>
-      {/* TOP ANNOUNCEMENT BAR */}
-      <div className="top-bar">
-        <div className="container top-bar-content">
-          <div>
-            <ShieldCheck style={{ width: 14, color: "var(--green-success)", display: "inline", marginRight: 4 }} />
-            Sourcing direct usines certifiées Guangzhou & Shenzhen • Dédouanement garanti
-          </div>
-          <div style={{ display: "flex", gap: 16 }}>
-            <Link href="/dashboard?tab=orders" style={{ color: "var(--navy-dark)", fontWeight: 700, display: "flex", alignItems: "center", gap: 4 }}>
-              <Package style={{ width: 14, color: "var(--orange-primary)" }} /> Suivi de Colis
-            </Link>
-            <Link href="/quote-request" style={{ color: "var(--navy-dark)", fontWeight: 700, display: "flex", alignItems: "center", gap: 4 }}>
-              <FileText style={{ width: 14, color: "var(--orange-primary)" }} /> Obtenir un Devis
-            </Link>
-          </div>
-        </div>
-      </div>
-
       {/* MAIN NAVIGATION HEADER */}
-      <header className="main-header">
-        <div className="container header-grid">
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <button className="mobile-menu-btn" onClick={toggleDrawer} aria-label="Menu Mobile">
-              {drawerOpen ? <X style={{ width: 22, color: "var(--navy-dark)" }} /> : <Menu style={{ width: 22, color: "var(--navy-dark)" }} />}
-            </button>
-            <Link href="/" className="brand-logo">
-              <svg className="logo-img" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="40" height="40" rx="10" fill="#0F172A"/>
-                <path d="M20 8L31 29H24.5L20 20L15.5 29H9L20 8Z" fill="#165491"/>
-                <circle cx="20" cy="14" r="3" fill="#FFF"/>
-              </svg>
-              <div className="logo-text-wrap">
-                <span className="logo-text-main">CargoLink</span>
-                <span className="logo-text-sub">LOGISTIQUE CHINE - AFRIQUE</span>
+      <header className="main-header" style={{ background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", padding: "10px 0", position: "sticky", top: 0, zIndex: 500 }}>
+        <div className="container">
+          
+          {/* TOP ROW: LOGO, SEARCH (DESKTOP) & ACTIONS */}
+          <div className="header-top-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+            
+            {/* LOGO & HAMBURGER */}
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+              <button className="mobile-menu-btn" onClick={toggleDrawer} aria-label="Menu Mobile">
+                <Menu style={{ width: 24, height: 24, color: "#0F172A" }} />
+              </button>
+              
+              <Link href="/" className="brand-logo" style={{ display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
+                <svg className="logo-img" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 36, height: 36, flexShrink: 0 }}>
+                  <rect width="40" height="40" rx="10" fill="#0F172A"/>
+                  <path d="M20 8L31 29H24.5L20 20L15.5 29H9L20 8Z" fill="#165491"/>
+                  <circle cx="20" cy="14" r="3" fill="#FFF"/>
+                </svg>
+                <div className="logo-text-wrap" style={{ display: "flex", flexDirection: "column" }}>
+                  <span className="logo-text-main" style={{ fontSize: 20, fontWeight: 900, color: "#0F172A", lineHeight: 1, letterSpacing: "-0.5px" }}>CargoLink</span>
+                  <span className="logo-text-sub" style={{ fontSize: 8, fontWeight: 800, color: "#165491", letterSpacing: "0.5px", marginTop: 2 }}>LOGISTIQUE CHINE - AFRIQUE</span>
+                </div>
+              </Link>
+            </div>
+
+            {/* SEARCH BAR (DESKTOP ONLY) */}
+            <div className="header-search-bar desktop-only" style={{ flex: 1, maxWidth: 520, display: "flex", alignItems: "center", background: "#F1F5F9", border: "1.5px solid #E2E8F0", borderRadius: 9999, padding: "4px 6px 4px 16px" }}>
+              <span style={{ color: "#38BDF8", marginRight: 8, display: "flex", alignItems: "center", fontSize: 15 }}>✦</span>
+              <input 
+                type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search for any product or factory in China..." 
+                style={{ flex: 1, border: "none", background: "transparent", outline: "none", fontSize: 13, fontWeight: 600, color: "#0F172A" }}
+              />
+              <Link 
+                href={`/quote-request?url=${encodeURIComponent(searchQuery)}`}
+                className="search-submit-btn" 
+                aria-label="Rechercher" 
+                style={{ width: 34, height: 34, background: "#0F172A", color: "#FFF", borderRadius: "50%", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", textDecoration: "none" }}
+              >
+                <Search style={{ width: 14 }} />
+              </Link>
+            </div>
+
+            {/* RIGHT CONTROLS */}
+            <div className="header-right-actions" style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+              
+              {/* LOCATION PICKER (DESKTOP ONLY) */}
+              <div className="desktop-only" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#475569", cursor: "pointer" }}>
+                <MapPin style={{ width: 15, color: "#0F172A" }} />
+                <div>
+                  <div style={{ fontSize: 9, color: "#94A3B8" }}>Delivering to</div>
+                  <div style={{ fontWeight: 800, color: "#0F172A" }}>Cotonou, Bénin</div>
+                </div>
               </div>
-            </Link>
-          </div>
 
-          <div className="header-search-bar">
-            <input type="text" placeholder="Rechercher un produit, une usine en Chine, une référence..." />
-            <button className="search-submit-btn" aria-label="Rechercher">
-              <Search style={{ width: 18 }} />
-            </button>
-          </div>
+              {/* CURRENCY SELECTOR (DESKTOP ONLY) */}
+              <div className="desktop-only" style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 800, color: "#0F172A", cursor: "pointer" }}>
+                <span>🇧🇯 FCFA</span>
+                <ChevronDown style={{ width: 13 }} />
+              </div>
 
-          <div className="header-actions" style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            {isLoggedIn ? (
-              <Link href="/dashboard" className="btn btn-primary btn-pill-sm" style={{ background: "var(--navy-dark)" }}>
-                <User style={{ width: 16 }} /> Mon Espace
+              {/* USER / AUTH BUTTONS */}
+              {isLoggedIn ? (
+                <Link href="/dashboard" className="btn btn-pill-sm" style={{ background: "#0F172A", color: "#FFF", padding: "7px 14px", fontSize: 12.5, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 5 }}>
+                  <User style={{ width: 14 }} /> <span>Mon Espace</span>
+                </Link>
+              ) : (
+                <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                  <Link href="/auth/login" className="btn btn-pill-sm" style={{ background: "rgba(15,23,42,0.06)", color: "#0F172A", padding: "7px 14px", fontSize: 12.5, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>
+                    <LogIn style={{ width: 14 }} /> <span>Sign In</span>
+                  </Link>
+                  <Link href="/auth/sign-up" className="btn btn-pill-sm desktop-only" style={{ background: "#0F172A", color: "#FFF", padding: "7px 14px", fontSize: 12.5, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>
+                    <UserPlus style={{ width: 14 }} /> <span>S'inscrire</span>
+                  </Link>
+                </div>
+              )}
+
+              <Link href="/quote-request" className="btn btn-orange btn-pill-sm" style={{ padding: "7px 14px", fontSize: 12.5, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>
+                <PlusCircle style={{ width: 14 }} /> <span>Devis Gratuit</span>
               </Link>
-            ) : (
-              <Link href="/auth/login" className="btn btn-primary btn-pill-sm" style={{ background: "rgba(15,23,42,0.08)", color: "var(--navy-dark)" }}>
-                <LogIn style={{ width: 16 }} /> Connexion
-              </Link>
-            )}
-
-            <Link href="/quote-request" className="btn btn-orange btn-pill-sm">
-              <PlusCircle style={{ width: 16 }} /> Devis Gratuit
-            </Link>
+            </div>
           </div>
+
+          {/* MOBILE SEARCH ROW (DISPLAYED ONLY ON MOBILE/TABLET < 1025PX) */}
+          <div className="mobile-search-row" style={{ marginTop: 10 }}>
+            <div style={{ display: "flex", alignItems: "center", background: "#F1F5F9", border: "1.5px solid #E2E8F0", borderRadius: 9999, padding: "5px 6px 5px 14px", width: "100%" }}>
+              <span style={{ color: "#38BDF8", marginRight: 6, fontSize: 14 }}>✦</span>
+              <input 
+                type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search for any product or factory in China..." 
+                style={{ flex: 1, border: "none", background: "transparent", outline: "none", fontSize: 12.5, fontWeight: 600, color: "#0F172A" }}
+              />
+              <Link 
+                href={`/quote-request?url=${encodeURIComponent(searchQuery)}`}
+                style={{ width: 30, height: 30, background: "#0F172A", color: "#FFF", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", flexShrink: 0 }}
+              >
+                <Search style={{ width: 13 }} />
+              </Link>
+            </div>
+          </div>
+
         </div>
       </header>
 
-      {/* SUB NAV BAR */}
-      <nav className="subnav-bar">
-        <div className="container">
-          <ul className="subnav-list">
+      {/* SUB NAV BAR WITH CATEGORIES & DEALS */}
+      <nav className="subnav-bar" style={{ background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", padding: "10px 0" }}>
+        <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          
+          <ul className="subnav-list" style={{ display: "flex", gap: 22, listStyle: "none", margin: 0, padding: 0, alignItems: "center" }}>
             <li>
-              <Link href="/" className={`subnav-link ${pathname === "/" ? "active" : ""}`}>
-                <Home style={{ width: 16 }} /> Accueil
+              <Link href="/catalog" style={{ fontWeight: 900, color: "#0F172A", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+                <Grid style={{ width: 15 }} /> All Categories <ChevronDown style={{ width: 13 }} />
               </Link>
             </li>
             <li>
-              <Link href="/catalog" className={`subnav-link ${pathname === "/catalog" ? "active" : ""}`}>
-                <Grid style={{ width: 16 }} /> Catalogue Produits
+              <Link href="/catalog?cat=electronics" style={{ fontSize: 13, fontWeight: 700, color: pathname === "/catalog" ? "#165491" : "#475569" }}>
+                Electronics
               </Link>
             </li>
             <li>
-              <Link href="/suppliers" className={`subnav-link ${pathname === "/suppliers" ? "active" : ""}`}>
-                <Building style={{ width: 16 }} /> Fournisseurs Chine
+              <Link href="/catalog?cat=fashion" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
+                Fashion
               </Link>
             </li>
             <li>
-              <Link href="/shipping-policy" className={`subnav-link ${pathname === "/shipping-policy" ? "active" : ""}`}>
-                <Truck style={{ width: 16 }} /> Fret & Expédition
+              <Link href="/suppliers" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
+                Women's
               </Link>
             </li>
             <li>
-              <Link href="/returns-warranty" className={`subnav-link ${pathname === "/returns-warranty" ? "active" : ""}`}>
-                <Shield style={{ width: 16 }} /> Retours & Garanties
+              <Link href="/shipping-policy" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
+                Kids' Fashion
               </Link>
             </li>
             <li>
-              <Link href="/contact" className={`subnav-link ${pathname === "/contact" ? "active" : ""}`}>
-                <Headphones style={{ width: 16 }} /> Assistance Client
+              <Link href="/catalog?cat=beauty" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
+                Healthy & Beauty
+              </Link>
+            </li>
+            <li>
+              <Link href="/catalog?cat=agro" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
+                Groceries
+              </Link>
+            </li>
+            <li>
+              <Link href="/catalog?cat=wholesale" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
+                Luxury Item
               </Link>
             </li>
           </ul>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 13, fontWeight: 800 }}>
+            <Link href="/quote-request" style={{ color: "var(--orange-primary)", display: "flex", alignItems: "center", gap: 4 }}>
+              <Gift style={{ width: 15 }} /> Best Deals
+            </Link>
+            <Link href="/dashboard" style={{ color: "#165491", display: "flex", alignItems: "center", gap: 4 }}>
+              <Radio style={{ width: 15, color: "#EF4444" }} /> CargoLink Live 🔴
+            </Link>
+          </div>
+
         </div>
       </nav>
 
-      {/* MOBILE DRAWER OVERLAY */}
-      {drawerOpen && (
-        <div className="mobile-drawer-overlay open" onClick={toggleDrawer}>
-          <div className="mobile-drawer" onClick={(e) => e.stopPropagation()}>
-            <div className="mobile-drawer-header">
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ fontWeight: 900, color: "var(--navy-dark)", fontSize: 18 }}>CargoLink</span>
-              </div>
-              <button onClick={toggleDrawer} style={{ background: "none", border: "none", cursor: "pointer" }}>
-                <X style={{ width: 22 }} />
-              </button>
-            </div>
-            <div className="mobile-drawer-body">
-              <ul className="mobile-nav-list" style={{ listStyle: "none", padding: 0 }}>
-                <li style={{ padding: "12px 0", borderBottom: "1px solid var(--border-light)" }}>
-                  <Link href="/" onClick={toggleDrawer} style={{ fontWeight: 800, color: "var(--navy-dark)" }}>Accueil</Link>
-                </li>
-                <li style={{ padding: "12px 0", borderBottom: "1px solid var(--border-light)" }}>
-                  <Link href="/catalog" onClick={toggleDrawer} style={{ fontWeight: 800, color: "var(--navy-dark)" }}>Catalogue Produits</Link>
-                </li>
-                <li style={{ padding: "12px 0", borderBottom: "1px solid var(--border-light)" }}>
-                  <Link href="/quote-request" onClick={toggleDrawer} style={{ fontWeight: 800, color: "var(--orange-primary)" }}>Demander un Devis Sur-Mesure</Link>
-                </li>
-                <li style={{ padding: "12px 0", borderBottom: "1px solid var(--border-light)" }}>
-                  <Link href="/dashboard" onClick={toggleDrawer} style={{ fontWeight: 800, color: "var(--navy-dark)" }}>Suivi de Colis & Dashboard</Link>
-                </li>
-                {isLoggedIn ? (
-                  <li style={{ padding: "12px 0", borderBottom: "1px solid var(--border-light)" }}>
-                    <Link href="/dashboard" onClick={toggleDrawer} style={{ fontWeight: 800, color: "var(--orange-primary)" }}>Mon Espace Client</Link>
-                  </li>
-                ) : (
-                  <li style={{ padding: "12px 0", borderBottom: "1px solid var(--border-light)" }}>
-                    <Link href="/auth/login" onClick={toggleDrawer} style={{ fontWeight: 800, color: "var(--navy-dark)" }}>Se Connecter / S'inscrire</Link>
-                  </li>
-                )}
-                <li style={{ padding: "12px 0", borderBottom: "1px solid var(--border-light)" }}>
-                  <Link href="/admin" onClick={toggleDrawer} style={{ fontWeight: 800, color: "var(--blue-primary)" }}>Portail Administration</Link>
-                </li>
-              </ul>
+      {/* MOBILE DRAWER OVERLAY & SLIDING DRAWER MENU */}
+      <div 
+        className={`mobile-drawer-overlay ${drawerOpen ? "active" : ""}`} 
+        onClick={toggleDrawer}
+      />
+
+      <div className={`mobile-nav-drawer ${drawerOpen ? "active" : ""}`}>
+        {/* DRAWER HEADER */}
+        <div className="drawer-header" style={{ padding: "18px 20px", background: "#0F172A", color: "#FFF", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 32, height: 32, flexShrink: 0 }}>
+              <rect width="40" height="40" rx="8" fill="#165491"/>
+              <path d="M20 8L31 29H24.5L20 20L15.5 29H9L20 8Z" fill="#FFF"/>
+            </svg>
+            <div>
+              <div style={{ fontSize: 17, fontWeight: 900, color: "#FFF", lineHeight: 1 }}>CargoLink</div>
+              <div style={{ fontSize: 8, fontWeight: 800, color: "#38BDF8", letterSpacing: "0.5px", marginTop: 2 }}>CHINE ➔ AFRIQUE</div>
             </div>
           </div>
+          <button 
+            onClick={toggleDrawer} 
+            className="drawer-close-btn"
+            style={{ background: "rgba(255,255,255,0.12)", border: "none", color: "#FFF", width: 34, height: 34, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+          >
+            <X style={{ width: 18 }} />
+          </button>
         </div>
-      )}
+
+        {/* DRAWER SEARCH BAR */}
+        <div style={{ padding: "14px 16px", background: "#F8FAFC", borderBottom: "1px solid #E2E8F0" }}>
+          <div style={{ display: "flex", alignItems: "center", background: "#FFF", border: "1px solid #CBD5E1", borderRadius: 9999, padding: "6px 12px" }}>
+            <span style={{ color: "#38BDF8", marginRight: 6 }}>✦</span>
+            <input 
+              type="text" 
+              placeholder="Rechercher produit ou usine..." 
+              style={{ width: "100%", border: "none", outline: "none", fontSize: 12.5, fontWeight: 600 }}
+            />
+            <Search style={{ width: 15, color: "#64748B" }} />
+          </div>
+        </div>
+
+        {/* DRAWER NAVIGATION LIST */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px" }}>
+          <div style={{ fontSize: 10, fontWeight: 900, color: "#94A3B8", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 10 }}>
+            Navigation Principale
+          </div>
+
+          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
+            <li>
+              <Link href="/" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 14, textDecoration: "none", background: pathname === "/" ? "#F1F5F9" : "transparent" }}>
+                <Home style={{ width: 18, color: "#165491" }} /> Accueil
+              </Link>
+            </li>
+            <li>
+              <Link href="/catalog" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 14, textDecoration: "none", background: pathname === "/catalog" ? "#F1F5F9" : "transparent" }}>
+                <ShoppingBag style={{ width: 18, color: "#165491" }} /> Catalogue Produits Usines
+              </Link>
+            </li>
+            <li>
+              <Link href="/quote-request" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, color: "var(--orange-hover)", fontWeight: 800, fontSize: 14, textDecoration: "none", background: "var(--orange-light)" }}>
+                <PlusCircle style={{ width: 18, color: "var(--orange-primary)" }} /> Demander un Devis Sur-Mesure
+              </Link>
+            </li>
+            <li>
+              <Link href="/dashboard" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
+                <Package style={{ width: 18, color: "#165491" }} /> Suivi de Colis & Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link href="/suppliers" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
+                <Building2 style={{ width: 18, color: "#165491" }} /> Usines Partenaires Chine
+              </Link>
+            </li>
+          </ul>
+
+          <div style={{ height: 1, background: "#E2E8F0", margin: "16px 0" }} />
+
+          <div style={{ fontSize: 10, fontWeight: 900, color: "#94A3B8", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 10 }}>
+            Espace Compte & Authentification
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {isLoggedIn ? (
+              <Link 
+                href="/dashboard" 
+                onClick={toggleDrawer}
+                className="btn btn-primary"
+                style={{ width: "100%", padding: 12, borderRadius: 10, textAlign: "center", fontWeight: 800, fontSize: 13.5, background: "#0F172A", color: "#FFF", textDecoration: "none" }}
+              >
+                Mon Espace Client
+              </Link>
+            ) : (
+              <>
+                <Link 
+                  href="/auth/login" 
+                  onClick={toggleDrawer}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", padding: 12, borderRadius: 10, fontWeight: 800, fontSize: 13.5, background: "#F1F5F9", color: "#0F172A", textDecoration: "none", border: "1px solid #E2E8F0" }}
+                >
+                  <LogIn style={{ width: 16 }} /> Se Connecter
+                </Link>
+                <Link 
+                  href="/auth/sign-up" 
+                  onClick={toggleDrawer}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", padding: 12, borderRadius: 10, fontWeight: 800, fontSize: 13.5, background: "#0F172A", color: "#FFF", textDecoration: "none" }}
+                >
+                  <UserPlus style={{ width: 16 }} /> Créer un Compte Client
+                </Link>
+              </>
+            )}
+          </div>
+
+          <div style={{ height: 1, background: "#E2E8F0", margin: "16px 0" }} />
+
+          <div style={{ background: "#F8FAFC", padding: 12, borderRadius: 12, border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, fontWeight: 800, color: "#0F172A" }}>
+              <MapPin style={{ width: 15, color: "#165491" }} /> 🇧🇯 Bénin (Cotonou)
+            </div>
+            <span style={{ fontSize: 11, fontWeight: 800, color: "#64748B" }}>FCFA</span>
+          </div>
+        </div>
+
+        {/* DRAWER FOOTER */}
+        <div style={{ padding: 16, borderTop: "1px solid #E2E8F0", background: "#F8FAFC", textAlign: "center", fontSize: 11, color: "#94A3B8" }}>
+          © CargoLink Africa — Logistique Directe Chine
+        </div>
+      </div>
     </>
   );
 }

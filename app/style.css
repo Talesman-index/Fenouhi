@@ -1913,3 +1913,50 @@ a {
   align-items: center;
   gap: 8px;
 }
+
+/* MOBILE MENU BUTTON STYLES */
+.mobile-menu-btn {
+  display: none !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  padding: 6px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  color: #0F172A !important;
+  transition: background 0.15s ease !important;
+}
+
+.mobile-menu-btn:hover,
+.mobile-menu-btn:active {
+  background: #F1F5F9 !important;
+}
+
+@media (max-width: 1024px) {
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+}
+
+/* HEADER RESPONSIVE & ALIGNMENT FIXES */
+.desktop-only {
+  display: flex;
+}
+
+.mobile-search-row {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-search-row {
+    display: block !important;
+  }
+  .subnav-bar {
+    display: none !important;
+  }
+}
+
+
