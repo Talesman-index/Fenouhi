@@ -1445,16 +1445,41 @@ a {
   }
 }
 
+.hero-page-title {
+  font-size: clamp(22px, 5.5vw, 34px);
+  font-weight: 900;
+  color: #FFF;
+  margin-bottom: 10px;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
 /* ==========================================================================
-   DASHBOARD QUOTE CARD RESPONSIVE
+   DASHBOARD QUOTE & TRACKING CARD RESPONSIVE
    ========================================================================== */
-.dashboard-quote-card-header {
+.dashboard-quote-card-header,
+.dashboard-order-card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--border-light);
+  gap: 16px;
+}
+
+.dashboard-tracking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
   gap: 16px;
 }
 
@@ -1466,12 +1491,19 @@ a {
 }
 
 @media (max-width: 768px) {
-  .dashboard-quote-card-header {
+  .dashboard-quote-card-header,
+  .dashboard-order-card-header,
+  .dashboard-tracking-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
-  .dashboard-quote-card-header > div:last-child {
+  .dashboard-tracking-header > div:last-child {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .dashboard-quote-card-header > div:last-child,
+  .dashboard-order-card-header > div:last-child {
     text-align: left !important;
   }
   .dashboard-quote-card-header .quote-total-price {

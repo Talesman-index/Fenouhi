@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Client & Suivi Logistique — CargoLink Africa</title>
   <meta name="description" content="Espace client CargoLink Africa. Suivez vos commandes en temps réel et validez vos devis d'importation.">
-  <link rel="stylesheet" href="css/style.css?v=5.0">
+  <link rel="stylesheet" href="css/style.css?v=6.0">
   <script src="js/lucide.min.js"></script>
   <script>if (!window.lucide) document.write('<script src="https://unpkg.com/lucide@latest"><\/script>');</script>
 </head>
@@ -267,23 +267,23 @@
 
       <!-- TAB CONTENT 2: ORDERS & TRACKING -->
       <div id="tabContentOrders" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div class="dashboard-tracking-header">
           <div>
             <h2 style="font-size: 22px; margin-bottom: 4px;">Suivi Logistique en Temps Réel</h2>
             <p style="font-size: 14px; color: var(--text-muted);">Progression de votre commande du dépôt chinois jusqu'à votre livraison à Cotonou.</p>
           </div>
 
-          <div style="display: flex; gap: 10px;">
-            <input type="text" id="orderSearchTrackInput" value="CMD-2026-45892" style="padding: 10px 16px; border-radius: var(--radius-md); border: 1px solid var(--border-light); font-weight: 800;">
+          <div style="display: flex; gap: 10px; width: 100%; max-width: 340px;">
+            <input type="text" id="orderSearchTrackInput" value="CMD-2026-45892" style="padding: 10px 16px; border-radius: var(--radius-md); border: 1px solid var(--border-light); font-weight: 800; flex: 1; min-width: 0;">
             <button class="btn btn-primary btn-sm" onclick="trackOrderSearch()">Inspecter</button>
           </div>
         </div>
 
         <div class="card" style="padding: 32px; margin-bottom: 32px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light);">
+          <div class="dashboard-order-card-header">
             <div>
               <span class="badge" style="background: var(--green-bg); color: var(--green-success); margin-bottom: 6px;">COMMANDE PAYÉE & CONFIRMÉE</span>
-              <h3 style="font-size: 24px; font-weight: 900; color: var(--navy-dark);">Commande N° CMD-2026-45892</h3>
+              <h3 style="font-size: 22px; font-weight: 900; color: var(--navy-dark);">Commande N° CMD-2026-45892</h3>
               <p style="font-size: 13px; color: var(--text-muted);">Article : 50 Casques Bluetooth ANC SoundBass • Mode : Fret Aérien Express</p>
             </div>
             <div style="text-align: right;">
