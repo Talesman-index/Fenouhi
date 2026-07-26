@@ -341,31 +341,6 @@ export default function SignUpPage() {
                     </div>
                     {formData.accountType === "reseller" && <CheckCircle2 style={{ width: 20, color: "#165491" }} />}
                   </div>
-
-                  {/* OPTION 3: ENTREPRISE */}
-                  <div 
-                    onClick={() => setFormData({ ...formData, accountType: "business" })}
-                    style={{
-                      border: formData.accountType === "business" ? "2px solid #165491" : "1.5px solid #E2E8F0",
-                      background: formData.accountType === "business" ? "#F0F9FF" : "#F8FAFC",
-                      padding: 16,
-                      borderRadius: 14,
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 14,
-                      cursor: "pointer",
-                      transition: "all 0.2s ease"
-                    }}
-                  >
-                    <div style={{ width: 40, height: 40, borderRadius: 10, background: formData.accountType === "business" ? "#165491" : "#E2E8F0", color: formData.accountType === "business" ? "#FFF" : "#64748B", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <Briefcase style={{ width: 20 }} />
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 14, fontWeight: 900, color: "#0F172A" }}>Entreprise & Importateur</div>
-                      <div style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>Conteneurs FCL/LCL, dédouanement et facturation officielle.</div>
-                    </div>
-                    {formData.accountType === "business" && <CheckCircle2 style={{ width: 20, color: "#165491" }} />}
-                  </div>
                 </div>
               </div>
 

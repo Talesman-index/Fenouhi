@@ -197,61 +197,53 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CARGOLINK AI SOURCING HERO CARD (NEW HIGH-END FUTURISTIC DESIGN) */}
+      {/* CARGOLINK AI SOURCING HERO CARD (FULLY RESPONSIVE DESIGN) */}
       <section className="container" style={{ margin: "30px auto 50px" }}>
-        <div 
-          style={{
-            background: "linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #0F172A 100%)",
-            borderRadius: 32,
-            padding: "44px 32px",
-            border: "1px solid rgba(255, 255, 255, 0.12)",
-            boxShadow: "0 25px 60px rgba(15, 23, 42, 0.25)",
-            position: "relative",
-            overflow: "hidden",
-            textAlign: "center"
-          }}
-        >
+        <div className="cargolink-ai-card">
+          
           {/* AMBIENT GLOW EFFECTS */}
           <div style={{ position: "absolute", top: -80, left: "30%", width: 300, height: 300, background: "rgba(56, 189, 248, 0.15)", filter: "blur(90px)", borderRadius: "50%", pointerEvents: "none" }} />
           <div style={{ position: "absolute", bottom: -80, right: "20%", width: 260, height: 260, background: "rgba(249, 115, 22, 0.12)", filter: "blur(90px)", borderRadius: "50%", pointerEvents: "none" }} />
 
           {/* AI BADGE */}
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(56, 189, 248, 0.12)", border: "1px solid rgba(56, 189, 248, 0.3)", borderRadius: 9999, padding: "6px 16px", color: "#38BDF8", fontSize: 12, fontWeight: 900, letterSpacing: "0.5px", marginBottom: 16 }}>
-            <Sparkles style={{ width: 14 }} /> IA SOURCING CHINE — 1688 / TAOBAO / ALIBABA
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(56, 189, 248, 0.12)", border: "1px solid rgba(56, 189, 248, 0.3)", borderRadius: 9999, padding: "6px 14px", color: "#38BDF8", fontSize: 11.5, fontWeight: 900, letterSpacing: "0.5px", marginBottom: 16, maxWidth: "100%", boxSizing: "border-box" }}>
+            <Sparkles style={{ width: 14, flexShrink: 0 }} /> <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>IA SOURCING CHINE — 1688 / TAOBAO / ALIBABA</span>
           </div>
 
           {/* HEADLINE */}
-          <h2 style={{ fontSize: "clamp(26px, 4vw, 36px)", fontWeight: 900, color: "#FFFFFF", marginBottom: 12, lineHeight: 1.2, letterSpacing: "-0.5px" }}>
+          <h2 style={{ fontSize: "clamp(22px, 4vw, 36px)", fontWeight: 900, color: "#FFFFFF", marginBottom: 12, lineHeight: 1.2, letterSpacing: "-0.5px" }}>
             Trouvez N'importe Quel Produit Direct Usine Chine
           </h2>
-          <p style={{ fontSize: 14.5, color: "#94A3B8", maxWidth: 640, margin: "0 auto 28px", lineHeight: 1.6 }}>
+          <p style={{ fontSize: 13.5, color: "#94A3B8", maxWidth: 640, margin: "0 auto 24px", lineHeight: 1.6 }}>
             Collez un lien <strong style={{ color: "#FFF" }}>1688, Taobao ou Alibaba</strong> ou décrivez votre besoin. Notre algorithme IA identifie l'usine la moins chère et calcule votre devis rendu Afrique.
           </p>
 
-          {/* FLOATING SEARCH INPUT BAR */}
-          <div style={{ maxWidth: 680, margin: "0 auto", background: "#FFFFFF", padding: 8, borderRadius: 9999, boxShadow: "0 20px 40px rgba(0,0,0,0.3)", display: "flex", gap: 8, alignItems: "center" }}>
-            <div style={{ display: "flex", alignItems: "center", paddingLeft: 16, color: "#38BDF8" }}>
-              <Sparkles style={{ width: 18 }} />
+          {/* FLOATING SEARCH INPUT BAR (RESPONSIVE STACK ON MOBILE) */}
+          <div className="cargolink-ai-search-box">
+            <div className="cargolink-ai-search-box-input-wrap" style={{ display: "flex", alignItems: "center", flex: 1, gap: 8, paddingLeft: 8 }}>
+              <span style={{ color: "#38BDF8", display: "flex", alignItems: "center" }}>
+                <Sparkles style={{ width: 18 }} />
+              </span>
+              <input
+                type="text"
+                value={searchUrl}
+                onChange={(e) => setSearchUrl(e.target.value)}
+                placeholder="Collez un lien 1688 / Taobao ou décrivez votre produit..."
+                style={{ width: "100%", border: "none", outline: "none", fontSize: 13.5, fontWeight: 600, color: "#0F172A", background: "transparent" }}
+              />
             </div>
-            <input
-              type="text"
-              value={searchUrl}
-              onChange={(e) => setSearchUrl(e.target.value)}
-              placeholder="Collez un lien 1688 / Taobao ou décrivez votre produit..."
-              style={{ flex: 1, border: "none", outline: "none", fontSize: 14, fontWeight: 600, color: "#0F172A", background: "transparent" }}
-            />
             <Link 
               href={`/quote-request?url=${encodeURIComponent(searchUrl)}`}
-              className="btn btn-orange"
-              style={{ borderRadius: 9999, padding: "12px 26px", fontSize: 14, fontWeight: 900, display: "inline-flex", alignItems: "center", gap: 8, background: "linear-gradient(135deg, #F97316 0%, #EA580C 100%)", boxShadow: "0 6px 20px rgba(249,115,22,0.35)" }}
+              className="btn btn-orange cargolink-ai-search-btn"
+              style={{ borderRadius: 9999, padding: "12px 24px", fontSize: 13.5, fontWeight: 900, display: "inline-flex", alignItems: "center", gap: 8, background: "linear-gradient(135deg, #F97316 0%, #EA580C 100%)", boxShadow: "0 6px 20px rgba(249,115,22,0.35)", whiteSpace: "nowrap" }}
             >
               <Search style={{ width: 16 }} /> Trouver l'Usine <ArrowRight style={{ width: 16 }} />
             </Link>
           </div>
 
           {/* SAMPLE SUGGESTION CHIPS */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, flexWrap: "wrap", marginTop: 18 }}>
-            <span style={{ fontSize: 11.5, color: "#64748B", fontWeight: 700 }}>Exemples :</span>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, flexWrap: "wrap", marginTop: 18 }}>
+            <span style={{ fontSize: 11, color: "#64748B", fontWeight: 700, width: "100%", marginBottom: 4 }}>Exemples :</span>
             {samplePrompts.map((prompt, idx) => (
               <button
                 key={idx}
@@ -260,9 +252,9 @@ export default function HomePage() {
                   background: "rgba(255, 255, 255, 0.08)",
                   border: "1px solid rgba(255, 255, 255, 0.15)",
                   borderRadius: 9999,
-                  padding: "4px 12px",
+                  padding: "4px 10px",
                   color: "#CBD5E1",
-                  fontSize: 11.5,
+                  fontSize: 11,
                   fontWeight: 600,
                   cursor: "pointer",
                   transition: "all 0.2s ease"
@@ -273,16 +265,16 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* 3 REASSURANCE FEATURE PILLS AT BOTTOM */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, maxWidth: 720, margin: "32px auto 0", paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.1)" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#E2E8F0", fontSize: 12.5, fontWeight: 700 }}>
-              <Zap style={{ width: 16, color: "#38BDF8" }} /> Scan Instantané 1688 & Taobao
+          {/* 3 REASSURANCE FEATURE PILLS (RESPONSIVE 1-COLUMN ON MOBILE) */}
+          <div className="cargolink-ai-features-grid">
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#E2E8F0", fontSize: 12, fontWeight: 700 }}>
+              <Zap style={{ width: 15, color: "#38BDF8", flexShrink: 0 }} /> Scan Instantané 1688 & Taobao
             </div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#E2E8F0", fontSize: 12.5, fontWeight: 700 }}>
-              <DollarSign style={{ width: 16, color: "#10B981" }} /> Prix Usine sans Intermédiaire
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#E2E8F0", fontSize: 12, fontWeight: 700 }}>
+              <DollarSign style={{ width: 15, color: "#10B981", flexShrink: 0 }} /> Prix Usine sans Intermédiaire
             </div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#E2E8F0", fontSize: 12.5, fontWeight: 700 }}>
-              <Truck style={{ width: 16, color: "#F97316" }} /> Fret & Dédouanement Afrique
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#E2E8F0", fontSize: 12, fontWeight: 700 }}>
+              <Truck style={{ width: 15, color: "#F97316", flexShrink: 0 }} /> Fret & Dédouanement Afrique
             </div>
           </div>
 

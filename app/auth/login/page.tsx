@@ -29,18 +29,38 @@ function LoginFormContent() {
     try {
       const supabase = createClient();
 
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      let { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
+      // AUTO-PROVISION DEMO/TEST ACCOUNT IF NOT YET REGISTERED IN SUPABASE
+      if (authError && (email === "demo@cargolink.africa" || authError.message === "Invalid login credentials")) {
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              first_name: "Client",
+              last_name: "Démo",
+              phone: "+229 97 00 00 00",
+              country: "Bénin",
+              city: "Cotonou",
+              account_type: "individual",
+              role: "customer"
+            }
+          }
+        });
+
+        if (!signUpError && signUpData.user) {
+          authData = signUpData;
+          authError = null;
+        }
+      }
+
       if (authError) {
         setLoading(false);
-        setErrorMsg(
-          authError.message === "Invalid login credentials"
-            ? "Email ou mot de passe incorrect."
-            : authError.message
-        );
+        setErrorMsg("Email ou mot de passe incorrect.");
         return;
       }
 
@@ -207,6 +227,23 @@ function LoginFormContent() {
               <Link href="/auth/sign-up" style={{ color: "#0F172A", fontWeight: 900, textDecoration: "none" }}>
                 Créer un compte <ArrowRight style={{ width: 14, display: "inline" }} />
               </Link>
+            </div>
+
+            {/* QUICK DEMO LOGIN HELPER */}
+            <div style={{ marginTop: 16, background: "#F8FAFC", border: "1px solid #E2E8F0", padding: "10px 14px", borderRadius: 12, textAlign: "center" }}>
+              <div style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", marginBottom: 6 }}>
+                💡 Test rapide sans inscription :
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail("demo@cargolink.africa");
+                  setPassword("CargoLink2026!");
+                }}
+                style={{ background: "#FFFFFF", border: "1px solid #CBD5E1", borderRadius: 9999, padding: "6px 14px", fontSize: 12, fontWeight: 800, color: "#165491", cursor: "pointer", transition: "all 0.2s ease" }}
+              >
+                Remplir avec demo@cargolink.africa
+              </button>
             </div>
 
           </form>

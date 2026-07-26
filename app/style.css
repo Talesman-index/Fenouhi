@@ -1948,7 +1948,10 @@ a {
 }
 
 @media (max-width: 1024px) {
-  .desktop-only {
+  .desktop-only,
+  .header-search-bar,
+  div.header-search-bar,
+  div.desktop-only {
     display: none !important;
   }
   .mobile-search-row {
@@ -1958,5 +1961,119 @@ a {
     display: none !important;
   }
 }
+
+
+/* DASHBOARD & TRACKING RESPONSIVE LAYOUT */
+.dashboard-grid-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+}
+
+.dashboard-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid-layout {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .dashboard-sidebar-card {
+    padding: 16px !important;
+  }
+  .dashboard-sidebar-tabs {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    padding-bottom: 4px !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .dashboard-sidebar-tabs li {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  .dashboard-summary-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .dashboard-header-bar > div {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .dashboard-header-cta {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    margin-top: 4px !important;
+  }
+}
+
+/* CARGOLINK AI HERO CARD RESPONSIVE FIXES */
+.cargolink-ai-card {
+  background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #0F172A 100%);
+  border-radius: 32px;
+  padding: 44px 32px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.25);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.cargolink-ai-search-box {
+  max-width: 680px;
+  margin: 0 auto;
+  background: #FFFFFF;
+  padding: 8px;
+  border-radius: 9999px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.cargolink-ai-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 720px;
+  margin: 32px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .cargolink-ai-card {
+    border-radius: 24px !important;
+    padding: 24px 16px !important;
+  }
+  .cargolink-ai-search-box {
+    flex-direction: column !important;
+    border-radius: 20px !important;
+    padding: 10px !important;
+    background: #FFFFFF !important;
+  }
+  .cargolink-ai-search-box-input-wrap {
+    width: 100% !important;
+    padding: 4px 0 !important;
+  }
+  .cargolink-ai-search-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    border-radius: 14px !important;
+    padding: 12px 16px !important;
+  }
+  .cargolink-ai-features-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    margin-top: 24px !important;
+    padding-top: 18px !important;
+  }
+}
+
+
+
 
 
