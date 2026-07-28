@@ -1,11 +1,18 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import type { Profile } from "@/types/supabase";
 
 export async function requireAdmin(): Promise<{ user: any; profile: Profile }> {
+  // Check x-demo-mode header (set by middleware on every request, available even before cookie is visible)
+  const headersList = await headers();
+  const hasDemoHeader = headersList.get("x-demo-mode") === "true";
+
+  // Also check the persistent cookie for subsequent navigations
   const cookieStore = await cookies();
-  const isDemoMode = cookieStore.get("admin_demo_access")?.value === "true";
+  const hasDemoCookie = cookieStore.get("admin_demo_access")?.value === "true";
+
+  const isDemoMode = hasDemoHeader || hasDemoCookie;
 
   if (isDemoMode) {
     const demoProfile: Profile = {

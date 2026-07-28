@@ -40,16 +40,22 @@ export async function middleware(request: NextRequest) {
     const isDashboardRoute = pathname.startsWith("/dashboard");
     const isAdminRoute = pathname.startsWith("/admin");
 
-    // Check for demo bypass via query param or cookie FIRST before network calls
+    // Check for demo bypass via query param or cookie FIRST before any network calls
     const hasDemoParam = request.nextUrl.searchParams.get("demo") === "true" || request.nextUrl.searchParams.get("preview") === "admin";
     const hasDemoCookie = request.cookies.get("admin_demo_access")?.value === "true";
     const isDemoMode = hasDemoParam || hasDemoCookie;
 
     if (isAdminRoute && isDemoMode) {
-      if (hasDemoParam && !hasDemoCookie) {
-        response.cookies.set("admin_demo_access", "true", { path: "/", maxAge: 60 * 60 * 24 * 7 });
-      }
-      return response;
+      // Build modified request headers so Server Components see x-demo-mode: true
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("x-demo-mode", "true");
+
+      const demoResponse = NextResponse.next({ request: { headers: requestHeaders } });
+
+      // Also set the persistent cookie so navigation within /admin keeps working
+      demoResponse.cookies.set("admin_demo_access", "true", { path: "/", maxAge: 60 * 60 * 24 * 7 });
+
+      return demoResponse;
     }
 
     // Refresh session safely
