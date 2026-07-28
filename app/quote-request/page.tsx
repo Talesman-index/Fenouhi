@@ -380,7 +380,7 @@ function QuoteRequestContent() {
               </div>
             ) : (
               /* FORM & ESTIMATOR GRID */
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: 28, alignItems: "start" }}>
+              <div className="quote-request-main-grid">
                 
                 {/* LEFT FORM COLUMN */}
                 <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
@@ -454,7 +454,7 @@ function QuoteRequestContent() {
                   )}
 
                   {/* FORM CARD */}
-                  <div className="card" style={{ padding: 30, background: "#FFF", borderRadius: 20, boxShadow: "0 10px 30px rgba(15,23,42,0.04)" }}>
+                  <div className="card responsive-form-card">
                     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 22 }}>
                       
                       {/* SECTION 1: PRODUCT & QUANTITY */}
@@ -571,7 +571,7 @@ function QuoteRequestContent() {
                           2. Mode de Transport & Destination
                         </div>
 
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 16 }}>
+                        <div className="quote-shipping-cards-grid">
                           {[
                             {
                               mode: "air" as const,
@@ -807,7 +807,7 @@ function QuoteRequestContent() {
                 </div>
 
                 {/* RIGHT STICKY ESTIMATOR SIDEBAR */}
-                <div style={{ position: "sticky", top: 90, display: "flex", flexDirection: "column", gap: 20 }}>
+                <div className="quote-estimator-sticky" style={{ position: "sticky", top: 90, display: "flex", flexDirection: "column", gap: 20 }}>
                   
                   {/* ESTIMATOR CARD */}
                   <div

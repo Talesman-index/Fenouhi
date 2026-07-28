@@ -2182,22 +2182,69 @@ a {
 }
 
 /* ==========================================================================
-   PRODUCT DETAIL PAGE — RESPONSIVE
+   QUOTE REQUEST PAGE — RESPONSIVE LAYOUT & GRID SYSTEM
    ========================================================================== */
 
-@media (max-width: 900px) {
-  .product-detail-grid {
+.quote-request-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 28px;
+  align-items: start;
+}
+
+.quote-shipping-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.responsive-form-card {
+  padding: 30px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+}
+
+/* ==========================================================================
+   MEDIA QUERIES — TABLETS & MOBILE BREAKPOINTS
+   ========================================================================== */
+
+@media (max-width: 992px) {
+  .quote-request-main-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
 
-  .product-main-image-container {
-    aspect-ratio: 4 / 3;
+  .quote-estimator-sticky {
+    position: static !important;
+    top: 0 !important;
+    width: 100%;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .responsive-form-card {
+    padding: 24px 18px;
+    border-radius: 16px;
   }
 }
 
-@media (max-width: 600px) {
-  .product-main-image-container {
-    aspect-ratio: 1 / 1;
+@media (max-width: 640px) {
+  .quote-shipping-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .hero-page-title {
+    font-size: 22px !important;
+  }
+
+  .container {
+    padding: 0 16px;
   }
 }
 
