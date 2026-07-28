@@ -35,15 +35,12 @@ export async function middleware(request: NextRequest) {
       },
     });
 
-    // Refresh session safely
-    const { data: { user } } = await supabase.auth.getUser();
     const pathname = request.nextUrl.pathname;
-
     const isAuthRoute = pathname.startsWith("/auth/login") || pathname.startsWith("/auth/sign-up");
     const isDashboardRoute = pathname.startsWith("/dashboard");
     const isAdminRoute = pathname.startsWith("/admin");
 
-    // Check for demo bypass via query param or cookie
+    // Check for demo bypass via query param or cookie FIRST before network calls
     const hasDemoParam = request.nextUrl.searchParams.get("demo") === "true" || request.nextUrl.searchParams.get("preview") === "admin";
     const hasDemoCookie = request.cookies.get("admin_demo_access")?.value === "true";
     const isDemoMode = hasDemoParam || hasDemoCookie;
@@ -54,6 +51,9 @@ export async function middleware(request: NextRequest) {
       }
       return response;
     }
+
+    // Refresh session safely
+    const { data: { user } } = await supabase.auth.getUser();
 
     // 1. If user is NOT logged in and tries to access protected routes (/dashboard or /admin)
     if (!user && (isDashboardRoute || isAdminRoute)) {
