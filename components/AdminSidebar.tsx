@@ -19,7 +19,8 @@ import {
   Settings,
   LogOut,
   ShieldCheck,
-  X
+  X,
+  Package
 } from "lucide-react";
 import type { Profile } from "@/types/supabase";
 
@@ -41,6 +42,7 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
 
   const navItems = [
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/admin/products", label: "Articles & Catalogue", icon: Package },
     { href: "/admin/users", label: "Utilisateurs", icon: Users },
     { href: "/admin/quotes", label: "Devis Logistiques", icon: FileText },
     { href: "/admin/orders", label: "Commandes", icon: ShoppingBag },
