@@ -9,6 +9,7 @@ export type QuoteStatus = "new" | "under_review" | "quote_sent" | "accepted" | "
 export type OrderStatus = 
   | "pending_payment"
   | "confirmed"
+  | "processing"
   | "product_purchased"
   | "received_in_china"
   | "ready_to_ship"
@@ -23,7 +24,7 @@ export type PaymentStatus = "pending" | "paid" | "failed" | "cancelled" | "refun
 
 export type ShippingMode = "air" | "sea";
 
-export type PartnerType = "supplier" | "shipping_partner" | "agent" | "warehouse";
+export type PartnerType = "supplier" | "shipping_partner" | "agent" | "warehouse" | "freight_forwarder";
 
 export type DisputePriority = "low" | "medium" | "high" | "urgent";
 
@@ -82,8 +83,12 @@ export interface Supplier {
   phone?: string | null;
   address?: string | null;
   country: string;
+  city?: string | null;
+  category?: string | null;
+  is_verified?: boolean;
   services?: string | null;
-  reliability_rating: number;
+  reliability_rating?: number;
+  rating?: number;
   status: string;
   notes?: string | null;
   created_at: string;
@@ -102,6 +107,7 @@ export interface Order {
   shipping_mode: ShippingMode;
   destination_country: string;
   destination_city: string;
+  tracking_number?: string | null;
   assigned_agent_id?: string | null;
   supplier_id?: string | null;
   partner_id?: string | null;
@@ -169,6 +175,7 @@ export interface Payment {
   verified_by?: string | null;
   created_at: string;
   updated_at: string;
+  order?: Order;
   profile?: Profile;
 }
 
@@ -184,6 +191,7 @@ export interface Dispute {
   assigned_agent_id?: string | null;
   created_at: string;
   updated_at: string;
+  order?: Order;
   profile?: Profile;
 }
 
@@ -249,17 +257,10 @@ export type Database = {
       profiles: { Row: Profile; Insert: Partial<Profile>; Update: Partial<Profile> };
       quotes: { Row: Quote; Insert: Partial<Quote>; Update: Partial<Quote> };
       orders: { Row: Order; Insert: Partial<Order>; Update: Partial<Order> };
-      order_items: { Row: OrderItem; Insert: Partial<OrderItem>; Update: Partial<OrderItem> };
       shipments: { Row: Shipment; Insert: Partial<Shipment>; Update: Partial<Shipment> };
-      shipment_events: { Row: ShipmentEvent; Insert: Partial<ShipmentEvent>; Update: Partial<ShipmentEvent> };
       payments: { Row: Payment; Insert: Partial<Payment>; Update: Partial<Payment> };
-      suppliers: { Row: Supplier; Insert: Partial<Supplier>; Update: Partial<Supplier> };
       disputes: { Row: Dispute; Insert: Partial<Dispute>; Update: Partial<Dispute> };
-      dispute_messages: { Row: DisputeMessage; Insert: Partial<DisputeMessage>; Update: Partial<DisputeMessage> };
-      notifications: { Row: Notification; Insert: Partial<Notification>; Update: Partial<Notification> };
-      activity_logs: { Row: ActivityLog; Insert: Partial<ActivityLog>; Update: Partial<ActivityLog> };
-      platform_settings: { Row: PlatformSetting; Insert: Partial<PlatformSetting>; Update: Partial<PlatformSetting> };
-      content_pages: { Row: ContentPage; Insert: Partial<ContentPage>; Update: Partial<ContentPage> };
+      suppliers: { Row: Supplier; Insert: Partial<Supplier>; Update: Partial<Supplier> };
     };
   };
 };
