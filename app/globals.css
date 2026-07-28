@@ -96,3 +96,20 @@ svg.logo-img, .logo-img {
     max-width: 100% !important;
   }
 }
+
+/* Admin Responsive Layout Rules */
+@media (max-width: 1024px) {
+  .admin-layout-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .admin-desktop-sidebar {
+    display: none !important;
+  }
+  .admin-mobile-toggle {
+    display: inline-flex !important;
+  }
+  .admin-user-info-text {
+    display: none !important;
+  }
+}
+

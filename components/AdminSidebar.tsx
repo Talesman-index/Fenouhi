@@ -1,33 +1,57 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Calculator, RefreshCw, Layers, Users, BarChart3, LogOut, ShieldAlert } from "lucide-react";
+import {
+  LayoutDashboard,
+  Users,
+  FileText,
+  ShoppingBag,
+  Truck,
+  CreditCard,
+  Building2,
+  AlertTriangle,
+  Bell,
+  BarChart3,
+  Globe,
+  Settings,
+  LogOut,
+  ShieldCheck,
+  X
+} from "lucide-react";
 import type { Profile } from "@/types/supabase";
 
 interface AdminSidebarProps {
-  activeTab?: string;
-  onSelectTab?: (tab: string) => void;
   profile?: Profile | null;
+  onCloseMobile?: () => void;
 }
 
-export default function AdminSidebar({ activeTab = "calc", onSelectTab, profile }: AdminSidebarProps) {
+export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarProps) {
+  const pathname = usePathname();
   const router = useRouter();
 
   const handleSignOut = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
-    router.push("/");
+    router.push("/auth/login");
     router.refresh();
   };
 
-  const tabs = [
-    { id: "calc", label: "Calculateur Devis", icon: Calculator },
-    { id: "transit", label: "Mise à jour Transit", icon: RefreshCw },
-    { id: "orders", label: "Toutes les Commandes", icon: Layers },
-    { id: "clients", label: "Répertoire Clients", icon: Users },
-    { id: "stats", label: "Statistiques Logistiques", icon: BarChart3 },
+  const navItems = [
+    { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/admin/users", label: "Utilisateurs", icon: Users },
+    { href: "/admin/quotes", label: "Devis Logistiques", icon: FileText },
+    { href: "/admin/orders", label: "Commandes", icon: ShoppingBag },
+    { href: "/admin/shipments", label: "Expéditions & Suivi", icon: Truck },
+    { href: "/admin/payments", label: "Paiements & Reçus", icon: CreditCard },
+    { href: "/admin/suppliers", label: "Fournisseurs & Agents", icon: Building2 },
+    { href: "/admin/disputes", label: "Litiges & Support", icon: AlertTriangle },
+    { href: "/admin/notifications", label: "Notifications", icon: Bell },
+    { href: "/admin/analytics", label: "Analytics & Rapports", icon: BarChart3 },
+    { href: "/admin/content", label: "Gestion Contenu", icon: Globe },
+    { href: "/admin/settings", label: "Paramètres Plateforme", icon: Settings },
   ];
 
   const initials = profile 
@@ -35,60 +59,91 @@ export default function AdminSidebar({ activeTab = "calc", onSelectTab, profile 
     : "ADM";
 
   return (
-    <div className="card" style={{ padding: 20 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, paddingBottom: 16, borderBottom: "1px solid var(--border-light)" }}>
-        <div style={{ width: 44, height: 44, borderRadius: "50%", background: "var(--orange-primary)", color: "#FFF", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 16 }}>
+    <aside className="admin-sidebar-container card" style={{ padding: 18, height: "calc(100vh - 90px)", position: "sticky", top: 80, overflowY: "auto" }}>
+      {/* MOBILE CLOSE HEADER */}
+      {onCloseMobile && (
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, paddingBottom: 12, borderBottom: "1px solid var(--border-light)" }}>
+          <span style={{ fontWeight: 900, fontSize: 16, color: "var(--navy-dark)" }}>Menu Administrateur</span>
+          <button onClick={onCloseMobile} style={{ background: "transparent", border: "none", cursor: "pointer", padding: 4 }}>
+            <X style={{ width: 20 }} />
+          </button>
+        </div>
+      )}
+
+      {/* USER PROFILE SUMMARY CARD */}
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, paddingBottom: 14, borderBottom: "1px solid var(--border-light)" }}>
+        <div style={{ width: 42, height: 42, borderRadius: "50%", background: "var(--orange-primary)", color: "#FFF", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 15, flexShrink: 0 }}>
           {initials}
         </div>
-        <div>
-          <div style={{ fontWeight: 800, color: "var(--navy-dark)", fontSize: 15 }}>
+        <div style={{ overflow: "hidden" }}>
+          <div style={{ fontWeight: 800, color: "var(--navy-dark)", fontSize: 14, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
             {profile ? `${profile.first_name} ${profile.last_name}` : "Admin Logistique"}
           </div>
-          <div style={{ fontSize: 12, color: "var(--blue-primary)", fontWeight: 800, display: "flex", alignItems: "center", gap: 4 }}>
-            <ShieldAlert style={{ width: 14 }} /> Rôle : {profile?.role || "admin"}
-          </div>
-          <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>
-            {profile?.email || ""}
+          <div style={{ fontSize: 11, color: "var(--blue-primary)", fontWeight: 800, display: "flex", alignItems: "center", gap: 4, marginTop: 1 }}>
+            <ShieldCheck style={{ width: 13 }} /> {profile?.role || "admin"}
           </div>
         </div>
       </div>
 
-      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
-        {tabs.map((t) => {
-          const Icon = t.icon;
-          const isActive = activeTab === t.id;
-          return (
-            <li key={t.id}>
-              <button
-                onClick={() => onSelectTab && onSelectTab(t.id)}
-                style={{
-                  width: "100%", textAlign: "left", padding: "10px 14px", borderRadius: "var(--radius-sm)",
-                  border: "none", background: isActive ? "var(--blue-light)" : "transparent",
-                  color: isActive ? "var(--blue-primary)" : "var(--navy-dark)",
-                  fontWeight: isActive ? 800 : 700, fontSize: 14, cursor: "pointer",
-                  display: "flex", alignItems: "center", gap: 10
-                }}
-              >
-                <Icon style={{ width: 18 }} /> {t.label}
-              </button>
-            </li>
-          );
-        })}
+      {/* NAVIGATION LINKS */}
+      <nav>
+        <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = item.href === "/admin" 
+              ? pathname === "/admin" 
+              : pathname.startsWith(item.href);
 
-        <li style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--border-light)" }}>
-          <button
-            onClick={handleSignOut}
-            style={{
-              width: "100%", textAlign: "left", padding: "10px 14px", borderRadius: "var(--radius-sm)",
-              border: "none", background: "#FEF2F2", color: "#991B1B",
-              fontWeight: 800, fontSize: 14, cursor: "pointer",
-              display: "flex", alignItems: "center", gap: 10
-            }}
-          >
-            <LogOut style={{ width: 18 }} /> Me Déconnecter
-          </button>
-        </li>
-      </ul>
-    </div>
+            return (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  onClick={onCloseMobile}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    padding: "9px 12px",
+                    borderRadius: "var(--radius-sm)",
+                    textDecoration: "none",
+                    fontSize: 13.5,
+                    fontWeight: isActive ? 800 : 600,
+                    background: isActive ? "var(--blue-light)" : "transparent",
+                    color: isActive ? "var(--blue-primary)" : "var(--navy-dark)",
+                    transition: "all 0.15s ease"
+                  }}
+                >
+                  <Icon style={{ width: 18, height: 18, flexShrink: 0, color: isActive ? "var(--blue-primary)" : "var(--text-muted)" }} />
+                  <span>{item.label}</span>
+                </Link>
+              </li>
+            );
+          })}
+
+          <li style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--border-light)" }}>
+            <button
+              onClick={handleSignOut}
+              style={{
+                width: "100%",
+                textAlign: "left",
+                padding: "9px 12px",
+                borderRadius: "var(--radius-sm)",
+                border: "none",
+                background: "#FEF2F2",
+                color: "#991B1B",
+                fontWeight: 800,
+                fontSize: 13.5,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 10
+              }}
+            >
+              <LogOut style={{ width: 18 }} /> Déconnexion
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </aside>
   );
 }

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Heart } from "lucide-react";
+import { Heart, ShoppingBag } from "lucide-react";
 
 interface ProductCardProps {
   id?: string;
@@ -22,68 +22,200 @@ export default function ProductCard({
   oldPrice,
   rating = "★★★★★",
   reviewsCount = 120,
-  image
+  image,
 }: ProductCardProps) {
   const [favorite, setFavorite] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   return (
-    <div className="deal-product-card" style={{ background: "#FFFFFF", borderRadius: 16, padding: 14, border: "1px solid #E2E8F0", display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative", boxShadow: "0 2px 10px rgba(15,23,42,0.03)" }}>
-      
-      {/* HEART FAVORITE BUTTON */}
-      <div 
-        className="favorite-heart-btn" 
-        onClick={() => setFavorite(!favorite)}
-        style={{ 
-          position: "absolute", 
-          top: 10, 
-          right: 10, 
-          width: 30, 
-          height: 30, 
-          borderRadius: "50%", 
-          background: "rgba(255,255,255,0.9)", 
-          display: "flex", 
-          alignItems: "center", 
-          justifyContent: "center", 
-          cursor: "pointer", 
-          zIndex: 5,
-          color: favorite ? "#EF4444" : "#94A3B8",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.08)"
+    <Link
+      href={`/product/${id}`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        background: "#FFFFFF",
+        borderRadius: 16,
+        padding: 14,
+        border: "1px solid #E2E8F0",
+        position: "relative",
+        cursor: "pointer",
+        boxShadow: hovered
+          ? "0 8px 28px rgba(15,23,42,0.12)"
+          : "0 2px 10px rgba(15,23,42,0.03)",
+        transform: hovered ? "translateY(-4px)" : "none",
+        transition: "all 0.22s ease",
+        textDecoration: "none",
+        color: "inherit",
+      }}
+    >
+      {/* HEART BUTTON — stopPropagation so it doesn't follow the card link */}
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setFavorite(!favorite);
+        }}
+        style={{
+          position: "absolute",
+          top: 10,
+          right: 10,
+          width: 30,
+          height: 30,
+          borderRadius: "50%",
+          background: "rgba(255,255,255,0.92)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          zIndex: 10,
+          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
         }}
       >
-        <Heart style={{ width: 15, height: 15, fill: favorite ? "#EF4444" : "none" }} />
+        <Heart
+          style={{
+            width: 15,
+            height: 15,
+            fill: favorite ? "#EF4444" : "none",
+            color: favorite ? "#EF4444" : "#94A3B8",
+          }}
+        />
       </div>
 
-      {/* PRODUCT IMAGE BOX WITH STRICT 170PX HEIGHT */}
-      <div className="deal-card-img-box" style={{ width: "100%", height: 170, maxHeight: 170, minHeight: 170, background: "#F8FAFC", borderRadius: 12, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 12 }}>
-        <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+      {/* PRODUCT IMAGE */}
+      <div
+        style={{
+          width: "100%",
+          height: 170,
+          background: "#F8FAFC",
+          borderRadius: 12,
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: 12,
+          position: "relative",
+        }}
+      >
+        <img
+          src={image}
+          alt={title}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+            transition: "transform 0.35s ease",
+            transform: hovered ? "scale(1.06)" : "scale(1)",
+          }}
+        />
+
+        {/* Hover overlay label */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: "20px 10px 8px",
+            background: "linear-gradient(to top, rgba(15,23,42,0.55) 0%, transparent 100%)",
+            display: "flex",
+            justifyContent: "center",
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.22s ease",
+            pointerEvents: "none",
+          }}
+        >
+          <span
+            style={{
+              color: "#FFF",
+              fontSize: 11.5,
+              fontWeight: 800,
+              letterSpacing: "0.04em",
+            }}
+          >
+            Voir le détail →
+          </span>
+        </div>
       </div>
 
-      {/* PRODUCT DETAILS */}
+      {/* PRODUCT INFO */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
         <div>
-          <div className="deal-card-title" style={{ fontSize: 13, fontWeight: 700, color: "#0F172A", lineHeight: 1.3, marginBottom: 6, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", height: 34 }}>
+          {/* Title */}
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 700,
+              color: "#0F172A",
+              lineHeight: 1.35,
+              marginBottom: 6,
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              height: 36,
+            }}
+          >
             {title}
           </div>
-          
-          <div className="deal-card-rating" style={{ fontSize: 11, color: "#94A3B8", marginBottom: 6, display: "flex", alignItems: "center", gap: 4 }}>
+
+          {/* Rating */}
+          <div
+            style={{
+              fontSize: 11,
+              color: "#94A3B8",
+              marginBottom: 6,
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
             <span style={{ color: "#F59E0B" }}>{rating}</span>
             <span>({reviewsCount})</span>
           </div>
-          
+
+          {/* Price */}
           <div style={{ display: "flex", alignItems: "baseline", gap: 6, flexWrap: "wrap" }}>
-            <span className="deal-card-price" style={{ fontSize: 15, fontWeight: 900, color: "#0F172A" }}>{price}</span>
-            {oldPrice && <span className="deal-card-oldprice" style={{ fontSize: 11, color: "#94A3B8", textDecoration: "line-through" }}>{oldPrice}</span>}
+            <span style={{ fontSize: 15, fontWeight: 900, color: "#0F172A" }}>{price}</span>
+            {oldPrice && (
+              <span style={{ fontSize: 11, color: "#94A3B8", textDecoration: "line-through" }}>
+                {oldPrice}
+              </span>
+            )}
           </div>
         </div>
 
-        <Link 
-          href={`/quote-request?prod=${encodeURIComponent(title)}`} 
-          className="btn btn-primary btn-pill-sm" 
-          style={{ width: "100%", marginTop: 12, padding: "8px 0", textAlign: "center", fontSize: 12, fontWeight: 800, borderRadius: 9999, background: "#165491", color: "#FFF" }}
+        {/* DEVIS BUTTON — stops link navigation, goes to quote instead */}
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = `/quote-request?prod=${encodeURIComponent(title)}`;
+          }}
+          style={{
+            marginTop: 12,
+            padding: "9px 0",
+            textAlign: "center",
+            fontSize: 12,
+            fontWeight: 800,
+            borderRadius: 9999,
+            background: "#165491",
+            color: "#FFF",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 6,
+            cursor: "pointer",
+            transition: "background 0.18s ease",
+          }}
         >
+          <ShoppingBag style={{ width: 13 }} />
           Demander un Devis
-        </Link>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
