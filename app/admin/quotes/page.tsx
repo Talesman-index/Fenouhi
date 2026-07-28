@@ -16,7 +16,9 @@ import {
   ChevronLeft,
   ChevronRight,
   ArrowRight,
-  Plus
+  Plus,
+  Plane,
+  Ship
 } from "lucide-react";
 import type { Quote, QuoteStatus } from "@/types/supabase";
 
@@ -273,8 +275,12 @@ export default function QuotesManagementPage() {
 
                     <td style={{ padding: "14px 16px" }}>
                       <div style={{ fontWeight: 700 }}>{q.quantity} unités</div>
-                      <span className="badge" style={{ background: q.shipping_mode === "air" ? "var(--orange-light)" : "var(--blue-light)", color: q.shipping_mode === "air" ? "var(--orange-hover)" : "var(--blue-primary)", fontSize: 10 }}>
-                        Fret {q.shipping_mode === "air" ? "Aérien ✈️" : "Maritime 🚢"}
+                      <span className="badge" style={{ background: q.shipping_mode === "air" ? "var(--orange-light)" : "var(--blue-light)", color: q.shipping_mode === "air" ? "var(--orange-hover)" : "var(--blue-primary)", fontSize: 10, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                        {q.shipping_mode === "air" ? (
+                          <><Plane style={{ width: 12, height: 12 }} /> Fret Aérien</>
+                        ) : (
+                          <><Ship style={{ width: 12, height: 12 }} /> Fret Maritime</>
+                        )}
                       </span>
                     </td>
 

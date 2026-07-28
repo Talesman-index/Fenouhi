@@ -5,7 +5,7 @@ import DashboardSidebar from "@/components/DashboardSidebar";
 import TrackingTimeline from "@/components/TrackingTimeline";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import { Package, Clock, CheckCircle, FileText, ArrowRight, User, PlusCircle } from "lucide-react";
+import { PlusCircle, FileText, ShoppingBag, Truck, ArrowRight, ShieldCheck, Clock, CheckCircle2, Package } from "lucide-react";
 import type { Profile } from "@/types/supabase";
 
 export default function DashboardPage() {
@@ -41,7 +41,7 @@ export default function DashboardPage() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 }}>
             <div style={{ minWidth: 0, flex: 1 }}>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(22, 84, 145, 0.08)", color: "#165491", padding: "4px 12px", borderRadius: 9999, fontSize: 11, fontWeight: 800, marginBottom: 8, letterSpacing: "0.5px" }}>
-                📦 PORTAIL CLIENT CARGOLINK
+                <Package style={{ width: 14, height: 14 }} /> PORTAIL CLIENT CARGOLINK
               </div>
               <h1 style={{ color: "#0F172A", fontSize: "clamp(20px, 4vw, 26px)", margin: 0, fontWeight: 900, lineHeight: 1.25, wordBreak: "break-word" }}>
                 Espace Client & Suivi Logistique

@@ -19,7 +19,9 @@ import {
   ChevronRight,
   PackageCheck,
   Ban,
-  Clock
+  Clock,
+  Plane,
+  Ship
 } from "lucide-react";
 import type { Order, OrderStatus, PaymentStatus, Profile, Supplier } from "@/types/supabase";
 
@@ -218,8 +220,12 @@ export default function OrdersManagementPage() {
 
                     <td style={{ padding: "14px 16px" }}>
                       <div style={{ fontWeight: 700 }}>{o.destination_city}, {o.destination_country}</div>
-                      <span className="badge" style={{ background: o.shipping_mode === "air" ? "var(--orange-light)" : "var(--blue-light)", color: o.shipping_mode === "air" ? "var(--orange-hover)" : "var(--blue-primary)", fontSize: 10 }}>
-                        {o.shipping_mode === "air" ? "✈️ Aérien" : "🚢 Maritime"}
+                      <span className="badge" style={{ background: o.shipping_mode === "air" ? "var(--orange-light)" : "var(--blue-light)", color: o.shipping_mode === "air" ? "var(--orange-hover)" : "var(--blue-primary)", fontSize: 10, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                        {o.shipping_mode === "air" ? (
+                          <><Plane style={{ width: 12, height: 12 }} /> Aérien</>
+                        ) : (
+                          <><Ship style={{ width: 12, height: 12 }} /> Maritime</>
+                        )}
                       </span>
                     </td>
 

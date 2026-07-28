@@ -15,24 +15,27 @@ import {
   ArrowLeft,
   Calculator,
   ShieldCheck,
-  FileText,
   Upload,
-  Sparkles,
-  HelpCircle,
   Phone,
-  MessageSquare,
   Globe,
   Clock,
-  Zap,
   Check,
   Plus,
   Minus,
-  AlertCircle,
   FileCode,
   DollarSign,
   Share2,
   Printer,
+  Smartphone,
+  Shirt,
+  ShoppingBag,
+  Wrench,
+  Zap,
+  Search,
+  MessageSquare,
+  Sparkles,
   ChevronRight,
+  HelpCircle,
 } from "lucide-react";
 
 type Currency = "FCFA" | "EUR" | "USD";
@@ -44,11 +47,11 @@ const CURRENCY_RATES: Record<Currency, { symbol: string; rate: number; label: st
 };
 
 const PRESET_CATEGORIES = [
-  { icon: "📱", label: "High-Tech & Audio", sample: "100 Casques Bluetooth ANC TWS" },
-  { icon: "👟", label: "Sneakers & Mode", sample: "50 paires Baskets Running Sport" },
-  { icon: "👜", label: "Bijoux & Sacs", sample: "30 Sacs à main cuir véritable" },
-  { icon: "⚙️", label: "Outillage & PME", sample: "5 Groupes Électrogènes 5kW Solaire" },
-  { icon: "⚡", label: "Panneaux Solaires", sample: "20 Panneaux Solaires 550W Monocristallin" },
+  { icon: Smartphone, label: "High-Tech & Audio", sample: "100 Casques Bluetooth ANC TWS" },
+  { icon: Shirt, label: "Sneakers & Mode", sample: "50 paires Baskets Running Sport" },
+  { icon: ShoppingBag, label: "Bijoux & Sacs", sample: "30 Sacs à main cuir véritable" },
+  { icon: Wrench, label: "Outillage & PME", sample: "5 Groupes Électrogènes 5kW Solaire" },
+  { icon: Zap, label: "Panneaux Solaires", sample: "20 Panneaux Solaires 550W Monocristallin" },
 ];
 
 function QuoteRequestContent() {
@@ -333,7 +336,7 @@ function QuoteRequestContent() {
 
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                       <span style={{ color: "var(--text-muted)" }}>Mode de transport :</span>
-                      <strong>{formData.shippingMode === "sea" ? "🚢 Fret Maritime CBM" : "✈️ Fret Aérien Express"}</strong>
+                      <strong>{formData.shippingMode === "sea" ? "Fret Maritime CBM" : "Fret Aérien Express"}</strong>
                     </div>
 
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -446,7 +449,7 @@ function QuoteRequestContent() {
                               transition: "all 0.18s ease",
                             }}
                           >
-                            <span>{cat.icon}</span> {cat.label}
+                            <cat.icon style={{ width: 14, height: 14 }} /> {cat.label}
                           </button>
                         ))}
                       </div>
@@ -576,17 +579,17 @@ function QuoteRequestContent() {
                             {
                               mode: "air" as const,
                               icon: Plane,
-                              title: "✈️ Fret Aérien Express",
+                              title: "Fret Aérien Express",
                               delay: "10–18 jours",
                               rate: "7 500 FCFA / kg",
-                              badge: "RECOMMANDE",
+                              badge: "RECOMMANDÉ",
                               color: "#0369A1",
                               bg: "#E0F2FE",
                             },
                             {
                               mode: "sea" as const,
                               icon: Ship,
-                              title: "🚢 Fret Maritime CBM",
+                              title: "Fret Maritime CBM",
                               delay: "30–45 jours",
                               rate: "185 000 FCFA / CBM",
                               badge: "ÉCONOMIQUE",
@@ -660,19 +663,19 @@ function QuoteRequestContent() {
                           {[
                             {
                               id: "optInspection",
-                              label: "🔍 Inspection Qualité à l'Entrepôt de Guangzhou",
+                              label: "Inspection Qualité à l'Entrepôt de Guangzhou",
                               sub: "Vérification conformité + rapport photo HD avant embarquement (+15 000 FCFA)",
                               checked: formData.optInspection,
                             },
                             {
                               id: "optReinforcedPackaging",
-                              label: "📦 Emballage Renforcé Caisse Bois / Bulle Étanche",
+                              label: "Emballage Renforcé Caisse Bois / Bulle Étanche",
                               sub: "Protection maximale contre les chocs et l'humidité pendant le transit (+5 000 FCFA)",
                               checked: formData.optReinforcedPackaging,
                             },
                             {
                               id: "optCustomBranding",
-                              label: "🏷️ Personnalisation Logo & Emballage Marque Propre",
+                              label: "Personnalisation Logo & Emballage Marque Propre",
                               sub: "Impression de votre logo sur cartons ou étiquettes produits (+10 000 FCFA)",
                               checked: formData.optCustomBranding,
                             },

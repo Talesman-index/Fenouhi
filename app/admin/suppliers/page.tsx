@@ -13,7 +13,8 @@ import {
   Mail,
   MapPin,
   CheckCircle2,
-  Edit
+  Edit,
+  Truck
 } from "lucide-react";
 import type { Supplier, PartnerType } from "@/types/supabase";
 
@@ -111,8 +112,12 @@ export default function SuppliersManagementPage() {
           <div key={sp.id} className="card" style={{ padding: 20, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 14 }}>
             <div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
-                <span className="badge" style={{ background: "var(--bg-main)", color: "var(--navy-dark)", border: "1px solid var(--border-light)", fontSize: 10 }}>
-                  {sp.partner_type === "supplier" ? "🏬 Usine / Fournisseur" : "🚚 Transitaire Fret"}
+                <span className="badge" style={{ background: "var(--bg-main)", color: "var(--navy-dark)", border: "1px solid var(--border-light)", fontSize: 10, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                  {sp.partner_type === "supplier" ? (
+                    <><Building2 style={{ width: 12, height: 12 }} /> Usine / Fournisseur</>
+                  ) : (
+                    <><Truck style={{ width: 12, height: 12 }} /> Transitaire Fret</>
+                  )}
                 </span>
                 <span style={{ fontSize: 12, fontWeight: 800, color: "var(--orange-primary)", display: "flex", alignItems: "center", gap: 3 }}>
                   <Star style={{ width: 13, fill: "var(--orange-primary)" }} /> {sp.rating}

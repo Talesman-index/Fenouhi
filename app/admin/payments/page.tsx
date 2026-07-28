@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import StatusBadge from "@/components/admin/StatusBadge";
 import { DEMO_PAYMENTS } from "@/lib/admin/demo-data";
-import { CreditCard, Search, DollarSign, CheckCircle2, Clock, AlertTriangle } from "lucide-react";
+import { CreditCard, Search, DollarSign, CheckCircle2, Clock, AlertTriangle, Smartphone, Landmark } from "lucide-react";
 
 export default function PaymentsManagementPage() {
   const [payments, setPayments] = useState<any[]>([]);
@@ -132,8 +132,12 @@ export default function PaymentsManagementPage() {
                     </td>
 
                     <td style={{ padding: "14px 16px" }}>
-                      <span className="badge" style={{ background: "var(--bg-main)", color: "var(--navy-dark)", border: "1px solid var(--border-light)", fontSize: 11 }}>
-                        {p.method === "mobile_money" ? "📱 Mobile Money" : "🏦 Virement Bancaire"}
+                      <span className="badge" style={{ background: "var(--bg-main)", color: "var(--navy-dark)", border: "1px solid var(--border-light)", fontSize: 11, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                        {p.method === "mobile_money" ? (
+                          <><Smartphone style={{ width: 12, height: 12 }} /> Mobile Money</>
+                        ) : (
+                          <><Landmark style={{ width: 12, height: 12 }} /> Virement Bancaire</>
+                        )}
                       </span>
                     </td>
 

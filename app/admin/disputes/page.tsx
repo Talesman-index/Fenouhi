@@ -127,8 +127,8 @@ export default function DisputesManagementPage() {
                     </td>
 
                     <td style={{ padding: "14px 16px" }}>
-                      <span className="badge" style={{ background: d.priority === "high" ? "var(--orange-light)" : "var(--bg-main)", color: d.priority === "high" ? "var(--orange-hover)" : "var(--navy-dark)", fontSize: 10 }}>
-                        {d.priority === "high" ? "⚠️ Élevée" : "Moyenne"}
+                      <span className="badge" style={{ background: d.priority === "high" ? "var(--orange-light)" : "var(--bg-main)", color: d.priority === "high" ? "var(--orange-hover)" : "var(--navy-dark)", fontSize: 10, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                        {d.priority === "high" ? <><AlertTriangle style={{ width: 12, height: 12 }} /> Élevée</> : "Moyenne"}
                       </span>
                     </td>
 

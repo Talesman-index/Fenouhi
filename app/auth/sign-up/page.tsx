@@ -8,7 +8,7 @@ import { z } from "zod";
 import { 
   UserPlus, ArrowRight, ArrowLeft, AlertCircle, CheckCircle2, 
   ShieldCheck, Eye, EyeOff, User, Mail, Phone, MapPin, Building, 
-  Lock, Check, Sparkles, Package, Shield, Store, Briefcase
+  Lock, Check, Sparkles, Package, Shield, Store, Briefcase, Building2
 } from "lucide-react";
 import type { AccountType } from "@/types/supabase";
 
@@ -646,8 +646,8 @@ export default function SignUpPage() {
 
               {/* REASSURANCE BADGES */}
               <div style={{ background: "#F8FAFC", padding: 14, borderRadius: 14, border: "1px solid #E2E8F0" }}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", marginBottom: 6 }}>
-                  🛡️ Vos garanties CargoLink Africa :
+                <div style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", marginBottom: 6, display: "inline-flex", alignItems: "center", gap: 6 }}>
+                  <ShieldCheck style={{ width: 14, height: 14, color: "var(--orange-primary)" }} /> Vos garanties CargoLink Africa :
                 </div>
                 <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: "#64748B", display: "flex", flexDirection: "column", gap: 4 }}>
                   <li>Cryptage de sécurité SSL 256-bit de vos données d'expédition.</li>

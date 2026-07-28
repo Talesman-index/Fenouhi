@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import StatusBadge from "@/components/admin/StatusBadge";
 import { DEMO_SHIPMENTS } from "@/lib/admin/demo-data";
-import { Search } from "lucide-react";
+import { Search, Plane, Ship } from "lucide-react";
 import type { Shipment } from "@/types/supabase";
 
 export default function ShipmentsManagementPage() {
@@ -122,8 +122,12 @@ export default function ShipmentsManagementPage() {
 
                     <td style={{ padding: "14px 16px" }}>
                       <div style={{ fontWeight: 800, color: "var(--navy-dark)" }}>{s.carrier || "CargoLink Direct"}</div>
-                      <span className="badge" style={{ background: s.shipping_mode === "air" ? "var(--orange-light)" : "var(--blue-light)", color: s.shipping_mode === "air" ? "var(--orange-hover)" : "var(--blue-primary)", fontSize: 10 }}>
-                        {s.shipping_mode === "air" ? "✈️ Fret Aérien" : "🚢 Fret Maritime"}
+                      <span className="badge" style={{ background: s.shipping_mode === "air" ? "var(--orange-light)" : "var(--blue-light)", color: s.shipping_mode === "air" ? "var(--orange-hover)" : "var(--blue-primary)", fontSize: 10, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                        {s.shipping_mode === "air" ? (
+                          <><Plane style={{ width: 12, height: 12 }} /> Fret Aérien</>
+                        ) : (
+                          <><Ship style={{ width: 12, height: 12 }} /> Fret Maritime</>
+                        )}
                       </span>
                     </td>
 

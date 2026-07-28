@@ -18,7 +18,9 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  UserPlus
+  UserPlus,
+  User,
+  Building2
 } from "lucide-react";
 import type { Profile, UserRole, UserStatus } from "@/types/supabase";
 
@@ -232,8 +234,12 @@ export default function UsersManagementPage() {
                   <tr key={u.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
                     <td style={{ padding: "14px 16px", fontWeight: 800, color: "var(--navy-dark)" }}>
                       {u.first_name} {u.last_name}
-                      <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 500 }}>
-                        {u.account_type === "business" ? "🏢 Entreprise" : "👤 Particulier"}
+                      <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 500, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                        {u.account_type === "business" ? (
+                          <><Building2 style={{ width: 12, height: 12 }} /> Entreprise</>
+                        ) : (
+                          <><User style={{ width: 12, height: 12 }} /> Particulier</>
+                        )}
                       </div>
                     </td>
 
