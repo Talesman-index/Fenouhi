@@ -18,22 +18,22 @@ export default async function AdminLayout({
   const { profile } = await requireAdmin();
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg-main)", display: "flex", flexDirection: "column" }}>
-      {/* STICKY TOP HEADER */}
+    <div style={{ minHeight: "100vh", background: "var(--bg-main)", display: "flex", flexDirection: "column", width: "100%" }}>
+      {/* STICKY TOP ADMIN HEADER */}
       <AdminHeader profile={profile} />
 
-      {/* MAIN CONTAINER */}
-      <div className="container" style={{ flex: 1, padding: "24px 16px 40px", maxWidth: 1440 }}>
+      {/* FULL-WIDTH DASHBOARD CONTENT AREA */}
+      <div style={{ flex: 1, padding: "20px 32px 40px", width: "100%", boxSizing: "border-box" }}>
         <Breadcrumbs />
 
-        <div className="admin-layout-grid" style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 24, alignItems: "start" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 28, alignItems: "start", width: "100%" }}>
           {/* DESKTOP SIDEBAR */}
-          <div className="admin-desktop-sidebar">
+          <aside style={{ width: 260, position: "sticky", top: 80 }}>
             <AdminSidebar profile={profile} />
-          </div>
+          </aside>
 
           {/* MAIN CONTENT AREA */}
-          <main style={{ minWidth: 0 }}>
+          <main style={{ minWidth: 0, width: "100%", boxSizing: "border-box" }}>
             {children}
           </main>
         </div>
