@@ -43,6 +43,18 @@ export async function middleware(request: NextRequest) {
     const isDashboardRoute = pathname.startsWith("/dashboard");
     const isAdminRoute = pathname.startsWith("/admin");
 
+    // Check for demo bypass via query param or cookie
+    const hasDemoParam = request.nextUrl.searchParams.get("demo") === "true" || request.nextUrl.searchParams.get("preview") === "admin";
+    const hasDemoCookie = request.cookies.get("admin_demo_access")?.value === "true";
+    const isDemoMode = hasDemoParam || hasDemoCookie;
+
+    if (isAdminRoute && isDemoMode) {
+      if (hasDemoParam && !hasDemoCookie) {
+        response.cookies.set("admin_demo_access", "true", { path: "/", maxAge: 60 * 60 * 24 * 7 });
+      }
+      return response;
+    }
+
     // 1. If user is NOT logged in and tries to access protected routes (/dashboard or /admin)
     if (!user && (isDashboardRoute || isAdminRoute)) {
       const url = request.nextUrl.clone();

@@ -236,20 +236,29 @@ function LoginFormContent() {
             </div>
 
             {/* QUICK DEMO LOGIN HELPER */}
-            <div style={{ marginTop: 16, background: "#F8FAFC", border: "1px solid #E2E8F0", padding: "10px 14px", borderRadius: 12, textAlign: "center" }}>
-              <div style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", marginBottom: 6 }}>
-                💡 Test rapide sans inscription :
+            <div style={{ marginTop: 16, background: "#F8FAFC", border: "1px solid #E2E8F0", padding: "12px 14px", borderRadius: 12, textAlign: "center", display: "flex", flexDirection: "column", gap: 8 }}>
+              <div style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A" }}>
+                💡 Accès rapide de démonstration :
               </div>
-              <button
-                type="button"
-                onClick={() => {
-                  setEmail("demo@cargolink.africa");
-                  setPassword("CargoLink2026!");
-                }}
-                style={{ background: "#FFFFFF", border: "1px solid #CBD5E1", borderRadius: 9999, padding: "6px 14px", fontSize: 12, fontWeight: 800, color: "#165491", cursor: "pointer", transition: "all 0.2s ease" }}
-              >
-                Remplir avec demo@cargolink.africa
-              </button>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail("demo@cargolink.africa");
+                    setPassword("CargoLink2026!");
+                  }}
+                  style={{ flex: 1, minWidth: 140, background: "#FFFFFF", border: "1px solid #CBD5E1", borderRadius: 9999, padding: "7px 12px", fontSize: 11.5, fontWeight: 800, color: "#165491", cursor: "pointer" }}
+                >
+                  Compte Client Démo
+                </button>
+
+                <Link
+                  href="/admin?demo=true"
+                  style={{ flex: 1, minWidth: 140, background: "var(--navy-dark)", border: "none", borderRadius: 9999, padding: "7px 12px", fontSize: 11.5, fontWeight: 900, color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center" }}
+                >
+                  🔑 Espace Admin Démo
+                </Link>
+              </div>
             </div>
 
           </form>
