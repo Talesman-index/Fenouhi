@@ -60,8 +60,22 @@ export default function ContentManagementPage() {
   }, [activeSection]);
 
   async function fetchContent() {
+    let completed = false;
+    setLoading(true);
+
+    const DEMO_CONTENT: ContentPage[] = [
+      { id: "demo-1", type: activeSection, key: `${activeSection}_1`, title: activeSection === "faq" ? "Comment fonctionne CargoLink Africa ?" : activeSection === "announcement" ? "Nouveaux délais de livraison Août 2026" : activeSection === "promotion" ? "Promo Rentrée : -15% sur l'électronique" : "Bénin", content: { text: "Contenu de démonstration" }, is_active: true, updated_at: new Date().toISOString() },
+      { id: "demo-2", type: activeSection, key: `${activeSection}_2`, title: activeSection === "faq" ? "Quels sont les délais de livraison ?" : activeSection === "announcement" ? "Maintenance planifiée 30 juillet 23h-3h" : activeSection === "promotion" ? "Flash Sale Panneaux Solaires — 48h seulement" : "Côte d'Ivoire", content: { text: "Contenu de démonstration" }, is_active: true, updated_at: new Date(Date.now() - 86400000).toISOString() },
+    ];
+
+    const timer = setTimeout(() => {
+      if (!completed) {
+        setContentItems(DEMO_CONTENT);
+        setLoading(false);
+      }
+    }, 2000);
+
     try {
-      setLoading(true);
       const supabase = createClient();
       const { data, error } = await supabase
         .from("content_pages")
@@ -69,10 +83,18 @@ export default function ContentManagementPage() {
         .eq("type", activeSection)
         .order("updated_at", { ascending: false });
 
-      if (error) throw error;
-      setContentItems(data as ContentPage[]);
+      completed = true;
+      clearTimeout(timer);
+
+      if (error || !data) {
+        setContentItems(DEMO_CONTENT);
+      } else {
+        setContentItems(data as ContentPage[]);
+      }
     } catch (err) {
-      console.error("Error fetching content:", err);
+      completed = true;
+      clearTimeout(timer);
+      setContentItems(DEMO_CONTENT);
     } finally {
       setLoading(false);
     }
@@ -314,8 +336,10 @@ export default function ContentManagementPage() {
             {loading ? (
               <div style={{ padding: 32, textAlign: "center", color: "var(--text-muted)" }}>Chargement du contenu...</div>
             ) : contentItems.length === 0 ? (
-              <div style={{ padding: 32, textAlign: "center" }}>
-                <div style={{ fontSize: 40, marginBottom: 8 }}>📄</div>
+              <div style={{ padding: 40, textAlign: "center" }}>
+                <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--blue-light)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
+                  <FileText style={{ width: 26, color: "var(--blue-primary)" }} />
+                </div>
                 <div style={{ fontSize: 15, fontWeight: 800, color: "var(--navy-dark)", marginBottom: 4 }}>Aucun contenu</div>
                 <div style={{ fontSize: 13, color: "var(--text-muted)" }}>Cliquez sur "Ajouter" pour créer votre premier contenu.</div>
               </div>

@@ -18,17 +18,17 @@ export default async function AdminLayout({
   const { profile } = await requireAdmin();
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg-main)", display: "flex", flexDirection: "column", width: "100%" }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg-main)", display: "flex", flexDirection: "column" }}>
       {/* STICKY TOP ADMIN HEADER */}
       <AdminHeader profile={profile} />
 
-      {/* FULL-WIDTH DASHBOARD CONTENT AREA */}
-      <div style={{ flex: 1, padding: "20px 32px 40px", width: "100%", boxSizing: "border-box" }}>
+      {/* CONTENT AREA — fixed max-width so layout never stretches on wide screens */}
+      <div style={{ flex: 1, width: "100%", maxWidth: 1600, margin: "0 auto", padding: "24px 28px 48px", boxSizing: "border-box" }}>
         <Breadcrumbs />
 
-        <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 28, alignItems: "start", width: "100%" }}>
+        <div className="admin-layout-grid" style={{ display: "grid", gridTemplateColumns: "256px 1fr", gap: 24, alignItems: "start" }}>
           {/* DESKTOP SIDEBAR */}
-          <aside style={{ width: 260, position: "sticky", top: 80 }}>
+          <aside className="admin-desktop-sidebar" style={{ position: "sticky", top: 86, maxHeight: "calc(100vh - 106px)", overflowY: "auto" }}>
             <AdminSidebar profile={profile} />
           </aside>
 

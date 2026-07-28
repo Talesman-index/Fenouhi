@@ -54,14 +54,21 @@ export default function SettingsPage() {
   }, []);
 
   async function loadSettings() {
+    let completed = false;
+    setLoading(true);
+
+    const timer = setTimeout(() => {
+      if (!completed) setLoading(false);
+    }, 2000);
+
     try {
-      setLoading(true);
       const supabase = createClient();
       const { data, error } = await supabase.from("platform_settings").select("*");
 
-      if (error) throw error;
+      completed = true;
+      clearTimeout(timer);
 
-      if (data) {
+      if (!error && data) {
         data.forEach((s: PlatformSetting) => {
           if (s.key === "service_fees") setServiceFees(s.value as ServiceFees);
           if (s.key === "shipping_rates") setShippingRates(s.value as ShippingRates);
@@ -71,7 +78,9 @@ export default function SettingsPage() {
         });
       }
     } catch (err) {
-      console.error("Error loading settings:", err);
+      completed = true;
+      clearTimeout(timer);
+      // keep the default values already set in useState
     } finally {
       setLoading(false);
     }

@@ -113,6 +113,17 @@ svg.logo-img, .logo-img {
   .admin-user-info-text {
     display: none !important;
   }
+  .admin-logout-label {
+    display: none !important;
+  }
+}
+
+/* Admin header always spans full viewport width */
+header.admin-header-full {
+  width: 100vw !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 40 !important;
 }
 
 /* =========================================================
@@ -177,3 +188,45 @@ input:focus, select:focus, textarea:focus {
   border-radius: 6px;
   padding: 4px 10px;
 }
+
+/* Skeleton loading pulse */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.skeleton {
+  background: #E2E8F0;
+  border-radius: 6px;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+/* Admin rectangular buttons (override landing page pill style for admin pages) */
+.admin-layout-grid .btn,
+main .btn {
+  border-radius: 8px !important;
+  border: 1px solid #E2E8F0 !important;
+  font-size: 13px !important;
+  padding: 8px 16px !important;
+}
+
+.admin-layout-grid .btn-primary,
+main .btn-primary {
+  background: var(--blue-primary, #165491) !important;
+  border-color: var(--blue-primary, #165491) !important;
+  color: #FFFFFF !important;
+}
+
+.admin-layout-grid .btn-primary:hover,
+main .btn-primary:hover {
+  background: #1a65ab !important;
+  transform: none !important;
+}
+
+.admin-layout-grid .btn-orange,
+main .btn-orange {
+  background: var(--orange-primary, #F97316) !important;
+  border-color: var(--orange-primary, #F97316) !important;
+  color: #FFFFFF !important;
+}
+
