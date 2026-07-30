@@ -118,6 +118,9 @@ export default function PwaInstallPrompt() {
           </button>
         </div>
 
+        {/* Scrollable body */}
+        <div className="pwa-modal__body">
+
         {/* Intro */}
         <p className="pwa-modal__intro">
           Installez l&apos;app sur votre écran d&apos;accueil pour un accès
@@ -130,13 +133,21 @@ export default function PwaInstallPrompt() {
             className={`pwa-tab ${activeTab === "android" ? "active" : ""}`}
             onClick={() => setActiveTab("android")}
           >
-            <span className="pwa-tab__icon">📱</span> Android
+            {/* Android robot icon */}
+            <svg className="pwa-tab__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zm-2.5-1C4.67 17 5.5 16.33 5.5 15.5v-7C5.5 7.67 4.83 7 4 7s-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5zm15 0c.83 0 1.5-.67 1.5-1.5v-7C20 7.67 19.33 7 18.5 7S17 7.67 17 8.5v7c0 .83.67 1.5 1.5 1.5zM15.53 2.16l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 1.23 12.95 1 12 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.97 3.26 6 5.01 6 7h12c0-1.99-.97-3.75-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/>
+            </svg>
+            Android
           </button>
           <button
             className={`pwa-tab ${activeTab === "ios" ? "active" : ""}`}
             onClick={() => setActiveTab("ios")}
           >
-            <span className="pwa-tab__icon">🍎</span> iPhone / iPad
+            {/* Apple logo icon */}
+            <svg className="pwa-tab__icon" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46.7 790.7 0 663 0 541.8c0-207.3 142.3-317.3 282.7-317.3 75.2 0 137.7 49.5 184.9 49.5 44.9 0 115.1-52.6 199.2-52.6zm-234-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/>
+            </svg>
+            iPhone / iPad
           </button>
         </div>
 
@@ -279,7 +290,7 @@ export default function PwaInstallPrompt() {
               </div>
             </div>
             <div className="pwa-ios-tip">
-              💡 Sur iPhone, l&apos;app s&apos;ouvre ensuite en plein écran, sans
+              Astuce — Sur iPhone, l&apos;app s&apos;ouvre ensuite en plein écran, sans
               la barre d&apos;adresse Safari.
             </div>
           </div>
@@ -292,6 +303,8 @@ export default function PwaInstallPrompt() {
         >
           Fermer
         </button>
+
+        </div>{/* end pwa-modal__body */}
       </div>
     </>
   );
@@ -317,11 +330,37 @@ const modalStyles = `
     z-index: 9999;
     background: #FFFFFF;
     border-radius: 24px 24px 0 0;
-    padding: 28px 22px 36px;
     max-width: 520px;
     margin: 0 auto;
     box-shadow: 0 -20px 60px rgba(0,0,0,0.22);
     animation: pwa-slide-up 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+    /* Constrain height so it never clips the header */
+    max-height: 88dvh;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .pwa-modal__header {
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    background: #FFFFFF;
+    z-index: 2;
+    padding: 22px 22px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* subtle separator when scrolled */
+    border-bottom: 1px solid transparent;
+  }
+
+  .pwa-modal__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 22px 36px;
+    -webkit-overflow-scrolling: touch;
   }
 
   @media (min-width: 560px) {
@@ -333,7 +372,6 @@ const modalStyles = `
       transform: translate(-50%, -50%) !important;
       border-radius: 24px;
       max-height: 90vh;
-      overflow-y: auto;
       animation: pwa-pop-in 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
     }
   }
@@ -351,12 +389,7 @@ const modalStyles = `
     to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   }
 
-  .pwa-modal__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
+  /* header is now defined above in the flex layout block */
 
   .pwa-modal__header-left {
     display: flex;
@@ -438,7 +471,11 @@ const modalStyles = `
     box-shadow: 0 2px 8px rgba(0,0,0,0.09);
   }
 
-  .pwa-tab__icon { font-size: 15px; }
+  .pwa-tab__icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
 
   .pwa-modal__steps {
     display: flex;
