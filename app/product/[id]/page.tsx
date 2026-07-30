@@ -58,8 +58,8 @@ export default function ProductDetailPage() {
   const productTotal = quantity * unitPrice;
   const serviceFeeRate = 0.05;
   const serviceFee = Math.round(productTotal * serviceFeeRate);
-  const airRatePerKg = 7500;
-  const seaRateCBM = 185000;
+  const airRatePerKg = 2500;   // FCFA/kg (air freight China → Bénin)
+  const seaRateCBM = 95000;   // FCFA/CBM (sea freight)
   const estimatedWeight = parseFloat(product.weight) * quantity;
   const estimatedVolume = parseFloat(product.volume) * quantity;
   const shippingFee =
@@ -237,25 +237,27 @@ export default function ProductDetailPage() {
                 <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
                   QUANTITÉ À COMMANDER (min. {product.minQty} unités) :
                 </label>
-                <div style={{ display: "flex", alignItems: "center", gap: 0, border: "2px solid var(--border-light)", borderRadius: "var(--radius-sm)", width: "fit-content", overflow: "hidden" }}>
+                <div style={{ display: "inline-flex", alignItems: "center", border: "2px solid var(--border-light)", borderRadius: "var(--radius-sm)", overflow: "hidden", userSelect: "none" }}>
                   <button
-                    onClick={() => setQuantity((q) => Math.max(product.minQty, q - (q <= 50 ? 1 : 10)))}
-                    style={{ width: 40, height: 42, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-main)", border: "none", cursor: "pointer", fontWeight: 900, fontSize: 18 }}
+                    type="button"
+                    aria-label="Diminuer la quantité"
+                    onClick={() => setQuantity((q) => Math.max(product.minQty, q - 1))}
+                    style={{ width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-main)", border: "none", cursor: "pointer", color: "var(--navy-dark)" }}
                   >
-                    <Minus style={{ width: 16 }} />
+                    <Minus style={{ width: 16, height: 16 }} />
                   </button>
-                  <input
-                    type="number"
-                    value={quantity}
-                    min={product.minQty}
-                    onChange={(e) => setQuantity(Math.max(product.minQty, Number(e.target.value)))}
-                    style={{ width: 80, height: 42, border: "none", textAlign: "center", fontWeight: 900, fontSize: 16, background: "#FFF", outline: "none" }}
-                  />
-                  <button
-                    onClick={() => setQuantity((q) => q + (q < 50 ? 1 : 10))}
-                    style={{ width: 40, height: 42, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-main)", border: "none", cursor: "pointer", fontWeight: 900, fontSize: 18 }}
+                  <span
+                    style={{ minWidth: 60, height: 44, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 17, color: "var(--navy-dark)", background: "#FFF", borderLeft: "1px solid var(--border-light)", borderRight: "1px solid var(--border-light)", paddingInline: 12 }}
                   >
-                    <Plus style={{ width: 16 }} />
+                    {quantity}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label="Augmenter la quantité"
+                    onClick={() => setQuantity((q) => q + 1)}
+                    style={{ width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-main)", border: "none", cursor: "pointer", color: "var(--navy-dark)" }}
+                  >
+                    <Plus style={{ width: 16, height: 16 }} />
                   </button>
                 </div>
               </div>
