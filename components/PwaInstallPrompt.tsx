@@ -26,23 +26,24 @@ function isInStandaloneMode(): boolean {
 }
 
 export default function PwaInstallPrompt() {
-  const [deferredPrompt, setDeferredPrompt] =
-    useState<BeforeInstallPromptEvent | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showBanner, setShowBanner] = useState(false);
   const [showIosTip, setShowIosTip] = useState(false);
+  const [showGuideModal, setShowGuideModal] = useState(false);
   const [platform, setPlatform] = useState<Platform>(null);
-  const [dismissed, setDismissed] = useState(false);
   const [installed, setInstalled] = useState(false);
 
   useEffect(() => {
-    if (isInStandaloneMode()) return; // Already installed
+    if (isInStandaloneMode()) {
+      setInstalled(true);
+      return;
+    }
     const p = detectPlatform();
     setPlatform(p);
 
-    const wasDismissed = sessionStorage.getItem("pwa-banner-dismissed") === "1";
-    if (wasDismissed) return;
+    // Re-enable banner on every page refresh if not installed
+    setShowBanner(true);
 
-    // Android / Desktop: listen for the browser prompt event
     const handler = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
@@ -50,42 +51,54 @@ export default function PwaInstallPrompt() {
     };
     window.addEventListener("beforeinstallprompt", handler);
 
-    // iOS: show manual instructions after 3s
     if (p === "ios") {
-      const timer = setTimeout(() => setShowIosTip(true), 3000);
-      return () => {
-        clearTimeout(timer);
-        window.removeEventListener("beforeinstallprompt", handler);
-      };
+      const timer = setTimeout(() => setShowIosTip(true), 2000);
+      return () => clearTimeout(timer);
     }
 
-    // Track successful install
+    const handleCustomTrigger = () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+      } else if (detectPlatform() === "ios") {
+        setShowIosTip(true);
+      } else {
+        setShowGuideModal(true);
+      }
+    };
+
+    window.addEventListener("trigger-pwa-install", handleCustomTrigger);
     window.addEventListener("appinstalled", () => {
       setInstalled(true);
       setShowBanner(false);
+      setShowGuideModal(false);
       setDeferredPrompt(null);
     });
 
-    return () => window.removeEventListener("beforeinstallprompt", handler);
-  }, []);
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handler);
+      window.removeEventListener("trigger-pwa-install", handleCustomTrigger);
+    };
+  }, [deferredPrompt]);
 
   const handleInstall = async () => {
-    if (!deferredPrompt) return;
-    await deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === "accepted") setInstalled(true);
-    setDeferredPrompt(null);
-    setShowBanner(false);
+    if (deferredPrompt) {
+      await deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === "accepted") setInstalled(true);
+      setDeferredPrompt(null);
+      setShowBanner(false);
+    } else {
+      setShowGuideModal(true);
+    }
   };
 
   const handleDismiss = () => {
     setShowBanner(false);
     setShowIosTip(false);
-    setDismissed(true);
-    sessionStorage.setItem("pwa-banner-dismissed", "1");
+    setShowGuideModal(false);
   };
 
-  if (dismissed || installed) return null;
+  if (installed) return null;
 
   // ── Android/Desktop Banner ────────────────────────────────────────────────
   if (showBanner && (platform === "android" || platform === "desktop")) {
@@ -141,6 +154,34 @@ export default function PwaInstallPrompt() {
           </button>
         </div>
       </>
+    );
+  }
+
+  // ── Guide Modal ───────────────────────────────────────────────────────────
+  if (showGuideModal) {
+    return (
+      <div style={{ position: "fixed", inset: 0, zIndex: 10000, background: "rgba(15, 23, 42, 0.75)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+        <div style={{ background: "#FFFFFF", borderRadius: 24, padding: "28px 24px", maxWidth: 420, width: "100%", border: "1px solid #E2E8F0", boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icons/icon-96x96.png" alt="CargoLink" width={48} height={48} style={{ borderRadius: 12 }} />
+            <div>
+              <h3 style={{ margin: 0, fontSize: 18, fontWeight: 900, color: "#0F172A" }}>Installer l'Application</h3>
+              <p style={{ margin: "2px 0 0", fontSize: 12, color: "#64748B" }}>CargoLink Africa — PWA Web App</p>
+            </div>
+          </div>
+          <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.5, marginBottom: 16 }}>
+            Pour installer CargoLink sur votre écran d&apos;accueil et profiter du mode hors-ligne :
+          </p>
+          <div style={{ background: "#F8FAFC", borderRadius: 12, padding: 14, fontSize: 12.5, color: "#0F172A", display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
+            <div>📲 <strong>Sur Chrome / Android :</strong> Cliquez sur le menu <strong>⋮</strong> en haut à droite &rarr; <em>&laquo;&nbsp;Installer l&apos;application&nbsp;&raquo;</em> ou <em>&laquo;&nbsp;Ajouter à l&apos;écran d&apos;accueil&nbsp;&raquo;</em>.</div>
+            <div>🍎 <strong>Sur Safari (iPhone/iPad) :</strong> Appuyez sur le bouton de partage <strong>⎋</strong> &rarr; <em>&laquo;&nbsp;Sur l&apos;écran d&apos;accueil&nbsp;&raquo;</em>.</div>
+          </div>
+          <button onClick={handleDismiss} style={{ width: "100%", padding: 12, background: "#0F172A", color: "#FFF", border: "none", borderRadius: 12, fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
+            J&apos;ai compris
+          </button>
+        </div>
+      </div>
     );
   }
 

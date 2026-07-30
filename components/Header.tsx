@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import { 
   Menu, X, Search, PlusCircle, Grid, User, LogIn, UserPlus,
   MapPin, ChevronDown, Gift, Radio, Home, Package, ShieldCheck, 
-  HelpCircle, Building2, ShoppingBag
+  HelpCircle, Building2, ShoppingBag, Download
 } from "lucide-react";
 
 export default function Header() {
@@ -281,6 +281,34 @@ export default function Header() {
               <Link href="/suppliers" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
                 <Building2 style={{ width: 18, color: "#165491" }} /> Usines Partenaires Chine
               </Link>
+            </li>
+            <li style={{ marginTop: 6 }}>
+              <button
+                onClick={() => {
+                  toggleDrawer();
+                  window.dispatchEvent(new CustomEvent("trigger-pwa-install"));
+                }}
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  padding: "11px 14px",
+                  borderRadius: 12,
+                  color: "#FFFFFF",
+                  fontWeight: 900,
+                  fontSize: 13.5,
+                  background: "linear-gradient(135deg, #0F172A 0%, #165491 100%)",
+                  border: "none",
+                  cursor: "pointer",
+                  textAlign: "left",
+                  boxShadow: "0 4px 14px rgba(15, 23, 42, 0.15)"
+                }}
+              >
+                <Download style={{ width: 18, color: "#38BDF8" }} />
+                <span>Installer l'App Mobile</span>
+                <span style={{ marginLeft: "auto", background: "#38BDF8", color: "#0F172A", fontSize: 9.5, fontWeight: 900, padding: "2px 8px", borderRadius: 9999 }}>PWA</span>
+              </button>
             </li>
           </ul>
 

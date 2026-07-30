@@ -19,19 +19,19 @@ export default function HomePage() {
   ];
 
   const todayDeals = [
-    { id: "1", title: "Montre Connectée SmartFit Pro X GPS", price: "12 500 FCFA", oldPrice: "18 000 FCFA", image: "/images/assets/item_1.jpg" },
-    { id: "2", title: "Écouteurs Bluetooth ANC SoundBass Pro", price: "8 900 FCFA", oldPrice: "14 000 FCFA", image: "/images/assets/item_2.jpg" },
-    { id: "3", title: "Casque Audio Over-Ear Wireless Hi-Fi", price: "15 000 FCFA", oldPrice: "22 000 FCFA", image: "/images/assets/item_3.jpg" },
-    { id: "4", title: "Coffret Montres & Bijoux Luxury 24k", price: "6 800 FCFA", oldPrice: "9 500 FCFA", image: "/images/assets/item_7.jpg" },
-    { id: "5", title: "Baskets Urban High-Top Sneaker Pro", price: "8 500 FCFA", oldPrice: "12 000 FCFA", image: "/images/assets/item_4.jpg" },
+    { id: "1", title: "Montre Connectée SmartFit Pro X GPS", price: "3 500 FCFA", oldPrice: "5 500 FCFA", image: "/images/assets/item_1.jpg" },
+    { id: "2", title: "Écouteurs Bluetooth ANC SoundBass Pro", price: "2 200 FCFA", oldPrice: "4 000 FCFA", image: "/images/assets/item_2.jpg" },
+    { id: "3", title: "Casque Audio Over-Ear Wireless Hi-Fi", price: "4 500 FCFA", oldPrice: "7 000 FCFA", image: "/images/assets/item_3.jpg" },
+    { id: "4", title: "Coffret Montres & Bijoux Luxury 24k", price: "1 800 FCFA", oldPrice: "3 000 FCFA", image: "/images/assets/item_7.jpg" },
+    { id: "5", title: "Baskets Urban High-Top Sneaker Pro", price: "2 800 FCFA", oldPrice: "4 500 FCFA", image: "/images/assets/item_4.jpg" },
   ];
 
   const fashionProducts = [
-    { id: "6", title: "T-Shirt Graphic Streetwear Red Edition", price: "8 000 FCFA", oldPrice: "12 000 FCFA", image: "/images/assets/item_6.jpg" },
-    { id: "7", title: "Sac de Voyage & Maroquinerie Luxe", price: "21 990 FCFA", oldPrice: "28 000 FCFA", image: "/images/assets/hero_bag.png" },
-    { id: "8", title: "T-Shirt Workwear Vintage Impermeable", price: "12 000 FCFA", oldPrice: "16 000 FCFA", image: "/images/assets/item_8.jpg" },
-    { id: "9", title: "Sacoches & Trousses Waterproof Voyage", price: "4 500 FCFA", oldPrice: "7 000 FCFA", image: "/images/assets/item_9.jpg" },
-    { id: "10", title: "Chaussures Trail Outdoor Casual", price: "18 000 FCFA", oldPrice: "24 000 FCFA", image: "/images/assets/item_11.jpg" },
+    { id: "6", title: "T-Shirt Graphic Streetwear Red Edition", price: "1 200 FCFA", oldPrice: "2 000 FCFA", image: "/images/assets/item_6.jpg" },
+    { id: "7", title: "Sac de Voyage & Maroquinerie Luxe", price: "3 400 FCFA", oldPrice: "5 000 FCFA", image: "/images/assets/hero_bag.png" },
+    { id: "8", title: "T-Shirt Workwear Vintage Impermeable", price: "3 200 FCFA", oldPrice: "5 000 FCFA", image: "/images/assets/item_8.jpg" },
+    { id: "9", title: "Sacoches & Trousses Waterproof Voyage", price: "750 FCFA", oldPrice: "1 400 FCFA", image: "/images/assets/item_9.jpg" },
+    { id: "10", title: "Parka Rembourrée Capuche Fourrure", price: "4 800 FCFA", oldPrice: "7 500 FCFA", image: "/images/assets/item_10.jpg" },
   ];
 
   const laptopsShowcase = [
