@@ -43,20 +43,23 @@ export async function middleware(request: NextRequest) {
     const isAdminRoute = pathname.startsWith("/admin");
 
     // Check for demo bypass via query param or cookie FIRST before any network calls
-    const hasDemoParam = request.nextUrl.searchParams.get("demo") === "true" || request.nextUrl.searchParams.get("preview") === "admin";
-    const hasDemoCookie = request.cookies.get("admin_demo_access")?.value === "true";
-    const isDemoMode = hasDemoParam || hasDemoCookie;
+    const hasDemoParam = request.nextUrl.searchParams.get("demo") === "true" || request.nextUrl.searchParams.get("preview") === "admin" || request.nextUrl.searchParams.get("preview") === "client";
+    const hasAdminDemoCookie = request.cookies.get("admin_demo_access")?.value === "true";
+    const hasClientDemoCookie = request.cookies.get("client_demo_access")?.value === "true";
 
-    if (isAdminRoute && isDemoMode) {
-      // Build modified request headers so Server Components see x-demo-mode: true
+    if (isAdminRoute && (hasDemoParam || hasAdminDemoCookie)) {
       const requestHeaders = new Headers(request.headers);
       requestHeaders.set("x-demo-mode", "true");
-
       const demoResponse = NextResponse.next({ request: { headers: requestHeaders } });
-
-      // Also set the persistent cookie so navigation within /admin keeps working
       demoResponse.cookies.set("admin_demo_access", "true", { path: "/", maxAge: 60 * 60 * 24 * 7 });
+      return demoResponse;
+    }
 
+    if (isDashboardRoute && (hasDemoParam || hasClientDemoCookie)) {
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("x-demo-mode", "true");
+      const demoResponse = NextResponse.next({ request: { headers: requestHeaders } });
+      demoResponse.cookies.set("client_demo_access", "true", { path: "/", maxAge: 60 * 60 * 24 * 7 });
       return demoResponse;
     }
 

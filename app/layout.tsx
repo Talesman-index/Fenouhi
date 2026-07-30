@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Outfit } from "next/font/google";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import PwaRegister from "@/components/PwaRegister";
 import PwaInstallPrompt from "@/components/PwaInstallPrompt";
@@ -12,7 +12,14 @@ const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   display: "swap",
-  variable: "--font-plus-jakarta",
+  variable: "--font-body",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-heading",
 });
 
 export const viewport: Viewport = {
@@ -62,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={plusJakarta.variable}>
+    <html lang="fr" className={`${plusJakarta.variable} ${outfit.variable}`}>
       <body className={plusJakarta.className}>
         <LayoutWrapper>{children}</LayoutWrapper>
         {/* PWA: Service Worker registration */}

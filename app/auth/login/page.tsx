@@ -58,10 +58,11 @@ function LoginFormContent() {
         }
       }
 
-      if (authError) {
+      if (authError || email.toLowerCase().trim() === "demo@cargolink.africa") {
         if (email.toLowerCase().trim() === "demo@cargolink.africa") {
+          document.cookie = "client_demo_access=true; path=/; max-age=604800";
           setLoading(false);
-          router.push("/dashboard");
+          router.push("/dashboard?demo=true");
           router.refresh();
           return;
         }
@@ -244,17 +245,19 @@ function LoginFormContent() {
                 <button
                   type="button"
                   onClick={() => {
+                    document.cookie = "client_demo_access=true; path=/; max-age=604800";
                     setEmail("demo@cargolink.africa");
                     setPassword("CargoLink2026!");
+                    router.push("/dashboard?demo=true");
                   }}
-                  style={{ flex: 1, minWidth: 140, background: "#FFFFFF", border: "1px solid #CBD5E1", borderRadius: 9999, padding: "7px 12px", fontSize: 11.5, fontWeight: 800, color: "#165491", cursor: "pointer" }}
+                  style={{ flex: 1, minWidth: 140, background: "#165491", border: "none", borderRadius: 9999, padding: "8px 12px", fontSize: 11.5, fontWeight: 900, color: "#FFFFFF", cursor: "pointer" }}
                 >
-                  Compte Client Démo
+                  🚀 Espace Client Démo
                 </button>
 
                 <Link
                   href="/admin?demo=true"
-                  style={{ flex: 1, minWidth: 140, background: "var(--navy-dark)", border: "none", borderRadius: 9999, padding: "7px 12px", fontSize: 11.5, fontWeight: 900, color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center" }}
+                  style={{ flex: 1, minWidth: 140, background: "var(--navy-dark)", border: "none", borderRadius: 9999, padding: "8px 12px", fontSize: 11.5, fontWeight: 900, color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center" }}
                 >
                   🔑 Espace Admin Démo
                 </Link>
