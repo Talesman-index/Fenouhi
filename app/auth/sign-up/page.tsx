@@ -345,7 +345,7 @@ export default function SignUpPage() {
               </div>
 
               {/* PRÉNOM & NOM */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 4 }}>
+              <div className="form-row-2col" style={{ marginTop: 4 }}>
                 <div>
                   <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
                     PRÉNOM *
@@ -481,7 +481,7 @@ export default function SignUpPage() {
               </div>
 
               {/* PAYS DE LIVRAISON & VILLE */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div className="form-row-2col">
                 <div>
                   <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
                     PAYS DE LIVRAISON *
@@ -583,7 +583,7 @@ export default function SignUpPage() {
             <form onSubmit={handleSubmitFinal} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               
               {/* MOT DE PASSE & CONFIRMATION */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div className="form-row-2col">
                 <div>
                   <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
                     MOT DE PASSE (MIN. 8 CARACTÈRES) *

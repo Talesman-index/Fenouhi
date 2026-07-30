@@ -155,7 +155,7 @@ export default function ProductDetailPage() {
 
             {/* Trust Badges */}
             <div className="card" style={{ padding: "14px 18px" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <div className="product-trust-badges-grid">
                 {[
                   { icon: ShieldCheck, label: "Inspection qualité", sub: "Chaque lot vérifié" },
                   { icon: Award, label: "Origine certifiée", sub: "Fournisseur vérifié" },
@@ -372,7 +372,7 @@ export default function ProductDetailPage() {
         {/* ================================================================ */}
         <div className="card" style={{ padding: 0, overflow: "hidden", marginTop: 28 }}>
           {/* Tab Headers */}
-          <div style={{ display: "flex", borderBottom: "2px solid var(--border-light)", background: "#FAFAFA" }}>
+          <div className="product-tabs-header">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
@@ -397,7 +397,7 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Tab Content */}
-          <div style={{ padding: 28 }}>
+          <div className="product-tab-content-container">
             {/* DESCRIPTION */}
             {activeTab === "description" && (
               <div>
@@ -407,7 +407,7 @@ export default function ProductDetailPage() {
                 <h3 style={{ fontSize: 15, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 14 }}>
                   Caractéristiques clés
                 </h3>
-                <ul style={{ listStyle: "none", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 10 }}>
+                <ul style={{ listStyle: "none", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 10 }}>
                   {product.features.map((f) => (
                     <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
                       <CheckCircle2 style={{ width: 18, color: "var(--green-success)", flexShrink: 0, marginTop: 1 }} />
@@ -422,32 +422,34 @@ export default function ProductDetailPage() {
             {activeTab === "specs" && (
               <div>
                 <h3 style={{ fontSize: 15, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 16 }}>Fiche Technique Complète</h3>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <tbody>
-                    {product.specifications.map((spec, idx) => (
-                      <tr key={spec.label} style={{ background: idx % 2 === 0 ? "var(--bg-main)" : "#FFF" }}>
-                        <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)", width: "38%" }}>
-                          {spec.label}
-                        </td>
-                        <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>
-                          {spec.value}
-                        </td>
+                <div style={{ overflowX: "auto" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 280 }}>
+                    <tbody>
+                      {product.specifications.map((spec, idx) => (
+                        <tr key={spec.label} style={{ background: idx % 2 === 0 ? "var(--bg-main)" : "#FFF" }}>
+                          <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)", width: "38%" }}>
+                            {spec.label}
+                          </td>
+                          <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>
+                            {spec.value}
+                          </td>
+                        </tr>
+                      ))}
+                      <tr style={{ background: "var(--bg-main)" }}>
+                        <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)" }}>Poids unitaire</td>
+                        <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.weight}</td>
                       </tr>
-                    ))}
-                    <tr style={{ background: "var(--bg-main)" }}>
-                      <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)" }}>Poids unitaire</td>
-                      <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.weight}</td>
-                    </tr>
-                    <tr>
-                      <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)" }}>Volume unitaire</td>
-                      <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.volume}</td>
-                    </tr>
-                    <tr style={{ background: "var(--bg-main)" }}>
-                      <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)" }}>Origine</td>
-                      <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.origin}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                      <tr>
+                        <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)" }}>Volume unitaire</td>
+                        <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.volume}</td>
+                      </tr>
+                      <tr style={{ background: "var(--bg-main)" }}>
+                        <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)" }}>Origine</td>
+                        <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.origin}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
 
@@ -455,7 +457,7 @@ export default function ProductDetailPage() {
             {activeTab === "reviews" && (
               <div>
                 {/* Rating Summary */}
-                <div style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 28, padding: 20, background: "var(--bg-main)", borderRadius: "var(--radius-sm)" }}>
+                <div className="product-reviews-summary-box">
                   <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: 52, fontWeight: 900, color: "var(--navy-dark)", lineHeight: 1 }}>{product.rating}</div>
                     <div style={{ display: "flex", gap: 3, justifyContent: "center", margin: "6px 0" }}>

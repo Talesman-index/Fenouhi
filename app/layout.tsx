@@ -1,7 +1,10 @@
 import React from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import LayoutWrapper from "@/components/LayoutWrapper";
+import PwaRegister from "@/components/PwaRegister";
+import PwaInstallPrompt from "@/components/PwaInstallPrompt";
+import OfflineStatusIndicator from "@/components/OfflineStatusIndicator";
 import "./style.css";
 import "./globals.css";
 
@@ -12,9 +15,45 @@ const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
 });
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#165491" },
+    { media: "(prefers-color-scheme: dark)", color: "#0F172A" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+};
+
 export const metadata: Metadata = {
   title: "CargoLink Africa — Plateforme d'Achat et d'Expédition Chine → Afrique",
-  description: "Achetez en Chine et faites-vous livrer en Afrique. Devis transparents, Fret Aérien & Maritime, Suivi logistique et Mobile Money.",
+  description:
+    "Achetez en Chine et faites-vous livrer en Afrique. Devis transparents, Fret Aérien & Maritime, Suivi logistique et Mobile Money.",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "CargoLink Africa",
+    startupImage: [
+      {
+        url: "/icons/apple-touch-icon.png",
+      },
+    ],
+  },
+  icons: {
+    icon: [
+      { url: "/icons/icon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+    "msapplication-TileColor": "#165491",
+    "msapplication-TileImage": "/icons/icon-192x192.png",
+  },
 };
 
 export default function RootLayout({
@@ -26,6 +65,12 @@ export default function RootLayout({
     <html lang="fr" className={plusJakarta.variable}>
       <body className={plusJakarta.className}>
         <LayoutWrapper>{children}</LayoutWrapper>
+        {/* PWA: Service Worker registration */}
+        <PwaRegister />
+        {/* PWA: Install prompt banner */}
+        <PwaInstallPrompt />
+        {/* PWA: Offline real-time status toast */}
+        <OfflineStatusIndicator />
       </body>
     </html>
   );

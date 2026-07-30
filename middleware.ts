@@ -9,7 +9,9 @@ export async function middleware(request: NextRequest) {
   });
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const supabaseKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
     return response;
@@ -58,8 +60,18 @@ export async function middleware(request: NextRequest) {
       return demoResponse;
     }
 
-    // Refresh session safely
-    const { data: { user } } = await supabase.auth.getUser();
+    // Refresh session safely with 500ms timeout to prevent hanging on network/DNS issues
+    let user = null;
+    try {
+      const authPromise = supabase.auth.getUser();
+      const timeoutPromise = new Promise<{ data: { user: null } }>((resolve) =>
+        setTimeout(() => resolve({ data: { user: null } }), 500)
+      );
+      const authRes = await Promise.race([authPromise, timeoutPromise]);
+      user = authRes?.data?.user ?? null;
+    } catch {
+      user = null;
+    }
 
     // 1. If user is NOT logged in and tries to access protected routes (/dashboard or /admin)
     if (!user && (isDashboardRoute || isAdminRoute)) {
@@ -95,6 +107,7 @@ export async function middleware(request: NextRequest) {
     }
   } catch (err) {
     // Edge recovery: return response
+    return response;
   }
 
   return response;

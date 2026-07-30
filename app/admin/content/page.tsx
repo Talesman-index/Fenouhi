@@ -208,7 +208,7 @@ export default function ContentManagementPage() {
         </h1>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 20, alignItems: "start" }}>
+      <div className="admin-content-grid">
         {/* SECTION SELECTOR SIDEBAR */}
         <div className="card" style={{ padding: 12 }}>
           <div style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", padding: "8px 12px 4px", textTransform: "uppercase" }}>Sections</div>
