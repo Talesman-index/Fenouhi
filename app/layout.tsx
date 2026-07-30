@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Outfit } from "next/font/google";
 import LayoutWrapper from "@/components/LayoutWrapper";
+import Preloader from "@/components/Preloader";
 import PwaRegister from "@/components/PwaRegister";
 import PwaInstallPrompt from "@/components/PwaInstallPrompt";
 import OfflineStatusIndicator from "@/components/OfflineStatusIndicator";
@@ -71,6 +72,8 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${plusJakarta.variable} ${outfit.variable}`}>
       <body className={plusJakarta.className}>
+        {/* App Splash / PWA Preloader */}
+        <Preloader />
         <LayoutWrapper>{children}</LayoutWrapper>
         {/* PWA: Service Worker registration */}
         <PwaRegister />
