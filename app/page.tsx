@@ -81,19 +81,19 @@ export default function HomePage() {
 
             {/* SIDE BANNER */}
             <div className="hero-banner-side">
-              <div>
-                <span className="badge" style={{ background: "var(--green-bg)", color: "var(--green-success)", marginBottom: 8 }}>
-                  SUIVI GPS LOGISTIQUE
+              <div className="hero-banner-side-content">
+                <span className="hero-side-badge">
+                  ✈ SUIVI GPS LOGISTIQUE
                 </span>
-                <h2 style={{ fontSize: 22, fontWeight: 900, color: "#FFF", marginBottom: 6 }}>
-                  Vol Direct Guangzhou ➔ Cotonou
+                <h2 className="hero-side-title">
+                  Vol Direct<br />Guangzhou ➔ Cotonou
                 </h2>
-                <p style={{ fontSize: 12.5, color: "#94A3B8" }}>
-                  Livraison Aérienne Express 5 à 10 jours.
+                <p className="hero-side-desc">
+                  Livraison Aérienne Express<br />5 à 10 jours ouvrés.
                 </p>
               </div>
-              <Link href="/dashboard" className="btn btn-pill-sm" style={{ background: "#FFF", color: "var(--navy-dark)", width: "fit-content" }}>
-                Suivre mon colis
+              <Link href="/dashboard" className="hero-side-cta">
+                Suivre mon colis <span>→</span>
               </Link>
               <img className="hero-banner-side-img" src="/images/assets/hero_samsung.png" alt="Samsung S24" />
             </div>
