@@ -36,7 +36,7 @@ export default function ProductDetailPage() {
 
   const product = getProductById(id);
 
-  const [quantity, setQuantity] = useState(product?.minQty ?? 10);
+  const [quantity, setQuantity] = useState(1);
   const [shippingMode, setShippingMode] = useState<"air" | "sea">("air");
   const [activeTab, setActiveTab] = useState<TabId>("description");
   const [activeImage, setActiveImage] = useState(0);
@@ -210,8 +210,6 @@ export default function ProductDetailPage() {
                 </div>
                 <span style={{ fontSize: 13, fontWeight: 700, color: "var(--navy-dark)" }}>{product.rating}</span>
                 <span style={{ fontSize: 12, color: "var(--text-muted)" }}>({product.reviewsCount} avis)</span>
-                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>•</span>
-                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Min. {product.minQty} unités</span>
               </div>
 
               {/* Price Display */}
@@ -235,13 +233,13 @@ export default function ProductDetailPage() {
               {/* Quantity Selector */}
               <div style={{ marginBottom: 16 }}>
                 <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
-                  QUANTITÉ À COMMANDER (min. {product.minQty} unités) :
+                  QUANTITÉ À COMMANDER :
                 </label>
                 <div style={{ display: "inline-flex", alignItems: "center", border: "2px solid var(--border-light)", borderRadius: "var(--radius-sm)", overflow: "hidden", userSelect: "none" }}>
                   <button
                     type="button"
                     aria-label="Diminuer la quantité"
-                    onClick={() => setQuantity((q) => Math.max(product.minQty, q - 1))}
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                     style={{ width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-main)", border: "none", cursor: "pointer", color: "var(--navy-dark)" }}
                   >
                     <Minus style={{ width: 16, height: 16 }} />
