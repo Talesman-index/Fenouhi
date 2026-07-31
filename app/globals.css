@@ -45,7 +45,7 @@ svg.logo-img, img.logo-img, .logo-img {
 .logo-text-main {
   font-size: 20px !important;
   font-weight: 900 !important;
-  color: var(--navy-dark, #0F172A) !important;
+  color: var(--navy-dark, #0F172A);
   line-height: 1 !important;
   letter-spacing: -0.5px !important;
 }
@@ -53,7 +53,7 @@ svg.logo-img, img.logo-img, .logo-img {
 .logo-text-sub {
   font-size: 8.5px !important;
   font-weight: 800 !important;
-  color: var(--blue-primary, #165491) !important;
+  color: var(--blue-primary, #165491);
   letter-spacing: 0.5px !important;
   margin-top: 2px !important;
 }
