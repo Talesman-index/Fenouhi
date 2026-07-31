@@ -10,6 +10,14 @@ export default function Preloader() {
   const [isPWA, setIsPWA] = useState(false);
 
   useEffect(() => {
+    // Remove static HTML initial splash screen if present
+    if (typeof document !== "undefined") {
+      const initialSplash = document.getElementById("initial-splash-screen");
+      if (initialSplash) {
+        initialSplash.remove();
+      }
+    }
+
     // Detect if running inside PWA standalone mode
     if (typeof window !== "undefined") {
       const isStandalone =

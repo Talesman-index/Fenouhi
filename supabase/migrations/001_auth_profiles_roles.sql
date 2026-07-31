@@ -133,18 +133,35 @@ BEGIN
     country,
     city,
     account_type,
-    role
+    role,
+    avatar_url
   )
   SELECT
     NEW.id,
-    COALESCE(NULLIF(NEW.raw_user_meta_data->>'first_name', ''), 'Utilisateur'),
-    COALESCE(NULLIF(NEW.raw_user_meta_data->>'last_name', ''),  'CargoLink'),
+    COALESCE(
+      NULLIF(NEW.raw_user_meta_data->>'first_name', ''),
+      NULLIF(NEW.raw_user_meta_data->>'given_name', ''),
+      NULLIF(split_part(NEW.raw_user_meta_data->>'full_name', ' ', 1), ''),
+      NULLIF(split_part(NEW.raw_user_meta_data->>'name', ' ', 1), ''),
+      'Utilisateur'
+    ),
+    COALESCE(
+      NULLIF(NEW.raw_user_meta_data->>'last_name', ''),
+      NULLIF(NEW.raw_user_meta_data->>'family_name', ''),
+      NULLIF(substring(NEW.raw_user_meta_data->>'full_name' from position(' ' in COALESCE(NEW.raw_user_meta_data->>'full_name', '')) + 1), ''),
+      NULLIF(substring(NEW.raw_user_meta_data->>'name' from position(' ' in COALESCE(NEW.raw_user_meta_data->>'name', '')) + 1), ''),
+      'CargoLink'
+    ),
     COALESCE(NEW.email, ''),
     NEW.raw_user_meta_data->>'phone',
     COALESCE(NULLIF(NEW.raw_user_meta_data->>'country', ''), 'Bénin'),
     COALESCE(NULLIF(NEW.raw_user_meta_data->>'city', ''),    'Cotonou'),
     COALESCE(NULLIF(NEW.raw_user_meta_data->>'account_type', ''), 'individual'),
-    'customer'    -- Toujours 'customer' à la création — seul l'admin peut changer le rôle
+    'customer',    -- Toujours 'customer' à la création — seul l'admin peut changer le rôle
+    COALESCE(
+      NULLIF(NEW.raw_user_meta_data->>'avatar_url', ''),
+      NULLIF(NEW.raw_user_meta_data->>'picture', '')
+    )
   WHERE NOT EXISTS (
     SELECT 1 FROM public.profiles WHERE id = NEW.id
   );
@@ -158,6 +175,23 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW
   EXECUTE FUNCTION public.handle_new_user();
+
+-- Auto-confirmation automatique des emails à la création de compte
+CREATE OR REPLACE FUNCTION public.auto_confirm_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.email_confirmed_at IS NULL THEN
+    NEW.email_confirmed_at = NOW();
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+
+DROP TRIGGER IF EXISTS on_auth_user_before_insert ON auth.users;
+CREATE TRIGGER on_auth_user_before_insert
+  BEFORE INSERT ON auth.users
+  FOR EACH ROW
+  EXECUTE FUNCTION public.auto_confirm_user();
 
 -- ===========================================================================
 -- 8. FONCTION HELPER : Vérifier le rôle sans récursion RLS
@@ -202,7 +236,7 @@ CREATE POLICY "Users can view own profile"
   ON public.profiles
   FOR SELECT
   TO authenticated
-  USING (auth.uid() = id);
+  USING ((SELECT auth.uid()) = id);
 
 -- Politique 2 : Un utilisateur peut modifier son propre profil
 -- (le trigger prevent_profile_restricted_updates empêche de se donner le rôle admin)
@@ -210,8 +244,8 @@ CREATE POLICY "Users can update own profile"
   ON public.profiles
   FOR UPDATE
   TO authenticated
-  USING (auth.uid() = id)
-  WITH CHECK (auth.uid() = id);
+  USING ((SELECT auth.uid()) = id)
+  WITH CHECK ((SELECT auth.uid()) = id);
 
 -- Politique 3 : Les admins peuvent voir tous les profils
 CREATE POLICY "Admins can view all profiles"

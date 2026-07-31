@@ -42,11 +42,7 @@ export async function requireAdmin(): Promise<{ user: any; profile: Profile }> {
   
   let user: any = null;
   try {
-    const authPromise = supabase.auth.getUser();
-    const timeoutPromise = new Promise<any>((resolve) =>
-      setTimeout(() => resolve({ data: { user: null }, error: new Error("Timeout") }), 800)
-    );
-    const { data, error: userError } = await Promise.race([authPromise, timeoutPromise]);
+    const { data, error: userError } = await supabase.auth.getUser();
     if (!userError && data?.user) {
       user = data.user;
     }

@@ -70,9 +70,82 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${plusJakarta.variable} ${outfit.variable}`}>
-      <body className={plusJakarta.className}>
-        {/* App Splash / PWA Preloader */}
+    <html lang="fr" className={`${plusJakarta.variable} ${outfit.variable}`} style={{ backgroundColor: "#0F172A" }}>
+      <body className={plusJakarta.className} style={{ backgroundColor: "#0F172A", margin: 0, padding: 0 }}>
+        {/* Instant Static HTML/CSS Critical Splash Screen (0ms white flash prevention) */}
+        <div
+          id="initial-splash-screen"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "#0F172A",
+            zIndex: 9999999,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#FFFFFF",
+            fontFamily: "system-ui, -apple-system, sans-serif",
+            userSelect: "none",
+          }}
+        >
+          <div
+            style={{
+              position: "relative",
+              width: "90px",
+              height: "90px",
+              borderRadius: "22px",
+              padding: "4px",
+              background: "linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(56, 189, 248, 0.3) 50%, rgba(22, 84, 145, 0.5) 100%)",
+              boxShadow: "0 16px 40px -10px rgba(56, 189, 248, 0.4)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: "18px",
+            }}
+          >
+            <img
+              src="/icons/icon-192x192.png"
+              alt="CargoLink Africa"
+              width="82"
+              height="82"
+              style={{ objectFit: "contain", borderRadius: "18px" }}
+            />
+          </div>
+
+          <div style={{ fontSize: "24px", fontWeight: 900, color: "#FFFFFF", marginBottom: "4px", letterSpacing: "-0.5px" }}>
+            CargoLink <span style={{ color: "#38BDF8" }}>Africa</span>
+          </div>
+
+          <div style={{ fontSize: "12px", color: "#94A3B8", fontWeight: 500, marginBottom: "20px" }}>
+            Chargement sécurisé de l'application...
+          </div>
+
+          <div
+            style={{
+              width: "160px",
+              height: "5px",
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+              borderRadius: "10px",
+              overflow: "hidden",
+              position: "relative",
+            }}
+          >
+            <div
+              style={{
+                width: "40%",
+                height: "100%",
+                background: "linear-gradient(90deg, #165491, #38BDF8)",
+                borderRadius: "10px",
+              }}
+            />
+          </div>
+        </div>
+
+        {/* App Splash / PWA Preloader (React Interactive Hydration) */}
         <Preloader />
         <LayoutWrapper>{children}</LayoutWrapper>
         {/* PWA: Service Worker registration */}

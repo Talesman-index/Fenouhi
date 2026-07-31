@@ -18,12 +18,20 @@ export default function Header() {
   const pathname = usePathname();
 
   useEffect(() => {
+    const supabase = createClient();
     async function checkAuth() {
-      const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       setIsLoggedIn(!!user);
     }
     checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session?.user);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [pathname]);
 
   useEffect(() => {

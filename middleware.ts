@@ -63,15 +63,13 @@ export async function middleware(request: NextRequest) {
       return demoResponse;
     }
 
-    // Refresh session safely with 500ms timeout to prevent hanging on network/DNS issues
+    // Refresh session safely via Supabase Auth
     let user = null;
     try {
-      const authPromise = supabase.auth.getUser();
-      const timeoutPromise = new Promise<{ data: { user: null } }>((resolve) =>
-        setTimeout(() => resolve({ data: { user: null } }), 500)
-      );
-      const authRes = await Promise.race([authPromise, timeoutPromise]);
-      user = authRes?.data?.user ?? null;
+      const { data, error } = await supabase.auth.getUser();
+      if (!error && data?.user) {
+        user = data.user;
+      }
     } catch {
       user = null;
     }
@@ -84,17 +82,22 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // 2. If user IS logged in and tries to access /admin
-    if (user && isAdminRoute) {
+    // Fetch user profile if user exists and needs role-based routing
+    let userRole = "customer";
+    if (user) {
       const { data: profile } = await supabase
         .from("profiles")
         .select("role")
         .eq("id", user.id)
         .single();
+      if (profile?.role) {
+        userRole = profile.role;
+      }
+    }
 
-      const userRole = profile?.role;
-      const isAdmin = userRole === "admin" || userRole === "super_admin";
-
+    // 2. If user IS logged in and tries to access /admin
+    if (user && isAdminRoute) {
+      const isAdmin = ["admin", "super_admin", "agent", "logistics"].includes(userRole);
       if (!isAdmin) {
         const url = request.nextUrl.clone();
         url.pathname = "/unauthorized";
@@ -105,7 +108,8 @@ export async function middleware(request: NextRequest) {
     // 3. If user IS logged in and tries to access auth routes (/auth/login or /auth/sign-up)
     if (user && isAuthRoute) {
       const url = request.nextUrl.clone();
-      url.pathname = "/dashboard";
+      const isAdmin = ["admin", "super_admin", "agent", "logistics"].includes(userRole);
+      url.pathname = isAdmin ? "/admin" : "/dashboard";
       return NextResponse.redirect(url);
     }
   } catch (err) {
