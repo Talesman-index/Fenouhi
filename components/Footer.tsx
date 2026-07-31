@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import { Store, Box, CreditCard, Headphones, Facebook, Instagram } from "lucide-react";
 
 export default function Footer() {
@@ -49,6 +50,11 @@ export default function Footer() {
               <div className="guarantee-card-sub">24/7 Amazing services</div>
             </div>
           </div>
+        </div>
+
+        {/* BRAND LOGO ROW */}
+        <div style={{ marginBottom: 24, paddingTop: 10 }}>
+          <Logo size={42} />
         </div>
 
         {/* 2. MAIN 4 NAVIGATION COLUMNS */}

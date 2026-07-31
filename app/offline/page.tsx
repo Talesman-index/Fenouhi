@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 export default function OfflinePage() {
   const [isOnline, setIsOnline] = useState(false);
@@ -225,13 +226,9 @@ export default function OfflinePage() {
       `}</style>
 
       <div className="offline-root">
-        {/* Logo icon */}
-        <div className="offline-icon-wrap">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
-            <path d="M12 29 L24 13 L36 29 H30 L24 21 L18 29 Z" fill="#FFFFFF" />
-            <path d="M14 32 H34 C34 36 29 38 24 38 C19 38 14 36 14 32 Z" fill="#38BDF8" />
-            <circle cx="24" cy="11" r="3" fill="#38BDF8" />
-          </svg>
+        {/* Logo */}
+        <div style={{ marginBottom: 20 }}>
+          <Logo light size={48} />
         </div>
 
         {/* Status badge */}

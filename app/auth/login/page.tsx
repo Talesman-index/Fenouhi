@@ -4,6 +4,7 @@ import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import Logo from "@/components/Logo";
 import { LogIn, AlertCircle, Eye, EyeOff, Mail, Lock, ShieldCheck, ArrowRight } from "lucide-react";
 import type { UserRole } from "@/types/supabase";
 
@@ -53,19 +54,16 @@ function LoginFormContent() {
         });
 
         if (!signUpError && signUpData.user) {
-          authData = signUpData;
+          const { data: retryAuth } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+          authData = retryAuth;
           authError = null;
         }
       }
 
-      if (authError || email.toLowerCase().trim() === "demo@cargolink.africa") {
-        if (email.toLowerCase().trim() === "demo@cargolink.africa") {
-          document.cookie = "client_demo_access=true; path=/; max-age=604800";
-          setLoading(false);
-          router.push("/dashboard?demo=true");
-          router.refresh();
-          return;
-        }
+      if (authError) {
         setLoading(false);
         setErrorMsg("Email ou mot de passe incorrect.");
         return;
@@ -103,17 +101,7 @@ function LoginFormContent() {
         
         {/* BRAND LOGO BADGE */}
         <div style={{ textAlign: "center", marginBottom: 24 }}>
-          <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 10, textDecoration: "none", marginBottom: 12 }}>
-            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 44, height: 44 }}>
-              <rect width="40" height="40" rx="10" fill="#0F172A"/>
-              <path d="M20 8L31 29H24.5L20 20L15.5 29H9L20 8Z" fill="#165491"/>
-              <circle cx="20" cy="14" r="3" fill="#FFF"/>
-            </svg>
-            <div style={{ textAlign: "left" }}>
-              <span style={{ fontSize: 24, fontWeight: 900, color: "#0F172A", display: "block", lineHeight: 1 }}>CargoLink</span>
-              <span style={{ fontSize: 9, fontWeight: 800, color: "#165491", letterSpacing: "0.5px" }}>LOGISTIQUE CHINE - AFRIQUE</span>
-            </div>
-          </Link>
+          <Logo href="/" size={44} />
         </div>
 
         {/* LOGIN CARD */}

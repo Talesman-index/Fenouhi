@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import Logo from "@/components/Logo";
 import { Search, Bell, Menu, X, ShieldAlert, LogOut, Package, CheckCircle2, FileText } from "lucide-react";
 import type { Profile } from "@/types/supabase";
 
@@ -27,7 +28,7 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
-    router.push(`/admin/orders?q=${encodeURIComponent(searchQuery)}`);
+    router.push(`/admin/quotes?search=${encodeURIComponent(searchQuery.trim())}`);
   };
 
   const notificationsMock = [
@@ -38,13 +39,11 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
 
   return (
     <header
+      className="admin-header-full"
       style={{
-        height: 70,
         background: "#FFFFFF",
         borderBottom: "1px solid var(--border-light)",
-        position: "sticky",
-        top: 0,
-        zIndex: 40,
+        height: 64,
         display: "flex",
         alignItems: "center",
         padding: "0 24px"
@@ -70,15 +69,7 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
             <Menu style={{ width: 24, height: 24 }} />
           </button>
 
-          <Link href="/admin" className="logo-box">
-            <div style={{ width: 36, height: 36, borderRadius: 8, background: "var(--navy-dark)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--orange-primary)", fontWeight: 900, fontSize: 18 }}>
-              C
-            </div>
-            <div className="logo-text-wrap">
-              <span className="logo-text-main" style={{ fontSize: 17 }}>CargoLink</span>
-              <span className="logo-text-sub">ADMINISTRATION</span>
-            </div>
-          </Link>
+          <Logo href="/admin" size={36} subtitleText="ADMINISTRATION" />
         </div>
 
         {/* CENTER SECTION: GLOBAL SEARCH BAR */}

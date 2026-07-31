@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import { PackageX, Home, ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
@@ -15,6 +16,9 @@ export default function NotFound() {
         background: "var(--bg-main)",
       }}
     >
+      <div style={{ marginBottom: 20 }}>
+        <Logo href="/" size={44} />
+      </div>
       <div
         style={{
           width: 80,

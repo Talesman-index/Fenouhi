@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import Logo from "@/components/Logo";
 import { z } from "zod";
 import { 
   UserPlus, ArrowRight, ArrowLeft, AlertCircle, CheckCircle2, 
@@ -157,17 +158,7 @@ export default function SignUpPage() {
         
         {/* LOGO BRANDING */}
         <div style={{ textAlign: "center", marginBottom: 20 }}>
-          <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 10, textDecoration: "none", marginBottom: 8 }}>
-            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 42, height: 42 }}>
-              <rect width="40" height="40" rx="10" fill="#0F172A"/>
-              <path d="M20 8L31 29H24.5L20 20L15.5 29H9L20 8Z" fill="#165491"/>
-              <circle cx="20" cy="14" r="3" fill="#FFF"/>
-            </svg>
-            <div style={{ textAlign: "left" }}>
-              <span style={{ fontSize: 24, fontWeight: 900, color: "#0F172A", display: "block", lineHeight: 1 }}>CargoLink</span>
-              <span style={{ fontSize: 9, fontWeight: 800, color: "#165491", letterSpacing: "0.5px" }}>LOGISTIQUE CHINE - AFRIQUE</span>
-            </div>
-          </Link>
+          <Logo href="/" size={42} />
         </div>
 
         {/* MAIN STEPPER CARD */}

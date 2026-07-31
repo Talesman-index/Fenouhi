@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import Logo from "@/components/Logo";
 import { 
   Menu, X, Search, PlusCircle, Grid, User, LogIn, UserPlus,
   MapPin, ChevronDown, Gift, Radio, Home, Package, ShieldCheck, 
@@ -45,25 +46,15 @@ export default function Header() {
         <div className="container">
           
           {/* TOP ROW: LOGO, SEARCH (DESKTOP) & ACTIONS */}
-          <div className="header-top-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+          <div className="header-top-row">
             
             {/* LOGO & HAMBURGER */}
-            <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+            <div className="header-logo-wrap">
               <button className="mobile-menu-btn" onClick={toggleDrawer} aria-label="Menu Mobile">
                 <Menu style={{ width: 24, height: 24, color: "#0F172A" }} />
               </button>
               
-              <Link href="/" className="brand-logo" style={{ display: "inline-flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-                <svg className="logo-img" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 38, height: 38, flexShrink: 0 }}>
-                  <rect width="40" height="40" rx="10" fill="#0F172A"/>
-                  <path d="M20 8L31 29H24.5L20 20L15.5 29H9L20 8Z" fill="#165491"/>
-                  <circle cx="20" cy="14" r="3" fill="#FFF"/>
-                </svg>
-                <div className="logo-text-wrap" style={{ display: "flex", flexDirection: "column" }}>
-                  <span className="logo-text-main" style={{ fontSize: 21, fontWeight: 900, color: "#0F172A", lineHeight: 1, letterSpacing: "-0.5px" }}>CargoLink</span>
-                  <span className="logo-text-sub" style={{ fontSize: 8.5, fontWeight: 800, color: "#165491", letterSpacing: "0.5px", marginTop: 3 }}>LOGISTIQUE CHINE - AFRIQUE</span>
-                </div>
-              </Link>
+              <Logo href="/" size={38} />
             </div>
 
             {/* SEARCH BAR (DESKTOP ONLY - HIDDEN ON MOBILE/TABLET STRICTLY) */}
@@ -87,7 +78,7 @@ export default function Header() {
             </div>
 
             {/* RIGHT CONTROLS (ONLY DEVIS GRATUIT ON MOBILE) */}
-            <div className="header-right-actions" style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+            <div className="header-right-actions">
               
               {/* LOCATION PICKER (DESKTOP ONLY) */}
               <div className="desktop-only" style={{ alignItems: "center", gap: 6, fontSize: 12, color: "#475569", cursor: "pointer" }}>
@@ -121,8 +112,8 @@ export default function Header() {
               )}
 
               {/* DEVIS GRATUIT BUTTON (ALWAYS VISIBLE - DESKTOP & MOBILE) */}
-              <Link href="/quote-request" className="btn btn-orange btn-pill-sm" style={{ padding: "8.5px 18px", fontSize: 13, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
-                <PlusCircle style={{ width: 15 }} /> <span>Devis Gratuit</span>
+              <Link href="/quote-request" className="btn btn-orange header-devis-btn">
+                <PlusCircle className="header-devis-icon" /> <span>Devis Gratuit</span>
               </Link>
             </div>
           </div>
@@ -218,16 +209,7 @@ export default function Header() {
       <div className={`mobile-nav-drawer ${drawerOpen ? "active" : ""}`}>
         {/* DRAWER HEADER */}
         <div className="drawer-header" style={{ padding: "18px 20px", background: "#0F172A", color: "#FFF", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 32, height: 32, flexShrink: 0 }}>
-              <rect width="40" height="40" rx="8" fill="#165491"/>
-              <path d="M20 8L31 29H24.5L20 20L15.5 29H9L20 8Z" fill="#FFF"/>
-            </svg>
-            <div>
-              <div style={{ fontSize: 17, fontWeight: 900, color: "#FFF", lineHeight: 1 }}>CargoLink</div>
-              <div style={{ fontSize: 8, fontWeight: 800, color: "#38BDF8", letterSpacing: "0.5px", marginTop: 2 }}>CHINE ➔ AFRIQUE</div>
-            </div>
-          </div>
+          <Logo light size={32} subtitleText="CHINE ➔ AFRIQUE" href={null} onClick={toggleDrawer} />
           <button 
             onClick={toggleDrawer} 
             className="drawer-close-btn"

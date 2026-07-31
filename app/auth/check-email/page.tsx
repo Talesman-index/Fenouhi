@@ -3,6 +3,7 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import Logo from "@/components/Logo";
 import { Mail, CheckCircle, ArrowRight } from "lucide-react";
 
 function CheckEmailContent() {
@@ -12,6 +13,12 @@ function CheckEmailContent() {
   return (
     <div style={{ padding: "60px 0", background: "var(--bg-main)" }}>
       <div className="container" style={{ maxWidth: 540, margin: "0 auto" }}>
+        
+        {/* BRAND LOGO */}
+        <div style={{ textAlign: "center", marginBottom: 20 }}>
+          <Logo href="/" size={42} />
+        </div>
+
         <div className="card" style={{ padding: 40, textAlign: "center" }}>
           <div style={{
             width: 64, height: 64, borderRadius: "50%",

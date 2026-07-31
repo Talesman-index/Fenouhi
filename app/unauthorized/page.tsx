@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import { ShieldAlert, ArrowLeft, Home } from "lucide-react";
 
 export default function UnauthorizedPage() {
@@ -7,11 +8,16 @@ export default function UnauthorizedPage() {
     <div style={{
       minHeight: "80vh",
       display: "flex",
+      flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
       padding: 24,
       background: "var(--bg-main)"
     }}>
+      <div style={{ marginBottom: 24 }}>
+        <Logo href="/" size={44} />
+      </div>
+
       <div className="card" style={{
         maxWidth: 500,
         width: "100%",

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import Logo from "@/components/Logo";
 import { KeyRound, AlertCircle, CheckCircle2, ArrowLeft } from "lucide-react";
 
 export default function ForgotPasswordPage() {
@@ -33,6 +34,12 @@ export default function ForgotPasswordPage() {
   return (
     <div style={{ padding: "50px 0", background: "var(--bg-main)" }}>
       <div className="container" style={{ maxWidth: 460, margin: "0 auto" }}>
+        
+        {/* BRAND LOGO */}
+        <div style={{ textAlign: "center", marginBottom: 20 }}>
+          <Logo href="/" size={42} />
+        </div>
+
         <div className="card admin-card" style={{ padding: 32 }}>
           <div style={{ textAlign: "center", marginBottom: 24 }}>
             <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--orange-light)", color: "var(--orange-primary)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
