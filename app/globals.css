@@ -23,13 +23,10 @@ a {
 }
 
 /* Header Logo & Layout Strict Constraints */
-svg.logo-img, .logo-img {
-  width: 42px !important;
-  height: 42px !important;
-  max-width: 42px !important;
-  max-height: 42px !important;
+svg.logo-img, img.logo-img, .logo-img {
   flex-shrink: 0 !important;
   display: block !important;
+  object-fit: contain;
 }
 
 .logo-box, .brand-logo {

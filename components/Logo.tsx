@@ -36,17 +36,20 @@ export default function Logo({
       }}
       onClick={onClick}
     >
-      <svg
+      <img
+        src="/icons/icon-192x192.png"
+        alt="CargoLink Africa PWA App Icon"
         className="logo-img"
-        viewBox="0 0 40 40"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ width: size, height: size, flexShrink: 0 }}
-      >
-        <rect width="40" height="40" rx="10" fill="#0F172A" />
-        <path d="M20 8L31 29H24.5L20 20L15.5 29H9L20 8Z" fill="#165491" />
-        <circle cx="20" cy="14" r="3" fill="#FFF" />
-      </svg>
+        style={{
+          width: size,
+          height: size,
+          borderRadius: Math.round(size * 0.24),
+          objectFit: "cover",
+          flexShrink: 0,
+          display: "block",
+          boxShadow: light ? "0 2px 8px rgba(0,0,0,0.3)" : "none",
+        }}
+      />
 
       {showText && (
         <div className="logo-text-wrap" style={{ display: "flex", flexDirection: "column" }}>
