@@ -3,7 +3,8 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { PRODUCTS, getProductById, Product } from "@/lib/products";
+import { getProductByIdOrSlug } from "@/lib/supabase/catalog";
+import type { Product } from "@/types/catalog";
 import { createClient } from "@/lib/supabase/client";
 import {
   Send,
@@ -89,33 +90,34 @@ function QuoteRequestContent() {
   const [attachedFile, setAttachedFile] = useState<{ name: string; size: string } | null>(null);
 
   useEffect(() => {
-    let p: Product | undefined;
-    if (productId) {
-      p = getProductById(productId);
-    } else if (prodTitle) {
-      p = PRODUCTS.find(
-        (item) => item.title.toLowerCase() === prodTitle.toLowerCase()
-      );
-    }
+    async function resolveProduct() {
+      let p: Product | null = null;
+      if (productId) {
+        p = await getProductByIdOrSlug(productId);
+      } else if (prodTitle) {
+        p = await getProductByIdOrSlug(prodTitle);
+      }
 
-    if (p) {
-      setSelectedProduct(p);
-      setFormData((prev) => ({
-        ...prev,
-        productName: p.title,
-        url: `https://cargolink.africa/product/${p.id}`,
-        quantity: Math.max(p.minQty, parseInt(initialQty) || p.minQty),
-        shippingMode: initialMode === "sea" ? "sea" : "air",
-      }));
-    } else if (prodTitle) {
-      setFormData((prev) => ({
-        ...prev,
-        productName: prodTitle,
-        url: prodTitle.startsWith("http") ? prodTitle : "",
-        quantity: parseInt(initialQty) || 50,
-        shippingMode: initialMode === "sea" ? "sea" : "air",
-      }));
+      if (p) {
+        setSelectedProduct(p);
+        setFormData((prev) => ({
+          ...prev,
+          productName: p.name,
+          url: `https://cargolink.africa/product/${p.id}`,
+          quantity: Math.max(p.minimum_order_quantity, parseInt(initialQty) || p.minimum_order_quantity),
+          shippingMode: initialMode === "sea" ? "sea" : "air",
+        }));
+      } else if (prodTitle) {
+        setFormData((prev) => ({
+          ...prev,
+          productName: prodTitle,
+          url: prodTitle.startsWith("http") ? prodTitle : "",
+          quantity: parseInt(initialQty) || 50,
+          shippingMode: initialMode === "sea" ? "sea" : "air",
+        }));
+      }
     }
+    resolveProduct();
   }, [productId, prodTitle, initialQty, initialMode]);
 
   // Dynamic calculations based on product and options
@@ -124,8 +126,8 @@ function QuoteRequestContent() {
   const productCostFCFA = unitPriceFCFA * quantity;
   const serviceFeeFCFA = Math.round(productCostFCFA * 0.05);
 
-  const weightPerUnit = selectedProduct ? parseFloat(selectedProduct.weight) || 0.35 : 0.35;
-  const volumePerUnit = selectedProduct ? parseFloat(selectedProduct.volume) || 0.002 : 0.002;
+  const weightPerUnit = selectedProduct ? (selectedProduct.weight || 0.35) : 0.35;
+  const volumePerUnit = selectedProduct ? ((selectedProduct.length || 0.1) * (selectedProduct.width || 0.1) * (selectedProduct.height || 0.1)) : 0.002;
   const totalWeight = weightPerUnit * quantity;
   const totalVolume = volumePerUnit * quantity;
 
@@ -195,7 +197,7 @@ function QuoteRequestContent() {
         user_name: formData.clientName,
         user_email: formData.clientEmail || user?.email || null,
         product_link: formData.url || formData.productName,
-        product_name: formData.productName || selectedProduct?.title || "Demande Importation Sourcing",
+        product_name: formData.productName || selectedProduct?.name || "Demande Importation Sourcing",
         quantity: formData.quantity,
         estimated_price: unitPriceFCFA,
         estimated_weight: totalWeight,
@@ -227,7 +229,7 @@ function QuoteRequestContent() {
 
   const whatsappMessage = encodeURIComponent(
     `Bonjour CargoLink Africa ! J'ai soumis la demande de devis N° *${createdQuoteNumber}*.\n\n` +
-      `📦 *Produit* : ${formData.productName || selectedProduct?.title}\n` +
+      `📦 *Produit* : ${formData.productName || selectedProduct?.name}\n` +
       `🔢 *Quantité* : ${formData.quantity} unités\n` +
       `🚢 *Mode* : ${formData.shippingMode === "sea" ? "Fret Maritime" : "Fret Aérien"}\n` +
       `📍 *Destination* : ${formData.destCountry}\n` +
@@ -325,7 +327,7 @@ function QuoteRequestContent() {
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                       <span style={{ color: "var(--text-muted)" }}>Produit / Lien :</span>
                       <strong style={{ color: "var(--navy-dark)", textAlign: "right", maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                        {formData.productName || selectedProduct?.title || "Sourcing personnalisé"}
+                        {formData.productName || selectedProduct?.name || "Sourcing personnalisé"}
                       </strong>
                     </div>
 
@@ -397,22 +399,22 @@ function QuoteRequestContent() {
 
                       <div style={{ display: "flex", gap: 16, alignItems: "center", marginTop: 4 }}>
                         <img
-                          src={selectedProduct.image}
-                          alt={selectedProduct.title}
+                          src={selectedProduct.images?.[0]?.public_image_url || "/images/assets/item_1.jpg"}
+                          alt={selectedProduct.name}
                           style={{ width: 84, height: 84, borderRadius: 12, objectFit: "cover", background: "#F8FAFC", border: "1px solid var(--border-light)", flexShrink: 0 }}
                         />
                         <div style={{ flex: 1 }}>
                           <h3 style={{ fontSize: 16, fontWeight: 900, color: "var(--navy-dark)", lineHeight: 1.3, marginBottom: 4 }}>
-                            {selectedProduct.title}
+                            {selectedProduct.name}
                           </h3>
                           <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6 }}>
-                            {selectedProduct.subtitle} · Origine : <strong>{selectedProduct.origin}</strong>
+                            {selectedProduct.short_description} · Origine : <strong>{selectedProduct.country_of_origin || "Chine"}</strong>
                           </div>
                           <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
                             <span style={{ fontSize: 18, fontWeight: 900, color: "var(--orange-primary)" }}>
                               {selectedProduct.price.toLocaleString()} FCFA
                             </span>
-                            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>/ unité (min. {selectedProduct.minQty}u)</span>
+                            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>/ unité (min. {selectedProduct.minimum_order_quantity}u)</span>
                           </div>
                         </div>
                       </div>
@@ -501,7 +503,7 @@ function QuoteRequestContent() {
                                     setFormData((prev) => ({
                                       ...prev,
                                       quantity: Math.max(
-                                        selectedProduct ? selectedProduct.minQty : 1,
+                                        selectedProduct ? selectedProduct.minimum_order_quantity : 1,
                                         prev.quantity - (prev.quantity <= 50 ? 1 : 10)
                                       ),
                                     }))
@@ -513,7 +515,7 @@ function QuoteRequestContent() {
                                 <input
                                   type="number"
                                   required
-                                  min={selectedProduct ? selectedProduct.minQty : 1}
+                                  min={selectedProduct ? selectedProduct.minimum_order_quantity : 1}
                                   value={formData.quantity}
                                   onChange={(e) =>
                                     setFormData({

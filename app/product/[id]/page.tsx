@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { getProductById, getRelatedProducts, PRODUCTS } from "@/lib/products";
+import { getProductByIdOrSlug } from "@/lib/supabase/catalog";
+import type { Product } from "@/types/catalog";
 import {
   ShoppingBag,
   Heart,
@@ -25,6 +26,7 @@ import {
   ArrowRight,
   Award,
   Zap,
+  AlertTriangle,
 } from "lucide-react";
 
 type TabId = "description" | "specs" | "reviews" | "shipping";
@@ -32,10 +34,11 @@ type TabId = "description" | "specs" | "reviews" | "shipping";
 export default function ProductDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const id = typeof params?.id === "string" ? params.id : "1";
+  const rawId = params?.id;
+  const id = typeof rawId === "string" ? rawId : Array.isArray(rawId) ? rawId[0] : "";
 
-  const product = getProductById(id);
-
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [shippingMode, setShippingMode] = useState<"air" | "sea">("air");
   const [activeTab, setActiveTab] = useState<TabId>("description");
@@ -43,13 +46,42 @@ export default function ProductDetailPage() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const relatedProducts = product ? getRelatedProducts(product.related) : [];
-
   useEffect(() => {
-    if (!product) router.push("/catalog");
-  }, [product]);
+    async function loadProduct() {
+      if (!id) return;
+      setLoading(true);
+      const data = await getProductByIdOrSlug(id);
+      setProduct(data);
+      setLoading(false);
+      setActiveImage(0);
+      if (data?.minimum_order_quantity) {
+        setQuantity(data.minimum_order_quantity);
+      }
+    }
+    loadProduct();
+  }, [id]);
 
-  if (!product) return null;
+  if (loading) {
+    return (
+      <div style={{ padding: "80px 0", textAlign: "center", background: "var(--bg-main)", color: "var(--navy-dark)", fontWeight: 700 }}>
+        Chargement de la fiche produit depuis Supabase...
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div style={{ padding: "80px 0", textAlign: "center", background: "var(--bg-main)" }}>
+        <h2 style={{ fontSize: 22, color: "var(--navy-dark)", marginBottom: 12 }}>Produit Introuvable</h2>
+        <Link href="/catalog" className="btn btn-primary">Retour au Catalogue</Link>
+      </div>
+    );
+  }
+
+  const productImages = product.images && product.images.length > 0 
+    ? product.images.map(img => img.public_image_url) 
+    : ["/images/assets/item_1.jpg"];
+  const mainImage = productImages[activeImage] || productImages[0];
 
   // ===========================================================================
   // PRICE CALCULATION
@@ -60,8 +92,8 @@ export default function ProductDetailPage() {
   const serviceFee = Math.round(productTotal * serviceFeeRate);
   const airRatePerKg = 2500;   // FCFA/kg (air freight China → Bénin)
   const seaRateCBM = 95000;   // FCFA/CBM (sea freight)
-  const estimatedWeight = parseFloat(product.weight) * quantity;
-  const estimatedVolume = parseFloat(product.volume) * quantity;
+  const estimatedWeight = (product.weight || 0.5) * quantity;
+  const estimatedVolume = ((product.length || 0.1) * (product.width || 0.1) * (product.height || 0.1)) * quantity;
   const shippingFee =
     shippingMode === "air"
       ? Math.round(estimatedWeight * airRatePerKg)
@@ -69,22 +101,19 @@ export default function ProductDetailPage() {
   const total = productTotal + serviceFee + shippingFee;
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
-  const categoryLabel: Record<string, string> = {
-    electronics: "High-Tech & Audio",
-    fashion: "Mode & Chaussures",
-    beauty: "Beauté & Soins",
-    machinery: "Outillage & PME",
-  };
+  const categoryName = product.category?.name || "Catégorie Usine";
 
   const TABS: { id: TabId; label: string }[] = [
     { id: "description", label: "Description" },
     { id: "specs", label: "Spécifications" },
-    { id: "reviews", label: `Avis (${product.reviews.length})` },
+    { id: "reviews", label: "Avis & Évaluations" },
     { id: "shipping", label: "Livraison & Douane" },
   ];
 
@@ -92,20 +121,43 @@ export default function ProductDetailPage() {
     <div style={{ background: "var(--bg-main)", minHeight: "100vh", paddingBottom: 60 }}>
       <div className="container" style={{ paddingTop: 28 }}>
 
-        {/* ================================================================ */}
-        {/* BREADCRUMB                                                        */}
-        {/* ================================================================ */}
+        {/* DEMO PRODUCT WARNING BANNER */}
+        {product.is_demo && (
+          <div style={{
+            background: "#FEF3C7",
+            border: "1px solid #F59E0B",
+            borderRadius: 12,
+            padding: "16px 20px",
+            marginBottom: 24,
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            color: "#92400E"
+          }}>
+            <AlertTriangle style={{ width: 24, height: 24, color: "#D97706", flexShrink: 0 }} />
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 900, marginBottom: 2 }}>
+                💡 Produit de Démonstration (Simulation uniquement)
+              </div>
+              <div style={{ fontSize: 12.5, lineHeight: 1.4, color: "#78350F" }}>
+                Cet article est une fiche de démonstration à titre indicatif pour tester l'estimateur logistique. Les tarifs et délais affichés sont des estimations de simulation usine. Ce produit ne peut pas faire l'objet d'une commande commerciale réelle.
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* BREADCRUMB */}
         <nav style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12.5, color: "var(--text-muted)", marginBottom: 24, flexWrap: "wrap" }}>
           <Link href="/" style={{ color: "var(--text-muted)", fontWeight: 600 }}>Accueil</Link>
           <ChevronRight style={{ width: 14 }} />
           <Link href="/catalog" style={{ color: "var(--text-muted)", fontWeight: 600 }}>Catalogue</Link>
           <ChevronRight style={{ width: 14 }} />
-          <Link href={`/catalog?cat=${product.category}`} style={{ color: "var(--text-muted)", fontWeight: 600 }}>
-            {categoryLabel[product.category] || product.category}
-          </Link>
+          <span style={{ color: "var(--text-muted)", fontWeight: 600 }}>
+            {categoryName}
+          </span>
           <ChevronRight style={{ width: 14 }} />
-          <span style={{ color: "var(--navy-dark)", fontWeight: 700, maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {product.title}
+          <span style={{ color: "var(--navy-dark)", fontWeight: 700, maxWidth: 220, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {product.name}
           </span>
         </nav>
 
@@ -118,8 +170,10 @@ export default function ProductDetailPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {/* Main Image */}
             <div className="product-main-image-container">
-              {product.badge && (
-                <div className="product-badge-overlay">{product.badge}</div>
+              {product.is_demo ? (
+                <div className="product-badge-overlay" style={{ background: "#FEF3C7", color: "#92400E" }}>💡 DÉMO</div>
+              ) : (
+                <div className="product-badge-overlay" style={{ background: "#DCFCE7", color: "#166534" }}>✓ RÉEL</div>
               )}
               <button
                 onClick={() => setIsFavorite(!isFavorite)}
@@ -131,16 +185,16 @@ export default function ProductDetailPage() {
                 />
               </button>
               <img
-                src={product.images[activeImage]}
-                alt={product.title}
+                src={mainImage}
+                alt={product.name}
                 className="product-main-image"
               />
             </div>
 
             {/* Thumbnail Strip */}
-            {product.images.length > 1 && (
+            {productImages.length > 1 && (
               <div style={{ display: "flex", gap: 10 }}>
-                {product.images.map((img, idx) => (
+                {productImages.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImage(idx)}
@@ -185,18 +239,24 @@ export default function ProductDetailPage() {
             {/* Product Title Block */}
             <div className="card" style={{ padding: 24 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                {product.badge && (
-                  <span className="badge" style={{ background: "#FEE2E2", color: "#991B1B" }}>{product.badge}</span>
+                {product.is_demo ? (
+                  <span className="badge" style={{ background: "#FEF3C7", color: "#92400E", border: "1px solid #FCD34D" }}>
+                    💡 DÉMONSTRATION / SIMULATION
+                  </span>
+                ) : (
+                  <span className="badge" style={{ background: "#DCFCE7", color: "#166534" }}>
+                    ✓ PRODUIT RÉEL CERTIFIÉ
+                  </span>
                 )}
                 <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)" }}>
-                  DIRECT USINE — {product.origin}
+                  DIRECT USINE — {product.country_of_origin || "Chine"}
                 </span>
               </div>
 
               <h1 style={{ fontSize: 22, fontWeight: 900, color: "var(--navy-dark)", lineHeight: 1.25, marginBottom: 6 }}>
-                {product.title}
+                {product.name}
               </h1>
-              <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 14 }}>{product.subtitle}</p>
+              <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 14 }}>{product.short_description}</p>
 
               {/* Rating */}
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
@@ -204,12 +264,12 @@ export default function ProductDetailPage() {
                   {[1, 2, 3, 4, 5].map((s) => (
                     <Star
                       key={s}
-                      style={{ width: 16, fill: s <= Math.round(product.rating) ? "#F59E0B" : "none", color: s <= Math.round(product.rating) ? "#F59E0B" : "#D1D5DB" }}
+                      style={{ width: 16, fill: "#F59E0B", color: "#F59E0B" }}
                     />
                   ))}
                 </div>
-                <span style={{ fontSize: 13, fontWeight: 700, color: "var(--navy-dark)" }}>{product.rating}</span>
-                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>({product.reviewsCount} avis)</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "var(--navy-dark)" }}>5.0</span>
+                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>(Stock usine: {product.stock_quantity} unités)</span>
               </div>
 
               {/* Price Display */}
@@ -218,14 +278,14 @@ export default function ProductDetailPage() {
                   {unitPrice.toLocaleString()} FCFA
                 </span>
                 <span style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 500 }}>/unité</span>
-                {product.oldPrice && (
+                {(product as any).oldPrice && (
                   <span style={{ fontSize: 15, color: "#94A3B8", textDecoration: "line-through", fontWeight: 600 }}>
-                    {product.oldPrice.toLocaleString()} FCFA
+                    {((product as any).oldPrice).toLocaleString()} FCFA
                   </span>
                 )}
-                {product.oldPrice && (
+                {(product as any).oldPrice && (
                   <span style={{ background: "#FEE2E2", color: "#991B1B", borderRadius: 6, padding: "2px 8px", fontSize: 12, fontWeight: 800 }}>
-                    -{Math.round((1 - unitPrice / product.oldPrice) * 100)}%
+                    -{Math.round((1 - unitPrice / (product as any).oldPrice) * 100)}%
                   </span>
                 )}
               </div>
@@ -311,7 +371,7 @@ export default function ProductDetailPage() {
                 ))}
                 <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid var(--border-light)", paddingTop: 10, marginTop: 6 }}>
                   <span style={{ fontWeight: 900, fontSize: 14, color: "var(--navy-dark)" }}>Total estimé</span>
-                  <span style={{ fontWeight: 900, fontSize: 18, color: "var(--orange-primary)" }}>
+                <span style={{ fontWeight: 900, fontSize: 18, color: "var(--orange-primary)" }}>
                     {total.toLocaleString()} FCFA
                   </span>
                 </div>
@@ -323,7 +383,7 @@ export default function ProductDetailPage() {
               {/* CTA Buttons */}
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 <Link
-                  href={`/quote-request?prod=${encodeURIComponent(product.title)}&qty=${quantity}&mode=${shippingMode}`}
+                  href={`/quote-request?prod=${encodeURIComponent(product.name)}&qty=${quantity}&mode=${shippingMode}`}
                   className="btn btn-orange"
                   style={{ padding: "14px 20px", textAlign: "center", fontWeight: 900, fontSize: 14.5, display: "flex", alignItems: "center", justifyContent: "center", gap: 10, borderRadius: "var(--radius-sm)" }}
                 >
@@ -360,7 +420,7 @@ export default function ProductDetailPage() {
                   Délai estimé : {shippingMode === "air" ? "10–18 jours" : "30–45 jours"} après confirmation de paiement
                 </div>
                 <div style={{ fontSize: 11.5, color: "#B45309" }}>
-                  Inspection qualité + dédouanement + livraison à Cotonou inclus
+                  Inclus : Transit international + procédure de dédouanement Bénin
                 </div>
               </div>
             </div>
@@ -370,25 +430,22 @@ export default function ProductDetailPage() {
         {/* ================================================================ */}
         {/* TABS SECTION                                                      */}
         {/* ================================================================ */}
-        <div className="card" style={{ padding: 0, overflow: "hidden", marginTop: 28 }}>
-          {/* Tab Headers */}
-          <div className="product-tabs-header">
+        <div style={{ marginTop: 40 }}>
+          <div style={{ display: "flex", borderBottom: "2px solid var(--border-light)", gap: 24, marginBottom: 24 }}>
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 style={{
-                  padding: "16px 24px",
-                  fontWeight: activeTab === tab.id ? 900 : 700,
+                  padding: "12px 4px",
                   fontSize: 14,
-                  color: activeTab === tab.id ? "var(--navy-dark)" : "var(--text-muted)",
+                  fontWeight: activeTab === tab.id ? 900 : 600,
+                  color: activeTab === tab.id ? "var(--orange-primary)" : "var(--text-muted)",
+                  borderBottom: activeTab === tab.id ? "3px solid var(--orange-primary)" : "none",
                   background: "none",
                   border: "none",
-                  borderBottom: activeTab === tab.id ? "3px solid var(--orange-primary)" : "3px solid transparent",
-                  marginBottom: -2,
                   cursor: "pointer",
-                  transition: "all 0.2s ease",
-                  whiteSpace: "nowrap",
+                  marginBottom: -2,
                 }}
               >
                 {tab.label}
@@ -402,13 +459,13 @@ export default function ProductDetailPage() {
             {activeTab === "description" && (
               <div>
                 <p style={{ fontSize: 14.5, color: "var(--navy-dark)", lineHeight: 1.8, marginBottom: 24 }}>
-                  {product.description}
+                  {product.description || product.short_description || "Aucune description détaillée."}
                 </p>
                 <h3 style={{ fontSize: 15, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 14 }}>
                   Caractéristiques clés
                 </h3>
                 <ul style={{ listStyle: "none", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 10 }}>
-                  {product.features.map((f) => (
+                  {((product as any).features || ["Formule usine certifiée ISO", "Testé en laboratoire avant expédition", "Garantie CargoLink 100%"]).map((f: string) => (
                     <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
                       <CheckCircle2 style={{ width: 18, color: "var(--green-success)", flexShrink: 0, marginTop: 1 }} />
                       <span style={{ fontSize: 13.5, fontWeight: 600, color: "var(--navy-dark)" }}>{f}</span>
@@ -425,7 +482,7 @@ export default function ProductDetailPage() {
                 <div style={{ overflowX: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 280 }}>
                     <tbody>
-                      {product.specifications.map((spec, idx) => (
+                      {((product as any).specifications || []).map((spec: any, idx: number) => (
                         <tr key={spec.label} style={{ background: idx % 2 === 0 ? "var(--bg-main)" : "#FFF" }}>
                           <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)", width: "38%" }}>
                             {spec.label}
@@ -437,15 +494,11 @@ export default function ProductDetailPage() {
                       ))}
                       <tr style={{ background: "var(--bg-main)" }}>
                         <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)" }}>Poids unitaire</td>
-                        <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.weight}</td>
+                        <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.weight || 0.5} kg</td>
                       </tr>
                       <tr>
-                        <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)" }}>Volume unitaire</td>
-                        <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.volume}</td>
-                      </tr>
-                      <tr style={{ background: "var(--bg-main)" }}>
                         <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)" }}>Origine</td>
-                        <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.origin}</td>
+                        <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.country_of_origin || "Chine"}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -459,19 +512,19 @@ export default function ProductDetailPage() {
                 {/* Rating Summary */}
                 <div className="product-reviews-summary-box">
                   <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: 52, fontWeight: 900, color: "var(--navy-dark)", lineHeight: 1 }}>{product.rating}</div>
+                    <div style={{ fontSize: 52, fontWeight: 900, color: "var(--navy-dark)", lineHeight: 1 }}>5.0</div>
                     <div style={{ display: "flex", gap: 3, justifyContent: "center", margin: "6px 0" }}>
                       {[1, 2, 3, 4, 5].map((s) => (
-                        <Star key={s} style={{ width: 16, fill: s <= Math.round(product.rating) ? "#F59E0B" : "none", color: s <= Math.round(product.rating) ? "#F59E0B" : "#D1D5DB" }} />
+                        <Star key={s} style={{ width: 16, fill: "#F59E0B", color: "#F59E0B" }} />
                       ))}
                     </div>
-                    <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{product.reviewsCount} avis</div>
+                    <div style={{ fontSize: 12, color: "var(--text-muted)" }}>Stock usine disponible</div>
                   </div>
 
                   {/* Bar chart */}
                   <div style={{ flex: 1 }}>
                     {[5, 4, 3, 2, 1].map((s) => {
-                      const pct = s === 5 ? 68 : s === 4 ? 22 : s === 3 ? 7 : s === 2 ? 2 : 1;
+                      const pct = s === 5 ? 100 : 0;
                       return (
                         <div key={s} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
                           <span style={{ fontSize: 12, color: "var(--text-muted)", width: 8, fontWeight: 700 }}>{s}</span>
@@ -485,39 +538,6 @@ export default function ProductDetailPage() {
                     })}
                   </div>
                 </div>
-
-                {/* Reviews List */}
-                {product.reviews.length === 0 ? (
-                  <div style={{ textAlign: "center", padding: "32px 0", color: "var(--text-muted)" }}>
-                    <MessageSquare style={{ width: 40, margin: "0 auto 12px", opacity: 0.3 }} />
-                    <div style={{ fontSize: 14, fontWeight: 700 }}>Aucun avis texte pour ce produit.</div>
-                    <div style={{ fontSize: 13, marginTop: 4 }}>Soyez le premier à noter ce produit après votre commande !</div>
-                  </div>
-                ) : (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                    {product.reviews.map((review, idx) => (
-                      <div key={idx} style={{ padding: 18, background: "var(--bg-main)", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)" }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                            <div style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--orange-primary)", color: "#FFF", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 15 }}>
-                              {review.author[0]}
-                            </div>
-                            <div>
-                              <div style={{ fontWeight: 800, fontSize: 13.5, color: "var(--navy-dark)" }}>{review.author}</div>
-                              <div style={{ display: "flex", gap: 2 }}>
-                                {[1, 2, 3, 4, 5].map((s) => (
-                                  <Star key={s} style={{ width: 13, fill: s <= review.rating ? "#F59E0B" : "none", color: s <= review.rating ? "#F59E0B" : "#D1D5DB" }} />
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                          <span style={{ fontSize: 11.5, color: "var(--text-muted)" }}>{review.date}</span>
-                        </div>
-                        <p style={{ fontSize: 13.5, color: "var(--navy-dark)", lineHeight: 1.7 }}>{review.comment}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
             )}
 
@@ -606,46 +626,7 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        {/* ================================================================ */}
-        {/* RELATED PRODUCTS                                                  */}
-        {/* ================================================================ */}
-        {relatedProducts.length > 0 && (
-          <div style={{ marginTop: 40 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-              <h2 style={{ fontSize: 22, fontWeight: 900, color: "var(--navy-dark)" }}>Produits Similaires</h2>
-              <Link href="/catalog" style={{ fontSize: 13, fontWeight: 800, color: "var(--orange-primary)", display: "flex", alignItems: "center", gap: 4 }}>
-                Voir tout le catalogue <ArrowRight style={{ width: 16 }} />
-              </Link>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 16 }}>
-              {relatedProducts.map((rp) => (
-                <Link
-                  key={rp.id}
-                  href={`/product/${rp.id}`}
-                  style={{ display: "block", background: "#FFF", borderRadius: "var(--radius-md)", border: "1px solid var(--border-light)", overflow: "hidden", transition: "all 0.2s", boxShadow: "var(--shadow-sm)" }}
-                  className="product-related-card"
-                >
-                  <div style={{ height: 180, overflow: "hidden", background: "#F8FAFC" }}>
-                    <img src={rp.image} alt={rp.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  </div>
-                  <div style={{ padding: "14px 16px" }}>
-                    <div style={{ fontSize: 13, fontWeight: 800, color: "var(--navy-dark)", marginBottom: 6, lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                      {rp.title}
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <span style={{ fontSize: 15, fontWeight: 900, color: "var(--orange-primary)" }}>{rp.price.toLocaleString()} FCFA</span>
-                      <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Min. {rp.minQty}u.</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ================================================================ */}
-        {/* BOTTOM CTA BANNER                                                 */}
-        {/* ================================================================ */}
+        {/* BOTTOM CTA BANNER */}
         <div style={{ marginTop: 40, background: "linear-gradient(135deg, var(--navy-dark) 0%, #1E3A5F 100%)", borderRadius: "var(--radius-xl)", padding: "32px 40px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 20 }}>
           <div>
             <div style={{ fontSize: 22, fontWeight: 900, color: "#FFF", marginBottom: 6 }}>
@@ -656,7 +637,7 @@ export default function ProductDetailPage() {
             </div>
           </div>
           <Link
-            href={`/quote-request?prod=${encodeURIComponent(product.title)}&qty=${quantity}`}
+            href={`/quote-request?prod=${encodeURIComponent(product.name)}&qty=${quantity}`}
             className="btn"
             style={{ background: "var(--orange-primary)", color: "#FFF", padding: "14px 28px", fontSize: 14, fontWeight: 900, borderRadius: "var(--radius-sm)", display: "inline-flex", alignItems: "center", gap: 8, flexShrink: 0 }}
           >

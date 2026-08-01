@@ -10,11 +10,13 @@ export default function Preloader() {
   const [isPWA, setIsPWA] = useState(false);
 
   useEffect(() => {
-    // Remove static HTML initial splash screen if present
+    // Hide static HTML initial splash screen smoothly without mutating React DOM tree
     if (typeof document !== "undefined") {
       const initialSplash = document.getElementById("initial-splash-screen");
       if (initialSplash) {
-        initialSplash.remove();
+        initialSplash.style.opacity = "0";
+        initialSplash.style.pointerEvents = "none";
+        initialSplash.style.display = "none";
       }
     }
 

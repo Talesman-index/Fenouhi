@@ -1,8 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  transpilePackages: ["lucide-react"],
+  serverExternalPackages: ["@supabase/ssr", "@supabase/supabase-js"],
   images: {
     unoptimized: true,
+  },
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.cache = false;
+    }
+    return config;
   },
   async headers() {
     return [

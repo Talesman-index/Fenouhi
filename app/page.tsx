@@ -1,12 +1,30 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
-import { Sparkles, ArrowRight, Search, ShieldCheck, Zap, DollarSign, Truck, ExternalLink } from "lucide-react";
+import { getPublicProducts } from "@/lib/supabase/catalog";
+import type { Product } from "@/types/catalog";
+import { Sparkles, ArrowRight, Search, Zap, DollarSign, Truck } from "lucide-react";
 
 export default function HomePage() {
   const [searchUrl, setSearchUrl] = useState("");
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    async function loadHomeProducts() {
+      try {
+        const [featured, recent] = await Promise.all([
+          getPublicProducts({ isFeatured: true, limit: 5 }),
+          getPublicProducts({ limit: 10 })
+        ]);
+        setFeaturedProducts(featured);
+        setRecentProducts(recent);
+      } catch {}
+    }
+    loadHomeProducts();
+  }, []);
 
   const categories = [
     { name: "Electronics", img: "/images/assets/item_3.jpg", link: "/catalog?cat=electronics" },
@@ -126,14 +144,25 @@ export default function HomePage() {
       <section style={{ padding: "20px 0 30px" }}>
         <div className="container">
           <div className="section-title-row">
-            <h2 className="section-title">Todays Best Deals For You!</h2>
+            <h2 className="section-title">Nouveautés & Offres Direct Usine</h2>
             <Link href="/catalog" className="view-all-link">Voir tout &gt;</Link>
           </div>
 
           <div className="grid-5">
-            {todayDeals.map((d) => (
-              <ProductCard key={d.id} {...d} />
-            ))}
+            {featuredProducts.map((p) => {
+              const img = p.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
+              return (
+                <ProductCard
+                  key={p.id}
+                  id={p.id}
+                  title={p.name}
+                  price={`${p.price.toLocaleString()} ${p.currency}`}
+                  image={img}
+                  category={p.category?.name || "Général"}
+                  isDemo={p.is_demo}
+                />
+              );
+            })}
           </div>
         </div>
       </section>
@@ -142,14 +171,25 @@ export default function HomePage() {
       <section style={{ padding: "20px 0 30px" }}>
         <div className="container">
           <div className="section-title-row">
-            <h2 className="section-title">Style & Fashion</h2>
-            <Link href="/catalog?cat=fashion" className="view-all-link">View All &gt;</Link>
+            <h2 className="section-title">Sélection Catalogue Produits</h2>
+            <Link href="/catalog" className="view-all-link">Voir le catalogue complet &gt;</Link>
           </div>
 
           <div className="grid-5">
-            {fashionProducts.map((p) => (
-              <ProductCard key={p.id} {...p} />
-            ))}
+            {recentProducts.slice(5, 10).map((p) => {
+              const img = p.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
+              return (
+                <ProductCard
+                  key={p.id}
+                  id={p.id}
+                  title={p.name}
+                  price={`${p.price.toLocaleString()} ${p.currency}`}
+                  image={img}
+                  category={p.category?.name || "Général"}
+                  isDemo={p.is_demo}
+                />
+              );
+            })}
           </div>
         </div>
       </section>

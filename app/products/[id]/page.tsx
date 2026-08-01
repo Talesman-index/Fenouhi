@@ -1,4 +1,4 @@
-import ProductDetailPage from "@/app/product/page";
+import ProductDetailPage from "@/app/product/[id]/page";
 
 export default function DynamicProductPage() {
   return <ProductDetailPage />;

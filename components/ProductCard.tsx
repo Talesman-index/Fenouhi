@@ -13,6 +13,7 @@ interface ProductCardProps {
   reviewsCount?: number;
   image: string;
   category?: string;
+  isDemo?: boolean;
 }
 
 export default function ProductCard({
@@ -23,6 +24,7 @@ export default function ProductCard({
   rating = "★★★★★",
   reviewsCount = 120,
   image,
+  isDemo = false,
 }: ProductCardProps) {
   const [favorite, setFavorite] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -99,6 +101,27 @@ export default function ProductCard({
           position: "relative",
         }}
       >
+        {isDemo && (
+          <div
+            style={{
+              position: "absolute",
+              top: 8,
+              left: 8,
+              background: "rgba(245, 158, 11, 0.95)",
+              color: "#FFFFFF",
+              fontSize: 10,
+              fontWeight: 800,
+              padding: "3px 8px",
+              borderRadius: 6,
+              zIndex: 10,
+              boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+              textTransform: "uppercase",
+              letterSpacing: "0.5px"
+            }}
+          >
+            💡 Démo / Simulation
+          </div>
+        )}
         <img
           src={image}
           alt={title}

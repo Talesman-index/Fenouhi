@@ -30,38 +30,10 @@ function LoginFormContent() {
     try {
       const supabase = createClient();
 
-      let { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-
-      // AUTO-PROVISION DEMO/TEST ACCOUNT IF NOT YET REGISTERED IN SUPABASE
-      if (authError && (email === "demo@cargolink.africa" || authError.message === "Invalid login credentials")) {
-        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              first_name: "Client",
-              last_name: "Démo",
-              phone: "+229 97 00 00 00",
-              country: "Bénin",
-              city: "Cotonou",
-              account_type: "individual",
-              role: "customer"
-            }
-          }
-        });
-
-        if (!signUpError && signUpData.user) {
-          const { data: retryAuth } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-          });
-          authData = retryAuth;
-          authError = null;
-        }
-      }
 
       if (authError) {
         setLoading(false);
@@ -317,35 +289,6 @@ function LoginFormContent() {
                 Créer un compte <ArrowRight style={{ width: 14, display: "inline" }} />
               </Link>
             </div>
-
-            {/* QUICK DEMO LOGIN HELPER */}
-            <div style={{ marginTop: 16, background: "#F8FAFC", border: "1px solid #E2E8F0", padding: "12px 14px", borderRadius: 12, textAlign: "center", display: "flex", flexDirection: "column", gap: 8 }}>
-              <div style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A" }}>
-                💡 Accès rapide de démonstration :
-              </div>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    document.cookie = "client_demo_access=true; path=/; max-age=604800";
-                    setEmail("demo@cargolink.africa");
-                    setPassword("CargoLink2026!");
-                    router.push("/dashboard?demo=true");
-                  }}
-                  style={{ flex: 1, minWidth: 140, background: "#165491", border: "none", borderRadius: 9999, padding: "8px 12px", fontSize: 11.5, fontWeight: 900, color: "#FFFFFF", cursor: "pointer" }}
-                >
-                  🚀 Espace Client Démo
-                </button>
-
-                <Link
-                  href="/admin?demo=true"
-                  style={{ flex: 1, minWidth: 140, background: "var(--navy-dark)", border: "none", borderRadius: 9999, padding: "8px 12px", fontSize: 11.5, fontWeight: 900, color: "#FFFFFF", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center" }}
-                >
-                  🔑 Espace Admin Démo
-                </Link>
-              </div>
-            </div>
-
           </form>
 
           {/* TRUST BADGE */}

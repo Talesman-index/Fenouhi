@@ -6,6 +6,7 @@ export interface LogActionParams {
   entityId?: string;
   oldValues?: any;
   newValues?: any;
+  details?: any;
 }
 
 export async function logAdminAction(params: LogActionParams): Promise<void> {

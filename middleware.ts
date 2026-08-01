@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
+import type { UserRole } from "@/types/supabase";
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -8,12 +9,28 @@ export async function middleware(request: NextRequest) {
     },
   });
 
+  // Clean up any legacy demo cookies if present
+  if (request.cookies.has("admin_demo_access") || request.cookies.has("client_demo_access")) {
+    response.cookies.delete("admin_demo_access");
+    response.cookies.delete("client_demo_access");
+  }
+
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey =
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
+    return response;
+  }
+
+  const pathname = request.nextUrl.pathname;
+  const isAuthRoute = pathname.startsWith("/auth/login") || pathname.startsWith("/auth/sign-up");
+  const isDashboardRoute = pathname.startsWith("/dashboard");
+  const isAdminRoute = pathname.startsWith("/admin");
+
+  // Bypass DB and Auth checks for public routes
+  if (!isAuthRoute && !isDashboardRoute && !isAdminRoute) {
     return response;
   }
 
@@ -37,33 +54,7 @@ export async function middleware(request: NextRequest) {
       },
     });
 
-    const pathname = request.nextUrl.pathname;
-    const isAuthRoute = pathname.startsWith("/auth/login") || pathname.startsWith("/auth/sign-up");
-    const isDashboardRoute = pathname.startsWith("/dashboard");
-    const isAdminRoute = pathname.startsWith("/admin");
-
-    // Check for demo bypass via query param or cookie FIRST before any network calls
-    const hasDemoParam = request.nextUrl.searchParams.get("demo") === "true" || request.nextUrl.searchParams.get("preview") === "admin" || request.nextUrl.searchParams.get("preview") === "client";
-    const hasAdminDemoCookie = request.cookies.get("admin_demo_access")?.value === "true";
-    const hasClientDemoCookie = request.cookies.get("client_demo_access")?.value === "true";
-
-    if (isAdminRoute && (hasDemoParam || hasAdminDemoCookie)) {
-      const requestHeaders = new Headers(request.headers);
-      requestHeaders.set("x-demo-mode", "true");
-      const demoResponse = NextResponse.next({ request: { headers: requestHeaders } });
-      demoResponse.cookies.set("admin_demo_access", "true", { path: "/", maxAge: 60 * 60 * 24 * 7 });
-      return demoResponse;
-    }
-
-    if (isDashboardRoute && (hasDemoParam || hasClientDemoCookie)) {
-      const requestHeaders = new Headers(request.headers);
-      requestHeaders.set("x-demo-mode", "true");
-      const demoResponse = NextResponse.next({ request: { headers: requestHeaders } });
-      demoResponse.cookies.set("client_demo_access", "true", { path: "/", maxAge: 60 * 60 * 24 * 7 });
-      return demoResponse;
-    }
-
-    // Refresh session safely via Supabase Auth
+    // Fetch user via Supabase Auth SSR
     let user = null;
     try {
       const { data, error } = await supabase.auth.getUser();
@@ -74,46 +65,85 @@ export async function middleware(request: NextRequest) {
       user = null;
     }
 
-    // 1. If user is NOT logged in and tries to access protected routes (/dashboard or /admin)
-    if (!user && (isDashboardRoute || isAdminRoute)) {
+    // 1. UNAUTHENTICATED USERS: Block protected routes
+    if (!user) {
+      if (isDashboardRoute || isAdminRoute) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/auth/login";
+        url.searchParams.set("redirectTo", pathname);
+        return NextResponse.redirect(url);
+      }
+      return response;
+    }
+
+    // 2. AUTHENTICATED USERS: Fetch profile, role, and account status ONLY for protected/auth routes
+    let userRole: UserRole = "customer";
+    let accountStatus: string = "active";
+
+    try {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role, status")
+        .eq("id", user.id)
+        .single();
+
+      if (profile) {
+        if (profile.role) userRole = profile.role as UserRole;
+        if (profile.status) accountStatus = profile.status;
+      }
+    } catch {
+      // Default to active customer on error
+    }
+
+    // 3. SUSPENDED OR INACTIVE ACCOUNT CHECK
+    if (accountStatus !== "active" && (isDashboardRoute || isAdminRoute)) {
       const url = request.nextUrl.clone();
-      url.pathname = "/auth/login";
-      url.searchParams.set("redirectTo", pathname);
+      url.pathname = "/unauthorized";
+      url.searchParams.set("reason", "suspended");
       return NextResponse.redirect(url);
     }
 
-    // Fetch user profile if user exists and needs role-based routing
-    let userRole = "customer";
-    if (user) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", user.id)
-        .single();
-      if (profile?.role) {
-        userRole = profile.role;
-      }
+    // 4. AUTH ROUTES (/auth/login, /auth/sign-up): Redirect authenticated users to appropriate workspace
+    if (isAuthRoute) {
+      const url = request.nextUrl.clone();
+      const isInternal = ["agent", "logistics", "admin", "super_admin"].includes(userRole);
+      url.pathname = isInternal ? "/admin" : "/dashboard";
+      return NextResponse.redirect(url);
     }
 
-    // 2. If user IS logged in and tries to access /admin
-    if (user && isAdminRoute) {
-      const isAdmin = ["admin", "super_admin", "agent", "logistics"].includes(userRole);
-      if (!isAdmin) {
+    // 5. ADMIN ROUTES (/admin/*): Enforce strict role-based access control
+    if (isAdminRoute) {
+      const isInternal = ["agent", "logistics", "admin", "super_admin"].includes(userRole);
+
+      // Customer role cannot access /admin
+      if (!isInternal) {
         const url = request.nextUrl.clone();
         url.pathname = "/unauthorized";
         return NextResponse.redirect(url);
       }
-    }
 
-    // 3. If user IS logged in and tries to access auth routes (/auth/login or /auth/sign-up)
-    if (user && isAuthRoute) {
-      const url = request.nextUrl.clone();
-      const isAdmin = ["admin", "super_admin", "agent", "logistics"].includes(userRole);
-      url.pathname = isAdmin ? "/admin" : "/dashboard";
-      return NextResponse.redirect(url);
+      // Granular sub-route permissions for internal staff
+      if (userRole === "logistics") {
+        const allowedLogisticsRoutes = ["/admin", "/admin/shipments", "/admin/orders", "/admin/notifications", "/admin/products"];
+        const isAllowed = allowedLogisticsRoutes.some(route => pathname === route || pathname.startsWith(route + "/"));
+        if (!isAllowed) {
+          const url = request.nextUrl.clone();
+          url.pathname = "/unauthorized";
+          return NextResponse.redirect(url);
+        }
+      }
+
+      if (userRole === "agent") {
+        const restrictedAgentRoutes = ["/admin/users", "/admin/settings"];
+        const isRestricted = restrictedAgentRoutes.some(route => pathname === route || pathname.startsWith(route + "/"));
+        if (isRestricted) {
+          const url = request.nextUrl.clone();
+          url.pathname = "/unauthorized";
+          return NextResponse.redirect(url);
+        }
+      }
     }
   } catch (err) {
-    // Edge recovery: return response
     return response;
   }
 

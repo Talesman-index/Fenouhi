@@ -1,31 +1,59 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
-import { Filter, SlidersHorizontal } from "lucide-react";
+import { getCategories, getPublicProducts } from "@/lib/supabase/catalog";
+import type { Category, Product } from "@/types/catalog";
+import { SlidersHorizontal, Package, AlertCircle } from "lucide-react";
 
-export default function CatalogPage() {
+function CatalogContent() {
+  const searchParams = useSearchParams();
+  const catParam = searchParams.get("cat");
+  const searchParam = searchParams.get("q");
+
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const products = [
-    { id: "1", title: "Montre Connectée SmartFit Pro X", price: "12 500 FCFA", oldPrice: "18 000 FCFA", image: "/images/assets/item_1.jpg", category: "electronics" },
-    { id: "2", title: "Écouteurs Bluetooth ANC SoundBass", price: "8 900 FCFA", oldPrice: "14 000 FCFA", image: "/images/assets/item_2.jpg", category: "electronics" },
-    { id: "3", title: "Casque Audio Over-Ear Wireless", price: "15 000 FCFA", oldPrice: "22 000 FCFA", image: "/images/assets/item_3.jpg", category: "electronics" },
-    { id: "4", title: "Baskets Urban Sport Sneaker Pro", price: "8 500 FCFA", oldPrice: "12 000 FCFA", image: "/images/assets/item_4.jpg", category: "fashion" },
-    { id: "5", title: "Sérum Visage Vitamine C Éclat", price: "3 500 FCFA", image: "/images/assets/item_5.jpg", category: "beauty" },
-    { id: "6", title: "Sweat-shirt Fleece Warm Thermal", price: "5 000 FCFA", image: "/images/assets/item_6.jpg", category: "fashion" },
-    { id: "7", title: "Coffret Bijoux Doré 24k Luxury", price: "6 800 FCFA", oldPrice: "9 500 FCFA", image: "/images/assets/item_7.jpg", category: "fashion" },
-    { id: "8", title: "Veste Blouson Imperméable Workwear", price: "12 000 FCFA", image: "/images/assets/item_8.jpg", category: "fashion" },
-    { id: "9", title: "Gants de Protection & Travail Cuir", price: "2 500 FCFA", image: "/images/assets/item_9.jpg", category: "machinery" },
-    { id: "10", title: "Parka Rembourrée Capuche Fourrure", price: "18 000 FCFA", image: "/images/assets/item_10.jpg", category: "fashion" },
-  ];
+  useEffect(() => {
+    if (catParam) {
+      setSelectedCategory(catParam);
+    }
+    if (searchParam) {
+      setSearchQuery(searchParam);
+    }
+  }, [catParam, searchParam]);
 
-  const filteredProducts = selectedCategory === "all" 
-    ? products 
-    : products.filter(p => p.category === selectedCategory);
+  useEffect(() => {
+    async function loadData() {
+      setLoading(true);
+      setErrorMsg(null);
+      try {
+        const [cats, prods] = await Promise.all([
+          getCategories(),
+          getPublicProducts({
+            categorySlug: selectedCategory,
+            search: searchQuery,
+          }),
+        ]);
+        setCategories(cats);
+        setProducts(prods);
+      } catch (err: any) {
+        setErrorMsg("Impossible de charger le catalogue Supabase pour le moment.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadData();
+  }, [selectedCategory, searchQuery]);
 
   return (
-    <div style={{ padding: "40px 0", background: "var(--bg-main)" }}>
+    <div style={{ padding: "40px 0", background: "var(--bg-main)", minHeight: "80vh" }}>
       <div className="container">
         {/* HEADER BAR */}
         <div style={{ marginBottom: 30, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
@@ -38,30 +66,103 @@ export default function CatalogPage() {
             </p>
           </div>
 
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <SlidersHorizontal style={{ width: 18, color: "var(--navy-dark)" }} />
-            <select 
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="admin-input" 
-              style={{ width: "auto", background: "#FFF" }}
-            >
-              <option value="all">Toutes les catégories</option>
-              <option value="electronics">High-Tech & Audio</option>
-              <option value="fashion">Mode & Chaussures</option>
-              <option value="beauty">Beauté & Soins</option>
-              <option value="machinery">Outillage & PME</option>
-            </select>
+          <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+            {/* SEARCH INPUT */}
+            <input
+              type="text"
+              placeholder="Rechercher un produit..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="admin-input"
+              style={{ width: 220, background: "#FFF" }}
+            />
+
+            {/* CATEGORY SELECT */}
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <SlidersHorizontal style={{ width: 18, color: "var(--navy-dark)" }} />
+              <select 
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="admin-input" 
+                style={{ width: "auto", background: "#FFF" }}
+              >
+                <option value="all">Toutes les catégories</option>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.slug}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
-        {/* PRODUCTS GRID */}
-        <div className="grid-5">
-          {filteredProducts.map((p) => (
-            <ProductCard key={p.id} {...p} />
-          ))}
+        {/* NOTICE SIMULATION / DEMO PRODUCTS */}
+        <div style={{ background: "#FEF3C7", border: "1px solid #FCD34D", borderRadius: 12, padding: "12px 16px", marginBottom: 28, fontSize: 13, color: "#92400E", display: "flex", alignItems: "center", gap: 10 }}>
+          <Package style={{ width: 18, flexShrink: 0, color: "#D97706" }} />
+          <div>
+            <strong>Information Catalogue :</strong> Les articles marqués d'un badge 💡 <strong>Démo / Simulation</strong> sont des exemples d'importation pour tester les devis. Les futurs articles ajoutés par les administrateurs sont de vrais produits commerciaux certifiés.
+          </div>
         </div>
+
+        {/* LOADING SKELETON */}
+        {loading && (
+          <div className="grid-5">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <div key={n} className="card" style={{ height: 280, background: "#F1F5F9", borderRadius: 16, animation: "pulse 1.5s infinite" }} />
+            ))}
+          </div>
+        )}
+
+        {/* ERROR STATE */}
+        {errorMsg && !loading && (
+          <div className="card" style={{ textAlign: "center", padding: 40, color: "#EF4444" }}>
+            <AlertCircle style={{ width: 40, height: 40, margin: "0 auto 12px" }} />
+            <div style={{ fontWeight: 800 }}>{errorMsg}</div>
+          </div>
+        )}
+
+        {/* EMPTY STATE */}
+        {!loading && !errorMsg && products.length === 0 && (
+          <div className="card" style={{ textAlign: "center", padding: "60px 20px" }}>
+            <Package style={{ width: 48, height: 48, color: "#94A3B8", margin: "0 auto 16px" }} />
+            <h3 style={{ fontSize: 18, fontWeight: 800, color: "var(--navy-dark)", marginBottom: 8 }}>
+              Aucun produit disponible
+            </h3>
+            <p style={{ fontSize: 14, color: "var(--text-muted)" }}>
+              Aucun article ne correspond actuellement à vos critères de recherche ou de filtre.
+            </p>
+          </div>
+        )}
+
+        {/* PRODUCTS GRID */}
+        {!loading && !errorMsg && products.length > 0 && (
+          <div className="grid-5">
+            {products.map((p) => {
+              const primaryImg = p.images?.find(i => i.is_primary)?.public_image_url || p.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
+              return (
+                <ProductCard
+                  key={p.id}
+                  id={p.id}
+                  title={p.name}
+                  price={`${p.price.toLocaleString()} ${p.currency}`}
+                  image={primaryImg}
+                  category={p.category?.name || "Général"}
+                  isDemo={p.is_demo}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
+  );
+}
+
+export default function CatalogPage() {
+  return (
+    <Suspense fallback={<div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>Chargement du catalogue Supabase...</div>}>
+      <CatalogContent />
+    </Suspense>
   );
 }

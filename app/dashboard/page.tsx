@@ -8,6 +8,8 @@ import { createClient } from "@/lib/supabase/client";
 import { PlusCircle, FileText, ShoppingBag, Truck, ArrowRight, ShieldCheck, Clock, CheckCircle2, Package } from "lucide-react";
 import type { Profile } from "@/types/supabase";
 
+import DemoBanner from "@/components/DemoBanner";
+
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("orders");
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -33,7 +35,9 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <div style={{ padding: "20px 0 60px", background: "var(--bg-main)", minHeight: "80vh", overflowX: "hidden" }}>
+    <>
+      <DemoBanner userEmail={profile?.email} />
+      <div style={{ padding: "20px 0 60px", background: "var(--bg-main)", minHeight: "80vh", overflowX: "hidden" }}>
       <div className="container" style={{ maxWidth: 1200, margin: "0 auto", paddingLeft: 16, paddingRight: 16, boxSizing: "border-box" }}>
         
         {/* ELEGANT RESPONSIVE TOP HEADER BAR */}
@@ -162,5 +166,6 @@ export default function DashboardPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

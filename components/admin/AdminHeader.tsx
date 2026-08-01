@@ -8,6 +8,8 @@ import Logo from "@/components/Logo";
 import { Search, Bell, Menu, X, ShieldAlert, LogOut, Package, CheckCircle2, FileText } from "lucide-react";
 import type { Profile } from "@/types/supabase";
 
+import DemoBanner from "@/components/DemoBanner";
+
 interface AdminHeaderProps {
   profile: Profile | null;
   onToggleMobileSidebar?: () => void;
@@ -38,7 +40,9 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
   ];
 
   return (
-    <header
+    <>
+      <DemoBanner userEmail={profile?.email} />
+      <header
       className="admin-header-full"
       style={{
         background: "#FFFFFF",
@@ -229,5 +233,6 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
         </div>
       </div>
     </header>
+    </>
   );
 }

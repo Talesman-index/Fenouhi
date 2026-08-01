@@ -40,7 +40,9 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
     router.refresh();
   };
 
-  const navItems = [
+  const userRole = profile?.role || "admin";
+
+  const allNavItems = [
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
     { href: "/admin/products", label: "Articles & Catalogue", icon: Package },
     { href: "/admin/users", label: "Utilisateurs", icon: Users },
@@ -55,6 +57,17 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
     { href: "/admin/content", label: "Gestion Contenu", icon: Globe },
     { href: "/admin/settings", label: "Paramètres Plateforme", icon: Settings },
   ];
+
+  const navItems = allNavItems.filter((item) => {
+    if (userRole === "super_admin" || userRole === "admin") return true;
+    if (userRole === "logistics") {
+      return ["/admin", "/admin/products", "/admin/shipments", "/admin/orders", "/admin/notifications"].includes(item.href);
+    }
+    if (userRole === "agent") {
+      return !["/admin/users", "/admin/settings"].includes(item.href);
+    }
+    return true;
+  });
 
   const initials = profile 
     ? `${profile.first_name?.[0] || ""}${profile.last_name?.[0] || ""}`.toUpperCase() 
