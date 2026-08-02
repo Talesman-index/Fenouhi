@@ -118,8 +118,8 @@ export default function ProductDetailPage() {
   ];
 
   return (
-    <div style={{ background: "var(--bg-main)", minHeight: "100vh", paddingBottom: 60 }}>
-      <div className="container" style={{ paddingTop: 28 }}>
+    <div style={{ background: "var(--bg-main)", minHeight: "100vh", paddingBottom: 60, width: "100%", maxWidth: "100vw", overflowX: "hidden" }}>
+      <div className="container" style={{ paddingTop: 28, width: "100%", maxWidth: 1200, margin: "0 auto", paddingLeft: 16, paddingRight: 16, boxSizing: "border-box" }}>
 
         {/* DEMO PRODUCT WARNING BANNER */}
         {product.is_demo && (
@@ -430,15 +430,15 @@ export default function ProductDetailPage() {
         {/* ================================================================ */}
         {/* TABS SECTION                                                      */}
         {/* ================================================================ */}
-        <div style={{ marginTop: 40 }}>
-          <div className="product-tabs-bar" style={{ display: "flex", borderBottom: "2px solid var(--border-light)", gap: 16, marginBottom: 24, overflowX: "auto", whiteSpace: "nowrap", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", paddingBottom: 2 }}>
+        <div style={{ marginTop: 40, width: "100%", maxWidth: "100%", minWidth: 0, overflowX: "hidden", boxSizing: "border-box" }}>
+          <div className="product-tabs-bar" style={{ display: "flex", borderBottom: "2px solid var(--border-light)", gap: 12, marginBottom: 24, overflowX: "auto", whiteSpace: "nowrap", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", paddingBottom: 4, width: "100%", maxWidth: "100%", boxSizing: "border-box" }}>
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 style={{
-                  padding: "12px 6px",
-                  fontSize: 14,
+                  padding: "10px 10px",
+                  fontSize: 13.5,
                   fontWeight: activeTab === tab.id ? 900 : 600,
                   color: activeTab === tab.id ? "var(--orange-primary)" : "var(--text-muted)",
                   borderBottom: activeTab === tab.id ? "3px solid var(--orange-primary)" : "none",
@@ -545,7 +545,7 @@ export default function ProductDetailPage() {
 
             {/* SHIPPING */}
             {activeTab === "shipping" && (
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
                 {[
                   {
                     icon: Plane,
@@ -578,22 +578,22 @@ export default function ProductDetailPage() {
                 ].map((mode) => {
                   const Icon = mode.icon;
                   return (
-                    <div key={mode.title} style={{ padding: 20, background: mode.bg, borderRadius: "var(--radius-md)", border: `1px solid ${mode.color}33` }}>
+                    <div key={mode.title} style={{ padding: 18, background: mode.bg, borderRadius: "var(--radius-md)", border: `1px solid ${mode.color}33` }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-                        <div style={{ width: 44, height: 44, borderRadius: "50%", background: "#FFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                          <Icon style={{ width: 22, color: mode.color }} />
+                        <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <Icon style={{ width: 20, color: mode.color }} />
                         </div>
                         <div>
-                          <div style={{ fontWeight: 900, fontSize: 16, color: mode.color }}>{mode.title}</div>
+                          <div style={{ fontWeight: 900, fontSize: 15, color: mode.color }}>{mode.title}</div>
                           <div style={{ fontSize: 12, fontWeight: 700, color: mode.color, opacity: 0.8 }}>{mode.delay}</div>
                         </div>
                       </div>
-                      <div style={{ fontSize: 14, fontWeight: 800, color: mode.color, marginBottom: 10 }}>
+                      <div style={{ fontSize: 13.5, fontWeight: 800, color: mode.color, marginBottom: 10 }}>
                         Tarif : {mode.rate}
                       </div>
                       <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 6 }}>
                         {mode.points.map((p) => (
-                          <li key={p} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13 }}>
+                          <li key={p} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 12.5 }}>
                             <CheckCircle2 style={{ width: 15, color: mode.color, flexShrink: 0, marginTop: 1 }} />
                             <span style={{ fontWeight: 600, color: "#1E293B" }}>{p}</span>
                           </li>
@@ -604,12 +604,12 @@ export default function ProductDetailPage() {
                 })}
 
                 {/* Customs Info */}
-                <div style={{ gridColumn: "1 / -1", padding: 20, background: "var(--bg-main)", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)" }}>
+                <div style={{ gridColumn: "1 / -1", padding: 18, background: "var(--bg-main)", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                     <ShieldCheck style={{ width: 20, color: "var(--blue-primary)" }} />
                     <span style={{ fontWeight: 900, fontSize: 15, color: "var(--navy-dark)" }}>Dédouanement & Conformité</span>
                   </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10, fontSize: 13, color: "var(--navy-dark)" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 10, fontSize: 12.5, color: "var(--navy-dark)" }}>
                     {[
                       "Documents douaniers préparés par CargoLink",
                       "Déclaration de valeur conforme aux normes UEMOA",
@@ -629,19 +629,19 @@ export default function ProductDetailPage() {
         </div>
 
         {/* BOTTOM CTA BANNER */}
-        <div style={{ marginTop: 40, background: "linear-gradient(135deg, var(--navy-dark) 0%, #1E3A5F 100%)", borderRadius: "var(--radius-xl)", padding: "32px 40px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 20 }}>
+        <div className="product-bottom-cta-banner">
           <div>
-            <div style={{ fontSize: 22, fontWeight: 900, color: "#FFF", marginBottom: 6 }}>
+            <div style={{ fontSize: "clamp(18px, 4vw, 22px)", fontWeight: 900, color: "#FFF", marginBottom: 6 }}>
               Prêt à commander ? Notre équipe vous accompagne.
             </div>
-            <div style={{ fontSize: 14, color: "#94A3B8" }}>
+            <div style={{ fontSize: 13.5, color: "#94A3B8" }}>
               Devis gratuit en 24h · Inspection qualité · Livraison porte-à-porte
             </div>
           </div>
           <Link
             href={`/quote-request?prod=${encodeURIComponent(product.name)}&qty=${quantity}`}
             className="btn"
-            style={{ background: "var(--orange-primary)", color: "#FFF", padding: "14px 28px", fontSize: 14, fontWeight: 900, borderRadius: "var(--radius-sm)", display: "inline-flex", alignItems: "center", gap: 8, flexShrink: 0 }}
+            style={{ background: "var(--orange-primary)", color: "#FFF", padding: "12px 24px", fontSize: 13.5, fontWeight: 900, borderRadius: "var(--radius-sm)", display: "inline-flex", alignItems: "center", gap: 8, flexShrink: 0 }}
           >
             <ShoppingBag style={{ width: 18 }} /> Obtenir mon Devis Gratuit
           </Link>

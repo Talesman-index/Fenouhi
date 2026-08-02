@@ -2581,4 +2581,25 @@ a {
   }
 }
 
+.product-bottom-cta-banner {
+  margin-top: 40px;
+  background: linear-gradient(135deg, var(--navy-dark) 0%, #1E3A5F 100%);
+  border-radius: var(--radius-xl);
+  padding: 32px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .product-bottom-cta-banner {
+    padding: 20px 16px !important;
+    border-radius: var(--radius-lg) !important;
+  }
+}
+
 
