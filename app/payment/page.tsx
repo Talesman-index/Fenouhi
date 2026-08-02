@@ -69,7 +69,7 @@ function PaymentFormContent() {
   const [quote, setQuote] = useState<QuoteDetail>(DEMO_QUOTE);
   const [loading, setLoading] = useState(false);
   const [fetchingQuote, setFetchingQuote] = useState(true);
-  const [paymentMethod, setPaymentMethod] = useState<"mtn" | "moov" | "wave" | "orange" | "bank">("mtn");
+  const [paymentMethod, setPaymentMethod] = useState<"mtn" | "moov">("mtn");
   
   // Payer details
   const [payerName, setPayerName] = useState("");
@@ -144,11 +144,7 @@ function PaymentFormContent() {
 
   const ussdCode = paymentMethod === "mtn" 
     ? `*880*41*97000001*${quote.total_amount}#`
-    : paymentMethod === "moov"
-    ? `*155*2*1*95000001*${quote.total_amount}#`
-    : paymentMethod === "orange"
-    ? `*144*4*1*07000002*${quote.total_amount}#`
-    : `Transfert Wave vers +225 07 00 00 01`;
+    : `*155*2*1*95000001*${quote.total_amount}#`;
 
   const copyUssd = () => {
     navigator.clipboard.writeText(ussdCode);
@@ -329,24 +325,36 @@ function PaymentFormContent() {
                     1. SÉLECTIONNEZ LE MOYEN DE PAIEMENT *
                   </label>
 
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 10 }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
                     
                     {/* MTN */}
                     <button
                       type="button"
                       onClick={() => setPaymentMethod("mtn")}
                       style={{
-                        padding: 12,
-                        borderRadius: 14,
-                        border: paymentMethod === "mtn" ? "2px solid #F59E0B" : "1.5px solid #E2E8F0",
+                        padding: "16px 12px",
+                        borderRadius: 16,
+                        border: paymentMethod === "mtn" ? "2.5px solid #F59E0B" : "1.5px solid #E2E8F0",
                         background: paymentMethod === "mtn" ? "#FEF3C7" : "#FFFFFF",
                         textAlign: "center",
                         cursor: "pointer",
-                        transition: "all 0.2s ease"
+                        transition: "all 0.2s ease",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 8,
+                        boxShadow: paymentMethod === "mtn" ? "0 4px 14px rgba(245, 158, 11, 0.2)" : "none"
                       }}
                     >
-                      <div style={{ fontSize: 13, fontWeight: 900, color: "#92400E" }}>MTN Momo</div>
-                      <div style={{ fontSize: 10.5, color: "#B45309", marginTop: 2 }}>Bénin, CI, Tgo, Cam</div>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src="/images/payments/mtn_momo_official.png"
+                        alt="MTN Mobile Money"
+                        style={{ height: 42, maxWidth: "100%", objectFit: "contain", borderRadius: 6 }}
+                      />
+                      <div style={{ fontSize: 13.5, fontWeight: 900, color: "#92400E" }}>MTN Mobile Money</div>
+                      <div style={{ fontSize: 11, color: "#B45309" }}>Bénin, CI, Togo, Cameroun</div>
                     </button>
 
                     {/* MOOV */}
@@ -354,71 +362,29 @@ function PaymentFormContent() {
                       type="button"
                       onClick={() => setPaymentMethod("moov")}
                       style={{
-                        padding: 12,
-                        borderRadius: 14,
-                        border: paymentMethod === "moov" ? "2px solid #2563EB" : "1.5px solid #E2E8F0",
+                        padding: "16px 12px",
+                        borderRadius: 16,
+                        border: paymentMethod === "moov" ? "2.5px solid #2563EB" : "1.5px solid #E2E8F0",
                         background: paymentMethod === "moov" ? "#EFF6FF" : "#FFFFFF",
                         textAlign: "center",
                         cursor: "pointer",
-                        transition: "all 0.2s ease"
+                        transition: "all 0.2s ease",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 8,
+                        boxShadow: paymentMethod === "moov" ? "0 4px 14px rgba(37, 99, 235, 0.2)" : "none"
                       }}
                     >
-                      <div style={{ fontSize: 13, fontWeight: 900, color: "#1D4ED8" }}>Moov Money</div>
-                      <div style={{ fontSize: 10.5, color: "#2563EB", marginTop: 2 }}>Bénin, CI, Togo</div>
-                    </button>
-
-                    {/* WAVE */}
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod("wave")}
-                      style={{
-                        padding: 12,
-                        borderRadius: 14,
-                        border: paymentMethod === "wave" ? "2px solid #06B6D4" : "1.5px solid #E2E8F0",
-                        background: paymentMethod === "wave" ? "#ECFEFF" : "#FFFFFF",
-                        textAlign: "center",
-                        cursor: "pointer",
-                        transition: "all 0.2s ease"
-                      }}
-                    >
-                      <div style={{ fontSize: 13, fontWeight: 900, color: "#0E7490" }}>Wave Money</div>
-                      <div style={{ fontSize: 10.5, color: "#0891B2", marginTop: 2 }}>CI, Sénégal</div>
-                    </button>
-
-                    {/* ORANGE */}
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod("orange")}
-                      style={{
-                        padding: 12,
-                        borderRadius: 14,
-                        border: paymentMethod === "orange" ? "2px solid #F97316" : "1.5px solid #E2E8F0",
-                        background: paymentMethod === "orange" ? "#FFF7ED" : "#FFFFFF",
-                        textAlign: "center",
-                        cursor: "pointer",
-                        transition: "all 0.2s ease"
-                      }}
-                    >
-                      <div style={{ fontSize: 13, fontWeight: 900, color: "#C2410C" }}>Orange Money</div>
-                      <div style={{ fontSize: 10.5, color: "#EA580C", marginTop: 2 }}>CI, Sénégal, Cam</div>
-                    </button>
-
-                    {/* VIREMENT */}
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod("bank")}
-                      style={{
-                        padding: 12,
-                        borderRadius: 14,
-                        border: paymentMethod === "bank" ? "2px solid #0F172A" : "1.5px solid #E2E8F0",
-                        background: paymentMethod === "bank" ? "#F8FAFC" : "#FFFFFF",
-                        textAlign: "center",
-                        cursor: "pointer",
-                        transition: "all 0.2s ease"
-                      }}
-                    >
-                      <div style={{ fontSize: 13, fontWeight: 900, color: "#0F172A" }}>Virement Banq.</div>
-                      <div style={{ fontSize: 10.5, color: "#64748B", marginTop: 2 }}>BOA, Ecobank, UBA</div>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src="/images/payments/moov_africa_official.png"
+                        alt="Moov Africa"
+                        style={{ height: 42, maxWidth: "100%", objectFit: "contain", borderRadius: 6 }}
+                      />
+                      <div style={{ fontSize: 13.5, fontWeight: 900, color: "#1D4ED8" }}>Moov Money</div>
+                      <div style={{ fontSize: 11, color: "#2563EB" }}>Bénin, CI, Togo</div>
                     </button>
 
                   </div>
@@ -426,35 +392,33 @@ function PaymentFormContent() {
 
                 {/* INSTRUCTIONS DE PAIEMENT USSD */}
                 <div style={{ background: "#F1F5F9", borderRadius: 14, padding: 16, marginBottom: 24, border: "1px solid #CBD5E1" }}>
-                  <div style={{ fontSize: 11, fontWeight: 900, color: "#334155", letterSpacing: "0.5px", marginBottom: 6 }}>
-                    INSTRUCTIONS & CODE DE TRANSFERT INSTANTANÉ
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                    {paymentMethod === "mtn" ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src="/images/payments/mtn_momo_official.png" alt="MTN" style={{ height: 26, objectFit: "contain", borderRadius: 3 }} />
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src="/images/payments/moov_africa_official.png" alt="Moov" style={{ height: 26, objectFit: "contain", borderRadius: 3 }} />
+                    )}
+                    <div style={{ fontSize: 11, fontWeight: 900, color: "#334155", letterSpacing: "0.5px" }}>
+                      INSTRUCTIONS & CODE DE TRANSFERT {paymentMethod === "mtn" ? "MTN MOMO" : "MOOV MONEY"}
+                    </div>
                   </div>
 
-                  {paymentMethod !== "bank" ? (
-                    <>
-                      <p style={{ fontSize: 12.5, color: "#475569", margin: "0 0 10px", lineHeight: 1.4 }}>
-                        Effectuez le transfert Mobile Money vers le compte marchand officiel CargoLink Africa ou tapez directement le code USSD ci-dessous :
-                      </p>
-                      <div style={{ display: "flex", alignItems: "center", gap: 10, background: "#FFFFFF", padding: "10px 14px", borderRadius: 10, border: "1px solid #94A3B8" }}>
-                        <code style={{ fontSize: 14, fontWeight: 900, color: "var(--navy-dark)", flex: 1 }}>{ussdCode}</code>
-                        <button
-                          type="button"
-                          onClick={copyUssd}
-                          style={{ background: "none", border: "none", cursor: "pointer", color: "var(--orange-primary)", display: "flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 800 }}
-                        >
-                          {copiedCode ? <Check style={{ width: 16, color: "#10B981" }} /> : <Copy style={{ width: 16 }} />}
-                          <span>{copiedCode ? "Copié !" : "Copier"}</span>
-                        </button>
-                      </div>
-                    </>
-                  ) : (
-                    <div style={{ fontSize: 12.5, color: "#334155", lineHeight: 1.5 }}>
-                      <div><strong>Banque :</strong> Bank of Africa (BOA Bénin)</div>
-                      <div><strong>Titulaire :</strong> CARGOLINK AFRICA LOGISTIQUE SAS</div>
-                      <div><strong>RIB / IBAN :</strong> BJ66 0100 1002 4589 1234 5678 90</div>
-                      <div style={{ marginTop: 4, color: "#64748B", fontSize: 11.5 }}>Motif : Devis {quote.quote_number}</div>
-                    </div>
-                  )}
+                  <p style={{ fontSize: 12.5, color: "#475569", margin: "0 0 10px", lineHeight: 1.4 }}>
+                    Effectuez le transfert vers le compte marchand marchand {paymentMethod === "mtn" ? "MTN Mobile Money" : "Moov Money"} CargoLink Africa ou tapez directement le code USSD ci-dessous :
+                  </p>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, background: "#FFFFFF", padding: "10px 14px", borderRadius: 10, border: "1px solid #94A3B8" }}>
+                    <code style={{ fontSize: 14, fontWeight: 900, color: "var(--navy-dark)", flex: 1 }}>{ussdCode}</code>
+                    <button
+                      type="button"
+                      onClick={copyUssd}
+                      style={{ background: "none", border: "none", cursor: "pointer", color: "var(--orange-primary)", display: "flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 800 }}
+                    >
+                      {copiedCode ? <Check style={{ width: 16, color: "#10B981" }} /> : <Copy style={{ width: 16 }} />}
+                      <span>{copiedCode ? "Copié !" : "Copier"}</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* 2. INFOS DU PAYEUR */}

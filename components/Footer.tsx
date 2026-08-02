@@ -127,9 +127,6 @@ export default function Footer() {
               <div className="pay-logo-badge" title="Kkiapay" style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "4px 10px", height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.03)" }}>
                 <img src="/images/payments/kkiapay.png" alt="Kkiapay" style={{ height: 22, width: "auto", objectFit: "contain" }} />
               </div>
-              <div className="pay-logo-badge" title="Celtiis Cash" style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "4px 10px", height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.03)" }}>
-                <img src="/images/payments/celtiis.png" alt="Celtiis Cash" style={{ height: 22, width: "auto", objectFit: "contain" }} />
-              </div>
               <div className="pay-logo-badge" title="MTN Mobile Money" style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "4px 10px", height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.03)" }}>
                 <img src="/images/payments/mtn.png" alt="MTN Mobile Money" style={{ height: 22, width: "auto", objectFit: "contain" }} />
               </div>
@@ -146,9 +143,9 @@ export default function Footer() {
           </div>
 
           {/* STAY CONNECTED (ONLY 3 SOCIALS: FACEBOOK, INSTAGRAM, TIKTOK) */}
-          <div style={{ textAlign: "right" }}>
-            <div className="widget-title" style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 10 }}>Stay Connected</div>
-            <div className="social-circle-buttons" style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+            <div className="widget-title" style={{ fontSize: 14, fontWeight: 900, color: "#0F172A", marginBottom: 12, letterSpacing: "-0.2px" }}>Stay Connected</div>
+            <div className="social-circle-buttons" style={{ display: "flex", gap: 14, alignItems: "center", justifyContent: "center" }}>
               {/* FACEBOOK */}
               <a 
                 href="https://facebook.com" 
@@ -156,9 +153,21 @@ export default function Footer() {
                 rel="noreferrer"
                 title="Facebook CargoLink"
                 className="social-circle-btn" 
-                style={{ width: 36, height: 36, background: "#1877F2", color: "#FFF", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", textDecoration: "none", boxShadow: "0 2px 6px rgba(24,119,242,0.3)" }}
+                style={{
+                  width: 44,
+                  height: 44,
+                  background: "#1877F2",
+                  color: "#FFFFFF",
+                  borderRadius: "50%",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textDecoration: "none",
+                  boxShadow: "0 6px 16px rgba(24, 119, 242, 0.35)",
+                  transition: "transform 0.2s ease, box-shadow 0.2s ease"
+                }}
               >
-                <Facebook style={{ width: 18, height: 18 }} />
+                <Facebook style={{ width: 20, height: 20, fill: "#FFFFFF", stroke: "#1877F2", strokeWidth: 1 }} />
               </a>
 
               {/* INSTAGRAM */}
@@ -168,9 +177,21 @@ export default function Footer() {
                 rel="noreferrer"
                 title="Instagram CargoLink"
                 className="social-circle-btn" 
-                style={{ width: 36, height: 36, background: "linear-gradient(45deg, #F09433 0%, #E6683C 25%, #DC2743 50%, #CC2366 75%, #BC1888 100%)", color: "#FFF", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", textDecoration: "none", boxShadow: "0 2px 6px rgba(220,39,67,0.3)" }}
+                style={{
+                  width: 44,
+                  height: 44,
+                  background: "radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)",
+                  color: "#FFFFFF",
+                  borderRadius: "50%",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textDecoration: "none",
+                  boxShadow: "0 6px 16px rgba(220, 39, 67, 0.35)",
+                  transition: "transform 0.2s ease, box-shadow 0.2s ease"
+                }}
               >
-                <Instagram style={{ width: 18, height: 18 }} />
+                <Instagram style={{ width: 20, height: 20, stroke: "#FFFFFF", strokeWidth: 2, fill: "none" }} />
               </a>
 
               {/* TIKTOK */}
@@ -180,9 +201,21 @@ export default function Footer() {
                 rel="noreferrer"
                 title="TikTok CargoLink"
                 className="social-circle-btn" 
-                style={{ width: 36, height: 36, background: "#000000", color: "#FFF", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", textDecoration: "none", boxShadow: "0 2px 6px rgba(0,0,0,0.3)" }}
+                style={{
+                  width: 44,
+                  height: 44,
+                  background: "#000000",
+                  color: "#FFFFFF",
+                  borderRadius: "50%",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textDecoration: "none",
+                  boxShadow: "0 6px 16px rgba(0, 0, 0, 0.35)",
+                  transition: "transform 0.2s ease, box-shadow 0.2s ease"
+                }}
               >
-                <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: 16, height: 16 }}>
+                <svg viewBox="0 0 24 24" fill="#FFFFFF" style={{ width: 19, height: 19 }}>
                   <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 2.49 6.34 6.34 0 0 0 1.077 8.371 6.342 6.342 0 0 0 8.016-.324 6.34 6.34 0 0 0 1.764-4.256V9.162a8.163 8.163 0 0 0 4.773 1.524V7.24a4.826 4.826 0 0 1-1.003-.554z"/>
                 </svg>
               </a>
