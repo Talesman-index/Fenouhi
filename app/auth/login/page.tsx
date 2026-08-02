@@ -83,7 +83,6 @@ function LoginFormContent() {
         provider,
         options: {
           redirectTo: redirectUrl,
-          skipBrowserRedirect: true,
         },
       });
 
@@ -94,19 +93,6 @@ function LoginFormContent() {
       }
 
       if (data?.url) {
-        const checkRes = await fetch(data.url);
-        if (!checkRes.ok) {
-          const errData = await checkRes.json().catch(() => ({}));
-          setLoading(false);
-          const providerName = provider === "google" ? "Google" : "Facebook";
-          if (errData?.msg?.includes("not enabled") || errData?.code === 400) {
-            setErrorMsg(`La connexion via ${providerName} n'est pas encore activée sur le projet Supabase. Veuillez activer le fournisseur ${providerName} dans le Dashboard Supabase (Authentication > Providers).`);
-          } else {
-            setErrorMsg(errData?.msg || `La connexion via ${providerName} est temporairement indisponible.`);
-          }
-          return;
-        }
-
         window.location.href = data.url;
       }
     } catch (err: any) {

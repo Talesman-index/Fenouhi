@@ -70,7 +70,6 @@ export default function SignUpPage() {
         provider,
         options: {
           redirectTo: redirectUrl,
-          skipBrowserRedirect: true,
         },
       });
 
@@ -81,19 +80,6 @@ export default function SignUpPage() {
       }
 
       if (data?.url) {
-        const checkRes = await fetch(data.url);
-        if (!checkRes.ok) {
-          const errData = await checkRes.json().catch(() => ({}));
-          setLoading(false);
-          const providerName = provider === "google" ? "Google" : "Facebook";
-          if (errData?.msg?.includes("not enabled") || errData?.code === 400) {
-            setServerError(`L'inscription via ${providerName} n'est pas encore activée sur le projet Supabase. Veuillez activer le fournisseur ${providerName} dans le Dashboard Supabase (Authentication > Providers).`);
-          } else {
-            setServerError(errData?.msg || `L'inscription via ${providerName} est temporairement indisponible.`);
-          }
-          return;
-        }
-
         window.location.href = data.url;
       }
     } catch (err: any) {
