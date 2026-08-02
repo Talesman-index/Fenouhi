@@ -65,19 +65,40 @@ export default function SignUpPage() {
     setServerError(null);
     try {
       const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOAuth({
+      const redirectUrl = `${window.location.origin}/auth/callback?next=/dashboard`;
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
+          redirectTo: redirectUrl,
+          skipBrowserRedirect: true,
         },
       });
+
       if (error) {
         setLoading(false);
         setServerError(`Erreur ${provider === "google" ? "Google" : "Facebook"} : ${error.message}`);
+        return;
+      }
+
+      if (data?.url) {
+        const checkRes = await fetch(data.url);
+        if (!checkRes.ok) {
+          const errData = await checkRes.json().catch(() => ({}));
+          setLoading(false);
+          const providerName = provider === "google" ? "Google" : "Facebook";
+          if (errData?.msg?.includes("not enabled") || errData?.code === 400) {
+            setServerError(`L'inscription via ${providerName} n'est pas encore activée sur le projet Supabase. Veuillez activer le fournisseur ${providerName} dans le Dashboard Supabase (Authentication > Providers).`);
+          } else {
+            setServerError(errData?.msg || `L'inscription via ${providerName} est temporairement indisponible.`);
+          }
+          return;
+        }
+
+        window.location.href = data.url;
       }
     } catch (err: any) {
       setLoading(false);
-      setServerError(err.message || "Une erreur est survenue.");
+      setServerError(err.message || "Une erreur est survenue lors de l'initialisation OAuth.");
     }
   };
 

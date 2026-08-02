@@ -78,19 +78,40 @@ function LoginFormContent() {
     setErrorMsg(null);
     try {
       const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOAuth({
+      const redirectUrl = `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo || "/dashboard")}`;
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo || "/dashboard")}`,
+          redirectTo: redirectUrl,
+          skipBrowserRedirect: true,
         },
       });
+
       if (error) {
         setLoading(false);
         setErrorMsg(`Connexion ${provider === "google" ? "Google" : "Facebook"} : ${error.message}`);
+        return;
+      }
+
+      if (data?.url) {
+        const checkRes = await fetch(data.url);
+        if (!checkRes.ok) {
+          const errData = await checkRes.json().catch(() => ({}));
+          setLoading(false);
+          const providerName = provider === "google" ? "Google" : "Facebook";
+          if (errData?.msg?.includes("not enabled") || errData?.code === 400) {
+            setErrorMsg(`La connexion via ${providerName} n'est pas encore activée sur le projet Supabase. Veuillez activer le fournisseur ${providerName} dans le Dashboard Supabase (Authentication > Providers).`);
+          } else {
+            setErrorMsg(errData?.msg || `La connexion via ${providerName} est temporairement indisponible.`);
+          }
+          return;
+        }
+
+        window.location.href = data.url;
       }
     } catch (err: any) {
       setLoading(false);
-      setErrorMsg(err.message || "Une erreur est survenue.");
+      setErrorMsg(err.message || "Une erreur est survenue lors de l'initialisation OAuth.");
     }
   };
 
