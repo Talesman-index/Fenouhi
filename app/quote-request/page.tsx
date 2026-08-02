@@ -16,6 +16,7 @@ import {
   ArrowLeft,
   Calculator,
   ShieldCheck,
+  CreditCard,
   Upload,
   Phone,
   Globe,
@@ -355,15 +356,24 @@ function QuoteRequestContent() {
 
                 {/* ACTION BUTTONS */}
                 <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+                  <Link
+                    href={`/payment?quote_id=${createdQuoteNumber || "DEV-2026-9410"}`}
+                    className="btn btn-orange"
+                    style={{ padding: "14px 28px", fontSize: 14.5, fontWeight: 900, display: "inline-flex", alignItems: "center", gap: 10, borderRadius: 9999, boxShadow: "0 8px 25px rgba(245,158,11,0.3)" }}
+                  >
+                    <CreditCard style={{ width: 18 }} />
+                    Valider & Payer par Mobile Money
+                  </Link>
+
                   <a
                     href={`https://wa.me/22997000000?text=${whatsappMessage}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn btn-orange"
-                    style={{ padding: "14px 28px", fontSize: 14.5, fontWeight: 900, display: "inline-flex", alignItems: "center", gap: 10, borderRadius: 9999 }}
+                    className="btn btn-primary"
+                    style={{ padding: "14px 24px", fontSize: 14, fontWeight: 800, background: "var(--navy-dark)", color: "#FFF", borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 8 }}
                   >
                     <MessageSquare style={{ width: 18 }} />
-                    Discuter sur WhatsApp avec un Agent
+                    Discuter WhatsApp
                   </a>
 
                   <Link

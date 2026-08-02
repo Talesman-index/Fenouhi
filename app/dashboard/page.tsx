@@ -119,9 +119,9 @@ export default function DashboardPage() {
                 </p>
 
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  <button className="btn btn-orange" style={{ flex: 1, minWidth: "100%", padding: 12, fontSize: 13, fontWeight: 800, textAlign: "center", justifyContent: "center" }} onClick={() => alert("Redirection vers paiement Mobile Money...")}>
+                  <Link href="/payment?quote_id=DEV-2026-9410" className="btn btn-orange" style={{ flex: 1, minWidth: "100%", padding: 12, fontSize: 13, fontWeight: 800, textAlign: "center", justifyContent: "center" }}>
                     Valider & Payer par Mobile Money
-                  </button>
+                  </Link>
                   <Link href="/contact" className="btn btn-primary" style={{ width: "100%", background: "rgba(15,23,42,0.08)", color: "var(--navy-dark)", padding: 12, fontSize: 13, fontWeight: 800, textAlign: "center", justifyContent: "center" }}>
                     Discuter sur WhatsApp
                   </Link>
