@@ -6,13 +6,31 @@ import TrackingTimeline from "@/components/TrackingTimeline";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { PlusCircle, FileText, ShoppingBag, Truck, ArrowRight, ShieldCheck, Clock, CheckCircle2, Package } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import type { Profile } from "@/types/supabase";
-
 import DemoBanner from "@/components/DemoBanner";
 
-export default function DashboardPage() {
-  const [activeTab, setActiveTab] = useState("orders");
+function DashboardContent() {
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get("tab");
+  const [activeTab, setActiveTab] = useState(tabParam || "orders");
   const [profile, setProfile] = useState<Profile | null>(null);
+
+  // Profile Form States
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [accountType, setAccountType] = useState("individual");
+  const [saving, setSaving] = useState(false);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (tabParam) {
+      setActiveTab(tabParam);
+    }
+  }, [tabParam]);
 
   useEffect(() => {
     async function loadProfile() {
@@ -26,13 +44,61 @@ export default function DashboardPage() {
           .single();
 
         if (data) {
-          setProfile(data as Profile);
+          const prof = data as Profile;
+          setProfile(prof);
+          setFirstName(prof.first_name || "");
+          setLastName(prof.last_name || "");
+          setPhone(prof.phone || "");
+          setCity(prof.city || "Cotonou");
+          setCountry(prof.country || "Bénin");
+          setAccountType(prof.account_type || "individual");
         }
       }
     }
 
     loadProfile();
   }, []);
+
+  const handleSaveProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+    setSuccessMsg(null);
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await supabase
+          .from("profiles")
+          .update({
+            first_name: firstName,
+            last_name: lastName,
+            phone,
+            city,
+            country,
+            account_type: accountType,
+            updated_at: new Date().toISOString()
+          })
+          .eq("id", user.id);
+
+        setProfile(prev => prev ? {
+          ...prev,
+          first_name: firstName,
+          last_name: lastName,
+          phone,
+          city,
+          country,
+          account_type: accountType as any
+        } : null);
+
+        setSuccessMsg("Votre profil a été mis à jour avec succès !");
+        setTimeout(() => setSuccessMsg(null), 4000);
+      }
+    } catch (err) {
+      console.error("Save profile error", err);
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <>
@@ -56,11 +122,11 @@ export default function DashboardPage() {
             </div>
 
             <Link 
-              href="/quote-request" 
-              className="btn btn-orange dashboard-header-cta" 
-              style={{ borderRadius: 9999, padding: "10px 22px", fontSize: 13, fontWeight: 900, whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 6, boxShadow: "0 4px 14px rgba(249,115,22,0.25)", flexShrink: 0 }}
+              href="/catalog" 
+              className="btn btn-primary dashboard-header-cta" 
+              style={{ borderRadius: 9999, padding: "10px 22px", fontSize: 13, fontWeight: 900, whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 6, background: "var(--navy-dark)", color: "#FFF", flexShrink: 0 }}
             >
-              <PlusCircle style={{ width: 16 }} /> Nouvelle Demande de Devis
+              <ShoppingBag style={{ width: 16 }} /> Retour à la Boutique
             </Link>
           </div>
         </div>
@@ -129,29 +195,136 @@ export default function DashboardPage() {
               </div>
             )}
 
-            {activeTab === "profile" && profile && (
-              <div className="card admin-card" style={{ padding: "18px 16px", overflow: "hidden", maxWidth: "100%", boxSizing: "border-box" }}>
-                <h3 style={{ fontSize: 17, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 14 }}>
-                  Mon Profil & Informations Personnelles
-                </h3>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 10, fontSize: 13 }}>
-                  <div style={{ background: "#F8FAFC", padding: 10, borderRadius: 8, border: "1px solid #E2E8F0" }}>
-                    <div style={{ fontSize: 10.5, color: "#64748B" }}>Nom & Prénom</div>
-                    <div style={{ fontWeight: 800, color: "#0F172A", marginTop: 2, wordBreak: "break-word" }}>{profile.first_name} {profile.last_name}</div>
+            {activeTab === "profile" && (
+              <div className="card admin-card" style={{ padding: "24px 20px", overflow: "hidden", maxWidth: "100%", boxSizing: "border-box" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
+                  <div>
+                    <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
+                      Mon Profil & Informations Personnelles
+                    </h3>
+                    <p style={{ fontSize: 12.5, color: "#64748B", margin: "2px 0 0" }}>
+                      Modifiez vos coordonnées de livraison et vos informations de contact.
+                    </p>
                   </div>
-                  <div style={{ background: "#F8FAFC", padding: 10, borderRadius: 8, border: "1px solid #E2E8F0" }}>
-                    <div style={{ fontSize: 10.5, color: "#64748B" }}>Email</div>
-                    <div style={{ fontWeight: 800, color: "#0F172A", marginTop: 2, wordBreak: "break-word" }}>{profile.email}</div>
-                  </div>
-                  <div style={{ background: "#F8FAFC", padding: 10, borderRadius: 8, border: "1px solid #E2E8F0" }}>
-                    <div style={{ fontSize: 10.5, color: "#64748B" }}>Téléphone WhatsApp</div>
-                    <div style={{ fontWeight: 800, color: "#0F172A", marginTop: 2, wordBreak: "break-word" }}>{profile.phone || "Non renseigné"}</div>
-                  </div>
-                  <div style={{ background: "#F8FAFC", padding: 10, borderRadius: 8, border: "1px solid #E2E8F0" }}>
-                    <div style={{ fontSize: 10.5, color: "#64748B" }}>Pays & Ville</div>
-                    <div style={{ fontWeight: 800, color: "#0F172A", marginTop: 2, wordBreak: "break-word" }}>{profile.city || "Cotonou"}, {profile.country || "Bénin"}</div>
-                  </div>
+                  <span className="badge" style={{ background: "#EFF6FF", color: "#165491", fontWeight: 800 }}>
+                    {accountType === "business" ? "Entreprise / PME" : accountType === "reseller" ? "Revendeur" : "Particulier"}
+                  </span>
                 </div>
+
+                {successMsg && (
+                  <div style={{ background: "#DCFCE7", border: "1px solid #86EFAC", color: "#166534", padding: 12, borderRadius: 10, marginBottom: 18, fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
+                    <CheckCircle2 style={{ width: 18 }} />
+                    <span>{successMsg}</span>
+                  </div>
+                )}
+
+                <form onSubmit={handleSaveProfile} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+                    <div>
+                      <label style={{ fontSize: 11, fontWeight: 900, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                        PRÉNOM *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        className="admin-input"
+                        placeholder="Ex: Serge"
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: 11, fontWeight: 900, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                        NOM *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        className="admin-input"
+                        placeholder="Ex: Mensah"
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+                    <div>
+                      <label style={{ fontSize: 11, fontWeight: 900, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                        ADRESSE EMAIL (NON MODIFIABLE)
+                      </label>
+                      <input
+                        type="email"
+                        disabled
+                        value={profile?.email || "client.demo@cargolink.africa"}
+                        className="admin-input"
+                        style={{ background: "#F1F5F9", color: "#64748B", cursor: "not-allowed" }}
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: 11, fontWeight: 900, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                        TÉLÉPHONE WHATSAPP *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="admin-input"
+                        placeholder="+229 97 00 00 00"
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+                    <div>
+                      <label style={{ fontSize: 11, fontWeight: 900, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                        VILLE DE LIVRAISON *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className="admin-input"
+                        placeholder="Ex: Cotonou"
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: 11, fontWeight: 900, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                        PAYS DE DESTINATION *
+                      </label>
+                      <select
+                        value={country}
+                        onChange={(e) => setCountry(e.target.value)}
+                        className="admin-input"
+                      >
+                        <option value="Bénin">🇧🇯 Bénin</option>
+                        <option value="Togo">🇹🇬 Togo</option>
+                        <option value="Côte d'Ivoire">🇨🇮 Côte d'Ivoire</option>
+                        <option value="Sénégal">🇸🇳 Sénégal</option>
+                        <option value="Cameroun">🇨🇲 Cameroun</option>
+                        <option value="Niger">🇳🇪 Niger</option>
+                        <option value="Mali">🇲🇱 Mali</option>
+                        <option value="Burkina Faso">🇧🇫 Burkina Faso</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: 8 }}>
+                    <button
+                      type="submit"
+                      disabled={saving}
+                      className="btn btn-orange"
+                      style={{ padding: "12px 24px", fontSize: 13.5, fontWeight: 900, borderRadius: 10, display: "inline-flex", alignItems: "center", gap: 8 }}
+                    >
+                      {saving ? "Enregistrement..." : "Enregistrer les Modifications"}
+                    </button>
+                  </div>
+                </form>
               </div>
             )}
 
@@ -167,5 +340,13 @@ export default function DashboardPage() {
       </div>
     </div>
     </>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <React.Suspense fallback={<div style={{ padding: "80px 0", textAlign: "center", fontWeight: 800, color: "#0F172A" }}>Chargement de l'Espace Client...</div>}>
+      <DashboardContent />
+    </React.Suspense>
   );
 }

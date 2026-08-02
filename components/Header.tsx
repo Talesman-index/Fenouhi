@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Logo from "@/components/Logo";
 import { 
-  Menu, X, Search, PlusCircle, Grid, User, LogIn, UserPlus,
+  Menu, X, Search, PlusCircle, Grid, User, LogIn, UserPlus, LogOut, FileText,
   MapPin, ChevronDown, Gift, Radio, Home, Package, ShieldCheck, 
   HelpCircle, Building2, ShoppingBag, Download
 } from "lucide-react";
@@ -15,24 +15,80 @@ export default function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [userProfile, setUserProfile] = useState<{ name: string; email: string; initials: string; role: string } | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
     const supabase = createClient();
     async function checkAuth() {
       const { data: { user } } = await supabase.auth.getUser();
-      setIsLoggedIn(!!user);
+      if (user) {
+        setIsLoggedIn(true);
+        try {
+          const { data: prof } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+          if (prof) {
+            const fn = prof.first_name || "";
+            const ln = prof.last_name || "";
+            const fullName = `${fn} ${ln}`.trim() || user.email?.split("@")[0] || "Client Démo";
+            const init = `${fn[0] || ""}${ln[0] || ""}`.toUpperCase() || "CD";
+            const role = prof.account_type === "business" ? "Entreprise / PME" : prof.account_type === "reseller" ? "Revendeur" : "Particulier";
+            setUserProfile({
+              name: fullName,
+              email: prof.email || user.email || "client.demo@cargolink.africa",
+              initials: init,
+              role: role
+            });
+          } else {
+            const email = user.email || "client.demo@cargolink.africa";
+            const name = user.user_metadata?.full_name || email.split("@")[0] || "Client Démo";
+            const init = name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) || "CD";
+            setUserProfile({
+              name,
+              email,
+              initials: init,
+              role: "Particulier"
+            });
+          }
+        } catch (e) {
+          setUserProfile({
+            name: user.email?.split("@")[0] || "Client Démo",
+            email: user.email || "client.demo@cargolink.africa",
+            initials: "CD",
+            role: "Particulier"
+          });
+        }
+      } else {
+        setIsLoggedIn(false);
+        setUserProfile(null);
+      }
     }
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsLoggedIn(!!session?.user);
+      if (session?.user) {
+        checkAuth();
+      } else {
+        setIsLoggedIn(false);
+        setUserProfile(null);
+      }
     });
 
     return () => {
       subscription.unsubscribe();
     };
   }, [pathname]);
+
+  const handleLogout = async () => {
+    try {
+      const supabase = createClient();
+      await supabase.auth.signOut();
+      setIsLoggedIn(false);
+      if (drawerOpen) setDrawerOpen(false);
+      window.location.href = "/";
+    } catch (e) {
+      console.error("Logout error", e);
+    }
+  };
 
   useEffect(() => {
     if (drawerOpen) {
@@ -105,9 +161,19 @@ export default function Header() {
 
               {/* USER / AUTH BUTTONS (DESKTOP ONLY) */}
               {isLoggedIn ? (
-                <Link href="/dashboard" className="btn btn-pill-sm desktop-only" style={{ background: "#0F172A", color: "#FFF", padding: "8px 16px", fontSize: 13, fontWeight: 800, borderRadius: 9999, alignItems: "center", gap: 6 }}>
-                  <User style={{ width: 14 }} /> <span>Mon Espace</span>
-                </Link>
+                <div className="desktop-only" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <Link href="/dashboard" className="btn btn-pill-sm" style={{ background: "#0F172A", color: "#FFF", padding: "8px 16px", fontSize: 13, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6 }}>
+                    <User style={{ width: 14 }} /> <span>Mon Espace</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-pill-sm"
+                    title="Se déconnecter"
+                    style={{ background: "rgba(220, 38, 38, 0.08)", color: "#DC2626", border: "1px solid rgba(220, 38, 38, 0.2)", padding: "8px 14px", fontSize: 12.5, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 5, cursor: "pointer" }}
+                  >
+                    <LogOut style={{ width: 14 }} /> <span>Déconnexion</span>
+                  </button>
+                </div>
               ) : (
                 <div className="desktop-only" style={{ gap: 6, alignItems: "center" }}>
                   <Link href="/auth/login" className="btn btn-pill-sm" style={{ background: "rgba(15,23,42,0.06)", color: "#0F172A", padding: "8px 16px", fontSize: 13, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
@@ -196,7 +262,7 @@ export default function Header() {
             </li>
           </ul>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 13, fontWeight: 800 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 13, fontWeight: 800 }}>
             <Link href="/quote-request" style={{ color: "var(--orange-primary)", display: "flex", alignItems: "center", gap: 4 }}>
               <Gift style={{ width: 15 }} /> Best Deals
             </Link>
@@ -227,18 +293,39 @@ export default function Header() {
           </button>
         </div>
 
-        {/* DRAWER SEARCH BAR */}
-        <div style={{ padding: "14px 16px", background: "#F8FAFC", borderBottom: "1px solid #E2E8F0" }}>
-          <div style={{ display: "flex", alignItems: "center", background: "#FFF", border: "1px solid #CBD5E1", borderRadius: 9999, padding: "6px 12px" }}>
-            <span style={{ color: "#38BDF8", marginRight: 6 }}>✦</span>
-            <input 
-              type="text" 
-              placeholder="Rechercher produit ou usine..." 
-              style={{ width: "100%", border: "none", outline: "none", fontSize: 12.5, fontWeight: 600 }}
-            />
-            <Search style={{ width: 15, color: "#64748B" }} />
-          </div>
-        </div>
+        {/* LOGGED IN USER ACCOUNT CARD BANNER */}
+        {isLoggedIn && (
+          <Link
+            href="/dashboard?tab=profile"
+            onClick={toggleDrawer}
+            style={{
+              background: "#0F172A",
+              padding: "14px 20px 18px",
+              color: "#FFF",
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              borderBottom: "1px solid rgba(255,255,255,0.08)",
+              textDecoration: "none"
+            }}
+          >
+            <div style={{ width: 42, height: 42, borderRadius: "50%", background: "#F59E0B", color: "#0F172A", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 15, flexShrink: 0, boxShadow: "0 4px 12px rgba(245,158,11,0.25)" }}>
+              {userProfile?.initials || "CD"}
+            </div>
+            <div style={{ minWidth: 0, flex: 1 }}>
+              <div style={{ fontWeight: 900, fontSize: 14, color: "#FFFFFF", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {userProfile?.name || "Client Démo"}
+              </div>
+              <div style={{ fontSize: 11, color: "#F59E0B", fontWeight: 800 }}>
+                {userProfile?.role || "Particulier"}
+              </div>
+              <div style={{ fontSize: 10.5, color: "#94A3B8", marginTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {userProfile?.email || "client.demo@cargolink.africa"}
+              </div>
+            </div>
+            <ChevronDown style={{ width: 16, color: "#94A3B8", transform: "rotate(-90deg)" }} />
+          </Link>
+        )}
 
         {/* DRAWER NAVIGATION LIST */}
         <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px" }}>
@@ -246,33 +333,28 @@ export default function Header() {
             Navigation Principale
           </div>
 
-          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
             <li>
-              <Link href="/" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 14, textDecoration: "none", background: pathname === "/" ? "#F1F5F9" : "transparent" }}>
+              <Link href="/" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: pathname === "/" ? "#F1F5F9" : "#FFFFFF", border: "1px solid #E2E8F0" }}>
                 <Home style={{ width: 18, color: "#165491" }} /> Accueil
               </Link>
             </li>
             <li>
-              <Link href="/catalog" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 14, textDecoration: "none", background: pathname === "/catalog" ? "#F1F5F9" : "transparent" }}>
+              <Link href="/catalog" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: pathname === "/catalog" ? "#F1F5F9" : "#FFFFFF", border: "1px solid #E2E8F0" }}>
                 <ShoppingBag style={{ width: 18, color: "#165491" }} /> Catalogue Produits Usines
               </Link>
             </li>
             <li>
-              <Link href="/quote-request" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, color: "var(--orange-hover)", fontWeight: 800, fontSize: 14, textDecoration: "none", background: "var(--orange-light)" }}>
-                <PlusCircle style={{ width: 18, color: "var(--orange-primary)" }} /> Demander un Devis Sur-Mesure
+              <Link href="/quote-request" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#C2410C", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFF7ED", border: "1px solid #FFEDD5" }}>
+                <PlusCircle style={{ width: 18, color: "#EA580C" }} /> Demander un Devis Sur-Mesure
               </Link>
             </li>
             <li>
-              <Link href="/dashboard" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
-                <Package style={{ width: 18, color: "#165491" }} /> Suivi de Colis & Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link href="/suppliers" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
+              <Link href="/suppliers" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}>
                 <Building2 style={{ width: 18, color: "#165491" }} /> Usines Partenaires Chine
               </Link>
             </li>
-            <li style={{ marginTop: 6 }}>
+            <li style={{ marginTop: 2 }}>
               <button
                 onClick={() => {
                   toggleDrawer();
@@ -284,15 +366,14 @@ export default function Header() {
                   alignItems: "center",
                   gap: 12,
                   padding: "11px 14px",
-                  borderRadius: 12,
+                  borderRadius: 10,
                   color: "#FFFFFF",
                   fontWeight: 900,
                   fontSize: 13.5,
-                  background: "linear-gradient(135deg, #0F172A 0%, #165491 100%)",
+                  background: "#0F172A",
                   border: "none",
                   cursor: "pointer",
-                  textAlign: "left",
-                  boxShadow: "0 4px 14px rgba(15, 23, 42, 0.15)"
+                  textAlign: "left"
                 }}
               >
                 <Download style={{ width: 18, color: "#38BDF8" }} />
@@ -305,19 +386,48 @@ export default function Header() {
           <div style={{ height: 1, background: "#E2E8F0", margin: "16px 0" }} />
 
           <div style={{ fontSize: 10, fontWeight: 900, color: "#94A3B8", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 10 }}>
-            Espace Compte & Authentification
+            {isLoggedIn ? "Mon Espace Client & Suivi" : "Espace Compte & Authentification"}
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {isLoggedIn ? (
-              <Link 
-                href="/dashboard" 
-                onClick={toggleDrawer}
-                className="btn btn-primary"
-                style={{ width: "100%", padding: 12, borderRadius: 10, textAlign: "center", fontWeight: 800, fontSize: 13.5, background: "#0F172A", color: "#FFF", textDecoration: "none" }}
-              >
-                Mon Espace Client
-              </Link>
+              <>
+                <Link 
+                  href="/dashboard?tab=orders" 
+                  onClick={toggleDrawer}
+                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}
+                >
+                  <Package style={{ width: 18, color: "#165491", flexShrink: 0 }} />
+                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Mes Commandes (2)</span>
+                  <span style={{ marginLeft: "auto", background: "#165491", color: "#FFF", fontSize: 10.5, fontWeight: 900, padding: "3px 10px", borderRadius: 9999, whiteSpace: "nowrap", flexShrink: 0, display: "inline-flex", alignItems: "center" }}>En cours</span>
+                </Link>
+
+                <Link 
+                  href="/dashboard?tab=quotes" 
+                  onClick={toggleDrawer}
+                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}
+                >
+                  <FileText style={{ width: 18, color: "#F59E0B", flexShrink: 0 }} />
+                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Devis à Valider (1)</span>
+                  <span style={{ marginLeft: "auto", background: "#FEF3C7", color: "#92400E", fontSize: 10.5, fontWeight: 900, padding: "3px 10px", borderRadius: 9999, whiteSpace: "nowrap", flexShrink: 0, display: "inline-flex", alignItems: "center" }}>Action</span>
+                </Link>
+
+                <Link 
+                  href="/dashboard?tab=profile" 
+                  onClick={toggleDrawer}
+                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}
+                >
+                  <User style={{ width: 18, color: "#165491" }} />
+                  <span>Profil & Adresses</span>
+                </Link>
+
+                <button 
+                  onClick={handleLogout}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", padding: "11px 14px", borderRadius: 10, fontWeight: 800, fontSize: 13.5, background: "#FFFFFF", color: "#E11D48", border: "1px solid #FECDD3", cursor: "pointer", marginTop: 4 }}
+                >
+                  <LogOut style={{ width: 16 }} /> Se Déconnecter
+                </button>
+              </>
             ) : (
               <>
                 <Link 

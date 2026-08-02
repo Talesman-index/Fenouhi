@@ -2177,13 +2177,13 @@ a {
   gap: 12px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 992px) {
   .dashboard-grid-layout {
     grid-template-columns: 1fr !important;
     gap: 16px !important;
   }
   .dashboard-sidebar-card {
-    padding: 16px !important;
+    display: none !important;
   }
   .dashboard-sidebar-tabs {
     flex-direction: row !important;
@@ -2545,6 +2545,20 @@ a {
 }
 
 @media (max-width: 640px) {
+  .product-detail-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .product-tabs-bar {
+    gap: 12px !important;
+  }
+
+  .product-tabs-bar button {
+    font-size: 13px !important;
+    padding: 10px 4px !important;
+  }
+
   .product-tab-content-container {
     padding: 16px !important;
   }

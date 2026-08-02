@@ -193,13 +193,13 @@ export default function ProductDetailPage() {
 
             {/* Thumbnail Strip */}
             {productImages.length > 1 && (
-              <div style={{ display: "flex", gap: 10 }}>
+              <div style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 4, scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
                 {productImages.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImage(idx)}
                     className="product-thumb"
-                    style={{ borderColor: activeImage === idx ? "var(--orange-primary)" : "var(--border-light)" }}
+                    style={{ borderColor: activeImage === idx ? "var(--orange-primary)" : "var(--border-light)", flexShrink: 0 }}
                   >
                     <img src={img} alt={`Vue ${idx + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
                   </button>
@@ -273,7 +273,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Price Display */}
-              <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 20, padding: "12px 0", borderTop: "1px solid var(--border-light)", borderBottom: "1px solid var(--border-light)" }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 20, padding: "12px 0", borderTop: "1px solid var(--border-light)", borderBottom: "1px solid var(--border-light)", flexWrap: "wrap" }}>
                 <span style={{ fontSize: 30, fontWeight: 900, color: "var(--orange-primary)" }}>
                   {unitPrice.toLocaleString()} FCFA
                 </span>
@@ -431,13 +431,13 @@ export default function ProductDetailPage() {
         {/* TABS SECTION                                                      */}
         {/* ================================================================ */}
         <div style={{ marginTop: 40 }}>
-          <div style={{ display: "flex", borderBottom: "2px solid var(--border-light)", gap: 24, marginBottom: 24 }}>
+          <div className="product-tabs-bar" style={{ display: "flex", borderBottom: "2px solid var(--border-light)", gap: 16, marginBottom: 24, overflowX: "auto", whiteSpace: "nowrap", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", paddingBottom: 2 }}>
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 style={{
-                  padding: "12px 4px",
+                  padding: "12px 6px",
                   fontSize: 14,
                   fontWeight: activeTab === tab.id ? 900 : 600,
                   color: activeTab === tab.id ? "var(--orange-primary)" : "var(--text-muted)",
@@ -446,6 +446,8 @@ export default function ProductDetailPage() {
                   border: "none",
                   cursor: "pointer",
                   marginBottom: -2,
+                  flexShrink: 0,
+                  whiteSpace: "nowrap"
                 }}
               >
                 {tab.label}
