@@ -70,50 +70,75 @@ export default function HomePage() {
   return (
     <div style={{ background: "#F8FAFC", paddingBottom: 60 }}>
       {/* HERO BANNERS SECTION */}
-      <section className="hero-banners-section" style={{ padding: "20px 0" }}>
+      <section className="hero-banners-section" style={{ padding: "16px 0 24px" }}>
         <div className="container">
           <div className="hero-banners-grid">
             {/* MAIN HERO BANNER */}
             <div className="hero-banner-main">
               <div className="hero-banner-main-content">
-                <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)", marginBottom: 12 }}>
-                  ⚡ IMPORTATION DIRECTE USINES ➔ AFRIQUE
-                </span>
-                <h1 style={{ fontSize: "clamp(26px, 4vw, 38px)", fontWeight: 900, lineHeight: 1.15, marginBottom: 12, color: "#FFF" }}>
-                  Achetez Directement en Usine.<br />Faites-vous Livrer en Afrique.
+                <div className="hero-badge-tag">
+                  <Zap style={{ width: 13, height: 13, color: "#F97316" }} />
+                  IMPORTATION DIRECTE USINES ➔ AFRIQUE
+                </div>
+                <h1 className="hero-main-title">
+                  Achetez Directement en Usine.<br />
+                  <span>Faites-vous Livrer en Afrique.</span>
                 </h1>
-                <p style={{ fontSize: 14, color: "#CBD5E1", marginBottom: 24, lineHeight: 1.5 }}>
+                <p className="hero-main-desc">
                   Sourcing certifié auprès d'usines internationales, dédouanement tout-en-un et livraison sécurisée dans toute l'Afrique.
                 </p>
-                <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                  <Link href="/quote-request" className="btn btn-orange">
-                    Demander un Devis Gratuit <ArrowRight style={{ width: 16 }} />
+                <div className="hero-main-actions">
+                  <Link href="/quote-request" className="hero-btn-primary">
+                    Demander un Devis Gratuit <ArrowRight style={{ width: 16, height: 16 }} />
                   </Link>
-                  <Link href="/catalog" className="btn btn-primary" style={{ background: "rgba(255,255,255,0.15)" }}>
+                  <Link href="/catalog" className="hero-btn-secondary">
                     Parcourir le Catalogue
                   </Link>
                 </div>
               </div>
-              <img className="hero-banner-main-img" src="/images/assets/hero_box.png" alt="CargoLink Box" />
+
+              <div className="hero-banner-main-media">
+                <img className="hero-banner-main-img" src="/images/assets/hero_box.png" alt="CargoLink Colis & Usine" />
+              </div>
             </div>
 
             {/* SIDE BANNER */}
             <div className="hero-banner-side">
               <div className="hero-banner-side-content">
-                <span className="hero-side-badge">
-                  ✈ SUIVI GPS LOGISTIQUE
-                </span>
+                <div className="hero-side-badge">
+                  <Truck style={{ width: 13, height: 13, color: "#60A5FA" }} />
+                  SUIVI GPS LOGISTIQUE
+                </div>
                 <h2 className="hero-side-title">
                   Hub International<br />➔ Afrique
                 </h2>
-                <p className="hero-side-desc">
-                  Livraison Express : 5 à 15 jours.<br />Fret Maritime : 50 à 95 jours.
-                </p>
+                
+                <div className="hero-side-specs">
+                  <div className="hero-spec-item">
+                    <span className="spec-dot air" />
+                    <div>
+                      <strong>Livraison Aérienne Express</strong>
+                      <small>5 à 15 jours</small>
+                    </div>
+                  </div>
+                  <div className="hero-spec-item">
+                    <span className="spec-dot sea" />
+                    <div>
+                      <strong>Fret Maritime Groupé</strong>
+                      <small>50 à 95 jours</small>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <Link href="/dashboard" className="hero-side-cta">
-                Suivre mon colis <span>→</span>
-              </Link>
-              <img className="hero-banner-side-img" src="/images/assets/hero_samsung.png" alt="Samsung S24" />
+
+              <div className="hero-side-footer">
+                <Link href="/dashboard" className="hero-side-cta">
+                  Suivre mon colis <ArrowRight style={{ width: 14, height: 14 }} />
+                </Link>
+                <div className="hero-side-media">
+                  <img className="hero-banner-side-img" src="/images/assets/hero_samsung.png" alt="Samsung S24 CargoLink Tracking" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
