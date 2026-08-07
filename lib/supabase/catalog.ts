@@ -2,14 +2,17 @@ import { createClient } from "@/lib/supabase/client";
 import type { Category, Product, ProductFilterOptions, ProductStatus } from "@/types/catalog";
 import { PRODUCTS, getProductById as getLocalProductById } from "@/lib/products";
 
-// Fallback seed categories
+// Fallback seed categories (All 9 major wholesale categories)
 const FALLBACK_CATEGORIES: Category[] = [
-  { id: "c1000000-0000-0000-0000-000000000001", name: "High-Tech & Audio", slug: "electronics", description: "Montres connectées, écouteurs, casques audio et accessoires électroniques.", icon: "Smartphone", is_active: true },
-  { id: "c1000000-0000-0000-0000-000000000002", name: "Mode & Chaussures", slug: "fashion", description: "Sneakers, vestes, t-shirts, bijoux et vêtements de travail usine.", icon: "Shirt", is_active: true },
-  { id: "c1000000-0000-0000-0000-000000000003", name: "Beauté & Soins", slug: "beauty", description: "Sérums visage, soins cosmétiques et matériel esthétique.", icon: "Sparkles", is_active: true },
-  { id: "c1000000-0000-0000-0000-000000000004", name: "Outillage & PME", slug: "machinery", description: "Gants de protection, équipements de travail et machines industrielles.", icon: "Wrench", is_active: true },
-  { id: "c1000000-0000-0000-0000-000000000005", name: "Agro-alimentaire & Vrac", slug: "agro", description: "Emballages alimentaires, conditionnements et produits bruts.", icon: "ShoppingBag", is_active: true },
-  { id: "c1000000-0000-0000-0000-000000000006", name: "Vrac & Grossistes", slug: "wholesale", description: "Lots d'articles en gros import direct usines Chine.", icon: "Package", is_active: true }
+  { id: "c1000000-0000-0000-0000-000000000001", name: "High-Tech & Électronique", slug: "electronics", description: "Smartphones, montres connectées, écouteurs, casques audio et high-tech.", icon: "Smartphone", is_active: true },
+  { id: "c1000000-0000-0000-0000-000000000002", name: "Mode & Chaussures", slug: "fashion", description: "Sneakers, vêtements streetwear, sacs maroquinerie, bijoux et textiles.", icon: "Shirt", is_active: true },
+  { id: "c1000000-0000-0000-0000-000000000003", name: "Beauté & Soins", slug: "beauty", description: "Sérums visage, soin de la peau, cosmétiques et équipements esthétiques.", icon: "Sparkles", is_active: true },
+  { id: "c1000000-0000-0000-0000-000000000004", name: "Machinerie & Outillage", slug: "machinery", description: "Équipements de travail, gants protection EPI et outillage industriel.", icon: "Wrench", is_active: true },
+  { id: "c1000000-0000-0000-0000-000000000005", name: "Maison & Électroménager", slug: "home", description: "Décoration, petit électroménager et articles d'équipement de maison.", icon: "Home", is_active: true },
+  { id: "c1000000-0000-0000-0000-000000000006", name: "Pièces Auto & Moto", slug: "automotive", description: "Pièces détachées, éclairage LED et accessoires véhicules.", icon: "Car", is_active: true },
+  { id: "c1000000-0000-0000-0000-000000000007", name: "Quincaillerie & Matériaux", slug: "hardware", description: "Matériaux de construction, robinetterie, quincaillerie et outillage.", icon: "Hammer", is_active: true },
+  { id: "c1000000-0000-0000-0000-000000000008", name: "Jouets & Puériculture", slug: "toys", description: "Jeux éducatifs, jouets enfants et articles de puériculture.", icon: "Smile", is_active: true },
+  { id: "c1000000-0000-0000-0000-000000000009", name: "Vrac & Grossistes", slug: "wholesale", description: "Lots d'articles en vrac et approvisionnement direct usines.", icon: "Package", is_active: true }
 ];
 
 /**
@@ -86,10 +89,10 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
         currency: "FCFA",
         stock_quantity: 100,
         minimum_order_quantity: p.minQty || 1,
-        country_of_origin: "Chine",
+        country_of_origin: "Hub International",
         weight: parseFloat(p.weight || "0.5"),
         available_shipping_modes: ["air", "sea"],
-        estimated_delivery_time: (p as any).estDelivery || "7-10 jours",
+        estimated_delivery_time: (p as any).estDelivery || "5-15 jours (Air)",
         status: "active" as ProductStatus,
         is_demo: true,
         is_featured: (p as any).isPopular || false,
@@ -167,11 +170,11 @@ export async function getProductByIdOrSlug(idOrSlug: string): Promise<Product | 
           currency: "FCFA",
           stock_quantity: 100,
           minimum_order_quantity: local.minQty || 1,
-          country_of_origin: "Chine",
+          country_of_origin: "Hub International",
           weight: parseFloat(local.weight || "0.5"),
           length: parseFloat(local.volume || "0.01"),
           available_shipping_modes: ["air", "sea"],
-          estimated_delivery_time: (local as any).estDelivery || "7-10 jours",
+          estimated_delivery_time: (local as any).estDelivery || "5-15 jours (Air)",
           status: "active",
           is_demo: true,
           is_featured: (local as any).isPopular || false,

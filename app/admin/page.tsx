@@ -194,7 +194,7 @@ export default function AdminDashboardPage() {
           </div>
           <div style={{ fontSize: 26, fontWeight: 900, color: "var(--orange-primary)" }}>{kpis.parcelsInTransit}</div>
           <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 700, marginTop: 4 }}>
-            Guangzhou ➔ Cotonou / Abidjan
+            Hub International ➔ Afrique
           </div>
         </div>
 
@@ -208,7 +208,7 @@ export default function AdminDashboardPage() {
           </div>
           <div style={{ fontSize: 22, fontWeight: 900, color: "var(--navy-dark)" }}>{kpis.totalRevenue.toLocaleString()} FCFA</div>
           <div style={{ fontSize: 11, color: "#D97706", fontWeight: 700, marginTop: 4 }}>
-            {kpis.pendingPayments} paiements à vérifier
+            Sur commandes payées · {kpis.pendingPayments} en attente
           </div>
         </div>
 

@@ -21,7 +21,7 @@ export default function ReturnsWarrantyPage() {
               <ShieldCheck style={{ width: 32, color: "var(--green-success)", marginBottom: 12 }} />
               <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 8 }}>Contrôle Qualité Avant Départ</h3>
               <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
-                Chaque produit est inspecté visuellement dans nos entrepôts de Guangzhou. Des photos HD vous sont soumises avant tout emballage d'expédition.
+                Chaque produit est inspecté visuellement dans nos entrepôts internationaux. Des photos HD vous sont soumises avant tout emballage d'expédition.
               </p>
             </div>
 

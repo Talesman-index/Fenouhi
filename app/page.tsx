@@ -27,13 +27,13 @@ export default function HomePage() {
   }, []);
 
   const categories = [
-    { name: "Electronics", img: "/images/assets/item_3.jpg", link: "/catalog?cat=electronics" },
-    { name: "Fashion", img: "/images/assets/item_6.jpg", link: "/catalog?cat=fashion" },
-    { name: "Liquors & Bags", img: "/images/assets/hero_bag.png", link: "/catalog?cat=wholesale" },
-    { name: "Home Decor", img: "/images/assets/item_1.jpg", link: "/catalog?cat=appliances" },
-    { name: "Health & Beauty", img: "/images/assets/item_5.jpg", link: "/catalog?cat=beauty" },
-    { name: "Groceries & Agro", img: "/images/assets/hero_agro.png", link: "/catalog?cat=agro" },
-    { name: "Sneakers & Tools", img: "/images/assets/item_4.jpg", link: "/catalog?cat=machinery" },
+    { name: "Électronique", img: "/images/assets/item_3.jpg", link: "/catalog?cat=electronics" },
+    { name: "Mode & Chaussures", img: "/images/assets/item_6.jpg", link: "/catalog?cat=fashion" },
+    { name: "Vrac & Grossistes", img: "/images/assets/hero_bag.png", link: "/catalog?cat=wholesale" },
+    { name: "Maison & Électroménager", img: "/images/assets/item_1.jpg", link: "/catalog?cat=home" },
+    { name: "Beauté & Santé", img: "/images/assets/item_5.jpg", link: "/catalog?cat=beauty" },
+    { name: "Machinerie & Outillage", img: "/images/assets/item_4.jpg", link: "/catalog?cat=machinery" },
+    { name: "Auto & Moto", img: "/images/assets/hero_agro.png", link: "/catalog?cat=automotive" },
   ];
 
   const todayDeals = [
@@ -61,10 +61,10 @@ export default function HomePage() {
   ];
 
   const samplePrompts = [
-    "1688.com/offer/67891234.html",
     "200 Casques Bluetooth ANC TWS",
     "50 Sacs à main Cuir Véritable",
-    "Lot Baskets Running Sport"
+    "Lot Baskets Running Sport",
+    "Panneaux Solaires Monocristallins 550W"
   ];
 
   return (
@@ -77,17 +77,17 @@ export default function HomePage() {
             <div className="hero-banner-main">
               <div className="hero-banner-main-content">
                 <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)", marginBottom: 12 }}>
-                  ⚡ IMPORTATION DIRECTE CHINE → AFRIQUE
+                  ⚡ IMPORTATION DIRECTE USINES ➔ AFRIQUE
                 </span>
                 <h1 style={{ fontSize: "clamp(26px, 4vw, 38px)", fontWeight: 900, lineHeight: 1.15, marginBottom: 12, color: "#FFF" }}>
-                  Achetez en Usine.<br />Faites-vous Livrer en Afrique.
+                  Achetez Directement en Usine.<br />Faites-vous Livrer en Afrique.
                 </h1>
                 <p style={{ fontSize: 14, color: "#CBD5E1", marginBottom: 24, lineHeight: 1.5 }}>
-                  Commandez sur 1688, Taobao, Alibaba ou parmi notre catalogue d'usines vérifiées. Devis transparents et fret sécurisé.
+                  Sourcing certifié auprès d'usines internationales, dédouanement tout-en-un et livraison sécurisée dans toute l'Afrique.
                 </p>
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                   <Link href="/quote-request" className="btn btn-orange">
-                    Demander un Devis <ArrowRight style={{ width: 16 }} />
+                    Demander un Devis Gratuit <ArrowRight style={{ width: 16 }} />
                   </Link>
                   <Link href="/catalog" className="btn btn-primary" style={{ background: "rgba(255,255,255,0.15)" }}>
                     Parcourir le Catalogue
@@ -104,10 +104,10 @@ export default function HomePage() {
                   ✈ SUIVI GPS LOGISTIQUE
                 </span>
                 <h2 className="hero-side-title">
-                  Vol Direct<br />Guangzhou ➔ Cotonou
+                  Hub International<br />➔ Afrique
                 </h2>
                 <p className="hero-side-desc">
-                  Livraison Aérienne Express<br />5 à 10 jours ouvrés.
+                  Livraison Express : 5 à 15 jours.<br />Fret Maritime : 50 à 95 jours.
                 </p>
               </div>
               <Link href="/dashboard" className="hero-side-cta">
@@ -247,15 +247,15 @@ export default function HomePage() {
 
           {/* AI BADGE */}
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(56, 189, 248, 0.12)", border: "1px solid rgba(56, 189, 248, 0.3)", borderRadius: 9999, padding: "6px 14px", color: "#38BDF8", fontSize: 11.5, fontWeight: 900, letterSpacing: "0.5px", marginBottom: 16, maxWidth: "100%", boxSizing: "border-box" }}>
-            <Sparkles style={{ width: 14, flexShrink: 0 }} /> <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>IA SOURCING CHINE — 1688 / TAOBAO / ALIBABA</span>
+            <Sparkles style={{ width: 14, flexShrink: 0 }} /> <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>IA SOURCING INTERNATIONAL — USINES CERTIFIÉES</span>
           </div>
 
           {/* HEADLINE */}
           <h2 style={{ fontSize: "clamp(22px, 4vw, 36px)", fontWeight: 900, color: "#FFFFFF", marginBottom: 12, lineHeight: 1.2, letterSpacing: "-0.5px" }}>
-            Trouvez N'importe Quel Produit Direct Usine Chine
+            Trouvez N'importe Quel Produit Direct Usine
           </h2>
           <p style={{ fontSize: 13.5, color: "#94A3B8", maxWidth: 640, margin: "0 auto 24px", lineHeight: 1.6 }}>
-            Collez un lien <strong style={{ color: "#FFF" }}>1688, Taobao ou Alibaba</strong> ou décrivez votre besoin. Notre algorithme IA identifie l'usine la moins chère et calcule votre devis rendu Afrique.
+            Collez un lien produit ou décrivez votre besoin. Notre algorithme IA identifie les fournisseurs usines certifiés au meilleur prix et calcule votre devis rendu Afrique.
           </p>
 
           {/* FLOATING SEARCH INPUT BAR (RESPONSIVE STACK ON MOBILE) */}
@@ -268,7 +268,7 @@ export default function HomePage() {
                 type="text"
                 value={searchUrl}
                 onChange={(e) => setSearchUrl(e.target.value)}
-                placeholder="Collez un lien 1688 / Taobao ou décrivez votre produit..."
+                placeholder="Collez un lien produit ou décrivez votre besoin..."
                 style={{ width: "100%", border: "none", outline: "none", fontSize: 13.5, fontWeight: 600, color: "#0F172A", background: "transparent" }}
               />
             </div>
@@ -308,16 +308,15 @@ export default function HomePage() {
           {/* 3 REASSURANCE FEATURE PILLS (RESPONSIVE 1-COLUMN ON MOBILE) */}
           <div className="cargolink-ai-features-grid">
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#E2E8F0", fontSize: 12, fontWeight: 700 }}>
-              <Zap style={{ width: 15, color: "#38BDF8", flexShrink: 0 }} /> Scan Instantané 1688 & Taobao
+              <Zap style={{ width: 15, color: "#38BDF8", flexShrink: 0 }} /> Scan Instantané Usines
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#E2E8F0", fontSize: 12, fontWeight: 700 }}>
-              <DollarSign style={{ width: 15, color: "#10B981", flexShrink: 0 }} /> Prix Usine sans Intermédiaire
+              <DollarSign style={{ width: 15, color: "#10B981", flexShrink: 0 }} /> Prix Usine Direct
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#E2E8F0", fontSize: 12, fontWeight: 700 }}>
               <Truck style={{ width: 15, color: "#F97316", flexShrink: 0 }} /> Fret & Dédouanement Afrique
             </div>
           </div>
-
         </div>
       </section>
     </div>

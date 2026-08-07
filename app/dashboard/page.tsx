@@ -160,7 +160,7 @@ function DashboardContent() {
 
                   <div className="dashboard-summary-grid" style={{ background: "var(--bg-main)", padding: 12, borderRadius: 10, border: "1px solid var(--border-light)", fontSize: 12.5, gap: 8 }}>
                     <div><strong>Mode :</strong> Fret Aérien Express</div>
-                    <div><strong>Départ :</strong> Guangzhou Baiyun</div>
+                    <div><strong>Départ :</strong> Hub Logistique International</div>
                     <div><strong>Arrivée Estimée :</strong> 26 Juillet 2026</div>
                   </div>
                 </div>

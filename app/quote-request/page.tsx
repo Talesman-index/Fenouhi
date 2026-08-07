@@ -183,7 +183,7 @@ function QuoteRequestContent() {
       } = await supabase.auth.getUser();
 
       const optionsList = [
-        formData.optInspection && "Inspection Usine Guangzhou",
+        formData.optInspection && "Inspection Qualité Entrepôt International",
         formData.optReinforcedPackaging && "Emballage Renforcé Bois",
         formData.optCustomBranding && "Personnalisation Logo / Marque",
         formData.optSampleRequest && "Demande Échantillon Préalable",
@@ -267,14 +267,14 @@ function QuoteRequestContent() {
         <div className="container" style={{ textAlign: "center", position: "relative", zIndex: 2 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.12)", backdropFilter: "blur(8px)", padding: "6px 16px", borderRadius: 9999, fontSize: 12, fontWeight: 800, color: "#F8FAFC", marginBottom: 16 }}>
             <Sparkles style={{ width: 14, color: "#F59E0B" }} />
-            BUREAU GUANGZHOU & COTONOU DIRECT · RÉPONSE EN &lt; 2H
+            HUB LOGISTIQUE INTERNATIONAL · RÉPONSE EN &lt; 2H
           </div>
 
           <h1 className="hero-page-title" style={{ fontSize: 32, fontWeight: 900, marginBottom: 10 }}>
             Demande de Devis d'Importation Sur-Mesure
           </h1>
           <p style={{ fontSize: 15, color: "#CBD5E1", maxWidth: 680, margin: "0 auto 28px", lineHeight: 1.6 }}>
-            Bénéficiez du prix usine direct sans intermédiaire. Inspection qualité à Guangzhou, dédouanement et livraison à destination garantis.
+            Bénéficiez du prix usine direct sans intermédiaire. Inspection qualité en entrepôt international, dédouanement et livraison à destination garantis.
           </p>
 
           {/* STEP INDICATOR */}
@@ -315,7 +315,7 @@ function QuoteRequestContent() {
                   Demande de Devis N° {createdQuoteNumber} Transmise !
                 </h2>
                 <p style={{ fontSize: 15, color: "var(--text-muted)", maxWidth: 540, margin: "0 auto 24px", lineHeight: 1.6 }}>
-                  Notre équipe de sourcing à Guangzhou traite votre dossier. Vous recevrez l'offre commerciale définitive avec les tarifs douaniers exacts sous 2h.
+                  Notre équipe de sourcing international traite votre dossier. Vous recevrez l'offre commerciale définitive avec les tarifs douaniers exacts sous 2h.
                 </p>
 
                 {/* SUMMARY RECAP CARD */}
@@ -482,12 +482,12 @@ function QuoteRequestContent() {
                         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                           <div>
                             <label style={{ fontSize: 12, fontWeight: 800, color: "var(--navy-dark)", display: "block", marginBottom: 6 }}>
-                              LIEN CHINE (1688, TAOBAO, ALIBABA) OU NOM DU PRODUIT *
+                              LIEN DU PRODUIT OU DESCRIPTION DÉTAILLÉE *
                             </label>
                             <input
                               type="text"
                               required
-                              placeholder="Ex: https://detail.1688.com/offer/6789.html ou '200 casques bluetooth ANC'"
+                              placeholder="Ex: https://supplier-catalog.com/item/6789.html ou '200 casques bluetooth ANC'"
                               value={formData.productName || formData.url}
                               onChange={(e) =>
                                 setFormData({
@@ -592,7 +592,7 @@ function QuoteRequestContent() {
                               mode: "air" as const,
                               icon: Plane,
                               title: "Fret Aérien Express",
-                              delay: "10–18 jours",
+                              delay: "5–15 jours",
                               rate: "7 500 FCFA / kg",
                               badge: "RECOMMANDÉ",
                               color: "#0369A1",
@@ -602,7 +602,7 @@ function QuoteRequestContent() {
                               mode: "sea" as const,
                               icon: Ship,
                               title: "Fret Maritime CBM",
-                              delay: "30–45 jours",
+                              delay: "50–95 jours",
                               rate: "185 000 FCFA / CBM",
                               badge: "ÉCONOMIQUE",
                               color: "#059669",
@@ -675,7 +675,7 @@ function QuoteRequestContent() {
                           {[
                             {
                               id: "optInspection",
-                              label: "Inspection Qualité à l'Entrepôt de Guangzhou",
+                              label: "Inspection Qualité en Entrepôt International",
                               sub: "Vérification conformité + rapport photo HD avant embarquement (+15 000 FCFA)",
                               checked: formData.optInspection,
                             },
@@ -917,7 +917,7 @@ function QuoteRequestContent() {
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                         <ShieldCheck style={{ width: 15, color: "var(--green-success)" }} />
-                        <span>Inspection qualité physique à Guangzhou</span>
+                        <span>Inspection qualité physique en entrepôt international</span>
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                         <Globe style={{ width: 15, color: "var(--blue-primary)" }} />

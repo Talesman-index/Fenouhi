@@ -263,7 +263,7 @@ function PaymentFormContent() {
             </h1>
 
             <p style={{ fontSize: 14.5, color: "#475569", lineHeight: 1.6, maxWidth: 500, margin: "0 auto 24px" }}>
-              Votre devis <strong style={{ color: "#0F172A" }}>{quote.quote_number}</strong> a été validé avec succès. La commande <strong style={{ color: "var(--orange-primary)" }}>{createdOrderNumber}</strong> a été générée et transmise à notre équipe logistique à Guangzhou.
+              Votre devis <strong style={{ color: "#0F172A" }}>{quote.quote_number}</strong> a été validé avec succès. La commande <strong style={{ color: "var(--orange-primary)" }}>{createdOrderNumber}</strong> a été générée et transmise à notre équipe logistique internationale.
             </p>
 
             <div style={{ background: "#F1F5F9", borderRadius: 16, padding: 20, textAlign: "left", marginBottom: 28, fontSize: 13.5 }}>
@@ -576,7 +576,7 @@ function PaymentFormContent() {
                   <span>Garantie Qualité & Protection Acheteur</span>
                 </div>
                 <p style={{ fontSize: 12, color: "#64748B", margin: 0, lineHeight: 1.5 }}>
-                  Vos fonds sont sécurisés jusqu'à la vérification des colis dans nos entrepôts de Guangzhou. En cas de non-conformité usine, vous bénéficiez du remboursement intégral.
+                  Vos fonds sont sécurisés jusqu'à la vérification des colis dans nos entrepôts internationaux. En cas de non-conformité usine, vous bénéficiez du remboursement intégral.
                 </p>
                 <Link href="/contact" target="_blank" style={{ fontSize: 12, fontWeight: 800, color: "var(--orange-primary)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
                   <span>Besoin d'aide ? Contacter l'assistance WhatsApp</span>

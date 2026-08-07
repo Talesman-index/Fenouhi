@@ -572,7 +572,7 @@ export default function ProductDetailPage() {
                       "Idéal pour gros volumes et machines",
                       "Tarif le plus compétitif disponible",
                       "FCL & LCL (groupage) disponible",
-                      "Entrepôt de groupage Guangzhou",
+                      "Entrepôt de groupage International",
                     ],
                   },
                 ].map((mode) => {

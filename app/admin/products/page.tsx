@@ -21,7 +21,12 @@ import {
   X,
   ShieldCheck,
   Archive,
-  RefreshCw
+  RefreshCw,
+  DollarSign,
+  Zap,
+  Camera,
+  Images,
+  Info
 } from "lucide-react";
 
 export default function ProductsManagementPage() {
@@ -38,6 +43,8 @@ export default function ProductsManagementPage() {
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  // Modal Active Tab State
+  const [activeTab, setActiveTab] = useState<"info" | "pricing" | "media" | "specs">("info");
 
   // Form State
   const [name, setName] = useState("");
@@ -50,17 +57,25 @@ export default function ProductsManagementPage() {
   const [currency, setCurrency] = useState("FCFA");
   const [stockQuantity, setStockQuantity] = useState<number>(100);
   const [minimumOrderQuantity, setMinimumOrderQuantity] = useState<number>(10);
-  const [countryOfOrigin, setCountryOfOrigin] = useState("Chine");
+  const [countryOfOrigin, setCountryOfOrigin] = useState("Hub Asie & International");
   const [weight, setWeight] = useState<number>(0.5);
   const [length, setLength] = useState<number>(10);
   const [width, setWidth] = useState<number>(8);
   const [height, setHeight] = useState<number>(5);
   const [availableShippingModes, setAvailableShippingModes] = useState<string[]>(["air", "sea"]);
-  const [estimatedDeliveryTime, setEstimatedDeliveryTime] = useState("7-10 jours");
+  const [estimatedDeliveryTime, setEstimatedDeliveryTime] = useState("5 - 15 jours (Aérien) / 50 - 95 jours (Maritime)");
   const [status, setStatus] = useState<ProductStatus>("active");
-  const [isDemo, setIsDemo] = useState<boolean>(false); // DEFAULT FALSE for admin products
+  const [isDemo, setIsDemo] = useState<boolean>(false);
   const [isFeatured, setIsFeatured] = useState<boolean>(false);
+  
+  // Custom CargoLink Margin & Freight Controls
+  const [cargolinkMarginPercent, setCargolinkMarginPercent] = useState<number>(10);
+  const [airFreightRatePerKg, setAirFreightRatePerKg] = useState<number>(7500);
+  const [seaFreightRatePerCbm, setSeaFreightRatePerCbm] = useState<number>(250000);
+
+  // Image Upload & Gallery State
   const [imageUrl, setImageUrl] = useState("/images/assets/item_1.jpg");
+  const [galleryUrls, setGalleryUrls] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -120,34 +135,78 @@ export default function ProductsManagementPage() {
     }
   };
 
+  // Image Upload Handlers
+  const handleMainImageFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === "string") {
+          setImageUrl(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleGalleryImagesUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      Array.from(files).forEach((file) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (typeof reader.result === "string") {
+            setGalleryUrls((prev) => [...prev, reader.result as string]);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
+  const removeGalleryImage = (index: number) => {
+    setGalleryUrls((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const openCreateModal = () => {
-    setEditingProduct(null);
-    setName("");
-    setSlug("");
-    setShortDescription("Produit usine certifié import direct Chine.");
-    setDescription("Description détaillée des caractéristiques techniques et d'emballage usine.");
-    setCategoryId(categories[0]?.id || "");
-    setSubcategory("");
-    setPrice(5000);
-    setCurrency("FCFA");
-    setStockQuantity(200);
-    setMinimumOrderQuantity(10);
-    setCountryOfOrigin("Chine");
-    setWeight(0.5);
-    setLength(10);
-    setWidth(8);
-    setHeight(5);
-    setAvailableShippingModes(["air", "sea"]);
-    setEstimatedDeliveryTime("7 - 10 jours");
-    setStatus("active");
-    setIsDemo(false); // Default REAL product
-    setIsFeatured(false);
-    setImageUrl("/images/assets/item_1.jpg");
-    setIsModalOpen(true);
+    try {
+      setIsModalOpen(true);
+      setEditingProduct(null);
+      setActiveTab("info");
+      setName("");
+      setSlug("");
+      setShortDescription("Produit usine certifié import direct - Hubs internationaux.");
+      setDescription("Description détaillée des caractéristiques techniques, de la garantie usine et de l'emballage sécurisé.");
+      setCategoryId(categories && categories.length > 0 ? categories[0].id : "");
+      setSubcategory("");
+      setPrice(5000);
+      setCargolinkMarginPercent(10);
+      setAirFreightRatePerKg(7500);
+      setSeaFreightRatePerCbm(250000);
+      setCurrency("FCFA");
+      setStockQuantity(200);
+      setMinimumOrderQuantity(10);
+      setCountryOfOrigin("Hub Asie & International");
+      setWeight(0.5);
+      setLength(10);
+      setWidth(8);
+      setHeight(5);
+      setAvailableShippingModes(["air", "sea"]);
+      setEstimatedDeliveryTime("5 - 15 jours (Aérien) / 50 - 95 jours (Maritime)");
+      setStatus("active");
+      setIsDemo(false);
+      setIsFeatured(false);
+      setImageUrl("/images/assets/item_1.jpg");
+      setGalleryUrls([]);
+    } catch (err) {
+      console.error("Error opening create modal:", err);
+      setIsModalOpen(true);
+    }
   };
 
   const openEditModal = (product: Product) => {
     setEditingProduct(product);
+    setActiveTab("info");
     setName(product.name);
     setSlug(product.slug);
     setShortDescription(product.short_description || "");
@@ -155,20 +214,25 @@ export default function ProductsManagementPage() {
     setCategoryId(product.category_id || categories[0]?.id || "");
     setSubcategory(product.subcategory || "");
     setPrice(product.price);
+    setCargolinkMarginPercent(product.cargolink_margin_percent ?? 10);
+    setAirFreightRatePerKg(product.air_freight_rate_per_kg ?? 7500);
+    setSeaFreightRatePerCbm(product.sea_freight_rate_per_cbm ?? 250000);
     setCurrency(product.currency || "FCFA");
     setStockQuantity(product.stock_quantity);
     setMinimumOrderQuantity(product.minimum_order_quantity);
-    setCountryOfOrigin(product.country_of_origin || "Chine");
+    setCountryOfOrigin(product.country_of_origin || "Hub Asie & International");
     setWeight(product.weight || 0.5);
     setLength(product.length || 10);
     setWidth(product.width || 8);
     setHeight(product.height || 5);
     setAvailableShippingModes(product.available_shipping_modes || ["air", "sea"]);
-    setEstimatedDeliveryTime(product.estimated_delivery_time || "7-10 jours");
+    setEstimatedDeliveryTime(product.estimated_delivery_time || "5 - 15 jours (Aérien) / 50 - 95 jours (Maritime)");
     setStatus(product.status);
     setIsDemo(product.is_demo);
     setIsFeatured(product.is_featured);
     setImageUrl(product.images?.[0]?.public_image_url || "/images/assets/item_1.jpg");
+    const extraGallery = product.images?.slice(1).map((img) => img.public_image_url) || [];
+    setGalleryUrls(extraGallery);
     setIsModalOpen(true);
   };
 
@@ -192,6 +256,9 @@ export default function ProductsManagementPage() {
         category_id: categoryId || null,
         subcategory,
         price: Number(price),
+        cargolink_margin_percent: Number(cargolinkMarginPercent),
+        air_freight_rate_per_kg: Number(airFreightRatePerKg),
+        sea_freight_rate_per_cbm: Number(seaFreightRatePerCbm),
         currency,
         stock_quantity: Number(stockQuantity),
         minimum_order_quantity: Number(minimumOrderQuantity),
@@ -212,7 +279,7 @@ export default function ProductsManagementPage() {
         const { error } = await supabase.from("products").update(payload).eq("id", editingProduct.id);
         if (error) throw new Error(error.message);
 
-        // Update image
+        // Update primary image
         if (editingProduct.images?.[0]?.id) {
           await supabase
             .from("product_images")
@@ -333,9 +400,10 @@ export default function ProductsManagementPage() {
         </div>
 
         <button
+          type="button"
           onClick={openCreateModal}
           className="btn btn-primary"
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 18px", fontWeight: 800 }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 18px", fontWeight: 800, cursor: "pointer" }}
         >
           <Plus style={{ width: 18 }} /> Ajouter un Nouveau Produit
         </button>
@@ -383,16 +451,16 @@ export default function ProductsManagementPage() {
           <option value="archived">Archivé</option>
         </select>
 
-        {/* Real vs Demo Filter */}
+        {/* Demo Filter */}
         <select
           value={demoFilter}
           onChange={(e) => setDemoFilter(e.target.value)}
           className="admin-input"
-          style={{ width: "auto" }}
+          style={{ width: 180 }}
         >
           <option value="all">Tous (Réels & Démo)</option>
-          <option value="real">✓ Vrais Produits Réels</option>
-          <option value="demo">💡 Produits Démo / Simulation</option>
+          <option value="real">Vrais Produits Réels</option>
+          <option value="demo">Produits Démo / Simulation</option>
         </select>
 
         <button
@@ -412,9 +480,9 @@ export default function ProductsManagementPage() {
             <tr>
               <th>Produit</th>
               <th>Catégorie</th>
-              <th>Prix Unitaire</th>
+              <th>Prix Usine (FCFA)</th>
               <th>Stock Usine</th>
-              <th>Type Article</th>
+              <th>Type</th>
               <th>Statut</th>
               <th style={{ textAlign: "right" }}>Actions</th>
             </tr>
@@ -422,13 +490,13 @@ export default function ProductsManagementPage() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={7} style={{ textAlign: "center", padding: 40, color: "var(--text-muted)" }}>
-                  Chargement des produits depuis Supabase...
+                <td colSpan={7} style={{ textAlign: "center", padding: 30, color: "#64748B" }}>
+                  Chargement du catalogue Supabase...
                 </td>
               </tr>
             ) : filteredProducts.length === 0 ? (
               <tr>
-                <td colSpan={7} style={{ textAlign: "center", padding: 40, color: "var(--text-muted)" }}>
+                <td colSpan={7} style={{ textAlign: "center", padding: 30, color: "#64748B" }}>
                   Aucun produit trouvé dans le catalogue Supabase.
                 </td>
               </tr>
@@ -442,31 +510,33 @@ export default function ProductsManagementPage() {
                         <img
                           src={img}
                           alt={p.name}
-                          style={{ width: 44, height: 44, objectFit: "cover", borderRadius: 8, border: "1px solid #E2E8F0" }}
+                          style={{ width: 44, height: 44, borderRadius: 8, objectFit: "cover", border: "1px solid #E2E8F0" }}
                         />
                         <div>
                           <div style={{ fontWeight: 800, color: "var(--navy-dark)" }}>{p.name}</div>
-                          <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Slug: {p.slug}</div>
+                          <div style={{ fontSize: 11, color: "#64748B" }}>{p.slug}</div>
                         </div>
                       </div>
                     </td>
-                    <td style={{ fontSize: 13, fontWeight: 700 }}>
-                      {p.category?.name || "Non catégorisé"}
+                    <td>
+                      <span className="badge" style={{ background: "#F1F5F9", color: "#334155" }}>
+                        {p.category?.name || "Non catégorisé"}
+                      </span>
                     </td>
-                    <td style={{ fontSize: 14, fontWeight: 900, color: "var(--orange-primary)" }}>
-                      {p.price.toLocaleString()} {p.currency}
+                    <td style={{ fontWeight: 800, color: "var(--navy-dark)" }}>
+                      {p.price.toLocaleString()} {p.currency || "FCFA"}
                     </td>
-                    <td style={{ fontSize: 13, fontWeight: 700 }}>
+                    <td>
                       {p.stock_quantity} unités (Min. {p.minimum_order_quantity})
                     </td>
                     <td>
                       {p.is_demo ? (
-                        <span className="badge" style={{ background: "#FEF3C7", color: "#92400E", border: "1px solid #FCD34D" }}>
-                          💡 Démo / Simulation
+                        <span className="badge" style={{ background: "#FEF3C7", color: "#B45309", border: "1px solid #FCD34D", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                          <Info style={{ width: 12, height: 12 }} /> Démo / Simulation
                         </span>
                       ) : (
-                        <span className="badge" style={{ background: "#DCFCE7", color: "#166534" }}>
-                          ✓ Produit Réel
+                        <span className="badge badge-active" style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                          <CheckCircle2 style={{ width: 12, height: 12 }} /> Produit Réel
                         </span>
                       )}
                     </td>
@@ -484,6 +554,7 @@ export default function ProductsManagementPage() {
                     <td style={{ textAlign: "right" }}>
                       <div style={{ display: "flex", gap: 6, justifyContent: "flex-end" }}>
                         <button
+                          type="button"
                           onClick={() => handleToggleStatus(p)}
                           className="btn"
                           style={{ padding: "6px 10px", fontSize: 12, background: p.status === "active" ? "#FEE2E2" : "#DCFCE7", color: p.status === "active" ? "#991B1B" : "#166534" }}
@@ -491,6 +562,7 @@ export default function ProductsManagementPage() {
                           {p.status === "active" ? "Dépublier" : "Publier"}
                         </button>
                         <button
+                          type="button"
                           onClick={() => openEditModal(p)}
                           className="btn"
                           style={{ padding: "6px 10px", fontSize: 12, background: "#F1F5F9", color: "#334155" }}
@@ -498,6 +570,7 @@ export default function ProductsManagementPage() {
                           <Edit style={{ width: 14 }} />
                         </button>
                         <button
+                          type="button"
                           onClick={() => handleDeleteProduct(p)}
                           className="btn"
                           style={{ padding: "6px 10px", fontSize: 12, background: "#FEE2E2", color: "#991B1B" }}
@@ -514,226 +587,530 @@ export default function ProductsManagementPage() {
         </table>
       </div>
 
-      {/* CREATE / EDIT MODAL */}
+      {/* CREATE / EDIT MODAL (PREMIUM TABBED DESIGN) */}
       {isModalOpen && (
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(15, 23, 42, 0.6)", zIndex: 99999, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-          <div className="card" style={{ maxWidth: 720, width: "100%", maxHeight: "90vh", overflowY: "auto", padding: 28 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-              <h2 style={{ fontSize: 20, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
-                {editingProduct ? `Modifier "${editingProduct.name}"` : "Créer un Vrai Produit Commercial"}
-              </h2>
-              <button onClick={() => setIsModalOpen(false)} style={{ background: "none", border: "none", cursor: "pointer" }}>
-                <X style={{ width: 20 }} />
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(15, 23, 42, 0.75)", backdropFilter: "blur(4px)", zIndex: 99999, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+          <div className="card" style={{ maxWidth: 840, width: "100%", maxHeight: "92vh", overflowY: "auto", padding: 0, borderRadius: 20, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.35)", background: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+            
+            {/* MODAL HEADER BAR */}
+            <div style={{ background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)", padding: "20px 24px", borderRadius: "20px 20px 0 0", color: "#FFFFFF", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div>
+                <span className="badge" style={{ background: "rgba(249, 115, 22, 0.2)", color: "#F97316", border: "1px solid rgba(249, 115, 22, 0.4)", marginBottom: 4, fontSize: 10 }}>
+                  {editingProduct ? "ÉDITION PRODUIT" : "NOUVEL ARTICLE COMMERCIAL"}
+                </span>
+                <h2 style={{ fontSize: 20, fontWeight: 900, color: "#FFFFFF", margin: 0, display: "flex", alignItems: "center", gap: 10 }}>
+                  <Package style={{ width: 22, color: "#F97316" }} />
+                  {editingProduct ? `Modifier "${editingProduct.name}"` : "Créer un Produit Commercial Usine"}
+                </h2>
+              </div>
+              <button onClick={() => setIsModalOpen(false)} style={{ background: "rgba(255,255,255,0.1)", border: "none", color: "#FFFFFF", width: 32, height: 32, borderRadius: "50%", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <X style={{ width: 18 }} />
               </button>
             </div>
 
-            <form onSubmit={handleSaveProduct} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {/* IS DEMO SWITCH */}
-              <div style={{ background: isDemo ? "#FEF3C7" : "#F0FDF4", border: `1px solid ${isDemo ? "#FCD34D" : "#86EFAC"}`, padding: 14, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div>
-                  <div style={{ fontWeight: 800, fontSize: 13, color: isDemo ? "#92400E" : "#166534" }}>
-                    {isDemo ? "💡 Produit de Démonstration / Simulation" : "✓ Vrai Produit Commercial"}
-                  </div>
-                  <div style={{ fontSize: 11.5, color: isDemo ? "#78350F" : "#15803D" }}>
-                    {isDemo
-                      ? "Ce produit est une simulation et ne sera pas inclus dans les vraies commandes."
-                      : "Par défaut, les nouveaux produits créés par l'admin sont de VRAIS produits certifiés pour commandes réelles."}
-                  </div>
-                </div>
-                <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", fontSize: 12, fontWeight: 800 }}>
-                  <input
-                    type="checkbox"
-                    checked={isDemo}
-                    onChange={(e) => setIsDemo(e.target.checked)}
-                  />
-                  Marquer Démo
-                </label>
-              </div>
-
-              {/* NAME & SLUG */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                <div>
-                  <label className="admin-label">Nom du Produit *</label>
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={handleNameChange}
-                    className="admin-input"
-                    placeholder="ex: Montre Connectée Pro"
-                  />
-                </div>
-                <div>
-                  <label className="admin-label">Slug URL *</label>
-                  <input
-                    type="text"
-                    required
-                    value={slug}
-                    onChange={(e) => setSlug(e.target.value)}
-                    className="admin-input"
-                    placeholder="ex: montre-connectee-pro"
-                  />
-                </div>
-              </div>
-
-              {/* CATEGORY & SUBCATEGORY */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                <div>
-                  <label className="admin-label">Catégorie *</label>
-                  <select
-                    value={categoryId}
-                    onChange={(e) => setCategoryId(e.target.value)}
-                    className="admin-input"
+            {/* TAB NAVIGATION BAR */}
+            <div style={{ display: "flex", borderBottom: "1px solid #E2E8F0", background: "#F8FAFC", padding: "0 16px" }}>
+              {[
+                { id: "info", label: "1. Infos Générales", icon: Box },
+                { id: "pricing", label: "2. Prix, Marges & Fret", icon: DollarSign },
+                { id: "media", label: "3. Photos & Médias", icon: Camera },
+                { id: "specs", label: "4. Fiche & Specs", icon: SlidersHorizontal },
+              ].map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveTab(tab.id as any)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      padding: "14px 18px",
+                      fontSize: 13,
+                      fontWeight: 800,
+                      color: isActive ? "#F97316" : "#64748B",
+                      border: "none",
+                      borderBottom: isActive ? "3px solid #F97316" : "3px solid transparent",
+                      background: "transparent",
+                      cursor: "pointer",
+                      transition: "all 0.2s ease"
+                    }}
                   >
-                    {categories.map((c) => (
-                      <option key={c.id} value={c.id}>{c.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="admin-label">Sous-Catégorie</label>
-                  <input
-                    type="text"
-                    value={subcategory}
-                    onChange={(e) => setSubcategory(e.target.value)}
-                    className="admin-input"
-                    placeholder="ex: Électronique grand public"
-                  />
-                </div>
-              </div>
+                    <Icon style={{ width: 16 }} />
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
 
-              {/* PRICE, STOCK, MIN QTY */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14 }}>
-                <div>
-                  <label className="admin-label">Prix Unitaire (FCFA) *</label>
-                  <input
-                    type="number"
-                    required
-                    min={0}
-                    value={price}
-                    onChange={(e) => setPrice(Number(e.target.value))}
-                    className="admin-input"
-                  />
-                </div>
-                <div>
-                  <label className="admin-label">Quantité Stock Usine *</label>
-                  <input
-                    type="number"
-                    required
-                    min={0}
-                    value={stockQuantity}
-                    onChange={(e) => setStockQuantity(Number(e.target.value))}
-                    className="admin-input"
-                  />
-                </div>
-                <div>
-                  <label className="admin-label">Moq (Commande Min.) *</label>
-                  <input
-                    type="number"
-                    required
-                    min={1}
-                    value={minimumOrderQuantity}
-                    onChange={(e) => setMinimumOrderQuantity(Number(e.target.value))}
-                    className="admin-input"
-                  />
-                </div>
-              </div>
+            <form onSubmit={handleSaveProduct} style={{ padding: 24, display: "flex", flexDirection: "column", gap: 20 }}>
+              
+              {/* TAB 1: INFOS GÉNÉRALES */}
+              {activeTab === "info" && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  
+                  {/* IS DEMO SWITCH */}
+                  <div style={{ background: isDemo ? "#FEF3C7" : "#F0FDF4", border: `1px solid ${isDemo ? "#FCD34D" : "#86EFAC"}`, padding: 14, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div>
+                      <div style={{ fontWeight: 800, fontSize: 13, color: isDemo ? "#92400E" : "#166534", display: "flex", alignItems: "center", gap: 6 }}>
+                        {isDemo ? (
+                          <>
+                            <Info style={{ width: 15, height: 15, color: "#D97706" }} />
+                            Produit de Démonstration / Simulation
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle2 style={{ width: 15, height: 15, color: "#166534" }} />
+                            Vrai Produit Commercial Certifié
+                          </>
+                        )}
+                      </div>
+                      <div style={{ fontSize: 11.5, color: isDemo ? "#78350F" : "#15803D" }}>
+                        {isDemo
+                          ? "Ce produit est une simulation et ne sera pas inclus dans les vraies commandes."
+                          : "Produit usine réel certifié destiné aux commandes réelles de la boutique."}
+                      </div>
+                    </div>
+                    <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", fontSize: 12, fontWeight: 800 }}>
+                      <input
+                        type="checkbox"
+                        checked={isDemo}
+                        onChange={(e) => setIsDemo(e.target.checked)}
+                      />
+                      Marquer Démo
+                    </label>
+                  </div>
 
-              {/* ORIGIN, WEIGHT, DELIVERY */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14 }}>
-                <div>
-                  <label className="admin-label">Pays d'Origine</label>
-                  <input
-                    type="text"
-                    value={countryOfOrigin}
-                    onChange={(e) => setCountryOfOrigin(e.target.value)}
-                    className="admin-input"
-                  />
+                  {/* NAME & SLUG */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                    <div>
+                      <label className="admin-label">Nom du Produit *</label>
+                      <input
+                        type="text"
+                        required
+                        value={name}
+                        onChange={handleNameChange}
+                        className="admin-input"
+                        placeholder="ex: Casque Bluetooth ANC Usine Pro"
+                      />
+                    </div>
+                    <div>
+                      <label className="admin-label">Slug URL *</label>
+                      <input
+                        type="text"
+                        required
+                        value={slug}
+                        onChange={(e) => setSlug(e.target.value)}
+                        className="admin-input"
+                        placeholder="ex: casque-bluetooth-anc-usine-pro"
+                      />
+                    </div>
+                  </div>
+
+                  {/* CATEGORY & SUBCATEGORY */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                    <div>
+                      <label className="admin-label">Catégorie *</label>
+                      <select
+                        value={categoryId}
+                        onChange={(e) => setCategoryId(e.target.value)}
+                        className="admin-input"
+                      >
+                        {categories.map((c) => (
+                          <option key={c.id} value={c.id}>{c.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="admin-label">Sous-Catégorie</label>
+                      <input
+                        type="text"
+                        value={subcategory}
+                        onChange={(e) => setSubcategory(e.target.value)}
+                        className="admin-input"
+                        placeholder="ex: Électronique & High-Tech"
+                      />
+                    </div>
+                  </div>
+
+                  {/* STOCK, MOQ, ORIGIN */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14 }}>
+                    <div>
+                      <label className="admin-label">Stock Usine Disponible *</label>
+                      <input
+                        type="number"
+                        required
+                        min={0}
+                        value={stockQuantity}
+                        onChange={(e) => setStockQuantity(Number(e.target.value))}
+                        className="admin-input"
+                      />
+                    </div>
+                    <div>
+                      <label className="admin-label">Moq (Commande Min.) *</label>
+                      <input
+                        type="number"
+                        required
+                        min={1}
+                        value={minimumOrderQuantity}
+                        onChange={(e) => setMinimumOrderQuantity(Number(e.target.value))}
+                        className="admin-input"
+                      />
+                    </div>
+                    <div>
+                      <label className="admin-label">Hub d'Origine</label>
+                      <select
+                        value={countryOfOrigin}
+                        onChange={(e) => setCountryOfOrigin(e.target.value)}
+                        className="admin-input"
+                      >
+                        <option value="Hub Asie & International">Hub Asie & International</option>
+                        <option value="Hub International Usines">Hub International Usines</option>
+                        <option value="Hub Europe & International">Hub Europe & International</option>
+                        <option value="Hub Grossistes International">Hub Grossistes International</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* STATUS & FEATURED */}
+                  <div style={{ display: "flex", gap: 20, alignItems: "center", borderTop: "1px solid #E2E8F0", paddingTop: 14 }}>
+                    <div style={{ flex: 1 }}>
+                      <label className="admin-label">Statut de Publication</label>
+                      <select value={status} onChange={(e) => setStatus(e.target.value as ProductStatus)} className="admin-input">
+                        <option value="active">Actif / En Vente Boutique</option>
+                        <option value="draft">Brouillon</option>
+                        <option value="inactive">Inactif</option>
+                        <option value="archived">Archivé</option>
+                      </select>
+                    </div>
+                    <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 800, marginTop: 18, cursor: "pointer" }}>
+                      <input
+                        type="checkbox"
+                        checked={isFeatured}
+                        onChange={(e) => setIsFeatured(e.target.checked)}
+                      />
+                      Mettre en Avant (Featured)
+                    </label>
+                  </div>
                 </div>
-                <div>
-                  <label className="admin-label">Poids Unitaire (kg)</label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={weight}
-                    onChange={(e) => setWeight(Number(e.target.value))}
-                    className="admin-input"
-                  />
+              )}
+
+              {/* TAB 2: PRICE, CARGOLINK MARGIN % & FREIGHT (NEW FEATURE) */}
+              {activeTab === "pricing" && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+                  <div style={{ background: "#EFF6FF", border: "1px solid #BFDBFE", padding: 14, borderRadius: 12 }}>
+                    <span className="badge" style={{ background: "#2563EB", color: "#FFF", fontSize: 10, marginBottom: 4 }}>
+                      PARAMÉTRAGE DE LA RENTABILITÉ CARGOLINK
+                    </span>
+                    <h3 style={{ fontSize: 15, fontWeight: 900, color: "#1E3A8A", margin: "4px 0 0" }}>
+                      Définition du Prix Usine, de la Commission & du Fret
+                    </h3>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                    {/* PRIX USINE */}
+                    <div>
+                      <label className="admin-label">Prix Achat Usine Unitaire (FCFA) *</label>
+                      <input
+                        type="number"
+                        required
+                        min={0}
+                        value={price}
+                        onChange={(e) => setPrice(Number(e.target.value))}
+                        className="admin-input"
+                        style={{ fontSize: 16, fontWeight: 900, color: "#0F172A" }}
+                      />
+                    </div>
+
+                    {/* % CARGOLINK MARGIN */}
+                    <div>
+                      <label className="admin-label" style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span>Marge / Commission CargoLink (%) *</span>
+                        <strong style={{ color: "#F97316" }}>{cargolinkMarginPercent}%</strong>
+                      </label>
+                      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                        <input
+                          type="number"
+                          min={0}
+                          max={100}
+                          value={cargolinkMarginPercent}
+                          onChange={(e) => setCargolinkMarginPercent(Number(e.target.value))}
+                          className="admin-input"
+                          style={{ width: 90, fontWeight: 800 }}
+                        />
+                        <div style={{ display: "flex", gap: 4, flex: 1 }}>
+                          {[5, 10, 15, 20].map((pct) => (
+                            <button
+                              key={pct}
+                              type="button"
+                              onClick={() => setCargolinkMarginPercent(pct)}
+                              className="btn"
+                              style={{
+                                flex: 1,
+                                padding: "6px 8px",
+                                fontSize: 11,
+                                fontWeight: 800,
+                                background: cargolinkMarginPercent === pct ? "#F97316" : "#F1F5F9",
+                                color: cargolinkMarginPercent === pct ? "#FFF" : "#334155"
+                              }}
+                            >
+                              {pct}%
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* FREIGHT RATES PER PRODUCT */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                    <div>
+                      <label className="admin-label">Fret Aérien Déclaré (FCFA / kg) *</label>
+                      <input
+                        type="number"
+                        min={0}
+                        value={airFreightRatePerKg}
+                        onChange={(e) => setAirFreightRatePerKg(Number(e.target.value))}
+                        className="admin-input"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="admin-label">Fret Maritime Déclaré (FCFA / m³) *</label>
+                      <input
+                        type="number"
+                        min={0}
+                        value={seaFreightRatePerCbm}
+                        onChange={(e) => setSeaFreightRatePerCbm(Number(e.target.value))}
+                        className="admin-input"
+                      />
+                    </div>
+                  </div>
+
+                  {/* SIMULATEUR PRIX FINAL CLIENT */}
+                  <div style={{ background: "#F8FAFC", border: "2px dashed #F97316", borderRadius: 14, padding: 18 }}>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: "#EA580C", textTransform: "uppercase", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
+                      <Zap style={{ width: 15 }} /> Simulateur de Prix de Vente Client Boutique
+                    </div>
+                    
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 12, fontSize: 12 }}>
+                      <div>
+                        <span style={{ color: "#64748B" }}>Prix Usine :</span>
+                        <div style={{ fontWeight: 800, color: "#0F172A" }}>{price.toLocaleString()} FCFA</div>
+                      </div>
+                      <div>
+                        <span style={{ color: "#64748B" }}>Marge ({cargolinkMarginPercent}%) :</span>
+                        <div style={{ fontWeight: 800, color: "#059669" }}>+{(price * (cargolinkMarginPercent / 100)).toLocaleString()} FCFA</div>
+                      </div>
+                      <div>
+                        <span style={{ color: "#64748B" }}>Fret Aérien (ex: 0.5kg) :</span>
+                        <div style={{ fontWeight: 800, color: "#2563EB" }}>+{(weight * airFreightRatePerKg).toLocaleString()} FCFA</div>
+                      </div>
+                      <div style={{ background: "#FFF", padding: "8px 12px", borderRadius: 8, border: "1px solid #FED7AA" }}>
+                        <span style={{ color: "#C2410C", fontWeight: 800 }}>PRIX CONSEILLÉ CLIENT :</span>
+                        <div style={{ fontSize: 16, fontWeight: 900, color: "#9A3412" }}>
+                          {(price + (price * (cargolinkMarginPercent / 100)) + (weight * airFreightRatePerKg)).toLocaleString()} FCFA
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label className="admin-label">Délai Estimé</label>
-                  <input
-                    type="text"
-                    value={estimatedDeliveryTime}
-                    onChange={(e) => setEstimatedDeliveryTime(e.target.value)}
-                    className="admin-input"
-                  />
+              )}
+
+              {/* TAB 3: MEDIA & PHOTO UPLOAD */}
+              {activeTab === "media" && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+                  
+                  {/* MAIN IMAGE UPLOAD */}
+                  <div style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 14, padding: 18 }}>
+                    <label className="admin-label" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                      <span style={{ fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 6 }}>
+                        <Camera style={{ width: 16, height: 16, color: "#F97316" }} /> Image Principale du Produit *
+                      </span>
+                      <span style={{ fontSize: 11, color: "#64748B" }}>JPG, PNG, WEBP acceptés</span>
+                    </label>
+
+                    <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
+                      {/* PREVIEW THUMBNAIL (CLEAN IMAGE DISPLAY) */}
+                      <div style={{ width: 90, height: 90, borderRadius: 12, overflow: "hidden", border: "2px solid #F97316", background: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)" }}>
+                        {imageUrl ? (
+                          <img
+                            src={imageUrl}
+                            alt="Aperçu Produit"
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            onError={(e) => {
+                              // Fallback cleanly on load error
+                              (e.target as HTMLImageElement).src = "/images/assets/item_1.jpg";
+                            }}
+                          />
+                        ) : (
+                          <Package style={{ width: 32, color: "#CBD5E1" }} />
+                        )}
+                      </div>
+
+                      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
+                        <div>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleMainImageFileUpload}
+                            className="admin-input"
+                            style={{ padding: "8px 12px", fontSize: 12.5 }}
+                          />
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <span style={{ fontSize: 11, color: "#64748B", fontWeight: 700 }}>OU URL Directe :</span>
+                          <input
+                            type="text"
+                            value={imageUrl}
+                            onChange={(e) => setImageUrl(e.target.value)}
+                            className="admin-input"
+                            placeholder="/images/assets/item_1.jpg"
+                            style={{ fontSize: 12, padding: "5px 10px" }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* GALLERY IMAGES MULTI UPLOAD */}
+                  <div style={{ background: "#F1F5F9", border: "1px solid #CBD5E1", borderRadius: 14, padding: 18 }}>
+                    <label className="admin-label" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                      <span style={{ fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 6 }}>
+                        <Images style={{ width: 16, height: 16, color: "#2563EB" }} /> Galerie Photos Usine (Angles, Détails & Emballages)
+                      </span>
+                      <span style={{ fontSize: 11, color: "#64748B" }}>Sélection multiple</span>
+                    </label>
+
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleGalleryImagesUpload}
+                      className="admin-input"
+                      style={{ padding: "8px 12px", fontSize: 12.5, marginBottom: 12 }}
+                    />
+
+                    {galleryUrls.length > 0 ? (
+                      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                        {galleryUrls.map((url, idx) => (
+                          <div key={idx} style={{ position: "relative", width: 70, height: 70, borderRadius: 10, overflow: "hidden", border: "1px solid #CBD5E1", boxShadow: "0 2px 4px rgba(0,0,0,0.05)" }}>
+                            <img src={url} alt={`Vue ${idx + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                            <button
+                              type="button"
+                              onClick={() => removeGalleryImage(idx)}
+                              style={{ position: "absolute", top: 3, right: 3, background: "rgba(220, 38, 38, 0.9)", color: "#FFF", border: "none", borderRadius: "50%", width: 20, height: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                            >
+                              <X style={{ width: 12, height: 12 }} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div style={{ fontSize: 12, color: "#94A3B8", fontStyle: "italic", textAlign: "center", padding: 10 }}>
+                        Aucune photo secondaire ajoutée pour le moment.
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* IMAGE URL */}
-              <div>
-                <label className="admin-label">URL de l'Image du Produit</label>
-                <input
-                  type="text"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  className="admin-input"
-                  placeholder="/images/assets/item_1.jpg"
-                />
-              </div>
+              {/* TAB 4: SPECS & DESCRIPTIONS */}
+              {activeTab === "specs" && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  {/* WEIGHT & DIMENSIONS */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12 }}>
+                    <div>
+                      <label className="admin-label">Poids (kg)</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={weight}
+                        onChange={(e) => setWeight(Number(e.target.value))}
+                        className="admin-input"
+                      />
+                    </div>
+                    <div>
+                      <label className="admin-label">Long. (cm)</label>
+                      <input
+                        type="number"
+                        value={length}
+                        onChange={(e) => setLength(Number(e.target.value))}
+                        className="admin-input"
+                      />
+                    </div>
+                    <div>
+                      <label className="admin-label">Larg. (cm)</label>
+                      <input
+                        type="number"
+                        value={width}
+                        onChange={(e) => setWidth(Number(e.target.value))}
+                        className="admin-input"
+                      />
+                    </div>
+                    <div>
+                      <label className="admin-label">Haut. (cm)</label>
+                      <input
+                        type="number"
+                        value={height}
+                        onChange={(e) => setHeight(Number(e.target.value))}
+                        className="admin-input"
+                      />
+                    </div>
+                  </div>
 
-              {/* SHORT & FULL DESCRIPTION */}
-              <div>
-                <label className="admin-label">Description Courte</label>
-                <input
-                  type="text"
-                  value={shortDescription}
-                  onChange={(e) => setShortDescription(e.target.value)}
-                  className="admin-input"
-                />
-              </div>
+                  <div>
+                    <label className="admin-label">Délai Estimé de Livraison</label>
+                    <select
+                      value={estimatedDeliveryTime}
+                      onChange={(e) => setEstimatedDeliveryTime(e.target.value)}
+                      className="admin-input"
+                    >
+                      <option value="5 - 15 jours (Aérien) / 50 - 95 jours (Maritime)">5–15j (Aérien) / 50–95j (Maritime)</option>
+                      <option value="5 à 15 jours (Fret Aérien Express)">5 à 15 jours (Fret Aérien Express)</option>
+                      <option value="50 à 95 jours (Fret Maritime Groupé)">50 à 95 jours (Fret Maritime Groupé)</option>
+                    </select>
+                  </div>
 
-              <div>
-                <label className="admin-label">Description Complète</label>
-                <textarea
-                  rows={3}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="admin-input"
-                  style={{ height: "auto" }}
-                />
-              </div>
+                  <div>
+                    <label className="admin-label">Description Courte (Accroche Boutique)</label>
+                    <input
+                      type="text"
+                      value={shortDescription}
+                      onChange={(e) => setShortDescription(e.target.value)}
+                      className="admin-input"
+                    />
+                  </div>
 
-              {/* STATUS & FEATURED */}
-              <div style={{ display: "flex", gap: 20, alignItems: "center", borderTop: "1px solid #E2E8F0", paddingTop: 14 }}>
-                <div>
-                  <label className="admin-label">Statut</label>
-                  <select value={status} onChange={(e) => setStatus(e.target.value as ProductStatus)} className="admin-input">
-                    <option value="active">Actif / Publié</option>
-                    <option value="draft">Brouillon</option>
-                    <option value="inactive">Inactif</option>
-                    <option value="archived">Archivé</option>
-                  </select>
+                  <div>
+                    <label className="admin-label">Description Complète & Fiche Technique</label>
+                    <textarea
+                      rows={4}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      className="admin-input"
+                      style={{ height: "auto" }}
+                    />
+                  </div>
                 </div>
-                <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 800, marginTop: 18, cursor: "pointer" }}>
-                  <input
-                    type="checkbox"
-                    checked={isFeatured}
-                    onChange={(e) => setIsFeatured(e.target.checked)}
-                  />
-                  Mettre en Avant (Featured)
-                </label>
-              </div>
+              )}
 
-              {/* SUBMIT BUTTON */}
-              <div style={{ display: "flex", gap: 12, justifyContent: "flex-end", marginTop: 14 }}>
-                <button type="button" onClick={() => setIsModalOpen(false)} className="btn" style={{ background: "#F1F5F9", color: "#334155" }}>
-                  Annuler
-                </button>
-                <button type="submit" disabled={saving} className="btn btn-primary" style={{ padding: "10px 24px", fontWeight: 800 }}>
-                  {saving ? "Enregistrement..." : editingProduct ? "Mettre à jour" : "Créer le Produit"}
-                </button>
+              {/* FOOTER ACTIONS BAR */}
+              <div style={{ display: "flex", gap: 12, justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #E2E8F0", paddingTop: 16, marginTop: 10 }}>
+                <div style={{ fontSize: 12, color: "#64748B", fontWeight: 700 }}>
+                  Onglet actif : <strong style={{ color: "#0F172A" }}>{activeTab.toUpperCase()}</strong>
+                </div>
+
+                <div style={{ display: "flex", gap: 10 }}>
+                  <button type="button" onClick={() => setIsModalOpen(false)} className="btn" style={{ background: "#F1F5F9", color: "#334155" }}>
+                    Annuler
+                  </button>
+                  <button type="submit" disabled={saving} className="btn btn-primary" style={{ padding: "10px 24px", fontWeight: 800 }}>
+                    {saving ? "Enregistrement..." : editingProduct ? "Mettre à jour" : "Créer le Produit"}
+                  </button>
+                </div>
               </div>
             </form>
           </div>

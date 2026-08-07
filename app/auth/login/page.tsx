@@ -118,7 +118,7 @@ function LoginFormContent() {
               Connexion à Votre Espace
             </h1>
             <p style={{ fontSize: 13.5, color: "#64748B", margin: 0, lineHeight: 1.4 }}>
-              Accédez à vos commandes, vos devis et au suivi logistique Guangzhou ➔ Afrique.
+              Accédez à vos commandes, vos devis et au suivi logistique International ➔ Afrique.
             </p>
           </div>
 

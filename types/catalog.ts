@@ -52,6 +52,9 @@ export interface Product {
   status: ProductStatus;
   is_demo: boolean;
   is_featured: boolean;
+  cargolink_margin_percent?: number | null;
+  air_freight_rate_per_kg?: number | null;
+  sea_freight_rate_per_cbm?: number | null;
   created_by?: string | null;
   created_at?: string;
   updated_at?: string;

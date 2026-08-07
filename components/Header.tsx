@@ -7,8 +7,8 @@ import { createClient } from "@/lib/supabase/client";
 import Logo from "@/components/Logo";
 import { 
   Menu, X, Search, PlusCircle, Grid, User, LogIn, UserPlus, LogOut, FileText,
-  MapPin, ChevronDown, Gift, Radio, Home, Package, ShieldCheck, 
-  HelpCircle, Building2, ShoppingBag, Download
+  MapPin, ChevronDown, Gift, Radio, Home, Package, 
+  ShoppingBag, Download
 } from "lucide-react";
 
 export default function Header() {
@@ -236,7 +236,7 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/suppliers" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
+              <Link href="/catalog?cat=fashion" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
                 Women's
               </Link>
             </li>
@@ -283,7 +283,7 @@ export default function Header() {
       <div className={`mobile-nav-drawer ${drawerOpen ? "active" : ""}`}>
         {/* DRAWER HEADER */}
         <div className="drawer-header" style={{ padding: "18px 20px", background: "#0F172A", color: "#FFF", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Logo light size={32} subtitleText="CHINE ➔ AFRIQUE" href={null} onClick={toggleDrawer} />
+          <Logo light size={32} subtitleText="IMPORTATION DIRECTE ➔ AFRIQUE" href={null} onClick={toggleDrawer} />
           <button 
             onClick={toggleDrawer} 
             className="drawer-close-btn"
@@ -347,11 +347,6 @@ export default function Header() {
             <li>
               <Link href="/quote-request" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#C2410C", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFF7ED", border: "1px solid #FFEDD5" }}>
                 <PlusCircle style={{ width: 18, color: "#EA580C" }} /> Demander un Devis Sur-Mesure
-              </Link>
-            </li>
-            <li>
-              <Link href="/suppliers" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}>
-                <Building2 style={{ width: 18, color: "#165491" }} /> Usines Partenaires Chine
               </Link>
             </li>
             <li style={{ marginTop: 2 }}>

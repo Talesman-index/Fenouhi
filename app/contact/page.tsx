@@ -52,8 +52,8 @@ export default function ContactPage() {
                   <Building2 style={{ width: 22, color: "var(--blue-primary)" }} />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", margin: "0 0 4px" }}>Hub Logistique Chine (Guangzhou)</h3>
-                  <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>Yuexiu District, Guangzhou, Guangdong Province, China.</p>
+                  <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", margin: "0 0 4px" }}>Hub Logistique International</h3>
+                  <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>Centre Logistique Export & Dépôts de Groupage Internationaux (Asie-Pacifique & Europe).</p>
                 </div>
               </div>
             </div>

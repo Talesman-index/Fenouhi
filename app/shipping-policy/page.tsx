@@ -9,7 +9,7 @@ export default function ShippingPolicyPage() {
           <span className="badge" style={{ marginBottom: 12, background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 12 }}>FRET AÉRIEN & MARITIME</span>
           <h1 className="hero-page-title">Politique d'Expédition & Modalités Logistiques</h1>
           <p style={{ fontSize: 15, color: "#CBD5E1", maxWidth: 660, margin: "0 auto", lineHeight: 1.5 }}>
-            Transparence totale sur nos tarifs de transport, processus d'inspection en usine et délais de livraison de Guangzhou & Shenzhen vers Cotonou, Lomé, Abidjan et Douala.
+            Transparence totale sur nos tarifs de transport, processus d'inspection en usine et délais de livraison depuis nos hubs internationaux vers Cotonou, Lomé, Abidjan et Douala.
           </p>
         </div>
       </header>
@@ -23,11 +23,11 @@ export default function ShippingPolicyPage() {
                   <Plane style={{ width: 28, color: "var(--orange-primary)" }} />
                   <div>
                     <h3 style={{ fontSize: 20, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>Fret Aérien Express</h3>
-                    <span style={{ fontSize: 12, color: "var(--orange-primary)", fontWeight: 800 }}>Délais : 5 à 10 jours ouvrés</span>
+                    <span style={{ fontSize: 12, color: "var(--orange-primary)", fontWeight: 800 }}>Délais : 5 à 15 jours</span>
                   </div>
                 </div>
                 <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12, fontSize: 14 }}>
-                  <li style={{ display: "flex", gap: 10 }}><CheckCircle style={{ width: 18, color: "var(--green-success)" }} /> Départs quotidiens aéroport Guangzhou Baiyun (CAN).</li>
+                  <li style={{ display: "flex", gap: 10 }}><CheckCircle style={{ width: 18, color: "var(--green-success)" }} /> Départs quotidiens depuis nos hubs logistiques internationaux.</li>
                   <li style={{ display: "flex", gap: 10 }}><CheckCircle style={{ width: 18, color: "var(--green-success)" }} /> Emballage renforcé antichoc et suivi GPS en direct.</li>
                 </ul>
               </div>
@@ -37,12 +37,12 @@ export default function ShippingPolicyPage() {
                   <Ship style={{ width: 28, color: "var(--navy-dark)" }} />
                   <div>
                     <h3 style={{ fontSize: 20, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>Fret Maritime Groupé (LCL/FCL)</h3>
-                    <span style={{ fontSize: 12, color: "var(--navy-dark)", fontWeight: 800 }}>Délais : 30 à 45 jours</span>
+                    <span style={{ fontSize: 12, color: "var(--navy-dark)", fontWeight: 800 }}>Délais : 50 à 95 jours</span>
                   </div>
                 </div>
                 <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12, fontSize: 14 }}>
-                  <li style={{ display: "flex", gap: 10 }}><CheckCircle style={{ width: 18, color: "var(--green-success)" }} /> Conteneurs hebdomadaires au départ de Nansha & Yantian.</li>
-                  <li style={{ display: "flex", gap: 10 }}><CheckCircle style={{ width: 18, color: "var(--green-success)" }} /> Dédouanement complet pris en charge à Cotonou / Lomé.</li>
+                  <li style={{ display: "flex", gap: 10 }}><CheckCircle style={{ width: 18, color: "var(--green-success)" }} /> Conteneurs hebdomadaires au départ des principaux hubs portuaires internationaux.</li>
+                  <li style={{ display: "flex", gap: 10 }}><CheckCircle style={{ width: 18, color: "var(--green-success)" }} /> Dédouanement complet pris en charge à Cotonou / Lomé / Abidjan.</li>
                 </ul>
               </div>
             </div>

@@ -17,7 +17,7 @@ export default function Footer() {
             </div>
             <div>
               <div className="guarantee-card-title">Free in-store pick up</div>
-              <div className="guarantee-card-sub">24/7 Amazing services</div>
+              <div className="guarantee-card-sub">Retrait gratuit en dépôt local</div>
             </div>
           </div>
 
@@ -27,7 +27,7 @@ export default function Footer() {
             </div>
             <div>
               <div className="guarantee-card-title">Free Shipping</div>
-              <div className="guarantee-card-sub">24/7 Amazing services</div>
+              <div className="guarantee-card-sub">Offerte selon conditions</div>
             </div>
           </div>
 
@@ -37,7 +37,7 @@ export default function Footer() {
             </div>
             <div>
               <div className="guarantee-card-title">Flexible Payment</div>
-              <div className="guarantee-card-sub">24/7 Amazing services</div>
+              <div className="guarantee-card-sub">Mobile Money & Échelonné</div>
             </div>
           </div>
 
@@ -47,7 +47,7 @@ export default function Footer() {
             </div>
             <div>
               <div className="guarantee-card-title">Convenient help</div>
-              <div className="guarantee-card-sub">24/7 Amazing services</div>
+              <div className="guarantee-card-sub">Support 7j/7 & Devis &lt; 2h</div>
             </div>
           </div>
         </div>
@@ -63,8 +63,8 @@ export default function Footer() {
             <div className="footer-col-title">About CargoLink</div>
             <ul className="footer-col-links">
               <li><Link href="/">Company info</Link></li>
-              <li><Link href="/suppliers">News & Usines Chine</Link></li>
-              <li><Link href="/shipping-policy">Entrepôts Guangzhou & Shenzhen</Link></li>
+              <li><Link href="/shipping-policy">Garantie & Engagement Usines</Link></li>
+              <li><Link href="/shipping-policy">Entrepôts & Hubs Internationaux</Link></li>
               <li><Link href="/shipping-policy">Careers & Affiliés</Link></li>
               <li><Link href="/quote-request">Programme Revendeurs PME</Link></li>
               <li><Link href="/terms">Policies & Directives</Link></li>
@@ -89,7 +89,7 @@ export default function Footer() {
             <ul className="footer-col-links">
               <li><Link href="/catalog?cat=electronics">Smartphones & High-Tech</Link></li>
               <li><Link href="/catalog?cat=fashion">Mode & Chaussures Gros</Link></li>
-              <li><Link href="/catalog?cat=appliances">Maison & Électroménager</Link></li>
+              <li><Link href="/catalog?cat=home">Maison & Électroménager</Link></li>
               <li><Link href="/catalog?cat=machinery">Machines & Outillage PME</Link></li>
               <li><Link href="/catalog?cat=beauty">Beauté & Cosmétiques</Link></li>
               <li><Link href="/catalog">Toutes les catégories</Link></li>
@@ -99,7 +99,7 @@ export default function Footer() {
           <div>
             <div className="footer-col-title">Support & Services</div>
             <ul className="footer-col-links">
-              <li><Link href="/suppliers">Espace Fournisseurs Chine</Link></li>
+              <li><Link href="/quote-request">Demander un Devis Gratuit</Link></li>
               <li><Link href="/contact">Contact Us</Link></li>
               <li><Link href="/returns-warranty">Gestion des litiges colis</Link></li>
               <li><Link href="/returns-warranty">CargoLink Money Back Guarantee</Link></li>

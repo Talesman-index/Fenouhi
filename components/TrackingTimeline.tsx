@@ -23,8 +23,8 @@ export default function TrackingTimeline({
 }: TrackingTimelineProps) {
   const steps: Step[] = [
     { stepNumber: 1, title: "Paiement Acompte Validé", location: "Cotonou, Bénin", time: "12 Juil 09:30", completed: true },
-    { stepNumber: 4, title: "Achat Fournisseur Effectué", location: "Shenzhen, Chine", time: "14 Juil 14:15", completed: true },
-    { stepNumber: 7, title: "Arrivé au Dépôt Export", location: "Guangzhou Baiyun", time: "18 Juil 11:00", completed: true },
+    { stepNumber: 4, title: "Achat Fournisseur Effectué", location: "Hub International Usine", time: "14 Juil 14:15", completed: true },
+    { stepNumber: 7, title: "Arrivé au Dépôt Export", location: "Centre Logistique Export", time: "18 Juil 11:00", completed: true },
     { stepNumber: 9, title: "En Transit Aérien (Vol AF-842)", location: "Espace Aérien", time: "22 Juil 06:45", completed: true, active: true },
     { stepNumber: 11, title: "Dédouanement Local", location: "Aéroport de Cotonou", time: "En attente", completed: false },
     { stepNumber: 14, title: "Disponible en Entrepôt", location: "Dépôt Akpakpa", time: "Prévu 26 Juil", completed: false }
