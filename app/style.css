@@ -2607,29 +2607,26 @@ a {
    ========================================================================== */
 .hero-cards-grid {
   display: grid;
-  grid-template-columns: 1.8fr 1fr;
+  grid-template-columns: 1.75fr 1fr;
   gap: 16px;
   align-items: stretch;
 }
 
 .hero-main-card {
   background: linear-gradient(135deg, #0F172A 0%, #165491 100%);
-  border-radius: 24px;
-  padding: 40px 44px;
+  border-radius: 20px;
+  padding: 36px 40px;
   color: #FFFFFF;
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
-  display: flex;
-  flex-direction: column;
-  justifyContent: center;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 }
 
 .hero-main-inner {
   display: grid;
   grid-template-columns: 1.35fr 0.65fr;
-  gap: 20px;
+  gap: 24px;
   align-items: center;
   position: relative;
   z-index: 2;
@@ -2637,19 +2634,19 @@ a {
 
 .hero-side-card {
   background: linear-gradient(160deg, #0B1D3A 0%, #0F3460 100%);
-  border-radius: 24px;
-  padding: 32px 28px;
+  border-radius: 20px;
+  padding: 28px 24px;
   color: #FFFFFF;
   display: flex;
   flex-direction: column;
   justifyContent: space-between;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 }
 
 .hero-package-responsive {
   max-width: 100%;
-  max-height: 250px;
+  max-height: 220px;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -2660,37 +2657,31 @@ a {
 @media (max-width: 991px) {
   .hero-cards-grid {
     grid-template-columns: 1fr !important;
-    gap: 16px !important;
+    gap: 14px !important;
   }
   .hero-main-card {
-    padding: 32px 22px !important;
+    padding: 24px 20px !important;
   }
   .hero-main-inner {
     grid-template-columns: 1fr !important;
-    gap: 24px !important;
-    text-align: center;
-  }
-  .hero-main-inner p {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .hero-main-inner .hero-ctas-wrap {
-    justify-content: center !important;
+    gap: 18px !important;
+    text-align: left !important;
   }
   .hero-package-responsive {
-    max-height: 200px !important;
-    margin: 4px auto 0 !important;
+    max-height: 170px !important;
+    margin: 8px auto 0 !important;
+    display: block !important;
   }
 }
 
 @media (max-width: 640px) {
   .hero-main-card,
   .hero-side-card {
-    padding: 24px 18px !important;
-    border-radius: 20px !important;
+    padding: 22px 18px !important;
+    border-radius: 18px !important;
   }
   .hero-package-responsive {
-    max-height: 180px !important;
+    max-height: 150px !important;
   }
 }
 

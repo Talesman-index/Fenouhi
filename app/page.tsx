@@ -70,7 +70,7 @@ export default function HomePage() {
   return (
     <div style={{ background: "#F8FAFC", paddingBottom: 60 }}>
       {/* HERO 2-CARDS SECTION */}
-      <section style={{ padding: "16px 0 28px" }}>
+      <section style={{ padding: "20px 0 28px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 16px" }}>
           <div className="hero-cards-grid">
 
@@ -89,38 +89,40 @@ export default function HomePage() {
               <div className="hero-main-inner">
                 {/* TEXT & CTAS */}
                 <div>
-                  <p style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#38BDF8", marginBottom: 12 }}>
-                    Importation directe Chine ➔ Bénin
-                  </p>
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(56, 189, 248, 0.14)", border: "1px solid rgba(56, 189, 248, 0.28)", borderRadius: 9999, padding: "4px 12px", marginBottom: 12 }}>
+                    <span style={{ fontSize: 11, fontWeight: 900, letterSpacing: "0.06em", textTransform: "uppercase", color: "#38BDF8" }}>
+                      Importation directe Chine ➔ Bénin
+                    </span>
+                  </div>
 
-                  <h1 style={{ fontSize: "clamp(24px, 3.2vw, 36px)", fontWeight: 900, lineHeight: 1.2, margin: "0 0 14px", letterSpacing: "-0.02em", color: "#FFFFFF", fontFamily: "'Outfit', sans-serif" }}>
+                  <h1 style={{ fontSize: "clamp(22px, 3.2vw, 34px)", fontWeight: 900, lineHeight: 1.22, margin: "0 0 12px", letterSpacing: "-0.02em", color: "#FFFFFF", fontFamily: "'Outfit', sans-serif" }}>
                     Achetez en Usine. Livré au Bénin.
                   </h1>
 
-                  <p style={{ fontSize: 14, color: "#CBD5E1", lineHeight: 1.6, margin: "0 0 24px", maxWidth: 460 }}>
+                  <p style={{ fontSize: 13.5, color: "#CBD5E1", lineHeight: 1.55, margin: "0 0 22px", maxWidth: 460 }}>
                     Sourcing certifié, dédouanement tout-en-un au Port et Aéroport de Cotonou, paiement sécurisé et livraison partout au Bénin.
                   </p>
 
-                  <div className="hero-ctas-wrap" style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+                  <div className="hero-ctas-wrap" style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
                     <Link
                       href="/catalog"
                       style={{
                         background: "#FFFFFF",
                         color: "#0F172A",
                         borderRadius: 10,
-                        padding: "12px 22px",
-                        fontSize: 14,
+                        padding: "11px 20px",
+                        fontSize: 13.5,
                         fontWeight: 800,
                         textDecoration: "none",
                         display: "inline-flex",
                         alignItems: "center",
-                        gap: 7,
+                        gap: 6,
                         boxShadow: "0 4px 14px rgba(0, 0, 0, 0.15)",
                         transition: "all 0.2s ease",
                       }}
                     >
                       <span>Parcourir le Catalogue</span>
-                      <ArrowRight style={{ width: 15, height: 15 }} />
+                      <ArrowRight style={{ width: 14, height: 14 }} />
                     </Link>
 
                     <Link
@@ -130,8 +132,8 @@ export default function HomePage() {
                         color: "#FFFFFF",
                         border: "1.5px solid rgba(255, 255, 255, 0.25)",
                         borderRadius: 10,
-                        padding: "12px 20px",
-                        fontSize: 14,
+                        padding: "11px 18px",
+                        fontSize: 13.5,
                         fontWeight: 700,
                         textDecoration: "none",
                         display: "inline-flex",
