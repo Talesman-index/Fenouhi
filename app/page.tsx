@@ -69,62 +69,66 @@ export default function HomePage() {
 
   return (
     <div style={{ background: "#F8FAFC", paddingBottom: 60 }}>
-      {/* HERO SECTION */}
-      <section style={{ padding: "16px 0 24px" }}>
+      {/* HERO BANNER SECTION (SIMPLE & RESPONSIVE WITH VISIBLE IMAGE ON MOBILE) */}
+      <section style={{ padding: "16px 0 28px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 16px" }}>
-          <div className="hero-cards-grid">
+          <div className="hero-simple-banner">
+            {/* Subtle glow background */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                pointerEvents: "none",
+                background: "radial-gradient(ellipse 70% 80% at 85% 50%, rgba(56, 189, 248, 0.18) 0%, transparent 70%)",
+              }}
+            />
 
-            {/* MAIN CARD */}
-            <div className="hero-main-card">
-              {/* Subtle glow */}
-              <div style={{
-                position: "absolute", inset: 0, pointerEvents: "none",
-                background: "radial-gradient(ellipse 60% 80% at 90% 50%, rgba(22,84,145,0.3) 0%, transparent 70%)",
-              }} />
-
-              <div style={{ position: "relative", zIndex: 1, maxWidth: 500 }}>
-                <p style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#38BDF8", marginBottom: 14 }}>
+            <div className="hero-simple-content" style={{ position: "relative", zIndex: 2 }}>
+              {/* TEXT & CTAS */}
+              <div>
+                <p style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#38BDF8", marginBottom: 14 }}>
                   Importation directe Chine ➔ Bénin
                 </p>
 
-                <h1 style={{ fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 900, lineHeight: 1.2, margin: "0 0 14px", letterSpacing: "-0.02em", color: "#FFFFFF", fontFamily: "'Outfit', sans-serif" }}>
+                <h1 style={{ fontSize: "clamp(26px, 4vw, 42px)", fontWeight: 900, lineHeight: 1.18, margin: "0 0 16px", letterSpacing: "-0.02em", color: "#FFFFFF", fontFamily: "'Outfit', sans-serif" }}>
                   Achetez en Usine. Livré au Bénin.
                 </h1>
 
-                <p style={{ fontSize: 14, color: "#CBD5E1", lineHeight: 1.6, margin: "0 0 24px", maxWidth: 440 }}>
+                <p style={{ fontSize: 15, color: "#CBD5E1", lineHeight: 1.6, margin: "0 0 28px", maxWidth: 520 }}>
                   Sourcing certifié, dédouanement tout-en-un au Port et Aéroport de Cotonou, paiement sécurisé et livraison partout au Bénin.
                 </p>
 
-                <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                <div className="hero-ctas-wrap" style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
                   <Link
                     href="/catalog"
                     style={{
                       background: "#FFFFFF",
                       color: "#0F172A",
-                      borderRadius: 10,
-                      padding: "12px 24px",
-                      fontSize: 14,
+                      borderRadius: 12,
+                      padding: "14px 28px",
+                      fontSize: 14.5,
                       fontWeight: 800,
                       textDecoration: "none",
                       display: "inline-flex",
                       alignItems: "center",
                       gap: 8,
-                      boxShadow: "0 4px 14px rgba(0, 0, 0, 0.15)",
+                      boxShadow: "0 4px 18px rgba(0, 0, 0, 0.2)",
                       transition: "all 0.2s ease",
                     }}
                   >
                     <span>Parcourir le Catalogue</span>
-                    <ArrowRight style={{ width: 15, height: 15 }} />
+                    <ArrowRight style={{ width: 16, height: 16 }} />
                   </Link>
+
                   <Link
                     href="/quote-request"
                     style={{
                       background: "rgba(255, 255, 255, 0.1)",
                       color: "#FFFFFF",
-                      border: "1px solid rgba(255, 255, 255, 0.25)",
-                      borderRadius: 10,
-                      padding: "12px 22px",
-                      fontSize: 14,
+                      border: "1.5px solid rgba(255, 255, 255, 0.25)",
+                      borderRadius: 12,
+                      padding: "14px 24px",
+                      fontSize: 14.5,
                       fontWeight: 700,
                       textDecoration: "none",
                       display: "inline-flex",
@@ -138,73 +142,15 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Product image */}
-              <img
-                src="/images/assets/hero_box.png"
-                alt="CargoLink colis"
-                className="hero-package-img"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-              />
-            </div>
-
-            {/* SIDE CARD */}
-            <div className="hero-side-card">
-              <div>
-                <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#60A5FA", marginBottom: 10 }}>
-                  Suivi & Fret International
-                </p>
-                <h2 style={{ fontSize: 20, fontWeight: 800, margin: "0 0 20px", lineHeight: 1.3 }}>
-                  Chine ➔ Cotonou, Bénin
-                </h2>
-
-                {/* Transit options — clean rows */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 1, borderRadius: 12, overflow: "hidden", background: "rgba(255,255,255,0.04)" }}>
-                  <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div>
-                      <div style={{ fontSize: 13.5, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
-                        <Plane style={{ width: 15, height: 15, color: "#60A5FA" }} />
-                        <span>Fret Aérien Express</span>
-                      </div>
-                      <div style={{ fontSize: 11.5, color: "#94A3B8", marginTop: 2 }}>5 – 12 jours (Aéroport Cotonou)</div>
-                    </div>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: "#60A5FA" }}>Rapide</span>
-                  </div>
-                  <div style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
-                  <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div>
-                      <div style={{ fontSize: 13.5, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
-                        <Ship style={{ width: 15, height: 15, color: "#34D399" }} />
-                        <span>Fret Maritime Groupé</span>
-                      </div>
-                      <div style={{ fontSize: 11.5, color: "#94A3B8", marginTop: 2 }}>40 – 65 jours (Port Cotonou)</div>
-                    </div>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: "#34D399" }}>Éco</span>
-                  </div>
-                </div>
+              {/* IMAGE (PROPERLY CENTERED AND ALWAYS VISIBLE ON MOBILE & DESKTOP) */}
+              <div className="hero-simple-image-box">
+                <img
+                  src="/images/assets/hero_box.png"
+                  alt="CargoLink Colis Direct Usine"
+                  className="hero-box-responsive"
+                />
               </div>
-
-              <Link
-                href="/dashboard"
-                style={{
-                  marginTop: 24,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  background: "rgba(255,255,255,0.1)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  borderRadius: 12,
-                  padding: "13px 18px",
-                  fontSize: 13.5,
-                  fontWeight: 700,
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                }}
-              >
-                <span>Suivre mon colis</span>
-                <ArrowRight style={{ width: 15, height: 15, opacity: 0.7 }} />
-              </Link>
             </div>
-
           </div>
         </div>
       </section>
