@@ -224,67 +224,40 @@ export default function ProductCard({
           </div>
         </div>
 
-        {/* ACTIONS ROW: PANIER + DEVIS */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-          <button
-            onClick={handleAddToCart}
-            style={{
-              padding: "8px 0",
-              textAlign: "center",
-              fontSize: 11.5,
-              fontWeight: 700,
-              borderRadius: 10,
-              background: justAdded ? "#16A34A" : "#0F172A",
-              color: "#FFF",
-              border: "none",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 4,
-              cursor: "pointer",
-              transition: "background 0.18s ease",
-            }}
-          >
-            {justAdded ? (
-              <>
-                <Check style={{ width: 13, height: 13 }} />
-                <span>Ajouté</span>
-              </>
-            ) : (
-              <>
-                <ShoppingCart style={{ width: 13, height: 13 }} />
-                <span>Panier</span>
-              </>
-            )}
-          </button>
-
-          <div
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              window.location.href = `/quote-request?prod=${encodeURIComponent(title)}`;
-            }}
-            style={{
-              padding: "8px 0",
-              textAlign: "center",
-              fontSize: 11.5,
-              fontWeight: 700,
-              borderRadius: 10,
-              background: "#F1F5F9",
-              color: "#0F172A",
-              border: "1px solid #E2E8F0",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 4,
-              cursor: "pointer",
-              transition: "background 0.18s ease",
-            }}
-          >
-            <ShoppingBag style={{ width: 12, height: 12 }} />
-            <span>Devis</span>
-          </div>
-        </div>
+        {/* ACTION: PANIER ONLY */}
+        <button
+          onClick={handleAddToCart}
+          style={{
+            width: "100%",
+            padding: "10px 0",
+            textAlign: "center",
+            fontSize: 12.5,
+            fontWeight: 800,
+            borderRadius: 10,
+            background: justAdded ? "#16A34A" : "#0F172A",
+            color: "#FFF",
+            border: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 6,
+            cursor: "pointer",
+            transition: "all 0.18s ease",
+            boxShadow: justAdded ? "0 4px 12px rgba(22, 163, 74, 0.25)" : "0 2px 8px rgba(15, 23, 42, 0.08)",
+          }}
+        >
+          {justAdded ? (
+            <>
+              <Check style={{ width: 14, height: 14 }} />
+              <span>Ajouté au Panier !</span>
+            </>
+          ) : (
+            <>
+              <ShoppingCart style={{ width: 14, height: 14 }} />
+              <span>Ajouter au Panier</span>
+            </>
+          )}
+        </button>
       </div>
     </Link>
   );
