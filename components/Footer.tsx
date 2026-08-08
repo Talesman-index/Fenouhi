@@ -3,159 +3,162 @@
 import React from "react";
 import Link from "next/link";
 import Logo from "@/components/Logo";
-import { Store, Box, CreditCard, Headphones, Facebook, Instagram } from "lucide-react";
+import { Store, Box, CreditCard, Headphones, Facebook, Instagram, ShieldCheck, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="footer-wrapper">
-      <div className="container">
+    <footer className="footer-wrapper" style={{ background: "#FFFFFF", borderTop: "1px solid #E2E8F0", padding: "48px 0 24px" }}>
+      <div className="container" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px" }}>
+        
         {/* 1. GUARANTEE CARDS ROW (4 FLOATING WHITE CARDS) */}
-        <div className="guarantee-cards-row">
-          <div className="guarantee-card">
-            <div className="guarantee-card-icon">
-              <Store style={{ width: 26, height: 26 }} />
+        <div className="guarantee-cards-row" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, marginBottom: 40 }}>
+          <div className="guarantee-card" style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 16, padding: "18px 20px", display: "flex", alignItems: "center", gap: 14 }}>
+            <div className="guarantee-card-icon" style={{ width: 44, height: 44, borderRadius: 12, background: "#EFF6FF", color: "#165491", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <Store style={{ width: 22, height: 22 }} />
             </div>
             <div>
-              <div className="guarantee-card-title">Free in-store pick up</div>
-              <div className="guarantee-card-sub">Retrait gratuit en dépôt local</div>
+              <div className="guarantee-card-title" style={{ fontSize: 13.5, fontWeight: 900, color: "#0F172A" }}>Retrait en Hub Agence</div>
+              <div className="guarantee-card-sub" style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>Retrait gratuit à Cotonou</div>
             </div>
           </div>
 
-          <div className="guarantee-card">
-            <div className="guarantee-card-icon">
-              <Box style={{ width: 26, height: 26 }} />
+          <div className="guarantee-card" style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 16, padding: "18px 20px", display: "flex", alignItems: "center", gap: 14 }}>
+            <div className="guarantee-card-icon" style={{ width: 44, height: 44, borderRadius: 12, background: "#ECFDF5", color: "#16A34A", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <Box style={{ width: 22, height: 22 }} />
             </div>
             <div>
-              <div className="guarantee-card-title">Free Shipping</div>
-              <div className="guarantee-card-sub">Offerte selon conditions</div>
+              <div className="guarantee-card-title" style={{ fontSize: 13.5, fontWeight: 900, color: "#0F172A" }}>Fret Direct Chine</div>
+              <div className="guarantee-card-sub" style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>Aérien Express (5-12j) & Maritime</div>
             </div>
           </div>
 
-          <div className="guarantee-card">
-            <div className="guarantee-card-icon">
-              <CreditCard style={{ width: 26, height: 26 }} />
+          <div className="guarantee-card" style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 16, padding: "18px 20px", display: "flex", alignItems: "center", gap: 14 }}>
+            <div className="guarantee-card-icon" style={{ width: 44, height: 44, borderRadius: 12, background: "#FEF9C3", color: "#CA8A04", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <CreditCard style={{ width: 22, height: 22 }} />
             </div>
             <div>
-              <div className="guarantee-card-title">Paiement 100% Sécurisé</div>
-              <div className="guarantee-card-sub">Mobile Money & Cartes</div>
+              <div className="guarantee-card-title" style={{ fontSize: 13.5, fontWeight: 900, color: "#0F172A" }}>Paiement Sécurisé Bénin</div>
+              <div className="guarantee-card-sub" style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>MTN MoMo, Moov Money & CB</div>
             </div>
           </div>
 
-          <div className="guarantee-card">
-            <div className="guarantee-card-icon">
-              <Headphones style={{ width: 26, height: 26 }} />
+          <div className="guarantee-card" style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 16, padding: "18px 20px", display: "flex", alignItems: "center", gap: 14 }}>
+            <div className="guarantee-card-icon" style={{ width: 44, height: 44, borderRadius: 12, background: "#FFF7ED", color: "#EA580C", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <Headphones style={{ width: 22, height: 22 }} />
             </div>
             <div>
-              <div className="guarantee-card-title">Convenient help</div>
-              <div className="guarantee-card-sub">Support 7j/7 & Devis &lt; 2h</div>
+              <div className="guarantee-card-title" style={{ fontSize: 13.5, fontWeight: 900, color: "#0F172A" }}>Service Client 7j/7</div>
+              <div className="guarantee-card-sub" style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>Assistance sourcing & devis &lt; 2h</div>
             </div>
           </div>
         </div>
 
         {/* BRAND LOGO ROW */}
-        <div style={{ marginBottom: 24, paddingTop: 10 }}>
-          <Logo size={42} />
+        <div style={{ marginBottom: 28, paddingTop: 6 }}>
+          <Logo size={38} subtitleText="LOGISTIQUE DIRECTE CHINE ➔ BÉNIN & AFRIQUE" />
         </div>
 
         {/* 2. MAIN 4 NAVIGATION COLUMNS */}
-        <div className="footer-nav-grid">
+        <div className="footer-nav-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 32, marginBottom: 36 }}>
+          {/* COL 1: À PROPOS */}
           <div>
-            <div className="footer-col-title">About CargoLink</div>
-            <ul className="footer-col-links">
-              <li><Link href="/">Company info</Link></li>
-              <li><Link href="/shipping-policy">Garantie & Engagement Usines</Link></li>
-              <li><Link href="/shipping-policy">Entrepôts & Hubs Internationaux</Link></li>
-              <li><Link href="/shipping-policy">Careers & Affiliés</Link></li>
-              <li><Link href="/quote-request">Programme Revendeurs PME</Link></li>
-              <li><Link href="/terms">Policies & Directives</Link></li>
+            <div className="footer-col-title" style={{ fontSize: 14, fontWeight: 900, color: "#0F172A", marginBottom: 14, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              À Propos de CargoLink
+            </div>
+            <ul className="footer-col-links" style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
+              <li><Link href="/" style={{ color: "#64748B", textDecoration: "none", transition: "color 0.2s" }}>Accueil & Services</Link></li>
+              <li><Link href="/catalog" style={{ color: "#64748B", textDecoration: "none" }}>Catalogue Direct Usines</Link></li>
+              <li><Link href="/categories" style={{ color: "#64748B", textDecoration: "none" }}>Univers & Catégories Produits</Link></li>
+              <li><Link href="/quote-request" style={{ color: "#64748B", textDecoration: "none" }}>Demande de Devis Sur-Mesure</Link></li>
+              <li><Link href="/terms" style={{ color: "#64748B", textDecoration: "none" }}>Conditions Générales d'Utilisation</Link></li>
             </ul>
           </div>
 
+          {/* COL 2: COMMANDES & ACHATS */}
           <div>
-            <div className="footer-col-title">Order & Purchases</div>
-            <ul className="footer-col-links">
-              <li><Link href="/dashboard?tab=orders">Check order Status</Link></li>
-              <li><Link href="/shipping-policy">Shipping, Delivery & Pickup</Link></li>
-              <li><Link href="/returns-warranty">Returns & Exchanges</Link></li>
-              <li><Link href="/returns-warranty">Price Match Guarantee</Link></li>
-              <li><Link href="/quote-request">Demande de Devis Sur-Mesure</Link></li>
-              <li><Link href="/quote-request">Trade In Program</Link></li>
-              <li><Link href="/quote-request">Gift Cards & Bons d'achat</Link></li>
+            <div className="footer-col-title" style={{ fontSize: 14, fontWeight: 900, color: "#0F172A", marginBottom: 14, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              Commandes & Fret
+            </div>
+            <ul className="footer-col-links" style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
+              <li><Link href="/cart" style={{ color: "#64748B", textDecoration: "none" }}>Mon Panier d'Achats</Link></li>
+              <li><Link href="/checkout" style={{ color: "#64748B", textDecoration: "none" }}>Fret & Livraison au Bénin</Link></li>
+              <li><Link href="/dashboard" style={{ color: "#64748B", textDecoration: "none" }}>Suivi de mes Commandes</Link></li>
+              <li><Link href="/shipping-policy" style={{ color: "#64748B", textDecoration: "none" }}>Délais & Tarifs d'Expédition</Link></li>
+              <li><Link href="/returns-warranty" style={{ color: "#64748B", textDecoration: "none" }}>Garantie & Conformité Usine</Link></li>
             </ul>
           </div>
 
+          {/* COL 3: CATÉGORIES POPULAIRES */}
           <div>
-            <div className="footer-col-title">Popular Categories</div>
-            <ul className="footer-col-links">
-              <li><Link href="/catalog?cat=electronics">Smartphones & High-Tech</Link></li>
-              <li><Link href="/catalog?cat=fashion">Mode & Chaussures Gros</Link></li>
-              <li><Link href="/catalog?cat=home">Maison & Électroménager</Link></li>
-              <li><Link href="/catalog?cat=machinery">Machines & Outillage PME</Link></li>
-              <li><Link href="/catalog?cat=beauty">Beauté & Cosmétiques</Link></li>
-              <li><Link href="/catalog">Toutes les catégories</Link></li>
+            <div className="footer-col-title" style={{ fontSize: 14, fontWeight: 900, color: "#0F172A", marginBottom: 14, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              Catégories Usines
+            </div>
+            <ul className="footer-col-links" style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
+              <li><Link href="/catalog?cat=electronics" style={{ color: "#64748B", textDecoration: "none" }}>Électronique & High-Tech</Link></li>
+              <li><Link href="/catalog?cat=fashion" style={{ color: "#64748B", textDecoration: "none" }}>Mode, Chaussures & Textile</Link></li>
+              <li><Link href="/catalog?cat=home" style={{ color: "#64748B", textDecoration: "none" }}>Maison & Électroménager</Link></li>
+              <li><Link href="/catalog?cat=machinery" style={{ color: "#64748B", textDecoration: "none" }}>Machines & Outillage PME</Link></li>
+              <li><Link href="/catalog?cat=beauty" style={{ color: "#64748B", textDecoration: "none" }}>Beauté & Cosmétiques</Link></li>
+              <li><Link href="/catalog" style={{ color: "#165491", fontWeight: 700, textDecoration: "none" }}>Voir tout le catalogue →</Link></li>
             </ul>
           </div>
 
+          {/* COL 4: SUPPORT & CONTACT */}
           <div>
-            <div className="footer-col-title">Support & Services</div>
-            <ul className="footer-col-links">
-              <li><Link href="/quote-request">Demander un Devis Gratuit</Link></li>
-              <li><Link href="/contact">Contact Us</Link></li>
-              <li><Link href="/returns-warranty">Gestion des litiges colis</Link></li>
-              <li><Link href="/returns-warranty">CargoLink Money Back Guarantee</Link></li>
+            <div className="footer-col-title" style={{ fontSize: 14, fontWeight: 900, color: "#0F172A", marginBottom: 14, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              Support & Contact
+            </div>
+            <ul className="footer-col-links" style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
+              <li><Link href="/quote-request" style={{ color: "#64748B", textDecoration: "none" }}>Demander un Devis Gratuit</Link></li>
+              <li><Link href="/contact" style={{ color: "#64748B", textDecoration: "none" }}>Contactez notre Équipe</Link></li>
+              <li><Link href="/returns-warranty" style={{ color: "#64748B", textDecoration: "none" }}>Gestion des Litiges & Colis</Link></li>
+              <li><Link href="/shipping-policy" style={{ color: "#64748B", textDecoration: "none" }}>Hub Logistique Cotonou</Link></li>
             </ul>
 
-            <div className="region-country-box" style={{ marginTop: 20 }}>
-              <div className="region-country-label" style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 6 }}>Region Country</div>
-              <select className="region-select-pill">
-                <option>Bénin (Cotonou)</option>
-                <option>Togo (Lomé)</option>
-                <option>Côte d'Ivoire (Abidjan)</option>
-                <option>Sénégal (Dakar)</option>
-                <option>Cameroun (Douala)</option>
-              </select>
+            <div className="region-country-box" style={{ marginTop: 18, background: "#F8FAFC", padding: "12px 14px", borderRadius: 12, border: "1px solid #E2E8F0" }}>
+              <div className="region-country-label" style={{ fontSize: 11.5, fontWeight: 800, color: "#64748B", marginBottom: 4, textTransform: "uppercase" }}>Pays de Livraison</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 800, color: "#0F172A" }}>
+                <MapPin style={{ width: 15, height: 15, color: "#165491" }} />
+                <span>Bénin (Cotonou, Calavi & Régions)</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* 3. BOTTOM WIDGETS ROW (REAL PAYMENT LOGOS & 3 SOCIALS: FACEBOOK, INSTAGRAM, TIKTOK) */}
-        <div className="footer-bottom-widgets" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 24, borderTop: "1px solid #E2E8F0", borderBottom: "1px solid #E2E8F0", padding: "20px 0", marginBottom: 20 }}>
-          {/* PAYMENT METHODS (REAL IMAGE LOGOS) */}
+        {/* 3. BOTTOM WIDGETS ROW (REAL PAYMENT LOGOS & SOCIAL LINKS) */}
+        <div className="footer-bottom-widgets" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 24, borderTop: "1px solid #E2E8F0", borderBottom: "1px solid #E2E8F0", padding: "20px 0", marginBottom: 20, flexWrap: "wrap" }}>
+          {/* PAYMENT METHODS */}
           <div>
-            <div className="widget-title" style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 10 }}>Payment Method</div>
-            <div className="payment-methods-row" style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-              <div className="pay-logo-badge" title="Kkiapay" style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "4px 10px", height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.03)" }}>
-                <img src="/images/payments/kkiapay.png" alt="Kkiapay" style={{ height: 22, width: "auto", objectFit: "contain" }} />
+            <div className="widget-title" style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A", marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.5px" }}>Moyens de Paiement Sécurisés</div>
+            <div className="payment-methods-row" style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+              <div className="pay-logo-badge" title="MTN Mobile Money" style={{ background: "#FFFFFF", border: "1.5px solid #EAB308", borderRadius: 10, padding: "4px 10px", height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.03)" }}>
+                <img src="/images/payments/mtn.png" alt="MTN Mobile Money" style={{ height: 24, width: "auto", objectFit: "contain" }} />
               </div>
-              <div className="pay-logo-badge" title="MTN Mobile Money" style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "4px 10px", height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.03)" }}>
-                <img src="/images/payments/mtn.png" alt="MTN Mobile Money" style={{ height: 22, width: "auto", objectFit: "contain" }} />
+              <div className="pay-logo-badge" title="Moov Africa" style={{ background: "#FFFFFF", border: "1.5px solid #2563EB", borderRadius: 10, padding: "4px 10px", height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.03)" }}>
+                <img src="/images/payments/moov_africa_official.png" alt="Moov Africa" style={{ height: 24, width: "auto", objectFit: "contain" }} />
               </div>
-              <div className="pay-logo-badge" title="Moov Africa" style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "4px 10px", height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.03)" }}>
-                <img src="/images/payments/moov.png" alt="Moov Africa" style={{ height: 22, width: "auto", objectFit: "contain" }} />
-              </div>
-              <div className="pay-logo-badge" title="VISA" style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "4px 10px", height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.03)" }}>
+              <div className="pay-logo-badge" title="VISA" style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 10, padding: "4px 10px", height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.03)" }}>
                 <img src="/images/payments/visa.png" alt="VISA" style={{ height: 20, width: "auto", objectFit: "contain" }} />
               </div>
-              <div className="pay-logo-badge" title="Mastercard" style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "4px 10px", height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.03)" }}>
+              <div className="pay-logo-badge" title="Mastercard" style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 10, padding: "4px 10px", height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.03)" }}>
                 <img src="/images/payments/mastercard.png" alt="Mastercard" style={{ height: 22, width: "auto", objectFit: "contain" }} />
               </div>
             </div>
           </div>
 
-          {/* STAY CONNECTED (ONLY 3 SOCIALS: FACEBOOK, INSTAGRAM, TIKTOK) */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-            <div className="widget-title" style={{ fontSize: 14, fontWeight: 900, color: "#0F172A", marginBottom: 12, letterSpacing: "-0.2px" }}>Stay Connected</div>
-            <div className="social-circle-buttons" style={{ display: "flex", gap: 14, alignItems: "center", justifyContent: "center" }}>
+          {/* SOCIAL LINKS */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+            <div className="widget-title" style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A", marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.5px" }}>Suivez CargoLink</div>
+            <div className="social-circle-buttons" style={{ display: "flex", gap: 12, alignItems: "center" }}>
               {/* FACEBOOK */}
               <a 
                 href="https://facebook.com" 
                 target="_blank" 
                 rel="noreferrer"
                 title="Facebook CargoLink"
-                className="social-circle-btn" 
                 style={{
-                  width: 44,
-                  height: 44,
+                  width: 40,
+                  height: 40,
                   background: "#1877F2",
                   color: "#FFFFFF",
                   borderRadius: "50%",
@@ -163,11 +166,10 @@ export default function Footer() {
                   alignItems: "center",
                   justifyContent: "center",
                   textDecoration: "none",
-                  boxShadow: "0 6px 16px rgba(24, 119, 242, 0.35)",
-                  transition: "transform 0.2s ease, box-shadow 0.2s ease"
+                  boxShadow: "0 4px 12px rgba(24, 119, 242, 0.3)",
                 }}
               >
-                <Facebook style={{ width: 20, height: 20, fill: "#FFFFFF", stroke: "#1877F2", strokeWidth: 1 }} />
+                <Facebook style={{ width: 18, height: 18, fill: "#FFFFFF", stroke: "#1877F2", strokeWidth: 1 }} />
               </a>
 
               {/* INSTAGRAM */}
@@ -176,10 +178,9 @@ export default function Footer() {
                 target="_blank" 
                 rel="noreferrer"
                 title="Instagram CargoLink"
-                className="social-circle-btn" 
                 style={{
-                  width: 44,
-                  height: 44,
+                  width: 40,
+                  height: 40,
                   background: "radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)",
                   color: "#FFFFFF",
                   borderRadius: "50%",
@@ -187,11 +188,10 @@ export default function Footer() {
                   alignItems: "center",
                   justifyContent: "center",
                   textDecoration: "none",
-                  boxShadow: "0 6px 16px rgba(220, 39, 67, 0.35)",
-                  transition: "transform 0.2s ease, box-shadow 0.2s ease"
+                  boxShadow: "0 4px 12px rgba(220, 39, 67, 0.3)",
                 }}
               >
-                <Instagram style={{ width: 20, height: 20, stroke: "#FFFFFF", strokeWidth: 2, fill: "none" }} />
+                <Instagram style={{ width: 18, height: 18, stroke: "#FFFFFF", strokeWidth: 2, fill: "none" }} />
               </a>
 
               {/* TIKTOK */}
@@ -200,10 +200,9 @@ export default function Footer() {
                 target="_blank" 
                 rel="noreferrer"
                 title="TikTok CargoLink"
-                className="social-circle-btn" 
                 style={{
-                  width: 44,
-                  height: 44,
+                  width: 40,
+                  height: 40,
                   background: "#000000",
                   color: "#FFFFFF",
                   borderRadius: "50%",
@@ -211,11 +210,10 @@ export default function Footer() {
                   alignItems: "center",
                   justifyContent: "center",
                   textDecoration: "none",
-                  boxShadow: "0 6px 16px rgba(0, 0, 0, 0.35)",
-                  transition: "transform 0.2s ease, box-shadow 0.2s ease"
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
                 }}
               >
-                <svg viewBox="0 0 24 24" fill="#FFFFFF" style={{ width: 19, height: 19 }}>
+                <svg viewBox="0 0 24 24" fill="#FFFFFF" style={{ width: 17, height: 17 }}>
                   <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 2.49 6.34 6.34 0 0 0 1.077 8.371 6.342 6.342 0 0 0 8.016-.324 6.34 6.34 0 0 0 1.764-4.256V9.162a8.163 8.163 0 0 0 4.773 1.524V7.24a4.826 4.826 0 0 1-1.003-.554z"/>
                 </svg>
               </a>
@@ -224,12 +222,13 @@ export default function Footer() {
         </div>
 
         {/* 4. LEGAL BOTTOM BAR */}
-        <div className="footer-legal-bar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 12, color: "#64748B" }}>
-          <div>© CargoLink All Rights Reserved.</div>
-          <div className="footer-legal-links" style={{ display: "flex", gap: 20 }}>
-            <Link href="/privacy-policy">Privacy Policy</Link>
-            <Link href="/terms">Terms of Use</Link>
-            <Link href="/returns-warranty">Warranty Policy</Link>
+        <div className="footer-legal-bar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 12, color: "#64748B", flexWrap: "wrap", gap: 12 }}>
+          <div>© CargoLink Africa. Tous droits réservés.</div>
+          <div className="footer-legal-links" style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+            <Link href="/privacy-policy" style={{ color: "#64748B", textDecoration: "none" }}>Politique de Confidentialité</Link>
+            <Link href="/terms" style={{ color: "#64748B", textDecoration: "none" }}>Conditions d'Utilisation</Link>
+            <Link href="/returns-warranty" style={{ color: "#64748B", textDecoration: "none" }}>Garantie & Retours</Link>
+            <Link href="/shipping-policy" style={{ color: "#64748B", textDecoration: "none" }}>Politique d'Expédition</Link>
           </div>
         </div>
       </div>

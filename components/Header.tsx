@@ -132,7 +132,7 @@ export default function Header() {
                 type="text" 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search for any product or factory in China..." 
+                placeholder="Rechercher un produit ou une usine en Chine..." 
                 style={{ flex: 1, border: "none", background: "transparent", outline: "none", fontSize: 13, fontWeight: 600, color: "#0F172A" }}
               />
               <Link 
@@ -239,7 +239,7 @@ export default function Header() {
               ) : (
                 <div className="desktop-only" style={{ gap: 6, alignItems: "center" }}>
                   <Link href="/auth/login" className="btn btn-pill-sm" style={{ background: "rgba(15,23,42,0.06)", color: "#0F172A", padding: "8px 16px", fontSize: 13, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
-                    <LogIn style={{ width: 14 }} /> <span>Sign In</span>
+                    <LogIn style={{ width: 14 }} /> <span>Connexion</span>
                   </Link>
                   <Link href="/auth/sign-up" className="btn btn-pill-sm" style={{ background: "#0F172A", color: "#FFF", padding: "8px 16px", fontSize: 13, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
                     <UserPlus style={{ width: 14 }} /> <span>S'inscrire</span>
@@ -258,7 +258,7 @@ export default function Header() {
                 type="text" 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search for any product or factory in China..." 
+                placeholder="Rechercher un produit ou une usine en Chine..." 
                 style={{ flex: 1, border: "none", background: "transparent", outline: "none", fontSize: 13, fontWeight: 600, color: "#0F172A" }}
               />
               <Link 
@@ -273,24 +273,39 @@ export default function Header() {
         </div>
       </header>
 
-      {/* SUB NAV BAR WITH CATEGORIES & MOBILE APP BANNER */}
+      {/* SUB NAV BAR WITH CATEGORIES & USEFUL FRENCH LINKS */}
       <nav className="subnav-bar" style={{ background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", padding: "10px 0" }}>
         <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           
           <ul className="subnav-list" style={{ display: "flex", gap: 22, listStyle: "none", margin: 0, padding: 0, alignItems: "center" }}>
             <li>
               <Link href="/categories" style={{ fontWeight: 900, color: "#0F172A", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
-                <Grid style={{ width: 15 }} /> All Categories <ChevronDown style={{ width: 13 }} />
+                <Grid style={{ width: 15 }} /> Toutes les Catégories <ChevronDown style={{ width: 13 }} />
               </Link>
             </li>
             <li>
               <Link href="/catalog?cat=electronics" style={{ fontSize: 13, fontWeight: 700, color: pathname === "/catalog" ? "#165491" : "#475569" }}>
-                Electronics
+                Électronique & High-Tech
               </Link>
             </li>
             <li>
               <Link href="/catalog?cat=fashion" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
-                Fashion
+                Mode & Chaussures
+              </Link>
+            </li>
+            <li>
+              <Link href="/catalog?cat=home" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
+                Maison & Électroménager
+              </Link>
+            </li>
+            <li>
+              <Link href="/catalog?cat=machinery" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
+                Machines & Outillage PME
+              </Link>
+            </li>
+            <li>
+              <Link href="/catalog?cat=beauty" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
+                Beauté & Cosmétiques
               </Link>
             </li>
             <li>
@@ -302,31 +317,6 @@ export default function Header() {
               <Link href="/checkout" style={{ fontSize: 13, fontWeight: 800, color: "#16A34A", display: "inline-flex", alignItems: "center", gap: 4 }}>
                 <Check style={{ width: 14, height: 14 }} />
                 <span>Fret & Livraison Bénin</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalog?cat=fashion" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
-                Women's
-              </Link>
-            </li>
-            <li>
-              <Link href="/shipping-policy" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
-                Kids' Fashion
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalog?cat=beauty" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
-                Healthy & Beauty
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalog?cat=agro" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
-                Groceries
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalog?cat=wholesale" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
-                Luxury Item
               </Link>
             </li>
           </ul>
