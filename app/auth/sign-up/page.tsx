@@ -199,7 +199,7 @@ export default function SignUpPage() {
           
           <div style={{ textAlign: "center", marginBottom: 24 }}>
             <span style={{ background: "var(--orange-light)", color: "var(--orange-hover)", fontSize: 11, fontWeight: 900, padding: "4px 12px", borderRadius: 9999, textTransform: "uppercase", letterSpacing: "0.5px" }}>
-              ✨ CRÉATION DE COMPTE CLIENT SÉCURISÉE
+              CRÉATION DE COMPTE CLIENT SÉCURISÉE
             </span>
             <h1 style={{ fontSize: 24, fontWeight: 900, color: "#0F172A", margin: "10px 0 4px" }}>
               Inscrivez-vous sur CargoLink
@@ -594,11 +594,11 @@ export default function SignUpPage() {
                       background: "#F8FAFC"
                     }}
                   >
-                    <option value="Bénin">🇧🇯 Bénin (Cotonou)</option>
-                    <option value="Togo">🇹🇬 Togo (Lomé)</option>
-                    <option value="Côte d'Ivoire">🇨🇮 Côte d'Ivoire (Abidjan)</option>
-                    <option value="Sénégal">🇸🇳 Sénégal (Dakar)</option>
-                    <option value="Cameroun">🇨🇲 Cameroun (Douala)</option>
+                    <option value="Bénin">Bénin (Cotonou)</option>
+                    <option value="Togo">Togo (Lomé)</option>
+                    <option value="Côte d'Ivoire">Côte d'Ivoire (Abidjan)</option>
+                    <option value="Sénégal">Sénégal (Dakar)</option>
+                    <option value="Cameroun">Cameroun (Douala)</option>
                   </select>
                 </div>
 

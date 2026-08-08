@@ -5,7 +5,7 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { getPublicProducts } from "@/lib/supabase/catalog";
 import type { Product } from "@/types/catalog";
-import { Sparkles, ArrowRight, Search, Zap, DollarSign, Truck } from "lucide-react";
+import { Sparkles, ArrowRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship } from "lucide-react";
 
 export default function HomePage() {
   const [searchUrl, setSearchUrl] = useState("");
@@ -69,81 +69,139 @@ export default function HomePage() {
 
   return (
     <div style={{ background: "#F8FAFC", paddingBottom: 60 }}>
-      {/* HERO BANNERS SECTION */}
-      <section className="hero-banners-section" style={{ padding: "16px 0 24px" }}>
-        <div className="container">
-          <div className="hero-banners-grid">
-            {/* MAIN HERO BANNER */}
-            <div className="hero-banner-main">
-              <div className="hero-banner-main-content">
-                <div className="hero-badge-tag">
-                  <Zap style={{ width: 13, height: 13, color: "#F97316" }} />
-                  IMPORTATION DIRECTE USINES ➔ AFRIQUE
-                </div>
-                <h1 className="hero-main-title">
-                  Achetez Directement en Usine.<br />
-                  <span>Faites-vous Livrer en Afrique.</span>
-                </h1>
-                <p className="hero-main-desc">
-                  Sourcing certifié auprès d'usines internationales, dédouanement tout-en-un et livraison sécurisée dans toute l'Afrique.
+      {/* HERO SECTION */}
+      <section style={{ padding: "16px 0 24px" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 16px" }}>
+          <div className="hero-cards-grid">
+
+            {/* MAIN CARD */}
+            <div className="hero-main-card">
+              {/* Subtle glow */}
+              <div style={{
+                position: "absolute", inset: 0, pointerEvents: "none",
+                background: "radial-gradient(ellipse 60% 80% at 90% 50%, rgba(22,84,145,0.3) 0%, transparent 70%)",
+              }} />
+
+              <div style={{ position: "relative", zIndex: 1, maxWidth: 500 }}>
+                <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#F59E0B", marginBottom: 14 }}>
+                  Importation directe Chine ➔ Bénin
                 </p>
-                <div className="hero-main-actions">
-                  <Link href="/quote-request" className="hero-btn-primary">
-                    Demander un Devis Gratuit <ArrowRight style={{ width: 16, height: 16 }} />
+
+                <h1 style={{ fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 800, lineHeight: 1.2, margin: "0 0 14px", letterSpacing: "-0.02em" }}>
+                  Achetez en Usine.{" "}
+                  <span style={{ color: "#F59E0B" }}>Livré au Bénin.</span>
+                </h1>
+
+                <p style={{ fontSize: 14, color: "#94A3B8", lineHeight: 1.6, margin: "0 0 24px", maxWidth: 440 }}>
+                  Sourcing certifié, dédouanement tout-en-un au Port et Aéroport de Cotonou, paiement sécurisé et livraison partout au Bénin.
+                </p>
+
+                <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                  <Link
+                    href="/catalog"
+                    style={{
+                      background: "#F59E0B",
+                      color: "#0F172A",
+                      borderRadius: 10,
+                      padding: "12px 22px",
+                      fontSize: 14,
+                      fontWeight: 700,
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                    }}
+                  >
+                    Parcourir le Catalogue <ArrowRight style={{ width: 15, height: 15 }} />
                   </Link>
-                  <Link href="/catalog" className="hero-btn-secondary">
-                    Parcourir le Catalogue
+                  <Link
+                    href="/quote-request"
+                    style={{
+                      background: "transparent",
+                      color: "#FFFFFF",
+                      border: "1px solid rgba(255,255,255,0.25)",
+                      borderRadius: 10,
+                      padding: "12px 22px",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      textDecoration: "none",
+                    }}
+                  >
+                    Demander une Cotation
                   </Link>
                 </div>
               </div>
 
-              <div className="hero-banner-main-media">
-                <img className="hero-banner-main-img" src="/images/assets/hero_box.png" alt="CargoLink Colis & Usine" />
-              </div>
+              {/* Product image */}
+              <img
+                src="/images/assets/hero_box.png"
+                alt="CargoLink colis"
+                className="hero-package-img"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+              />
             </div>
 
-            {/* SIDE BANNER */}
-            <div className="hero-banner-side">
-              <div className="hero-banner-side-content">
-                <div className="hero-side-badge">
-                  <Truck style={{ width: 13, height: 13, color: "#60A5FA" }} />
-                  SUIVI GPS LOGISTIQUE
-                </div>
-                <h2 className="hero-side-title">
-                  Hub International<br />➔ Afrique
+            {/* SIDE CARD */}
+            <div className="hero-side-card">
+              <div>
+                <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#60A5FA", marginBottom: 10 }}>
+                  Suivi & Fret International
+                </p>
+                <h2 style={{ fontSize: 20, fontWeight: 800, margin: "0 0 20px", lineHeight: 1.3 }}>
+                  Chine ➔ Cotonou, Bénin
                 </h2>
-                
-                <div className="hero-side-specs">
-                  <div className="hero-spec-item">
-                    <span className="spec-dot air" />
+
+                {/* Transit options — clean rows */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 1, borderRadius: 12, overflow: "hidden", background: "rgba(255,255,255,0.04)" }}>
+                  <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <div>
-                      <strong>Livraison Aérienne Express</strong>
-                      <small>5 à 15 jours</small>
+                      <div style={{ fontSize: 13.5, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
+                        <Plane style={{ width: 15, height: 15, color: "#60A5FA" }} />
+                        <span>Fret Aérien Express</span>
+                      </div>
+                      <div style={{ fontSize: 11.5, color: "#94A3B8", marginTop: 2 }}>5 – 12 jours (Aéroport Cotonou)</div>
                     </div>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: "#60A5FA" }}>Rapide</span>
                   </div>
-                  <div className="hero-spec-item">
-                    <span className="spec-dot sea" />
+                  <div style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
+                  <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <div>
-                      <strong>Fret Maritime Groupé</strong>
-                      <small>50 à 95 jours</small>
+                      <div style={{ fontSize: 13.5, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
+                        <Ship style={{ width: 15, height: 15, color: "#34D399" }} />
+                        <span>Fret Maritime Groupé</span>
+                      </div>
+                      <div style={{ fontSize: 11.5, color: "#94A3B8", marginTop: 2 }}>40 – 65 jours (Port Cotonou)</div>
                     </div>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: "#34D399" }}>Éco</span>
                   </div>
                 </div>
               </div>
 
-              <div className="hero-side-footer">
-                <Link href="/dashboard" className="hero-side-cta">
-                  Suivre mon colis <ArrowRight style={{ width: 14, height: 14 }} />
-                </Link>
-                <div className="hero-side-media">
-                  <img className="hero-banner-side-img" src="/images/assets/hero_samsung.png" alt="Samsung S24 CargoLink Tracking" />
-                </div>
-              </div>
+              <Link
+                href="/dashboard"
+                style={{
+                  marginTop: 24,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  background: "rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  borderRadius: 12,
+                  padding: "13px 18px",
+                  fontSize: 13.5,
+                  fontWeight: 700,
+                  color: "#FFFFFF",
+                  textDecoration: "none",
+                }}
+              >
+                <span>Suivre mon colis</span>
+                <ArrowRight style={{ width: 15, height: 15, opacity: 0.7 }} />
+              </Link>
             </div>
+
           </div>
         </div>
       </section>
-
       {/* POPULAR CATEGORIES */}
       <section style={{ padding: "20px 0 30px" }}>
         <div className="container">

@@ -101,7 +101,7 @@ function CatalogContent() {
         <div style={{ background: "#FEF3C7", border: "1px solid #FCD34D", borderRadius: 12, padding: "12px 16px", marginBottom: 28, fontSize: 13, color: "#92400E", display: "flex", alignItems: "center", gap: 10 }}>
           <Package style={{ width: 18, flexShrink: 0, color: "#D97706" }} />
           <div>
-            <strong>Information Catalogue :</strong> Les articles marqués d'un badge 💡 <strong>Démo / Simulation</strong> sont des exemples d'importation pour tester les devis. Les futurs articles ajoutés par les administrateurs sont de vrais produits commerciaux certifiés.
+            <strong>Information Catalogue :</strong> Les articles marqués d'un badge <strong>Démo / Simulation</strong> sont des exemples d'importation pour tester les devis. Les futurs articles ajoutés par les administrateurs sont de vrais produits commerciaux certifiés.
           </div>
         </div>
 

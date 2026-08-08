@@ -36,8 +36,8 @@ export default function Footer() {
               <CreditCard style={{ width: 26, height: 26 }} />
             </div>
             <div>
-              <div className="guarantee-card-title">Flexible Payment</div>
-              <div className="guarantee-card-sub">Mobile Money & Échelonné</div>
+              <div className="guarantee-card-title">Paiement 100% Sécurisé</div>
+              <div className="guarantee-card-sub">Mobile Money & Cartes</div>
             </div>
           </div>
 
@@ -108,11 +108,11 @@ export default function Footer() {
             <div className="region-country-box" style={{ marginTop: 20 }}>
               <div className="region-country-label" style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 6 }}>Region Country</div>
               <select className="region-select-pill">
-                <option>🇧🇯 Bénin (Cotonou)</option>
-                <option>🇹🇬 Togo (Lomé)</option>
-                <option>🇨🇮 Côte d'Ivoire (Abidjan)</option>
-                <option>🇸🇳 Sénégal (Dakar)</option>
-                <option>🇨🇲 Cameroun (Douala)</option>
+                <option>Bénin (Cotonou)</option>
+                <option>Togo (Lomé)</option>
+                <option>Côte d'Ivoire (Abidjan)</option>
+                <option>Sénégal (Dakar)</option>
+                <option>Cameroun (Douala)</option>
               </select>
             </div>
           </div>

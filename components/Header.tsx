@@ -5,18 +5,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Logo from "@/components/Logo";
+import { useMobileStore } from "@/lib/mobile-store";
 import { 
   Menu, X, Search, PlusCircle, Grid, User, LogIn, UserPlus, LogOut, FileText,
   MapPin, ChevronDown, Gift, Radio, Home, Package, 
-  ShoppingBag, Download
+  ShoppingBag, Download, Heart, Sparkles, Check
 } from "lucide-react";
 
 export default function Header() {
+  const { cart, favorites } = useMobileStore();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [userProfile, setUserProfile] = useState<{ name: string; email: string; initials: string; role: string } | null>(null);
   const pathname = usePathname();
+
+  const totalCartItems = cart && cart.length > 0 ? cart.map((i) => i.quantity || 1).reduce((a, b) => a + b, 0) : 0;
 
   useEffect(() => {
     const supabase = createClient();
@@ -148,16 +152,74 @@ export default function Header() {
               <div className="desktop-only" style={{ alignItems: "center", gap: 6, fontSize: 12, color: "#475569", cursor: "pointer" }}>
                 <MapPin style={{ width: 15, color: "#0F172A" }} />
                 <div>
-                  <div style={{ fontSize: 9, color: "#94A3B8" }}>Delivering to</div>
-                  <div style={{ fontWeight: 800, color: "#0F172A" }}>Cotonou, Bénin</div>
+                  <div style={{ fontSize: 9, color: "#94A3B8" }}>Livraison au Bénin</div>
+                  <div style={{ fontWeight: 800, color: "#0F172A" }}>Cotonou & Régions</div>
                 </div>
               </div>
 
-              {/* CURRENCY SELECTOR (DESKTOP ONLY) */}
-              <div className="desktop-only" style={{ alignItems: "center", gap: 4, fontSize: 12, fontWeight: 800, color: "#0F172A", cursor: "pointer" }}>
-                <span>🇧🇯 FCFA</span>
-                <ChevronDown style={{ width: 13 }} />
-              </div>
+              {/* FAVORITES BUTTON (NEW) */}
+              <Link 
+                href="/favorites" 
+                title="Mes Favoris"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 38,
+                  height: 38,
+                  borderRadius: "50%",
+                  background: "#F8FAFC",
+                  border: "1px solid #E2E8F0",
+                  color: "#DC2626",
+                  textDecoration: "none",
+                  position: "relative"
+                }}
+              >
+                <Heart style={{ width: 17, height: 17, fill: "#DC2626" }} />
+              </Link>
+
+              {/* CART QUICK ACCESS (NEW) */}
+              <Link 
+                href="/cart" 
+                title="Mon Panier"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 38,
+                  height: 38,
+                  borderRadius: "50%",
+                  background: "#0F172A",
+                  color: "#FFF",
+                  textDecoration: "none",
+                  position: "relative"
+                }}
+              >
+                <ShoppingBag style={{ width: 16, height: 16 }} />
+                {totalCartItems > 0 && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: -4,
+                      right: -4,
+                      background: "#DC2626",
+                      color: "#FFF",
+                      fontSize: 9.5,
+                      fontWeight: 900,
+                      minWidth: 16,
+                      height: 16,
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "0 2px",
+                      boxShadow: "0 0 0 1.5px #FFFFFF"
+                    }}
+                  >
+                    {totalCartItems}
+                  </span>
+                )}
+              </Link>
 
               {/* USER / AUTH BUTTONS (DESKTOP ONLY) */}
               {isLoggedIn ? (
@@ -185,10 +247,6 @@ export default function Header() {
                 </div>
               )}
 
-              {/* DEVIS GRATUIT BUTTON (ALWAYS VISIBLE - DESKTOP & MOBILE) */}
-              <Link href="/quote-request" className="btn btn-orange header-devis-btn">
-                <PlusCircle className="header-devis-icon" /> <span>Devis Gratuit</span>
-              </Link>
             </div>
           </div>
 
@@ -215,13 +273,13 @@ export default function Header() {
         </div>
       </header>
 
-      {/* SUB NAV BAR WITH CATEGORIES & DEALS */}
+      {/* SUB NAV BAR WITH CATEGORIES & MOBILE APP BANNER */}
       <nav className="subnav-bar" style={{ background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", padding: "10px 0" }}>
         <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           
           <ul className="subnav-list" style={{ display: "flex", gap: 22, listStyle: "none", margin: 0, padding: 0, alignItems: "center" }}>
             <li>
-              <Link href="/catalog" style={{ fontWeight: 900, color: "#0F172A", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+              <Link href="/categories" style={{ fontWeight: 900, color: "#0F172A", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
                 <Grid style={{ width: 15 }} /> All Categories <ChevronDown style={{ width: 13 }} />
               </Link>
             </li>
@@ -233,6 +291,17 @@ export default function Header() {
             <li>
               <Link href="/catalog?cat=fashion" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
                 Fashion
+              </Link>
+            </li>
+            <li>
+              <Link href="/cart" style={{ fontSize: 13, fontWeight: 700, color: "#059669", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                <span>Panier ({totalCartItems})</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/checkout" style={{ fontSize: 13, fontWeight: 800, color: "#16A34A", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                <Check style={{ width: 14, height: 14 }} />
+                <span>Fret & Livraison Bénin</span>
               </Link>
             </li>
             <li>
@@ -264,10 +333,7 @@ export default function Header() {
 
           <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 13, fontWeight: 800 }}>
             <Link href="/quote-request" style={{ color: "var(--orange-primary)", display: "flex", alignItems: "center", gap: 4 }}>
-              <Gift style={{ width: 15 }} /> Best Deals
-            </Link>
-            <Link href="/dashboard" style={{ color: "#165491", display: "flex", alignItems: "center", gap: 4 }}>
-              <Radio style={{ width: 15, color: "#EF4444" }} /> CargoLink Live 🔴
+              <Gift style={{ width: 15 }} /> Demander un Devis
             </Link>
           </div>
 
@@ -340,8 +406,29 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/catalog" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: pathname === "/catalog" ? "#F1F5F9" : "#FFFFFF", border: "1px solid #E2E8F0" }}>
-                <ShoppingBag style={{ width: 18, color: "#165491" }} /> Catalogue Produits Usines
+              <Link href="/checkout" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#ECFDF5", border: "1px solid #A7F3D0" }}>
+                <Check style={{ width: 18, color: "#16A34A" }} />
+                <span>Fret & Livraison Bénin</span>
+                <span style={{ marginLeft: "auto", background: "#16A34A", color: "#FFF", fontSize: 9.5, fontWeight: 900, padding: "2px 8px", borderRadius: 9999 }}>DIRECT</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/categories" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+                <Grid style={{ width: 18, color: "#165491" }} /> Univers & Catégories Usines
+              </Link>
+            </li>
+            <li>
+              <Link href="/cart" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+                <ShoppingBag style={{ width: 18, color: "#059669" }} />
+                <span>Mon Panier</span>
+                {totalCartItems > 0 && (
+                  <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFF", fontSize: 10, fontWeight: 900, padding: "2px 8px", borderRadius: 9999 }}>{totalCartItems} article{totalCartItems > 1 ? "s" : ""}</span>
+                )}
+              </Link>
+            </li>
+            <li>
+              <Link href="/favorites" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+                <Heart style={{ width: 18, color: "#DC2626", fill: "#DC2626" }} /> Mes Favoris Enregistrés
               </Link>
             </li>
             <li>
@@ -447,7 +534,7 @@ export default function Header() {
 
           <div style={{ background: "#F8FAFC", padding: 12, borderRadius: 12, border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, fontWeight: 800, color: "#0F172A" }}>
-              <MapPin style={{ width: 15, color: "#165491" }} /> 🇧🇯 Bénin (Cotonou)
+              <MapPin style={{ width: 15, color: "#165491" }} /> Bénin (Cotonou)
             </div>
             <span style={{ fontSize: 11, fontWeight: 800, color: "#64748B" }}>FCFA</span>
           </div>

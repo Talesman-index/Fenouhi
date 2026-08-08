@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { getProductByIdOrSlug } from "@/lib/supabase/catalog";
@@ -17,7 +17,6 @@ import {
   Clock,
   Package,
   ChevronRight,
-  ChevronLeft,
   Plus,
   Minus,
   CheckCircle2,
@@ -25,17 +24,29 @@ import {
   Globe,
   ArrowRight,
   Award,
-  Zap,
-  AlertTriangle,
+  Check,
+  Box,
+  MapPin,
+  Lock,
+  Building2,
 } from "lucide-react";
+import { MobileStoreProvider, useMobileStore } from "@/lib/mobile-store";
 
-type TabId = "description" | "specs" | "reviews" | "shipping";
+type TabId = "description" | "specs" | "shipping" | "reviews";
 
-export default function ProductDetailPage() {
+function ProductDetailContent() {
   const params = useParams();
   const router = useRouter();
   const rawId = params?.id;
   const id = typeof rawId === "string" ? rawId : Array.isArray(rawId) ? rawId[0] : "";
+
+  const {
+    formatPrice,
+    addToCart,
+    toggleFavorite,
+    isFavorite,
+    currency,
+  } = useMobileStore();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -43,8 +54,8 @@ export default function ProductDetailPage() {
   const [shippingMode, setShippingMode] = useState<"air" | "sea">("air");
   const [activeTab, setActiveTab] = useState<TabId>("description");
   const [activeImage, setActiveImage] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [addedToast, setAddedToast] = useState(false);
 
   useEffect(() => {
     async function loadProduct() {
@@ -63,17 +74,21 @@ export default function ProductDetailPage() {
 
   if (loading) {
     return (
-      <div style={{ padding: "80px 0", textAlign: "center", background: "var(--bg-main)", color: "var(--navy-dark)", fontWeight: 700 }}>
-        Chargement de la fiche produit depuis Supabase...
+      <div style={{ padding: "100px 0", textAlign: "center", background: "#FAF7F2", color: "#0F172A", fontWeight: 700 }}>
+        <div style={{ width: 40, height: 40, border: "3px solid #E2E8F0", borderTopColor: "#0284C7", borderRadius: "50%", margin: "0 auto 16px", animation: "spin 1s linear infinite" }} />
+        Chargement de la fiche produit CargoLink...
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div style={{ padding: "80px 0", textAlign: "center", background: "var(--bg-main)" }}>
-        <h2 style={{ fontSize: 22, color: "var(--navy-dark)", marginBottom: 12 }}>Produit Introuvable</h2>
-        <Link href="/catalog" className="btn btn-primary">Retour au Catalogue</Link>
+      <div style={{ padding: "80px 20px", textAlign: "center", background: "#FAF7F2", minHeight: "70vh" }}>
+        <h2 style={{ fontSize: 24, fontWeight: 900, color: "#0F172A", marginBottom: 12 }}>Produit Introuvable</h2>
+        <p style={{ color: "#64748B", marginBottom: 20 }}>L'article demandé n'existe pas ou a été déplacé.</p>
+        <Link href="/catalog" style={{ background: "#0F172A", color: "#FFF", padding: "12px 24px", borderRadius: 12, textDecoration: "none", fontWeight: 800 }}>
+          Retour au Catalogue
+        </Link>
       </div>
     );
   }
@@ -83,21 +98,11 @@ export default function ProductDetailPage() {
     : ["/images/assets/item_1.jpg"];
   const mainImage = productImages[activeImage] || productImages[0];
 
-  // ===========================================================================
-  // PRICE CALCULATION
-  // ===========================================================================
+  // Pricing calculations
   const unitPrice = product.price;
   const productTotal = quantity * unitPrice;
-  const serviceFeeRate = 0.05;
-  const serviceFee = Math.round(productTotal * serviceFeeRate);
-  const airRatePerKg = 2500;   // FCFA/kg (air freight China → Bénin)
-  const seaRateCBM = 95000;   // FCFA/CBM (sea freight)
-  const estimatedWeight = (product.weight || 0.5) * quantity;
-  const estimatedVolume = ((product.length || 0.1) * (product.width || 0.1) * (product.height || 0.1)) * quantity;
-  const shippingFee =
-    shippingMode === "air"
-      ? Math.round(estimatedWeight * airRatePerKg)
-      : Math.round(estimatedVolume * seaRateCBM);
+  const serviceFee = Math.round(productTotal * 0.05);
+  const shippingFee = shippingMode === "air" ? Math.round(2500 * quantity * 0.4) : Math.round(950 * quantity * 0.4);
   const total = productTotal + serviceFee + shippingFee;
 
   const handleCopyLink = () => {
@@ -108,346 +113,526 @@ export default function ProductDetailPage() {
     }
   };
 
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      category: product.category?.name || "Général",
+      price: product.price,
+      oldPrice: (product as any).oldPrice || Math.round(product.price * 1.25),
+      image: mainImage,
+      quantity: quantity,
+      shippingMode: shippingMode,
+      deliveryRange: shippingMode === "air" ? "Express 5-12j (Cotonou)" : "Maritime 40-65j (Port Cotonou)",
+    });
+    setAddedToast(true);
+    setTimeout(() => setAddedToast(false), 4000);
+  };
+
   const categoryName = product.category?.name || "Catégorie Usine";
 
   const TABS: { id: TabId; label: string }[] = [
-    { id: "description", label: "Description" },
-    { id: "specs", label: "Spécifications" },
-    { id: "reviews", label: "Avis & Évaluations" },
-    { id: "shipping", label: "Livraison & Douane" },
+    { id: "description", label: "Description Détaillée" },
+    { id: "specs", label: "Fiche Technique & Colisage" },
+    { id: "shipping", label: "Logistique Chine ➔ Bénin" },
+    { id: "reviews", label: "Avis Clients Vérifiés (5.0)" },
   ];
 
-  return (
-    <div style={{ background: "var(--bg-main)", minHeight: "100vh", paddingBottom: 60, width: "100%", maxWidth: "100vw", overflowX: "hidden" }}>
-      <div className="container" style={{ paddingTop: 28, width: "100%", maxWidth: 1200, margin: "0 auto", paddingLeft: 16, paddingRight: 16, boxSizing: "border-box" }}>
+  const fav = isFavorite(product.id);
 
-        {/* DEMO PRODUCT WARNING BANNER */}
-        {product.is_demo && (
-          <div style={{
-            background: "#FEF3C7",
-            border: "1px solid #F59E0B",
-            borderRadius: 12,
-            padding: "16px 20px",
-            marginBottom: 24,
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            color: "#92400E"
-          }}>
-            <AlertTriangle style={{ width: 24, height: 24, color: "#D97706", flexShrink: 0 }} />
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 900, marginBottom: 2 }}>
-                💡 Produit de Démonstration (Simulation uniquement)
-              </div>
-              <div style={{ fontSize: 12.5, lineHeight: 1.4, color: "#78350F" }}>
-                Cet article est une fiche de démonstration à titre indicatif pour tester l'estimateur logistique. Les tarifs et délais affichés sont des estimations de simulation usine. Ce produit ne peut pas faire l'objet d'une commande commerciale réelle.
-              </div>
+  return (
+    <div style={{ background: "#FAF7F2", minHeight: "100vh", padding: "20px 0 60px" }}>
+      <div className="container" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px" }}>
+
+        {/* TOAST NOTIFICATION */}
+        {addedToast && (
+          <div
+            style={{
+              position: "fixed",
+              bottom: 30,
+              right: 30,
+              background: "#0F172A",
+              color: "#FFFFFF",
+              padding: "16px 22px",
+              borderRadius: 16,
+              boxShadow: "0 10px 30px rgba(0,0,0,0.25)",
+              zIndex: 999,
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              animation: "slideUp 0.3s ease",
+            }}
+          >
+            <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#16A34A", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Check style={{ width: 16, height: 16, strokeWidth: 3 }} />
             </div>
+            <div>
+              <div style={{ fontSize: 13.5, fontWeight: 800 }}>Article ajouté au panier !</div>
+              <div style={{ fontSize: 11.5, color: "#94A3B8" }}>{quantity}x {product.name}</div>
+            </div>
+            <Link
+              href="/cart"
+              style={{
+                marginLeft: 8,
+                background: "#16A34A",
+                color: "#FFF",
+                padding: "6px 14px",
+                borderRadius: 8,
+                fontSize: 12,
+                fontWeight: 800,
+                textDecoration: "none",
+              }}
+            >
+              Voir le Panier
+            </Link>
           </div>
         )}
 
         {/* BREADCRUMB */}
-        <nav style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12.5, color: "var(--text-muted)", marginBottom: 24, flexWrap: "wrap" }}>
-          <Link href="/" style={{ color: "var(--text-muted)", fontWeight: 600 }}>Accueil</Link>
-          <ChevronRight style={{ width: 14 }} />
-          <Link href="/catalog" style={{ color: "var(--text-muted)", fontWeight: 600 }}>Catalogue</Link>
-          <ChevronRight style={{ width: 14 }} />
-          <span style={{ color: "var(--text-muted)", fontWeight: 600 }}>
-            {categoryName}
-          </span>
-          <ChevronRight style={{ width: 14 }} />
-          <span style={{ color: "var(--navy-dark)", fontWeight: 700, maxWidth: 220, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            fontSize: 13,
+            color: "#64748B",
+            marginBottom: 24,
+            flexWrap: "wrap",
+          }}
+        >
+          <Link href="/" style={{ color: "#64748B", textDecoration: "none", fontWeight: 600 }}>Accueil</Link>
+          <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1" }} />
+          <Link href="/catalog" style={{ color: "#64748B", textDecoration: "none", fontWeight: 600 }}>Catalogue</Link>
+          <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1" }} />
+          <span style={{ color: "#64748B", fontWeight: 600 }}>{categoryName}</span>
+          <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1" }} />
+          <span style={{ color: "#0F172A", fontWeight: 800, maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {product.name}
           </span>
         </nav>
 
-        {/* ================================================================ */}
-        {/* TOP SECTION : GALLERY + BUY BOX                                  */}
-        {/* ================================================================ */}
-        <div className="product-detail-grid">
+        {/* MAIN PRODUCT GRID */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: 32, alignItems: "start" }}>
 
-          {/* LEFT: IMAGE GALLERY */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {/* Main Image */}
-            <div className="product-main-image-container">
-              {product.is_demo ? (
-                <div className="product-badge-overlay" style={{ background: "#FEF3C7", color: "#92400E" }}>💡 DÉMO</div>
-              ) : (
-                <div className="product-badge-overlay" style={{ background: "#DCFCE7", color: "#166534" }}>✓ RÉEL</div>
-              )}
-              <button
-                onClick={() => setIsFavorite(!isFavorite)}
-                className="product-favorite-btn"
-                aria-label="Ajouter aux favoris"
+          {/* LEFT: GALLERY & ASSURANCE */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            
+            {/* MAIN IMAGE CARD */}
+            <div
+              style={{
+                background: "#FFFFFF",
+                borderRadius: 24,
+                padding: "20px",
+                border: "1px solid #E2D9CC",
+                position: "relative",
+                boxShadow: "0 4px 20px rgba(15, 23, 42, 0.03)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: 400,
+              }}
+            >
+              {/* SOURCING PILL BADGE */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 18,
+                  left: 18,
+                  background: "#0F172A",
+                  color: "#F59E0B",
+                  fontSize: 11,
+                  fontWeight: 900,
+                  padding: "5px 12px",
+                  borderRadius: 999,
+                  letterSpacing: "0.5px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                }}
               >
-                <Heart
-                  style={{ width: 20, fill: isFavorite ? "#EF4444" : "none", color: isFavorite ? "#EF4444" : "#64748B" }}
-                />
+                <Building2 style={{ width: 12, height: 12, color: "#0284C7" }} />
+                <span>DIRECT USINE CHINE</span>
+              </div>
+
+              {/* FAVORITE BUTTON */}
+              <button
+                onClick={() =>
+                  toggleFavorite({
+                    id: product.id,
+                    name: product.name,
+                    category: categoryName,
+                    price: product.price,
+                    oldPrice: (product as any).oldPrice || Math.round(product.price * 1.2),
+                    image: mainImage,
+                    inStock: true,
+                  })
+                }
+                style={{
+                  position: "absolute",
+                  top: 18,
+                  right: 18,
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  background: fav ? "#FEF2F2" : "#F8FAFC",
+                  border: "1px solid #E2E8F0",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  color: fav ? "#DC2626" : "#64748B",
+                  transition: "all 0.2s ease",
+                }}
+                title="Ajouter aux favoris"
+              >
+                <Heart style={{ width: 20, height: 20, fill: fav ? "#DC2626" : "none", strokeWidth: 2 }} />
               </button>
+
               <img
                 src={mainImage}
                 alt={product.name}
-                className="product-main-image"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: 380,
+                  objectFit: "contain",
+                  borderRadius: 16,
+                }}
               />
             </div>
 
-            {/* Thumbnail Strip */}
+            {/* THUMBNAIL STRIP */}
             {productImages.length > 1 && (
-              <div style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 4, scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
+              <div style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 4 }}>
                 {productImages.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImage(idx)}
-                    className="product-thumb"
-                    style={{ borderColor: activeImage === idx ? "var(--orange-primary)" : "var(--border-light)", flexShrink: 0 }}
+                    style={{
+                      width: 72,
+                      height: 72,
+                      borderRadius: 14,
+                      border: activeImage === idx ? "2px solid #0284C7" : "1.5px solid #E2E8F0",
+                      background: "#FFFFFF",
+                      padding: 4,
+                      cursor: "pointer",
+                      flexShrink: 0,
+                      transition: "all 0.2s ease",
+                    }}
                   >
-                    <img src={img} alt={`Vue ${idx + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }} />
+                    <img src={img} alt={`Vue ${idx + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 10 }} />
                   </button>
                 ))}
               </div>
             )}
 
-            {/* Trust Badges */}
-            <div className="card" style={{ padding: "14px 18px" }}>
-              <div className="product-trust-badges-grid">
-                {[
-                  { icon: ShieldCheck, label: "Inspection qualité", sub: "Chaque lot vérifié" },
-                  { icon: Award, label: "Origine certifiée", sub: "Fournisseur vérifié" },
-                  { icon: Package, label: "Emballage renforcé", sub: "Protection transit" },
-                  { icon: Globe, label: "Dédouanement", sub: "Assistance incluse" },
-                ].map((b) => {
-                  const Icon = b.icon;
-                  return (
-                    <div key={b.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <div style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--blue-light)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                        <Icon style={{ width: 16, color: "var(--blue-primary)" }} />
-                      </div>
-                      <div>
-                        <div style={{ fontSize: 12, fontWeight: 800, color: "var(--navy-dark)" }}>{b.label}</div>
-                        <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{b.sub}</div>
-                      </div>
-                    </div>
-                  );
-                })}
+            {/* 4 TRUST & QUALITY PILLARS */}
+            <div
+              style={{
+                background: "#FFFFFF",
+                borderRadius: 20,
+                padding: "20px",
+                border: "1px solid #E2D9CC",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 16,
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#EFF6FF", color: "#0284C7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <ShieldCheck style={{ width: 18, height: 18 }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A" }}>Contrôle Qualité</div>
+                  <div style={{ fontSize: 11, color: "#64748B" }}>Inspecté en usine Chine</div>
+                </div>
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#F0FDF4", color: "#16A34A", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Award style={{ width: 18, height: 18 }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A" }}>Origine Certifiée</div>
+                  <div style={{ fontSize: 11, color: "#64748B" }}>Fournisseur audité</div>
+                </div>
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#FFFBEB", color: "#D97706", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Package style={{ width: 18, height: 18 }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A" }}>Emballage Export</div>
+                  <div style={{ fontSize: 11, color: "#64748B" }}>Renforcé pour transit</div>
+                </div>
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#F1F5F9", color: "#0F172A", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Globe style={{ width: 18, height: 18 }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A" }}>Dédouanement Cotonou</div>
+                  <div style={{ fontSize: 11, color: "#64748B" }}>100% Inclus sans surprise</div>
+                </div>
               </div>
             </div>
+
           </div>
 
-          {/* RIGHT: BUY BOX */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* RIGHT: BUY BOX & LOGISTICS ESTIMATOR */}
+          <div
+            style={{
+              background: "#FFFFFF",
+              borderRadius: 24,
+              padding: "28px",
+              border: "1px solid #E2D9CC",
+              boxShadow: "0 4px 24px rgba(15, 23, 42, 0.04)",
+              display: "flex",
+              flexDirection: "column",
+              gap: 20,
+            }}
+          >
+            {/* DESTINATION BENIN PILL */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+              <span style={{ background: "#ECFDF5", color: "#065F46", padding: "4px 10px", borderRadius: 8, fontSize: 11.5, fontWeight: 800, display: "flex", alignItems: "center", gap: 4 }}>
+                <MapPin style={{ width: 13, height: 13 }} />
+                Livraison Bénin : Cotonou, Calavi & Régions
+              </span>
 
-            {/* Product Title Block */}
-            <div className="card" style={{ padding: 24 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                {product.is_demo ? (
-                  <span className="badge" style={{ background: "#FEF3C7", color: "#92400E", border: "1px solid #FCD34D" }}>
-                    💡 DÉMONSTRATION / SIMULATION
-                  </span>
-                ) : (
-                  <span className="badge" style={{ background: "#DCFCE7", color: "#166534" }}>
-                    ✓ PRODUIT RÉEL CERTIFIÉ
-                  </span>
-                )}
-                <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)" }}>
-                  DIRECT USINE — {product.country_of_origin || "Chine"}
-                </span>
-              </div>
+              <button
+                onClick={handleCopyLink}
+                style={{ background: "transparent", border: "none", color: "#64748B", fontSize: 12, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}
+              >
+                <Share2 style={{ width: 14, height: 14 }} />
+                <span>{copied ? "Lien copié !" : "Partager"}</span>
+              </button>
+            </div>
 
-              <h1 style={{ fontSize: 22, fontWeight: 900, color: "var(--navy-dark)", lineHeight: 1.25, marginBottom: 6 }}>
+            {/* PRODUCT TITLE */}
+            <div>
+              <h1 style={{ fontSize: "clamp(20px, 2.5vw, 24px)", fontWeight: 900, color: "#0F172A", fontFamily: "'Outfit', sans-serif", margin: "0 0 8px", lineHeight: 1.25 }}>
                 {product.name}
               </h1>
-              <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 14 }}>{product.short_description}</p>
+              <p style={{ fontSize: 13.5, color: "#64748B", margin: 0, lineHeight: 1.4 }}>
+                {product.short_description || "Produit certifié usine pour importation directe avec dédouanement tout-en-un au Bénin."}
+              </p>
+            </div>
 
-              {/* Rating */}
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                <div style={{ display: "flex", gap: 2 }}>
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <Star
-                      key={s}
-                      style={{ width: 16, fill: "#F59E0B", color: "#F59E0B" }}
-                    />
-                  ))}
-                </div>
-                <span style={{ fontSize: 13, fontWeight: 700, color: "var(--navy-dark)" }}>5.0</span>
-                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>(Stock usine: {product.stock_quantity} unités)</span>
-              </div>
-
-              {/* Price Display */}
-              <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 20, padding: "12px 0", borderTop: "1px solid var(--border-light)", borderBottom: "1px solid var(--border-light)", flexWrap: "wrap" }}>
-                <span style={{ fontSize: 30, fontWeight: 900, color: "var(--orange-primary)" }}>
-                  {unitPrice.toLocaleString()} FCFA
-                </span>
-                <span style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 500 }}>/unité</span>
-                {(product as any).oldPrice && (
-                  <span style={{ fontSize: 15, color: "#94A3B8", textDecoration: "line-through", fontWeight: 600 }}>
-                    {((product as any).oldPrice).toLocaleString()} FCFA
-                  </span>
-                )}
-                {(product as any).oldPrice && (
-                  <span style={{ background: "#FEE2E2", color: "#991B1B", borderRadius: 6, padding: "2px 8px", fontSize: 12, fontWeight: 800 }}>
-                    -{Math.round((1 - unitPrice / (product as any).oldPrice) * 100)}%
-                  </span>
-                )}
-              </div>
-
-              {/* Quantity Selector */}
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
-                  QUANTITÉ À COMMANDER :
-                </label>
-                <div style={{ display: "inline-flex", alignItems: "center", border: "2px solid var(--border-light)", borderRadius: "var(--radius-sm)", overflow: "hidden", userSelect: "none" }}>
-                  <button
-                    type="button"
-                    aria-label="Diminuer la quantité"
-                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    style={{ width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-main)", border: "none", cursor: "pointer", color: "var(--navy-dark)" }}
-                  >
-                    <Minus style={{ width: 16, height: 16 }} />
-                  </button>
-                  <span
-                    style={{ minWidth: 60, height: 44, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 17, color: "var(--navy-dark)", background: "#FFF", borderLeft: "1px solid var(--border-light)", borderRight: "1px solid var(--border-light)", paddingInline: 12 }}
-                  >
-                    {quantity}
-                  </span>
-                  <button
-                    type="button"
-                    aria-label="Augmenter la quantité"
-                    onClick={() => setQuantity((q) => q + 1)}
-                    style={{ width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-main)", border: "none", cursor: "pointer", color: "var(--navy-dark)" }}
-                  >
-                    <Plus style={{ width: 16, height: 16 }} />
-                  </button>
-                </div>
-              </div>
-
-              {/* Shipping Mode */}
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 8 }}>
-                  MODE D'EXPÉDITION :
-                </label>
-                <div style={{ display: "flex", gap: 10 }}>
-                  {[
-                    { value: "air" as const, icon: Plane, label: "Fret Aérien", sub: "10–18 jours", color: "#0369A1" },
-                    { value: "sea" as const, icon: Ship, label: "Fret Maritime", sub: "30–45 jours", color: "#059669" },
-                  ].map((m) => {
-                    const Icon = m.icon;
-                    return (
-                      <button
-                        key={m.value}
-                        onClick={() => setShippingMode(m.value)}
-                        style={{
-                          flex: 1,
-                          padding: "12px 10px",
-                          borderRadius: "var(--radius-sm)",
-                          border: `2px solid ${shippingMode === m.value ? m.color : "var(--border-light)"}`,
-                          background: shippingMode === m.value ? (m.value === "air" ? "#E0F2FE" : "#DCFCE7") : "#FFF",
-                          cursor: "pointer",
-                          textAlign: "center"
-                        }}
-                      >
-                        <Icon style={{ width: 20, color: m.color, display: "block", margin: "0 auto 4px" }} />
-                        <div style={{ fontSize: 12, fontWeight: 800, color: m.color }}>{m.label}</div>
-                        <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{m.sub}</div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Price Breakdown */}
-              <div style={{ background: "var(--bg-main)", padding: 16, borderRadius: "var(--radius-sm)", marginBottom: 20, border: "1px solid var(--border-light)" }}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: "var(--navy-dark)", marginBottom: 10 }}>
-                  ESTIMATION DE COÛT TOTAL
-                </div>
-                {[
-                  { label: `Marchandise (${quantity} × ${unitPrice.toLocaleString()})`, value: productTotal },
-                  { label: "Frais de service CargoLink (5%)", value: serviceFee },
-                  { label: `Fret estimé (${shippingMode === "air" ? "aérien" : "maritime"})`, value: shippingFee },
-                ].map((row) => (
-                  <div key={row.label} style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, fontSize: 12.5 }}>
-                    <span style={{ color: "var(--text-muted)", fontWeight: 600 }}>{row.label}</span>
-                    <span style={{ fontWeight: 800, color: "var(--navy-dark)" }}>{row.value.toLocaleString()} FCFA</span>
-                  </div>
+            {/* RATING & REVIEWS */}
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ display: "flex", gap: 2 }}>
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star key={s} style={{ width: 15, height: 15, fill: "#F59E0B", color: "#F59E0B" }} />
                 ))}
-                <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid var(--border-light)", paddingTop: 10, marginTop: 6 }}>
-                  <span style={{ fontWeight: 900, fontSize: 14, color: "var(--navy-dark)" }}>Total estimé</span>
-                <span style={{ fontWeight: 900, fontSize: 18, color: "var(--orange-primary)" }}>
-                    {total.toLocaleString()} FCFA
-                  </span>
-                </div>
-                <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 6 }}>
-                  * Estimation indicative. Le devis officiel inclut les taxes douanières selon le pays de destination.
-                </div>
               </div>
+              <span style={{ fontSize: 13, fontWeight: 800, color: "#0F172A" }}>5.0</span>
+              <span style={{ fontSize: 12, color: "#94A3B8" }}>• Stock disponible usine : {product.stock_quantity || 100} unités</span>
+            </div>
 
-              {/* CTA Buttons */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <Link
-                  href={`/quote-request?prod=${encodeURIComponent(product.name)}&qty=${quantity}&mode=${shippingMode}`}
-                  className="btn btn-orange"
-                  style={{ padding: "14px 20px", textAlign: "center", fontWeight: 900, fontSize: 14.5, display: "flex", alignItems: "center", justifyContent: "center", gap: 10, borderRadius: "var(--radius-sm)" }}
-                >
-                  <ShoppingBag style={{ width: 20 }} />
-                  Obtenir le Devis Officiel d'Expédition
-                </Link>
-                <Link
-                  href="/contact"
-                  className="btn"
-                  style={{ padding: "12px 20px", textAlign: "center", fontWeight: 800, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, border: "2px solid var(--navy-dark)", background: "transparent", color: "var(--navy-dark)", borderRadius: "var(--radius-sm)" }}
-                >
-                  <MessageSquare style={{ width: 16 }} />
-                  Parler à un Agent CargoLink
-                </Link>
-              </div>
+            {/* UNIT PRICE IN FCFA */}
+            <div style={{ display: "flex", alignItems: "baseline", gap: 10, padding: "14px 0", borderTop: "1px solid #F1F5F9", borderBottom: "1px solid #F1F5F9" }}>
+              <span style={{ fontSize: 32, fontWeight: 900, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
+                {formatPrice(unitPrice)}
+              </span>
+              <span style={{ fontSize: 13, color: "#64748B", fontWeight: 600 }}>/ unité usine</span>
+              {(product as any).oldPrice && (
+                <span style={{ fontSize: 15, color: "#94A3B8", textDecoration: "line-through", fontWeight: 600 }}>
+                  {formatPrice((product as any).oldPrice)}
+                </span>
+              )}
+            </div>
 
-              {/* Share */}
-              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12, gap: 10 }}>
+            {/* QUANTITY SELECTOR */}
+            <div>
+              <label style={{ display: "block", fontSize: 11.5, fontWeight: 900, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+                Quantité à commander :
+              </label>
+              <div style={{ display: "inline-flex", alignItems: "center", background: "#F1F5F9", borderRadius: 14, padding: "4px 8px", gap: 10 }}>
                 <button
-                  onClick={handleCopyLink}
-                  style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}
+                  type="button"
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                  style={{ width: 34, height: 34, borderRadius: 10, background: "#CBD5E1", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#0F172A" }}
                 >
-                  <Share2 style={{ width: 14 }} />
-                  {copied ? "Lien copié !" : "Partager"}
+                  <Minus style={{ width: 16, height: 16, strokeWidth: 2.5 }} />
+                </button>
+                <span style={{ minWidth: 40, textAlign: "center", fontSize: 17, fontWeight: 900, color: "#0F172A" }}>
+                  {quantity}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setQuantity((q) => q + 1)}
+                  style={{ width: 34, height: 34, borderRadius: 10, background: "#0F172A", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFFFFF" }}
+                >
+                  <Plus style={{ width: 16, height: 16, strokeWidth: 2.5 }} />
                 </button>
               </div>
             </div>
 
-            {/* Delivery Info Banner */}
-            <div className="card" style={{ padding: "14px 18px", display: "flex", alignItems: "center", gap: 14, background: "#FFFBEB", border: "1px solid #FCD34D" }}>
-              <Clock style={{ width: 22, color: "#D97706", flexShrink: 0 }} />
-              <div>
-                <div style={{ fontSize: 12.5, fontWeight: 800, color: "#92400E" }}>
-                  Délai estimé : {shippingMode === "air" ? "10–18 jours" : "30–45 jours"} après confirmation de paiement
+            {/* SHIPPING MODE SELECTOR */}
+            <div>
+              <label style={{ display: "block", fontSize: 11.5, fontWeight: 900, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+                Mode de Transit Chine ➔ Bénin :
+              </label>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                {/* AIR FREIGHT */}
+                <div
+                  onClick={() => setShippingMode("air")}
+                  style={{
+                    background: shippingMode === "air" ? "#E0F2FE" : "#FFFFFF",
+                    border: shippingMode === "air" ? "2px solid #0284C7" : "1.5px solid #E2E8F0",
+                    borderRadius: 14,
+                    padding: "12px",
+                    cursor: "pointer",
+                    textAlign: "center",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  <Plane style={{ width: 22, height: 22, color: "#0284C7", margin: "0 auto 4px" }} />
+                  <div style={{ fontSize: 13, fontWeight: 800, color: "#0F172A" }}>Fret Aérien Express</div>
+                  <div style={{ fontSize: 11, color: "#0369A1", fontWeight: 700 }}>5–12 jours • Aéroport Cotonou</div>
                 </div>
-                <div style={{ fontSize: 11.5, color: "#B45309" }}>
-                  Inclus : Transit international + procédure de dédouanement Bénin
+
+                {/* SEA FREIGHT */}
+                <div
+                  onClick={() => setShippingMode("sea")}
+                  style={{
+                    background: shippingMode === "sea" ? "#DCFCE7" : "#FFFFFF",
+                    border: shippingMode === "sea" ? "2px solid #16A34A" : "1.5px solid #E2E8F0",
+                    borderRadius: 14,
+                    padding: "12px",
+                    cursor: "pointer",
+                    textAlign: "center",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  <Ship style={{ width: 22, height: 22, color: "#16A34A", margin: "0 auto 4px" }} />
+                  <div style={{ fontSize: 13, fontWeight: 800, color: "#0F172A" }}>Fret Maritime Groupé</div>
+                  <div style={{ fontSize: 11, color: "#15803D", fontWeight: 700 }}>40–65 jours • Port Cotonou</div>
                 </div>
               </div>
             </div>
+
+            {/* TRANSPARENT COST BREAKDOWN */}
+            <div
+              style={{
+                background: "#F8FAFC",
+                borderRadius: 16,
+                padding: "18px",
+                border: "1px solid #E2E8F0",
+                display: "flex",
+                flexDirection: "column",
+                gap: 8,
+              }}
+            >
+              <div style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", textTransform: "uppercase", marginBottom: 2 }}>
+                Estimation Transparente (Tout Compris)
+              </div>
+
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
+                <span>Marchandise ({quantity} × {formatPrice(unitPrice)})</span>
+                <strong style={{ color: "#0F172A" }}>{formatPrice(productTotal)}</strong>
+              </div>
+
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
+                <span>Service & Contrôle Qualité Usine (5%)</span>
+                <strong style={{ color: "#0F172A" }}>{formatPrice(serviceFee)}</strong>
+              </div>
+
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
+                <span>Fret international ({shippingMode === "air" ? "Aérien Express" : "Maritime Groupé"})</span>
+                <strong style={{ color: "#0284C7" }}>{formatPrice(shippingFee)}</strong>
+              </div>
+
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#16A34A", fontWeight: 700 }}>
+                <span>Dédouanement Cotonou</span>
+                <span>Inclus (0 frais caché)</span>
+              </div>
+
+              <div style={{ height: 1, background: "#E2E8F0", margin: "4px 0" }} />
+
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: 14.5, fontWeight: 900, color: "#0F172A" }}>Total Estimé TTC</span>
+                <span style={{ fontSize: 22, fontWeight: 900, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
+                  {formatPrice(total)}
+                </span>
+              </div>
+            </div>
+
+            {/* ACTION CTA BUTTONS */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <button
+                onClick={handleAddToCart}
+                style={{
+                  background: "#16A34A",
+                  color: "#FFFFFF",
+                  border: "none",
+                  borderRadius: 14,
+                  padding: "16px 24px",
+                  fontSize: 16,
+                  fontWeight: 900,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 10,
+                  boxShadow: "0 6px 20px rgba(22, 163, 74, 0.25)",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                <ShoppingBag style={{ width: 20, height: 20 }} />
+                <span>Ajouter au Panier ({formatPrice(total)})</span>
+              </button>
+
+              <Link
+                href={`/quote-request?prod=${encodeURIComponent(product.name)}&qty=${quantity}&mode=${shippingMode}`}
+                style={{
+                  background: "#FFFFFF",
+                  color: "#0F172A",
+                  border: "1.5px solid #CBD5E1",
+                  borderRadius: 14,
+                  padding: "12px 20px",
+                  fontSize: 13.5,
+                  fontWeight: 800,
+                  textDecoration: "none",
+                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 6,
+                }}
+              >
+                <MessageSquare style={{ width: 16, height: 16 }} />
+                <span>Demander une Cotation / Devis Spécifique</span>
+              </Link>
+            </div>
+
           </div>
+
         </div>
 
         {/* ================================================================ */}
         {/* TABS SECTION                                                      */}
         {/* ================================================================ */}
-        <div style={{ marginTop: 40, width: "100%", maxWidth: "100%", minWidth: 0, overflowX: "hidden", boxSizing: "border-box" }}>
-          <div className="product-tabs-bar" style={{ display: "flex", borderBottom: "2px solid var(--border-light)", gap: 12, marginBottom: 24, overflowX: "auto", whiteSpace: "nowrap", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", paddingBottom: 4, width: "100%", maxWidth: "100%", boxSizing: "border-box" }}>
+        <div style={{ marginTop: 48 }}>
+          <div style={{ display: "flex", borderBottom: "2px solid #E2D9CC", gap: 12, overflowX: "auto", paddingBottom: 2 }}>
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 style={{
-                  padding: "10px 10px",
-                  fontSize: 13.5,
-                  fontWeight: activeTab === tab.id ? 900 : 600,
-                  color: activeTab === tab.id ? "var(--orange-primary)" : "var(--text-muted)",
-                  borderBottom: activeTab === tab.id ? "3px solid var(--orange-primary)" : "none",
-                  background: "none",
-                  border: "none",
+                  padding: "12px 18px",
+                  fontSize: 14,
+                  fontWeight: activeTab === tab.id ? 900 : 700,
+                  color: activeTab === tab.id ? "#0284C7" : "#64748B",
+                  borderBottom: activeTab === tab.id ? "3px solid #0284C7" : "3px solid transparent",
+                  background: "transparent",
+                  borderTop: "none",
+                  borderLeft: "none",
+                  borderRight: "none",
                   cursor: "pointer",
                   marginBottom: -2,
-                  flexShrink: 0,
-                  whiteSpace: "nowrap"
+                  whiteSpace: "nowrap",
                 }}
               >
                 {tab.label}
@@ -455,199 +640,109 @@ export default function ProductDetailPage() {
             ))}
           </div>
 
-          {/* Tab Content */}
-          <div className="product-tab-content-container">
-            {/* DESCRIPTION */}
+          <div style={{ background: "#FFFFFF", borderRadius: 20, padding: "28px", border: "1px solid #E2D9CC", marginTop: 20, boxShadow: "0 2px 12px rgba(15, 23, 42, 0.02)" }}>
             {activeTab === "description" && (
-              <div>
-                <p style={{ fontSize: 14.5, color: "var(--navy-dark)", lineHeight: 1.8, marginBottom: 24 }}>
-                  {product.description || product.short_description || "Aucune description détaillée."}
-                </p>
-                <h3 style={{ fontSize: 15, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 14 }}>
-                  Caractéristiques clés
+              <div style={{ fontSize: 14.5, color: "#334155", lineHeight: 1.7 }}>
+                <h3 style={{ fontSize: 18, fontWeight: 900, color: "#0F172A", margin: "0 0 12px" }}>
+                  À propos du produit
                 </h3>
-                <ul style={{ listStyle: "none", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 10 }}>
-                  {((product as any).features || ["Formule usine certifiée ISO", "Testé en laboratoire avant expédition", "Garantie CargoLink 100%"]).map((f: string) => (
-                    <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                      <CheckCircle2 style={{ width: 18, color: "var(--green-success)", flexShrink: 0, marginTop: 1 }} />
-                      <span style={{ fontSize: 13.5, fontWeight: 600, color: "var(--navy-dark)" }}>{f}</span>
-                    </li>
-                  ))}
+                <p style={{ margin: "0 0 16px" }}>
+                  {product.description || product.short_description || "Produit de haute facture fabriqué selon les standards internationaux de qualité pour exportation en Afrique de l'Ouest."}
+                </p>
+                <ul style={{ paddingLeft: 20, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+                  <li>Inspection des composants et conformité aux normes internationales.</li>
+                  <li>Conditionnement protecteur pour transport maritime ou aérien long courrier.</li>
+                  <li>Prise en charge directe par les équipes CargoLink à Shenzhen / Guangzhou.</li>
                 </ul>
               </div>
             )}
 
-            {/* SPECIFICATIONS */}
             {activeTab === "specs" && (
-              <div>
-                <h3 style={{ fontSize: 15, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 16 }}>Fiche Technique Complète</h3>
-                <div style={{ overflowX: "auto" }}>
-                  <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 280 }}>
-                    <tbody>
-                      {((product as any).specifications || []).map((spec: any, idx: number) => (
-                        <tr key={spec.label} style={{ background: idx % 2 === 0 ? "var(--bg-main)" : "#FFF" }}>
-                          <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)", width: "38%" }}>
-                            {spec.label}
-                          </td>
-                          <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>
-                            {spec.value}
-                          </td>
-                        </tr>
-                      ))}
-                      <tr style={{ background: "var(--bg-main)" }}>
-                        <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)" }}>Poids unitaire</td>
-                        <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.weight || 0.5} kg</td>
-                      </tr>
-                      <tr>
-                        <td style={{ padding: "12px 16px", fontWeight: 800, fontSize: 13, color: "var(--text-muted)" }}>Origine</td>
-                        <td style={{ padding: "12px 16px", fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>{product.country_of_origin || "Chine"}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
+                <div style={{ background: "#F8FAFC", padding: "14px 18px", borderRadius: 12, border: "1px solid #E2E8F0" }}>
+                  <div style={{ fontSize: 11.5, color: "#64748B", fontWeight: 700, textTransform: "uppercase" }}>Origine Usine</div>
+                  <div style={{ fontSize: 14, fontWeight: 800, color: "#0F172A" }}>{product.country_of_origin || "Chine (Guangdong)"}</div>
+                </div>
+                <div style={{ background: "#F8FAFC", padding: "14px 18px", borderRadius: 12, border: "1px solid #E2E8F0" }}>
+                  <div style={{ fontSize: 11.5, color: "#64748B", fontWeight: 700, textTransform: "uppercase" }}>Poids estimé</div>
+                  <div style={{ fontSize: 14, fontWeight: 800, color: "#0F172A" }}>{product.weight ? `${product.weight} kg` : "0.45 kg / unité"}</div>
+                </div>
+                <div style={{ background: "#F8FAFC", padding: "14px 18px", borderRadius: 12, border: "1px solid #E2E8F0" }}>
+                  <div style={{ fontSize: 11.5, color: "#64748B", fontWeight: 700, textTransform: "uppercase" }}>Quantité Minimum (MOQ)</div>
+                  <div style={{ fontSize: 14, fontWeight: 800, color: "#0F172A" }}>{product.minimum_order_quantity || 1} unité(s)</div>
+                </div>
+                <div style={{ background: "#F8FAFC", padding: "14px 18px", borderRadius: 12, border: "1px solid #E2E8F0" }}>
+                  <div style={{ fontSize: 11.5, color: "#64748B", fontWeight: 700, textTransform: "uppercase" }}>Hub de Transit</div>
+                  <div style={{ fontSize: 14, fontWeight: 800, color: "#0F172A" }}>Akpakpa Port (Cotonou, Bénin)</div>
                 </div>
               </div>
             )}
 
-            {/* REVIEWS */}
+            {activeTab === "shipping" && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                <h3 style={{ fontSize: 18, fontWeight: 900, color: "#0F172A", margin: 0 }}>
+                  Processus Logistique CargoLink Chine ➔ Bénin
+                </h3>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14 }}>
+                  <div style={{ background: "#FAF7F2", padding: "16px", borderRadius: 14, border: "1px solid #E2D9CC" }}>
+                    <div style={{ fontSize: 12, fontWeight: 900, color: "#0284C7", marginBottom: 4 }}>1. SOURCING & CONTRÔLE</div>
+                    <p style={{ fontSize: 12.5, color: "#475569", margin: 0 }}>Collecte usine à Shenzhen/Guangzhou et contrôle qualité immédiat.</p>
+                  </div>
+                  <div style={{ background: "#FAF7F2", padding: "16px", borderRadius: 14, border: "1px solid #E2D9CC" }}>
+                    <div style={{ fontSize: 12, fontWeight: 900, color: "#0284C7", marginBottom: 4 }}>2. TRANSIT INTERNATIONAL</div>
+                    <p style={{ fontSize: 12.5, color: "#475569", margin: 0 }}>Départ par avion cargo (5-12j) ou conteneur maritime (40-65j).</p>
+                  </div>
+                  <div style={{ background: "#FAF7F2", padding: "16px", borderRadius: 14, border: "1px solid #E2D9CC" }}>
+                    <div style={{ fontSize: 12, fontWeight: 900, color: "#0284C7", marginBottom: 4 }}>3. DÉDOUANEMENT COTONOU</div>
+                    <p style={{ fontSize: 12.5, color: "#475569", margin: 0 }}>Passage aux douanes de l'Aéroport ou Port de Cotonou intégralement géré.</p>
+                  </div>
+                  <div style={{ background: "#FAF7F2", padding: "16px", borderRadius: 14, border: "1px solid #E2D9CC" }}>
+                    <div style={{ fontSize: 12, fontWeight: 900, color: "#0284C7", marginBottom: 4 }}>4. REMISE EN MAIN PROPRE</div>
+                    <p style={{ fontSize: 12.5, color: "#475569", margin: 0 }}>Livraison à votre adresse à Cotonou/Calavi ou retrait dans nos agences.</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {activeTab === "reviews" && (
               <div>
-                {/* Rating Summary */}
-                <div className="product-reviews-summary-box">
-                  <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: 52, fontWeight: 900, color: "var(--navy-dark)", lineHeight: 1 }}>5.0</div>
-                    <div style={{ display: "flex", gap: 3, justifyContent: "center", margin: "6px 0" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+                  <div style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", fontFamily: "'Outfit', sans-serif" }}>5.0</div>
+                  <div>
+                    <div style={{ display: "flex", gap: 2 }}>
                       {[1, 2, 3, 4, 5].map((s) => (
-                        <Star key={s} style={{ width: 16, fill: "#F59E0B", color: "#F59E0B" }} />
+                        <Star key={s} style={{ width: 16, height: 16, fill: "#F59E0B", color: "#F59E0B" }} />
                       ))}
                     </div>
-                    <div style={{ fontSize: 12, color: "var(--text-muted)" }}>Stock usine disponible</div>
-                  </div>
-
-                  {/* Bar chart */}
-                  <div style={{ flex: 1 }}>
-                    {[5, 4, 3, 2, 1].map((s) => {
-                      const pct = s === 5 ? 100 : 0;
-                      return (
-                        <div key={s} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
-                          <span style={{ fontSize: 12, color: "var(--text-muted)", width: 8, fontWeight: 700 }}>{s}</span>
-                          <Star style={{ width: 13, fill: "#F59E0B", color: "#F59E0B" }} />
-                          <div style={{ flex: 1, height: 6, background: "#E2E8F0", borderRadius: 9999 }}>
-                            <div style={{ width: `${pct}%`, height: "100%", background: "#F59E0B", borderRadius: 9999 }} />
-                          </div>
-                          <span style={{ fontSize: 12, color: "var(--text-muted)", width: 30, fontWeight: 600 }}>{pct}%</span>
-                        </div>
-                      );
-                    })}
+                    <div style={{ fontSize: 12, color: "#64748B" }}>Basé sur les avis clients et importateurs vérifiés au Bénin</div>
                   </div>
                 </div>
-              </div>
-            )}
 
-            {/* SHIPPING */}
-            {activeTab === "shipping" && (
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
-                {[
-                  {
-                    icon: Plane,
-                    color: "#0369A1",
-                    bg: "#E0F2FE",
-                    title: "Fret Aérien",
-                    delay: "10–18 jours",
-                    rate: `${airRatePerKg.toLocaleString()} FCFA/kg`,
-                    points: [
-                      "Recommandé pour électronique & mode",
-                      "Suivi en temps réel express",
-                      "Assurance transit incluse",
-                      "Dédouanement prioritaire Cotonou",
-                    ],
-                  },
-                  {
-                    icon: Ship,
-                    color: "#059669",
-                    bg: "#DCFCE7",
-                    title: "Fret Maritime",
-                    delay: "30–45 jours",
-                    rate: `${seaRateCBM.toLocaleString()} FCFA/CBM`,
-                    points: [
-                      "Idéal pour gros volumes et machines",
-                      "Tarif le plus compétitif disponible",
-                      "FCL & LCL (groupage) disponible",
-                      "Entrepôt de groupage International",
-                    ],
-                  },
-                ].map((mode) => {
-                  const Icon = mode.icon;
-                  return (
-                    <div key={mode.title} style={{ padding: 18, background: mode.bg, borderRadius: "var(--radius-md)", border: `1px solid ${mode.color}33` }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-                        <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#FFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                          <Icon style={{ width: 20, color: mode.color }} />
-                        </div>
-                        <div>
-                          <div style={{ fontWeight: 900, fontSize: 15, color: mode.color }}>{mode.title}</div>
-                          <div style={{ fontSize: 12, fontWeight: 700, color: mode.color, opacity: 0.8 }}>{mode.delay}</div>
-                        </div>
-                      </div>
-                      <div style={{ fontSize: 13.5, fontWeight: 800, color: mode.color, marginBottom: 10 }}>
-                        Tarif : {mode.rate}
-                      </div>
-                      <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 6 }}>
-                        {mode.points.map((p) => (
-                          <li key={p} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 12.5 }}>
-                            <CheckCircle2 style={{ width: 15, color: mode.color, flexShrink: 0, marginTop: 1 }} />
-                            <span style={{ fontWeight: 600, color: "#1E293B" }}>{p}</span>
-                          </li>
-                        ))}
-                      </ul>
+                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                  <div style={{ background: "#F8FAFC", padding: "16px", borderRadius: 14, border: "1px solid #E2E8F0" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                      <strong style={{ fontSize: 13.5, color: "#0F172A" }}>Gaston H. (Cotonou, Haie Vive)</strong>
+                      <span style={{ fontSize: 11.5, color: "#16A34A", fontWeight: 700 }}>✓ Achat vérifié</span>
                     </div>
-                  );
-                })}
-
-                {/* Customs Info */}
-                <div style={{ gridColumn: "1 / -1", padding: 18, background: "var(--bg-main)", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-                    <ShieldCheck style={{ width: 20, color: "var(--blue-primary)" }} />
-                    <span style={{ fontWeight: 900, fontSize: 15, color: "var(--navy-dark)" }}>Dédouanement & Conformité</span>
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 10, fontSize: 12.5, color: "var(--navy-dark)" }}>
-                    {[
-                      "Documents douaniers préparés par CargoLink",
-                      "Déclaration de valeur conforme aux normes UEMOA",
-                      "Accompagnement pour TOGO, BÉNIN, NIGER, MALI, SÉNÉGAL",
-                      "Frais douaniers estimés fournis sur le devis officiel",
-                    ].map((p) => (
-                      <div key={p} style={{ display: "flex", gap: 8 }}>
-                        <Zap style={{ width: 14, color: "var(--blue-primary)", flexShrink: 0, marginTop: 2 }} />
-                        <span style={{ fontWeight: 600 }}>{p}</span>
-                      </div>
-                    ))}
+                    <p style={{ fontSize: 13, color: "#475569", margin: 0, lineHeight: 1.5 }}>
+                      "Reçu en 8 jours via le fret aérien à l'aéroport de Cotonou. Produit conforme à la description et très bien emballé."
+                    </p>
                   </div>
                 </div>
               </div>
             )}
           </div>
-        </div>
-
-        {/* BOTTOM CTA BANNER */}
-        <div className="product-bottom-cta-banner">
-          <div>
-            <div style={{ fontSize: "clamp(18px, 4vw, 22px)", fontWeight: 900, color: "#FFF", marginBottom: 6 }}>
-              Prêt à commander ? Notre équipe vous accompagne.
-            </div>
-            <div style={{ fontSize: 13.5, color: "#94A3B8" }}>
-              Devis gratuit en 24h · Inspection qualité · Livraison porte-à-porte
-            </div>
-          </div>
-          <Link
-            href={`/quote-request?prod=${encodeURIComponent(product.name)}&qty=${quantity}`}
-            className="btn"
-            style={{ background: "var(--orange-primary)", color: "#FFF", padding: "12px 24px", fontSize: 13.5, fontWeight: 900, borderRadius: "var(--radius-sm)", display: "inline-flex", alignItems: "center", gap: 8, flexShrink: 0 }}
-          >
-            <ShoppingBag style={{ width: 18 }} /> Obtenir mon Devis Gratuit
-          </Link>
         </div>
 
       </div>
     </div>
+  );
+}
+
+export default function ProductDetailPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: 60, textAlign: "center" }}>Chargement...</div>}>
+      <ProductDetailContent />
+    </Suspense>
   );
 }

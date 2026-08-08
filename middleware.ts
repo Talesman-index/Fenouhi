@@ -28,9 +28,10 @@ export async function middleware(request: NextRequest) {
   const isAuthRoute = pathname.startsWith("/auth/login") || pathname.startsWith("/auth/sign-up");
   const isDashboardRoute = pathname.startsWith("/dashboard");
   const isAdminRoute = pathname.startsWith("/admin");
+  const isCheckoutRoute = pathname.startsWith("/checkout");
 
   // Bypass DB and Auth checks for public routes
-  if (!isAuthRoute && !isDashboardRoute && !isAdminRoute) {
+  if (!isAuthRoute && !isDashboardRoute && !isAdminRoute && !isCheckoutRoute) {
     return response;
   }
 
@@ -65,9 +66,9 @@ export async function middleware(request: NextRequest) {
       user = null;
     }
 
-    // 1. UNAUTHENTICATED USERS: Block protected routes
+    // 1. UNAUTHENTICATED USERS: Block protected routes (Dashboard, Admin & Checkout)
     if (!user) {
-      if (isDashboardRoute || isAdminRoute) {
+      if (isDashboardRoute || isAdminRoute || isCheckoutRoute) {
         const url = request.nextUrl.clone();
         url.pathname = "/auth/login";
         url.searchParams.set("redirectTo", pathname);

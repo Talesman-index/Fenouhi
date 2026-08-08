@@ -2602,4 +2602,78 @@ a {
   }
 }
 
+/* ==========================================================================
+   CARGOLINK RESPONSIVE HERO GRID
+   ========================================================================== */
+.hero-cards-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+@media (max-width: 991px) {
+  .hero-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+.hero-main-card {
+  background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%);
+  border-radius: 20px;
+  padding: 44px 48px;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justifyContent: center;
+}
+
+@media (max-width: 768px) {
+  .hero-main-card {
+    padding: 32px 22px !important;
+    min-height: auto !important;
+  }
+}
+
+.hero-side-card {
+  background: linear-gradient(160deg, #0B1D3A 0%, #0F3460 100%);
+  border-radius: 20px;
+  padding: 32px 28px;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justifyContent: space-between;
+  min-height: 380px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 768px) {
+  .hero-side-card {
+    padding: 24px 20px !important;
+    min-height: auto !important;
+  }
+}
+
+.hero-package-img {
+  position: absolute;
+  right: 24px;
+  bottom: 0;
+  height: 85%;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
+  pointer-events: none;
+}
+
+@media (max-width: 991px) {
+  .hero-package-img {
+    display: none !important;
+  }
+}
+
+
 

@@ -302,14 +302,14 @@ function DashboardContent() {
                         onChange={(e) => setCountry(e.target.value)}
                         className="admin-input"
                       >
-                        <option value="Bénin">🇧🇯 Bénin</option>
-                        <option value="Togo">🇹🇬 Togo</option>
-                        <option value="Côte d'Ivoire">🇨🇮 Côte d'Ivoire</option>
-                        <option value="Sénégal">🇸🇳 Sénégal</option>
-                        <option value="Cameroun">🇨🇲 Cameroun</option>
-                        <option value="Niger">🇳🇪 Niger</option>
-                        <option value="Mali">🇲🇱 Mali</option>
-                        <option value="Burkina Faso">🇧🇫 Burkina Faso</option>
+                        <option value="Bénin">Bénin</option>
+                        <option value="Togo">Togo</option>
+                        <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+                        <option value="Sénégal">Sénégal</option>
+                        <option value="Cameroun">Cameroun</option>
+                        <option value="Niger">Niger</option>
+                        <option value="Mali">Mali</option>
+                        <option value="Burkina Faso">Burkina Faso</option>
                       </select>
                     </div>
                   </div>
