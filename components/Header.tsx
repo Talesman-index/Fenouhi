@@ -309,11 +309,6 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/cart" style={{ fontSize: 13, fontWeight: 700, color: "#059669", display: "inline-flex", alignItems: "center", gap: 4 }}>
-                <span>Panier ({totalCartItems})</span>
-              </Link>
-            </li>
-            <li>
               <Link href="/checkout" style={{ fontSize: 13, fontWeight: 800, color: "#16A34A", display: "inline-flex", alignItems: "center", gap: 4 }}>
                 <Check style={{ width: 14, height: 14 }} />
                 <span>Fret & Livraison Bénin</span>
