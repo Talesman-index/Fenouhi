@@ -69,88 +69,154 @@ export default function HomePage() {
 
   return (
     <div style={{ background: "#F8FAFC", paddingBottom: 60 }}>
-      {/* HERO BANNER SECTION (SIMPLE & RESPONSIVE WITH VISIBLE IMAGE ON MOBILE) */}
+      {/* HERO 2-CARDS SECTION */}
       <section style={{ padding: "16px 0 28px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 16px" }}>
-          <div className="hero-simple-banner">
-            {/* Subtle glow background */}
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                pointerEvents: "none",
-                background: "radial-gradient(ellipse 70% 80% at 85% 50%, rgba(56, 189, 248, 0.18) 0%, transparent 70%)",
-              }}
-            />
+          <div className="hero-cards-grid">
 
-            <div className="hero-simple-content" style={{ position: "relative", zIndex: 2 }}>
-              {/* TEXT & CTAS */}
+            {/* CARD 1: MAIN HERO CARD */}
+            <div className="hero-main-card">
+              {/* Subtle glow background */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  pointerEvents: "none",
+                  background: "radial-gradient(ellipse 70% 80% at 85% 50%, rgba(56, 189, 248, 0.16) 0%, transparent 70%)",
+                }}
+              />
+
+              <div className="hero-main-inner">
+                {/* TEXT & CTAS */}
+                <div>
+                  <p style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#38BDF8", marginBottom: 12 }}>
+                    Importation directe Chine ➔ Bénin
+                  </p>
+
+                  <h1 style={{ fontSize: "clamp(24px, 3.2vw, 36px)", fontWeight: 900, lineHeight: 1.2, margin: "0 0 14px", letterSpacing: "-0.02em", color: "#FFFFFF", fontFamily: "'Outfit', sans-serif" }}>
+                    Achetez en Usine. Livré au Bénin.
+                  </h1>
+
+                  <p style={{ fontSize: 14, color: "#CBD5E1", lineHeight: 1.6, margin: "0 0 24px", maxWidth: 460 }}>
+                    Sourcing certifié, dédouanement tout-en-un au Port et Aéroport de Cotonou, paiement sécurisé et livraison partout au Bénin.
+                  </p>
+
+                  <div className="hero-ctas-wrap" style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+                    <Link
+                      href="/catalog"
+                      style={{
+                        background: "#FFFFFF",
+                        color: "#0F172A",
+                        borderRadius: 10,
+                        padding: "12px 22px",
+                        fontSize: 14,
+                        fontWeight: 800,
+                        textDecoration: "none",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 7,
+                        boxShadow: "0 4px 14px rgba(0, 0, 0, 0.15)",
+                        transition: "all 0.2s ease",
+                      }}
+                    >
+                      <span>Parcourir le Catalogue</span>
+                      <ArrowRight style={{ width: 15, height: 15 }} />
+                    </Link>
+
+                    <Link
+                      href="/quote-request"
+                      style={{
+                        background: "rgba(255, 255, 255, 0.1)",
+                        color: "#FFFFFF",
+                        border: "1.5px solid rgba(255, 255, 255, 0.25)",
+                        borderRadius: 10,
+                        padding: "12px 20px",
+                        fontSize: 14,
+                        fontWeight: 700,
+                        textDecoration: "none",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        backdropFilter: "blur(8px)",
+                        transition: "all 0.2s ease",
+                      }}
+                    >
+                      Demander une Cotation
+                    </Link>
+                  </div>
+                </div>
+
+                {/* IMAGE (VISIBLE ON MOBILE & DESKTOP) */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <img
+                    src="/images/assets/hero_box.png"
+                    alt="CargoLink Colis Direct Usine"
+                    className="hero-package-responsive"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* CARD 2: SIDE TRANSIT CARD */}
+            <div className="hero-side-card">
               <div>
-                <p style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#38BDF8", marginBottom: 14 }}>
-                  Importation directe Chine ➔ Bénin
+                <p style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#60A5FA", marginBottom: 10 }}>
+                  Suivi & Fret International
                 </p>
+                <h2 style={{ fontSize: 20, fontWeight: 900, margin: "0 0 18px", lineHeight: 1.3, color: "#FFFFFF", fontFamily: "'Outfit', sans-serif" }}>
+                  Chine ➔ Cotonou, Bénin
+                </h2>
 
-                <h1 style={{ fontSize: "clamp(26px, 4vw, 42px)", fontWeight: 900, lineHeight: 1.18, margin: "0 0 16px", letterSpacing: "-0.02em", color: "#FFFFFF", fontFamily: "'Outfit', sans-serif" }}>
-                  Achetez en Usine. Livré au Bénin.
-                </h1>
+                {/* Transit options */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 1, borderRadius: 14, overflow: "hidden", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                  <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div>
+                      <div style={{ fontSize: 13.5, fontWeight: 800, display: "flex", alignItems: "center", gap: 8, color: "#FFFFFF" }}>
+                        <Plane style={{ width: 16, height: 16, color: "#60A5FA" }} />
+                        <span>Fret Aérien Express</span>
+                      </div>
+                      <div style={{ fontSize: 11.5, color: "#94A3B8", marginTop: 3 }}>5 – 12 jours (Aéroport Cotonou)</div>
+                    </div>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: "#60A5FA", background: "rgba(96,165,250,0.12)", padding: "3px 8px", borderRadius: 6 }}>Rapide</span>
+                  </div>
 
-                <p style={{ fontSize: 15, color: "#CBD5E1", lineHeight: 1.6, margin: "0 0 28px", maxWidth: 520 }}>
-                  Sourcing certifié, dédouanement tout-en-un au Port et Aéroport de Cotonou, paiement sécurisé et livraison partout au Bénin.
-                </p>
+                  <div style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
 
-                <div className="hero-ctas-wrap" style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-                  <Link
-                    href="/catalog"
-                    style={{
-                      background: "#FFFFFF",
-                      color: "#0F172A",
-                      borderRadius: 12,
-                      padding: "14px 28px",
-                      fontSize: 14.5,
-                      fontWeight: 800,
-                      textDecoration: "none",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                      boxShadow: "0 4px 18px rgba(0, 0, 0, 0.2)",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    <span>Parcourir le Catalogue</span>
-                    <ArrowRight style={{ width: 16, height: 16 }} />
-                  </Link>
-
-                  <Link
-                    href="/quote-request"
-                    style={{
-                      background: "rgba(255, 255, 255, 0.1)",
-                      color: "#FFFFFF",
-                      border: "1.5px solid rgba(255, 255, 255, 0.25)",
-                      borderRadius: 12,
-                      padding: "14px 24px",
-                      fontSize: 14.5,
-                      fontWeight: 700,
-                      textDecoration: "none",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      backdropFilter: "blur(8px)",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    Demander une Cotation
-                  </Link>
+                  <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div>
+                      <div style={{ fontSize: 13.5, fontWeight: 800, display: "flex", alignItems: "center", gap: 8, color: "#FFFFFF" }}>
+                        <Ship style={{ width: 16, height: 16, color: "#34D399" }} />
+                        <span>Fret Maritime Groupé</span>
+                      </div>
+                      <div style={{ fontSize: 11.5, color: "#94A3B8", marginTop: 3 }}>40 – 65 jours (Port Cotonou)</div>
+                    </div>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: "#34D399", background: "rgba(52,211,153,0.12)", padding: "3px 8px", borderRadius: 6 }}>Éco</span>
+                  </div>
                 </div>
               </div>
 
-              {/* IMAGE (PROPERLY CENTERED AND ALWAYS VISIBLE ON MOBILE & DESKTOP) */}
-              <div className="hero-simple-image-box">
-                <img
-                  src="/images/assets/hero_box.png"
-                  alt="CargoLink Colis Direct Usine"
-                  className="hero-box-responsive"
-                />
-              </div>
+              <Link
+                href="/dashboard"
+                style={{
+                  marginTop: 20,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  background: "rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.18)",
+                  borderRadius: 12,
+                  padding: "13px 18px",
+                  fontSize: 13.5,
+                  fontWeight: 800,
+                  color: "#FFFFFF",
+                  textDecoration: "none",
+                  transition: "background 0.2s",
+                }}
+              >
+                <span>Suivre mon colis</span>
+                <ArrowRight style={{ width: 15, height: 15, opacity: 0.8 }} />
+              </Link>
             </div>
+
           </div>
         </div>
       </section>

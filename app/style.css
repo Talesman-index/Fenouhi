@@ -2603,73 +2603,94 @@ a {
 }
 
 /* ==========================================================================
-   CARGOLINK SIMPLE UNIFIED HERO BANNER (MOBILE & DESKTOP)
+   CARGOLINK 2-CARDS RESPONSIVE HERO GRID
    ========================================================================== */
-.hero-simple-banner {
+.hero-cards-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.hero-main-card {
   background: linear-gradient(135deg, #0F172A 0%, #165491 100%);
   border-radius: 24px;
-  padding: 48px 56px;
+  padding: 40px 44px;
   color: #FFFFFF;
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
-}
-
-.hero-simple-content {
-  display: grid;
-  grid-template-columns: 1.25fr 0.75fr;
-  gap: 36px;
-  align-items: center;
-}
-
-.hero-simple-image-box {
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justifyContent: center;
 }
 
-.hero-box-responsive {
+.hero-main-inner {
+  display: grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 20px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-side-card {
+  background: linear-gradient(160deg, #0B1D3A 0%, #0F3460 100%);
+  border-radius: 24px;
+  padding: 32px 28px;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justifyContent: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+}
+
+.hero-package-responsive {
   max-width: 100%;
-  max-height: 330px;
+  max-height: 250px;
   width: auto;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.45));
   display: block;
 }
 
 @media (max-width: 991px) {
-  .hero-simple-banner {
-    padding: 36px 24px !important;
-  }
-  .hero-simple-content {
+  .hero-cards-grid {
     grid-template-columns: 1fr !important;
-    gap: 28px !important;
+    gap: 16px !important;
+  }
+  .hero-main-card {
+    padding: 32px 22px !important;
+  }
+  .hero-main-inner {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
     text-align: center;
   }
-  .hero-simple-content p {
+  .hero-main-inner p {
     margin-left: auto;
     margin-right: auto;
   }
-  .hero-simple-content .hero-ctas-wrap {
+  .hero-main-inner .hero-ctas-wrap {
     justify-content: center !important;
   }
-  .hero-box-responsive {
-    max-height: 240px !important;
-    margin: 0 auto;
-    display: block !important;
+  .hero-package-responsive {
+    max-height: 200px !important;
+    margin: 4px auto 0 !important;
   }
 }
 
 @media (max-width: 640px) {
-  .hero-simple-banner {
-    padding: 28px 18px !important;
+  .hero-main-card,
+  .hero-side-card {
+    padding: 24px 18px !important;
     border-radius: 20px !important;
   }
-  .hero-box-responsive {
-    max-height: 210px !important;
-    margin: 6px auto 0 !important;
+  .hero-package-responsive {
+    max-height: 180px !important;
   }
 }
 
