@@ -83,16 +83,15 @@ export default function HomePage() {
               }} />
 
               <div style={{ position: "relative", zIndex: 1, maxWidth: 500 }}>
-                <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#F59E0B", marginBottom: 14 }}>
+                <p style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#38BDF8", marginBottom: 14 }}>
                   Importation directe Chine ➔ Bénin
                 </p>
 
-                <h1 style={{ fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 800, lineHeight: 1.2, margin: "0 0 14px", letterSpacing: "-0.02em" }}>
-                  Achetez en Usine.{" "}
-                  <span style={{ color: "#F59E0B" }}>Livré au Bénin.</span>
+                <h1 style={{ fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 900, lineHeight: 1.2, margin: "0 0 14px", letterSpacing: "-0.02em", color: "#FFFFFF", fontFamily: "'Outfit', sans-serif" }}>
+                  Achetez en Usine. Livré au Bénin.
                 </h1>
 
-                <p style={{ fontSize: 14, color: "#94A3B8", lineHeight: 1.6, margin: "0 0 24px", maxWidth: 440 }}>
+                <p style={{ fontSize: 14, color: "#CBD5E1", lineHeight: 1.6, margin: "0 0 24px", maxWidth: 440 }}>
                   Sourcing certifié, dédouanement tout-en-un au Port et Aéroport de Cotonou, paiement sécurisé et livraison partout au Bénin.
                 </p>
 
@@ -100,8 +99,29 @@ export default function HomePage() {
                   <Link
                     href="/catalog"
                     style={{
-                      background: "#F59E0B",
+                      background: "#FFFFFF",
                       color: "#0F172A",
+                      borderRadius: 10,
+                      padding: "12px 24px",
+                      fontSize: 14,
+                      fontWeight: 800,
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      boxShadow: "0 4px 14px rgba(0, 0, 0, 0.15)",
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    <span>Parcourir le Catalogue</span>
+                    <ArrowRight style={{ width: 15, height: 15 }} />
+                  </Link>
+                  <Link
+                    href="/quote-request"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.1)",
+                      color: "#FFFFFF",
+                      border: "1px solid rgba(255, 255, 255, 0.25)",
                       borderRadius: 10,
                       padding: "12px 22px",
                       fontSize: 14,
@@ -109,22 +129,8 @@ export default function HomePage() {
                       textDecoration: "none",
                       display: "inline-flex",
                       alignItems: "center",
-                      gap: 6,
-                    }}
-                  >
-                    Parcourir le Catalogue <ArrowRight style={{ width: 15, height: 15 }} />
-                  </Link>
-                  <Link
-                    href="/quote-request"
-                    style={{
-                      background: "transparent",
-                      color: "#FFFFFF",
-                      border: "1px solid rgba(255,255,255,0.25)",
-                      borderRadius: 10,
-                      padding: "12px 22px",
-                      fontSize: 14,
-                      fontWeight: 600,
-                      textDecoration: "none",
+                      backdropFilter: "blur(8px)",
+                      transition: "all 0.2s ease",
                     }}
                   >
                     Demander une Cotation
@@ -206,7 +212,7 @@ export default function HomePage() {
       <section style={{ padding: "20px 0 30px" }}>
         <div className="container">
           <div className="section-title-row">
-            <h2 className="section-title">Explore Popular Categories</h2>
+            <h2 className="section-title">Catégories Populaires Usines</h2>
             <Link href="/catalog" className="view-all-link">Voir tout &gt;</Link>
           </div>
 
@@ -286,7 +292,7 @@ export default function HomePage() {
                 High-Tech & Electronics Usines
               </h2>
               <Link href="/catalog?cat=electronics" className="view-all-link" style={{ fontWeight: 800, color: "#165491" }}>
-                View All &gt;
+                Voir tout &gt;
               </Link>
             </div>
 
