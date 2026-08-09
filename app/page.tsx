@@ -91,16 +91,16 @@ export default function HomePage() {
                 <div>
                   <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(56, 189, 248, 0.14)", border: "1px solid rgba(56, 189, 248, 0.28)", borderRadius: 9999, padding: "4px 12px", marginBottom: 12 }}>
                     <span style={{ fontSize: 11, fontWeight: 900, letterSpacing: "0.06em", textTransform: "uppercase", color: "#38BDF8" }}>
-                      Importation directe Chine ➔ Bénin
+                      Achats Internationaux & Sourcing Direct
                     </span>
                   </div>
 
                   <h1 style={{ fontSize: "clamp(22px, 3.2vw, 34px)", fontWeight: 900, lineHeight: 1.22, margin: "0 0 12px", letterSpacing: "-0.02em", color: "#FFFFFF", fontFamily: "'Outfit', sans-serif" }}>
-                    Achetez en Usine. Livré au Bénin.
+                    Commandez à l'Étranger. Livré au Bénin.
                   </h1>
 
-                  <p style={{ fontSize: 13.5, color: "#CBD5E1", lineHeight: 1.55, margin: "0 0 22px", maxWidth: 460 }}>
-                    Sourcing certifié, dédouanement tout-en-un au Port et Aéroport de Cotonou, paiement sécurisé et livraison partout au Bénin.
+                  <p style={{ fontSize: 13.5, color: "#CBD5E1", lineHeight: 1.55, margin: "0 0 22px", maxWidth: 470 }}>
+                    Commandez vos articles depuis la Chine ou n'importe quel pays en toute sérénité. Nous gérons le transport, le dédouanement et la livraison sécurisée jusqu'à chez vous au Bénin.
                   </p>
 
                   <div className="hero-ctas-wrap" style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
