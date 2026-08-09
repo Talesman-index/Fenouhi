@@ -1425,32 +1425,40 @@ a {
 }
 
 .drawer-header {
-  padding: 20px;
-  background: var(--navy-dark);
-  color: #FFF;
+  padding: 16px 18px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #EAE5DC;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .drawer-header .logo-text-main {
-  color: #FFFFFF !important;
+  color: #0F172A !important;
+  font-size: 19px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.5px !important;
 }
 
 .drawer-header .logo-text-sub {
-  color: #38BDF8 !important;
+  color: #165491 !important;
+  font-size: 8.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
   display: block !important;
+  margin-top: 3px !important;
 }
 
 .drawer-header .logo-img {
-  border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  border: 1.5px solid #E2E8F0 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
 }
 
 .drawer-close-btn {
-  background: rgba(255, 255, 255, 0.15);
-  border: none;
-  color: #FFF;
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  color: #0F172A;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -1458,11 +1466,12 @@ a {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .drawer-close-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: #E2E8F0;
+  color: #000;
 }
 
 .drawer-body {
