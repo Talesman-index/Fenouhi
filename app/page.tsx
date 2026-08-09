@@ -5,7 +5,7 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { getPublicProducts } from "@/lib/supabase/catalog";
 import type { Product } from "@/types/catalog";
-import { Sparkles, ArrowRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship } from "lucide-react";
+import { Sparkles, ArrowRight, ChevronRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship } from "lucide-react";
 
 export default function HomePage() {
   const [searchUrl, setSearchUrl] = useState("");
@@ -227,7 +227,10 @@ export default function HomePage() {
         <div className="container">
           <div className="section-title-row">
             <h2 className="section-title">Catégories Populaires Usines</h2>
-            <Link href="/catalog" className="view-all-link">Voir tout &gt;</Link>
+            <Link href="/catalog" className="view-all-link">
+              <span>Voir tout</span>
+              <ChevronRight style={{ width: 14, height: 14 }} />
+            </Link>
           </div>
 
           <div className="categories-circle-row">
@@ -248,7 +251,10 @@ export default function HomePage() {
         <div className="container">
           <div className="section-title-row">
             <h2 className="section-title">Nouveautés & Offres Direct Usine</h2>
-            <Link href="/catalog" className="view-all-link">Voir tout &gt;</Link>
+            <Link href="/catalog" className="view-all-link">
+              <span>Voir tout</span>
+              <ChevronRight style={{ width: 14, height: 14 }} />
+            </Link>
           </div>
 
           <div className="grid-5">
@@ -275,7 +281,10 @@ export default function HomePage() {
         <div className="container">
           <div className="section-title-row">
             <h2 className="section-title">Sélection Catalogue Produits</h2>
-            <Link href="/catalog" className="view-all-link">Voir le catalogue complet &gt;</Link>
+            <Link href="/catalog" className="view-all-link">
+              <span>Tout le catalogue</span>
+              <ChevronRight style={{ width: 14, height: 14 }} />
+            </Link>
           </div>
 
           <div className="grid-5">
@@ -302,11 +311,12 @@ export default function HomePage() {
         <div className="container">
           <div style={{ background: "#F1F5F9", borderRadius: 24, padding: "28px 24px", border: "1px solid #E2E8F0" }}>
             <div className="section-title-row" style={{ marginBottom: 20 }}>
-              <h2 className="section-title" style={{ margin: 0, fontSize: 22, fontWeight: 900, color: "#0F172A" }}>
+              <h2 className="section-title" style={{ margin: 0, fontSize: 20, fontWeight: 900, color: "#0F172A" }}>
                 High-Tech & Electronics Usines
               </h2>
-              <Link href="/catalog?cat=electronics" className="view-all-link" style={{ fontWeight: 800, color: "#165491" }}>
-                Voir tout &gt;
+              <Link href="/catalog?cat=electronics" className="view-all-link">
+                <span>Voir tout</span>
+                <ChevronRight style={{ width: 14, height: 14 }} />
               </Link>
             </div>
 
