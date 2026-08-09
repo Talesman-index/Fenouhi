@@ -8,8 +8,8 @@ import Logo from "@/components/Logo";
 import { useMobileStore } from "@/lib/mobile-store";
 import { 
   Menu, X, Search, PlusCircle, Grid, User, LogIn, UserPlus, LogOut, FileText,
-  MapPin, ChevronDown, Gift, Radio, Home, Package, 
-  ShoppingBag, Download, Heart, Sparkles, Check
+  MapPin, ChevronDown, ChevronRight, Gift, Radio, Home, Package, 
+  ShoppingBag, Download, Heart, Sparkles, Check, Plane
 } from "lucide-react";
 
 export default function Header() {
@@ -329,18 +329,54 @@ export default function Header() {
       <div 
         className={`mobile-drawer-overlay ${drawerOpen ? "active" : ""}`} 
         onClick={toggleDrawer}
+        style={{ backdropFilter: "blur(6px)" }}
       />
 
-      <div className={`mobile-nav-drawer ${drawerOpen ? "active" : ""}`}>
-        {/* DRAWER HEADER */}
-        <div className="drawer-header" style={{ padding: "18px 20px", background: "#0F172A", color: "#FFF", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Logo light size={32} subtitleText="IMPORTATION DIRECTE ➔ AFRIQUE" href={null} onClick={toggleDrawer} />
+      <div 
+        className={`mobile-nav-drawer ${drawerOpen ? "active" : ""}`}
+        style={{
+          background: "#FAF7F2",
+          borderRight: "1px solid #EAE5DC",
+          boxShadow: "20px 0 50px rgba(15, 23, 42, 0.12)",
+          display: "flex",
+          flexDirection: "column",
+          width: 320,
+          maxWidth: "86vw",
+          height: "100vh",
+        }}
+      >
+        {/* SOFT DRAWER HEADER */}
+        <div 
+          className="drawer-header" 
+          style={{ 
+            padding: "16px 18px", 
+            background: "#FFFFFF", 
+            borderBottom: "1px solid #EAE5DC", 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "space-between" 
+          }}
+        >
+          <Logo size={32} subtitleText="IMPORTATION DIRECTE BÉNIN" href={null} onClick={toggleDrawer} />
           <button 
             onClick={toggleDrawer} 
             className="drawer-close-btn"
-            style={{ background: "rgba(255,255,255,0.12)", border: "none", color: "#FFF", width: 34, height: 34, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+            aria-label="Fermer le menu"
+            style={{ 
+              background: "#F1F5F9", 
+              border: "1px solid #E2E8F0", 
+              color: "#0F172A", 
+              width: 34, 
+              height: 34, 
+              borderRadius: "50%", 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center", 
+              cursor: "pointer",
+              transition: "background 0.2s ease",
+            }}
           >
-            <X style={{ width: 18 }} />
+            <X style={{ width: 17, height: 17 }} />
           </button>
         </div>
 
@@ -350,78 +386,214 @@ export default function Header() {
             href="/dashboard?tab=profile"
             onClick={toggleDrawer}
             style={{
-              background: "#0F172A",
-              padding: "14px 20px 18px",
-              color: "#FFF",
+              background: "#FFFFFF",
+              padding: "14px 18px",
               display: "flex",
               alignItems: "center",
               gap: 12,
-              borderBottom: "1px solid rgba(255,255,255,0.08)",
+              borderBottom: "1px solid #EAE5DC",
               textDecoration: "none"
             }}
           >
-            <div style={{ width: 42, height: 42, borderRadius: "50%", background: "#F59E0B", color: "#0F172A", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 15, flexShrink: 0, boxShadow: "0 4px 12px rgba(245,158,11,0.25)" }}>
+            <div style={{ width: 38, height: 38, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 14, flexShrink: 0, boxShadow: "0 3px 10px rgba(15,23,42,0.15)" }}>
               {userProfile?.initials || "CD"}
             </div>
             <div style={{ minWidth: 0, flex: 1 }}>
-              <div style={{ fontWeight: 900, fontSize: 14, color: "#FFFFFF", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              <div style={{ fontWeight: 900, fontSize: 13.5, color: "#0F172A", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 {userProfile?.name || "Client Démo"}
               </div>
-              <div style={{ fontSize: 11, color: "#F59E0B", fontWeight: 800 }}>
+              <div style={{ fontSize: 11, color: "#059669", fontWeight: 800 }}>
                 {userProfile?.role || "Particulier"}
               </div>
-              <div style={{ fontSize: 10.5, color: "#94A3B8", marginTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                {userProfile?.email || "client.demo@cargolink.africa"}
-              </div>
             </div>
-            <ChevronDown style={{ width: 16, color: "#94A3B8", transform: "rotate(-90deg)" }} />
+            <ChevronRight style={{ width: 15, color: "#94A3B8" }} />
           </Link>
         )}
 
         {/* DRAWER NAVIGATION LIST */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px" }}>
-          <div style={{ fontSize: 10, fontWeight: 900, color: "#94A3B8", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 10 }}>
-            Navigation Principale
+        <div style={{ flex: 1, overflowY: "auto", padding: "16px 16px 24px" }}>
+          
+          {/* SECTION: NAVIGATION PRINCIPALE */}
+          <div style={{ fontSize: 10.5, fontWeight: 900, color: "#94A3B8", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 10, paddingLeft: 4 }}>
+            Navigation & Services
           </div>
 
-          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+            {/* 1. ACCUEIL */}
             <li>
-              <Link href="/" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: pathname === "/" ? "#F1F5F9" : "#FFFFFF", border: "1px solid #E2E8F0" }}>
-                <Home style={{ width: 18, color: "#165491" }} /> Accueil
+              <Link 
+                href="/" 
+                onClick={toggleDrawer} 
+                style={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: 12, 
+                  padding: "10px 12px", 
+                  borderRadius: 14, 
+                  color: "#0F172A", 
+                  fontWeight: pathname === "/" ? 900 : 700, 
+                  fontSize: 13.5, 
+                  textDecoration: "none", 
+                  background: pathname === "/" ? "#FFFFFF" : "rgba(255, 255, 255, 0.6)", 
+                  border: pathname === "/" ? "1px solid #CBD5E1" : "1px solid rgba(226, 232, 240, 0.8)",
+                  boxShadow: pathname === "/" ? "0 2px 8px rgba(0,0,0,0.04)" : "none",
+                  transition: "all 0.18s ease"
+                }}
+              >
+                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#EFF6FF", color: "#1D4ED8", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Home style={{ width: 17, height: 17 }} />
+                </div>
+                <span>Accueil</span>
+                <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1", marginLeft: "auto" }} />
               </Link>
             </li>
+
+            {/* 2. FRET & LIVRAISON */}
             <li>
-              <Link href="/checkout" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#ECFDF5", border: "1px solid #A7F3D0" }}>
-                <Check style={{ width: 18, color: "#16A34A" }} />
+              <Link 
+                href="/checkout" 
+                onClick={toggleDrawer} 
+                style={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: 12, 
+                  padding: "10px 12px", 
+                  borderRadius: 14, 
+                  color: "#0F172A", 
+                  fontWeight: pathname === "/checkout" ? 900 : 700, 
+                  fontSize: 13.5, 
+                  textDecoration: "none", 
+                  background: "#FFFFFF", 
+                  border: "1px solid #E2E8F0",
+                  transition: "all 0.18s ease"
+                }}
+              >
+                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#ECFDF5", color: "#059669", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Plane style={{ width: 17, height: 17 }} />
+                </div>
                 <span>Fret & Livraison Bénin</span>
-                <span style={{ marginLeft: "auto", background: "#16A34A", color: "#FFF", fontSize: 9.5, fontWeight: 900, padding: "2px 8px", borderRadius: 9999 }}>DIRECT</span>
+                <span style={{ marginLeft: "auto", background: "#ECFDF5", color: "#059669", border: "1px solid #A7F3D0", fontSize: 10, fontWeight: 900, padding: "2px 7px", borderRadius: 9999 }}>DIRECT</span>
               </Link>
             </li>
+
+            {/* 3. UNIVERS & CATEGORIES */}
             <li>
-              <Link href="/categories" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}>
-                <Grid style={{ width: 18, color: "#165491" }} /> Univers & Catégories Usines
+              <Link 
+                href="/categories" 
+                onClick={toggleDrawer} 
+                style={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: 12, 
+                  padding: "10px 12px", 
+                  borderRadius: 14, 
+                  color: "#0F172A", 
+                  fontWeight: pathname === "/categories" ? 900 : 700, 
+                  fontSize: 13.5, 
+                  textDecoration: "none", 
+                  background: "#FFFFFF", 
+                  border: "1px solid #E2E8F0",
+                  transition: "all 0.18s ease"
+                }}
+              >
+                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#EEF2FF", color: "#4F46E5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Grid style={{ width: 17, height: 17 }} />
+                </div>
+                <span>Univers & Catégories</span>
+                <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1", marginLeft: "auto" }} />
               </Link>
             </li>
+
+            {/* 4. MON PANIER */}
             <li>
-              <Link href="/cart" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}>
-                <ShoppingBag style={{ width: 18, color: "#059669" }} />
+              <Link 
+                href="/cart" 
+                onClick={toggleDrawer} 
+                style={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: 12, 
+                  padding: "10px 12px", 
+                  borderRadius: 14, 
+                  color: "#0F172A", 
+                  fontWeight: pathname === "/cart" ? 900 : 700, 
+                  fontSize: 13.5, 
+                  textDecoration: "none", 
+                  background: "#FFFFFF", 
+                  border: "1px solid #E2E8F0",
+                  transition: "all 0.18s ease"
+                }}
+              >
+                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#F1F5F9", color: "#0F172A", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <ShoppingBag style={{ width: 17, height: 17 }} />
+                </div>
                 <span>Mon Panier</span>
-                {totalCartItems > 0 && (
-                  <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFF", fontSize: 10, fontWeight: 900, padding: "2px 8px", borderRadius: 9999 }}>{totalCartItems} article{totalCartItems > 1 ? "s" : ""}</span>
+                {totalCartItems > 0 ? (
+                  <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFF", fontSize: 10, fontWeight: 900, padding: "2px 8px", borderRadius: 9999 }}>{totalCartItems}</span>
+                ) : (
+                  <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1", marginLeft: "auto" }} />
                 )}
               </Link>
             </li>
+
+            {/* 5. MES FAVORIS */}
             <li>
-              <Link href="/favorites" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}>
-                <Heart style={{ width: 18, color: "#DC2626", fill: "#DC2626" }} /> Mes Favoris Enregistrés
+              <Link 
+                href="/favorites" 
+                onClick={toggleDrawer} 
+                style={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: 12, 
+                  padding: "10px 12px", 
+                  borderRadius: 14, 
+                  color: "#0F172A", 
+                  fontWeight: pathname === "/favorites" ? 900 : 700, 
+                  fontSize: 13.5, 
+                  textDecoration: "none", 
+                  background: "#FFFFFF", 
+                  border: "1px solid #E2E8F0",
+                  transition: "all 0.18s ease"
+                }}
+              >
+                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#FFF1F2", color: "#E11D48", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Heart style={{ width: 16, height: 16, fill: "#E11D48" }} />
+                </div>
+                <span>Mes Favoris</span>
+                <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1", marginLeft: "auto" }} />
               </Link>
             </li>
+
+            {/* 6. DEVIS SUR-MESURE */}
             <li>
-              <Link href="/quote-request" onClick={toggleDrawer} style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", borderRadius: 10, color: "#C2410C", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFF7ED", border: "1px solid #FFEDD5" }}>
-                <PlusCircle style={{ width: 18, color: "#EA580C" }} /> Demander un Devis Sur-Mesure
+              <Link 
+                href="/quote-request" 
+                onClick={toggleDrawer} 
+                style={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: 12, 
+                  padding: "10px 12px", 
+                  borderRadius: 14, 
+                  color: "#0F172A", 
+                  fontWeight: 800, 
+                  fontSize: 13.5, 
+                  textDecoration: "none", 
+                  background: "#FFFBEB", 
+                  border: "1px solid #FDE68A",
+                  transition: "all 0.18s ease"
+                }}
+              >
+                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#FEF3C7", color: "#D97706", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <PlusCircle style={{ width: 17, height: 17 }} />
+                </div>
+                <span>Devis Sur-Mesure</span>
+                <span style={{ marginLeft: "auto", background: "#F59E0B", color: "#FFFFFF", fontSize: 9.5, fontWeight: 900, padding: "2px 7px", borderRadius: 9999 }}>PRO</span>
               </Link>
             </li>
-            <li style={{ marginTop: 2 }}>
+
+            {/* 7. INSTALLER PWA */}
+            <li>
               <button
                 onClick={() => {
                   toggleDrawer();
@@ -432,28 +604,32 @@ export default function Header() {
                   display: "flex",
                   alignItems: "center",
                   gap: 12,
-                  padding: "11px 14px",
-                  borderRadius: 10,
-                  color: "#FFFFFF",
-                  fontWeight: 900,
+                  padding: "10px 12px",
+                  borderRadius: 14,
+                  color: "#0F172A",
+                  fontWeight: 800,
                   fontSize: 13.5,
-                  background: "#0F172A",
-                  border: "none",
+                  background: "#F0F9FF",
+                  border: "1px solid #BAE6FD",
                   cursor: "pointer",
-                  textAlign: "left"
+                  textAlign: "left",
+                  transition: "all 0.18s ease"
                 }}
               >
-                <Download style={{ width: 18, color: "#38BDF8" }} />
-                <span>Installer l'App Mobile</span>
-                <span style={{ marginLeft: "auto", background: "#38BDF8", color: "#0F172A", fontSize: 9.5, fontWeight: 900, padding: "2px 8px", borderRadius: 9999 }}>PWA</span>
+                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#E0F2FE", color: "#0284C7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Download style={{ width: 17, height: 17 }} />
+                </div>
+                <span>Installer l'App</span>
+                <span style={{ marginLeft: "auto", background: "#0284C7", color: "#FFFFFF", fontSize: 9.5, fontWeight: 900, padding: "2px 7px", borderRadius: 9999 }}>PWA</span>
               </button>
             </li>
           </ul>
 
-          <div style={{ height: 1, background: "#E2E8F0", margin: "16px 0" }} />
+          <div style={{ height: 1, background: "#EAE5DC", margin: "18px 0 14px" }} />
 
-          <div style={{ fontSize: 10, fontWeight: 900, color: "#94A3B8", letterSpacing: "1px", textTransform: "uppercase", marginBottom: 10 }}>
-            {isLoggedIn ? "Mon Espace Client & Suivi" : "Espace Compte & Authentification"}
+          {/* SECTION: COMPTE & AUTH */}
+          <div style={{ fontSize: 10.5, fontWeight: 900, color: "#94A3B8", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 10, paddingLeft: 4 }}>
+            {isLoggedIn ? "Mon Espace Client" : "Espace Compte"}
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -462,72 +638,64 @@ export default function Header() {
                 <Link 
                   href="/dashboard?tab=orders" 
                   onClick={toggleDrawer}
-                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}
+                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 12, color: "#0F172A", fontWeight: 700, fontSize: 13, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}
                 >
-                  <Package style={{ width: 18, color: "#165491", flexShrink: 0 }} />
-                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Mes Commandes (2)</span>
-                  <span style={{ marginLeft: "auto", background: "#165491", color: "#FFF", fontSize: 10.5, fontWeight: 900, padding: "3px 10px", borderRadius: 9999, whiteSpace: "nowrap", flexShrink: 0, display: "inline-flex", alignItems: "center" }}>En cours</span>
+                  <Package style={{ width: 16, color: "#165491", flexShrink: 0 }} />
+                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Mes Commandes</span>
+                  <span style={{ marginLeft: "auto", background: "#EFF6FF", color: "#1D4ED8", fontSize: 10, fontWeight: 900, padding: "2px 8px", borderRadius: 9999 }}>2</span>
                 </Link>
 
                 <Link 
                   href="/dashboard?tab=quotes" 
                   onClick={toggleDrawer}
-                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}
+                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 12, color: "#0F172A", fontWeight: 700, fontSize: 13, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}
                 >
-                  <FileText style={{ width: 18, color: "#F59E0B", flexShrink: 0 }} />
-                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Devis à Valider (1)</span>
-                  <span style={{ marginLeft: "auto", background: "#FEF3C7", color: "#92400E", fontSize: 10.5, fontWeight: 900, padding: "3px 10px", borderRadius: 9999, whiteSpace: "nowrap", flexShrink: 0, display: "inline-flex", alignItems: "center" }}>Action</span>
-                </Link>
-
-                <Link 
-                  href="/dashboard?tab=profile" 
-                  onClick={toggleDrawer}
-                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", borderRadius: 10, color: "#0F172A", fontWeight: 800, fontSize: 13.5, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}
-                >
-                  <User style={{ width: 18, color: "#165491" }} />
-                  <span>Profil & Adresses</span>
+                  <FileText style={{ width: 16, color: "#D97706", flexShrink: 0 }} />
+                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Mes Devis</span>
+                  <span style={{ marginLeft: "auto", background: "#FEF3C7", color: "#92400E", fontSize: 10, fontWeight: 900, padding: "2px 8px", borderRadius: 9999 }}>1</span>
                 </Link>
 
                 <button 
                   onClick={handleLogout}
-                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", padding: "11px 14px", borderRadius: 10, fontWeight: 800, fontSize: 13.5, background: "#FFFFFF", color: "#E11D48", border: "1px solid #FECDD3", cursor: "pointer", marginTop: 4 }}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, width: "100%", padding: "10px 12px", borderRadius: 12, fontWeight: 800, fontSize: 12.5, background: "rgba(225, 29, 72, 0.06)", color: "#E11D48", border: "1px solid rgba(225, 29, 72, 0.18)", cursor: "pointer", marginTop: 2 }}
                 >
-                  <LogOut style={{ width: 16 }} /> Se Déconnecter
+                  <LogOut style={{ width: 15 }} /> Se Déconnecter
                 </button>
               </>
             ) : (
-              <>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                 <Link 
                   href="/auth/login" 
                   onClick={toggleDrawer}
-                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", padding: 12, borderRadius: 10, fontWeight: 800, fontSize: 13.5, background: "#F1F5F9", color: "#0F172A", textDecoration: "none", border: "1px solid #E2E8F0" }}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "11px 8px", borderRadius: 12, fontWeight: 800, fontSize: 12.5, background: "#FFFFFF", color: "#0F172A", textDecoration: "none", border: "1px solid #E2E8F0", boxShadow: "0 1px 3px rgba(0,0,0,0.03)" }}
                 >
-                  <LogIn style={{ width: 16 }} /> Se Connecter
+                  <LogIn style={{ width: 15 }} /> Connexion
                 </Link>
                 <Link 
                   href="/auth/sign-up" 
                   onClick={toggleDrawer}
-                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", padding: 12, borderRadius: 10, fontWeight: 800, fontSize: 13.5, background: "#0F172A", color: "#FFF", textDecoration: "none" }}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "11px 8px", borderRadius: 12, fontWeight: 800, fontSize: 12.5, background: "#0F172A", color: "#FFF", textDecoration: "none", boxShadow: "0 2px 8px rgba(15,23,42,0.15)" }}
                 >
-                  <UserPlus style={{ width: 16 }} /> Créer un Compte Client
+                  <UserPlus style={{ width: 15 }} /> S'inscrire
                 </Link>
-              </>
+              </div>
             )}
           </div>
 
-          <div style={{ height: 1, background: "#E2E8F0", margin: "16px 0" }} />
+          <div style={{ height: 1, background: "#EAE5DC", margin: "16px 0" }} />
 
-          <div style={{ background: "#F8FAFC", padding: 12, borderRadius: 12, border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          {/* DESTINATION PILL */}
+          <div style={{ background: "#FFFFFF", padding: "10px 14px", borderRadius: 12, border: "1px solid #EAE5DC", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, fontWeight: 800, color: "#0F172A" }}>
               <MapPin style={{ width: 15, color: "#165491" }} /> Bénin (Cotonou)
             </div>
-            <span style={{ fontSize: 11, fontWeight: 800, color: "#64748B" }}>FCFA</span>
+            <span style={{ fontSize: 11, fontWeight: 900, color: "#16A34A", background: "#ECFDF5", padding: "2px 8px", borderRadius: 9999 }}>FCFA</span>
           </div>
         </div>
 
-        {/* DRAWER FOOTER */}
-        <div style={{ padding: 16, borderTop: "1px solid #E2E8F0", background: "#F8FAFC", textAlign: "center", fontSize: 11, color: "#94A3B8" }}>
-          © CargoLink Africa — Logistique Directe Chine
+        {/* SOFT DRAWER FOOTER */}
+        <div style={{ padding: "12px 16px", borderTop: "1px solid #EAE5DC", background: "#FFFFFF", textAlign: "center", fontSize: 11, fontWeight: 600, color: "#94A3B8" }}>
+          © CargoLink Africa — Importation Directe
         </div>
       </div>
     </>
