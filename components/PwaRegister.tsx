@@ -76,7 +76,7 @@ export default function PwaRegister() {
 
   return (
     <div className="pwa-update-toast" role="alert">
-      <span>🚀 Une nouvelle version de CargoLink est disponible !</span>
+      <span>🚀 Une nouvelle version de Fenouhimin est disponible !</span>
       <button onClick={handleUpdate} className="pwa-update-btn">
         Mettre à jour
       </button>

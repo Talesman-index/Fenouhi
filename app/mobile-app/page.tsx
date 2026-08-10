@@ -164,37 +164,7 @@ function MobileExperienceContent() {
               </button>
             </div>
 
-            {/* SEPARATOR */}
-            <div style={{ width: 1, height: 24, background: "#334155" }} />
 
-            {/* COUNTRY SELECTOR */}
-            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <Globe style={{ width: 14, height: 14, color: "#38BDF8" }} />
-              <select
-                value={country.code}
-                onChange={(e) => {
-                  const found = COUNTRIES.find((c) => c.code === e.target.value);
-                  if (found) setCountry(found);
-                }}
-                style={{
-                  background: "#0F172A",
-                  border: "1px solid #475569",
-                  borderRadius: 8,
-                  padding: "6px 10px",
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: "#FFFFFF",
-                  outline: "none",
-                  cursor: "pointer",
-                }}
-              >
-                {COUNTRIES.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.flag} {c.name}
-                  </option>
-                ))}
-              </select>
-            </div>
 
             {/* CURRENCY SELECTOR */}
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>

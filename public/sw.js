@@ -127,7 +127,7 @@ async function networkFirstNavigate(request) {
     return (
       offlinePage ||
       new Response(
-        `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Hors ligne — CargoLink Africa</title></head><body style="font-family:sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0F172A;color:#fff;text-align:center"><div><h1>📦 Vous êtes hors ligne</h1><p>Reconnectez-vous pour accéder à CargoLink Africa.</p></div></body></html>`,
+        `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Hors ligne — Fenouhimin</title></head><body style="font-family:sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0F172A;color:#fff;text-align:center"><div><h1>📦 Vous êtes hors ligne</h1><p>Reconnectez-vous pour accéder à Fenouhimin.</p></div></body></html>`,
         { headers: { "Content-Type": "text/html" } }
       )
     );
@@ -138,7 +138,7 @@ async function networkFirstNavigate(request) {
 self.addEventListener("push", (event) => {
   if (!event.data) return;
   const data = event.data.json();
-  self.registration.showNotification(data.title || "CargoLink Africa", {
+  self.registration.showNotification(data.title || "Fenouhimin", {
     body: data.body || "",
     icon: "/icons/icon-192x192.png",
     badge: "/icons/icon-96x96.png",

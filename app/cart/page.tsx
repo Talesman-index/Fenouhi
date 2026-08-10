@@ -138,36 +138,7 @@ function CartPageInner() {
             <span style={{ fontSize: 13, fontWeight: 700, color: "#0F172A" }}>Mon Panier</span>
           </div>
 
-          {/* CURRENCY & DESTINATION BAR */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#64748B" }}>
-              <Globe style={{ width: 14, height: 14, color: "#165491" }} />
-              <select
-                value={country.code}
-                onChange={(e) => {
-                  const found = COUNTRIES.find((c) => c.code === e.target.value);
-                  if (found) setCountry(found);
-                }}
-                style={{
-                  background: "#FFFFFF",
-                  border: "1px solid #E2E8F0",
-                  borderRadius: 8,
-                  padding: "4px 8px",
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: "#0F172A",
-                  outline: "none",
-                  cursor: "pointer",
-                }}
-              >
-                {COUNTRIES.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.flag} {c.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+
         </div>
 
         {/* HEADER TITLE & PRODUCT COUNT */}

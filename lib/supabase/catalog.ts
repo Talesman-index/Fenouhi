@@ -113,6 +113,15 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
         }
       }
 
+      if (options.search && options.search.trim() !== "") {
+        const q = options.search.trim().toLowerCase();
+        list = list.filter(p =>
+          p.name.toLowerCase().includes(q) ||
+          (p.short_description || "").toLowerCase().includes(q) ||
+          (p.category?.name || "").toLowerCase().includes(q)
+        );
+      }
+
       if (options.isFeatured) {
         list = list.filter(p => p.is_featured);
       }

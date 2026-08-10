@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Logo from "@/components/Logo";
 import { useMobileStore } from "@/lib/mobile-store";
@@ -19,6 +19,13 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [userProfile, setUserProfile] = useState<{ name: string; email: string; initials: string; role: string } | null>(null);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleSearch = useCallback(() => {
+    const q = searchQuery.trim();
+    if (q) router.push(`/catalog?q=${encodeURIComponent(q)}`);
+    else router.push("/catalog");
+  }, [searchQuery, router]);
 
   const totalCartItems = cart && cart.length > 0 ? cart.map((i) => i.quantity || 1).reduce((a, b) => a + b, 0) : 0;
 
@@ -132,17 +139,19 @@ export default function Header() {
                 type="text" 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 placeholder="Rechercher un produit ou une usine en Chine..." 
-                style={{ flex: 1, border: "none", background: "transparent", outline: "none", fontSize: 13, fontWeight: 600, color: "#0F172A" }}
+                className="clean-search-input"
+                style={{ flex: 1, border: "none", background: "transparent", outline: "none", boxShadow: "none", fontSize: 13, fontWeight: 600, color: "#0F172A" }}
               />
-              <Link 
-                href={`/quote-request?url=${encodeURIComponent(searchQuery)}`}
+              <button
+                onClick={handleSearch}
                 className="search-submit-btn" 
                 aria-label="Rechercher" 
-                style={{ width: 34, height: 34, background: "#0F172A", color: "#FFF", borderRadius: "50%", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", textDecoration: "none" }}
+                style={{ width: 34, height: 34, background: "#0F172A", color: "#FFF", borderRadius: "50%", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
               >
                 <Search style={{ width: 14 }} />
-              </Link>
+              </button>
             </div>
 
             {/* RIGHT CONTROLS (ONLY DEVIS GRATUIT ON MOBILE) */}
@@ -250,23 +259,26 @@ export default function Header() {
             </div>
           </div>
 
-          {/* MOBILE SEARCH ROW (SINGLE SEARCH BAR WITH ELEGANT PADDING < 1025PX) */}
+            {/* MOBILE SEARCH ROW (SINGLE SEARCH BAR WITH ELEGANT PADDING < 1025PX) */}
           <div className="mobile-search-row" style={{ marginTop: 14, marginBottom: 2 }}>
-            <div style={{ display: "flex", alignItems: "center", background: "#F1F5F9", border: "1.5px solid #E2E8F0", borderRadius: 9999, padding: "7px 8px 7px 16px", width: "100%" }}>
+            <div className="mobile-search-bar-wrapper search-pill-wrapper" style={{ display: "flex", alignItems: "center", background: "#F1F5F9", border: "1.5px solid #E2E8F0", borderRadius: 9999, padding: "7px 8px 7px 16px", width: "100%", transition: "all 0.2s ease" }}>
               <span style={{ color: "#38BDF8", marginRight: 8, fontSize: 15 }}>✦</span>
               <input 
                 type="text" 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 placeholder="Rechercher un produit ou une usine en Chine..." 
-                style={{ flex: 1, border: "none", background: "transparent", outline: "none", fontSize: 13, fontWeight: 600, color: "#0F172A" }}
+                className="clean-search-input"
+                style={{ flex: 1, border: "none", background: "transparent", outline: "none", boxShadow: "none", fontSize: 13, fontWeight: 600, color: "#0F172A" }}
               />
-              <Link 
-                href={`/quote-request?url=${encodeURIComponent(searchQuery)}`}
-                style={{ width: 32, height: 32, background: "#0F172A", color: "#FFF", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", flexShrink: 0 }}
+              <button
+                onClick={handleSearch}
+                style={{ width: 32, height: 32, background: "#0F172A", color: "#FFF", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "none", cursor: "pointer", flexShrink: 0 }}
+                aria-label="Rechercher"
               >
                 <Search style={{ width: 14 }} />
-              </Link>
+              </button>
             </div>
           </div>
 

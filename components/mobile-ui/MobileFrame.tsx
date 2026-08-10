@@ -130,35 +130,7 @@ export default function MobileFrame({
               flexWrap: "wrap",
             }}
           >
-            {/* COUNTRY SELECTOR */}
-            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <Globe style={{ width: 14, height: 14, color: "#165491" }} />
-              <span style={{ fontSize: 11.5, color: "#64748B", fontWeight: 600 }}>Destination :</span>
-              <select
-                value={country.code}
-                onChange={(e) => {
-                  const found = COUNTRIES.find((c) => c.code === e.target.value);
-                  if (found) setCountry(found);
-                }}
-                style={{
-                  background: "#F8FAFC",
-                  border: "1px solid #CBD5E1",
-                  borderRadius: 6,
-                  padding: "3px 6px",
-                  fontSize: 11.5,
-                  fontWeight: 700,
-                  color: "#0F172A",
-                  outline: "none",
-                  cursor: "pointer",
-                }}
-              >
-                {COUNTRIES.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.flag} {c.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+
 
             {/* CURRENCY TOGGLE */}
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>

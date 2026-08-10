@@ -389,35 +389,7 @@ function CheckoutPageInner() {
             </span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#64748B" }}>
-              <Globe style={{ width: 14, height: 14, color: "#165491" }} />
-              <select
-                value={country.code}
-                onChange={(e) => {
-                  const found = COUNTRIES.find((c) => c.code === e.target.value);
-                  if (found) setCountry(found);
-                }}
-                style={{
-                  background: "#FFFFFF",
-                  border: "1px solid #CBD5E1",
-                  borderRadius: 8,
-                  padding: "4px 8px",
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: "#0F172A",
-                  outline: "none",
-                  cursor: "pointer",
-                }}
-              >
-                {COUNTRIES.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.flag} {c.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+
         </div>
 
         {/* LOGGED IN USER STATUS BANNER */}
@@ -969,69 +941,88 @@ function CheckoutPageInner() {
               style={{
                 background: "#FFFFFF",
                 borderRadius: 20,
-                padding: "22px 24px",
-                border: "1px solid #E2D9CC",
-                boxShadow: "0 2px 10px rgba(15, 23, 42, 0.03)",
+                padding: "20px 22px",
+                border: "1.5px solid #E2E8F0",
+                boxShadow: "0 10px 25px -5px rgba(15, 23, 42, 0.04)",
               }}
             >
               <h2
                 style={{
-                  fontSize: 17,
+                  fontSize: 16.5,
                   fontWeight: 900,
                   color: "#0F172A",
-                  fontFamily: "'Outfit', sans-serif",
-                  margin: "0 0 6px",
+                  margin: "0 0 4px",
                   display: "flex",
                   alignItems: "center",
-                  gap: 8,
+                  gap: 10,
                 }}
               >
                 <span
                   style={{
-                    width: 24,
-                    height: 24,
+                    width: 26,
+                    height: 26,
                     borderRadius: "50%",
                     background: "#0F172A",
                     color: "#FFFFFF",
                     fontSize: 12,
+                    fontWeight: 900,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    flexShrink: 0,
                   }}
                 >
                   3
                 </span>
                 Modalité de paiement sécurisé au Bénin
               </h2>
-              <p style={{ fontSize: 13, color: "#64748B", margin: "0 0 16px" }}>
+              <p style={{ fontSize: 13, color: "#64748B", margin: "0 0 16px", paddingLeft: 36, lineHeight: 1.45 }}>
                 Paiement direct sécurisé par Mobile Money Bénin (MTN MoMo ou Moov Money).
               </p>
 
               {/* DIRECT PAYMENT AMOUNT SUMMARY */}
               <div
                 style={{
-                  background: "#F8FAFC",
-                  border: "1.5px solid #E2E8F0",
-                  borderRadius: 14,
-                  padding: "16px 18px",
+                  background: "linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)",
+                  border: "1px solid #CBD5E1",
+                  borderRadius: 16,
+                  padding: "14px 16px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
+                  gap: 12,
+                  flexWrap: "wrap",
                   marginBottom: 16,
                 }}
               >
-                <div>
-                  <div style={{ fontSize: 11.5, fontWeight: 800, color: "#64748B", textTransform: "uppercase" }}>
+                <div style={{ flex: "1 1 180px" }}>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.04em" }}>
                     Mode de Règlement
                   </div>
-                  <div style={{ fontSize: 14.5, fontWeight: 800, color: "#0F172A", display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
-                    <ShieldCheck style={{ width: 17, height: 17, color: "#16A34A" }} />
+                  <div style={{ fontSize: 14.5, fontWeight: 900, color: "#0F172A", display: "flex", alignItems: "center", gap: 6, marginTop: 3 }}>
+                    <ShieldCheck style={{ width: 18, height: 18, color: "#16A34A", flexShrink: 0 }} />
                     <span>Paiement Direct Sécurisé</span>
                   </div>
                 </div>
-                <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 11, color: "#64748B" }}>Total à régler :</div>
-                  <div style={{ fontSize: 18, fontWeight: 900, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
+                <div style={{ flex: "0 1 auto" }}>
+                  <div style={{ fontSize: 10.5, fontWeight: 800, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.03em", marginBottom: 3 }}>
+                    Total à régler :
+                  </div>
+                  <div
+                    style={{
+                      background: "#FEF2F2",
+                      border: "1px solid #FCA5A5",
+                      padding: "5px 12px",
+                      borderRadius: 10,
+                      fontSize: 17,
+                      fontWeight: 900,
+                      color: "#DC2626",
+                      fontFamily: "'Outfit', sans-serif",
+                      letterSpacing: "-0.02em",
+                      boxShadow: "0 2px 6px rgba(220, 38, 38, 0.08)",
+                      display: "inline-block",
+                    }}
+                  >
                     {formatPrice(finalTotal)}
                   </div>
                 </div>
@@ -1040,23 +1031,60 @@ function CheckoutPageInner() {
               {/* BENIN PAYMENT OPERATORS BADGES */}
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  flexWrap: "wrap",
-                  paddingTop: 12,
-                  borderTop: "1px solid #F1F5F9",
+                  paddingTop: 14,
+                  borderTop: "1px solid #E2E8F0",
                 }}
               >
-                <span style={{ fontSize: 12, fontWeight: 700, color: "#475569" }}>Moyens acceptés :</span>
-                <span style={{ background: "#FEF9C3", border: "1px solid #EAB308", color: "#854D0E", padding: "4px 10px", borderRadius: 8, fontSize: 11.5, fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 6 }}>
-                  <img src="/images/payments/mtn.png" alt="MTN" style={{ height: 13, width: "auto" }} />
-                  <span>MTN Mobile Money</span>
-                </span>
-                <span style={{ background: "#EFF6FF", border: "1px solid #3B82F6", color: "#1E40AF", padding: "4px 10px", borderRadius: 8, fontSize: 11.5, fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 6 }}>
-                  <img src="/images/payments/moov_africa_official.png" alt="Moov" style={{ height: 13, width: "auto" }} />
-                  <span>Moov Money (Flooz)</span>
-                </span>
+                <div style={{ fontSize: 11.5, fontWeight: 800, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 10 }}>
+                  Moyens acceptés au Bénin :
+                </div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+                    gap: 10,
+                    width: "100%",
+                  }}
+                >
+                  <div
+                    style={{
+                      background: "linear-gradient(135deg, #FEFCE8 0%, #FEF9C3 100%)",
+                      border: "1.5px solid #FDE047",
+                      color: "#713F12",
+                      padding: "10px 12px",
+                      borderRadius: 12,
+                      fontSize: 12.5,
+                      fontWeight: 800,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 8,
+                      boxShadow: "0 2px 6px rgba(234, 179, 8, 0.12)",
+                    }}
+                  >
+                    <img src="/images/payments/mtn.png" alt="MTN" style={{ height: 16, width: "auto", objectFit: "contain" }} />
+                    <span>MTN Mobile Money</span>
+                  </div>
+                  <div
+                    style={{
+                      background: "linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)",
+                      border: "1.5px solid #93C5FD",
+                      color: "#1E40AF",
+                      padding: "10px 12px",
+                      borderRadius: 12,
+                      fontSize: 12.5,
+                      fontWeight: 800,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 8,
+                      boxShadow: "0 2px 6px rgba(59, 130, 246, 0.12)",
+                    }}
+                  >
+                    <img src="/images/payments/moov_africa_official.png" alt="Moov" style={{ height: 16, width: "auto", objectFit: "contain" }} />
+                    <span>Moov Money (Flooz)</span>
+                  </div>
+                </div>
               </div>
             </div>
 

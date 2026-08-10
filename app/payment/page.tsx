@@ -381,7 +381,7 @@ function PaymentContent() {
                 </div>
 
                 {/* INSTRUCTIONS DE DÉPÔT / SYNTAXE USSD */}
-                <div style={{ background: "#F8FAFC", border: "1.5px dashed #CBD5E1", borderRadius: 16, padding: "20px", marginBottom: 24 }}>
+                <div style={{ background: "#F8FAFC", border: "1.5px dashed #CBD5E1", borderRadius: 16, padding: "16px 18px", marginBottom: 24 }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12, flexWrap: "wrap", gap: 6 }}>
                     <span style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px" }}>
                       2. Syntaxe USSD de dépôt direct
@@ -392,25 +392,54 @@ function PaymentContent() {
                   </div>
 
                   {/* USSD CODE BLOCK */}
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#FFFFFF", border: "1.5px solid #CBD5E1", borderRadius: 12, padding: "12px 16px", marginBottom: 12 }}>
-                    <code style={{ fontSize: 15, fontWeight: 900, color: "#0F172A", letterSpacing: "0.5px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: 10,
+                      flexWrap: "wrap",
+                      background: "#FFFFFF",
+                      border: "1.5px solid #CBD5E1",
+                      borderRadius: 12,
+                      padding: "10px 14px",
+                      marginBottom: 12,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <code
+                      style={{
+                        fontSize: "clamp(13px, 3.5vw, 15px)",
+                        fontWeight: 900,
+                        color: "#0F172A",
+                        letterSpacing: "0.5px",
+                        fontFamily: "'Courier New', Courier, monospace",
+                        wordBreak: "break-all",
+                        flex: "1 1 auto",
+                        minWidth: 0,
+                      }}
+                    >
                       {merchantDetails.ussd}
                     </code>
                     <button
                       type="button"
                       onClick={handleCopyUssd}
                       style={{
-                        background: copiedCode ? "#DCFCE7" : "#F1F5F9",
-                        color: copiedCode ? "#166534" : "#0F172A",
-                        border: "1px solid #CBD5E1",
+                        background: copiedCode ? "#DCFCE7" : "#0F172A",
+                        color: copiedCode ? "#166534" : "#FFFFFF",
+                        border: copiedCode ? "1px solid #86EFAC" : "none",
                         borderRadius: 8,
-                        padding: "6px 12px",
+                        padding: "8px 14px",
                         fontSize: 12,
                         fontWeight: 800,
                         cursor: "pointer",
-                        display: "flex",
+                        display: "inline-flex",
                         alignItems: "center",
+                        justifyContent: "center",
                         gap: 6,
+                        whiteSpace: "nowrap",
+                        flexShrink: 0,
+                        boxShadow: "0 2px 6px rgba(15, 23, 42, 0.12)",
                         transition: "all 0.2s ease",
                       }}
                     >
@@ -420,12 +449,39 @@ function PaymentContent() {
                   </div>
 
                   {/* ALTERNATIVE DIRECT PHONE NUMBER */}
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 12.5, color: "#475569" }}>
-                    <span>Numéro marchand alternatif : <strong>{merchantDetails.phone}</strong></span>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: 8,
+                      flexWrap: "wrap",
+                      fontSize: 12.5,
+                      color: "#475569",
+                      paddingTop: 8,
+                    }}
+                  >
+                    <span style={{ flex: "1 1 180px" }}>
+                      Numéro marchand alternatif : <strong style={{ color: "#0F172A" }}>{merchantDetails.phone}</strong>
+                    </span>
                     <button
                       type="button"
                       onClick={handleCopyPhone}
-                      style={{ background: "transparent", border: "none", color: "#0284C7", fontSize: 12, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 4 }}
+                      style={{
+                        background: copiedPhone ? "#E0F2FE" : "#F1F5F9",
+                        border: "1px solid #CBD5E1",
+                        color: copiedPhone ? "#0369A1" : "#0284C7",
+                        fontSize: 11.5,
+                        fontWeight: 800,
+                        padding: "5px 10px",
+                        borderRadius: 8,
+                        cursor: "pointer",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 5,
+                        whiteSpace: "nowrap",
+                        flexShrink: 0,
+                      }}
                     >
                       {copiedPhone ? <Check style={{ width: 13, height: 13 }} /> : <Copy style={{ width: 13, height: 13 }} />}
                       <span>{copiedPhone ? "Numéro copié" : "Copier numéro"}</span>

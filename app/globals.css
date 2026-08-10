@@ -530,4 +530,47 @@ main .btn-orange {
   }
 }
 
+/* =========================================================
+   CLEAN SEARCH INPUT & FOCUS STYLES (NO RECTANGLE HIGHLIGHT)
+   ========================================================= */
+
+input,
+select,
+textarea,
+button {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+input:focus,
+input:focus-visible,
+input:focus-within,
+input:active,
+.clean-search-input:focus,
+.clean-search-input:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+/* Eliminate Webkit autofill blue/grey rectangular background overlay */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #F1F5F9 inset !important;
+  -webkit-text-fill-color: #0F172A !important;
+  transition: background-color 50000s ease-in-out 0s !important;
+}
+
+/* Outer search container focus ring */
+.header-search-bar:focus-within,
+.mobile-search-bar-wrapper:focus-within,
+.search-pill-wrapper:focus-within {
+  border-color: #165491 !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 0 0 3px rgba(22, 84, 145, 0.12) !important;
+}
+
 

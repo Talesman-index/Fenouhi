@@ -2,8 +2,8 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "CargoLink Africa — Logistique Chine-Afrique",
-    short_name: "CargoLink",
+    name: "Fenouhimin — Logistique Chine-Afrique",
+    short_name: "Fenouhimin",
     description:
       "Achetez en Chine, livraison en Afrique. Fret aérien & maritime, devis transparents, Mobile Money.",
     start_url: "/",

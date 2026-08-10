@@ -35,14 +35,14 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "CargoLink Africa — Plateforme d'Achat et d'Expédition Chine → Afrique",
+  title: "Fenouhimin — Plateforme d'Achat et d'Expédition Chine → Afrique",
   description:
     "Achetez en Chine et faites-vous livrer en Afrique. Devis transparents, Fret Aérien & Maritime, Suivi logistique et Mobile Money.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "CargoLink Africa",
+    title: "Fenouhimin",
     startupImage: [
       {
         url: "/icons/apple-touch-icon.png",
