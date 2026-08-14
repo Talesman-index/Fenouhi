@@ -9,27 +9,30 @@ import { Sparkles, ArrowRight, ChevronLeft, ChevronRight, Search, Zap, DollarSig
 
 const heroSlides = [
   {
-    badge: "OFFRE EXCLUSIVE DE LANCEMENT",
-    title: "À partir de 50 769 FCFA*",
-    subtitle: "Puce A18 Pro. Ultra-rapide & ultra-intelligent. Baisse de prix historique en importation directe.",
-    btnText: "Acheter Maintenant",
+    badge: "IMPORTATION DIRECTE CHINE",
+    title: "iPhone 16 Pro Max",
+    priceTag: "À partir de 50 769 FCFA / mois*",
+    subtitle: "Puce A18 Pro & Design Titane. Obtenez le nouvel iPhone au meilleur tarif usine avec livraison express à Cotonou.",
+    btnText: "Commander l'iPhone",
     btnLink: "/catalog?q=iphone+16",
     imgSrc: "/images/assets/hero_iphone16.png",
     bgGradient: "linear-gradient(135deg, #130D2B 0%, #201740 50%, #0F172A 100%)"
   },
   {
-    badge: "LOGISTIQUE DIRECTE CHINE-BÉNIN",
-    title: "Fret Aérien Express 5-8 Jours",
-    subtitle: "Sourcing direct usines à Canton, Yiwu & Shenzhen. Fret Aérien ou Maritime groupé sans frais cachés.",
+    badge: "FRET & LIVRAISON BÉNIN",
+    title: "Expédition Express Chine",
+    priceTag: "Livraison Aérienne en 5 à 8 Jours",
+    subtitle: "Sourcing direct usines à Canton & Yiwu. Dédouanement et suivi de colis sécurisés.",
     btnText: "Demander un Devis",
     btnLink: "/quote-request",
     imgSrc: "/images/assets/hero_box.png",
     bgGradient: "linear-gradient(135deg, #0A192F 0%, #0F3B5F 50%, #165491 100%)"
   },
   {
-    badge: "VENTES FLASH & SOLDES D'USINE",
-    title: "Jusqu'à -50% sur le Sourcing",
-    subtitle: "Électronique, Smartphones, Mode & Électroménager certifiés en direct des plus grands fabricants.",
+    badge: "VENTES FLASH DE LA SEMAINE",
+    title: "Ventes Flash Électronique",
+    priceTag: "Jusqu'à -50% de Réduction Directe",
+    subtitle: "Smartphones, casques audio et gadgets certifiés en direct des plus grands fabricants.",
     btnText: "Découvrir les Offres",
     btnLink: "/catalog",
     imgSrc: "/images/assets/hero_samsung.png",
@@ -129,13 +132,16 @@ export default function HomePage() {
             >
               {/* Left text & CTAs */}
               <div style={{ zIndex: 2, maxWidth: 440, position: "relative" }}>
-                <span style={{ fontSize: 12, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                <span style={{ fontSize: 11.5, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.06em", textTransform: "uppercase" }}>
                   {heroSlides[currentSlide].badge}
                 </span>
-                <h1 style={{ fontSize: "clamp(24px, 3.2vw, 38px)", fontWeight: 800, color: "#FFFFFF", margin: "8px 0 10px", lineHeight: 1.15, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <h1 style={{ fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 900, color: "#FFFFFF", margin: "6px 0 4px", lineHeight: 1.1, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   {heroSlides[currentSlide].title}
                 </h1>
-                <p style={{ fontSize: 13, color: "#CBD5E1", lineHeight: 1.5, margin: "0 0 24px" }}>
+                <div style={{ fontSize: 14, fontWeight: 800, color: "#38BDF8", marginBottom: 12 }}>
+                  {heroSlides[currentSlide].priceTag}
+                </div>
+                <p style={{ fontSize: 12.5, color: "#CBD5E1", lineHeight: 1.45, margin: "0 0 20px" }}>
                   {heroSlides[currentSlide].subtitle}
                 </p>
                 <Link
