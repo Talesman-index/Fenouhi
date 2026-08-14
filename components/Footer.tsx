@@ -10,45 +10,73 @@ export default function Footer() {
     <footer className="footer-wrapper" style={{ background: "#FFFFFF", borderTop: "1px solid #E2E8F0", padding: "48px 0 24px" }}>
       <div className="container" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px" }}>
         
-        {/* 1. GUARANTEE CARDS ROW (4 FLOATING WHITE CARDS) */}
-        <div className="guarantee-cards-row" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, marginBottom: 40 }}>
-          <div className="guarantee-card" style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 16, padding: "18px 20px", display: "flex", alignItems: "center", gap: 14 }}>
-            <div className="guarantee-card-icon" style={{ width: 44, height: 44, borderRadius: 12, background: "#EFF6FF", color: "#165491", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Store style={{ width: 22, height: 22 }} />
+        {/* 1. SOBRE CARGOLINK FEATURE ROW (NO PASTEL BADGES, SINGLE BRAND BLUE) */}
+        <div 
+          className="guarantee-sober-row"
+          style={{
+            borderTop: "1px solid #F1F5F9",
+            borderBottom: "1px solid #F1F5F9",
+            padding: "28px 0",
+            marginBottom: 44,
+          }}
+        >
+          <div 
+            style={{ 
+              display: "grid", 
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", 
+              gap: 32,
+            }}
+          >
+            {/* FEATURE 1 */}
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+              <Store style={{ width: 22, height: 22, color: "#165491", flexShrink: 0, marginTop: 2 }} />
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A" }}>
+                  Retrait en Hub Agence
+                </div>
+                <div style={{ fontSize: 12.5, color: "#64748B", marginTop: 3, lineHeight: 1.45 }}>
+                  Retrait sans frais à Cotonou et suivi de colis sur place
+                </div>
+              </div>
             </div>
-            <div>
-              <div className="guarantee-card-title" style={{ fontSize: 13.5, fontWeight: 900, color: "#0F172A" }}>Retrait en Hub Agence</div>
-              <div className="guarantee-card-sub" style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>Retrait gratuit à Cotonou</div>
-            </div>
-          </div>
 
-          <div className="guarantee-card" style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 16, padding: "18px 20px", display: "flex", alignItems: "center", gap: 14 }}>
-            <div className="guarantee-card-icon" style={{ width: 44, height: 44, borderRadius: 12, background: "#ECFDF5", color: "#16A34A", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Box style={{ width: 22, height: 22 }} />
+            {/* FEATURE 2 */}
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+              <Box style={{ width: 22, height: 22, color: "#165491", flexShrink: 0, marginTop: 2 }} />
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A" }}>
+                  Fret Direct Chine
+                </div>
+                <div style={{ fontSize: 12.5, color: "#64748B", marginTop: 3, lineHeight: 1.45 }}>
+                  Aérien Express (5–12j) & Maritime groupé économique
+                </div>
+              </div>
             </div>
-            <div>
-              <div className="guarantee-card-title" style={{ fontSize: 13.5, fontWeight: 900, color: "#0F172A" }}>Fret Direct Chine</div>
-              <div className="guarantee-card-sub" style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>Aérien Express (5-12j) & Maritime</div>
-            </div>
-          </div>
 
-          <div className="guarantee-card" style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 16, padding: "18px 20px", display: "flex", alignItems: "center", gap: 14 }}>
-            <div className="guarantee-card-icon" style={{ width: 44, height: 44, borderRadius: 12, background: "#FEF9C3", color: "#CA8A04", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <CreditCard style={{ width: 22, height: 22 }} />
+            {/* FEATURE 3 */}
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+              <CreditCard style={{ width: 22, height: 22, color: "#165491", flexShrink: 0, marginTop: 2 }} />
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A" }}>
+                  Paiement Sécurisé Bénin
+                </div>
+                <div style={{ fontSize: 12.5, color: "#64748B", marginTop: 3, lineHeight: 1.45 }}>
+                  MTN MoMo, Moov Money et cartes bancaires internationales
+                </div>
+              </div>
             </div>
-            <div>
-              <div className="guarantee-card-title" style={{ fontSize: 13.5, fontWeight: 900, color: "#0F172A" }}>Paiement Sécurisé Bénin</div>
-              <div className="guarantee-card-sub" style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>MTN MoMo, Moov Money & CB</div>
-            </div>
-          </div>
 
-          <div className="guarantee-card" style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 16, padding: "18px 20px", display: "flex", alignItems: "center", gap: 14 }}>
-            <div className="guarantee-card-icon" style={{ width: 44, height: 44, borderRadius: 12, background: "#FFF7ED", color: "#EA580C", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Headphones style={{ width: 22, height: 22 }} />
-            </div>
-            <div>
-              <div className="guarantee-card-title" style={{ fontSize: 13.5, fontWeight: 900, color: "#0F172A" }}>Service Client 7j/7</div>
-              <div className="guarantee-card-sub" style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>Assistance sourcing & devis &lt; 2h</div>
+            {/* FEATURE 4 */}
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+              <Headphones style={{ width: 22, height: 22, color: "#165491", flexShrink: 0, marginTop: 2 }} />
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A" }}>
+                  Service Client 7j/7
+                </div>
+                <div style={{ fontSize: 12.5, color: "#64748B", marginTop: 3, lineHeight: 1.45 }}>
+                  Assistance sourcing usine et cotation sur-mesure rapide
+                </div>
+              </div>
             </div>
           </div>
         </div>

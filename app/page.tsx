@@ -11,6 +11,18 @@ export default function HomePage() {
   const [searchUrl, setSearchUrl] = useState("");
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+  const categoryRowRef = React.useRef<HTMLDivElement>(null);
+
+  const handleScrollNext = () => {
+    if (categoryRowRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = categoryRowRef.current;
+      if (scrollLeft + clientWidth >= scrollWidth - 20) {
+        categoryRowRef.current.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        categoryRowRef.current.scrollBy({ left: 280, behavior: "smooth" });
+      }
+    }
+  };
 
   useEffect(() => {
     async function loadHomeProducts() {
@@ -26,38 +38,30 @@ export default function HomePage() {
     loadHomeProducts();
   }, []);
 
-  const categories = [
-    { name: "Électronique", img: "/images/assets/item_3.jpg", link: "/catalog?cat=electronics" },
-    { name: "Mode & Chaussures", img: "/images/assets/item_6.jpg", link: "/catalog?cat=fashion" },
-    { name: "Vrac & Grossistes", img: "/images/assets/hero_bag.png", link: "/catalog?cat=wholesale" },
-    { name: "Maison & Électroménager", img: "/images/assets/item_1.jpg", link: "/catalog?cat=home" },
-    { name: "Beauté & Santé", img: "/images/assets/item_5.jpg", link: "/catalog?cat=beauty" },
-    { name: "Machinerie & Outillage", img: "/images/assets/item_4.jpg", link: "/catalog?cat=machinery" },
-    { name: "Auto & Moto", img: "/images/assets/hero_agro.png", link: "/catalog?cat=automotive" },
+  const softCategories = [
+    { name: "Électronique", img: "/images/assets/cat_electronics_v2.jpg", link: "/catalog?cat=electronics" },
+    { name: "Mode", img: "/images/assets/cat_fashion_v2.jpg", link: "/catalog?cat=fashion" },
+    { name: "Luxe", img: "/images/assets/cat_luxury.jpg", link: "/catalog?cat=luxury" },
+    { name: "Maison & Déco", img: "/images/assets/cat_homedecor.jpg", link: "/catalog?cat=home" },
+    { name: "Santé & Beauté", img: "/images/assets/cat_beauty.jpg", link: "/catalog?cat=beauty" },
+    { name: "Épicerie", img: "/images/assets/cat_groceries.jpg", link: "/catalog?cat=groceries" },
+    { name: "Baskets & Sport", img: "/images/assets/cat_sneakers.jpg", link: "/catalog?cat=sneakers" },
   ];
 
   const todayDeals = [
-    { id: "1", title: "Montre Connectée SmartFit Pro X GPS", price: "3 500 FCFA", oldPrice: "5 500 FCFA", image: "/images/assets/item_1.jpg" },
-    { id: "2", title: "Écouteurs Bluetooth ANC SoundBass Pro", price: "2 200 FCFA", oldPrice: "4 000 FCFA", image: "/images/assets/item_2.jpg" },
-    { id: "3", title: "Casque Audio Over-Ear Wireless Hi-Fi", price: "4 500 FCFA", oldPrice: "7 000 FCFA", image: "/images/assets/item_3.jpg" },
-    { id: "4", title: "Coffret Montres & Bijoux Luxury 24k", price: "1 800 FCFA", oldPrice: "3 000 FCFA", image: "/images/assets/item_7.jpg" },
-    { id: "5", title: "Baskets Urban High-Top Sneaker Pro", price: "2 800 FCFA", oldPrice: "4 500 FCFA", image: "/images/assets/item_4.jpg" },
-  ];
-
-  const fashionProducts = [
-    { id: "6", title: "T-Shirt Graphic Streetwear Red Edition", price: "1 200 FCFA", oldPrice: "2 000 FCFA", image: "/images/assets/item_6.jpg" },
-    { id: "7", title: "Sac de Voyage & Maroquinerie Luxe", price: "3 400 FCFA", oldPrice: "5 000 FCFA", image: "/images/assets/hero_bag.png" },
-    { id: "8", title: "T-Shirt Workwear Vintage Impermeable", price: "3 200 FCFA", oldPrice: "5 000 FCFA", image: "/images/assets/item_8.jpg" },
-    { id: "9", title: "Sacoches & Trousses Waterproof Voyage", price: "750 FCFA", oldPrice: "1 400 FCFA", image: "/images/assets/item_9.jpg" },
-    { id: "10", title: "Parka Rembourrée Capuche Fourrure", price: "4 800 FCFA", oldPrice: "7 500 FCFA", image: "/images/assets/item_10.jpg" },
+    { id: "1", title: "Smartwatch Sport GPS Étanche", price: "35 000 FCFA", oldPrice: "55 000 FCFA", image: "/images/assets/item_1.jpg", category: "Électronique" },
+    { id: "2", title: "Écouteurs Bluetooth ANC Réduction de Bruit", price: "22 000 FCFA", oldPrice: "40 000 FCFA", image: "/images/assets/item_2.jpg", category: "Électronique" },
+    { id: "3", title: "Casque Sans-Fil Hi-Fi Pro Audio", price: "45 000 FCFA", oldPrice: "70 000 FCFA", image: "/images/assets/cat_electronics.jpg", category: "Électronique" },
+    { id: "4", title: "Sac à Main Luxe Designer Rose Pastel", price: "48 000 FCFA", oldPrice: "75 000 FCFA", image: "/images/assets/cat_luxury.jpg", category: "Luxe" },
+    { id: "5", title: "Baskets Modernes Running Sport", price: "28 000 FCFA", oldPrice: "45 000 FCFA", image: "/images/assets/cat_sneakers.jpg", category: "Baskets & Sport" },
   ];
 
   const laptopsShowcase = [
-    { title: "Smartphones", img: "/images/assets/hero_iphone16.png", link: "/catalog?cat=electronics" },
-    { title: "Écouteurs TWS", img: "/images/assets/item_2.jpg", link: "/catalog?cat=electronics" },
-    { title: "Samsung Galaxy", img: "/images/assets/hero_samsung.png", link: "/catalog?cat=electronics" },
+    { title: "Smartphones", img: "/images/assets/card_hero_iphone.jpg", link: "/catalog?cat=electronics" },
+    { title: "Écouteurs TWS", img: "/images/assets/cat_electronics.jpg", link: "/catalog?cat=electronics" },
+    { title: "Sacs de Luxe", img: "/images/assets/cat_luxury.jpg", link: "/catalog?cat=luxury" },
     { title: "Smartwatch", img: "/images/assets/item_1.jpg", link: "/catalog?cat=electronics" },
-    { title: "Casques Hi-Fi", img: "/images/assets/item_3.jpg", link: "/catalog?cat=electronics" },
+    { title: "Chaussures Sport", img: "/images/assets/cat_sneakers.jpg", link: "/catalog?cat=sneakers" },
   ];
 
   const samplePrompts = [
@@ -68,211 +72,193 @@ export default function HomePage() {
   ];
 
   return (
-    <div style={{ background: "#F8FAFC", paddingBottom: 60 }}>
-      {/* HERO 2-CARDS SECTION */}
-      <section style={{ padding: "20px 0 28px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 16px" }}>
-          <div className="hero-cards-grid">
+    <div style={{ background: "#F8FAFC", paddingBottom: 60, fontFamily: "var(--font-body), 'Plus Jakarta Sans', sans-serif" }}>
+      
+      {/* HERO 2-CARDS BANNERS SECTION */}
+      <section style={{ padding: "24px 0 28px" }}>
+        <div className="container">
+          <div className="soft-hero-grid">
 
-            {/* CARD 1: MAIN HERO CARD */}
-            <div className="hero-main-card">
-              {/* Subtle glow background */}
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  pointerEvents: "none",
-                  background: "radial-gradient(ellipse 70% 80% at 85% 50%, rgba(56, 189, 248, 0.16) 0%, transparent 70%)",
-                }}
-              />
+            {/* CARD 1: MAIN IPHONE HERO BANNER */}
+            <div className="soft-banner-main" style={{ position: "relative", overflow: "hidden" }}>
+              
+              {/* Left text & CTAs */}
+              <div style={{ zIndex: 2, maxWidth: 440, position: "relative" }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.02em" }}>
+                  iPhone 16 Pro Max
+                </span>
+                <h1 style={{ fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 800, color: "#FFFFFF", margin: "8px 0 10px", lineHeight: 1.15, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  À partir de 50 769 FCFA*
+                </h1>
+                <p style={{ fontSize: 13, color: "#CBD5E1", lineHeight: 1.5, margin: "0 0 24px" }}>
+                  Puce A18. Ultra-rapide. Ultra-intelligent.<br />Historique, la plus forte baisse de prix.
+                </p>
+                <Link
+                  href="/catalog?q=iphone+16"
+                  style={{
+                    background: "#0F172A",
+                    color: "#FFFFFF",
+                    borderRadius: 9999,
+                    padding: "12px 28px",
+                    fontSize: 13.5,
+                    fontWeight: 800,
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.4)",
+                    transition: "transform 0.2s ease"
+                  }}
+                >
+                  <span>Acheter Maintenant</span>
+                </Link>
+              </div>
 
-              <div className="hero-main-inner">
-                {/* TEXT & CTAS */}
-                <div>
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(56, 189, 248, 0.14)", border: "1px solid rgba(56, 189, 248, 0.28)", borderRadius: 9999, padding: "4px 12px", marginBottom: 12 }}>
-                    <span style={{ fontSize: 11, fontWeight: 900, letterSpacing: "0.06em", textTransform: "uppercase", color: "#38BDF8" }}>
-                      Achats Internationaux & Sourcing Direct
-                    </span>
-                  </div>
+              {/* Full Right Side Seamless iPhone Visual (No inner box border) */}
+              <div style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "55%", pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+                <img
+                  src="/images/assets/hero_iphone16.png"
+                  alt="iPhone 16 Pro Max"
+                  style={{ height: "115%", width: "auto", objectFit: "contain", transform: "translate(5%, 6%)", filter: "drop-shadow(-20px 20px 40px rgba(0,0,0,0.6))" }}
+                />
+              </div>
 
-                  <h1 style={{ fontSize: "clamp(22px, 3.2vw, 34px)", fontWeight: 900, lineHeight: 1.22, margin: "0 0 12px", letterSpacing: "-0.02em", color: "#FFFFFF", fontFamily: "'Outfit', sans-serif" }}>
-                    Commandez à l'Étranger. Livré au Bénin.
-                  </h1>
-
-                  <p style={{ fontSize: 13.5, color: "#CBD5E1", lineHeight: 1.55, margin: "0 0 22px", maxWidth: 470 }}>
-                    Commandez vos articles depuis la Chine ou n'importe quel pays en toute sérénité. Nous gérons le transport, le dédouanement et la livraison sécurisée jusqu'à chez vous au Bénin.
-                  </p>
-
-                  <div className="hero-ctas-wrap" style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-                    <Link
-                      href="/catalog"
-                      style={{
-                        background: "#FFFFFF",
-                        color: "#0F172A",
-                        borderRadius: 10,
-                        padding: "11px 20px",
-                        fontSize: 13.5,
-                        fontWeight: 800,
-                        textDecoration: "none",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 6,
-                        boxShadow: "0 4px 14px rgba(0, 0, 0, 0.15)",
-                        transition: "all 0.2s ease",
-                      }}
-                    >
-                      <span>Parcourir le Catalogue</span>
-                      <ArrowRight style={{ width: 14, height: 14 }} />
-                    </Link>
-
-                    <Link
-                      href="/quote-request"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.1)",
-                        color: "#FFFFFF",
-                        border: "1.5px solid rgba(255, 255, 255, 0.25)",
-                        borderRadius: 10,
-                        padding: "11px 18px",
-                        fontSize: 13.5,
-                        fontWeight: 700,
-                        textDecoration: "none",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        backdropFilter: "blur(8px)",
-                        transition: "all 0.2s ease",
-                      }}
-                    >
-                      Demander une Cotation
-                    </Link>
-                  </div>
+              {/* Bottom footer bar with French note and dots */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", marginTop: 24, zIndex: 2, position: "relative" }}>
+                <span style={{ fontSize: 11, color: "#94A3B8", fontWeight: 700 }}>
+                  *Toutes les offres incluses
+                </span>
+                
+                {/* Carousel Pagination Dots */}
+                <div style={{ display: "flex", gap: 6, alignItems: "center", background: "rgba(255,255,255,0.1)", padding: "5px 12px", borderRadius: 9999 }}>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#475569" }} />
+                  <span style={{ width: 14, height: 6, borderRadius: 9999, background: "#0F172A" }} />
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#475569" }} />
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#475569" }} />
                 </div>
 
-                {/* IMAGE (VISIBLE ON MOBILE & DESKTOP) */}
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <img
-                    src="/images/assets/hero_box.png"
-                    alt="CargoLink Colis Direct Usine"
-                    className="hero-package-responsive"
-                  />
-                </div>
+                <div style={{ width: 80 }} />
               </div>
             </div>
 
-            {/* CARD 2: SIDE TRANSIT CARD */}
-            <div className="hero-side-card">
-              <div>
-                <p style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#60A5FA", marginBottom: 10 }}>
-                  Suivi & Fret International
-                </p>
-                <h2 style={{ fontSize: 20, fontWeight: 900, margin: "0 0 18px", lineHeight: 1.3, color: "#FFFFFF", fontFamily: "'Outfit', sans-serif" }}>
-                  Chine ➔ Cotonou, Bénin
-                </h2>
-
-                {/* Transit options */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 1, borderRadius: 14, overflow: "hidden", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                  <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div>
-                      <div style={{ fontSize: 13.5, fontWeight: 800, display: "flex", alignItems: "center", gap: 8, color: "#FFFFFF" }}>
-                        <Plane style={{ width: 16, height: 16, color: "#60A5FA" }} />
-                        <span>Fret Aérien Express</span>
-                      </div>
-                      <div style={{ fontSize: 11.5, color: "#94A3B8", marginTop: 3 }}>5 – 12 jours (Aéroport Cotonou)</div>
-                    </div>
-                    <span style={{ fontSize: 11, fontWeight: 800, color: "#60A5FA", background: "rgba(96,165,250,0.12)", padding: "3px 8px", borderRadius: 6 }}>Rapide</span>
-                  </div>
-
-                  <div style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
-
-                  <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div>
-                      <div style={{ fontSize: 13.5, fontWeight: 800, display: "flex", alignItems: "center", gap: 8, color: "#FFFFFF" }}>
-                        <Ship style={{ width: 16, height: 16, color: "#34D399" }} />
-                        <span>Fret Maritime Groupé</span>
-                      </div>
-                      <div style={{ fontSize: 11.5, color: "#94A3B8", marginTop: 3 }}>40 – 65 jours (Port Cotonou)</div>
-                    </div>
-                    <span style={{ fontSize: 11, fontWeight: 800, color: "#34D399", background: "rgba(52,211,153,0.12)", padding: "3px 8px", borderRadius: 6 }}>Éco</span>
-                  </div>
+            {/* CARD 2: PROMO SALE BANNER (FULL FILL BACKGROUND VISUAL) */}
+            <div
+              className="soft-banner-sale"
+              style={{
+                backgroundImage: "linear-gradient(180deg, rgba(6, 182, 212, 0.82) 0%, rgba(6, 182, 212, 0.45) 45%, rgba(15, 23, 42, 0.88) 100%), url('/images/assets/card_hero_sale_fr.jpg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                position: "relative",
+              }}
+            >
+              <div style={{ zIndex: 2 }}>
+                <div style={{ background: "rgba(255, 255, 255, 0.3)", backdropFilter: "blur(10px)", display: "inline-block", padding: "6px 14px", borderRadius: 9999, marginBottom: 14 }}>
+                  <span style={{ fontSize: 12.5, fontWeight: 900, color: "#0F172A", letterSpacing: "0.04em" }}>
+                    JUSQU'À -50% DE RÉDUCTION
+                  </span>
                 </div>
+                <h2 style={{ fontSize: 25, fontWeight: 900, color: "#FFFFFF", margin: "0 0 8px", lineHeight: 1.25, textShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>
+                  Offres Exclusives<br />Baskets & Équipements
+                </h2>
               </div>
 
+              <div style={{ flex: 1 }} />
+
               <Link
-                href="/dashboard"
+                href="/catalog?cat=sneakers"
                 style={{
-                  marginTop: 20,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  background: "rgba(255,255,255,0.1)",
-                  border: "1px solid rgba(255,255,255,0.18)",
-                  borderRadius: 12,
-                  padding: "13px 18px",
+                  zIndex: 2,
+                  background: "#0F172A",
+                  color: "#FFFFFF",
+                  borderRadius: 9999,
+                  padding: "13px 24px",
                   fontSize: 13.5,
                   fontWeight: 800,
-                  color: "#FFFFFF",
                   textDecoration: "none",
-                  transition: "background 0.2s",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
+                  boxShadow: "0 8px 20px rgba(0,0,0,0.3)"
                 }}
               >
-                <span>Suivre mon colis</span>
-                <ArrowRight style={{ width: 15, height: 15, opacity: 0.8 }} />
+                <span>Découvrir les offres</span>
+                <ArrowRight style={{ width: 15, height: 15 }} />
               </Link>
             </div>
 
           </div>
         </div>
       </section>
-      {/* POPULAR CATEGORIES */}
-      <section style={{ padding: "20px 0 30px" }}>
+
+      {/* POPULAR CATEGORIES SECTION */}
+      <section style={{ padding: "24px 0 32px" }}>
         <div className="container">
-          <div className="section-title-row">
-            <h2 className="section-title">Catégories Populaires Usines</h2>
-            <Link href="/catalog" className="view-all-link">
-              <span>Voir tout</span>
+          
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+            <h2 style={{ fontSize: 22, fontWeight: 800, color: "#0F172A", margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              Explorer les Catégories Populaires
+            </h2>
+            <Link href="/catalog" style={{ fontSize: 13, fontWeight: 700, color: "#165491", textDecoration: "none", display: "flex", alignItems: "center", gap: 3 }}>
+              <span>Voir Tout</span>
               <ChevronRight style={{ width: 14, height: 14 }} />
             </Link>
           </div>
 
-          <div className="categories-circle-row">
-            {categories.map((c, idx) => (
-              <Link key={idx} href={c.link} className="category-circle-card">
-                <div className="category-circle-box">
-                  <img src={c.img} alt="" />
-                </div>
-                <div className="category-circle-name">{c.name}</div>
-              </Link>
-            ))}
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <div ref={categoryRowRef} className="category-soft-pod-row" style={{ flex: 1 }}>
+              {softCategories.map((c, idx) => (
+                <Link key={idx} href={c.link} className="category-soft-pod">
+                  <div className="category-soft-circle">
+                    <img src={c.img} alt={c.name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                  </div>
+                  <span className="category-soft-label">{c.name}</span>
+                </Link>
+              ))}
+            </div>
+
+            {/* Circular Scroll Next Button */}
+            <button 
+              onClick={handleScrollNext} 
+              className="scroll-next-btn" 
+              aria-label="Catégories suivantes"
+              title="Faire défiler les catégories"
+            >
+              <ChevronRight style={{ width: 20, height: 20 }} />
+            </button>
           </div>
+
         </div>
       </section>
 
-      {/* TODAY'S BEST DEALS */}
-      <section style={{ padding: "20px 0 30px" }}>
+      {/* TODAY'S BEST DEALS FOR YOU SECTION */}
+      <section style={{ padding: "20px 0 40px" }}>
         <div className="container">
-          <div className="section-title-row">
-            <h2 className="section-title">Nouveautés & Offres Direct Usine</h2>
-            <Link href="/catalog" className="view-all-link">
-              <span>Voir tout</span>
+          
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+            <h2 style={{ fontSize: 22, fontWeight: 800, color: "#0F172A", margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              Les Meilleures Offres du Jour pour Vous !
+            </h2>
+            <Link href="/catalog" style={{ fontSize: 13, fontWeight: 700, color: "#165491", textDecoration: "none", display: "flex", alignItems: "center", gap: 3 }}>
+              <span>Voir Tout</span>
               <ChevronRight style={{ width: 14, height: 14 }} />
             </Link>
           </div>
 
           <div className="grid-5">
-            {featuredProducts.map((p) => {
-              const img = p.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
-              return (
-                <ProductCard
-                  key={p.id}
-                  id={p.id}
-                  title={p.name}
-                  price={`${p.price.toLocaleString()} ${p.currency}`}
-                  image={img}
-                  category={p.category?.name || "Général"}
-                  isDemo={p.is_demo}
-                />
-              );
-            })}
+            {todayDeals.map((p) => (
+              <ProductCard
+                key={p.id}
+                id={p.id}
+                title={p.title}
+                price={p.price}
+                oldPrice={p.oldPrice}
+                image={p.image}
+                category={p.category}
+              />
+            ))}
           </div>
+
         </div>
       </section>
 

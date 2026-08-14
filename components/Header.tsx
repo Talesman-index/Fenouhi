@@ -8,7 +8,7 @@ import Logo from "@/components/Logo";
 import { useMobileStore } from "@/lib/mobile-store";
 import { 
   Menu, X, Search, PlusCircle, Grid, User, LogIn, UserPlus, LogOut, FileText,
-  MapPin, ChevronDown, ChevronRight, Gift, Radio, Home, Package, 
+  MapPin, ChevronDown, ChevronRight, ArrowRight, Gift, Radio, Home, Package, 
   ShoppingBag, Download, Heart, Sparkles, Check, Plane
 } from "lucide-react";
 
@@ -285,53 +285,68 @@ export default function Header() {
         </div>
       </header>
 
-      {/* SUB NAV BAR WITH CATEGORIES & USEFUL FRENCH LINKS */}
+      {/* SUB NAV BAR WITH SOFT CATEGORIES & DEALS */}
       <nav className="subnav-bar" style={{ background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", padding: "10px 0" }}>
         <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           
-          <ul className="subnav-list" style={{ display: "flex", gap: 22, listStyle: "none", margin: 0, padding: 0, alignItems: "center" }}>
+          <ul className="subnav-list" style={{ display: "flex", gap: 18, listStyle: "none", margin: 0, padding: 0, alignItems: "center", overflowX: "auto" }}>
             <li>
-              <Link href="/categories" style={{ fontWeight: 900, color: "#0F172A", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
-                <Grid style={{ width: 15 }} /> Toutes les Catégories <ChevronDown style={{ width: 13 }} />
+              <Link href="/categories" style={{ fontWeight: 900, color: "#0F172A", fontSize: 12.5, display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>
+                <Grid style={{ width: 14 }} /> toutes les catégories <ChevronDown style={{ width: 12 }} />
+              </Link>
+            </li>
+            <li style={{ borderLeft: "1px solid #E2E8F0", height: 16, margin: "0 2px" }} />
+            <li>
+              <Link href="/catalog?cat=electronics" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
+                Électronique
               </Link>
             </li>
             <li>
-              <Link href="/catalog?cat=electronics" style={{ fontSize: 13, fontWeight: 700, color: pathname === "/catalog" ? "#165491" : "#475569" }}>
-                Électronique & High-Tech
+              <Link href="/catalog?cat=fashion" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
+                Mode
               </Link>
             </li>
             <li>
-              <Link href="/catalog?cat=fashion" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
-                Mode & Chaussures
+              <Link href="/catalog?cat=womens" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
+                Mode Femme
               </Link>
             </li>
             <li>
-              <Link href="/catalog?cat=home" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
-                Maison & Électroménager
+              <Link href="/catalog?cat=kids" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
+                Mode Enfant
               </Link>
             </li>
             <li>
-              <Link href="/catalog?cat=machinery" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
-                Machines & Outillage PME
+              <Link href="/catalog?cat=beauty" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
+                Beauté & Santé
               </Link>
             </li>
             <li>
-              <Link href="/catalog?cat=beauty" style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>
-                Beauté & Cosmétiques
+              <Link href="/catalog?cat=pharmacy" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
+                Pharmacie
               </Link>
             </li>
             <li>
-              <Link href="/checkout" style={{ fontSize: 13, fontWeight: 800, color: "#16A34A", display: "inline-flex", alignItems: "center", gap: 4 }}>
-                <Check style={{ width: 14, height: 14 }} />
-                <span>Fret & Livraison Bénin</span>
+              <Link href="/catalog?cat=groceries" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
+                Épicerie
+              </Link>
+            </li>
+            <li>
+              <Link href="/catalog?cat=luxury" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
+                Articles de Luxe
               </Link>
             </li>
           </ul>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 13, fontWeight: 800 }}>
-            <Link href="/quote-request" style={{ color: "var(--orange-primary)", display: "flex", alignItems: "center", gap: 4 }}>
-              <Gift style={{ width: 15 }} /> Demander un Devis
+          <div className="desktop-only" style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 12.5, fontWeight: 800, flexShrink: 0 }}>
+            <Link href="/catalog?deals=true" style={{ color: "#165491", display: "flex", alignItems: "center", gap: 5, textDecoration: "none" }}>
+              <Gift style={{ width: 14, height: 14 }} /> Offres Exclusives
             </Link>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "#F1F5F9", padding: "4px 10px", borderRadius: 9999, fontSize: 11.5, color: "#0F172A" }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#DC2626", display: "inline-block" }} />
+              <span style={{ fontWeight: 900 }}>CargoLink</span>
+              <span style={{ fontWeight: 600, color: "#64748B" }}>Live</span>
+            </div>
           </div>
 
         </div>
@@ -341,373 +356,342 @@ export default function Header() {
       <div 
         className={`mobile-drawer-overlay ${drawerOpen ? "active" : ""}`} 
         onClick={toggleDrawer}
-        style={{ backdropFilter: "blur(6px)" }}
+        style={{ backdropFilter: "blur(4px)" }}
       />
 
       <div 
         className={`mobile-nav-drawer ${drawerOpen ? "active" : ""}`}
         style={{
-          background: "#FAF7F2",
-          borderRight: "1px solid #EAE5DC",
-          boxShadow: "20px 0 50px rgba(15, 23, 42, 0.12)",
+          background: "#FFFFFF",
+          borderRight: "1px solid #F1F5F9",
+          boxShadow: "16px 0 48px rgba(15, 23, 42, 0.12)",
           display: "flex",
           flexDirection: "column",
-          width: 320,
-          maxWidth: "86vw",
+          width: 290,
+          maxWidth: "82vw",
           height: "100vh",
         }}
       >
-        {/* SOFT DRAWER HEADER */}
+        {/* CLEAN DRAWER HEADER */}
         <div 
           className="drawer-header" 
           style={{ 
-            padding: "16px 18px", 
+            padding: "16px 20px", 
             background: "#FFFFFF", 
-            borderBottom: "1px solid #EAE5DC", 
+            borderBottom: "1px solid #F1F5F9", 
             display: "flex", 
             alignItems: "center", 
             justifyContent: "space-between" 
           }}
         >
-          <Logo size={32} subtitleText="IMPORTATION DIRECTE BÉNIN" href={null} onClick={toggleDrawer} />
+          <Logo size={28} subtitleText="IMPORTATION DIRECTE BÉNIN" href={null} onClick={toggleDrawer} />
           <button 
             onClick={toggleDrawer} 
             className="drawer-close-btn"
             aria-label="Fermer le menu"
             style={{ 
-              background: "#F1F5F9", 
-              border: "1px solid #E2E8F0", 
-              color: "#0F172A", 
-              width: 34, 
-              height: 34, 
+              background: "transparent", 
+              border: "none", 
+              color: "#64748B", 
+              width: 32, 
+              height: 32, 
               borderRadius: "50%", 
               display: "flex", 
               alignItems: "center", 
               justifyContent: "center", 
               cursor: "pointer",
-              transition: "background 0.2s ease",
+              transition: "color 0.2s ease",
             }}
           >
-            <X style={{ width: 17, height: 17 }} />
+            <X style={{ width: 18, height: 18 }} />
           </button>
         </div>
 
-        {/* LOGGED IN USER ACCOUNT CARD BANNER */}
+        {/* LOGGED IN USER ACCOUNT ROW */}
         {isLoggedIn && (
           <Link
             href="/dashboard?tab=profile"
             onClick={toggleDrawer}
             style={{
-              background: "#FFFFFF",
-              padding: "14px 18px",
+              padding: "14px 20px",
               display: "flex",
               alignItems: "center",
               gap: 12,
-              borderBottom: "1px solid #EAE5DC",
+              borderBottom: "1px solid #F1F5F9",
               textDecoration: "none"
             }}
           >
-            <div style={{ width: 38, height: 38, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 14, flexShrink: 0, boxShadow: "0 3px 10px rgba(15,23,42,0.15)" }}>
+            <div style={{ width: 34, height: 34, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 13, flexShrink: 0 }}>
               {userProfile?.initials || "CD"}
             </div>
             <div style={{ minWidth: 0, flex: 1 }}>
-              <div style={{ fontWeight: 900, fontSize: 13.5, color: "#0F172A", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              <div style={{ fontWeight: 700, fontSize: 13.5, color: "#0F172A", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 {userProfile?.name || "Client Démo"}
               </div>
-              <div style={{ fontSize: 11, color: "#059669", fontWeight: 800 }}>
+              <div style={{ fontSize: 11, color: "#64748B", fontWeight: 500 }}>
                 {userProfile?.role || "Particulier"}
               </div>
             </div>
-            <ChevronRight style={{ width: 15, color: "#94A3B8" }} />
+            <ChevronRight style={{ width: 14, color: "#CBD5E1" }} />
           </Link>
         )}
 
-        {/* DRAWER NAVIGATION LIST */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "16px 16px 24px" }}>
+        {/* DRAWER CONTENT SCROLL AREA */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "16px 12px 24px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           
-          {/* SECTION: NAVIGATION PRINCIPALE */}
-          <div style={{ fontSize: 10.5, fontWeight: 900, color: "#94A3B8", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 10, paddingLeft: 4 }}>
-            Navigation & Services
-          </div>
+          <div>
+            {/* SECTION: NAVIGATION */}
+            <div style={{ fontSize: 10.5, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 8, paddingLeft: 8 }}>
+              Navigation
+            </div>
 
-          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
-            {/* 1. ACCUEIL */}
-            <li>
-              <Link 
-                href="/" 
-                onClick={toggleDrawer} 
-                style={{ 
-                  display: "flex", 
-                  alignItems: "center", 
-                  gap: 12, 
-                  padding: "10px 12px", 
-                  borderRadius: 14, 
-                  color: "#0F172A", 
-                  fontWeight: pathname === "/" ? 900 : 700, 
-                  fontSize: 13.5, 
-                  textDecoration: "none", 
-                  background: pathname === "/" ? "#FFFFFF" : "rgba(255, 255, 255, 0.6)", 
-                  border: pathname === "/" ? "1px solid #CBD5E1" : "1px solid rgba(226, 232, 240, 0.8)",
-                  boxShadow: pathname === "/" ? "0 2px 8px rgba(0,0,0,0.04)" : "none",
-                  transition: "all 0.18s ease"
-                }}
-              >
-                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#EFF6FF", color: "#1D4ED8", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Home style={{ width: 17, height: 17 }} />
-                </div>
-                <span>Accueil</span>
-                <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1", marginLeft: "auto" }} />
-              </Link>
-            </li>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 2 }}>
+              {/* 1. ACCUEIL */}
+              <li>
+                <Link 
+                  href="/" 
+                  onClick={toggleDrawer} 
+                  style={{ 
+                    display: "flex", 
+                    alignItems: "center", 
+                    gap: 12, 
+                    padding: "9px 10px", 
+                    borderRadius: 8, 
+                    color: pathname === "/" ? "#165491" : "#334155", 
+                    fontWeight: pathname === "/" ? 700 : 500, 
+                    fontSize: 13.5, 
+                    textDecoration: "none", 
+                    background: pathname === "/" ? "#F0F7FF" : "transparent",
+                    transition: "all 0.15s ease"
+                  }}
+                >
+                  <Home style={{ width: 18, height: 18, color: pathname === "/" ? "#165491" : "#64748B", flexShrink: 0 }} />
+                  <span>Accueil</span>
+                </Link>
+              </li>
 
-            {/* 2. FRET & LIVRAISON */}
-            <li>
-              <Link 
-                href="/checkout" 
-                onClick={toggleDrawer} 
-                style={{ 
-                  display: "flex", 
-                  alignItems: "center", 
-                  gap: 12, 
-                  padding: "10px 12px", 
-                  borderRadius: 14, 
-                  color: "#0F172A", 
-                  fontWeight: pathname === "/checkout" ? 900 : 700, 
-                  fontSize: 13.5, 
-                  textDecoration: "none", 
-                  background: "#FFFFFF", 
-                  border: "1px solid #E2E8F0",
-                  transition: "all 0.18s ease"
-                }}
-              >
-                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#ECFDF5", color: "#059669", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Plane style={{ width: 17, height: 17 }} />
-                </div>
-                <span>Fret & Livraison Bénin</span>
-                <span style={{ marginLeft: "auto", background: "#ECFDF5", color: "#059669", border: "1px solid #A7F3D0", fontSize: 10, fontWeight: 900, padding: "2px 7px", borderRadius: 9999 }}>DIRECT</span>
-              </Link>
-            </li>
+              {/* 2. FRET & LIVRAISON */}
+              <li>
+                <Link 
+                  href="/checkout" 
+                  onClick={toggleDrawer} 
+                  style={{ 
+                    display: "flex", 
+                    alignItems: "center", 
+                    gap: 12, 
+                    padding: "9px 10px", 
+                    borderRadius: 8, 
+                    color: pathname === "/checkout" ? "#165491" : "#334155", 
+                    fontWeight: pathname === "/checkout" ? 700 : 500, 
+                    fontSize: 13.5, 
+                    textDecoration: "none", 
+                    background: pathname === "/checkout" ? "#F0F7FF" : "transparent",
+                    transition: "all 0.15s ease"
+                  }}
+                >
+                  <Plane style={{ width: 18, height: 18, color: pathname === "/checkout" ? "#165491" : "#64748B", flexShrink: 0 }} />
+                  <span>Fret & Livraison Bénin</span>
+                </Link>
+              </li>
 
-            {/* 3. UNIVERS & CATEGORIES */}
-            <li>
-              <Link 
-                href="/categories" 
-                onClick={toggleDrawer} 
-                style={{ 
-                  display: "flex", 
-                  alignItems: "center", 
-                  gap: 12, 
-                  padding: "10px 12px", 
-                  borderRadius: 14, 
-                  color: "#0F172A", 
-                  fontWeight: pathname === "/categories" ? 900 : 700, 
-                  fontSize: 13.5, 
-                  textDecoration: "none", 
-                  background: "#FFFFFF", 
-                  border: "1px solid #E2E8F0",
-                  transition: "all 0.18s ease"
-                }}
-              >
-                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#EEF2FF", color: "#4F46E5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Grid style={{ width: 17, height: 17 }} />
-                </div>
-                <span>Univers & Catégories</span>
-                <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1", marginLeft: "auto" }} />
-              </Link>
-            </li>
+              {/* 3. UNIVERS & CATEGORIES */}
+              <li>
+                <Link 
+                  href="/categories" 
+                  onClick={toggleDrawer} 
+                  style={{ 
+                    display: "flex", 
+                    alignItems: "center", 
+                    gap: 12, 
+                    padding: "9px 10px", 
+                    borderRadius: 8, 
+                    color: pathname === "/categories" ? "#165491" : "#334155", 
+                    fontWeight: pathname === "/categories" ? 700 : 500, 
+                    fontSize: 13.5, 
+                    textDecoration: "none", 
+                    background: pathname === "/categories" ? "#F0F7FF" : "transparent",
+                    transition: "all 0.15s ease"
+                  }}
+                >
+                  <Grid style={{ width: 18, height: 18, color: pathname === "/categories" ? "#165491" : "#64748B", flexShrink: 0 }} />
+                  <span>Univers & Catégories</span>
+                </Link>
+              </li>
 
-            {/* 4. MON PANIER */}
-            <li>
-              <Link 
-                href="/cart" 
-                onClick={toggleDrawer} 
-                style={{ 
-                  display: "flex", 
-                  alignItems: "center", 
-                  gap: 12, 
-                  padding: "10px 12px", 
-                  borderRadius: 14, 
-                  color: "#0F172A", 
-                  fontWeight: pathname === "/cart" ? 900 : 700, 
-                  fontSize: 13.5, 
-                  textDecoration: "none", 
-                  background: "#FFFFFF", 
-                  border: "1px solid #E2E8F0",
-                  transition: "all 0.18s ease"
-                }}
-              >
-                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#F1F5F9", color: "#0F172A", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <ShoppingBag style={{ width: 17, height: 17 }} />
-                </div>
-                <span>Mon Panier</span>
-                {totalCartItems > 0 ? (
-                  <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFF", fontSize: 10, fontWeight: 900, padding: "2px 8px", borderRadius: 9999 }}>{totalCartItems}</span>
-                ) : (
-                  <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1", marginLeft: "auto" }} />
-                )}
-              </Link>
-            </li>
+              {/* 4. MON PANIER */}
+              <li>
+                <Link 
+                  href="/cart" 
+                  onClick={toggleDrawer} 
+                  style={{ 
+                    display: "flex", 
+                    alignItems: "center", 
+                    gap: 12, 
+                    padding: "9px 10px", 
+                    borderRadius: 8, 
+                    color: pathname === "/cart" ? "#165491" : "#334155", 
+                    fontWeight: pathname === "/cart" ? 700 : 500, 
+                    fontSize: 13.5, 
+                    textDecoration: "none", 
+                    background: pathname === "/cart" ? "#F0F7FF" : "transparent",
+                    transition: "all 0.15s ease"
+                  }}
+                >
+                  <ShoppingBag style={{ width: 18, height: 18, color: pathname === "/cart" ? "#165491" : "#64748B", flexShrink: 0 }} />
+                  <span>Mon Panier</span>
+                  {totalCartItems > 0 && (
+                    <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFF", fontSize: 10, fontWeight: 800, padding: "1px 7px", borderRadius: 9999 }}>{totalCartItems}</span>
+                  )}
+                </Link>
+              </li>
 
-            {/* 5. MES FAVORIS */}
-            <li>
-              <Link 
-                href="/favorites" 
-                onClick={toggleDrawer} 
-                style={{ 
-                  display: "flex", 
-                  alignItems: "center", 
-                  gap: 12, 
-                  padding: "10px 12px", 
-                  borderRadius: 14, 
-                  color: "#0F172A", 
-                  fontWeight: pathname === "/favorites" ? 900 : 700, 
-                  fontSize: 13.5, 
-                  textDecoration: "none", 
-                  background: "#FFFFFF", 
-                  border: "1px solid #E2E8F0",
-                  transition: "all 0.18s ease"
-                }}
-              >
-                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#FFF1F2", color: "#E11D48", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Heart style={{ width: 16, height: 16, fill: "#E11D48" }} />
-                </div>
-                <span>Mes Favoris</span>
-                <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1", marginLeft: "auto" }} />
-              </Link>
-            </li>
+              {/* 5. MES FAVORIS */}
+              <li>
+                <Link 
+                  href="/favorites" 
+                  onClick={toggleDrawer} 
+                  style={{ 
+                    display: "flex", 
+                    alignItems: "center", 
+                    gap: 12, 
+                    padding: "9px 10px", 
+                    borderRadius: 8, 
+                    color: pathname === "/favorites" ? "#165491" : "#334155", 
+                    fontWeight: pathname === "/favorites" ? 700 : 500, 
+                    fontSize: 13.5, 
+                    textDecoration: "none", 
+                    background: pathname === "/favorites" ? "#F0F7FF" : "transparent",
+                    transition: "all 0.15s ease"
+                  }}
+                >
+                  <Heart style={{ width: 18, height: 18, color: pathname === "/favorites" ? "#165491" : "#64748B", flexShrink: 0 }} />
+                  <span>Mes Favoris</span>
+                </Link>
+              </li>
+            </ul>
 
-            {/* 6. DEVIS SUR-MESURE */}
-            <li>
+            {/* HIGHLIGHTED SINGLE CTA: DEVIS SUR-MESURE */}
+            <div style={{ marginTop: 12, padding: "0 2px" }}>
               <Link 
                 href="/quote-request" 
                 onClick={toggleDrawer} 
                 style={{ 
                   display: "flex", 
                   alignItems: "center", 
-                  gap: 12, 
-                  padding: "10px 12px", 
-                  borderRadius: 14, 
-                  color: "#0F172A", 
-                  fontWeight: 800, 
+                  justifyContent: "space-between",
+                  gap: 10, 
+                  padding: "10px 14px", 
+                  borderRadius: 8, 
+                  color: "#FFFFFF", 
+                  fontWeight: 700, 
                   fontSize: 13.5, 
                   textDecoration: "none", 
-                  background: "#FFFBEB", 
-                  border: "1px solid #FDE68A",
-                  transition: "all 0.18s ease"
+                  background: "#0F172A",
+                  boxShadow: "0 4px 12px rgba(15, 23, 42, 0.12)",
+                  transition: "all 0.15s ease"
                 }}
               >
-                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#FEF3C7", color: "#D97706", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <PlusCircle style={{ width: 17, height: 17 }} />
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <PlusCircle style={{ width: 17, height: 17, color: "#F97316" }} />
+                  <span>Devis Sur-Mesure</span>
                 </div>
-                <span>Devis Sur-Mesure</span>
-                <span style={{ marginLeft: "auto", background: "#F59E0B", color: "#FFFFFF", fontSize: 9.5, fontWeight: 900, padding: "2px 7px", borderRadius: 9999 }}>PRO</span>
+                <ArrowRight style={{ width: 15, height: 15, opacity: 0.8 }} />
               </Link>
-            </li>
-
-            {/* 7. INSTALLER PWA */}
-            <li>
-              <button
-                onClick={() => {
-                  toggleDrawer();
-                  window.dispatchEvent(new CustomEvent("trigger-pwa-install"));
-                }}
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 12,
-                  padding: "10px 12px",
-                  borderRadius: 14,
-                  color: "#0F172A",
-                  fontWeight: 800,
-                  fontSize: 13.5,
-                  background: "#F0F9FF",
-                  border: "1px solid #BAE6FD",
-                  cursor: "pointer",
-                  textAlign: "left",
-                  transition: "all 0.18s ease"
-                }}
-              >
-                <div style={{ width: 34, height: 34, borderRadius: 10, background: "#E0F2FE", color: "#0284C7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Download style={{ width: 17, height: 17 }} />
-                </div>
-                <span>Installer l'App</span>
-                <span style={{ marginLeft: "auto", background: "#0284C7", color: "#FFFFFF", fontSize: 9.5, fontWeight: 900, padding: "2px 7px", borderRadius: 9999 }}>PWA</span>
-              </button>
-            </li>
-          </ul>
-
-          <div style={{ height: 1, background: "#EAE5DC", margin: "18px 0 14px" }} />
-
-          {/* SECTION: COMPTE & AUTH */}
-          <div style={{ fontSize: 10.5, fontWeight: 900, color: "#94A3B8", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 10, paddingLeft: 4 }}>
-            {isLoggedIn ? "Mon Espace Client" : "Espace Compte"}
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {isLoggedIn ? (
-              <>
-                <Link 
-                  href="/dashboard?tab=orders" 
-                  onClick={toggleDrawer}
-                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 12, color: "#0F172A", fontWeight: 700, fontSize: 13, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}
-                >
-                  <Package style={{ width: 16, color: "#165491", flexShrink: 0 }} />
-                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Mes Commandes</span>
-                  <span style={{ marginLeft: "auto", background: "#EFF6FF", color: "#1D4ED8", fontSize: 10, fontWeight: 900, padding: "2px 8px", borderRadius: 9999 }}>2</span>
-                </Link>
-
-                <Link 
-                  href="/dashboard?tab=quotes" 
-                  onClick={toggleDrawer}
-                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 12, color: "#0F172A", fontWeight: 700, fontSize: 13, textDecoration: "none", background: "#FFFFFF", border: "1px solid #E2E8F0" }}
-                >
-                  <FileText style={{ width: 16, color: "#D97706", flexShrink: 0 }} />
-                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Mes Devis</span>
-                  <span style={{ marginLeft: "auto", background: "#FEF3C7", color: "#92400E", fontSize: 10, fontWeight: 900, padding: "2px 8px", borderRadius: 9999 }}>1</span>
-                </Link>
-
-                <button 
-                  onClick={handleLogout}
-                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, width: "100%", padding: "10px 12px", borderRadius: 12, fontWeight: 800, fontSize: 12.5, background: "rgba(225, 29, 72, 0.06)", color: "#E11D48", border: "1px solid rgba(225, 29, 72, 0.18)", cursor: "pointer", marginTop: 2 }}
-                >
-                  <LogOut style={{ width: 15 }} /> Se Déconnecter
-                </button>
-              </>
-            ) : (
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                <Link 
-                  href="/auth/login" 
-                  onClick={toggleDrawer}
-                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "11px 8px", borderRadius: 12, fontWeight: 800, fontSize: 12.5, background: "#FFFFFF", color: "#0F172A", textDecoration: "none", border: "1px solid #E2E8F0", boxShadow: "0 1px 3px rgba(0,0,0,0.03)" }}
-                >
-                  <LogIn style={{ width: 15 }} /> Connexion
-                </Link>
-                <Link 
-                  href="/auth/sign-up" 
-                  onClick={toggleDrawer}
-                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "11px 8px", borderRadius: 12, fontWeight: 800, fontSize: 12.5, background: "#0F172A", color: "#FFF", textDecoration: "none", boxShadow: "0 2px 8px rgba(15,23,42,0.15)" }}
-                >
-                  <UserPlus style={{ width: 15 }} /> S'inscrire
-                </Link>
-              </div>
-            )}
-          </div>
-
-          <div style={{ height: 1, background: "#EAE5DC", margin: "16px 0" }} />
-
-          {/* DESTINATION PILL */}
-          <div style={{ background: "#FFFFFF", padding: "10px 14px", borderRadius: 12, border: "1px solid #EAE5DC", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, fontWeight: 800, color: "#0F172A" }}>
-              <MapPin style={{ width: 15, color: "#165491" }} /> Bénin (Cotonou)
             </div>
-            <span style={{ fontSize: 11, fontWeight: 900, color: "#16A34A", background: "#ECFDF5", padding: "2px 8px", borderRadius: 9999 }}>FCFA</span>
-          </div>
-        </div>
 
-        {/* SOFT DRAWER FOOTER */}
-        <div style={{ padding: "12px 16px", borderTop: "1px solid #EAE5DC", background: "#FFFFFF", textAlign: "center", fontSize: 11, fontWeight: 600, color: "#94A3B8" }}>
-          © CargoLink Africa — Importation Directe
+            <div style={{ height: 1, background: "#F1F5F9", margin: "16px 8px 12px" }} />
+
+            {/* SECTION: ESPACE CLIENT */}
+            <div style={{ fontSize: 10.5, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 6, paddingLeft: 8 }}>
+              {isLoggedIn ? "Mon Espace Client" : "Compte"}
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              {isLoggedIn ? (
+                <>
+                  <Link 
+                    href="/dashboard?tab=orders" 
+                    onClick={toggleDrawer}
+                    style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 10px", borderRadius: 8, color: "#334155", fontWeight: 500, fontSize: 13, textDecoration: "none" }}
+                  >
+                    <Package style={{ width: 18, height: 18, color: "#64748B", flexShrink: 0 }} />
+                    <span>Mes Commandes</span>
+                    <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFFFFF", fontSize: 9.5, fontWeight: 800, padding: "1px 6px", borderRadius: 9999 }}>2</span>
+                  </Link>
+
+                  <Link 
+                    href="/dashboard?tab=quotes" 
+                    onClick={toggleDrawer}
+                    style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 10px", borderRadius: 8, color: "#334155", fontWeight: 500, fontSize: 13, textDecoration: "none" }}
+                  >
+                    <FileText style={{ width: 18, height: 18, color: "#64748B", flexShrink: 0 }} />
+                    <span>Mes Devis</span>
+                    <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFFFFF", fontSize: 9.5, fontWeight: 900, padding: "1px 6px", borderRadius: 9999 }}>1</span>
+                  </Link>
+
+                  <button 
+                    onClick={handleLogout}
+                    style={{ display: "flex", alignItems: "center", gap: 12, width: "100%", padding: "9px 10px", borderRadius: 8, fontWeight: 500, fontSize: 12.5, color: "#94A3B8", background: "transparent", border: "none", cursor: "pointer", textAlign: "left", marginTop: 4 }}
+                  >
+                    <LogOut style={{ width: 16, height: 16 }} /> Se déconnecter
+                  </button>
+                </>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 4 }}>
+                  <Link 
+                    href="/auth/login" 
+                    onClick={toggleDrawer}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "9px 12px", borderRadius: 8, fontWeight: 700, fontSize: 13, background: "#F8FAFC", color: "#0F172A", textDecoration: "none", border: "1px solid #E2E8F0" }}
+                  >
+                    <LogIn style={{ width: 15 }} /> Connexion
+                  </Link>
+                  <Link 
+                    href="/auth/sign-up" 
+                    onClick={toggleDrawer}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "9px 12px", borderRadius: 8, fontWeight: 700, fontSize: 13, background: "#0F172A", color: "#FFF", textDecoration: "none" }}
+                  >
+                    <UserPlus style={{ width: 15 }} /> S'inscrire
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* BOTTOM DISCREET AREA */}
+          <div style={{ marginTop: 24, paddingTop: 14, borderTop: "1px solid #F1F5F9", display: "flex", flexDirection: "column", gap: 10 }}>
+            {/* PWA INSTALL ITEM (DISCREET) */}
+            <button
+              onClick={() => {
+                toggleDrawer();
+                window.dispatchEvent(new CustomEvent("trigger-pwa-install"));
+              }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "100%",
+                padding: "8px 10px",
+                borderRadius: 8,
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                textAlign: "left"
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 12.5, color: "#64748B", fontWeight: 500 }}>
+                <Download style={{ width: 16, height: 16, color: "#64748B" }} />
+                <span>Installer l'application</span>
+              </div>
+              <span style={{ fontSize: 11, fontWeight: 700, color: "#165491" }}>Installer</span>
+            </button>
+
+            {/* LOCATION & CURRENCY (VERY DISCREET) */}
+            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11.5, color: "#94A3B8", paddingLeft: 10 }}>
+              <MapPin style={{ width: 13, height: 13, color: "#94A3B8" }} />
+              <span>Bénin (Cotonou) • FCFA</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </>
