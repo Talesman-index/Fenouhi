@@ -11,7 +11,7 @@ const heroSlides = [
   {
     badge: "IMPORTATION DIRECTE CHINE",
     title: "iPhone 16 Pro Max",
-    priceTag: "À partir de 50 769 FCFA / mois*",
+    priceTag: "À partir de 695 000 FCFA*",
     subtitle: "Puce A18 Pro & Design Titane. Obtenez le nouvel iPhone au meilleur tarif usine avec livraison express à Cotonou.",
     btnText: "Commander l'iPhone",
     btnLink: "/catalog?q=iphone+16",
@@ -186,7 +186,7 @@ export default function HomePage() {
               {/* Bottom bar with French note, interactive pagination dots, and navigation controls */}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", marginTop: 24, zIndex: 2, position: "relative" }}>
                 <span style={{ fontSize: 11, color: "#94A3B8", fontWeight: 700 }}>
-                  *Toutes les offres incluses
+                  *Fret & dédouanement Cotonou inclus
                 </span>
                 
                 {/* Carousel Interactive Pagination Dots */}
