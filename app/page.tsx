@@ -5,66 +5,51 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { getPublicProducts } from "@/lib/supabase/catalog";
 import type { Product } from "@/types/catalog";
-import { Sparkles, ArrowRight, ChevronRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship } from "lucide-react";
+import { Sparkles, ArrowRight, ChevronLeft, ChevronRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship } from "lucide-react";
+
+const heroSlides = [
+  {
+    badge: "OFFRE EXCLUSIVE DE LANCEMENT",
+    title: "À partir de 50 769 FCFA*",
+    subtitle: "Puce A18 Pro. Ultra-rapide & ultra-intelligent. Baisse de prix historique en importation directe.",
+    btnText: "Acheter Maintenant",
+    btnLink: "/catalog?q=iphone+16",
+    imgSrc: "/images/assets/hero_iphone16.png",
+    bgGradient: "linear-gradient(135deg, #130D2B 0%, #201740 50%, #0F172A 100%)"
+  },
+  {
+    badge: "LOGISTIQUE DIRECTE CHINE-BÉNIN",
+    title: "Fret Aérien Express 5-8 Jours",
+    subtitle: "Sourcing direct usines à Canton, Yiwu & Shenzhen. Fret Aérien ou Maritime groupé sans frais cachés.",
+    btnText: "Demander un Devis",
+    btnLink: "/quote-request",
+    imgSrc: "/images/assets/hero_box.png",
+    bgGradient: "linear-gradient(135deg, #0A192F 0%, #0F3B5F 50%, #165491 100%)"
+  },
+  {
+    badge: "VENTES FLASH & SOLDES D'USINE",
+    title: "Jusqu'à -50% sur le Sourcing",
+    subtitle: "Électronique, Smartphones, Mode & Électroménager certifiés en direct des plus grands fabricants.",
+    btnText: "Découvrir les Offres",
+    btnLink: "/catalog",
+    imgSrc: "/images/assets/hero_samsung.png",
+    bgGradient: "linear-gradient(135deg, #2D0B33 0%, #5B125E 50%, #0F172A 100%)"
+  }
+];
 
 export default function HomePage() {
   const [searchUrl, setSearchUrl] = useState("");
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [recentProducts, setRecentProducts] = useState<Product[]>([]);
-  const [heroSlide, setHeroSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const categoryRowRef = React.useRef<HTMLDivElement>(null);
-
-  const heroSlides = [
-    {
-      badge: "iPhone 16 Pro Max",
-      title: "À partir de 50 769 FCFA*",
-      subtitle: "Puce A18 Pro. Ultra-rapide. Ultra-intelligent. Historique, la plus forte baisse de prix.",
-      ctaText: "Acheter Maintenant",
-      ctaLink: "/catalog?q=iphone+16",
-      img: "/images/assets/hero_iphone16.png",
-      bgGradient: "linear-gradient(135deg, #1E1B4B 0%, #0F172A 100%)",
-      imgStyle: { height: "115%", width: "auto", objectFit: "contain" as const, transform: "translate(5%, 6%)", filter: "drop-shadow(-20px 20px 40px rgba(0,0,0,0.6))" }
-    },
-    {
-      badge: "High-Tech & Son Studio",
-      title: "Écouteurs & Casques Hi-Fi",
-      subtitle: "Réduction de bruit active ANC, audio spatial et son pur. Tarif usine Chine direct.",
-      ctaText: "Découvrir la High-Tech",
-      ctaLink: "/catalog?cat=electronics",
-      img: "/images/assets/cat_electronics_v2.jpg",
-      bgGradient: "linear-gradient(135deg, #0F172A 0%, #0369A1 100%)",
-      imgStyle: { height: "92%", width: "auto", objectFit: "cover" as const, borderRadius: 20, transform: "translate(-6%, 4%)", filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.5))" }
-    },
-    {
-      badge: "Collection Streetwear & Sport",
-      title: "Sneakers Usine Premium",
-      subtitle: "Les paires les plus recherchées de la saison livrées directement à Cotonou.",
-      ctaText: "Explorer la Mode",
-      ctaLink: "/catalog?cat=sneakers",
-      img: "/images/assets/cat_sneakers.jpg",
-      bgGradient: "linear-gradient(135deg, #4C0519 0%, #0F172A 100%)",
-      imgStyle: { height: "92%", width: "auto", objectFit: "cover" as const, borderRadius: 20, transform: "translate(-6%, 4%)", filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.5))" }
-    },
-    {
-      badge: "Maroquinerie & Accessoires",
-      title: "Sacs de Luxe Designer",
-      subtitle: "Finitions d'exception et cuir haut de gamme. Commande en gros & à l'unité.",
-      ctaText: "Voir les Articles Luxe",
-      ctaLink: "/catalog?cat=luxury",
-      img: "/images/assets/cat_luxury.jpg",
-      bgGradient: "linear-gradient(135deg, #312E81 0%, #0F172A 100%)",
-      imgStyle: { height: "92%", width: "auto", objectFit: "cover" as const, borderRadius: 20, transform: "translate(-6%, 4%)", filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.5))" }
-    }
-  ];
-
-  const currentSlide = heroSlides[heroSlide];
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setHeroSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 4500);
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
     return () => clearInterval(timer);
-  }, [heroSlides.length]);
+  }, []);
 
   const handleScrollNext = () => {
     if (categoryRowRef.current) {
@@ -132,30 +117,29 @@ export default function HomePage() {
         <div className="container">
           <div className="soft-hero-grid">
 
-            {/* CARD 1: MAIN HERO BANNER (AUTOPLAYING SLIDER WITH CLICKABLE DOTS) */}
+            {/* CARD 1: DYNAMIC SLIDER CAROUSEL BANNER */}
             <div 
               className="soft-banner-main" 
               style={{ 
                 position: "relative", 
                 overflow: "hidden",
-                background: currentSlide.bgGradient,
-                transition: "background 0.6s ease-in-out"
+                background: heroSlides[currentSlide].bgGradient,
+                transition: "background 0.6s ease"
               }}
             >
-              
               {/* Left text & CTAs */}
-              <div key={`text-${heroSlide}`} style={{ zIndex: 2, maxWidth: 440, position: "relative", animation: "fadeInSlide 0.4s ease" }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.02em" }}>
-                  {currentSlide.badge}
+              <div style={{ zIndex: 2, maxWidth: 440, position: "relative" }}>
+                <span style={{ fontSize: 12, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                  {heroSlides[currentSlide].badge}
                 </span>
-                <h1 style={{ fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 800, color: "#FFFFFF", margin: "8px 0 10px", lineHeight: 1.15, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                  {currentSlide.title}
+                <h1 style={{ fontSize: "clamp(24px, 3.2vw, 38px)", fontWeight: 800, color: "#FFFFFF", margin: "8px 0 10px", lineHeight: 1.15, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  {heroSlides[currentSlide].title}
                 </h1>
                 <p style={{ fontSize: 13, color: "#CBD5E1", lineHeight: 1.5, margin: "0 0 24px" }}>
-                  {currentSlide.subtitle}
+                  {heroSlides[currentSlide].subtitle}
                 </p>
                 <Link
-                  href={currentSlide.ctaLink}
+                  href={heroSlides[currentSlide].btnLink}
                   style={{
                     background: "#0F172A",
                     color: "#FFFFFF",
@@ -171,48 +155,96 @@ export default function HomePage() {
                     transition: "transform 0.2s ease"
                   }}
                 >
-                  <span>{currentSlide.ctaText}</span>
-                  <ArrowRight style={{ width: 15, height: 15 }} />
+                  <span>{heroSlides[currentSlide].btnText}</span>
+                  <ArrowRight style={{ width: 16, height: 16 }} />
                 </Link>
               </div>
 
-              {/* Full Right Side Seamless Product Visual */}
-              <div key={`img-${heroSlide}`} style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "55%", pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "flex-end", animation: "fadeInSlide 0.4s ease" }}>
+              {/* Seamless 3D Visual overlay on the right */}
+              <div style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "55%", pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
                 <img
-                  src={currentSlide.img}
-                  alt={currentSlide.title}
-                  style={currentSlide.imgStyle}
+                  key={currentSlide}
+                  src={heroSlides[currentSlide].imgSrc}
+                  alt={heroSlides[currentSlide].title}
+                  style={{ 
+                    height: "110%", 
+                    width: "auto", 
+                    objectFit: "contain", 
+                    transform: "translate(5%, 4%)", 
+                    filter: "drop-shadow(-20px 20px 40px rgba(0,0,0,0.6))",
+                    transition: "all 0.5s ease"
+                  }}
                 />
               </div>
 
-              {/* Bottom footer bar with French note and CLICKABLE pagination dots */}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", marginTop: 24, zIndex: 3, position: "relative" }}>
+              {/* Bottom bar with French note, interactive pagination dots, and navigation controls */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", marginTop: 24, zIndex: 2, position: "relative" }}>
                 <span style={{ fontSize: 11, color: "#94A3B8", fontWeight: 700 }}>
                   *Toutes les offres incluses
                 </span>
                 
-                {/* Clickable Carousel Pagination Dots */}
+                {/* Carousel Interactive Pagination Dots */}
                 <div style={{ display: "flex", gap: 8, alignItems: "center", background: "rgba(255,255,255,0.12)", backdropFilter: "blur(6px)", padding: "6px 14px", borderRadius: 9999 }}>
                   {heroSlides.map((_, idx) => (
                     <button
                       key={idx}
-                      onClick={() => setHeroSlide(idx)}
-                      aria-label={`Slide ${idx + 1}`}
+                      onClick={() => setCurrentSlide(idx)}
+                      aria-label={`Aller au slide ${idx + 1}`}
                       style={{
-                        padding: 0,
                         border: "none",
+                        padding: 0,
                         cursor: "pointer",
-                        width: heroSlide === idx ? 22 : 8,
-                        height: 8,
+                        width: currentSlide === idx ? 18 : 7,
+                        height: 7,
                         borderRadius: 9999,
-                        background: heroSlide === idx ? "#FFFFFF" : "rgba(255,255,255,0.4)",
-                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                        background: currentSlide === idx ? "#FFFFFF" : "rgba(255,255,255,0.35)",
+                        transition: "all 0.3s ease"
                       }}
                     />
                   ))}
                 </div>
 
-                <div style={{ width: 80 }} />
+                {/* Left / Right Carousel Controls */}
+                <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                  <button
+                    onClick={() => setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
+                    aria-label="Slide précédent"
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: "50%",
+                      background: "rgba(255,255,255,0.15)",
+                      border: "none",
+                      color: "#FFFFFF",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                      transition: "background 0.2s"
+                    }}
+                  >
+                    <ChevronLeft style={{ width: 15, height: 15 }} />
+                  </button>
+                  <button
+                    onClick={() => setCurrentSlide((prev) => (prev + 1) % heroSlides.length)}
+                    aria-label="Slide suivant"
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: "50%",
+                      background: "rgba(255,255,255,0.15)",
+                      border: "none",
+                      color: "#FFFFFF",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                      transition: "background 0.2s"
+                    }}
+                  >
+                    <ChevronRight style={{ width: 15, height: 15 }} />
+                  </button>
+                </div>
               </div>
             </div>
 
