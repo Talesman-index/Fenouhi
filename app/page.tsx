@@ -11,7 +11,60 @@ export default function HomePage() {
   const [searchUrl, setSearchUrl] = useState("");
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+  const [heroSlide, setHeroSlide] = useState(0);
   const categoryRowRef = React.useRef<HTMLDivElement>(null);
+
+  const heroSlides = [
+    {
+      badge: "iPhone 16 Pro Max",
+      title: "À partir de 50 769 FCFA*",
+      subtitle: "Puce A18 Pro. Ultra-rapide. Ultra-intelligent. Historique, la plus forte baisse de prix.",
+      ctaText: "Acheter Maintenant",
+      ctaLink: "/catalog?q=iphone+16",
+      img: "/images/assets/hero_iphone16.png",
+      bgGradient: "linear-gradient(135deg, #1E1B4B 0%, #0F172A 100%)",
+      imgStyle: { height: "115%", width: "auto", objectFit: "contain" as const, transform: "translate(5%, 6%)", filter: "drop-shadow(-20px 20px 40px rgba(0,0,0,0.6))" }
+    },
+    {
+      badge: "High-Tech & Son Studio",
+      title: "Écouteurs & Casques Hi-Fi",
+      subtitle: "Réduction de bruit active ANC, audio spatial et son pur. Tarif usine Chine direct.",
+      ctaText: "Découvrir la High-Tech",
+      ctaLink: "/catalog?cat=electronics",
+      img: "/images/assets/cat_electronics_v2.jpg",
+      bgGradient: "linear-gradient(135deg, #0F172A 0%, #0369A1 100%)",
+      imgStyle: { height: "92%", width: "auto", objectFit: "cover" as const, borderRadius: 20, transform: "translate(-6%, 4%)", filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.5))" }
+    },
+    {
+      badge: "Collection Streetwear & Sport",
+      title: "Sneakers Usine Premium",
+      subtitle: "Les paires les plus recherchées de la saison livrées directement à Cotonou.",
+      ctaText: "Explorer la Mode",
+      ctaLink: "/catalog?cat=sneakers",
+      img: "/images/assets/cat_sneakers.jpg",
+      bgGradient: "linear-gradient(135deg, #4C0519 0%, #0F172A 100%)",
+      imgStyle: { height: "92%", width: "auto", objectFit: "cover" as const, borderRadius: 20, transform: "translate(-6%, 4%)", filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.5))" }
+    },
+    {
+      badge: "Maroquinerie & Accessoires",
+      title: "Sacs de Luxe Designer",
+      subtitle: "Finitions d'exception et cuir haut de gamme. Commande en gros & à l'unité.",
+      ctaText: "Voir les Articles Luxe",
+      ctaLink: "/catalog?cat=luxury",
+      img: "/images/assets/cat_luxury.jpg",
+      bgGradient: "linear-gradient(135deg, #312E81 0%, #0F172A 100%)",
+      imgStyle: { height: "92%", width: "auto", objectFit: "cover" as const, borderRadius: 20, transform: "translate(-6%, 4%)", filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.5))" }
+    }
+  ];
+
+  const currentSlide = heroSlides[heroSlide];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHeroSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [heroSlides.length]);
 
   const handleScrollNext = () => {
     if (categoryRowRef.current) {
@@ -79,22 +132,30 @@ export default function HomePage() {
         <div className="container">
           <div className="soft-hero-grid">
 
-            {/* CARD 1: MAIN IPHONE HERO BANNER */}
-            <div className="soft-banner-main" style={{ position: "relative", overflow: "hidden" }}>
+            {/* CARD 1: MAIN HERO BANNER (AUTOPLAYING SLIDER WITH CLICKABLE DOTS) */}
+            <div 
+              className="soft-banner-main" 
+              style={{ 
+                position: "relative", 
+                overflow: "hidden",
+                background: currentSlide.bgGradient,
+                transition: "background 0.6s ease-in-out"
+              }}
+            >
               
               {/* Left text & CTAs */}
-              <div style={{ zIndex: 2, maxWidth: 440, position: "relative" }}>
+              <div key={`text-${heroSlide}`} style={{ zIndex: 2, maxWidth: 440, position: "relative", animation: "fadeInSlide 0.4s ease" }}>
                 <span style={{ fontSize: 13, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.02em" }}>
-                  iPhone 16 Pro Max
+                  {currentSlide.badge}
                 </span>
                 <h1 style={{ fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 800, color: "#FFFFFF", margin: "8px 0 10px", lineHeight: 1.15, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                  À partir de 50 769 FCFA*
+                  {currentSlide.title}
                 </h1>
                 <p style={{ fontSize: 13, color: "#CBD5E1", lineHeight: 1.5, margin: "0 0 24px" }}>
-                  Puce A18. Ultra-rapide. Ultra-intelligent.<br />Historique, la plus forte baisse de prix.
+                  {currentSlide.subtitle}
                 </p>
                 <Link
-                  href="/catalog?q=iphone+16"
+                  href={currentSlide.ctaLink}
                   style={{
                     background: "#0F172A",
                     color: "#FFFFFF",
@@ -110,31 +171,45 @@ export default function HomePage() {
                     transition: "transform 0.2s ease"
                   }}
                 >
-                  <span>Acheter Maintenant</span>
+                  <span>{currentSlide.ctaText}</span>
+                  <ArrowRight style={{ width: 15, height: 15 }} />
                 </Link>
               </div>
 
-              {/* Full Right Side Seamless iPhone Visual (No inner box border) */}
-              <div style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "55%", pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+              {/* Full Right Side Seamless Product Visual */}
+              <div key={`img-${heroSlide}`} style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "55%", pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "flex-end", animation: "fadeInSlide 0.4s ease" }}>
                 <img
-                  src="/images/assets/hero_iphone16.png"
-                  alt="iPhone 16 Pro Max"
-                  style={{ height: "115%", width: "auto", objectFit: "contain", transform: "translate(5%, 6%)", filter: "drop-shadow(-20px 20px 40px rgba(0,0,0,0.6))" }}
+                  src={currentSlide.img}
+                  alt={currentSlide.title}
+                  style={currentSlide.imgStyle}
                 />
               </div>
 
-              {/* Bottom footer bar with French note and dots */}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", marginTop: 24, zIndex: 2, position: "relative" }}>
+              {/* Bottom footer bar with French note and CLICKABLE pagination dots */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", marginTop: 24, zIndex: 3, position: "relative" }}>
                 <span style={{ fontSize: 11, color: "#94A3B8", fontWeight: 700 }}>
                   *Toutes les offres incluses
                 </span>
                 
-                {/* Carousel Pagination Dots */}
-                <div style={{ display: "flex", gap: 6, alignItems: "center", background: "rgba(255,255,255,0.1)", padding: "5px 12px", borderRadius: 9999 }}>
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#475569" }} />
-                  <span style={{ width: 14, height: 6, borderRadius: 9999, background: "#0F172A" }} />
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#475569" }} />
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#475569" }} />
+                {/* Clickable Carousel Pagination Dots */}
+                <div style={{ display: "flex", gap: 8, alignItems: "center", background: "rgba(255,255,255,0.12)", backdropFilter: "blur(6px)", padding: "6px 14px", borderRadius: 9999 }}>
+                  {heroSlides.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setHeroSlide(idx)}
+                      aria-label={`Slide ${idx + 1}`}
+                      style={{
+                        padding: 0,
+                        border: "none",
+                        cursor: "pointer",
+                        width: heroSlide === idx ? 22 : 8,
+                        height: 8,
+                        borderRadius: 9999,
+                        background: heroSlide === idx ? "#FFFFFF" : "rgba(255,255,255,0.4)",
+                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                      }}
+                    />
+                  ))}
                 </div>
 
                 <div style={{ width: 80 }} />
