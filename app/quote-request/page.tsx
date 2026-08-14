@@ -210,12 +210,12 @@ function QuoteRequestContent() {
   return (
     <div style={{ background: "#F8FAFC", minHeight: "100vh", paddingBottom: 80, fontFamily: "var(--font-body), 'Plus Jakarta Sans', sans-serif" }}>
       
-      {/* SOBRE HERO HEADER WITH CARGOLINK NAVY */}
+      {/* RICH CARGOLINK HERO HEADER */}
       <header
         style={{
-          background: "linear-gradient(135deg, #0F172A 0%, #162438 100%)",
+          background: "linear-gradient(135deg, #0F172A 0%, #162438 60%, #1E293B 100%)",
           color: "#FFFFFF",
-          padding: "52px 0 64px",
+          padding: "56px 0 68px",
           position: "relative",
           overflow: "hidden",
         }}
@@ -223,14 +223,13 @@ function QuoteRequestContent() {
         <div className="container" style={{ maxWidth: 1140, margin: "0 auto", padding: "0 20px", textAlign: "center", position: "relative", zIndex: 2 }}>
           
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#94A3B8", marginBottom: 14 }}>
-            <span>SOURCING DIRECT CHINE ➔ BÉNIN</span>
-            <span>•</span>
-            <span>RÉPONSE SOUS 2H</span>
+            <MapPin style={{ width: 14, height: 14, color: "#38BDF8" }} />
+            <span>Chine (Canton / Yiwu) ➔ Bénin (Cotonou & Régions)</span>
           </div>
 
           <h1
             style={{
-              fontSize: "clamp(26px, 3.6vw, 42px)",
+              fontSize: "clamp(26px, 3.8vw, 44px)",
               fontWeight: 800,
               color: "#FFFFFF",
               margin: "0 0 14px",
@@ -244,7 +243,7 @@ function QuoteRequestContent() {
             style={{
               fontSize: 15,
               color: "#CBD5E1",
-              maxWidth: 640,
+              maxWidth: 680,
               margin: "0 auto 32px",
               lineHeight: 1.6,
             }}
@@ -258,8 +257,8 @@ function QuoteRequestContent() {
               display: "inline-flex",
               alignItems: "center",
               gap: 16,
-              background: "rgba(255, 255, 255, 0.05)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
+              background: "rgba(255, 255, 255, 0.06)",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
               padding: "10px 24px",
               borderRadius: 9999,
               fontSize: 13,
@@ -270,17 +269,17 @@ function QuoteRequestContent() {
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#FFFFFF", fontWeight: 700 }}>
-              <span style={{ width: 20, height: 20, borderRadius: "50%", background: "#165491", color: "#FFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>1</span>
+              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#165491", color: "#FFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>1</span>
               <span>Produit & Quantité</span>
             </div>
             <ChevronRight style={{ width: 14, height: 14, color: "#64748B" }} />
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>2</span>
+              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>2</span>
               <span>Transport & Options</span>
             </div>
             <ChevronRight style={{ width: 14, height: 14, color: "#64748B" }} />
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>3</span>
+              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>3</span>
               <span>Devis & Validation</span>
             </div>
           </div>
@@ -297,7 +296,7 @@ function QuoteRequestContent() {
             <div
               style={{
                 background: "#FFFFFF",
-                borderRadius: 16,
+                borderRadius: 20,
                 padding: "48px 32px",
                 textAlign: "center",
                 border: "1px solid #F1F5F9",
@@ -439,8 +438,8 @@ function QuoteRequestContent() {
               </div>
             </div>
           ) : (
-            /* FORM & ESTIMATOR GRID */
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 28, alignItems: "start" }}>
+            /* RESPONSIVE FORM & ESTIMATOR LAYOUT GRID */
+            <div className="quote-main-layout">
               
               {/* LEFT FORM COLUMN */}
               <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
@@ -450,38 +449,38 @@ function QuoteRequestContent() {
                   <div
                     style={{
                       background: "#FFFFFF",
-                      borderRadius: 12,
-                      padding: "18px 20px",
+                      borderRadius: 14,
+                      padding: "20px 24px",
                       border: "1px solid #165491",
                       display: "flex",
-                      gap: 16,
+                      gap: 18,
                       alignItems: "center",
                     }}
                   >
                     <img
                       src={selectedProduct.images?.[0]?.public_image_url || "/images/assets/item_1.jpg"}
                       alt={selectedProduct.name}
-                      style={{ width: 72, height: 72, borderRadius: 8, objectFit: "cover", background: "#F8FAFC", border: "1px solid #F1F5F9", flexShrink: 0 }}
+                      style={{ width: 76, height: 76, borderRadius: 10, objectFit: "cover", background: "#F8FAFC", border: "1px solid #F1F5F9", flexShrink: 0 }}
                     />
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 10.5, fontWeight: 700, color: "#165491", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 2 }}>
-                        Produit du catalogue sélectionné
+                      <div style={{ fontSize: 10.5, fontWeight: 700, color: "#165491", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 3 }}>
+                        Produit sélectionné du catalogue
                       </div>
-                      <h3 style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", margin: "0 0 4px" }}>
+                      <h3 style={{ fontSize: 15.5, fontWeight: 700, color: "#0F172A", margin: "0 0 4px" }}>
                         {selectedProduct.name}
                       </h3>
-                      <div style={{ fontSize: 13, color: "#165491", fontWeight: 700 }}>
+                      <div style={{ fontSize: 13.5, color: "#165491", fontWeight: 700 }}>
                         {selectedProduct.price.toLocaleString()} FCFA <span style={{ fontSize: 12, color: "#64748B", fontWeight: 500 }}>/ unité (min. {selectedProduct.minimum_order_quantity || 1}u)</span>
                       </div>
                     </div>
                   </div>
                 ) : (
                   /* QUICK PRESETS BANNER */
-                  <div style={{ background: "#FFFFFF", borderRadius: 12, padding: "16px 20px", border: "1px solid #F1F5F9" }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 8 }}>
+                  <div style={{ background: "#FFFFFF", borderRadius: 14, padding: "18px 24px", border: "1px solid #F1F5F9" }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 10 }}>
                       Exemples de produits (cliquez pour remplir) :
                     </div>
-                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                       {PRESET_CATEGORIES.map((cat) => (
                         <button
                           key={cat.label}
@@ -493,8 +492,8 @@ function QuoteRequestContent() {
                             }))
                           }
                           style={{
-                            padding: "5px 10px",
-                            borderRadius: 6,
+                            padding: "6px 12px",
+                            borderRadius: 8,
                             border: "1px solid #E2E8F0",
                             background: "#F8FAFC",
                             fontSize: 12,
@@ -515,26 +514,18 @@ function QuoteRequestContent() {
                   </div>
                 )}
 
-                {/* FORM CONTAINER */}
-                <div
-                  style={{
-                    background: "#FFFFFF",
-                    borderRadius: 16,
-                    padding: "32px",
-                    border: "1px solid #F1F5F9",
-                    boxShadow: "0 10px 30px rgba(15, 23, 42, 0.03)",
-                  }}
-                >
+                {/* FORM CONTAINER WITH RESPONSIVE PADDING */}
+                <div className="quote-form-container">
                   <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 32 }}>
                     
                     {/* SECTION 1: PRODUCT & QUANTITY */}
                     <div>
-                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 16, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
-                        <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>1</span>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 18, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
+                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>1</span>
                         <span>Produit & Quantité Souhaitée</span>
                       </div>
 
-                      <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                         <div>
                           <label style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
                             Lien du produit ou description détaillée *
@@ -553,9 +544,9 @@ function QuoteRequestContent() {
                             }
                             style={{
                               width: "100%",
-                              padding: "12px 14px",
+                              padding: "13px 16px",
                               fontSize: 13.5,
-                              borderRadius: 8,
+                              borderRadius: 10,
                               border: "1px solid #E2E8F0",
                               background: "#FFFFFF",
                               color: "#0F172A",
@@ -565,12 +556,12 @@ function QuoteRequestContent() {
                           />
                         </div>
 
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                        <div className="quote-field-row-2">
                           <div>
                             <label style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
                               Quantité (unités) *
                             </label>
-                            <div style={{ display: "flex", alignItems: "center", border: "1px solid #E2E8F0", borderRadius: 8, overflow: "hidden", background: "#FFFFFF" }}>
+                            <div style={{ display: "flex", alignItems: "center", border: "1px solid #E2E8F0", borderRadius: 10, overflow: "hidden", background: "#FFFFFF" }}>
                               <button
                                 type="button"
                                 onClick={() =>
@@ -582,7 +573,7 @@ function QuoteRequestContent() {
                                     ),
                                   }))
                                 }
-                                style={{ width: 40, height: 42, background: "#F8FAFC", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 16, color: "#0F172A" }}
+                                style={{ width: 44, height: 44, background: "#F8FAFC", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 16, color: "#0F172A" }}
                               >
                                 -
                               </button>
@@ -597,7 +588,7 @@ function QuoteRequestContent() {
                                     quantity: parseInt(e.target.value) || 1,
                                   })
                                 }
-                                style={{ width: "100%", height: 42, border: "none", textAlign: "center", fontWeight: 700, fontSize: 15, outline: "none", color: "#0F172A" }}
+                                style={{ width: "100%", height: 44, border: "none", textAlign: "center", fontWeight: 700, fontSize: 15, outline: "none", color: "#0F172A" }}
                               />
                               <button
                                 type="button"
@@ -607,7 +598,7 @@ function QuoteRequestContent() {
                                     quantity: prev.quantity + (prev.quantity < 50 ? 1 : 10),
                                   }))
                                 }
-                                style={{ width: 40, height: 42, background: "#F8FAFC", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 16, color: "#0F172A" }}
+                                style={{ width: 44, height: 44, background: "#F8FAFC", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 16, color: "#0F172A" }}
                               >
                                 +
                               </button>
@@ -624,9 +615,9 @@ function QuoteRequestContent() {
                                 alignItems: "center",
                                 justifyContent: "center",
                                 gap: 8,
-                                height: 42,
+                                height: 44,
                                 border: "1px dashed #CBD5E1",
-                                borderRadius: 8,
+                                borderRadius: 10,
                                 background: "#F8FAFC",
                                 cursor: "pointer",
                                 fontSize: 12.5,
@@ -648,18 +639,18 @@ function QuoteRequestContent() {
 
                     {/* SECTION 2: SHIPPING MODE */}
                     <div>
-                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 16, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
-                        <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>2</span>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 18, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
+                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>2</span>
                         <span>Mode de Transport & Destination</span>
                       </div>
 
-                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+                      <div className="quote-shipping-grid" style={{ marginBottom: 18 }}>
                         {/* AIR */}
                         <div
                           onClick={() => setFormData({ ...formData, shippingMode: "air" })}
                           style={{
-                            padding: "14px 16px",
-                            borderRadius: 10,
+                            padding: "16px 18px",
+                            borderRadius: 12,
                             border: formData.shippingMode === "air" ? "2px solid #165491" : "1px solid #E2E8F0",
                             background: formData.shippingMode === "air" ? "#F0F7FF" : "#FFFFFF",
                             cursor: "pointer",
@@ -668,7 +659,7 @@ function QuoteRequestContent() {
                         >
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, fontSize: 13.5, color: "#0F172A" }}>
-                              <Plane style={{ width: 17, height: 17, color: "#165491" }} />
+                              <Plane style={{ width: 18, height: 18, color: "#165491" }} />
                               <span>Fret Aérien Express</span>
                             </div>
                             <span style={{ fontSize: 10, fontWeight: 700, color: "#165491", background: "#E0F2FE", padding: "1px 6px", borderRadius: 4 }}>5–12 Jours</span>
@@ -682,8 +673,8 @@ function QuoteRequestContent() {
                         <div
                           onClick={() => setFormData({ ...formData, shippingMode: "sea" })}
                           style={{
-                            padding: "14px 16px",
-                            borderRadius: 10,
+                            padding: "16px 18px",
+                            borderRadius: 12,
                             border: formData.shippingMode === "sea" ? "2px solid #165491" : "1px solid #E2E8F0",
                             background: formData.shippingMode === "sea" ? "#F0F7FF" : "#FFFFFF",
                             cursor: "pointer",
@@ -692,7 +683,7 @@ function QuoteRequestContent() {
                         >
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, fontSize: 13.5, color: "#0F172A" }}>
-                              <Ship style={{ width: 17, height: 17, color: "#165491" }} />
+                              <Ship style={{ width: 18, height: 18, color: "#165491" }} />
                               <span>Fret Maritime Groupé</span>
                             </div>
                             <span style={{ fontSize: 10, fontWeight: 700, color: "#059669", background: "#ECFDF5", padding: "1px 6px", borderRadius: 4 }}>Économique</span>
@@ -712,9 +703,9 @@ function QuoteRequestContent() {
                           onChange={(e) => setFormData({ ...formData, destCountry: e.target.value })}
                           style={{
                             width: "100%",
-                            padding: "11px 14px",
+                            padding: "12px 14px",
                             fontSize: 13.5,
-                            borderRadius: 8,
+                            borderRadius: 10,
                             border: "1px solid #E2E8F0",
                             background: "#FFFFFF",
                             color: "#0F172A",
@@ -733,12 +724,12 @@ function QuoteRequestContent() {
 
                     {/* SECTION 3: OPTIONS ADDITIONNELLES */}
                     <div>
-                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 16, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
-                        <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>3</span>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 18, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
+                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>3</span>
                         <span>Services & Options Incluses</span>
                       </div>
 
-                      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                         {[
                           {
                             id: "optInspection",
@@ -764,8 +755,8 @@ function QuoteRequestContent() {
                             style={{
                               display: "flex",
                               gap: 12,
-                              padding: "10px 12px",
-                              borderRadius: 8,
+                              padding: "12px 14px",
+                              borderRadius: 10,
                               background: opt.checked ? "#F0F7FF" : "#FFFFFF",
                               border: `1px solid ${opt.checked ? "#BAE6FD" : "#F1F5F9"}`,
                               cursor: "pointer",
@@ -794,12 +785,12 @@ function QuoteRequestContent() {
 
                     {/* SECTION 4: CLIENT CONTACT */}
                     <div>
-                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 16, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
-                        <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>4</span>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 18, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
+                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>4</span>
                         <span>Coordonnées de Contact</span>
                       </div>
 
-                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 14 }}>
+                      <div className="quote-field-row-2" style={{ marginBottom: 16 }}>
                         <div>
                           <label style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
                             Nom & Prénom *
@@ -812,9 +803,9 @@ function QuoteRequestContent() {
                             onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
                             style={{
                               width: "100%",
-                              padding: "11px 14px",
+                              padding: "12px 14px",
                               fontSize: 13.5,
-                              borderRadius: 8,
+                              borderRadius: 10,
                               border: "1px solid #E2E8F0",
                               background: "#FFFFFF",
                               color: "#0F172A",
@@ -835,9 +826,9 @@ function QuoteRequestContent() {
                             onChange={(e) => setFormData({ ...formData, clientPhone: e.target.value })}
                             style={{
                               width: "100%",
-                              padding: "11px 14px",
+                              padding: "12px 14px",
                               fontSize: 13.5,
-                              borderRadius: 8,
+                              borderRadius: 10,
                               border: "1px solid #E2E8F0",
                               background: "#FFFFFF",
                               color: "#0F172A",
@@ -847,7 +838,7 @@ function QuoteRequestContent() {
                         </div>
                       </div>
 
-                      <div style={{ marginBottom: 14 }}>
+                      <div style={{ marginBottom: 16 }}>
                         <label style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
                           Email (optionnel)
                         </label>
@@ -858,9 +849,9 @@ function QuoteRequestContent() {
                           onChange={(e) => setFormData({ ...formData, clientEmail: e.target.value })}
                           style={{
                             width: "100%",
-                            padding: "11px 14px",
+                            padding: "12px 14px",
                             fontSize: 13.5,
-                            borderRadius: 8,
+                            borderRadius: 10,
                             border: "1px solid #E2E8F0",
                             background: "#FFFFFF",
                             color: "#0F172A",
@@ -879,10 +870,10 @@ function QuoteRequestContent() {
                           onChange={(e) => setFormData({ ...formData, details: e.target.value })}
                           style={{
                             width: "100%",
-                            height: 70,
-                            padding: "10px 12px",
+                            height: 75,
+                            padding: "12px 14px",
                             fontSize: 13,
-                            borderRadius: 8,
+                            borderRadius: 10,
                             border: "1px solid #E2E8F0",
                             background: "#FFFFFF",
                             color: "#0F172A",
@@ -897,10 +888,10 @@ function QuoteRequestContent() {
                       type="submit"
                       disabled={loading}
                       style={{
-                        padding: "15px 24px",
+                        padding: "16px 24px",
                         fontSize: 15,
                         fontWeight: 800,
-                        borderRadius: 8,
+                        borderRadius: 10,
                         background: "#165491",
                         color: "#FFFFFF",
                         border: "none",
@@ -909,7 +900,7 @@ function QuoteRequestContent() {
                         alignItems: "center",
                         justifyContent: "center",
                         gap: 10,
-                        boxShadow: "0 4px 16px rgba(22, 84, 145, 0.25)",
+                        boxShadow: "0 6px 20px rgba(22, 84, 145, 0.22)",
                         transition: "all 0.2s ease",
                       }}
                     >
@@ -925,20 +916,20 @@ function QuoteRequestContent() {
                 </div>
               </div>
 
-              {/* RIGHT STICKY ESTIMATOR SIDEBAR */}
-              <div style={{ position: "sticky", top: 90, display: "flex", flexDirection: "column", gap: 16 }}>
+              {/* RIGHT SIDEBAR (STICKY ON DESKTOP, STACKED ON MOBILE) */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                 
                 {/* ESTIMATOR DARK NAVY CARD */}
                 <div
                   style={{
-                    padding: "24px",
+                    padding: "26px 24px",
                     background: "#0F172A",
                     color: "#FFFFFF",
-                    borderRadius: 16,
-                    boxShadow: "0 16px 40px rgba(15, 23, 42, 0.15)",
+                    borderRadius: 20,
+                    boxShadow: "0 16px 40px rgba(15, 23, 42, 0.14)",
                   }}
                 >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18, borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 12 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 14 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <Calculator style={{ width: 17, height: 17, color: "#38BDF8" }} />
                       <span style={{ fontSize: 12, fontWeight: 800, color: "#FFFFFF", letterSpacing: "0.06em", textTransform: "uppercase" }}>CALCULATEUR DEVIS</span>
@@ -950,7 +941,7 @@ function QuoteRequestContent() {
                   </div>
 
                   {/* COST BREAKDOWN */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 12.5, marginBottom: 20 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12, fontSize: 13, marginBottom: 22 }}>
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                       <span style={{ color: "#94A3B8" }}>
                         Marchandise ({quantity} × {formatAmount(unitPriceFCFA)})
@@ -981,49 +972,49 @@ function QuoteRequestContent() {
                   </div>
 
                   {/* GLOWING TOTAL HIGHLIGHT */}
-                  <div style={{ background: "rgba(255, 255, 255, 0.07)", padding: "16px", borderRadius: 10, marginBottom: 18, border: "1px solid rgba(255,255,255,0.12)" }}>
-                    <div style={{ fontSize: 10.5, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                  <div style={{ background: "rgba(255, 255, 255, 0.08)", padding: "18px", borderRadius: 12, marginBottom: 20, border: "1px solid rgba(255,255,255,0.14)" }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.05em", textTransform: "uppercase" }}>
                       Estimation Totale Indicative
                     </div>
-                    <div style={{ fontSize: 24, fontWeight: 900, color: "#FFFFFF", marginTop: 4 }}>
+                    <div style={{ fontSize: 26, fontWeight: 900, color: "#FFFFFF", marginTop: 4 }}>
                       {formatAmount(totalEstimatedFCFA)}
                     </div>
-                    <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 4 }}>
+                    <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 6 }}>
                       * Inclus marchandise usine, gestion & fret Cotonou.
                     </div>
                   </div>
 
                   {/* TRUST POINTS */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 12, color: "#CBD5E1" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <Clock style={{ width: 14, height: 14, color: "#38BDF8" }} />
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12, fontSize: 12.5, color: "#CBD5E1" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <Clock style={{ width: 15, height: 15, color: "#38BDF8", flexShrink: 0 }} />
                       <span>Réponse officielle sous 2 heures max</span>
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <ShieldCheck style={{ width: 14, height: 14, color: "#059669" }} />
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <ShieldCheck style={{ width: 15, height: 15, color: "#059669", flexShrink: 0 }} />
                       <span>Inspection physique entrepôt Chine</span>
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <MapPin style={{ width: 14, height: 14, color: "#38BDF8" }} />
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <MapPin style={{ width: 15, height: 15, color: "#38BDF8", flexShrink: 0 }} />
                       <span>Livraison sécurisée Cotonou & Bénin</span>
                     </div>
                   </div>
                 </div>
 
                 {/* HELP BOX */}
-                <div style={{ padding: "16px 18px", background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 12 }}>
-                  <div style={{ fontWeight: 700, fontSize: 13, color: "#0F172A", marginBottom: 4, display: "flex", alignItems: "center", gap: 6 }}>
-                    <HelpCircle style={{ width: 15, height: 15, color: "#165491" }} />
+                <div style={{ padding: "18px 20px", background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 14 }}>
+                  <div style={{ fontWeight: 700, fontSize: 13.5, color: "#0F172A", marginBottom: 4, display: "flex", alignItems: "center", gap: 8 }}>
+                    <HelpCircle style={{ width: 16, height: 16, color: "#165491" }} />
                     <span>Besoin d'aide ?</span>
                   </div>
-                  <div style={{ fontSize: 12, color: "#64748B", marginBottom: 10, lineHeight: 1.4 }}>
+                  <div style={{ fontSize: 12.5, color: "#64748B", marginBottom: 12, lineHeight: 1.45 }}>
                     Assistance sourcing directe disponible 7j/7.
                   </div>
                   <a
                     href="https://wa.me/22997000000"
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ fontSize: 12.5, fontWeight: 700, color: "#165491", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}
+                    style={{ fontSize: 13, fontWeight: 700, color: "#165491", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}
                   >
                     <MessageSquare style={{ width: 14, height: 14 }} />
                     <span>Contacter WhatsApp →</span>
