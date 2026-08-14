@@ -13,6 +13,7 @@ import {
   Plane,
   Ship,
   ArrowLeft,
+  ArrowRight,
   Calculator,
   ShieldCheck,
   CreditCard,
@@ -160,7 +161,7 @@ function QuoteRequestContent() {
 
       const optionsList = [
         formData.optInspection && "Inspection Qualité Entrepôt International",
-        formData.optReinforcedPackaging && "Emballage Renforcé Bois",
+        formData.optReinforcedPackaging && "Emballage Renforcé Caisse Bois",
         formData.optCustomBranding && "Personnalisation Logo / Marque",
         formData.optSampleRequest && "Demande Échantillon Préalable",
         attachedFile && `Fichier joint: ${attachedFile.name}`,
@@ -207,191 +208,147 @@ function QuoteRequestContent() {
   );
 
   return (
-    <div style={{ background: "#FAF7F2", minHeight: "100vh", paddingBottom: 80 }}>
-      {/* HERO HEADER WITH DARK SLATE GRADIENT */}
+    <div style={{ background: "#F8FAFC", minHeight: "100vh", paddingBottom: 80, fontFamily: "var(--font-body), 'Plus Jakarta Sans', sans-serif" }}>
+      
+      {/* SOBRE HERO HEADER WITH CARGOLINK NAVY */}
       <header
         style={{
-          background: "linear-gradient(135deg, #0F172A 0%, #165491 100%)",
+          background: "linear-gradient(135deg, #0F172A 0%, #162438 100%)",
           color: "#FFFFFF",
-          padding: "48px 0 60px",
+          padding: "52px 0 64px",
           position: "relative",
           overflow: "hidden",
         }}
       >
         <div className="container" style={{ maxWidth: 1140, margin: "0 auto", padding: "0 20px", textAlign: "center", position: "relative", zIndex: 2 }}>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "rgba(255, 255, 255, 0.1)",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255, 255, 255, 0.15)",
-              padding: "6px 16px",
-              borderRadius: 9999,
-              fontSize: 12,
-              fontWeight: 800,
-              color: "#38BDF8",
-              marginBottom: 16,
-            }}
-          >
-            <ShieldCheck style={{ width: 14, height: 14, color: "#10B981" }} />
-            <span>SOURCING DIRECT USINES CHINE · DEVIS OFFICIEL SOUS 2H</span>
+          
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#94A3B8", marginBottom: 14 }}>
+            <span>SOURCING DIRECT CHINE ➔ BÉNIN</span>
+            <span>•</span>
+            <span>RÉPONSE SOUS 2H</span>
           </div>
 
           <h1
             style={{
-              fontSize: 32,
-              fontWeight: 900,
-              fontFamily: "'Outfit', sans-serif",
+              fontSize: "clamp(26px, 3.6vw, 42px)",
+              fontWeight: 800,
               color: "#FFFFFF",
-              margin: "0 0 12px",
-              letterSpacing: "-0.5px",
+              margin: "0 0 14px",
+              lineHeight: 1.15,
             }}
           >
-            Devis d'Importation & Sourcing Sur-Mesure
+            Devis Sur-Mesure & Sourcing Usine
           </h1>
+
           <p
             style={{
               fontSize: 15,
               color: "#CBD5E1",
-              maxWidth: 680,
-              margin: "0 auto 28px",
+              maxWidth: 640,
+              margin: "0 auto 32px",
               lineHeight: 1.6,
             }}
           >
-            Bénéficiez du prix direct usine en Chine. Inspection qualité en entrepôt international, dédouanement tout-en-un et livraison sécurisée au Bénin.
+            Obtenez une cotation précise avec tarif direct usine, inspection entrepôt, dédouanement et livraison sécurisée à Cotonou.
           </p>
 
-          {/* STEP INDICATOR */}
+          {/* MINIMALIST STEP PROGRESS LINE */}
           <div
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: 12,
-              background: "rgba(15, 23, 42, 0.6)",
-              backdropFilter: "blur(12px)",
-              padding: "10px 22px",
+              gap: 16,
+              background: "rgba(255, 255, 255, 0.05)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              padding: "10px 24px",
               borderRadius: 9999,
-              border: "1px solid rgba(255, 255, 255, 0.15)",
+              fontSize: 13,
+              fontWeight: 600,
+              color: "#CBD5E1",
               flexWrap: "wrap",
               justifyContent: "center",
             }}
           >
-            {[
-              { num: "1", title: "Produit & Quantité" },
-              { num: "2", title: "Transport & Options" },
-              { num: "3", title: "Devis & Règlement" },
-            ].map((step, idx) => (
-              <React.Fragment key={step.num}>
-                {idx > 0 && <ChevronRight style={{ width: 14, height: 14, color: "#64748B" }} />}
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <div
-                    style={{
-                      width: 24,
-                      height: 24,
-                      minWidth: 24,
-                      minHeight: 24,
-                      borderRadius: "50%",
-                      background: idx === 0 ? "#EA580C" : "rgba(255, 255, 255, 0.2)",
-                      color: "#FFFFFF",
-                      fontSize: 12,
-                      fontWeight: 900,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                      aspectRatio: "1/1",
-                    }}
-                  >
-                    {step.num}
-                  </div>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: idx === 0 ? "#FFFFFF" : "#94A3B8" }}>
-                    {step.title}
-                  </span>
-                </div>
-              </React.Fragment>
-            ))}
+            <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#FFFFFF", fontWeight: 700 }}>
+              <span style={{ width: 20, height: 20, borderRadius: "50%", background: "#165491", color: "#FFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>1</span>
+              <span>Produit & Quantité</span>
+            </div>
+            <ChevronRight style={{ width: 14, height: 14, color: "#64748B" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>2</span>
+              <span>Transport & Options</span>
+            </div>
+            <ChevronRight style={{ width: 14, height: 14, color: "#64748B" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>3</span>
+              <span>Devis & Validation</span>
+            </div>
           </div>
+
         </div>
       </header>
 
       {/* MAIN CONTENT AREA */}
-      <section style={{ padding: "36px 0", marginTop: -20, position: "relative", zIndex: 5 }}>
+      <section style={{ padding: "40px 0", marginTop: -20, position: "relative", zIndex: 5 }}>
         <div className="container" style={{ maxWidth: 1140, margin: "0 auto", padding: "0 20px" }}>
+          
           {submitted ? (
             /* SUCCESS STATE VIEW */
             <div
               style={{
                 background: "#FFFFFF",
-                borderRadius: 24,
+                borderRadius: 16,
                 padding: "48px 32px",
                 textAlign: "center",
-                border: "1px solid #E2D9CC",
-                boxShadow: "0 12px 40px rgba(15, 23, 42, 0.06)",
-                maxWidth: 680,
+                border: "1px solid #F1F5F9",
+                boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
+                maxWidth: 640,
                 margin: "0 auto",
               }}
             >
               <div
                 style={{
-                  width: 72,
-                  height: 72,
+                  width: 64,
+                  height: 64,
                   borderRadius: "50%",
                   background: "#ECFDF5",
-                  color: "#16A34A",
+                  color: "#059669",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   margin: "0 auto 20px",
                 }}
               >
-                <CheckCircle2 style={{ width: 44, height: 44 }} />
+                <CheckCircle2 style={{ width: 36, height: 36 }} />
               </div>
 
-              <span
-                style={{
-                  background: "#FEF3C7",
-                  color: "#92400E",
-                  fontSize: 12,
-                  fontWeight: 900,
-                  padding: "4px 12px",
-                  borderRadius: 9999,
-                  letterSpacing: "0.5px",
-                  textTransform: "uppercase",
-                  display: "inline-block",
-                  marginBottom: 10,
-                }}
-              >
-                DEMANDE ENREGISTRÉE AVEC SUCCÈS
-              </span>
-
-              <h2 style={{ fontSize: 24, fontWeight: 900, color: "#0F172A", fontFamily: "'Outfit', sans-serif", margin: "0 0 10px" }}>
+              <h2 style={{ fontSize: 24, fontWeight: 800, color: "#0F172A", margin: "0 0 10px" }}>
                 Devis N° {createdQuoteNumber} Transmis !
               </h2>
-              <p style={{ fontSize: 14.5, color: "#64748B", margin: "0 auto 24px", lineHeight: 1.6 }}>
-                Notre équipe logistique traite votre demande de sourcing direct en Chine. Vous recevrez l'offre officielle avec les tarifs fermes sous 2 heures.
+              
+              <p style={{ fontSize: 14, color: "#64748B", margin: "0 auto 28px", lineHeight: 1.6 }}>
+                Notre équipe logistique étudie votre demande auprès des fournisseurs. Vous recevrez une proposition officielle sous 2 heures.
               </p>
 
-              {/* SUMMARY RECAP CARD */}
+              {/* SUMMARY RECAP */}
               <div
                 style={{
                   background: "#F8FAFC",
-                  borderRadius: 18,
-                  padding: "20px 24px",
+                  borderRadius: 12,
+                  padding: "20px",
                   margin: "0 auto 28px",
                   textAlign: "left",
                   border: "1px solid #E2E8F0",
                 }}
               >
-                <div style={{ fontWeight: 900, fontSize: 14, color: "#0F172A", marginBottom: 12, borderBottom: "1px solid #E2E8F0", paddingBottom: 8 }}>
+                <div style={{ fontWeight: 700, fontSize: 13.5, color: "#0F172A", marginBottom: 12, borderBottom: "1px solid #E2E8F0", paddingBottom: 8 }}>
                   Récapitulatif de la Demande
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 13.5 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <span style={{ color: "#64748B" }}>Produit / Référence :</span>
-                    <strong style={{ color: "#0F172A", textAlign: "right", maxWidth: 300, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <strong style={{ color: "#0F172A", textAlign: "right", maxWidth: 280, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {formData.productName || selectedProduct?.name || "Sourcing personnalisé Chine"}
                     </strong>
                   </div>
@@ -402,7 +359,7 @@ function QuoteRequestContent() {
                   </div>
 
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <span style={{ color: "#64748B" }}>Transit :</span>
+                    <span style={{ color: "#64748B" }}>Transport :</span>
                     <strong style={{ color: "#0F172A" }}>
                       {formData.shippingMode === "sea" ? "Fret Maritime Groupé (40-65j)" : "Fret Aérien Express (5-12j)"}
                     </strong>
@@ -414,8 +371,8 @@ function QuoteRequestContent() {
                   </div>
 
                   <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid #E2E8F0", paddingTop: 12, marginTop: 4 }}>
-                    <span style={{ fontWeight: 900, color: "#0F172A" }}>Montant Estimé Total :</span>
-                    <span style={{ fontWeight: 900, fontSize: 19, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
+                    <span style={{ fontWeight: 700, color: "#0F172A" }}>Montant Estimé Total :</span>
+                    <span style={{ fontWeight: 800, fontSize: 18, color: "#165491" }}>
                       {formatAmount(totalEstimatedFCFA)}
                     </span>
                   </div>
@@ -427,21 +384,20 @@ function QuoteRequestContent() {
                 <Link
                   href={`/payment?quote_id=${createdQuoteNumber || "DEV-2026-9410"}`}
                   style={{
-                    background: "#16A34A",
+                    background: "#165491",
                     color: "#FFFFFF",
-                    padding: "14px 28px",
-                    fontSize: 14.5,
-                    fontWeight: 900,
-                    borderRadius: 12,
+                    padding: "13px 24px",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    borderRadius: 8,
                     textDecoration: "none",
                     display: "inline-flex",
                     alignItems: "center",
-                    gap: 10,
-                    boxShadow: "0 4px 16px rgba(22, 163, 74, 0.25)",
+                    gap: 8,
                   }}
                 >
-                  <CreditCard style={{ width: 18, height: 18 }} />
-                  <span>Payer par Mobile Money Bénin</span>
+                  <CreditCard style={{ width: 16, height: 16 }} />
+                  <span>Payer par Mobile Money</span>
                 </Link>
 
                 <a
@@ -451,18 +407,18 @@ function QuoteRequestContent() {
                   style={{
                     background: "#0F172A",
                     color: "#FFFFFF",
-                    padding: "14px 24px",
-                    fontSize: 14,
-                    fontWeight: 800,
-                    borderRadius: 12,
+                    padding: "13px 22px",
+                    fontSize: 13.5,
+                    fontWeight: 700,
+                    borderRadius: 8,
                     textDecoration: "none",
                     display: "inline-flex",
                     alignItems: "center",
                     gap: 8,
                   }}
                 >
-                  <MessageSquare style={{ width: 18, height: 18 }} />
-                  <span>Contacter sur WhatsApp</span>
+                  <MessageSquare style={{ width: 16, height: 16 }} />
+                  <span>Contacter WhatsApp</span>
                 </a>
 
                 <button
@@ -470,11 +426,11 @@ function QuoteRequestContent() {
                   style={{
                     background: "#FFFFFF",
                     color: "#0F172A",
-                    padding: "14px 20px",
+                    padding: "13px 20px",
                     fontSize: 13.5,
-                    fontWeight: 700,
-                    border: "1.5px solid #CBD5E1",
-                    borderRadius: 12,
+                    fontWeight: 600,
+                    border: "1px solid #E2E8F0",
+                    borderRadius: 8,
                     cursor: "pointer",
                   }}
                 >
@@ -483,71 +439,49 @@ function QuoteRequestContent() {
               </div>
             </div>
           ) : (
-            /* FORM & ESTIMATOR 2-COLUMN GRID */
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24, alignItems: "start" }}>
+            /* FORM & ESTIMATOR GRID */
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 28, alignItems: "start" }}>
               
               {/* LEFT FORM COLUMN */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 20, gridColumn: "span 2" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                 
-                {/* SELECTED PRODUCT CARD BANNER (if from product detail page) */}
+                {/* SELECTED PRODUCT CARD BANNER (if from product page) */}
                 {selectedProduct ? (
                   <div
                     style={{
                       background: "#FFFFFF",
-                      borderRadius: 18,
-                      padding: "20px 24px",
-                      border: "2px solid #0284C7",
-                      position: "relative",
-                      boxShadow: "0 4px 16px rgba(2, 132, 199, 0.08)",
+                      borderRadius: 12,
+                      padding: "18px 20px",
+                      border: "1px solid #165491",
+                      display: "flex",
+                      gap: 16,
+                      alignItems: "center",
                     }}
                   >
-                    <span
-                      style={{
-                        position: "absolute",
-                        top: -11,
-                        left: 20,
-                        background: "#0284C7",
-                        color: "#FFFFFF",
-                        fontSize: 10.5,
-                        fontWeight: 900,
-                        padding: "2px 10px",
-                        borderRadius: 6,
-                        letterSpacing: "0.5px",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      Produit sélectionné du catalogue
-                    </span>
-
-                    <div style={{ display: "flex", gap: 16, alignItems: "center", marginTop: 4 }}>
-                      <img
-                        src={selectedProduct.images?.[0]?.public_image_url || "/images/assets/item_1.jpg"}
-                        alt={selectedProduct.name}
-                        style={{ width: 80, height: 80, borderRadius: 12, objectFit: "cover", background: "#F8FAFC", border: "1px solid #E2E8F0", flexShrink: 0 }}
-                      />
-                      <div style={{ flex: 1 }}>
-                        <h3 style={{ fontSize: 16, fontWeight: 900, color: "#0F172A", margin: "0 0 4px", fontFamily: "'Outfit', sans-serif" }}>
-                          {selectedProduct.name}
-                        </h3>
-                        <div style={{ fontSize: 12, color: "#64748B", marginBottom: 6 }}>
-                          {selectedProduct.short_description || "Article direct usine certifiée"} · Origine : <strong>Chine</strong>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                          <span style={{ fontSize: 18, fontWeight: 900, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
-                            {selectedProduct.price.toLocaleString()} FCFA
-                          </span>
-                          <span style={{ fontSize: 12, color: "#64748B" }}>/ unité (min. {selectedProduct.minimum_order_quantity || 1}u)</span>
-                        </div>
+                    <img
+                      src={selectedProduct.images?.[0]?.public_image_url || "/images/assets/item_1.jpg"}
+                      alt={selectedProduct.name}
+                      style={{ width: 72, height: 72, borderRadius: 8, objectFit: "cover", background: "#F8FAFC", border: "1px solid #F1F5F9", flexShrink: 0 }}
+                    />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 10.5, fontWeight: 700, color: "#165491", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 2 }}>
+                        Produit du catalogue sélectionné
+                      </div>
+                      <h3 style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", margin: "0 0 4px" }}>
+                        {selectedProduct.name}
+                      </h3>
+                      <div style={{ fontSize: 13, color: "#165491", fontWeight: 700 }}>
+                        {selectedProduct.price.toLocaleString()} FCFA <span style={{ fontSize: 12, color: "#64748B", fontWeight: 500 }}>/ unité (min. {selectedProduct.minimum_order_quantity || 1}u)</span>
                       </div>
                     </div>
                   </div>
                 ) : (
-                  /* QUICK PRESETS BANNER (if custom request) */
-                  <div style={{ background: "#FFFFFF", borderRadius: 18, padding: "18px 20px", border: "1px solid #E2D9CC" }}>
-                    <div style={{ fontSize: 11.5, fontWeight: 800, color: "#64748B", letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: 10 }}>
-                      Exemples d'articles fréquents (cliquez pour pré-remplir) :
+                  /* QUICK PRESETS BANNER */
+                  <div style={{ background: "#FFFFFF", borderRadius: 12, padding: "16px 20px", border: "1px solid #F1F5F9" }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 8 }}>
+                      Exemples de produits (cliquez pour remplir) :
                     </div>
-                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                       {PRESET_CATEGORIES.map((cat) => (
                         <button
                           key={cat.label}
@@ -559,13 +493,13 @@ function QuoteRequestContent() {
                             }))
                           }
                           style={{
-                            padding: "6px 12px",
-                            borderRadius: 9999,
-                            border: "1px solid #CBD5E1",
+                            padding: "5px 10px",
+                            borderRadius: 6,
+                            border: "1px solid #E2E8F0",
                             background: "#F8FAFC",
                             fontSize: 12,
-                            fontWeight: 700,
-                            color: "#0F172A",
+                            fontWeight: 600,
+                            color: "#334155",
                             cursor: "pointer",
                             display: "inline-flex",
                             alignItems: "center",
@@ -581,49 +515,34 @@ function QuoteRequestContent() {
                   </div>
                 )}
 
-                {/* FORM CARD */}
+                {/* FORM CONTAINER */}
                 <div
                   style={{
                     background: "#FFFFFF",
-                    borderRadius: 20,
-                    padding: "28px",
-                    border: "1px solid #E2D9CC",
-                    boxShadow: "0 4px 20px rgba(15, 23, 42, 0.03)",
+                    borderRadius: 16,
+                    padding: "32px",
+                    border: "1px solid #F1F5F9",
+                    boxShadow: "0 10px 30px rgba(15, 23, 42, 0.03)",
                   }}
                 >
-                  <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                  <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 32 }}>
                     
                     {/* SECTION 1: PRODUCT & QUANTITY */}
                     <div>
-                      <div
-                        style={{
-                          fontSize: 15,
-                          fontWeight: 900,
-                          color: "#0F172A",
-                          fontFamily: "'Outfit', sans-serif",
-                          marginBottom: 16,
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 10,
-                          borderBottom: "1px solid #F1F5F9",
-                          paddingBottom: 10,
-                        }}
-                      >
-                        <div style={{ width: 26, height: 26, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 12, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                          1
-                        </div>
-                        <span>Informations sur le Produit & Quantité</span>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 16, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
+                        <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>1</span>
+                        <span>Produit & Quantité Souhaitée</span>
                       </div>
 
-                      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                         <div>
-                          <label style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, textTransform: "uppercase" }}>
+                          <label style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
                             Lien du produit ou description détaillée *
                           </label>
                           <input
                             type="text"
                             required
-                            placeholder="Ex: https://1688.com/item/12345.html ou '50 montres connectées AMOLED'"
+                            placeholder="Ex: https://1688.com/item/12345.html ou '100 casques Bluetooth ANC'"
                             value={formData.productName || formData.url}
                             onChange={(e) =>
                               setFormData({
@@ -634,23 +553,24 @@ function QuoteRequestContent() {
                             }
                             style={{
                               width: "100%",
-                              padding: "12px 16px",
+                              padding: "12px 14px",
                               fontSize: 13.5,
-                              borderRadius: 10,
-                              border: "1.5px solid #CBD5E1",
-                              background: "#F8FAFC",
+                              borderRadius: 8,
+                              border: "1px solid #E2E8F0",
+                              background: "#FFFFFF",
                               color: "#0F172A",
                               outline: "none",
+                              transition: "border 0.2s ease"
                             }}
                           />
                         </div>
 
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                           <div>
-                            <label style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, textTransform: "uppercase" }}>
-                              Quantité souhaitée (unités) *
+                            <label style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                              Quantité (unités) *
                             </label>
-                            <div style={{ display: "flex", alignItems: "center", border: "1.5px solid #CBD5E1", borderRadius: 10, overflow: "hidden", background: "#FFFFFF" }}>
+                            <div style={{ display: "flex", alignItems: "center", border: "1px solid #E2E8F0", borderRadius: 8, overflow: "hidden", background: "#FFFFFF" }}>
                               <button
                                 type="button"
                                 onClick={() =>
@@ -662,7 +582,7 @@ function QuoteRequestContent() {
                                     ),
                                   }))
                                 }
-                                style={{ width: 44, height: 44, background: "#F8FAFC", border: "none", cursor: "pointer", fontWeight: 900, fontSize: 18, color: "#0F172A" }}
+                                style={{ width: 40, height: 42, background: "#F8FAFC", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 16, color: "#0F172A" }}
                               >
                                 -
                               </button>
@@ -677,7 +597,7 @@ function QuoteRequestContent() {
                                     quantity: parseInt(e.target.value) || 1,
                                   })
                                 }
-                                style={{ width: "100%", height: 44, border: "none", textAlign: "center", fontWeight: 900, fontSize: 16, outline: "none", color: "#0F172A" }}
+                                style={{ width: "100%", height: 42, border: "none", textAlign: "center", fontWeight: 700, fontSize: 15, outline: "none", color: "#0F172A" }}
                               />
                               <button
                                 type="button"
@@ -687,7 +607,7 @@ function QuoteRequestContent() {
                                     quantity: prev.quantity + (prev.quantity < 50 ? 1 : 10),
                                   }))
                                 }
-                                style={{ width: 44, height: 44, background: "#F8FAFC", border: "none", cursor: "pointer", fontWeight: 900, fontSize: 18, color: "#0F172A" }}
+                                style={{ width: 40, height: 42, background: "#F8FAFC", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 16, color: "#0F172A" }}
                               >
                                 +
                               </button>
@@ -695,8 +615,8 @@ function QuoteRequestContent() {
                           </div>
 
                           <div>
-                            <label style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, textTransform: "uppercase" }}>
-                              Photo / Modèle du produit (optionnel)
+                            <label style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                              Photo ou Fichier (optionnel)
                             </label>
                             <label
                               style={{
@@ -704,20 +624,20 @@ function QuoteRequestContent() {
                                 alignItems: "center",
                                 justifyContent: "center",
                                 gap: 8,
-                                height: 44,
-                                border: "1.5px dashed #CBD5E1",
-                                borderRadius: 10,
+                                height: 42,
+                                border: "1px dashed #CBD5E1",
+                                borderRadius: 8,
                                 background: "#F8FAFC",
                                 cursor: "pointer",
                                 fontSize: 12.5,
-                                fontWeight: 700,
-                                color: attachedFile ? "#16A34A" : "#64748B",
+                                fontWeight: 600,
+                                color: attachedFile ? "#059669" : "#64748B",
                                 padding: "0 12px",
                               }}
                             >
-                              <Upload style={{ width: 16, height: 16 }} />
+                              <Upload style={{ width: 15, height: 15 }} />
                               <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                                {attachedFile ? attachedFile.name : "Ajouter une image..."}
+                                {attachedFile ? attachedFile.name : "Joindre un fichier..."}
                               </span>
                               <input type="file" accept="image/*,.pdf" onChange={handleFileUpload} style={{ display: "none" }} />
                             </label>
@@ -726,67 +646,35 @@ function QuoteRequestContent() {
                       </div>
                     </div>
 
-                    {/* SECTION 2: SHIPPING MODE CARDS */}
+                    {/* SECTION 2: SHIPPING MODE */}
                     <div>
-                      <div
-                        style={{
-                          fontSize: 15,
-                          fontWeight: 900,
-                          color: "#0F172A",
-                          fontFamily: "'Outfit', sans-serif",
-                          marginBottom: 16,
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 10,
-                          borderBottom: "1px solid #F1F5F9",
-                          paddingBottom: 10,
-                        }}
-                      >
-                        <div style={{ width: 26, height: 26, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 12, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                          2
-                        </div>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 16, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
+                        <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>2</span>
                         <span>Mode de Transport & Destination</span>
                       </div>
 
-                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14, marginBottom: 16 }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
                         {/* AIR */}
                         <div
                           onClick={() => setFormData({ ...formData, shippingMode: "air" })}
                           style={{
-                            padding: "16px 18px",
-                            borderRadius: 14,
-                            border: formData.shippingMode === "air" ? "2px solid #0284C7" : "1.5px solid #E2E8F0",
-                            background: formData.shippingMode === "air" ? "#F0F9FF" : "#FFFFFF",
+                            padding: "14px 16px",
+                            borderRadius: 10,
+                            border: formData.shippingMode === "air" ? "2px solid #165491" : "1px solid #E2E8F0",
+                            background: formData.shippingMode === "air" ? "#F0F7FF" : "#FFFFFF",
                             cursor: "pointer",
-                            position: "relative",
-                            transition: "all 0.2s ease",
+                            transition: "all 0.15s ease",
                           }}
                         >
-                          <span
-                            style={{
-                              position: "absolute",
-                              top: 12,
-                              right: 12,
-                              background: formData.shippingMode === "air" ? "#0284C7" : "#94A3B8",
-                              color: "#FFFFFF",
-                              fontSize: 10,
-                              fontWeight: 900,
-                              padding: "2px 8px",
-                              borderRadius: 4,
-                            }}
-                          >
-                            RECOMMANDÉ
-                          </span>
-
-                          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                            <Plane style={{ width: 18, height: 18, color: "#0284C7" }} />
-                            <div style={{ fontSize: 14.5, fontWeight: 900, color: "#0284C7" }}>Fret Aérien Express</div>
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, fontSize: 13.5, color: "#0F172A" }}>
+                              <Plane style={{ width: 17, height: 17, color: "#165491" }} />
+                              <span>Fret Aérien Express</span>
+                            </div>
+                            <span style={{ fontSize: 10, fontWeight: 700, color: "#165491", background: "#E0F2FE", padding: "1px 6px", borderRadius: 4 }}>5–12 Jours</span>
                           </div>
-                          <div style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", marginBottom: 2 }}>
-                            Délai : 5–12 jours
-                          </div>
-                          <div style={{ fontSize: 11.5, color: "#64748B" }}>
-                            Tarif : 7 500 FCFA / kg
+                          <div style={{ fontSize: 12, color: "#64748B" }}>
+                            Tarif indicatif : 7 500 FCFA / kg
                           </div>
                         </div>
 
@@ -794,61 +682,44 @@ function QuoteRequestContent() {
                         <div
                           onClick={() => setFormData({ ...formData, shippingMode: "sea" })}
                           style={{
-                            padding: "16px 18px",
-                            borderRadius: 14,
-                            border: formData.shippingMode === "sea" ? "2px solid #059669" : "1.5px solid #E2E8F0",
-                            background: formData.shippingMode === "sea" ? "#ECFDF5" : "#FFFFFF",
+                            padding: "14px 16px",
+                            borderRadius: 10,
+                            border: formData.shippingMode === "sea" ? "2px solid #165491" : "1px solid #E2E8F0",
+                            background: formData.shippingMode === "sea" ? "#F0F7FF" : "#FFFFFF",
                             cursor: "pointer",
-                            position: "relative",
-                            transition: "all 0.2s ease",
+                            transition: "all 0.15s ease",
                           }}
                         >
-                          <span
-                            style={{
-                              position: "absolute",
-                              top: 12,
-                              right: 12,
-                              background: formData.shippingMode === "sea" ? "#059669" : "#94A3B8",
-                              color: "#FFFFFF",
-                              fontSize: 10,
-                              fontWeight: 900,
-                              padding: "2px 8px",
-                              borderRadius: 4,
-                            }}
-                          >
-                            ÉCONOMIQUE
-                          </span>
-
-                          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                            <Ship style={{ width: 18, height: 18, color: "#059669" }} />
-                            <div style={{ fontSize: 14.5, fontWeight: 900, color: "#059669" }}>Fret Maritime Groupé</div>
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, fontSize: 13.5, color: "#0F172A" }}>
+                              <Ship style={{ width: 17, height: 17, color: "#165491" }} />
+                              <span>Fret Maritime Groupé</span>
+                            </div>
+                            <span style={{ fontSize: 10, fontWeight: 700, color: "#059669", background: "#ECFDF5", padding: "1px 6px", borderRadius: 4 }}>Économique</span>
                           </div>
-                          <div style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", marginBottom: 2 }}>
-                            Délai : 40–65 jours
-                          </div>
-                          <div style={{ fontSize: 11.5, color: "#64748B" }}>
-                            Tarif : 185 000 FCFA / CBM
+                          <div style={{ fontSize: 12, color: "#64748B" }}>
+                            Délai : 40–65 jours · 185 000 FCFA / CBM
                           </div>
                         </div>
                       </div>
 
                       <div>
-                        <label style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, textTransform: "uppercase" }}>
-                          Destination finale de réception *
+                        <label style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                          Destination de réception *
                         </label>
                         <select
                           value={formData.destCountry}
                           onChange={(e) => setFormData({ ...formData, destCountry: e.target.value })}
                           style={{
                             width: "100%",
-                            padding: "12px 16px",
+                            padding: "11px 14px",
                             fontSize: 13.5,
-                            borderRadius: 10,
-                            border: "1.5px solid #CBD5E1",
+                            borderRadius: 8,
+                            border: "1px solid #E2E8F0",
                             background: "#FFFFFF",
                             color: "#0F172A",
                             outline: "none",
-                            fontWeight: 700,
+                            fontWeight: 600,
                           }}
                         >
                           <option>Bénin (Cotonou, Calavi & Régions)</option>
@@ -860,46 +731,31 @@ function QuoteRequestContent() {
                       </div>
                     </div>
 
-                    {/* SECTION 3: OPTIONS & SERVICES ADDITIONNELS */}
+                    {/* SECTION 3: OPTIONS ADDITIONNELLES */}
                     <div>
-                      <div
-                        style={{
-                          fontSize: 15,
-                          fontWeight: 900,
-                          color: "#0F172A",
-                          fontFamily: "'Outfit', sans-serif",
-                          marginBottom: 16,
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 10,
-                          borderBottom: "1px solid #F1F5F9",
-                          paddingBottom: 10,
-                        }}
-                      >
-                        <div style={{ width: 26, height: 26, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 12, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                          3
-                        </div>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 16, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
+                        <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>3</span>
                         <span>Services & Options Incluses</span>
                       </div>
 
-                      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                         {[
                           {
                             id: "optInspection",
-                            label: "Inspection Qualité en Entrepôt International",
-                            sub: "Vérification conformité + rapport photo HD avant embarquement (+15 000 FCFA)",
+                            label: "Inspection Qualité en Entrepôt Chine",
+                            sub: "Rapport photo HD & vérification conformité (+15 000 FCFA)",
                             checked: formData.optInspection,
                           },
                           {
                             id: "optReinforcedPackaging",
-                            label: "Emballage Renforcé Caisse Bois / Bulle Étanche",
-                            sub: "Protection maximale contre les chocs et l'humidité pendant le transit (+5 000 FCFA)",
+                            label: "Emballage Renforcé Caisse Bois / Bulle",
+                            sub: "Protection maximale pendant le transport (+5 000 FCFA)",
                             checked: formData.optReinforcedPackaging,
                           },
                           {
                             id: "optCustomBranding",
-                            label: "Personnalisation Logo & Emballage Marque Propre",
-                            sub: "Impression de votre logo sur cartons ou étiquettes produits (+10 000 FCFA)",
+                            label: "Personnalisation Logo & Branding Propre",
+                            sub: "Impression de votre logo sur cartons produits (+10 000 FCFA)",
                             checked: formData.optCustomBranding,
                           },
                         ].map((opt) => (
@@ -908,10 +764,10 @@ function QuoteRequestContent() {
                             style={{
                               display: "flex",
                               gap: 12,
-                              padding: "12px 14px",
-                              borderRadius: 10,
-                              background: opt.checked ? "#EFF6FF" : "#F8FAFC",
-                              border: `1.5px solid ${opt.checked ? "#3B82F6" : "#E2E8F0"}`,
+                              padding: "10px 12px",
+                              borderRadius: 8,
+                              background: opt.checked ? "#F0F7FF" : "#FFFFFF",
+                              border: `1px solid ${opt.checked ? "#BAE6FD" : "#F1F5F9"}`,
                               cursor: "pointer",
                               transition: "all 0.15s ease",
                             }}
@@ -925,10 +781,10 @@ function QuoteRequestContent() {
                                   [opt.id]: e.target.checked,
                                 })
                               }
-                              style={{ width: 18, height: 18, marginTop: 2, accentColor: "#165491" }}
+                              style={{ width: 16, height: 16, marginTop: 2, accentColor: "#165491" }}
                             />
                             <div>
-                              <div style={{ fontSize: 13, fontWeight: 800, color: "#0F172A" }}>{opt.label}</div>
+                              <div style={{ fontSize: 13, fontWeight: 700, color: "#0F172A" }}>{opt.label}</div>
                               <div style={{ fontSize: 11.5, color: "#64748B" }}>{opt.sub}</div>
                             </div>
                           </label>
@@ -938,30 +794,15 @@ function QuoteRequestContent() {
 
                     {/* SECTION 4: CLIENT CONTACT */}
                     <div>
-                      <div
-                        style={{
-                          fontSize: 15,
-                          fontWeight: 900,
-                          color: "#0F172A",
-                          fontFamily: "'Outfit', sans-serif",
-                          marginBottom: 16,
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 10,
-                          borderBottom: "1px solid #F1F5F9",
-                          paddingBottom: 10,
-                        }}
-                      >
-                        <div style={{ width: 26, height: 26, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 12, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                          4
-                        </div>
-                        <span>Vos Coordonnées de Contact</span>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 16, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
+                        <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>4</span>
+                        <span>Coordonnées de Contact</span>
                       </div>
 
-                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, marginBottom: 14 }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 14 }}>
                         <div>
-                          <label style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, textTransform: "uppercase" }}>
-                            Votre Nom & Prénom *
+                          <label style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                            Nom & Prénom *
                           </label>
                           <input
                             type="text"
@@ -971,11 +812,11 @@ function QuoteRequestContent() {
                             onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
                             style={{
                               width: "100%",
-                              padding: "12px 16px",
+                              padding: "11px 14px",
                               fontSize: 13.5,
-                              borderRadius: 10,
-                              border: "1.5px solid #CBD5E1",
-                              background: "#F8FAFC",
+                              borderRadius: 8,
+                              border: "1px solid #E2E8F0",
+                              background: "#FFFFFF",
                               color: "#0F172A",
                               outline: "none",
                             }}
@@ -983,7 +824,7 @@ function QuoteRequestContent() {
                         </div>
 
                         <div>
-                          <label style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, textTransform: "uppercase" }}>
+                          <label style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
                             Numéro WhatsApp (avec indicatif) *
                           </label>
                           <input
@@ -994,11 +835,11 @@ function QuoteRequestContent() {
                             onChange={(e) => setFormData({ ...formData, clientPhone: e.target.value })}
                             style={{
                               width: "100%",
-                              padding: "12px 16px",
+                              padding: "11px 14px",
                               fontSize: 13.5,
-                              borderRadius: 10,
-                              border: "1.5px solid #CBD5E1",
-                              background: "#F8FAFC",
+                              borderRadius: 8,
+                              border: "1px solid #E2E8F0",
+                              background: "#FFFFFF",
                               color: "#0F172A",
                               outline: "none",
                             }}
@@ -1007,8 +848,8 @@ function QuoteRequestContent() {
                       </div>
 
                       <div style={{ marginBottom: 14 }}>
-                        <label style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, textTransform: "uppercase" }}>
-                          Email pour recevoir le devis (optionnel)
+                        <label style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                          Email (optionnel)
                         </label>
                         <input
                           type="email"
@@ -1017,11 +858,11 @@ function QuoteRequestContent() {
                           onChange={(e) => setFormData({ ...formData, clientEmail: e.target.value })}
                           style={{
                             width: "100%",
-                            padding: "12px 16px",
+                            padding: "11px 14px",
                             fontSize: 13.5,
-                            borderRadius: 10,
-                            border: "1.5px solid #CBD5E1",
-                            background: "#F8FAFC",
+                            borderRadius: 8,
+                            border: "1px solid #E2E8F0",
+                            background: "#FFFFFF",
                             color: "#0F172A",
                             outline: "none",
                           }}
@@ -1029,8 +870,8 @@ function QuoteRequestContent() {
                       </div>
 
                       <div>
-                        <label style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, textTransform: "uppercase" }}>
-                          Instructions spécifiques pour l'usine chinoise
+                        <label style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                          Instructions pour l'usine ou détails spécifiques
                         </label>
                         <textarea
                           placeholder="Ex: Préciser 50 pièces couleur noire et 50 pièces couleur or..."
@@ -1038,12 +879,12 @@ function QuoteRequestContent() {
                           onChange={(e) => setFormData({ ...formData, details: e.target.value })}
                           style={{
                             width: "100%",
-                            height: 75,
-                            padding: "10px 14px",
+                            height: 70,
+                            padding: "10px 12px",
                             fontSize: 13,
-                            borderRadius: 10,
-                            border: "1.5px solid #CBD5E1",
-                            background: "#F8FAFC",
+                            borderRadius: 8,
+                            border: "1px solid #E2E8F0",
+                            background: "#FFFFFF",
                             color: "#0F172A",
                             outline: "none",
                           }}
@@ -1056,11 +897,11 @@ function QuoteRequestContent() {
                       type="submit"
                       disabled={loading}
                       style={{
-                        padding: "16px 24px",
-                        fontSize: 15.5,
-                        fontWeight: 900,
-                        borderRadius: 12,
-                        background: "#0F172A",
+                        padding: "15px 24px",
+                        fontSize: 15,
+                        fontWeight: 800,
+                        borderRadius: 8,
+                        background: "#165491",
                         color: "#FFFFFF",
                         border: "none",
                         cursor: "pointer",
@@ -1068,124 +909,124 @@ function QuoteRequestContent() {
                         alignItems: "center",
                         justifyContent: "center",
                         gap: 10,
-                        boxShadow: "0 4px 16px rgba(15, 23, 42, 0.2)",
+                        boxShadow: "0 4px 16px rgba(22, 84, 145, 0.25)",
                         transition: "all 0.2s ease",
                       }}
                     >
-                      <Send style={{ width: 18, height: 18 }} />
-                      <span>{loading ? "Calcul & Transmission en cours..." : "Soumettre ma Demande de Devis d'Importation"}</span>
+                      <Send style={{ width: 17, height: 17 }} />
+                      <span>{loading ? "Transmission en cours..." : "Soumettre ma Demande de Devis"}</span>
                     </button>
 
                     <div style={{ fontSize: 12, color: "#64748B", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
-                      <ShieldCheck style={{ width: 16, height: 16, color: "#16A34A" }} />
-                      <span>Saisie 100% sécurisée · Zéro engagement bancaire à cette étape</span>
+                      <ShieldCheck style={{ width: 15, height: 15, color: "#059669" }} />
+                      <span>Zéro engagement bancaire à cette étape</span>
                     </div>
                   </form>
                 </div>
               </div>
 
               {/* RIGHT STICKY ESTIMATOR SIDEBAR */}
-              <div style={{ position: "sticky", top: 90, display: "flex", flexDirection: "column", gap: 20 }}>
+              <div style={{ position: "sticky", top: 90, display: "flex", flexDirection: "column", gap: 16 }}>
                 
-                {/* ESTIMATOR CARD */}
+                {/* ESTIMATOR DARK NAVY CARD */}
                 <div
                   style={{
                     padding: "24px",
-                    background: "#FFFFFF",
-                    borderRadius: 20,
-                    border: "1.5px solid #0F172A",
-                    boxShadow: "0 4px 20px rgba(15, 23, 42, 0.05)",
+                    background: "#0F172A",
+                    color: "#FFFFFF",
+                    borderRadius: 16,
+                    boxShadow: "0 16px 40px rgba(15, 23, 42, 0.15)",
                   }}
                 >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, borderBottom: "1px solid #F1F5F9", paddingBottom: 12 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18, borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 12 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <Calculator style={{ width: 18, height: 18, color: "#165491" }} />
-                      <span style={{ fontSize: 13, fontWeight: 900, color: "#0F172A", letterSpacing: "0.5px" }}>CALCULATEUR EN TEMPS RÉEL</span>
+                      <Calculator style={{ width: 17, height: 17, color: "#38BDF8" }} />
+                      <span style={{ fontSize: 12, fontWeight: 800, color: "#FFFFFF", letterSpacing: "0.06em", textTransform: "uppercase" }}>CALCULATEUR DEVIS</span>
                     </div>
 
-                    <span style={{ fontSize: 11, fontWeight: 800, color: "#64748B", background: "#F1F5F9", padding: "2px 8px", borderRadius: 6 }}>
-                      DEVISE : FCFA
+                    <span style={{ fontSize: 10.5, fontWeight: 700, color: "#94A3B8" }}>
+                      BÉNIN (FCFA)
                     </span>
                   </div>
 
-                  {/* DETAILED COST BREAKDOWN */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 13, marginBottom: 18 }}>
+                  {/* COST BREAKDOWN */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 12.5, marginBottom: 20 }}>
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ color: "#64748B" }}>
+                      <span style={{ color: "#94A3B8" }}>
                         Marchandise ({quantity} × {formatAmount(unitPriceFCFA)})
                       </span>
-                      <strong style={{ color: "#0F172A" }}>{formatAmount(productCostFCFA)}</strong>
+                      <strong style={{ color: "#FFFFFF" }}>{formatAmount(productCostFCFA)}</strong>
                     </div>
 
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ color: "#64748B" }}>
+                      <span style={{ color: "#94A3B8" }}>
                         Frais Sourcing & Gestion (5%)
                       </span>
-                      <strong style={{ color: "#0F172A" }}>{formatAmount(serviceFeeFCFA)}</strong>
+                      <strong style={{ color: "#FFFFFF" }}>{formatAmount(serviceFeeFCFA)}</strong>
                     </div>
 
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ color: "#64748B" }}>
+                      <span style={{ color: "#94A3B8" }}>
                         Fret {formData.shippingMode === "sea" ? "Maritime" : "Aérien"} estimé
                       </span>
-                      <strong style={{ color: "#0F172A" }}>{formatAmount(estimatedShippingFeeFCFA)}</strong>
+                      <strong style={{ color: "#FFFFFF" }}>{formatAmount(estimatedShippingFeeFCFA)}</strong>
                     </div>
 
                     {extraOptionsCostFCFA > 0 && (
-                      <div style={{ display: "flex", justifyContent: "space-between", color: "#0284C7" }}>
-                        <span>Services additionnels choisis</span>
+                      <div style={{ display: "flex", justifyContent: "space-between", color: "#38BDF8" }}>
+                        <span>Services choisis</span>
                         <strong>+{formatAmount(extraOptionsCostFCFA)}</strong>
                       </div>
                     )}
                   </div>
 
-                  {/* TOTAL HIGHLIGHT */}
-                  <div style={{ background: "#0F172A", color: "#FFFFFF", padding: "18px 20px", borderRadius: 14, marginBottom: 18 }}>
-                    <div style={{ fontSize: 11, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.5px", textTransform: "uppercase" }}>
+                  {/* GLOWING TOTAL HIGHLIGHT */}
+                  <div style={{ background: "rgba(255, 255, 255, 0.07)", padding: "16px", borderRadius: 10, marginBottom: 18, border: "1px solid rgba(255,255,255,0.12)" }}>
+                    <div style={{ fontSize: 10.5, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.05em", textTransform: "uppercase" }}>
                       Estimation Totale Indicative
                     </div>
-                    <div style={{ fontSize: 24, fontWeight: 900, color: "#FFFFFF", marginTop: 4, fontFamily: "'Outfit', sans-serif" }}>
+                    <div style={{ fontSize: 24, fontWeight: 900, color: "#FFFFFF", marginTop: 4 }}>
                       {formatAmount(totalEstimatedFCFA)}
                     </div>
-                    <div style={{ fontSize: 11, color: "#CBD5E1", marginTop: 4 }}>
-                      * Inclus marchandise usine, gestion et fret international.
+                    <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 4 }}>
+                      * Inclus marchandise usine, gestion & fret Cotonou.
                     </div>
                   </div>
 
                   {/* TRUST POINTS */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 12, color: "#0F172A" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 12, color: "#CBD5E1" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <Clock style={{ width: 15, height: 15, color: "#EA580C" }} />
+                      <Clock style={{ width: 14, height: 14, color: "#38BDF8" }} />
                       <span>Réponse officielle sous 2 heures max</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <ShieldCheck style={{ width: 15, height: 15, color: "#16A34A" }} />
-                      <span>Inspection qualité physique en entrepôt international</span>
+                      <ShieldCheck style={{ width: 14, height: 14, color: "#059669" }} />
+                      <span>Inspection physique entrepôt Chine</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <MapPin style={{ width: 15, height: 15, color: "#0284C7" }} />
-                      <span>Dédouanement & livraison à Cotonou / Bénin</span>
+                      <MapPin style={{ width: 14, height: 14, color: "#38BDF8" }} />
+                      <span>Livraison sécurisée Cotonou & Bénin</span>
                     </div>
                   </div>
                 </div>
 
-                {/* NEED HELP BOX */}
-                <div style={{ padding: "18px 20px", background: "#FEF9C3", border: "1.5px solid #FDE047", borderRadius: 16 }}>
-                  <div style={{ fontWeight: 800, fontSize: 13, color: "#854D0E", marginBottom: 4, display: "flex", alignItems: "center", gap: 6 }}>
-                    <HelpCircle style={{ width: 16, height: 16 }} />
-                    <span>Besoin d'aide pour votre devis ?</span>
+                {/* HELP BOX */}
+                <div style={{ padding: "16px 18px", background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 12 }}>
+                  <div style={{ fontWeight: 700, fontSize: 13, color: "#0F172A", marginBottom: 4, display: "flex", alignItems: "center", gap: 6 }}>
+                    <HelpCircle style={{ width: 15, height: 15, color: "#165491" }} />
+                    <span>Besoin d'aide ?</span>
                   </div>
-                  <div style={{ fontSize: 12, color: "#A16207", marginBottom: 10, lineHeight: 1.4 }}>
-                    Nos conseillers sont disponibles 7j/7 pour vous assister dans le sourcing.
+                  <div style={{ fontSize: 12, color: "#64748B", marginBottom: 10, lineHeight: 1.4 }}>
+                    Assistance sourcing directe disponible 7j/7.
                   </div>
                   <a
                     href="https://wa.me/22997000000"
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ fontSize: 12.5, fontWeight: 800, color: "#854D0E", textDecoration: "underline", display: "inline-flex", alignItems: "center", gap: 6 }}
+                    style={{ fontSize: 12.5, fontWeight: 700, color: "#165491", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}
                   >
                     <MessageSquare style={{ width: 14, height: 14 }} />
-                    <span>Écrire sur WhatsApp direct →</span>
+                    <span>Contacter WhatsApp →</span>
                   </a>
                 </div>
 
