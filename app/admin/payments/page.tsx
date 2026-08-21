@@ -62,11 +62,11 @@ export default function PaymentsManagementPage() {
           <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)", marginBottom: 4 }}>
             TRANSACTIONS & RÈGLEMENTS
           </span>
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
             Gestion des Paiements Clients
           </h1>
         </div>
-        <div style={{ fontSize: 13, fontWeight: 800, color: "var(--text-muted)" }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-muted)" }}>
           Total : <strong>{filteredPayments.length}</strong> paiements enregistrés
         </div>
       </div>
@@ -115,7 +115,7 @@ export default function PaymentsManagementPage() {
               ) : (
                 filteredPayments.map((p) => (
                   <tr key={p.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                    <td style={{ padding: "14px 16px", fontWeight: 800, color: "var(--navy-dark)", fontFamily: "monospace" }}>
+                    <td style={{ padding: "14px 16px", fontWeight: 600, color: "var(--navy-dark)", fontFamily: "monospace" }}>
                       {p.transaction_id || "En attente"}
                     </td>
 
@@ -127,7 +127,7 @@ export default function PaymentsManagementPage() {
                       {p.profile ? `${p.profile.first_name || ""} ${p.profile.last_name || ""}` : "Client"}
                     </td>
 
-                    <td style={{ padding: "14px 16px", fontWeight: 900, color: "var(--navy-dark)", fontSize: 14 }}>
+                    <td style={{ padding: "14px 16px", fontWeight: 700, color: "var(--navy-dark)", fontSize: 14 }}>
                       {(p.amount || 0).toLocaleString()} {p.currency || "FCFA"}
                     </td>
 

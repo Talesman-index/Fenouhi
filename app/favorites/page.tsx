@@ -93,9 +93,9 @@ function FavoritesPageInner() {
             <h1
               style={{
                 fontSize: 26,
-                fontWeight: 900,
+                fontWeight: 700,
                 color: "#0F172A",
-                fontFamily: "'Outfit', sans-serif",
+                fontFamily: "'Poppins', sans-serif",
                 margin: "0 0 4px",
                 display: "flex",
                 alignItems: "center",
@@ -121,7 +121,7 @@ function FavoritesPageInner() {
                   borderRadius: 12,
                   padding: "10px 20px",
                   fontSize: 13.5,
-                  fontWeight: 800,
+                  fontWeight: 600,
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
@@ -188,7 +188,7 @@ function FavoritesPageInner() {
             >
               <Heart style={{ width: 32, height: 32, fill: "#DC2626" }} />
             </div>
-            <h2 style={{ fontSize: 20, fontWeight: 800, color: "#0F172A", margin: "0 0 8px" }}>
+            <h2 style={{ fontSize: 20, fontWeight: 600, color: "#0F172A", margin: "0 0 8px" }}>
               Aucun favori enregistré
             </h2>
             <p style={{ fontSize: 14, color: "#64748B", margin: "0 0 24px" }}>
@@ -324,7 +324,7 @@ function FavoritesPageInner() {
                       <div style={{ fontSize: 11.5, color: "#94A3B8", textDecoration: "line-through" }}>
                         {formatPrice(oldPrice)}
                       </div>
-                      <div style={{ fontSize: 17, fontWeight: 900, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
+                      <div style={{ fontSize: 17, fontWeight: 700, color: "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
                         {formatPrice(item.price)}
                       </div>
                     </div>

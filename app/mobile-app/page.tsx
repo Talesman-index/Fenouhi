@@ -80,10 +80,10 @@ function MobileExperienceContent() {
           <h1
             style={{
               fontSize: "clamp(26px, 4vw, 40px)",
-              fontWeight: 900,
+              fontWeight: 700,
               color: "#FFFFFF",
               margin: "0 0 12px",
-              fontFamily: "'Outfit', sans-serif",
+              fontFamily: "'Poppins', sans-serif",
               letterSpacing: -0.5,
             }}
           >
@@ -181,7 +181,7 @@ function MobileExperienceContent() {
                     borderRadius: 8,
                     padding: "4px 8px",
                     fontSize: 11.5,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     cursor: "pointer",
                     transition: "all 0.15s ease",
                   }}
@@ -211,7 +211,7 @@ function MobileExperienceContent() {
                 <div
                   style={{
                     fontSize: 12,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     color: "#38BDF8",
                     textTransform: "uppercase",
                     letterSpacing: 0.5,
@@ -269,7 +269,7 @@ function MobileExperienceContent() {
                 <div
                   style={{
                     fontSize: 12,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     color: "#F59E0B",
                     textTransform: "uppercase",
                     letterSpacing: 0.5,
@@ -326,7 +326,7 @@ function MobileExperienceContent() {
                 <div
                   style={{
                     fontSize: 12,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     color: "#10B981",
                     textTransform: "uppercase",
                     letterSpacing: 0.5,
@@ -383,7 +383,7 @@ function MobileExperienceContent() {
                 <div
                   style={{
                     fontSize: 12,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     color: "#EF4444",
                     textTransform: "uppercase",
                     letterSpacing: 0.5,
@@ -458,7 +458,7 @@ function MobileExperienceContent() {
           <h3
             style={{
               fontSize: 18,
-              fontWeight: 800,
+              fontWeight: 600,
               color: "#FFFFFF",
               margin: "0 0 16px",
               display: "flex",

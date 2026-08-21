@@ -38,7 +38,7 @@ export default function TrackingTimeline({
           <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)", marginBottom: 6, fontSize: 11, display: "inline-block" }}>
             SUIVI EN TEMPS RÉEL
           </span>
-          <h3 style={{ fontSize: "clamp(15px, 4vw, 18px)", fontWeight: 900, color: "var(--navy-dark)", margin: 0, wordBreak: "break-word", lineHeight: 1.3 }}>
+          <h3 style={{ fontSize: "clamp(15px, 4vw, 18px)", fontWeight: 700, color: "var(--navy-dark)", margin: 0, wordBreak: "break-word", lineHeight: 1.3 }}>
             Timeline Logistique — N° {trackingNumber}
           </h3>
         </div>
@@ -69,7 +69,7 @@ export default function TrackingTimeline({
               <div style={{
                 width: 28, height: 28, borderRadius: "50%",
                 background: s.active ? "var(--orange-primary)" : s.completed ? "var(--green-success)" : "#CBD5E1",
-                color: "#FFF", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 900
+                color: "#FFF", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700
               }}>
                 {s.completed ? <CheckCircle2 style={{ width: 16 }} /> : s.stepNumber}
               </div>
@@ -77,7 +77,7 @@ export default function TrackingTimeline({
 
             {/* STEP DETAILS */}
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 13.5, fontWeight: 800, color: s.active ? "var(--orange-hover)" : "var(--navy-dark)", wordBreak: "break-word" }}>
+              <div style={{ fontSize: 13.5, fontWeight: 600, color: s.active ? "var(--orange-hover)" : "var(--navy-dark)", wordBreak: "break-word" }}>
                 {s.title}
               </div>
               <div style={{ fontSize: 11.5, color: "#64748B", display: "flex", flexWrap: "wrap", gap: "4px 12px", marginTop: 4 }}>

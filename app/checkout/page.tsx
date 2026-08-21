@@ -200,7 +200,7 @@ function CheckoutPageInner() {
                 padding: "4px 14px",
                 borderRadius: 999,
                 fontSize: 12,
-                fontWeight: 800,
+                fontWeight: 600,
                 marginBottom: 12,
                 textTransform: "uppercase",
               }}
@@ -212,9 +212,9 @@ function CheckoutPageInner() {
             <h1
               style={{
                 fontSize: "clamp(22px, 3.5vw, 28px)",
-                fontWeight: 900,
+                fontWeight: 700,
                 color: "#0F172A",
-                fontFamily: "'Outfit', sans-serif",
+                fontFamily: "'Poppins', sans-serif",
                 margin: "0 0 10px",
               }}
             >
@@ -242,7 +242,7 @@ function CheckoutPageInner() {
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   <Package style={{ width: 20, height: 20, color: "#165491" }} />
                   <div>
-                    <div style={{ fontSize: 13, fontWeight: 800, color: "#0F172A" }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>
                       {cart.length} {cart.length > 1 ? "articles conservés" : "article conservé"} dans votre panier
                     </div>
                     <div style={{ fontSize: 11, color: "#64748B" }}>
@@ -250,7 +250,7 @@ function CheckoutPageInner() {
                     </div>
                   </div>
                 </div>
-                <div style={{ fontSize: 16, fontWeight: 900, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
                   {formatPrice(finalTotal)}
                 </div>
               </div>
@@ -265,7 +265,7 @@ function CheckoutPageInner() {
                   padding: "15px 24px",
                   borderRadius: 14,
                   fontSize: 15,
-                  fontWeight: 800,
+                  fontWeight: 600,
                   textDecoration: "none",
                   display: "flex",
                   alignItems: "center",
@@ -287,7 +287,7 @@ function CheckoutPageInner() {
                   padding: "14px 24px",
                   borderRadius: 14,
                   fontSize: 14.5,
-                  fontWeight: 800,
+                  fontWeight: 600,
                   textDecoration: "none",
                   display: "flex",
                   alignItems: "center",
@@ -324,7 +324,7 @@ function CheckoutPageInner() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8, textAlign: "center" }}>
             {/* STEP 1 */}
             <Link href="/cart" style={{ textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#16A34A", color: "#FFF", fontSize: 12, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
+              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#16A34A", color: "#FFF", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
                 ✓
               </div>
               <span style={{ fontSize: 12.5, fontWeight: 700, color: "#16A34A" }} className="desktop-only">1. Mon Panier</span>
@@ -332,15 +332,15 @@ function CheckoutPageInner() {
 
             {/* STEP 2 (ACTIVE) */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 13, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1", boxShadow: "0 0 0 3px rgba(15, 23, 42, 0.15)" }}>
+              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1", boxShadow: "0 0 0 3px rgba(15, 23, 42, 0.15)" }}>
                 2
               </div>
-              <span style={{ fontSize: 12.5, fontWeight: 900, color: "#0F172A" }}>2. Fret & Livraison</span>
+              <span style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A" }}>2. Fret & Livraison</span>
             </div>
 
             {/* STEP 3 */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, opacity: 0.5 }}>
-              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#CBD5E1", color: "#FFF", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
+              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#CBD5E1", color: "#FFF", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
                 3
               </div>
               <span style={{ fontSize: 12.5, fontWeight: 700, color: "#64748B" }} className="desktop-only">3. Paiement Sécurisé</span>
@@ -348,7 +348,7 @@ function CheckoutPageInner() {
 
             {/* STEP 4 */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, opacity: 0.5 }}>
-              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#CBD5E1", color: "#FFF", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
+              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#CBD5E1", color: "#FFF", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
                 4
               </div>
               <span style={{ fontSize: 12.5, fontWeight: 700, color: "#64748B" }} className="desktop-only">4. Suivi Expédition</span>
@@ -418,13 +418,13 @@ function CheckoutPageInner() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontWeight: 900,
+                fontWeight: 700,
               }}
             >
               <User style={{ width: 18, height: 18 }} />
             </div>
             <div>
-              <div style={{ fontSize: 13.5, fontWeight: 800, color: "#0F172A" }}>
+              <div style={{ fontSize: 13.5, fontWeight: 600, color: "#0F172A" }}>
                 Client connecté : {currentUser.name}
               </div>
               <div style={{ fontSize: 11.5, color: "#64748B" }}>
@@ -441,7 +441,7 @@ function CheckoutPageInner() {
               padding: "5px 12px",
               borderRadius: 999,
               fontSize: 11.5,
-              fontWeight: 800,
+              fontWeight: 600,
               display: "inline-flex",
               alignItems: "center",
               gap: 5,
@@ -466,7 +466,7 @@ function CheckoutPageInner() {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16, flexWrap: "wrap", gap: 8 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#10B981" }} />
-              <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#38BDF8" }}>
+              <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#38BDF8" }}>
                 Processus Logistique FENOUHIMIN
               </span>
             </div>
@@ -533,7 +533,7 @@ function CheckoutPageInner() {
                   {p.icon}
                 </div>
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ fontSize: 12.5, fontWeight: 800, color: "#FFFFFF" }}>{p.title}</div>
+                  <div style={{ fontSize: 12.5, fontWeight: 600, color: "#FFFFFF" }}>{p.title}</div>
                   <div style={{ fontSize: 11, color: "#94A3B8" }}>{p.desc}</div>
                 </div>
               </div>
@@ -567,9 +567,9 @@ function CheckoutPageInner() {
                 <h2
                   style={{
                     fontSize: 17,
-                    fontWeight: 900,
+                    fontWeight: 700,
                     color: "#0F172A",
-                    fontFamily: "'Outfit', sans-serif",
+                    fontFamily: "'Poppins', sans-serif",
                     margin: 0,
                     display: "flex",
                     alignItems: "center",
@@ -630,7 +630,7 @@ function CheckoutPageInner() {
 
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <span style={{ fontSize: 14, fontWeight: 800, color: "#0F172A" }}>
+                      <span style={{ fontSize: 14, fontWeight: 600, color: "#0F172A" }}>
                         Fret Aérien Express
                       </span>
                       <span
@@ -638,7 +638,7 @@ function CheckoutPageInner() {
                           background: "#0284C7",
                           color: "#FFFFFF",
                           fontSize: 10,
-                          fontWeight: 800,
+                          fontWeight: 600,
                           padding: "2px 6px",
                           borderRadius: 4,
                         }}
@@ -703,7 +703,7 @@ function CheckoutPageInner() {
 
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <span style={{ fontSize: 14, fontWeight: 800, color: "#0F172A" }}>
+                      <span style={{ fontSize: 14, fontWeight: 600, color: "#0F172A" }}>
                         Fret Maritime Groupé
                       </span>
                       <span
@@ -711,7 +711,7 @@ function CheckoutPageInner() {
                           background: "#0891B2",
                           color: "#FFFFFF",
                           fontSize: 10,
-                          fontWeight: 800,
+                          fontWeight: 600,
                           padding: "2px 6px",
                           borderRadius: 4,
                         }}
@@ -757,9 +757,9 @@ function CheckoutPageInner() {
               <h2
                 style={{
                   fontSize: 17,
-                  fontWeight: 900,
+                  fontWeight: 700,
                   color: "#0F172A",
-                  fontFamily: "'Outfit', sans-serif",
+                  fontFamily: "'Poppins', sans-serif",
                   margin: "0 0 14px",
                   display: "flex",
                   alignItems: "center",
@@ -818,7 +818,7 @@ function CheckoutPageInner() {
                   </div>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 800, color: "#0F172A" }}>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: "#0F172A" }}>
                       LIVRAISON À DOMICILE / BUREAU
                     </div>
                     <div style={{ fontSize: 11.5, color: "#64748B", marginTop: 2 }}>
@@ -877,7 +877,7 @@ function CheckoutPageInner() {
                   </div>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 800, color: "#0F172A" }}>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: "#0F172A" }}>
                       RETRAIT HUB / AGENCE BÉNIN
                     </div>
                     <div style={{ fontSize: 11.5, color: "#64748B", marginTop: 2 }}>
@@ -949,7 +949,7 @@ function CheckoutPageInner() {
               <h2
                 style={{
                   fontSize: 16.5,
-                  fontWeight: 900,
+                  fontWeight: 700,
                   color: "#0F172A",
                   margin: "0 0 4px",
                   display: "flex",
@@ -965,7 +965,7 @@ function CheckoutPageInner() {
                     background: "#0F172A",
                     color: "#FFFFFF",
                     fontSize: 12,
-                    fontWeight: 900,
+                    fontWeight: 700,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -996,16 +996,16 @@ function CheckoutPageInner() {
                 }}
               >
                 <div style={{ flex: "1 1 180px" }}>
-                  <div style={{ fontSize: 11, fontWeight: 800, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.04em" }}>
                     Mode de Règlement
                   </div>
-                  <div style={{ fontSize: 14.5, fontWeight: 900, color: "#0F172A", display: "flex", alignItems: "center", gap: 6, marginTop: 3 }}>
+                  <div style={{ fontSize: 14.5, fontWeight: 700, color: "#0F172A", display: "flex", alignItems: "center", gap: 6, marginTop: 3 }}>
                     <ShieldCheck style={{ width: 18, height: 18, color: "#16A34A", flexShrink: 0 }} />
                     <span>Paiement Direct Sécurisé</span>
                   </div>
                 </div>
                 <div style={{ flex: "0 1 auto" }}>
-                  <div style={{ fontSize: 10.5, fontWeight: 800, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.03em", marginBottom: 3 }}>
+                  <div style={{ fontSize: 10.5, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.03em", marginBottom: 3 }}>
                     Total à régler :
                   </div>
                   <div
@@ -1015,9 +1015,9 @@ function CheckoutPageInner() {
                       padding: "5px 12px",
                       borderRadius: 10,
                       fontSize: 17,
-                      fontWeight: 900,
+                      fontWeight: 700,
                       color: "#DC2626",
-                      fontFamily: "'Outfit', sans-serif",
+                      fontFamily: "'Poppins', sans-serif",
                       letterSpacing: "-0.02em",
                       boxShadow: "0 2px 6px rgba(220, 38, 38, 0.08)",
                       display: "inline-block",
@@ -1035,7 +1035,7 @@ function CheckoutPageInner() {
                   borderTop: "1px solid #E2E8F0",
                 }}
               >
-                <div style={{ fontSize: 11.5, fontWeight: 800, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 10 }}>
+                <div style={{ fontSize: 11.5, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 10 }}>
                   Moyens acceptés au Bénin :
                 </div>
                 <div
@@ -1054,7 +1054,7 @@ function CheckoutPageInner() {
                       padding: "10px 12px",
                       borderRadius: 12,
                       fontSize: 12.5,
-                      fontWeight: 800,
+                      fontWeight: 600,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -1073,7 +1073,7 @@ function CheckoutPageInner() {
                       padding: "10px 12px",
                       borderRadius: 12,
                       fontSize: 12.5,
-                      fontWeight: 800,
+                      fontWeight: 600,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -1141,7 +1141,7 @@ function CheckoutPageInner() {
                   borderRadius: 14,
                   padding: "16px 28px",
                   fontSize: 15.5,
-                  fontWeight: 800,
+                  fontWeight: 600,
                   cursor: submittingOrder ? "not-allowed" : "pointer",
                   display: "flex",
                   alignItems: "center",
@@ -1176,7 +1176,7 @@ function CheckoutPageInner() {
             }}
           >
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <h3 style={{ fontSize: 16, fontWeight: 900, color: "#0F172A", margin: 0 }}>
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0F172A", margin: 0 }}>
                 Détail de la commande ({cart.length})
               </h3>
               <span
@@ -1184,7 +1184,7 @@ function CheckoutPageInner() {
                   background: "#F1F5F9",
                   color: "#0F172A",
                   fontSize: 11,
-                  fontWeight: 800,
+                  fontWeight: 600,
                   padding: "3px 8px",
                   borderRadius: 6,
                 }}
@@ -1220,7 +1220,7 @@ function CheckoutPageInner() {
                     </div>
                     <div style={{ fontSize: 11, color: "#64748B" }}>Qté : {item.quantity}</div>
                   </div>
-                  <div style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A" }}>
+                  <div style={{ fontSize: 12.5, fontWeight: 600, color: "#0F172A" }}>
                     {formatPrice(item.price * item.quantity)}
                   </div>
                 </div>
@@ -1233,19 +1233,19 @@ function CheckoutPageInner() {
             <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 13, color: "#475569" }}>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Sous-total Usines</span>
-                <span style={{ fontWeight: 800, color: "#0F172A" }}>{formatPrice(finalTotal)}</span>
+                <span style={{ fontWeight: 600, color: "#0F172A" }}>{formatPrice(finalTotal)}</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Fret ({freightMode === "air" ? "Aérien Express" : "Maritime Groupé"})</span>
-                <span style={{ fontWeight: 800, color: "#0284C7" }}>Inclus</span>
+                <span style={{ fontWeight: 600, color: "#0284C7" }}>Inclus</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Dédouanement & Taxes</span>
-                <span style={{ fontWeight: 800, color: "#16A34A" }}>100% Inclus</span>
+                <span style={{ fontWeight: 600, color: "#16A34A" }}>100% Inclus</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Livraison {deliveryMode === "home" ? "à Domicile" : "au Hub"}</span>
-                <span style={{ fontWeight: 800, color: "#16A34A" }}>Gratuit</span>
+                <span style={{ fontWeight: 600, color: "#16A34A" }}>Gratuit</span>
               </div>
             </div>
 
@@ -1255,14 +1255,14 @@ function CheckoutPageInner() {
                 justifyContent: "space-between",
                 alignItems: "center",
                 fontSize: 16,
-                fontWeight: 900,
+                fontWeight: 700,
                 color: "#0F172A",
                 paddingTop: 12,
                 borderTop: "1.5px solid #F1F5F9",
               }}
             >
               <span>TOTAL TTC</span>
-              <span style={{ fontSize: 20, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
+              <span style={{ fontSize: 20, color: "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
                 {formatPrice(finalTotal)}
               </span>
             </div>
@@ -1281,7 +1281,7 @@ function CheckoutPageInner() {
                 gap: 6,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#0F172A", fontWeight: 800 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#0F172A", fontWeight: 600 }}>
                 <ShieldCheck style={{ width: 16, height: 16, color: "#16A34A" }} />
                 <span>Garantie FENOUHIMIN 100% Sécurisé</span>
               </div>
@@ -1334,7 +1334,7 @@ function CheckoutPageInner() {
                 <ShieldCheck style={{ width: 38, height: 38 }} />
               </div>
 
-              <h3 style={{ fontSize: 22, fontWeight: 900, color: "#0F172A", margin: "0 0 8px" }}>
+              <h3 style={{ fontSize: 22, fontWeight: 700, color: "#0F172A", margin: "0 0 8px" }}>
                 Commande Confirmée !
               </h3>
               <p style={{ fontSize: 14, color: "#64748B", margin: "0 0 18px", lineHeight: 1.4 }}>
@@ -1349,7 +1349,7 @@ function CheckoutPageInner() {
                   padding: "14px 18px",
                   marginBottom: 24,
                   fontSize: 13.5,
-                  fontWeight: 800,
+                  fontWeight: 600,
                   color: "#0F172A",
                 }}
               >
@@ -1371,7 +1371,7 @@ function CheckoutPageInner() {
                     borderRadius: 12,
                     padding: "14px 18px",
                     fontSize: 14,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     textDecoration: "none",
                     display: "flex",
                     alignItems: "center",

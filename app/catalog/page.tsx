@@ -103,7 +103,7 @@ function CatalogContent() {
                   padding: "4px 12px",
                   borderRadius: 999,
                   fontSize: 11.5,
-                  fontWeight: 800,
+                  fontWeight: 600,
                   marginBottom: 8,
                   letterSpacing: "0.5px",
                 }}
@@ -117,8 +117,8 @@ function CatalogContent() {
                   color: "#0F172A",
                   fontSize: "clamp(22px, 4vw, 30px)",
                   margin: "0 0 6px",
-                  fontWeight: 900,
-                  fontFamily: "'Outfit', sans-serif",
+                  fontWeight: 700,
+                  fontFamily: "'Poppins', sans-serif",
                   lineHeight: 1.2,
                 }}
               >
@@ -167,7 +167,7 @@ function CatalogContent() {
 
         {/* 2. HORIZONTAL SCROLLABLE CONDITION STATE PILLS */}
         <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 11, fontWeight: 800, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
             Filtrer par état du téléphone :
           </div>
 
@@ -215,7 +215,7 @@ function CatalogContent() {
 
         {/* 3. HORIZONTAL SCROLLABLE CATEGORIES BAR */}
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, fontWeight: 800, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
             Catégories :
           </div>
 
@@ -306,7 +306,7 @@ function CatalogContent() {
             }}
           >
             <AlertCircle style={{ width: 40, height: 40, margin: "0 auto 12px", color: "#DC2626" }} />
-            <div style={{ fontWeight: 800, fontSize: 15 }}>{errorMsg}</div>
+            <div style={{ fontWeight: 600, fontSize: 15 }}>{errorMsg}</div>
           </div>
         )}
 
@@ -322,7 +322,7 @@ function CatalogContent() {
             }}
           >
             <Package style={{ width: 48, height: 48, color: "#94A3B8", margin: "0 auto 16px" }} />
-            <h3 style={{ fontSize: 18, fontWeight: 900, color: "#0F172A", margin: "0 0 8px" }}>
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: "0 0 8px" }}>
               Aucun produit disponible
             </h3>
             <p style={{ fontSize: 13.5, color: "#64748B", margin: 0 }}>
@@ -370,7 +370,7 @@ export default function CatalogPage() {
           style={{
             textAlign: "center",
             padding: "80px 0",
-            fontWeight: 800,
+            fontWeight: 600,
             color: "#0F172A",
             background: "#FAF7F2",
             minHeight: "80vh",

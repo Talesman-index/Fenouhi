@@ -110,7 +110,7 @@ export default function CartView({ onBack, onProceedToCheckout }: CartViewProps)
 
         {/* TITLE & PRODUCTS COUNT */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <h2 style={{ fontSize: 16, fontWeight: 800, color: "#0F172A", margin: 0 }}>Panier</h2>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: "#0F172A", margin: 0 }}>Panier</h2>
         </div>
 
         {/* TOP RIGHT: ITEM COUNT & VIDER PANIER */}
@@ -336,7 +336,7 @@ export default function CartView({ onBack, onProceedToCheckout }: CartViewProps)
                       <div
                         style={{
                           fontSize: 14.5,
-                          fontWeight: 800,
+                          fontWeight: 600,
                           color: "#DC2626", // Exact vibrant red accent from mockup
                           lineHeight: 1.2,
                         }}
@@ -576,7 +576,7 @@ export default function CartView({ onBack, onProceedToCheckout }: CartViewProps)
               }}
             >
               <span>Total panier</span>
-              <span style={{ fontWeight: 800, color: "#0F172A" }}>
+              <span style={{ fontWeight: 600, color: "#0F172A" }}>
                 {formatPrice(totalPanier)}
               </span>
             </div>
@@ -620,7 +620,7 @@ export default function CartView({ onBack, onProceedToCheckout }: CartViewProps)
                 justifyContent: "space-between",
                 alignItems: "center",
                 fontSize: 14,
-                fontWeight: 800,
+                fontWeight: 600,
                 color: "#0F172A",
                 paddingTop: 4,
                 borderTop: "1px solid #F1F5F9",

@@ -156,7 +156,7 @@ export default function SettingsPage() {
         <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)", marginBottom: 4 }}>
           CONFIGURATION OPÉRATIONNELLE
         </span>
-        <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
           Paramètres de la Plateforme
         </h1>
         <p style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 6 }}>
@@ -172,7 +172,7 @@ export default function SettingsPage() {
               <Percent style={{ width: 20 }} />
             </div>
             <div>
-              <h2 style={{ fontSize: 17, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>Frais de Service CargoLink Africa</h2>
+              <h2 style={{ fontSize: 17, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>Frais de Service CargoLink Africa</h2>
               <div style={{ fontSize: 12, color: "var(--text-muted)" }}>Appliqués à chaque devis et commande</div>
             </div>
           </div>
@@ -181,7 +181,7 @@ export default function SettingsPage() {
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
+            <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
               COMMISSION VARIABLE (% DU MONTANT PRODUIT)
             </label>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -194,12 +194,12 @@ export default function SettingsPage() {
                 onChange={(e) => setServiceFees({ ...serviceFees, rate_percent: Number(e.target.value) })}
                 style={{ flex: 1, padding: 10, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontWeight: 700, fontSize: 16 }}
               />
-              <span style={{ fontWeight: 800, color: "var(--navy-dark)" }}>%</span>
+              <span style={{ fontWeight: 600, color: "var(--navy-dark)" }}>%</span>
             </div>
           </div>
 
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
+            <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
               FRAIS FIXES PAR COMMANDE (FCFA)
             </label>
             <input
@@ -221,7 +221,7 @@ export default function SettingsPage() {
               <Ship style={{ width: 20 }} />
             </div>
             <div>
-              <h2 style={{ fontSize: 17, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>Tarifs d'Expédition Chine → Afrique</h2>
+              <h2 style={{ fontSize: 17, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>Tarifs d'Expédition Chine → Afrique</h2>
               <div style={{ fontSize: 12, color: "var(--text-muted)" }}>Utilisés pour calculer le coût logistique automatiquement</div>
             </div>
           </div>
@@ -230,7 +230,7 @@ export default function SettingsPage() {
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
+            <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
               <Plane style={{ width: 14, display: "inline", marginRight: 4 }} />
               FRET AÉRIEN — FCFA PAR KG
             </label>
@@ -244,7 +244,7 @@ export default function SettingsPage() {
           </div>
 
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
+            <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
               <Ship style={{ width: 14, display: "inline", marginRight: 4 }} />
               FRET MARITIME — FCFA PAR CBM
             </label>
@@ -267,7 +267,7 @@ export default function SettingsPage() {
               <CreditCard style={{ width: 20 }} />
             </div>
             <div>
-              <h2 style={{ fontSize: 17, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>Devises & Méthodes de Paiement</h2>
+              <h2 style={{ fontSize: 17, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>Devises & Méthodes de Paiement</h2>
               <div style={{ fontSize: 12, color: "var(--text-muted)" }}>Méthodes acceptées pour les règlements clients</div>
             </div>
           </div>
@@ -275,7 +275,7 @@ export default function SettingsPage() {
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
+            <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
               DEVISES SUPPORTÉES (séparées par des virgules)
             </label>
             <input
@@ -290,7 +290,7 @@ export default function SettingsPage() {
           </div>
 
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
+            <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
               MÉTHODES DE PAIEMENT ACCEPTÉES
             </label>
             <textarea
@@ -313,7 +313,7 @@ export default function SettingsPage() {
               <Phone style={{ width: 20, color: "var(--navy-dark)" }} />
             </div>
             <div>
-              <h2 style={{ fontSize: 17, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>Informations de Contact CargoLink Africa</h2>
+              <h2 style={{ fontSize: 17, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>Informations de Contact CargoLink Africa</h2>
               <div style={{ fontSize: 12, color: "var(--text-muted)" }}>Affichées sur le site public et les emails transactionnels</div>
             </div>
           </div>
@@ -322,7 +322,7 @@ export default function SettingsPage() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>EMAIL DE CONTACT OFFICIEL</label>
+            <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>EMAIL DE CONTACT OFFICIEL</label>
             <input
               type="email"
               value={contactInfo.email}
@@ -332,7 +332,7 @@ export default function SettingsPage() {
           </div>
 
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>NUMÉRO DE TÉLÉPHONE / WHATSAPP</label>
+            <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>NUMÉRO DE TÉLÉPHONE / WHATSAPP</label>
             <input
               type="text"
               value={contactInfo.phone}
@@ -342,7 +342,7 @@ export default function SettingsPage() {
           </div>
 
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>ADRESSE PHYSIQUE (SIÈGE SOCIAL)</label>
+            <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>ADRESSE PHYSIQUE (SIÈGE SOCIAL)</label>
             <input
               type="text"
               value={contactInfo.address}
@@ -357,7 +357,7 @@ export default function SettingsPage() {
       <div className="card" style={{ padding: 24, background: "#FFFBEB", border: "1px solid #FCD34D" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
           <Shield style={{ width: 22, color: "#D97706" }} />
-          <h2 style={{ fontSize: 17, fontWeight: 900, color: "#92400E", margin: 0 }}>Sécurité & Conformité</h2>
+          <h2 style={{ fontSize: 17, fontWeight: 700, color: "#92400E", margin: 0 }}>Sécurité & Conformité</h2>
         </div>
         <ul style={{ fontSize: 13, color: "#92400E", paddingLeft: 20, lineHeight: 2, margin: 0 }}>
           <li>Les clés secrètes Supabase ne doivent jamais apparaître dans le code client.</li>

@@ -79,7 +79,7 @@ export default function PhoneStateBadge({
             color: stateConfig.textColor,
             border: `1px solid ${stateConfig.borderColor}`,
             fontSize: isSmall ? 10 : isLarge ? 13 : 11.5,
-            fontWeight: 800,
+            fontWeight: 600,
             letterSpacing: 0.2,
             lineHeight: 1.2,
             boxShadow: "0 1px 2px rgba(0,0,0,0.03)",

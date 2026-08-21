@@ -404,7 +404,7 @@ const modalStyles = `
 
   .pwa-modal__app-name {
     font-size: 17px;
-    font-weight: 900;
+    font-weight: 700;
     color: #0F172A;
     letter-spacing: -0.02em;
   }
@@ -507,7 +507,7 @@ const modalStyles = `
     background: #0F172A;
     color: #FFF;
     font-size: 12px;
-    font-weight: 900;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -526,7 +526,7 @@ const modalStyles = `
 
   .pwa-step__text strong {
     font-size: 13.5px;
-    font-weight: 800;
+    font-weight: 600;
     color: #0F172A;
   }
 
@@ -559,7 +559,7 @@ const modalStyles = `
     border: none;
     border-radius: 14px;
     font-size: 15px;
-    font-weight: 800;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 6px 20px rgba(15,23,42,0.2);

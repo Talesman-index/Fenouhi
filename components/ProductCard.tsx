@@ -153,7 +153,7 @@ export default function ProductCard({
               background: "#E8890C",
               color: "#FFFFFF",
               fontSize: 9.5,
-              fontWeight: 800,
+              fontWeight: 600,
               padding: "2px 7px",
               borderRadius: 6,
               zIndex: 10,
@@ -190,19 +190,7 @@ export default function ProductCard({
             </span>
           </div>
 
-          {/* ÉTIQUETTE D'ÉTAT DU TÉLÉPHONE */}
-          {(conditionState || grade) && (
-            <div style={{ marginBottom: 6 }}>
-              <PhoneStateBadge
-                conditionState={conditionState}
-                grade={grade}
-                simType={simType}
-                regionVersion={regionVersion}
-                size="sm"
-                showSecondaryTags={true}
-              />
-            </div>
-          )}
+
 
           <div
             style={{
@@ -238,7 +226,7 @@ export default function ProductCard({
 
           {/* Price */}
           <div style={{ display: "flex", alignItems: "baseline", gap: 6, flexWrap: "wrap", marginBottom: 12 }}>
-            <span style={{ fontSize: 16, fontWeight: 900, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
+            <span style={{ fontSize: 16, fontWeight: 700, color: "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
               {price}
             </span>
             {oldPrice && (
@@ -257,7 +245,7 @@ export default function ProductCard({
             padding: "10px 0",
             textAlign: "center",
             fontSize: 12.5,
-            fontWeight: 800,
+            fontWeight: 600,
             borderRadius: 10,
             background: justAdded ? "#16A34A" : "#0F172A",
             color: "#FFF",

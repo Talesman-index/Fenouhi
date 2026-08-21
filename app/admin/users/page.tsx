@@ -156,11 +156,11 @@ export default function UsersManagementPage() {
           <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)", marginBottom: 4 }}>
             GESTION DU RÉSEAU & RÔLES
           </span>
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
             Utilisateurs & Membres
           </h1>
         </div>
-        <div style={{ fontSize: 13, fontWeight: 800, color: "var(--text-muted)" }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-muted)" }}>
           Total : <strong>{filteredUsers.length}</strong> comptes enregistrés
         </div>
       </div>
@@ -180,7 +180,7 @@ export default function UsersManagementPage() {
 
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <label style={{ fontSize: 12, fontWeight: 800, color: "var(--text-muted)" }}>Rôle :</label>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>Rôle :</label>
             <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)} style={{ padding: "8px 12px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontSize: 13, fontWeight: 700, background: "#FFF" }}>
               <option value="all">Tous les rôles</option>
               <option value="customer">Client</option>
@@ -191,7 +191,7 @@ export default function UsersManagementPage() {
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <label style={{ fontSize: 12, fontWeight: 800, color: "var(--text-muted)" }}>Statut :</label>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>Statut :</label>
             <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} style={{ padding: "8px 12px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontSize: 13, fontWeight: 700, background: "#FFF" }}>
               <option value="all">Tous les statuts</option>
               <option value="active">Actif</option>
@@ -232,7 +232,7 @@ export default function UsersManagementPage() {
               ) : (
                 filteredUsers.map((u) => (
                   <tr key={u.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                    <td style={{ padding: "14px 16px", fontWeight: 800, color: "var(--navy-dark)" }}>
+                    <td style={{ padding: "14px 16px", fontWeight: 600, color: "var(--navy-dark)" }}>
                       {u.first_name} {u.last_name}
                       <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 500, display: "inline-flex", alignItems: "center", gap: 4 }}>
                         {u.account_type === "business" ? (
@@ -294,7 +294,7 @@ export default function UsersManagementPage() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, paddingBottom: 12, borderBottom: "1px solid var(--border-light)" }}>
               <div>
                 <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)" }}>FICHE UTILISATEUR</span>
-                <h2 style={{ fontSize: 20, fontWeight: 900, color: "var(--navy-dark)", margin: "4px 0 0" }}>
+                <h2 style={{ fontSize: 20, fontWeight: 700, color: "var(--navy-dark)", margin: "4px 0 0" }}>
                   {selectedUser.first_name} {selectedUser.last_name}
                 </h2>
               </div>
@@ -310,7 +310,7 @@ export default function UsersManagementPage() {
               </div>
 
               <div>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>ATTRIBUER UN RÔLE</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>ATTRIBUER UN RÔLE</label>
                 <div style={{ display: "flex", gap: 8 }}>
                   {(["customer", "agent", "admin", "super_admin"] as UserRole[]).map((r) => (
                     <button

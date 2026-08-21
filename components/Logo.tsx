@@ -57,7 +57,7 @@ export default function Logo({
             className="logo-text-main"
             style={{
               fontSize: size * 0.55,
-              fontWeight: 900,
+              fontWeight: 700,
               color: light ? "#FFFFFF" : "#0F172A",
               lineHeight: 1,
               letterSpacing: "-0.5px",
@@ -70,7 +70,7 @@ export default function Logo({
               className="logo-text-sub"
               style={{
                 fontSize: Math.max(7.5, size * 0.22),
-                fontWeight: 800,
+                fontWeight: 600,
                 color: light ? "#38BDF8" : "#165491",
                 letterSpacing: "0.5px",
                 marginTop: 3,

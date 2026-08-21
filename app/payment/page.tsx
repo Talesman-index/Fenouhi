@@ -217,28 +217,28 @@ function PaymentContent() {
         >
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8, textAlign: "center" }}>
             <Link href="/cart" style={{ textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#16A34A", color: "#FFF", fontSize: 12, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
+              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#16A34A", color: "#FFF", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
                 ✓
               </div>
               <span style={{ fontSize: 12.5, fontWeight: 700, color: "#16A34A" }} className="desktop-only">1. Mon Panier</span>
             </Link>
 
             <Link href="/checkout" style={{ textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#16A34A", color: "#FFF", fontSize: 12, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
+              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#16A34A", color: "#FFF", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
                 ✓
               </div>
               <span style={{ fontSize: 12.5, fontWeight: 700, color: "#16A34A" }} className="desktop-only">2. Fret & Livraison</span>
             </Link>
 
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 13, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1", boxShadow: "0 0 0 3px rgba(15, 23, 42, 0.15)" }}>
+              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1", boxShadow: "0 0 0 3px rgba(15, 23, 42, 0.15)" }}>
                 3
               </div>
-              <span style={{ fontSize: 12.5, fontWeight: 900, color: "#0F172A" }}>3. Paiement Sécurisé</span>
+              <span style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A" }}>3. Paiement Sécurisé</span>
             </div>
 
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, opacity: paymentSuccess ? 1 : 0.4 }}>
-              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: paymentSuccess ? "#16A34A" : "#CBD5E1", color: "#FFF", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
+              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: paymentSuccess ? "#16A34A" : "#CBD5E1", color: "#FFF", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
                 4
               </div>
               <span style={{ fontSize: 12.5, fontWeight: 700, color: "#64748B" }} className="desktop-only">4. Suivi Expédition</span>
@@ -257,7 +257,7 @@ function PaymentContent() {
                 
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20, flexWrap: "wrap", gap: 10 }}>
                   <div>
-                    <h1 style={{ fontSize: 21, fontWeight: 900, color: "#0F172A", fontFamily: "'Outfit', sans-serif", margin: 0 }}>
+                    <h1 style={{ fontSize: 21, fontWeight: 700, color: "#0F172A", fontFamily: "'Poppins', sans-serif", margin: 0 }}>
                       Règlement Mobile Money Bénin
                     </h1>
                     <p style={{ fontSize: 13, color: "#64748B", margin: "4px 0 0" }}>
@@ -265,7 +265,7 @@ function PaymentContent() {
                     </p>
                   </div>
 
-                  <div style={{ background: "#ECFDF5", border: "1px solid #A7F3D0", padding: "6px 12px", borderRadius: 10, fontSize: 12, fontWeight: 800, color: "#065F46", display: "flex", alignItems: "center", gap: 6 }}>
+                  <div style={{ background: "#ECFDF5", border: "1px solid #A7F3D0", padding: "6px 12px", borderRadius: 10, fontSize: 12, fontWeight: 600, color: "#065F46", display: "flex", alignItems: "center", gap: 6 }}>
                     <ShieldCheck style={{ width: 15, height: 15, color: "#10B981" }} />
                     <span>Compte Marchand Vérifié</span>
                   </div>
@@ -273,7 +273,7 @@ function PaymentContent() {
 
                 {/* 2 OPERATOR BUTTONS (MTN vs MOOV ONLY) */}
                 <div style={{ marginBottom: 24 }}>
-                  <label style={{ display: "block", fontSize: 12.5, fontWeight: 800, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 }}>
+                  <label style={{ display: "block", fontSize: 12.5, fontWeight: 600, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 }}>
                     1. Choisissez votre opérateur :
                   </label>
 
@@ -317,7 +317,7 @@ function PaymentContent() {
                       </div>
 
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 15, fontWeight: 900, color: "#0F172A" }}>MTN Mobile Money</div>
+                        <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A" }}>MTN Mobile Money</div>
                         <div style={{ fontSize: 12, color: "#854D0E", fontWeight: 700 }}>Syntaxe *880# Bénin</div>
                       </div>
 
@@ -367,7 +367,7 @@ function PaymentContent() {
                       </div>
 
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 15, fontWeight: 900, color: "#0F172A" }}>Moov Money</div>
+                        <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A" }}>Moov Money</div>
                         <div style={{ fontSize: 12, color: "#1E40AF", fontWeight: 700 }}>Flooz (*155# Bénin)</div>
                       </div>
 
@@ -383,7 +383,7 @@ function PaymentContent() {
                 {/* INSTRUCTIONS DE DÉPÔT / SYNTAXE USSD */}
                 <div style={{ background: "#F8FAFC", border: "1.5px dashed #CBD5E1", borderRadius: 16, padding: "16px 18px", marginBottom: 24 }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12, flexWrap: "wrap", gap: 6 }}>
-                    <span style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                    <span style={{ fontSize: 12.5, fontWeight: 600, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px" }}>
                       2. Syntaxe USSD de dépôt direct
                     </span>
                     <span style={{ fontSize: 11.5, fontWeight: 700, color: "#64748B" }}>
@@ -410,7 +410,7 @@ function PaymentContent() {
                     <code
                       style={{
                         fontSize: "clamp(13px, 3.5vw, 15px)",
-                        fontWeight: 900,
+                        fontWeight: 700,
                         color: "#0F172A",
                         letterSpacing: "0.5px",
                         fontFamily: "'Courier New', Courier, monospace",
@@ -431,7 +431,7 @@ function PaymentContent() {
                         borderRadius: 8,
                         padding: "8px 14px",
                         fontSize: 12,
-                        fontWeight: 800,
+                        fontWeight: 600,
                         cursor: "pointer",
                         display: "inline-flex",
                         alignItems: "center",
@@ -472,7 +472,7 @@ function PaymentContent() {
                         border: "1px solid #CBD5E1",
                         color: copiedPhone ? "#0369A1" : "#0284C7",
                         fontSize: 11.5,
-                        fontWeight: 800,
+                        fontWeight: 600,
                         padding: "5px 10px",
                         borderRadius: 8,
                         cursor: "pointer",
@@ -491,7 +491,7 @@ function PaymentContent() {
 
                 {/* FORMULAIRE DE VALIDATION & UPLOAD */}
                 <form onSubmit={handleSubmitPayment}>
-                  <div style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 14 }}>
+                  <div style={{ fontSize: 12.5, fontWeight: 600, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 14 }}>
                     3. Confirmez les détails du transfert
                   </div>
 
@@ -571,7 +571,7 @@ function PaymentContent() {
                           style={{ position: "absolute", inset: 0, opacity: 0, cursor: "pointer", width: "100%", height: "100%" }}
                         />
                         <Upload style={{ width: 28, height: 28, color: "#64748B", margin: "0 auto 8px" }} />
-                        <div style={{ fontSize: 13.5, fontWeight: 800, color: "#0F172A", marginBottom: 4 }}>
+                        <div style={{ fontSize: 13.5, fontWeight: 600, color: "#0F172A", marginBottom: 4 }}>
                           Cliquez pour joindre votre capture d'écran
                         </div>
                         <div style={{ fontSize: 11.5, color: "#64748B" }}>
@@ -586,7 +586,7 @@ function PaymentContent() {
                           style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 10, border: "1px solid #CBD5E1" }}
                         />
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontSize: 13, fontWeight: 800, color: "#0F172A" }}>
+                          <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>
                             {proofFile ? proofFile.name : "Capture d'écran sélectionnée"}
                           </div>
                           <div style={{ fontSize: 11.5, color: "#16A34A", fontWeight: 700, marginTop: 2 }}>
@@ -617,7 +617,7 @@ function PaymentContent() {
                       borderRadius: 14,
                       padding: "16px 24px",
                       fontSize: 16,
-                      fontWeight: 900,
+                      fontWeight: 700,
                       cursor: submitting ? "not-allowed" : "pointer",
                       display: "flex",
                       alignItems: "center",
@@ -643,10 +643,10 @@ function PaymentContent() {
             {/* RIGHT COLUMN: RECAP & SHIPMENT DETAILS */}
             <div style={{ background: "#FFFFFF", borderRadius: 20, padding: "24px", border: "1px solid #E2D9CC", display: "flex", flexDirection: "column", gap: 16 }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <h3 style={{ fontSize: 16, fontWeight: 900, color: "#0F172A", margin: 0 }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0F172A", margin: 0 }}>
                   Dossier Logistique
                 </h3>
-                <span style={{ fontSize: 11, fontWeight: 800, background: "#F1F5F9", padding: "3px 8px", borderRadius: 6, color: "#0F172A" }}>
+                <span style={{ fontSize: 11, fontWeight: 600, background: "#F1F5F9", padding: "3px 8px", borderRadius: 6, color: "#0F172A" }}>
                   {orderRef}
                 </span>
               </div>
@@ -676,9 +676,9 @@ function PaymentContent() {
 
               <div style={{ height: 1, background: "#F1F5F9" }} />
 
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 16, fontWeight: 900, color: "#0F172A", paddingTop: 4 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 16, fontWeight: 700, color: "#0F172A", paddingTop: 4 }}>
                 <span>Total Net à Régler</span>
-                <span style={{ fontSize: 22, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
+                <span style={{ fontSize: 22, color: "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
                   {formatPrice(totalToPay)}
                 </span>
               </div>
@@ -699,11 +699,11 @@ function PaymentContent() {
               <CheckCircle2 style={{ width: 44, height: 44 }} />
             </div>
 
-            <span style={{ background: "#ECFDF5", color: "#166534", border: "1px solid #BBF7D0", padding: "4px 14px", borderRadius: 999, fontSize: 12, fontWeight: 800, textTransform: "uppercase" }}>
+            <span style={{ background: "#ECFDF5", color: "#166534", border: "1px solid #BBF7D0", padding: "4px 14px", borderRadius: 999, fontSize: 12, fontWeight: 600, textTransform: "uppercase" }}>
               Preuve Transmise • En Cours de Validation
             </span>
 
-            <h2 style={{ fontSize: "clamp(22px, 3.5vw, 28px)", fontWeight: 900, color: "#0F172A", fontFamily: "'Outfit', sans-serif", margin: "14px 0 8px" }}>
+            <h2 style={{ fontSize: "clamp(22px, 3.5vw, 28px)", fontWeight: 700, color: "#0F172A", fontFamily: "'Poppins', sans-serif", margin: "14px 0 8px" }}>
               Merci pour votre règlement !
             </h2>
 
@@ -715,7 +715,7 @@ function PaymentContent() {
             <div style={{ background: "#FAF7F2", borderRadius: 16, padding: "18px 22px", border: "1px dashed #CBD5E1", textAlign: "left", marginBottom: 28, display: "flex", flexDirection: "column", gap: 8 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ fontSize: 13, color: "#64748B" }}>N° de Dossier Logistique :</span>
-                <strong style={{ fontSize: 15, color: "#0F172A", fontFamily: "'Outfit', sans-serif" }}>{orderRef}</strong>
+                <strong style={{ fontSize: 15, color: "#0F172A", fontFamily: "'Poppins', sans-serif" }}>{orderRef}</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ fontSize: 13, color: "#64748B" }}>Montant Transféré :</span>
@@ -743,7 +743,7 @@ function PaymentContent() {
                   padding: "14px 26px",
                   borderRadius: 12,
                   fontSize: 14.5,
-                  fontWeight: 800,
+                  fontWeight: 600,
                   textDecoration: "none",
                   display: "inline-flex",
                   alignItems: "center",

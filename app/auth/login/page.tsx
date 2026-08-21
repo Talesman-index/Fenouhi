@@ -114,7 +114,7 @@ function LoginFormContent() {
         <div style={{ background: "#FFFFFF", borderRadius: 24, padding: "36px 32px", border: "1px solid #E2E8F0", boxShadow: "0 10px 40px rgba(15, 23, 42, 0.05)" }}>
           
           <div style={{ textAlign: "center", marginBottom: 24 }}>
-            <h1 style={{ fontSize: 24, fontWeight: 900, color: "#0F172A", margin: "0 0 6px" }}>
+            <h1 style={{ fontSize: 24, fontWeight: 700, color: "#0F172A", margin: "0 0 6px" }}>
               Connexion à Votre Espace
             </h1>
             <p style={{ fontSize: 13.5, color: "#64748B", margin: 0, lineHeight: 1.4 }}>
@@ -143,7 +143,7 @@ function LoginFormContent() {
                 background: "#FFFFFF",
                 color: "#0F172A",
                 fontSize: 13.5,
-                fontWeight: 800,
+                fontWeight: 600,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -173,7 +173,7 @@ function LoginFormContent() {
                 background: "#1877F2",
                 color: "#FFFFFF",
                 fontSize: 13.5,
-                fontWeight: 800,
+                fontWeight: 600,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -192,14 +192,14 @@ function LoginFormContent() {
           {/* DIVIDER */}
           <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "20px 0" }}>
             <div style={{ flex: 1, height: 1, background: "#E2E8F0" }} />
-            <span style={{ fontSize: 11.5, fontWeight: 800, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.5px" }}>OU AVEC EMAIL</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.5px" }}>OU AVEC EMAIL</span>
             <div style={{ flex: 1, height: 1, background: "#E2E8F0" }} />
           </div>
 
           <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             {/* EMAIL FIELD */}
             <div>
-              <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
+              <label style={{ fontSize: 11.5, fontWeight: 600, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
                 ADRESSE EMAIL *
               </label>
               <div style={{ position: "relative" }}>
@@ -229,10 +229,10 @@ function LoginFormContent() {
             {/* PASSWORD FIELD */}
             <div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", margin: 0, letterSpacing: "0.5px" }}>
+                <label style={{ fontSize: 11.5, fontWeight: 600, color: "#0F172A", margin: 0, letterSpacing: "0.5px" }}>
                   MOT DE PASSE *
                 </label>
-                <Link href="/auth/forgot-password" style={{ fontSize: 12, color: "var(--orange-primary)", fontWeight: 800, textDecoration: "none" }}>
+                <Link href="/auth/forgot-password" style={{ fontSize: 12, color: "var(--orange-primary)", fontWeight: 600, textDecoration: "none" }}>
                   Mot de passe oublié ?
                 </Link>
               </div>
@@ -275,7 +275,7 @@ function LoginFormContent() {
               style={{
                 padding: 14,
                 fontSize: 15,
-                fontWeight: 900,
+                fontWeight: 700,
                 borderRadius: 12,
                 display: "flex",
                 alignItems: "center",
@@ -292,7 +292,7 @@ function LoginFormContent() {
             {/* SIGN UP REDIRECT */}
             <div style={{ textAlign: "center", fontSize: 13.5, color: "#64748B", marginTop: 8 }}>
               Vous n'avez pas encore de compte ?{" "}
-              <Link href="/auth/sign-up" style={{ color: "#0F172A", fontWeight: 900, textDecoration: "none" }}>
+              <Link href="/auth/sign-up" style={{ color: "#0F172A", fontWeight: 700, textDecoration: "none" }}>
                 Créer un compte <ArrowRight style={{ width: 14, display: "inline" }} />
               </Link>
             </div>

@@ -139,7 +139,7 @@ export default function StatusBadge({ status, type = "order" }: StatusBadgeProps
         padding: "4px 10px",
         borderRadius: "9999px",
         fontSize: 11.5,
-        fontWeight: 800,
+        fontWeight: 600,
         backgroundColor: badge.bg,
         color: badge.color,
         whiteSpace: "nowrap"

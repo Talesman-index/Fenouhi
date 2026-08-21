@@ -175,14 +175,31 @@ export function MobileStoreProvider({ children }: { children: React.ReactNode })
       if (savedCart) {
         const parsed = JSON.parse(savedCart);
         if (Array.isArray(parsed)) {
-          setCart(parsed);
+          // Filtrer les anciens articles de démonstration (cart-1, cart-2, 1..10)
+          const cleanCart = parsed.filter(
+            (item: any) =>
+              item &&
+              item.id &&
+              !item.id.startsWith("cart-") &&
+              !["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].includes(String(item.id))
+          );
+          setCart(cleanCart);
+          localStorage.setItem("cargolink_cart", JSON.stringify(cleanCart));
         }
       }
       const savedFavs = localStorage.getItem("cargolink_favorites");
       if (savedFavs) {
         const parsed = JSON.parse(savedFavs);
         if (Array.isArray(parsed)) {
-          setFavorites(parsed);
+          const cleanFavs = parsed.filter(
+            (item: any) =>
+              item &&
+              item.id &&
+              !item.id.startsWith("fav-") &&
+              !["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].includes(String(item.id))
+          );
+          setFavorites(cleanFavs);
+          localStorage.setItem("cargolink_favorites", JSON.stringify(cleanFavs));
         }
       }
     } catch {}

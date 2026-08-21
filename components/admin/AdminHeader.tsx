@@ -156,7 +156,7 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, paddingBottom: 8, borderBottom: "1px solid var(--border-light)" }}>
-                  <span style={{ fontWeight: 800, fontSize: 14, color: "var(--navy-dark)" }}>Notifications Récentes</span>
+                  <span style={{ fontWeight: 600, fontSize: 14, color: "var(--navy-dark)" }}>Notifications Récentes</span>
                   <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)", fontSize: 10 }}>3 Nouvelles</span>
                 </div>
 
@@ -169,7 +169,7 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
                           <Icon style={{ width: 14 }} />
                         </div>
                         <div>
-                          <div style={{ fontSize: 12.5, fontWeight: 800, color: "var(--navy-dark)" }}>{n.title}</div>
+                          <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--navy-dark)" }}>{n.title}</div>
                           <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{n.desc}</div>
                           <div style={{ fontSize: 10, color: "var(--text-light)", marginTop: 2 }}>{n.time}</div>
                         </div>
@@ -185,7 +185,7 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
                     display: "block",
                     textAlign: "center",
                     fontSize: 12,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     color: "var(--blue-primary)",
                     marginTop: 12,
                     paddingTop: 8,
@@ -201,10 +201,10 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
           {/* ADMIN USER INFO & LOGOUT */}
           <div style={{ display: "flex", alignItems: "center", gap: 10, borderLeft: "1px solid var(--border-light)", paddingLeft: 16 }}>
             <div style={{ textAlign: "right" }} className="admin-user-info-text">
-              <div style={{ fontSize: 13, fontWeight: 800, color: "var(--navy-dark)" }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "var(--navy-dark)" }}>
                 {profile ? `${profile.first_name} ${profile.last_name}` : "Admin Logistique"}
               </div>
-              <div style={{ fontSize: 10.5, fontWeight: 800, color: "var(--orange-primary)" }}>
+              <div style={{ fontSize: 10.5, fontWeight: 600, color: "var(--orange-primary)" }}>
                 {profile?.role === "super_admin" ? "SUPER ADMIN" : "ADMINISTRATEUR"}
               </div>
             </div>
@@ -218,7 +218,7 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
                 borderRadius: "var(--radius-sm)",
                 padding: "8px 12px",
                 fontSize: 12,
-                fontWeight: 800,
+                fontWeight: 600,
                 cursor: "pointer",
                 display: "inline-flex",
                 alignItems: "center",

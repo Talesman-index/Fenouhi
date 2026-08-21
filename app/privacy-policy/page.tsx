@@ -14,11 +14,11 @@ export default function PrivacyPolicyPage() {
         <div className="container">
           <div className="card" style={{ padding: 32, fontSize: 14, lineHeight: 1.6, color: "var(--text-main)", display: "flex", flexDirection: "column", gap: 20 }}>
             <div>
-              <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 8 }}>1. Collecte des Données</h3>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 8 }}>1. Collecte des Données</h3>
               <p>Nous collectons uniquement les informations nécessaires au traitement de vos livraisons (Nom, Téléphone, Adresse de livraison Cotonou/Lomé, liens d'articles à deviser).</p>
             </div>
             <div>
-              <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 8 }}>2. Utilisation & Protection</h3>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 8 }}>2. Utilisation & Protection</h3>
               <p>Vos informations sont strictement confidentielles. Aucune donnée n'est revendue à des tiers.</p>
             </div>
           </div>

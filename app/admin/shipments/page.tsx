@@ -63,11 +63,11 @@ export default function ShipmentsManagementPage() {
           <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)", marginBottom: 4 }}>
             SUIVI CARGO & EXPÉDITIONS
           </span>
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
             Gestion des Expéditions (Cargo & Fret)
           </h1>
         </div>
-        <div style={{ fontSize: 13, fontWeight: 800, color: "var(--text-muted)" }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-muted)" }}>
           Total : <strong>{filteredShipments.length}</strong> expéditions
         </div>
       </div>
@@ -116,12 +116,12 @@ export default function ShipmentsManagementPage() {
               ) : (
                 filteredShipments.map((s) => (
                   <tr key={s.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                    <td style={{ padding: "14px 16px", fontWeight: 800, color: "var(--blue-primary)", fontFamily: "monospace" }}>
+                    <td style={{ padding: "14px 16px", fontWeight: 600, color: "var(--blue-primary)", fontFamily: "monospace" }}>
                       {s.tracking_number || "En attente"}
                     </td>
 
                     <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 800, color: "var(--navy-dark)" }}>{s.carrier || "CargoLink Direct"}</div>
+                      <div style={{ fontWeight: 600, color: "var(--navy-dark)" }}>{s.carrier || "CargoLink Direct"}</div>
                       <span className="badge" style={{ background: s.shipping_mode === "air" ? "var(--orange-light)" : "var(--blue-light)", color: s.shipping_mode === "air" ? "var(--orange-hover)" : "var(--blue-primary)", fontSize: 10, display: "inline-flex", alignItems: "center", gap: 4 }}>
                         {s.shipping_mode === "air" ? (
                           <><Plane style={{ width: 12, height: 12 }} /> Fret Aérien</>

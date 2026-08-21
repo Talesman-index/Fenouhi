@@ -114,7 +114,7 @@ export default function AnalyticsPage() {
           <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)", marginBottom: 4 }}>
             PERFORMANCE & REPORTING FINANCIER DÉTAILLÉ
           </span>
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
             Analytics & Structure des Frais
           </h1>
         </div>
@@ -137,10 +137,10 @@ export default function AnalyticsPage() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 11.5, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>CHIFFRE D'AFFAIRES GLOBAL</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>CHIFFRE D'AFFAIRES GLOBAL</span>
             <DollarSign style={{ width: 18, color: "var(--orange-primary)" }} />
           </div>
-          <div style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)" }}>
+          <div style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)" }}>
             {analytics.totalRevenue.toLocaleString()} FCFA
           </div>
           <div style={{ fontSize: 11, color: "var(--green-success)", fontWeight: 700, marginTop: 4 }}>
@@ -150,10 +150,10 @@ export default function AnalyticsPage() {
 
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 11.5, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>COMMANDES LIVRÉES</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>COMMANDES LIVRÉES</span>
             <ShoppingBag style={{ width: 18, color: "var(--blue-primary)" }} />
           </div>
-          <div style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)" }}>
+          <div style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)" }}>
             {analytics.totalOrders}
           </div>
           <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>
@@ -163,10 +163,10 @@ export default function AnalyticsPage() {
 
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 11.5, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>DEMANDES DE DEVIS</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>DEMANDES DE DEVIS</span>
             <FileText style={{ width: 18, color: "var(--orange-primary)" }} />
           </div>
-          <div style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)" }}>
+          <div style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)" }}>
             {analytics.totalQuotes}
           </div>
           <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>
@@ -176,10 +176,10 @@ export default function AnalyticsPage() {
 
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 11.5, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>TAUX DE CONVERSION</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>TAUX DE CONVERSION</span>
             <BarChart3 style={{ width: 18, color: "var(--blue-primary)" }} />
           </div>
-          <div style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)" }}>
+          <div style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)" }}>
             {analytics.conversionRate}%
           </div>
           <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>
@@ -195,7 +195,7 @@ export default function AnalyticsPage() {
             <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)", fontSize: 11, marginBottom: 4 }}>
               VENTILATION ANALYTIQUE DES RENTRÉES
             </span>
-            <h2 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
+            <h2 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
               <PieChart style={{ width: 20, color: "var(--orange-primary)" }} />
               Détail des Frais & Postes Budgétaires
             </h2>
@@ -207,7 +207,7 @@ export default function AnalyticsPage() {
 
         {/* VISUAL PROPORTION BAR */}
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 12, fontWeight: 800, color: "var(--navy-dark)", marginBottom: 8, display: "flex", justifyContent: "space-between" }}>
+          <div style={{ fontSize: 12, fontWeight: 600, color: "var(--navy-dark)", marginBottom: 8, display: "flex", justifyContent: "space-between" }}>
             <span>Répartition Proportionnelle du Chiffre d'Affaires</span>
             <span>100% du CA Encaissé</span>
           </div>
@@ -243,10 +243,10 @@ export default function AnalyticsPage() {
           {/* 1. COÛT ARTICLES */}
           <div style={{ background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 16, padding: 18 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-              <span style={{ fontSize: 12, fontWeight: 800, color: "#1D4ED8", textTransform: "uppercase" }}>Coût Total Articles</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#1D4ED8", textTransform: "uppercase" }}>Coût Total Articles</span>
               <Package style={{ width: 20, color: "#2563EB" }} />
             </div>
-            <div style={{ fontSize: 22, fontWeight: 900, color: "#1E40AF", marginBottom: 4 }}>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#1E40AF", marginBottom: 4 }}>
               {analytics.productCostTotal.toLocaleString()} FCFA
             </div>
             <div style={{ fontSize: 11.5, color: "#3B82F6", fontWeight: 700 }}>
@@ -257,10 +257,10 @@ export default function AnalyticsPage() {
           {/* 2. FRAIS FRET LOGISTIQUE */}
           <div style={{ background: "#FFF7ED", border: "1px solid #FFEDD5", borderRadius: 16, padding: 18 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-              <span style={{ fontSize: 12, fontWeight: 800, color: "#C2410C", textTransform: "uppercase" }}>Total Frais de Fret</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#C2410C", textTransform: "uppercase" }}>Total Frais de Fret</span>
               <Truck style={{ width: 20, color: "#EA580C" }} />
             </div>
-            <div style={{ fontSize: 22, fontWeight: 900, color: "#9A3412", marginBottom: 4 }}>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#9A3412", marginBottom: 4 }}>
               {analytics.shippingCostTotal.toLocaleString()} FCFA
             </div>
             <div style={{ fontSize: 11.5, color: "#EA580C", fontWeight: 700, display: "flex", gap: 10 }}>
@@ -271,10 +271,10 @@ export default function AnalyticsPage() {
           {/* 3. FRAIS DE SERVICE CARGOLINK */}
           <div style={{ background: "#ECFDF5", border: "1px solid #A7F3D0", borderRadius: 16, padding: 18 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-              <span style={{ fontSize: 12, fontWeight: 800, color: "#047857", textTransform: "uppercase" }}>Frais de Service</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#047857", textTransform: "uppercase" }}>Frais de Service</span>
               <Zap style={{ width: 20, color: "#059669" }} />
             </div>
-            <div style={{ fontSize: 22, fontWeight: 900, color: "#065F46", marginBottom: 4 }}>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#065F46", marginBottom: 4 }}>
               {analytics.serviceFeeTotal.toLocaleString()} FCFA
             </div>
             <div style={{ fontSize: 11.5, color: "#10B981", fontWeight: 700 }}>
@@ -285,10 +285,10 @@ export default function AnalyticsPage() {
           {/* 4. FRAIS ANNEXES & INSPECTIONS */}
           <div style={{ background: "#F5F3FF", border: "1px solid #DDD6FE", borderRadius: 16, padding: 18 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-              <span style={{ fontSize: 12, fontWeight: 800, color: "#6D28D9", textTransform: "uppercase" }}>Options & Dédouanement</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#6D28D9", textTransform: "uppercase" }}>Options & Dédouanement</span>
               <ShieldCheck style={{ width: 20, color: "#7C3AED" }} />
             </div>
-            <div style={{ fontSize: 22, fontWeight: 900, color: "#5B21B6", marginBottom: 4 }}>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#5B21B6", marginBottom: 4 }}>
               {analytics.extraFeeTotal.toLocaleString()} FCFA
             </div>
             <div style={{ fontSize: 11.5, color: "#8B5CF6", fontWeight: 700 }}>
@@ -311,46 +311,46 @@ export default function AnalyticsPage() {
             </thead>
             <tbody>
               <tr style={{ borderBottom: "1px solid #E2E8F0" }}>
-                <td style={{ padding: "14px", fontWeight: 900, color: "#0F172A" }}>
+                <td style={{ padding: "14px", fontWeight: 700, color: "#0F172A" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <Package style={{ width: 16, color: "#2563EB" }} /> Coût des Articles (Prix Usine)
                   </div>
                 </td>
                 <td style={{ padding: "14px", color: "#64748B" }}>Montant net d'achat réglé directement aux usines fournisseurs</td>
-                <td style={{ padding: "14px", fontWeight: 800, color: "#2563EB" }}>{prodPct}%</td>
-                <td style={{ padding: "14px", fontWeight: 900, color: "#0F172A", textAlign: "right" }}>{analytics.productCostTotal.toLocaleString()} FCFA</td>
+                <td style={{ padding: "14px", fontWeight: 600, color: "#2563EB" }}>{prodPct}%</td>
+                <td style={{ padding: "14px", fontWeight: 700, color: "#0F172A", textAlign: "right" }}>{analytics.productCostTotal.toLocaleString()} FCFA</td>
               </tr>
               <tr style={{ borderBottom: "1px solid #E2E8F0" }}>
-                <td style={{ padding: "14px", fontWeight: 900, color: "#0F172A" }}>
+                <td style={{ padding: "14px", fontWeight: 700, color: "#0F172A" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <Truck style={{ width: 16, color: "#EA580C" }} /> Frais de Fret International (Air + Mer)
                   </div>
                 </td>
                 <td style={{ padding: "14px", color: "#64748B" }}>Fret Aérien Express ({analytics.airShippingTotal.toLocaleString()} FCFA) + Fret Maritime ({analytics.seaShippingTotal.toLocaleString()} FCFA)</td>
-                <td style={{ padding: "14px", fontWeight: 800, color: "#EA580C" }}>{shipPct}%</td>
-                <td style={{ padding: "14px", fontWeight: 900, color: "#0F172A", textAlign: "right" }}>{analytics.shippingCostTotal.toLocaleString()} FCFA</td>
+                <td style={{ padding: "14px", fontWeight: 600, color: "#EA580C" }}>{shipPct}%</td>
+                <td style={{ padding: "14px", fontWeight: 700, color: "#0F172A", textAlign: "right" }}>{analytics.shippingCostTotal.toLocaleString()} FCFA</td>
               </tr>
               <tr style={{ borderBottom: "1px solid #E2E8F0" }}>
-                <td style={{ padding: "14px", fontWeight: 900, color: "#0F172A" }}>
+                <td style={{ padding: "14px", fontWeight: 700, color: "#0F172A" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <Zap style={{ width: 16, color: "#059669" }} /> Frais de Service CargoLink
                   </div>
                 </td>
                 <td style={{ padding: "14px", color: "#64748B" }}>Commission de négociation usine, gestion de commande et suivi logistique</td>
-                <td style={{ padding: "14px", fontWeight: 800, color: "#059669" }}>{servPct}%</td>
-                <td style={{ padding: "14px", fontWeight: 900, color: "#0F172A", textAlign: "right" }}>{analytics.serviceFeeTotal.toLocaleString()} FCFA</td>
+                <td style={{ padding: "14px", fontWeight: 600, color: "#059669" }}>{servPct}%</td>
+                <td style={{ padding: "14px", fontWeight: 700, color: "#0F172A", textAlign: "right" }}>{analytics.serviceFeeTotal.toLocaleString()} FCFA</td>
               </tr>
               <tr style={{ borderBottom: "1px solid #E2E8F0" }}>
-                <td style={{ padding: "14px", fontWeight: 900, color: "#0F172A" }}>
+                <td style={{ padding: "14px", fontWeight: 700, color: "#0F172A" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <ShieldCheck style={{ width: 16, color: "#7C3AED" }} /> Options, Dédouanement & Inspections
                   </div>
                 </td>
                 <td style={{ padding: "14px", color: "#64748B" }}>Inspection qualité en entrepôt, emballage caisse bois et marquage marque propre</td>
-                <td style={{ padding: "14px", fontWeight: 800, color: "#7C3AED" }}>{extraPct}%</td>
-                <td style={{ padding: "14px", fontWeight: 900, color: "#0F172A", textAlign: "right" }}>{analytics.extraFeeTotal.toLocaleString()} FCFA</td>
+                <td style={{ padding: "14px", fontWeight: 600, color: "#7C3AED" }}>{extraPct}%</td>
+                <td style={{ padding: "14px", fontWeight: 700, color: "#0F172A", textAlign: "right" }}>{analytics.extraFeeTotal.toLocaleString()} FCFA</td>
               </tr>
-              <tr style={{ background: "#F1F5F9", fontWeight: 900 }}>
+              <tr style={{ background: "#F1F5F9", fontWeight: 700 }}>
                 <td style={{ padding: "14px", color: "#0F172A" }}>TOTAL CHIFRE D'AFFAIRES ENCAISSÉ</td>
                 <td style={{ padding: "14px", color: "#475569" }}>Rapprochement global des encaissements sur devis acceptés</td>
                 <td style={{ padding: "14px", color: "#0F172A" }}>100%</td>
@@ -363,14 +363,14 @@ export default function AnalyticsPage() {
 
       {/* COUNTRY REVENUE BREAKDOWN */}
       <div className="card" style={{ padding: 24 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
           <Layers style={{ width: 18, color: "var(--blue-primary)" }} />
           Répartition par Pays de Destination
         </h3>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           {analytics.topCountries.map((c) => (
             <div key={c.country} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ width: 130, fontSize: 13, fontWeight: 800, color: "var(--navy-dark)" }}>{c.country}</div>
+              <div style={{ width: 130, fontSize: 13, fontWeight: 600, color: "var(--navy-dark)" }}>{c.country}</div>
               <div style={{ flex: 1, background: "var(--bg-main)", height: 12, borderRadius: 6, overflow: "hidden" }}>
                 <div
                   style={{
@@ -380,7 +380,7 @@ export default function AnalyticsPage() {
                   }}
                 />
               </div>
-              <div style={{ fontSize: 12.5, fontWeight: 800, color: "var(--navy-dark)", width: 140, textAlign: "right" }}>
+              <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--navy-dark)", width: 140, textAlign: "right" }}>
                 {c.amount.toLocaleString()} FCFA <span style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>({c.count} colis)</span>
               </div>
             </div>

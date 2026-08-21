@@ -198,10 +198,10 @@ export default function SignUpPage() {
         <div style={{ background: "#FFFFFF", borderRadius: 24, padding: "36px 32px", border: "1px solid #E2E8F0", boxShadow: "0 12px 48px rgba(15, 23, 42, 0.06)" }}>
           
           <div style={{ textAlign: "center", marginBottom: 24 }}>
-            <span style={{ background: "var(--orange-light)", color: "var(--orange-hover)", fontSize: 11, fontWeight: 900, padding: "4px 12px", borderRadius: 9999, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+            <span style={{ background: "var(--orange-light)", color: "var(--orange-hover)", fontSize: 11, fontWeight: 700, padding: "4px 12px", borderRadius: 9999, textTransform: "uppercase", letterSpacing: "0.5px" }}>
               CRÉATION DE COMPTE CLIENT SÉCURISÉE
             </span>
-            <h1 style={{ fontSize: 24, fontWeight: 900, color: "#0F172A", margin: "10px 0 4px" }}>
+            <h1 style={{ fontSize: 24, fontWeight: 700, color: "#0F172A", margin: "10px 0 4px" }}>
               Inscrivez-vous sur CargoLink
             </h1>
             <p style={{ fontSize: 13, color: "#64748B", margin: 0 }}>
@@ -239,7 +239,7 @@ export default function SignUpPage() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontWeight: 900,
+                  fontWeight: 700,
                   fontSize: 14,
                   boxShadow: currentStep === 1 ? "0 0 0 4px rgba(22,84,145,0.2)" : "none",
                   transition: "all 0.3s ease"
@@ -262,7 +262,7 @@ export default function SignUpPage() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontWeight: 900,
+                  fontWeight: 700,
                   fontSize: 14,
                   boxShadow: currentStep === 2 ? "0 0 0 4px rgba(22,84,145,0.2)" : "none",
                   transition: "all 0.3s ease"
@@ -285,7 +285,7 @@ export default function SignUpPage() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontWeight: 900,
+                  fontWeight: 700,
                   fontSize: 14,
                   boxShadow: currentStep === 3 ? "0 0 0 4px rgba(22,84,145,0.2)" : "none",
                   transition: "all 0.3s ease"
@@ -324,7 +324,7 @@ export default function SignUpPage() {
                     background: "#FFFFFF",
                     color: "#0F172A",
                     fontSize: 13.5,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -354,7 +354,7 @@ export default function SignUpPage() {
                     background: "#1877F2",
                     color: "#FFFFFF",
                     fontSize: 13.5,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -373,13 +373,13 @@ export default function SignUpPage() {
               {/* DIVIDER */}
               <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "22px 0" }}>
                 <div style={{ flex: 1, height: 1, background: "#E2E8F0" }} />
-                <span style={{ fontSize: 11, fontWeight: 800, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.5px" }}>OU INSCRIPTION MANUELLE</span>
+                <span style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.5px" }}>OU INSCRIPTION MANUELLE</span>
                 <div style={{ flex: 1, height: 1, background: "#E2E8F0" }} />
               </div>
 
               <form onSubmit={handleNextFromStep1} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               <div>
-                <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 10, letterSpacing: "0.5px" }}>
+                <label style={{ fontSize: 11.5, fontWeight: 600, color: "#0F172A", display: "block", marginBottom: 10, letterSpacing: "0.5px" }}>
                   1. SÉLECTIONNEZ VOTRE PROFIL DE COMMANDE *
                 </label>
                 
@@ -403,7 +403,7 @@ export default function SignUpPage() {
                       <User style={{ width: 20 }} />
                     </div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 14, fontWeight: 900, color: "#0F172A" }}>Particulier / Acheteur Individuel</div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A" }}>Particulier / Acheteur Individuel</div>
                       <div style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>Achats personnels, colis de groupe et livraison express.</div>
                     </div>
                     {formData.accountType === "individual" && <CheckCircle2 style={{ width: 20, color: "#165491" }} />}
@@ -428,7 +428,7 @@ export default function SignUpPage() {
                       <Store style={{ width: 20 }} />
                     </div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 14, fontWeight: 900, color: "#0F172A" }}>Revendeur & Boutique PME</div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A" }}>Revendeur & Boutique PME</div>
                       <div style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>Tarifs de gros 1688/Taobao et gestion d'approvisionnement.</div>
                     </div>
                     {formData.accountType === "reseller" && <CheckCircle2 style={{ width: 20, color: "#165491" }} />}
@@ -439,7 +439,7 @@ export default function SignUpPage() {
               {/* PRÉNOM & NOM */}
               <div className="form-row-2col" style={{ marginTop: 4 }}>
                 <div>
-                  <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
+                  <label style={{ fontSize: 11.5, fontWeight: 600, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
                     PRÉNOM *
                   </label>
                   <input
@@ -464,7 +464,7 @@ export default function SignUpPage() {
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
+                  <label style={{ fontSize: 11.5, fontWeight: 600, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
                     NOM *
                   </label>
                   <input
@@ -496,7 +496,7 @@ export default function SignUpPage() {
                 style={{
                   padding: 14,
                   fontSize: 15,
-                  fontWeight: 900,
+                  fontWeight: 700,
                   borderRadius: 12,
                   display: "flex",
                   alignItems: "center",
@@ -517,7 +517,7 @@ export default function SignUpPage() {
               
               {/* EMAIL */}
               <div>
-                <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
+                <label style={{ fontSize: 11.5, fontWeight: 600, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
                   ADRESSE EMAIL PROFESSIONNELLE OU PERSONNELLE *
                 </label>
                 <div style={{ position: "relative" }}>
@@ -546,7 +546,7 @@ export default function SignUpPage() {
 
               {/* TÉLÉPHONE WHATSAPP */}
               <div>
-                <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
+                <label style={{ fontSize: 11.5, fontWeight: 600, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
                   NUMÉRO WHATSAPP (POUR LE SUIVI DE VOS EXPÉDITIONS) *
                 </label>
                 <div style={{ position: "relative" }}>
@@ -576,7 +576,7 @@ export default function SignUpPage() {
               {/* PAYS DE LIVRAISON & VILLE */}
               <div className="form-row-2col">
                 <div>
-                  <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
+                  <label style={{ fontSize: 11.5, fontWeight: 600, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
                     PAYS DE LIVRAISON *
                   </label>
                   <select
@@ -603,7 +603,7 @@ export default function SignUpPage() {
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
+                  <label style={{ fontSize: 11.5, fontWeight: 600, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
                     VILLE *
                   </label>
                   <input
@@ -636,7 +636,7 @@ export default function SignUpPage() {
                   style={{
                     padding: 14,
                     fontSize: 14,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     borderRadius: 12,
                     border: "1.5px solid #CBD5E1",
                     background: "#FFF",
@@ -657,7 +657,7 @@ export default function SignUpPage() {
                     flex: 1,
                     padding: 14,
                     fontSize: 15,
-                    fontWeight: 900,
+                    fontWeight: 700,
                     borderRadius: 12,
                     display: "flex",
                     alignItems: "center",
@@ -678,7 +678,7 @@ export default function SignUpPage() {
               {/* MOT DE PASSE & CONFIRMATION */}
               <div className="form-row-2col">
                 <div>
-                  <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
+                  <label style={{ fontSize: 11.5, fontWeight: 600, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
                     MOT DE PASSE (MIN. 8 CARACTÈRES) *
                   </label>
                   <div style={{ position: "relative" }}>
@@ -712,7 +712,7 @@ export default function SignUpPage() {
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
+                  <label style={{ fontSize: 11.5, fontWeight: 600, color: "#0F172A", display: "block", marginBottom: 6, letterSpacing: "0.5px" }}>
                     CONFIRMER MOT DE PASSE *
                   </label>
                   <input
@@ -739,7 +739,7 @@ export default function SignUpPage() {
 
               {/* REASSURANCE BADGES */}
               <div style={{ background: "#F8FAFC", padding: 14, borderRadius: 14, border: "1px solid #E2E8F0" }}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", marginBottom: 6, display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "#0F172A", marginBottom: 6, display: "inline-flex", alignItems: "center", gap: 6 }}>
                   <ShieldCheck style={{ width: 14, height: 14, color: "var(--orange-primary)" }} /> Vos garanties CargoLink Africa :
                 </div>
                 <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: "#64748B", display: "flex", flexDirection: "column", gap: 4 }}>
@@ -759,7 +759,7 @@ export default function SignUpPage() {
                   style={{ marginTop: 3, width: 16, height: 16, accentColor: "var(--orange-primary)", cursor: "pointer" }}
                 />
                 <label htmlFor="acceptTerms" style={{ fontSize: 12.5, color: "#64748B", cursor: "pointer", lineHeight: 1.4 }}>
-                  J'accepte les <Link href="/terms" target="_blank" style={{ color: "#0F172A", fontWeight: 800, textDecoration: "none" }}>Conditions Générales</Link> et la <Link href="/privacy-policy" target="_blank" style={{ color: "#0F172A", fontWeight: 800, textDecoration: "none" }}>Politique de Confidentialité</Link> de CargoLink.
+                  J'accepte les <Link href="/terms" target="_blank" style={{ color: "#0F172A", fontWeight: 600, textDecoration: "none" }}>Conditions Générales</Link> et la <Link href="/privacy-policy" target="_blank" style={{ color: "#0F172A", fontWeight: 600, textDecoration: "none" }}>Politique de Confidentialité</Link> de CargoLink.
                 </label>
               </div>
               {errors.acceptTerms && <span style={{ color: "#EF4444", fontSize: 11 }}>{errors.acceptTerms}</span>}
@@ -772,7 +772,7 @@ export default function SignUpPage() {
                   style={{
                     padding: 14,
                     fontSize: 14,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     borderRadius: 12,
                     border: "1.5px solid #CBD5E1",
                     background: "#FFF",
@@ -794,7 +794,7 @@ export default function SignUpPage() {
                     flex: 1,
                     padding: 14,
                     fontSize: 15,
-                    fontWeight: 900,
+                    fontWeight: 700,
                     borderRadius: 12,
                     display: "flex",
                     alignItems: "center",
@@ -813,7 +813,7 @@ export default function SignUpPage() {
           {/* SIGN IN LINK */}
           <div style={{ textAlign: "center", fontSize: 13.5, color: "#64748B", marginTop: 24, paddingTop: 20, borderTop: "1px solid #F1F5F9" }}>
             Vous avez déjà un compte ?{" "}
-            <Link href="/auth/login" style={{ color: "#0F172A", fontWeight: 900, textDecoration: "none" }}>
+            <Link href="/auth/login" style={{ color: "#0F172A", fontWeight: 700, textDecoration: "none" }}>
               Se connecter <ArrowRight style={{ width: 14, display: "inline" }} />
             </Link>
           </div>

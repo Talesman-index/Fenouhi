@@ -135,10 +135,10 @@ export default function HomePage() {
               <h1
                 style={{
                   fontSize: "clamp(20px, 3.5vw, 26px)",
-                  fontWeight: 900,
+                  fontWeight: 700,
                   color: "#0F172A",
                   margin: 0,
-                  fontFamily: "'Outfit', sans-serif",
+                  fontFamily: "'Poppins', sans-serif",
                 }}
               >
                 Découvrir
@@ -159,7 +159,7 @@ export default function HomePage() {
                 borderRadius: 9999,
                 padding: "6px 14px",
                 fontSize: 12,
-                fontWeight: 800,
+                fontWeight: 600,
                 color: "#165491",
                 textDecoration: "none",
                 whiteSpace: "nowrap",
@@ -200,10 +200,10 @@ export default function HomePage() {
                   <h2
                     style={{
                       fontSize: "clamp(22px, 4vw, 32px)",
-                      fontWeight: 900,
+                      fontWeight: 700,
                       margin: "0 0 6px",
                       lineHeight: 1.1,
-                      fontFamily: "'Outfit', sans-serif",
+                      fontFamily: "'Poppins', sans-serif",
                       color: "#FFFFFF",
                     }}
                   >
@@ -220,7 +220,7 @@ export default function HomePage() {
                       padding: "4px 12px",
                       borderRadius: 999,
                       fontSize: 11.5,
-                      fontWeight: 900,
+                      fontWeight: 700,
                       marginBottom: 12,
                       boxShadow: "0 4px 12px rgba(232, 137, 12, 0.3)",
                       whiteSpace: "nowrap",
@@ -241,7 +241,7 @@ export default function HomePage() {
                       padding: "10px 22px",
                       borderRadius: 999,
                       fontSize: 12.5,
-                      fontWeight: 800,
+                      fontWeight: 600,
                       textDecoration: "none",
                       display: "inline-flex",
                       alignItems: "center",
@@ -326,7 +326,7 @@ export default function HomePage() {
       <section style={{ padding: "8px 0 16px" }}>
         <div className="container">
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-            <h3 style={{ fontSize: 18, fontWeight: 900, color: "#0F172A", margin: 0, fontFamily: "'Outfit', sans-serif" }}>
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: 0, fontFamily: "'Poppins', sans-serif" }}>
               Catégories
             </h3>
             <Link href="/catalog" style={{ fontSize: 12.5, fontWeight: 700, color: "#165491", textDecoration: "none" }}>
@@ -379,7 +379,7 @@ export default function HomePage() {
       <section style={{ padding: "12px 0 32px" }}>
         <div className="container">
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-            <h3 style={{ fontSize: 18, fontWeight: 900, color: "#0F172A", margin: 0, fontFamily: "'Outfit', sans-serif" }}>
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: 0, fontFamily: "'Poppins', sans-serif" }}>
               Sélection Produits & Nouveautés
             </h3>
             <span style={{ fontSize: 12, color: "#64748B", fontWeight: 600 }}>
@@ -422,7 +422,7 @@ export default function HomePage() {
         <div className="container">
           
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 800, color: "#0F172A", margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <h2 style={{ fontSize: 22, fontWeight: 600, color: "#0F172A", margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Les Meilleures Offres du Jour pour Vous !
             </h2>
             <Link href="/catalog" style={{ fontSize: 13, fontWeight: 700, color: "#165491", textDecoration: "none", display: "flex", alignItems: "center", gap: 3 }}>
@@ -487,7 +487,7 @@ export default function HomePage() {
         <div className="container">
           <div style={{ background: "#F1F5F9", borderRadius: 24, padding: "28px 24px", border: "1px solid #E2E8F0" }}>
             <div className="section-title-row" style={{ marginBottom: 20 }}>
-              <h2 className="section-title" style={{ margin: 0, fontSize: 20, fontWeight: 900, color: "#0F172A" }}>
+              <h2 className="section-title" style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#0F172A" }}>
                 High-Tech & Electronics Usines
               </h2>
               <Link href="/catalog?cat=electronics" className="view-all-link">
@@ -518,7 +518,7 @@ export default function HomePage() {
                   <div style={{ height: 110, width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <img src={item.img} alt={item.title} style={{ maxHeight: 95, maxWidth: "100%", objectFit: "contain" }} />
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginTop: 10, textAlign: "center" }}>{item.title}</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "#0F172A", marginTop: 10, textAlign: "center" }}>{item.title}</span>
                 </Link>
               ))}
             </div>
@@ -535,12 +535,12 @@ export default function HomePage() {
           <div style={{ position: "absolute", bottom: -80, right: "20%", width: 260, height: 260, background: "rgba(249, 115, 22, 0.12)", filter: "blur(90px)", borderRadius: "50%", pointerEvents: "none" }} />
 
           {/* SOURCING BADGE */}
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(56, 189, 248, 0.12)", border: "1px solid rgba(56, 189, 248, 0.3)", borderRadius: 9999, padding: "6px 14px", color: "#38BDF8", fontSize: 11.5, fontWeight: 900, letterSpacing: "0.5px", marginBottom: 16, maxWidth: "100%", boxSizing: "border-box" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(56, 189, 248, 0.12)", border: "1px solid rgba(56, 189, 248, 0.3)", borderRadius: 9999, padding: "6px 14px", color: "#38BDF8", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.5px", marginBottom: 16, maxWidth: "100%", boxSizing: "border-box" }}>
             <Building2 style={{ width: 14, flexShrink: 0 }} /> <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>SOURCING DIRECT USINES CHINE • BÉNIN BJ</span>
           </div>
 
           {/* HEADLINE */}
-          <h2 style={{ fontSize: "clamp(22px, 4vw, 36px)", fontWeight: 900, color: "#FFFFFF", marginBottom: 12, lineHeight: 1.2, letterSpacing: "-0.5px" }}>
+          <h2 style={{ fontSize: "clamp(22px, 4vw, 36px)", fontWeight: 700, color: "#FFFFFF", marginBottom: 12, lineHeight: 1.2, letterSpacing: "-0.5px" }}>
             Trouvez N'importe Quel Produit Direct Usine
           </h2>
           <p style={{ fontSize: 13.5, color: "#94A3B8", maxWidth: 640, margin: "0 auto 24px", lineHeight: 1.6 }}>
@@ -564,7 +564,7 @@ export default function HomePage() {
             <Link 
               href={`/quote-request?url=${encodeURIComponent(searchUrl)}`}
               className="btn btn-orange cargolink-ai-search-btn"
-              style={{ borderRadius: 9999, padding: "12px 24px", fontSize: 13.5, fontWeight: 900, display: "inline-flex", alignItems: "center", gap: 8, background: "linear-gradient(135deg, #F97316 0%, #EA580C 100%)", boxShadow: "0 6px 20px rgba(249,115,22,0.35)", whiteSpace: "nowrap" }}
+              style={{ borderRadius: 9999, padding: "12px 24px", fontSize: 13.5, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 8, background: "linear-gradient(135deg, #F97316 0%, #EA580C 100%)", boxShadow: "0 6px 20px rgba(249,115,22,0.35)", whiteSpace: "nowrap" }}
             >
               <Search style={{ width: 16 }} /> Trouver l'Usine <ArrowRight style={{ width: 16 }} />
             </Link>

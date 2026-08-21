@@ -230,7 +230,7 @@ function QuoteRequestContent() {
               justifyContent: "center",
               gap: 6,
               fontSize: "clamp(10px, 2.8vw, 12px)",
-              fontWeight: 800,
+              fontWeight: 600,
               letterSpacing: "0.05em",
               textTransform: "uppercase",
               color: "#38BDF8",
@@ -250,11 +250,11 @@ function QuoteRequestContent() {
           <h1
             style={{
               fontSize: "clamp(22px, 5.5vw, 42px)",
-              fontWeight: 900,
+              fontWeight: 700,
               color: "#FFFFFF",
               margin: "0 0 10px",
               lineHeight: 1.2,
-              fontFamily: "'Outfit', sans-serif",
+              fontFamily: "'Poppins', sans-serif",
             }}
           >
             Devis Sur-Mesure & Sourcing Usine
@@ -289,22 +289,22 @@ function QuoteRequestContent() {
               boxSizing: "border-box",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#FFFFFF", fontWeight: 800, fontSize: "clamp(11px, 2.8vw, 13px)", whiteSpace: "nowrap" }}>
-              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#165491", color: "#FFF", fontSize: 11, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>1</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#FFFFFF", fontWeight: 600, fontSize: "clamp(11px, 2.8vw, 13px)", whiteSpace: "nowrap" }}>
+              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#165491", color: "#FFF", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>1</span>
               <span>Produit</span>
             </div>
 
             <ChevronRight style={{ width: 14, height: 14, color: "#64748B", flexShrink: 0 }} />
 
             <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#94A3B8", fontWeight: 700, fontSize: "clamp(11px, 2.8vw, 13px)", whiteSpace: "nowrap" }}>
-              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>2</span>
+              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>2</span>
               <span>Transport</span>
             </div>
 
             <ChevronRight style={{ width: 14, height: 14, color: "#64748B", flexShrink: 0 }} />
 
             <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#94A3B8", fontWeight: 700, fontSize: "clamp(11px, 2.8vw, 13px)", whiteSpace: "nowrap" }}>
-              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>3</span>
+              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>3</span>
               <span>Validation</span>
             </div>
           </div>
@@ -346,7 +346,7 @@ function QuoteRequestContent() {
                 <CheckCircle2 style={{ width: 36, height: 36 }} />
               </div>
 
-              <h2 style={{ fontSize: 24, fontWeight: 800, color: "#0F172A", margin: "0 0 10px" }}>
+              <h2 style={{ fontSize: 24, fontWeight: 600, color: "#0F172A", margin: "0 0 10px" }}>
                 Devis N° {createdQuoteNumber} Transmis !
               </h2>
               
@@ -396,7 +396,7 @@ function QuoteRequestContent() {
 
                   <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid #E2E8F0", paddingTop: 12, marginTop: 4 }}>
                     <span style={{ fontWeight: 700, color: "#0F172A" }}>Montant Estimé Total :</span>
-                    <span style={{ fontWeight: 800, fontSize: 18, color: "#165491" }}>
+                    <span style={{ fontWeight: 600, fontSize: 18, color: "#165491" }}>
                       {formatAmount(totalEstimatedFCFA)}
                     </span>
                   </div>
@@ -546,7 +546,7 @@ function QuoteRequestContent() {
                     {/* SECTION 1: PRODUCT & QUANTITY */}
                     <div>
                       <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 18, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
-                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>1</span>
+                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center" }}>1</span>
                         <span>Produit & Quantité Souhaitée</span>
                       </div>
 
@@ -665,7 +665,7 @@ function QuoteRequestContent() {
                     {/* SECTION 2: SHIPPING MODE */}
                     <div>
                       <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 18, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
-                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>2</span>
+                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center" }}>2</span>
                         <span>Mode de Transport & Destination</span>
                       </div>
 
@@ -750,7 +750,7 @@ function QuoteRequestContent() {
                     {/* SECTION 3: OPTIONS ADDITIONNELLES */}
                     <div>
                       <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 18, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
-                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>3</span>
+                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center" }}>3</span>
                         <span>Services & Options Incluses</span>
                       </div>
 
@@ -811,7 +811,7 @@ function QuoteRequestContent() {
                     {/* SECTION 4: CLIENT CONTACT */}
                     <div>
                       <div style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", marginBottom: 18, display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #F1F5F9", paddingBottom: 10 }}>
-                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>4</span>
+                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 11, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center" }}>4</span>
                         <span>Coordonnées de Contact</span>
                       </div>
 
@@ -915,7 +915,7 @@ function QuoteRequestContent() {
                       style={{
                         padding: "16px 24px",
                         fontSize: 15,
-                        fontWeight: 800,
+                        fontWeight: 600,
                         borderRadius: 14,
                         background: "#0F172A",
                         color: "#FFFFFF",
@@ -957,7 +957,7 @@ function QuoteRequestContent() {
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 14 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <Calculator style={{ width: 17, height: 17, color: "#38BDF8" }} />
-                      <span style={{ fontSize: 12, fontWeight: 800, color: "#FFFFFF", letterSpacing: "0.06em", textTransform: "uppercase" }}>CALCULATEUR DEVIS</span>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: "#FFFFFF", letterSpacing: "0.06em", textTransform: "uppercase" }}>CALCULATEUR DEVIS</span>
                     </div>
 
                     <span style={{ fontSize: 10.5, fontWeight: 700, color: "#94A3B8" }}>
@@ -1001,7 +1001,7 @@ function QuoteRequestContent() {
                     <div style={{ fontSize: 11, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.05em", textTransform: "uppercase" }}>
                       Estimation Totale Indicative
                     </div>
-                    <div style={{ fontSize: 26, fontWeight: 900, color: "#DC2626", marginTop: 4, fontFamily: "'Outfit', sans-serif" }}>
+                    <div style={{ fontSize: 26, fontWeight: 700, color: "#DC2626", marginTop: 4, fontFamily: "'Poppins', sans-serif" }}>
                       {formatAmount(totalEstimatedFCFA)}
                     </div>
                     <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 6 }}>

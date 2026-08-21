@@ -174,7 +174,7 @@ export default function Preloader() {
             style={{
               margin: 0,
               fontSize: "26px",
-              fontWeight: 900,
+              fontWeight: 700,
               color: "#FFFFFF",
               letterSpacing: "-0.5px",
               fontFamily: "var(--font-heading), system-ui, sans-serif",

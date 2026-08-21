@@ -22,8 +22,8 @@ export default function ShippingPolicyPage() {
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, paddingBottom: 12, borderBottom: "2px solid var(--orange-light)" }}>
                   <Plane style={{ width: 28, color: "var(--orange-primary)" }} />
                   <div>
-                    <h3 style={{ fontSize: 20, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>Fret Aérien Express</h3>
-                    <span style={{ fontSize: 12, color: "var(--orange-primary)", fontWeight: 800 }}>Délais : 5 à 15 jours</span>
+                    <h3 style={{ fontSize: 20, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>Fret Aérien Express</h3>
+                    <span style={{ fontSize: 12, color: "var(--orange-primary)", fontWeight: 600 }}>Délais : 5 à 15 jours</span>
                   </div>
                 </div>
                 <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12, fontSize: 14 }}>
@@ -36,8 +36,8 @@ export default function ShippingPolicyPage() {
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, paddingBottom: 12, borderBottom: "2px solid var(--border-light)" }}>
                   <Ship style={{ width: 28, color: "var(--navy-dark)" }} />
                   <div>
-                    <h3 style={{ fontSize: 20, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>Fret Maritime Groupé (LCL/FCL)</h3>
-                    <span style={{ fontSize: 12, color: "var(--navy-dark)", fontWeight: 800 }}>Délais : 50 à 95 jours</span>
+                    <h3 style={{ fontSize: 20, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>Fret Maritime Groupé (LCL/FCL)</h3>
+                    <span style={{ fontSize: 12, color: "var(--navy-dark)", fontWeight: 600 }}>Délais : 50 à 95 jours</span>
                   </div>
                 </div>
                 <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12, fontSize: 14 }}>

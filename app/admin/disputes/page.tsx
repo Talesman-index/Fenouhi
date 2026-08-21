@@ -61,11 +61,11 @@ export default function DisputesManagementPage() {
           <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)", marginBottom: 4 }}>
             RÉCLAMATIONS & SERVICE CLIENT
           </span>
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
             Gestion des Litiges & Reclamations
           </h1>
         </div>
-        <div style={{ fontSize: 13, fontWeight: 800, color: "var(--text-muted)" }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-muted)" }}>
           Total : <strong>{filteredDisputes.length}</strong> litiges enregistrés
         </div>
       </div>
@@ -114,7 +114,7 @@ export default function DisputesManagementPage() {
                 filteredDisputes.map((d) => (
                   <tr key={d.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
                     <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 800, color: "var(--navy-dark)" }}>{d.title}</div>
+                      <div style={{ fontWeight: 600, color: "var(--navy-dark)" }}>{d.title}</div>
                       <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{d.description}</div>
                     </td>
 

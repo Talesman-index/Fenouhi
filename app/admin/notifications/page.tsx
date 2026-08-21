@@ -56,7 +56,7 @@ export default function NotificationsManagementPage() {
           <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)", marginBottom: 4 }}>
             ALERTES & NOTIFICATIONS SYSTÈME
           </span>
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
             Centre de Notifications Admin
           </h1>
         </div>
@@ -107,7 +107,7 @@ export default function NotificationsManagementPage() {
 
                 <div style={{ flex: 1 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 2 }}>
-                    <div style={{ fontWeight: 800, color: "var(--navy-dark)", fontSize: 14 }}>{n.title}</div>
+                    <div style={{ fontWeight: 600, color: "var(--navy-dark)", fontSize: 14 }}>{n.title}</div>
                     <div style={{ fontSize: 11, color: "var(--text-muted)", display: "flex", alignItems: "center", gap: 4 }}>
                       <Clock style={{ width: 11 }} /> {new Date(n.created_at).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
                     </div>

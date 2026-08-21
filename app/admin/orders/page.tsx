@@ -140,11 +140,11 @@ export default function OrdersManagementPage() {
           <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)", marginBottom: 4 }}>
             SUIVI LOGISTIQUE GLOBAL
           </span>
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
             Gestion des Commandes Clients
           </h1>
         </div>
-        <div style={{ fontSize: 13, fontWeight: 800, color: "var(--text-muted)" }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-muted)" }}>
           Total : <strong>{filteredOrders.length}</strong> commandes
         </div>
       </div>
@@ -163,7 +163,7 @@ export default function OrdersManagementPage() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <label style={{ fontSize: 12, fontWeight: 800, color: "var(--text-muted)" }}>Statut :</label>
+          <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>Statut :</label>
           <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} style={{ padding: "8px 12px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontSize: 13, fontWeight: 700, background: "#FFF" }}>
             <option value="all">Tous les statuts</option>
             <option value="pending_payment">En attente paiement</option>
@@ -207,12 +207,12 @@ export default function OrdersManagementPage() {
               ) : (
                 filteredOrders.map((o) => (
                   <tr key={o.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                    <td style={{ padding: "14px 16px", fontWeight: 800, color: "var(--navy-dark)" }}>
+                    <td style={{ padding: "14px 16px", fontWeight: 600, color: "var(--navy-dark)" }}>
                       {o.order_number}
                     </td>
 
                     <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 800, color: "var(--navy-dark)" }}>
+                      <div style={{ fontWeight: 600, color: "var(--navy-dark)" }}>
                         {o.profile ? `${o.profile.first_name || ""} ${o.profile.last_name || ""}` : "Client Inconnu"}
                       </div>
                       <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{o.profile?.email}</div>
@@ -229,7 +229,7 @@ export default function OrdersManagementPage() {
                       </span>
                     </td>
 
-                    <td style={{ padding: "14px 16px", fontWeight: 900, color: "var(--navy-dark)", fontSize: 14 }}>
+                    <td style={{ padding: "14px 16px", fontWeight: 700, color: "var(--navy-dark)", fontSize: 14 }}>
                       {(o.amount || 0).toLocaleString()} FCFA
                     </td>
 
@@ -271,7 +271,7 @@ export default function OrdersManagementPage() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, paddingBottom: 12, borderBottom: "1px solid var(--border-light)" }}>
               <div>
                 <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)" }}>ÉDITION COMMANDE</span>
-                <h2 style={{ fontSize: 20, fontWeight: 900, color: "var(--navy-dark)", margin: "4px 0 0" }}>
+                <h2 style={{ fontSize: 20, fontWeight: 700, color: "var(--navy-dark)", margin: "4px 0 0" }}>
                   Mise à jour Commande #{selectedOrder.order_number}
                 </h2>
               </div>
@@ -280,7 +280,7 @@ export default function OrdersManagementPage() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 20 }}>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>STATUT DE LA COMMANDE</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>STATUT DE LA COMMANDE</label>
                 <select value={editingStatus} onChange={(e) => setEditingStatus(e.target.value as OrderStatus)} style={{ width: "100%", padding: 10, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontWeight: 700 }}>
                   <option value="pending_payment">Attente de Paiement</option>
                   <option value="processing">En Traitement en Chine</option>
@@ -292,7 +292,7 @@ export default function OrdersManagementPage() {
               </div>
 
               <div>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>NUMÉRO DE TRACKING LOGISTIQUE</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>NUMÉRO DE TRACKING LOGISTIQUE</label>
                 <input
                   type="text"
                   value={trackingNumber}

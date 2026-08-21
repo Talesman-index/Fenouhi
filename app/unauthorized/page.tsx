@@ -49,7 +49,7 @@ function UnauthorizedContent() {
           {isSuspended ? "COMPTE SUSPENDU / INACTIF" : "ACCÈS RESTREINT (403)"}
         </span>
 
-        <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: "8px 0 12px" }}>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: "8px 0 12px" }}>
           {isSuspended ? "Compte Suspendu ou Inactif" : "Accès Non Autorisé"}
         </h1>
 

@@ -38,7 +38,7 @@ export default function NotFound() {
       <h1
         style={{
           fontSize: 32,
-          fontWeight: 900,
+          fontWeight: 700,
           color: "var(--navy-dark)",
           margin: "0 0 10px",
         }}
@@ -65,7 +65,7 @@ export default function NotFound() {
           style={{
             padding: "12px 24px",
             borderRadius: "var(--radius-sm)",
-            fontWeight: 800,
+            fontWeight: 600,
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
@@ -80,7 +80,7 @@ export default function NotFound() {
           style={{
             padding: "12px 24px",
             borderRadius: "var(--radius-sm)",
-            fontWeight: 800,
+            fontWeight: 600,
             display: "inline-flex",
             alignItems: "center",
             gap: 8,

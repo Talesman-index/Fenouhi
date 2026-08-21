@@ -29,7 +29,7 @@ function CheckEmailContent() {
             <Mail style={{ width: 32 }} />
           </div>
 
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 12 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 12 }}>
             Vérifiez Votre Boîte Mail !
           </h1>
 

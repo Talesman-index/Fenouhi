@@ -196,7 +196,7 @@ export default function BottomNav({ activeScreen: propActive, onNavigate }: Bott
                 background: "#DC2626",
                 color: "#FFF",
                 fontSize: 10,
-                fontWeight: 800,
+                fontWeight: 600,
                 minWidth: 16,
                 height: 16,
                 borderRadius: "50%",

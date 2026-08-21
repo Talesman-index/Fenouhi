@@ -165,7 +165,7 @@ function DashboardContent() {
                     padding: "4px 12px",
                     borderRadius: 999,
                     fontSize: 11.5,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     marginBottom: 8,
                     letterSpacing: "0.5px",
                   }}
@@ -179,8 +179,8 @@ function DashboardContent() {
                     color: "#0F172A",
                     fontSize: "clamp(22px, 4vw, 28px)",
                     margin: "0 0 6px",
-                    fontWeight: 900,
-                    fontFamily: "'Outfit', sans-serif",
+                    fontWeight: 700,
+                    fontFamily: "'Poppins', sans-serif",
                     lineHeight: 1.2,
                   }}
                 >
@@ -200,7 +200,7 @@ function DashboardContent() {
                   padding: "12px 24px",
                   borderRadius: 999,
                   fontSize: 13,
-                  fontWeight: 800,
+                  fontWeight: 600,
                   textDecoration: "none",
                   display: "inline-flex",
                   alignItems: "center",
@@ -266,7 +266,7 @@ function DashboardContent() {
                             padding: "4px 10px",
                             borderRadius: 6,
                             fontSize: 11,
-                            fontWeight: 800,
+                            fontWeight: 600,
                             display: "inline-block",
                             marginBottom: 8,
                           }}
@@ -277,10 +277,10 @@ function DashboardContent() {
                         <h3
                           style={{
                             fontSize: 18,
-                            fontWeight: 900,
+                            fontWeight: 700,
                             color: "#0F172A",
                             margin: 0,
-                            fontFamily: "'Outfit', sans-serif",
+                            fontFamily: "'Poppins', sans-serif",
                           }}
                         >
                           50 Casques Bluetooth ANC SoundBass Pro
@@ -289,7 +289,7 @@ function DashboardContent() {
 
                       <div style={{ textAlign: "right" }}>
                         <div style={{ fontSize: 11, color: "#64748B" }}>Référence Commande</div>
-                        <div style={{ fontSize: 14, fontWeight: 900, color: "#0F172A" }}>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A" }}>
                           CMD-2026-45892
                         </div>
                       </div>
@@ -355,7 +355,7 @@ function DashboardContent() {
                           padding: "4px 10px",
                           borderRadius: 6,
                           fontSize: 11,
-                          fontWeight: 800,
+                          fontWeight: 600,
                           display: "inline-block",
                           marginBottom: 8,
                         }}
@@ -366,10 +366,10 @@ function DashboardContent() {
                       <h3
                         style={{
                           fontSize: 18,
-                          fontWeight: 900,
+                          fontWeight: 700,
                           color: "#0F172A",
                           margin: 0,
-                          fontFamily: "'Outfit', sans-serif",
+                          fontFamily: "'Poppins', sans-serif",
                         }}
                       >
                         Devis N° DEV-2026-9410
@@ -379,9 +379,9 @@ function DashboardContent() {
                     <span
                       style={{
                         fontSize: 20,
-                        fontWeight: 900,
+                        fontWeight: 700,
                         color: "#DC2626",
-                        fontFamily: "'Outfit', sans-serif",
+                        fontFamily: "'Poppins', sans-serif",
                       }}
                     >
                       205 000 FCFA
@@ -401,7 +401,7 @@ function DashboardContent() {
                         padding: "14px 24px",
                         borderRadius: 14,
                         fontSize: 14,
-                        fontWeight: 800,
+                        fontWeight: 600,
                         textDecoration: "none",
                         display: "inline-flex",
                         alignItems: "center",
@@ -424,7 +424,7 @@ function DashboardContent() {
                         padding: "14px 24px",
                         borderRadius: 14,
                         fontSize: 14,
-                        fontWeight: 800,
+                        fontWeight: 600,
                         textDecoration: "none",
                         display: "inline-flex",
                         alignItems: "center",
@@ -463,10 +463,10 @@ function DashboardContent() {
                       <h3
                         style={{
                           fontSize: 18,
-                          fontWeight: 900,
+                          fontWeight: 700,
                           color: "#0F172A",
                           margin: "0 0 4px",
-                          fontFamily: "'Outfit', sans-serif",
+                          fontFamily: "'Poppins', sans-serif",
                         }}
                       >
                         Mon Profil & Coordonnées
@@ -481,7 +481,7 @@ function DashboardContent() {
                         background: "#EFF6FF",
                         color: "#165491",
                         fontSize: 11.5,
-                        fontWeight: 800,
+                        fontWeight: 600,
                         padding: "4px 12px",
                         borderRadius: 999,
                       }}
@@ -518,7 +518,7 @@ function DashboardContent() {
                   <form onSubmit={handleSaveProfile} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
                       <div>
-                        <label style={{ fontSize: 11.5, fontWeight: 900, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                        <label style={{ fontSize: 11.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
                           PRÉNOM *
                         </label>
                         <input
@@ -542,7 +542,7 @@ function DashboardContent() {
                       </div>
 
                       <div>
-                        <label style={{ fontSize: 11.5, fontWeight: 900, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                        <label style={{ fontSize: 11.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
                           NOM *
                         </label>
                         <input
@@ -568,7 +568,7 @@ function DashboardContent() {
 
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
                       <div>
-                        <label style={{ fontSize: 11.5, fontWeight: 900, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                        <label style={{ fontSize: 11.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
                           ADRESSE EMAIL (NON MODIFIABLE)
                         </label>
                         <input
@@ -590,7 +590,7 @@ function DashboardContent() {
                       </div>
 
                       <div>
-                        <label style={{ fontSize: 11.5, fontWeight: 900, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                        <label style={{ fontSize: 11.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
                           TÉLÉPHONE WHATSAPP *
                         </label>
                         <input
@@ -616,7 +616,7 @@ function DashboardContent() {
 
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
                       <div>
-                        <label style={{ fontSize: 11.5, fontWeight: 900, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                        <label style={{ fontSize: 11.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
                           VILLE DE LIVRAISON *
                         </label>
                         <input
@@ -640,7 +640,7 @@ function DashboardContent() {
                       </div>
 
                       <div>
-                        <label style={{ fontSize: 11.5, fontWeight: 900, color: "#0F172A", display: "block", marginBottom: 6 }}>
+                        <label style={{ fontSize: 11.5, fontWeight: 700, color: "#0F172A", display: "block", marginBottom: 6 }}>
                           PAYS DE DESTINATION *
                         </label>
                         <select
@@ -681,7 +681,7 @@ function DashboardContent() {
                           borderRadius: 12,
                           padding: "14px 28px",
                           fontSize: 14,
-                          fontWeight: 800,
+                          fontWeight: 600,
                           cursor: saving ? "not-allowed" : "pointer",
                           display: "inline-flex",
                           alignItems: "center",
@@ -707,7 +707,7 @@ function DashboardContent() {
                     border: "1px solid #EAE5DC",
                   }}
                 >
-                  <h3 style={{ fontSize: 17, fontWeight: 900, color: "#0F172A", margin: "0 0 6px" }}>
+                  <h3 style={{ fontSize: 17, fontWeight: 700, color: "#0F172A", margin: "0 0 6px" }}>
                     Section en cours de synchronisation
                   </h3>
                   <p style={{ fontSize: 13, color: "#64748B", margin: 0 }}>
@@ -731,7 +731,7 @@ export default function DashboardPage() {
           style={{
             padding: "80px 0",
             textAlign: "center",
-            fontWeight: 800,
+            fontWeight: 600,
             color: "#0F172A",
             background: "#FAF7F2",
             minHeight: "80vh",

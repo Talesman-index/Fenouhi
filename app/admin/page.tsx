@@ -125,7 +125,7 @@ export default function AdminDashboardPage() {
           <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)", marginBottom: 4 }}>
             VUE D'ENSEMBLE PLATEFORME
           </span>
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
             Dashboard Administrateur
           </h1>
         </div>
@@ -145,12 +145,12 @@ export default function AdminDashboardPage() {
         {/* KPI 1 */}
         <div className="card" style={{ padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 11.5, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>Utilisateurs Totaux</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Utilisateurs Totaux</span>
             <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#EFF6FF", color: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Users style={{ width: 16 }} />
             </div>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 900, color: "var(--navy-dark)" }}>{kpis.totalUsers}</div>
+          <div style={{ fontSize: 26, fontWeight: 700, color: "var(--navy-dark)" }}>{kpis.totalUsers}</div>
           <div style={{ fontSize: 11, color: "var(--green-success)", fontWeight: 700, marginTop: 4, display: "flex", alignItems: "center", gap: 4 }}>
             <TrendingUp style={{ width: 12 }} /> +{kpis.newUsersMonth} ce mois-ci
           </div>
@@ -159,12 +159,12 @@ export default function AdminDashboardPage() {
         {/* KPI 2 */}
         <div className="card" style={{ padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 11.5, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>Devis en Attente</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Devis en Attente</span>
             <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#FEF3C7", color: "#D97706", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <FileText style={{ width: 16 }} />
             </div>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 900, color: "var(--navy-dark)" }}>{kpis.pendingQuotes}</div>
+          <div style={{ fontSize: 26, fontWeight: 700, color: "var(--navy-dark)" }}>{kpis.pendingQuotes}</div>
           <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 700, marginTop: 4 }}>
             Sur {kpis.totalQuotes} devis soumis au total
           </div>
@@ -173,12 +173,12 @@ export default function AdminDashboardPage() {
         {/* KPI 3 */}
         <div className="card" style={{ padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 11.5, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>Commandes en Cours</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Commandes en Cours</span>
             <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#F0FDF4", color: "#16A34A", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <ShoppingBag style={{ width: 16 }} />
             </div>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 900, color: "var(--navy-dark)" }}>{kpis.activeOrders}</div>
+          <div style={{ fontSize: 26, fontWeight: 700, color: "var(--navy-dark)" }}>{kpis.activeOrders}</div>
           <div style={{ fontSize: 11, color: "var(--green-success)", fontWeight: 700, marginTop: 4 }}>
             {kpis.deliveredOrders} livrées avec succès
           </div>
@@ -187,12 +187,12 @@ export default function AdminDashboardPage() {
         {/* KPI 4 */}
         <div className="card" style={{ padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 11.5, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>Colis en Transit</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Colis en Transit</span>
             <div style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--orange-light)", color: "var(--orange-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Truck style={{ width: 16 }} />
             </div>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 900, color: "var(--orange-primary)" }}>{kpis.parcelsInTransit}</div>
+          <div style={{ fontSize: 26, fontWeight: 700, color: "var(--orange-primary)" }}>{kpis.parcelsInTransit}</div>
           <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 700, marginTop: 4 }}>
             Hub International ➔ Afrique
           </div>
@@ -201,12 +201,12 @@ export default function AdminDashboardPage() {
         {/* KPI 5 */}
         <div className="card" style={{ padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 11.5, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>Chiffre d'Affaires</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Chiffre d'Affaires</span>
             <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#ECFDF5", color: "#059669", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <CreditCard style={{ width: 16 }} />
             </div>
           </div>
-          <div style={{ fontSize: 22, fontWeight: 900, color: "var(--navy-dark)" }}>{kpis.totalRevenue.toLocaleString()} FCFA</div>
+          <div style={{ fontSize: 22, fontWeight: 700, color: "var(--navy-dark)" }}>{kpis.totalRevenue.toLocaleString()} FCFA</div>
           <div style={{ fontSize: 11, color: "#D97706", fontWeight: 700, marginTop: 4 }}>
             Sur commandes payées · {kpis.pendingPayments} en attente
           </div>
@@ -215,12 +215,12 @@ export default function AdminDashboardPage() {
         {/* KPI 6 */}
         <div className="card" style={{ padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 11.5, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>Litiges Ouverts</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Litiges Ouverts</span>
             <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#FEF2F2", color: "#DC2626", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <AlertTriangle style={{ width: 16 }} />
             </div>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 900, color: kpis.openDisputes > 0 ? "#DC2626" : "var(--navy-dark)" }}>{kpis.openDisputes}</div>
+          <div style={{ fontSize: 26, fontWeight: 700, color: kpis.openDisputes > 0 ? "#DC2626" : "var(--navy-dark)" }}>{kpis.openDisputes}</div>
           <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 700, marginTop: 4 }}>
             Tickets client prioritaires
           </div>
@@ -235,7 +235,7 @@ export default function AdminDashboardPage() {
               <AlertCircle style={{ width: 22 }} />
             </div>
             <div>
-              <div style={{ fontSize: 15, fontWeight: 800, color: "#92400E" }}>Interventions Administrateur Requises</div>
+              <div style={{ fontSize: 15, fontWeight: 600, color: "#92400E" }}>Interventions Administrateur Requises</div>
               <div style={{ fontSize: 13, color: "#B45309" }}>
                 Vous avez {kpis.pendingQuotes} devis à chiffrer, {kpis.pendingPayments} preuves de paiement à vérifier et {kpis.openDisputes} réclamations client ouvertes.
               </div>
@@ -260,7 +260,7 @@ export default function AdminDashboardPage() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
             <div>
               <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)", fontSize: 10 }}>VOLUMÉTRIE LOGISTIQUE</span>
-              <h3 style={{ fontSize: 16, fontWeight: 800, color: "var(--navy-dark)", margin: "4px 0 0" }}>Commandes par Mois (2026)</h3>
+              <h3 style={{ fontSize: 16, fontWeight: 600, color: "var(--navy-dark)", margin: "4px 0 0" }}>Commandes par Mois (2026)</h3>
             </div>
             <TrendingUp style={{ width: 18, color: "var(--blue-primary)" }} />
           </div>
@@ -277,7 +277,7 @@ export default function AdminDashboardPage() {
               { month: "Juil", count: 54, h: "85%" },
             ].map((bar) => (
               <div key={bar.month} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-                <span style={{ fontSize: 10, fontWeight: 800, color: "var(--navy-dark)" }}>{bar.count}</span>
+                <span style={{ fontSize: 10, fontWeight: 600, color: "var(--navy-dark)" }}>{bar.count}</span>
                 <div style={{ width: "100%", height: bar.h, borderRadius: "4px 4px 0 0", background: bar.month === "Juil" ? "var(--orange-primary)" : "var(--blue-primary)" }} />
                 <span style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 700 }}>{bar.month}</span>
               </div>
@@ -290,7 +290,7 @@ export default function AdminDashboardPage() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
             <div>
               <span className="badge" style={{ background: "var(--green-bg)", color: "var(--green-success)", fontSize: 10 }}>FINANCIER</span>
-              <h3 style={{ fontSize: 16, fontWeight: 800, color: "var(--navy-dark)", margin: "4px 0 0" }}>Revenus Mensuels (MFCFA)</h3>
+              <h3 style={{ fontSize: 16, fontWeight: 600, color: "var(--navy-dark)", margin: "4px 0 0" }}>Revenus Mensuels (MFCFA)</h3>
             </div>
             <CreditCard style={{ width: 18, color: "var(--green-success)" }} />
           </div>
@@ -306,7 +306,7 @@ export default function AdminDashboardPage() {
               { month: "Juil", val: "18.4", h: "86%" },
             ].map((bar) => (
               <div key={bar.month} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-                <span style={{ fontSize: 10, fontWeight: 800, color: "var(--navy-dark)" }}>{bar.val}M</span>
+                <span style={{ fontSize: 10, fontWeight: 600, color: "var(--navy-dark)" }}>{bar.val}M</span>
                 <div style={{ width: "100%", height: bar.h, borderRadius: "4px 4px 0 0", background: "var(--green-success)" }} />
                 <span style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 700 }}>{bar.month}</span>
               </div>
@@ -320,8 +320,8 @@ export default function AdminDashboardPage() {
         {/* RECENT ORDERS TABLE */}
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 800, color: "var(--navy-dark)", margin: 0 }}>Dernières Commandes</h3>
-            <Link href="/admin/orders" style={{ fontSize: 12, fontWeight: 800, color: "var(--blue-primary)" }}>Voir tout ➔</Link>
+            <h3 style={{ fontSize: 16, fontWeight: 600, color: "var(--navy-dark)", margin: 0 }}>Dernières Commandes</h3>
+            <Link href="/admin/orders" style={{ fontSize: 12, fontWeight: 600, color: "var(--blue-primary)" }}>Voir tout ➔</Link>
           </div>
 
           <div style={{ overflowX: "auto" }}>
@@ -338,7 +338,7 @@ export default function AdminDashboardPage() {
                 {recentOrders.length > 0 ? (
                   recentOrders.map((o) => (
                     <tr key={o.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                      <td style={{ padding: "10px 4px", fontWeight: 800, color: "var(--navy-dark)" }}>{o.order_number}</td>
+                      <td style={{ padding: "10px 4px", fontWeight: 600, color: "var(--navy-dark)" }}>{o.order_number}</td>
                       <td style={{ padding: "10px 4px" }}>{o.profile ? `${o.profile.first_name} ${o.profile.last_name}` : "Client"}</td>
                       <td style={{ padding: "10px 4px", fontWeight: 700 }}>{Number(o.amount).toLocaleString()} FCFA</td>
                       <td style={{ padding: "10px 4px" }}><StatusBadge status={o.order_status} type="order" /></td>
@@ -351,7 +351,7 @@ export default function AdminDashboardPage() {
                     { id: "3", num: "CMD-2026-4591", client: "Serge Mensah", amount: 95000, status: "pending_payment" },
                   ].map((o) => (
                     <tr key={o.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                      <td style={{ padding: "10px 4px", fontWeight: 800, color: "var(--navy-dark)" }}>{o.num}</td>
+                      <td style={{ padding: "10px 4px", fontWeight: 600, color: "var(--navy-dark)" }}>{o.num}</td>
                       <td style={{ padding: "10px 4px" }}>{o.client}</td>
                       <td style={{ padding: "10px 4px", fontWeight: 700 }}>{o.amount.toLocaleString()} FCFA</td>
                       <td style={{ padding: "10px 4px" }}><StatusBadge status={o.status} type="order" /></td>
@@ -366,8 +366,8 @@ export default function AdminDashboardPage() {
         {/* RECENT QUOTES TABLE */}
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 800, color: "var(--navy-dark)", margin: 0 }}>Dernières Demandes de Devis</h3>
-            <Link href="/admin/quotes" style={{ fontSize: 12, fontWeight: 800, color: "var(--blue-primary)" }}>Voir tout ➔</Link>
+            <h3 style={{ fontSize: 16, fontWeight: 600, color: "var(--navy-dark)", margin: 0 }}>Dernières Demandes de Devis</h3>
+            <Link href="/admin/quotes" style={{ fontSize: 12, fontWeight: 600, color: "var(--blue-primary)" }}>Voir tout ➔</Link>
           </div>
 
           <div style={{ overflowX: "auto" }}>
@@ -384,7 +384,7 @@ export default function AdminDashboardPage() {
                 {recentQuotes.length > 0 ? (
                   recentQuotes.map((q) => (
                     <tr key={q.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                      <td style={{ padding: "10px 4px", fontWeight: 800, color: "var(--navy-dark)" }}>{q.quote_number}</td>
+                      <td style={{ padding: "10px 4px", fontWeight: 600, color: "var(--navy-dark)" }}>{q.quote_number}</td>
                       <td style={{ padding: "10px 4px", maxWidth: 140, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{q.product_name}</td>
                       <td style={{ padding: "10px 4px", fontWeight: 700 }}>{q.quantity}</td>
                       <td style={{ padding: "10px 4px" }}><StatusBadge status={q.status} type="quote" /></td>
@@ -397,7 +397,7 @@ export default function AdminDashboardPage() {
                     { id: "3", num: "DEV-2026-9412", prod: "10 Panneaux Solaires 450W", qte: 10, status: "new" },
                   ].map((q) => (
                     <tr key={q.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                      <td style={{ padding: "10px 4px", fontWeight: 800, color: "var(--navy-dark)" }}>{q.num}</td>
+                      <td style={{ padding: "10px 4px", fontWeight: 600, color: "var(--navy-dark)" }}>{q.num}</td>
                       <td style={{ padding: "10px 4px" }}>{q.prod}</td>
                       <td style={{ padding: "10px 4px", fontWeight: 700 }}>{q.qte}</td>
                       <td style={{ padding: "10px 4px" }}><StatusBadge status={q.status} type="quote" /></td>

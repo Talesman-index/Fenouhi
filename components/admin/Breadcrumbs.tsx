@@ -41,7 +41,7 @@ export default function Breadcrumbs() {
           <React.Fragment key={url}>
             <ChevronRight style={{ width: 12, height: 12, color: "var(--text-muted)" }} />
             {isLast ? (
-              <span style={{ color: "var(--orange-primary)", fontWeight: 800 }}>{label}</span>
+              <span style={{ color: "var(--orange-primary)", fontWeight: 600 }}>{label}</span>
             ) : (
               <Link href={url} style={{ color: "var(--navy-dark)", fontWeight: 700 }}>
                 {label}

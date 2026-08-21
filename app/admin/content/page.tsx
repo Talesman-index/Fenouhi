@@ -203,7 +203,7 @@ export default function ContentManagementPage() {
         <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)", marginBottom: 4 }}>
           GESTION DU CONTENU DYNAMIQUE
         </span>
-        <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
           Gestion du Contenu
         </h1>
       </div>
@@ -211,7 +211,7 @@ export default function ContentManagementPage() {
       <div className="admin-content-grid">
         {/* SECTION SELECTOR SIDEBAR */}
         <div className="card" style={{ padding: 12 }}>
-          <div style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", padding: "8px 12px 4px", textTransform: "uppercase" }}>Sections</div>
+          <div style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", padding: "8px 12px 4px", textTransform: "uppercase" }}>Sections</div>
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
             {CONTENT_SECTIONS.map((s) => {
               const Icon = s.icon;
@@ -258,7 +258,7 @@ export default function ContentManagementPage() {
                   <div style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--blue-light)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <activeSection_.icon style={{ width: 18, color: "var(--blue-primary)" }} />
                   </div>
-                  <h2 style={{ fontSize: 18, fontWeight: 800, color: "var(--navy-dark)", margin: 0 }}>
+                  <h2 style={{ fontSize: 18, fontWeight: 600, color: "var(--navy-dark)", margin: 0 }}>
                     {activeSection_.label}
                   </h2>
                 </>
@@ -278,13 +278,13 @@ export default function ContentManagementPage() {
           {/* INLINE EDITOR FORM */}
           {isFormOpen && (
             <div className="card" style={{ padding: 20 }}>
-              <h3 style={{ fontSize: 16, fontWeight: 800, color: "var(--navy-dark)", margin: "0 0 16px" }}>
+              <h3 style={{ fontSize: 16, fontWeight: 600, color: "var(--navy-dark)", margin: "0 0 16px" }}>
                 {editingItem ? `Modifier : ${editingItem.title}` : `Nouveau contenu — ${activeSection_?.label ?? activeSection}`}
 
               </h3>
               <form onSubmit={handleSaveContent} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 <div>
-                  <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>TITRE</label>
+                  <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>TITRE</label>
                   <input
                     type="text"
                     value={formTitle}
@@ -296,7 +296,7 @@ export default function ContentManagementPage() {
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>
+                  <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>
                     CONTENU (Texte simple ou JSON structuré)
                   </label>
                   <textarea
@@ -340,7 +340,7 @@ export default function ContentManagementPage() {
                 <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--blue-light)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
                   <FileText style={{ width: 26, color: "var(--blue-primary)" }} />
                 </div>
-                <div style={{ fontSize: 15, fontWeight: 800, color: "var(--navy-dark)", marginBottom: 4 }}>Aucun contenu</div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: "var(--navy-dark)", marginBottom: 4 }}>Aucun contenu</div>
                 <div style={{ fontSize: 13, color: "var(--text-muted)" }}>Cliquez sur "Ajouter" pour créer votre premier contenu.</div>
               </div>
             ) : (
@@ -357,14 +357,14 @@ export default function ContentManagementPage() {
                   }}
                 >
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 800, color: "var(--navy-dark)", fontSize: 14, marginBottom: 2 }}>{item.title}</div>
+                    <div style={{ fontWeight: 600, color: "var(--navy-dark)", fontSize: 14, marginBottom: 2 }}>{item.title}</div>
                     <div style={{ fontSize: 11.5, color: "var(--text-muted)" }}>
                       Modifié le {new Date(item.updated_at).toLocaleDateString("fr-FR")}
                     </div>
                   </div>
 
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ background: item.is_active ? "#DCFCE7" : "#F3F4F6", color: item.is_active ? "#166534" : "#6B7280", borderRadius: 9999, padding: "3px 8px", fontSize: 11, fontWeight: 800 }}>
+                    <span style={{ background: item.is_active ? "#DCFCE7" : "#F3F4F6", color: item.is_active ? "#166534" : "#6B7280", borderRadius: 9999, padding: "3px 8px", fontSize: 11, fontWeight: 600 }}>
                       {item.is_active ? "Actif" : "Masqué"}
                     </span>
                     <button onClick={() => handleToggleActive(item)} className="btn" style={{ padding: "5px 10px", fontSize: 11.5 }} title="Basculer visibilité">

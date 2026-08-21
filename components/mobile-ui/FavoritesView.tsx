@@ -283,7 +283,7 @@ export default function FavoritesView({ onBack, onContinueShopping }: FavoritesV
                     <div
                       style={{
                         fontSize: 14.5,
-                        fontWeight: 800,
+                        fontWeight: 600,
                         color: "#DC2626", // Exact red from mockup
                         lineHeight: 1.2,
                       }}

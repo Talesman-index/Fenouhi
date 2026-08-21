@@ -45,7 +45,7 @@ export default function ForgotPasswordPage() {
             <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--orange-light)", color: "var(--orange-primary)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
               <KeyRound style={{ width: 28 }} />
             </div>
-            <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: "4px 0" }}>
+            <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: "4px 0" }}>
               Mot de Passe Oublié ?
             </h1>
             <p style={{ fontSize: 13.5, color: "var(--text-muted)", margin: 0 }}>
@@ -72,7 +72,7 @@ export default function ForgotPasswordPage() {
           ) : (
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--navy-dark)", display: "block", marginBottom: 6 }}>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--navy-dark)", display: "block", marginBottom: 6 }}>
                   VOTRE ADRESSE EMAIL *
                 </label>
                 <input
@@ -95,7 +95,7 @@ export default function ForgotPasswordPage() {
               </button>
 
               <div style={{ textAlign: "center", marginTop: 8 }}>
-                <Link href="/auth/login" style={{ fontSize: 13, color: "var(--navy-dark)", fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+                <Link href="/auth/login" style={{ fontSize: 13, color: "var(--navy-dark)", fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
                   <ArrowLeft style={{ width: 14 }} /> Annuler et retourner à la connexion
                 </Link>
               </div>

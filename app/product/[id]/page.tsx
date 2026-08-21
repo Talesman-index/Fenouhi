@@ -91,9 +91,9 @@ function ProductDetailContent() {
   if (!product) {
     return (
       <div style={{ padding: "80px 20px", textAlign: "center", background: "#FAF7F2", minHeight: "70vh" }}>
-        <h2 style={{ fontSize: 24, fontWeight: 900, color: "#0F172A", marginBottom: 12 }}>Produit Introuvable</h2>
+        <h2 style={{ fontSize: 24, fontWeight: 700, color: "#0F172A", marginBottom: 12 }}>Produit Introuvable</h2>
         <p style={{ color: "#64748B", marginBottom: 20 }}>L'article demandé n'existe pas ou a été déplacé.</p>
-        <Link href="/catalog" style={{ background: "#0F172A", color: "#FFF", padding: "12px 24px", borderRadius: 12, textDecoration: "none", fontWeight: 800 }}>
+        <Link href="/catalog" style={{ background: "#0F172A", color: "#FFF", padding: "12px 24px", borderRadius: 12, textDecoration: "none", fontWeight: 600 }}>
           Retour au Catalogue
         </Link>
       </div>
@@ -175,7 +175,7 @@ function ProductDetailContent() {
               <Check style={{ width: 16, height: 16, strokeWidth: 3 }} />
             </div>
             <div>
-              <div style={{ fontSize: 13.5, fontWeight: 800 }}>Article ajouté au panier !</div>
+              <div style={{ fontSize: 13.5, fontWeight: 600 }}>Article ajouté au panier !</div>
               <div style={{ fontSize: 11.5, color: "#94A3B8" }}>{quantity}x {product.name}</div>
             </div>
             <Link
@@ -187,7 +187,7 @@ function ProductDetailContent() {
                 padding: "6px 14px",
                 borderRadius: 8,
                 fontSize: 12,
-                fontWeight: 800,
+                fontWeight: 600,
                 textDecoration: "none",
               }}
             >
@@ -214,7 +214,7 @@ function ProductDetailContent() {
           <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1" }} />
           <span style={{ color: "#64748B", fontWeight: 600 }}>{categoryName}</span>
           <ChevronRight style={{ width: 14, height: 14, color: "#CBD5E1" }} />
-          <span style={{ color: "#0F172A", fontWeight: 800, maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          <span style={{ color: "#0F172A", fontWeight: 600, maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {product.name}
           </span>
         </nav>
@@ -249,7 +249,7 @@ function ProductDetailContent() {
                   background: "#0F172A",
                   color: "#FBBF24",
                   fontSize: 11,
-                  fontWeight: 900,
+                  fontWeight: 700,
                   padding: "6px 14px",
                   borderRadius: 999,
                   letterSpacing: "0.5px",
@@ -335,55 +335,48 @@ function ProductDetailContent() {
               </div>
             )}
 
-            {/* 4 TRUST & QUALITY PILLARS */}
+            {/* 4 TRUST & QUALITY PILLARS (STYLE LIGNE ÉPURÉE D'AMBRE USINE) */}
             <div
               style={{
                 background: "#FFFFFF",
-                borderRadius: 20,
-                padding: "20px",
+                borderRadius: 16,
+                padding: "24px 16px",
                 border: "1px solid #E2D9CC",
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 16,
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "24px 16px",
+                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.02)",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#EFF6FF", color: "#0284C7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <ShieldCheck style={{ width: 18, height: 18 }} />
-                </div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 8 }}>
+                <ShieldCheck style={{ width: 34, height: 34, color: "#D97706", strokeWidth: 1.6 }} />
                 <div>
-                  <div style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A" }}>Contrôle Qualité</div>
-                  <div style={{ fontSize: 11, color: "#64748B" }}>Inspecté en usine Chine</div>
+                  <div style={{ fontSize: 12.5, fontWeight: 600, color: "#0F172A", marginBottom: 2 }}>Contrôle Qualité</div>
+                  <div style={{ fontSize: 11, color: "#64748B", fontWeight: 500 }}>Inspecté en usine Chine</div>
                 </div>
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#F0FDF4", color: "#16A34A", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Award style={{ width: 18, height: 18 }} />
-                </div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 8 }}>
+                <Award style={{ width: 34, height: 34, color: "#D97706", strokeWidth: 1.6 }} />
                 <div>
-                  <div style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A" }}>Origine Certifiée</div>
-                  <div style={{ fontSize: 11, color: "#64748B" }}>Fournisseur audité</div>
+                  <div style={{ fontSize: 12.5, fontWeight: 600, color: "#0F172A", marginBottom: 2 }}>Origine Certifiée</div>
+                  <div style={{ fontSize: 11, color: "#64748B", fontWeight: 500 }}>Fournisseur 100% audité</div>
                 </div>
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#FFFBEB", color: "#D97706", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Package style={{ width: 18, height: 18 }} />
-                </div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 8 }}>
+                <Package style={{ width: 34, height: 34, color: "#D97706", strokeWidth: 1.6 }} />
                 <div>
-                  <div style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A" }}>Emballage Export</div>
-                  <div style={{ fontSize: 11, color: "#64748B" }}>Renforcé pour transit</div>
+                  <div style={{ fontSize: 12.5, fontWeight: 600, color: "#0F172A", marginBottom: 2 }}>Emballage Export</div>
+                  <div style={{ fontSize: 11, color: "#64748B", fontWeight: 500 }}>Sécurisé & renforcé</div>
                 </div>
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#F1F5F9", color: "#0F172A", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Globe style={{ width: 18, height: 18 }} />
-                </div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 8 }}>
+                <Truck style={{ width: 34, height: 34, color: "#D97706", strokeWidth: 1.6 }} />
                 <div>
-                  <div style={{ fontSize: 12.5, fontWeight: 800, color: "#0F172A" }}>Dédouanement Cotonou</div>
-                  <div style={{ fontSize: 11, color: "#64748B" }}>100% Inclus sans surprise</div>
+                  <div style={{ fontSize: 12.5, fontWeight: 600, color: "#0F172A", marginBottom: 2 }}>Dédouanement Cotonou</div>
+                  <div style={{ fontSize: 11, color: "#64748B", fontWeight: 500 }}>100% Inclus sans surprise</div>
                 </div>
               </div>
             </div>
@@ -405,7 +398,7 @@ function ProductDetailContent() {
           >
             {/* DESTINATION BENIN PILL */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-              <span style={{ background: "#ECFDF5", color: "#065F46", padding: "4px 10px", borderRadius: 8, fontSize: 11.5, fontWeight: 800, display: "flex", alignItems: "center", gap: 4 }}>
+              <span style={{ background: "#ECFDF5", color: "#065F46", padding: "4px 10px", borderRadius: 8, fontSize: 11.5, fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
                 <MapPin style={{ width: 13, height: 13 }} />
                 Livraison Bénin : Cotonou, Calavi & Régions
               </span>
@@ -421,7 +414,7 @@ function ProductDetailContent() {
 
             {/* PRODUCT TITLE */}
             <div>
-              <h1 style={{ fontSize: "clamp(20px, 2.5vw, 24px)", fontWeight: 900, color: "#0F172A", fontFamily: "'Outfit', sans-serif", margin: "0 0 8px", lineHeight: 1.25 }}>
+              <h1 style={{ fontSize: "clamp(20px, 2.5vw, 24px)", fontWeight: 700, color: "#0F172A", fontFamily: "'Poppins', sans-serif", margin: "0 0 8px", lineHeight: 1.25 }}>
                 {product.name}
               </h1>
 
@@ -447,7 +440,7 @@ function ProductDetailContent() {
             {/* STORAGE CAPACITY OPTIONS SELECTOR */}
             {product.storage_options && product.storage_options.length > 0 && (
               <div style={{ background: "#F8FAFC", padding: 14, borderRadius: 14, border: "1px solid #E2E8F0" }}>
-                <div style={{ fontSize: 11.5, fontWeight: 900, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+                <div style={{ fontSize: 11.5, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
                   Sélectionner la capacité de stockage :
                 </div>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -462,7 +455,7 @@ function ProductDetailContent() {
                           padding: "6px 14px",
                           borderRadius: 8,
                           fontSize: 12.5,
-                          fontWeight: 800,
+                          fontWeight: 600,
                           cursor: "pointer",
                           background: isSelected ? "#0F172A" : "#FFFFFF",
                           color: isSelected ? "#FFFFFF" : "#334155",
@@ -486,13 +479,13 @@ function ProductDetailContent() {
                   <Star key={s} style={{ width: 15, height: 15, fill: "#F59E0B", color: "#F59E0B" }} />
                 ))}
               </div>
-              <span style={{ fontSize: 13, fontWeight: 800, color: "#0F172A" }}>5.0</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>5.0</span>
               <span style={{ fontSize: 12, color: "#94A3B8" }}>• Stock disponible usine : {product.stock_quantity || 100} unités</span>
             </div>
 
             {/* UNIT PRICE IN FCFA */}
             <div style={{ display: "flex", alignItems: "baseline", gap: 10, padding: "14px 0", borderTop: "1px solid #F1F5F9", borderBottom: "1px solid #F1F5F9" }}>
-              <span style={{ fontSize: 32, fontWeight: 900, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
+              <span style={{ fontSize: 32, fontWeight: 700, color: "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
                 {formatPrice(unitPrice)}
               </span>
               <span style={{ fontSize: 13, color: "#64748B", fontWeight: 600 }}>/ unité usine</span>
@@ -505,7 +498,7 @@ function ProductDetailContent() {
 
             {/* QUANTITY SELECTOR */}
             <div>
-              <label style={{ display: "block", fontSize: 11.5, fontWeight: 900, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+              <label style={{ display: "block", fontSize: 11.5, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
                 Quantité à commander :
               </label>
               <div style={{ display: "inline-flex", alignItems: "center", background: "#F1F5F9", borderRadius: 14, padding: "4px 8px", gap: 10 }}>
@@ -516,7 +509,7 @@ function ProductDetailContent() {
                 >
                   <Minus style={{ width: 16, height: 16, strokeWidth: 2.5 }} />
                 </button>
-                <span style={{ minWidth: 40, textAlign: "center", fontSize: 17, fontWeight: 900, color: "#0F172A" }}>
+                <span style={{ minWidth: 40, textAlign: "center", fontSize: 17, fontWeight: 700, color: "#0F172A" }}>
                   {quantity}
                 </span>
                 <button
@@ -531,7 +524,7 @@ function ProductDetailContent() {
 
             {/* SHIPPING MODE SELECTOR */}
             <div>
-              <label style={{ display: "block", fontSize: 11.5, fontWeight: 900, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+              <label style={{ display: "block", fontSize: 11.5, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
                 Mode de Transit Chine ➔ Bénin :
               </label>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
@@ -549,7 +542,7 @@ function ProductDetailContent() {
                   }}
                 >
                   <Plane style={{ width: 22, height: 22, color: "#0284C7", margin: "0 auto 4px" }} />
-                  <div style={{ fontSize: 13, fontWeight: 800, color: "#0F172A" }}>Fret Aérien Express</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>Fret Aérien Express</div>
                   <div style={{ fontSize: 11, color: "#0369A1", fontWeight: 700 }}>5–12 jours • Aéroport Cotonou</div>
                 </div>
 
@@ -567,7 +560,7 @@ function ProductDetailContent() {
                   }}
                 >
                   <Ship style={{ width: 22, height: 22, color: "#16A34A", margin: "0 auto 4px" }} />
-                  <div style={{ fontSize: 13, fontWeight: 800, color: "#0F172A" }}>Fret Maritime Groupé</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>Fret Maritime Groupé</div>
                   <div style={{ fontSize: 11, color: "#15803D", fontWeight: 700 }}>40–65 jours • Port Cotonou</div>
                 </div>
               </div>
@@ -585,7 +578,7 @@ function ProductDetailContent() {
                 gap: 8,
               }}
             >
-              <div style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", textTransform: "uppercase", marginBottom: 2 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "#0F172A", textTransform: "uppercase", marginBottom: 2 }}>
                 Estimation Transparente (Tout Compris)
               </div>
 
@@ -612,8 +605,8 @@ function ProductDetailContent() {
               <div style={{ height: 1, background: "#E2E8F0", margin: "4px 0" }} />
 
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontSize: 14.5, fontWeight: 900, color: "#0F172A" }}>Total Estimé TTC</span>
-                <span style={{ fontSize: 22, fontWeight: 900, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
+                <span style={{ fontSize: 14.5, fontWeight: 700, color: "#0F172A" }}>Total Estimé TTC</span>
+                <span style={{ fontSize: 22, fontWeight: 700, color: "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
                   {formatPrice(total)}
                 </span>
               </div>
@@ -630,7 +623,7 @@ function ProductDetailContent() {
                   borderRadius: 14,
                   padding: "16px 24px",
                   fontSize: 16,
-                  fontWeight: 900,
+                  fontWeight: 700,
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
@@ -653,7 +646,7 @@ function ProductDetailContent() {
                   borderRadius: 14,
                   padding: "12px 20px",
                   fontSize: 14,
-                  fontWeight: 800,
+                  fontWeight: 600,
                   textDecoration: "none",
                   display: "flex",
                   alignItems: "center",
@@ -703,7 +696,7 @@ function ProductDetailContent() {
           <div style={{ background: "#FFFFFF", borderRadius: 20, padding: "28px", border: "1px solid #E2D9CC", marginTop: 20, boxShadow: "0 2px 12px rgba(15, 23, 42, 0.02)" }}>
             {activeTab === "description" && (
               <div style={{ fontSize: 14.5, color: "#334155", lineHeight: 1.7 }}>
-                <h3 style={{ fontSize: 18, fontWeight: 900, color: "#0F172A", margin: "0 0 12px" }}>
+                <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: "0 0 12px" }}>
                   À propos du produit
                 </h3>
                 <p style={{ margin: "0 0 16px" }}>
@@ -721,43 +714,43 @@ function ProductDetailContent() {
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
                 <div style={{ background: "#F8FAFC", padding: "14px 18px", borderRadius: 12, border: "1px solid #E2E8F0" }}>
                   <div style={{ fontSize: 11.5, color: "#64748B", fontWeight: 700, textTransform: "uppercase" }}>Origine Usine</div>
-                  <div style={{ fontSize: 14, fontWeight: 800, color: "#0F172A" }}>{product.country_of_origin || "Chine (Guangdong)"}</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "#0F172A" }}>{product.country_of_origin || "Chine (Guangdong)"}</div>
                 </div>
                 <div style={{ background: "#F8FAFC", padding: "14px 18px", borderRadius: 12, border: "1px solid #E2E8F0" }}>
                   <div style={{ fontSize: 11.5, color: "#64748B", fontWeight: 700, textTransform: "uppercase" }}>Poids estimé</div>
-                  <div style={{ fontSize: 14, fontWeight: 800, color: "#0F172A" }}>{product.weight ? `${product.weight} kg` : "0.45 kg / unité"}</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "#0F172A" }}>{product.weight ? `${product.weight} kg` : "0.45 kg / unité"}</div>
                 </div>
                 <div style={{ background: "#F8FAFC", padding: "14px 18px", borderRadius: 12, border: "1px solid #E2E8F0" }}>
                   <div style={{ fontSize: 11.5, color: "#64748B", fontWeight: 700, textTransform: "uppercase" }}>Quantité Minimum (MOQ)</div>
-                  <div style={{ fontSize: 14, fontWeight: 800, color: "#0F172A" }}>{product.minimum_order_quantity || 1} unité(s)</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "#0F172A" }}>{product.minimum_order_quantity || 1} unité(s)</div>
                 </div>
                 <div style={{ background: "#F8FAFC", padding: "14px 18px", borderRadius: 12, border: "1px solid #E2E8F0" }}>
                   <div style={{ fontSize: 11.5, color: "#64748B", fontWeight: 700, textTransform: "uppercase" }}>Hub de Transit</div>
-                  <div style={{ fontSize: 14, fontWeight: 800, color: "#0F172A" }}>Akpakpa Port (Cotonou, Bénin)</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "#0F172A" }}>Akpakpa Port (Cotonou, Bénin)</div>
                 </div>
               </div>
             )}
 
             {activeTab === "shipping" && (
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                <h3 style={{ fontSize: 18, fontWeight: 900, color: "#0F172A", margin: 0 }}>
+                <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: 0 }}>
                   Processus Logistique FENOUHIMIN Chine ➔ Bénin
                 </h3>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14 }}>
                   <div style={{ background: "#FAF7F2", padding: "16px", borderRadius: 14, border: "1px solid #E2D9CC" }}>
-                    <div style={{ fontSize: 12, fontWeight: 900, color: "#0284C7", marginBottom: 4 }}>1. SOURCING & CONTRÔLE</div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#0284C7", marginBottom: 4 }}>1. SOURCING & CONTRÔLE</div>
                     <p style={{ fontSize: 12.5, color: "#475569", margin: 0 }}>Collecte usine à Shenzhen/Guangzhou et contrôle qualité immédiat.</p>
                   </div>
                   <div style={{ background: "#FAF7F2", padding: "16px", borderRadius: 14, border: "1px solid #E2D9CC" }}>
-                    <div style={{ fontSize: 12, fontWeight: 900, color: "#0284C7", marginBottom: 4 }}>2. TRANSIT INTERNATIONAL</div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#0284C7", marginBottom: 4 }}>2. TRANSIT INTERNATIONAL</div>
                     <p style={{ fontSize: 12.5, color: "#475569", margin: 0 }}>Départ par avion cargo (5-12j) ou conteneur maritime (40-65j).</p>
                   </div>
                   <div style={{ background: "#FAF7F2", padding: "16px", borderRadius: 14, border: "1px solid #E2D9CC" }}>
-                    <div style={{ fontSize: 12, fontWeight: 900, color: "#0284C7", marginBottom: 4 }}>3. DÉDOUANEMENT COTONOU</div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#0284C7", marginBottom: 4 }}>3. DÉDOUANEMENT COTONOU</div>
                     <p style={{ fontSize: 12.5, color: "#475569", margin: 0 }}>Passage aux douanes de l'Aéroport ou Port de Cotonou intégralement géré.</p>
                   </div>
                   <div style={{ background: "#FAF7F2", padding: "16px", borderRadius: 14, border: "1px solid #E2D9CC" }}>
-                    <div style={{ fontSize: 12, fontWeight: 900, color: "#0284C7", marginBottom: 4 }}>4. REMISE EN MAIN PROPRE</div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#0284C7", marginBottom: 4 }}>4. REMISE EN MAIN PROPRE</div>
                     <p style={{ fontSize: 12.5, color: "#475569", margin: 0 }}>Livraison à votre adresse à Cotonou/Calavi ou retrait dans nos agences.</p>
                   </div>
                 </div>
@@ -767,7 +760,7 @@ function ProductDetailContent() {
             {activeTab === "reviews" && (
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-                  <div style={{ fontSize: 36, fontWeight: 900, color: "#0F172A", fontFamily: "'Outfit', sans-serif" }}>5.0</div>
+                  <div style={{ fontSize: 36, fontWeight: 700, color: "#0F172A", fontFamily: "'Poppins', sans-serif" }}>5.0</div>
                   <div>
                     <div style={{ display: "flex", gap: 2 }}>
                       {[1, 2, 3, 4, 5].map((s) => (

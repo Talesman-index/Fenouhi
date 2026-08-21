@@ -170,7 +170,7 @@ export default function Header() {
                 <MapPin style={{ width: 15, color: "#0F172A" }} />
                 <div>
                   <div style={{ fontSize: 9, color: "#94A3B8" }}>Livraison au Bénin</div>
-                  <div style={{ fontWeight: 800, color: "#0F172A" }}>Cotonou & Régions</div>
+                  <div style={{ fontWeight: 600, color: "#0F172A" }}>Cotonou & Régions</div>
                 </div>
               </div>
 
@@ -222,7 +222,7 @@ export default function Header() {
                       background: "#DC2626",
                       color: "#FFF",
                       fontSize: 9.5,
-                      fontWeight: 900,
+                      fontWeight: 700,
                       minWidth: 16,
                       height: 16,
                       borderRadius: "50%",
@@ -241,24 +241,24 @@ export default function Header() {
               {/* USER / AUTH BUTTONS (DESKTOP ONLY) */}
               {isLoggedIn ? (
                 <div className="desktop-only" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <Link href="/dashboard" className="btn btn-pill-sm" style={{ background: "#0F172A", color: "#FFF", padding: "8px 16px", fontSize: 13, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6 }}>
+                  <Link href="/dashboard" className="btn btn-pill-sm" style={{ background: "#0F172A", color: "#FFF", padding: "8px 16px", fontSize: 13, fontWeight: 600, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6 }}>
                     <User style={{ width: 14 }} /> <span>Mon Espace</span>
                   </Link>
                   <button
                     onClick={handleLogout}
                     className="btn btn-pill-sm"
                     title="Se déconnecter"
-                    style={{ background: "rgba(220, 38, 38, 0.08)", color: "#DC2626", border: "1px solid rgba(220, 38, 38, 0.2)", padding: "8px 14px", fontSize: 12.5, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 5, cursor: "pointer" }}
+                    style={{ background: "rgba(220, 38, 38, 0.08)", color: "#DC2626", border: "1px solid rgba(220, 38, 38, 0.2)", padding: "8px 14px", fontSize: 12.5, fontWeight: 600, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 5, cursor: "pointer" }}
                   >
                     <LogOut style={{ width: 14 }} /> <span>Déconnexion</span>
                   </button>
                 </div>
               ) : (
                 <div className="desktop-only" style={{ gap: 6, alignItems: "center" }}>
-                  <Link href="/auth/login" className="btn btn-pill-sm" style={{ background: "rgba(15,23,42,0.06)", color: "#0F172A", padding: "8px 16px", fontSize: 13, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
+                  <Link href="/auth/login" className="btn btn-pill-sm" style={{ background: "rgba(15,23,42,0.06)", color: "#0F172A", padding: "8px 16px", fontSize: 13, fontWeight: 600, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
                     <LogIn style={{ width: 14 }} /> <span>Connexion</span>
                   </Link>
-                  <Link href="/auth/sign-up" className="btn btn-pill-sm" style={{ background: "#0F172A", color: "#FFF", padding: "8px 16px", fontSize: 13, fontWeight: 800, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
+                  <Link href="/auth/sign-up" className="btn btn-pill-sm" style={{ background: "#0F172A", color: "#FFF", padding: "8px 16px", fontSize: 13, fontWeight: 600, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
                     <UserPlus style={{ width: 14 }} /> <span>S'inscrire</span>
                   </Link>
                 </div>
@@ -305,7 +305,7 @@ export default function Header() {
           
           <ul className="subnav-list" style={{ display: "flex", gap: 18, listStyle: "none", margin: 0, padding: 0, alignItems: "center", overflowX: "auto" }}>
             <li>
-              <Link href="/categories" style={{ fontWeight: 900, color: "#0F172A", fontSize: 12.5, display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>
+              <Link href="/categories" style={{ fontWeight: 700, color: "#0F172A", fontSize: 12.5, display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>
                 <Grid style={{ width: 14 }} /> toutes les catégories <ChevronDown style={{ width: 12 }} />
               </Link>
             </li>
@@ -352,13 +352,13 @@ export default function Header() {
             </li>
           </ul>
 
-          <div className="desktop-only" style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 12.5, fontWeight: 800, flexShrink: 0 }}>
+          <div className="desktop-only" style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 12.5, fontWeight: 600, flexShrink: 0 }}>
             <Link href="/catalog?deals=true" style={{ color: "#165491", display: "flex", alignItems: "center", gap: 5, textDecoration: "none" }}>
               <Gift style={{ width: 14, height: 14 }} /> Offres Exclusives
             </Link>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "#F1F5F9", padding: "4px 10px", borderRadius: 9999, fontSize: 11.5, color: "#0F172A" }}>
               <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#DC2626", display: "inline-block" }} />
-              <span style={{ fontWeight: 900 }}>CargoLink</span>
+              <span style={{ fontWeight: 700 }}>CargoLink</span>
               <span style={{ fontWeight: 600, color: "#64748B" }}>Live</span>
             </div>
           </div>
@@ -554,7 +554,7 @@ export default function Header() {
                   <ShoppingBag style={{ width: 18, height: 18, color: pathname === "/cart" ? "#165491" : "#64748B", flexShrink: 0 }} />
                   <span>Mon Panier</span>
                   {totalCartItems > 0 && (
-                    <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFF", fontSize: 10, fontWeight: 800, padding: "1px 7px", borderRadius: 9999 }}>{totalCartItems}</span>
+                    <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFF", fontSize: 10, fontWeight: 600, padding: "1px 7px", borderRadius: 9999 }}>{totalCartItems}</span>
                   )}
                 </Link>
               </li>
@@ -630,7 +630,7 @@ export default function Header() {
                   >
                     <Package style={{ width: 18, height: 18, color: "#64748B", flexShrink: 0 }} />
                     <span>Mes Commandes</span>
-                    <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFFFFF", fontSize: 9.5, fontWeight: 800, padding: "1px 6px", borderRadius: 9999 }}>2</span>
+                    <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFFFFF", fontSize: 9.5, fontWeight: 600, padding: "1px 6px", borderRadius: 9999 }}>2</span>
                   </Link>
 
                   <Link 
@@ -640,7 +640,7 @@ export default function Header() {
                   >
                     <FileText style={{ width: 18, height: 18, color: "#64748B", flexShrink: 0 }} />
                     <span>Mes Devis</span>
-                    <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFFFFF", fontSize: 9.5, fontWeight: 900, padding: "1px 6px", borderRadius: 9999 }}>1</span>
+                    <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFFFFF", fontSize: 9.5, fontWeight: 700, padding: "1px 6px", borderRadius: 9999 }}>1</span>
                   </Link>
 
                   <button 

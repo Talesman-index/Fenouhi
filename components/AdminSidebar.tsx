@@ -76,7 +76,7 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
       {/* MOBILE CLOSE HEADER */}
       {onCloseMobile && (
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, paddingBottom: 12, borderBottom: "1px solid var(--border-light)" }}>
-          <span style={{ fontWeight: 900, fontSize: 16, color: "var(--navy-dark)" }}>Menu Administrateur</span>
+          <span style={{ fontWeight: 700, fontSize: 16, color: "var(--navy-dark)" }}>Menu Administrateur</span>
           <button onClick={onCloseMobile} style={{ background: "transparent", border: "none", cursor: "pointer", padding: 4 }}>
             <X style={{ width: 20 }} />
           </button>
@@ -85,14 +85,14 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
 
       {/* USER PROFILE SUMMARY CARD */}
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, paddingBottom: 14, borderBottom: "1px solid var(--border-light)" }}>
-        <div style={{ width: 42, height: 42, borderRadius: "50%", background: "var(--orange-primary)", color: "#FFF", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 15, flexShrink: 0 }}>
+        <div style={{ width: 42, height: 42, borderRadius: "50%", background: "var(--orange-primary)", color: "#FFF", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 15, flexShrink: 0 }}>
           {initials}
         </div>
         <div style={{ overflow: "hidden" }}>
-          <div style={{ fontWeight: 800, color: "var(--navy-dark)", fontSize: 14, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          <div style={{ fontWeight: 600, color: "var(--navy-dark)", fontSize: 14, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
             {profile ? `${profile.first_name} ${profile.last_name}` : "Admin Logistique"}
           </div>
-          <div style={{ fontSize: 11, color: "var(--blue-primary)", fontWeight: 800, display: "flex", alignItems: "center", gap: 4, marginTop: 1 }}>
+          <div style={{ fontSize: 11, color: "var(--blue-primary)", fontWeight: 600, display: "flex", alignItems: "center", gap: 4, marginTop: 1 }}>
             <ShieldCheck style={{ width: 13 }} /> {profile?.role || "admin"}
           </div>
         </div>
@@ -144,7 +144,7 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
                 border: "none",
                 background: "#FEF2F2",
                 color: "#991B1B",
-                fontWeight: 800,
+                fontWeight: 600,
                 fontSize: 13.5,
                 cursor: "pointer",
                 display: "flex",

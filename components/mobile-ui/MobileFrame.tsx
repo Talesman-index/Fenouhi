@@ -67,7 +67,7 @@ export default function MobileFrame({
                   display: "inline-block",
                 }}
               />
-              <span style={{ fontSize: 12, fontWeight: 800, color: "#0F172A", textTransform: "uppercase", letterSpacing: 0.5 }}>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#0F172A", textTransform: "uppercase", letterSpacing: 0.5 }}>
                 Contexte CargoLink Africa
               </span>
             </div>
@@ -105,7 +105,7 @@ export default function MobileFrame({
                         background: activeScreen === tab.id ? "#DC2626" : "#CBD5E1",
                         color: activeScreen === tab.id ? "#FFF" : "#0F172A",
                         fontSize: 9,
-                        fontWeight: 800,
+                        fontWeight: 600,
                         padding: "1px 4px",
                         borderRadius: 4,
                       }}

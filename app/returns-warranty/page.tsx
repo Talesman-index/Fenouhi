@@ -19,7 +19,7 @@ export default function ReturnsWarrantyPage() {
           <div className="grid-3" style={{ gap: 24 }}>
             <div className="card" style={{ padding: 24 }}>
               <ShieldCheck style={{ width: 32, color: "var(--green-success)", marginBottom: 12 }} />
-              <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 8 }}>Contrôle Qualité Avant Départ</h3>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 8 }}>Contrôle Qualité Avant Départ</h3>
               <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
                 Chaque produit est inspecté visuellement dans nos entrepôts internationaux. Des photos HD vous sont soumises avant tout emballage d'expédition.
               </p>
@@ -27,7 +27,7 @@ export default function ReturnsWarrantyPage() {
 
             <div className="card" style={{ padding: 24 }}>
               <RotateCcw style={{ width: 32, color: "var(--orange-primary)", marginBottom: 12 }} />
-              <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 8 }}>Remplacement / Remboursement</h3>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 8 }}>Remplacement / Remboursement</h3>
               <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
                 Si l'article reçu ne correspond pas à votre devis officiel, FENOUHIMIN s'engage au remboursement ou à la réexpédition à nos frais.
               </p>
@@ -35,7 +35,7 @@ export default function ReturnsWarrantyPage() {
 
             <div className="card" style={{ padding: 24 }}>
               <LifeBuoy style={{ width: 32, color: "var(--navy-dark)", marginBottom: 12 }} />
-              <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 8 }}>Gestion Express des Litiges</h3>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 8 }}>Gestion Express des Litiges</h3>
               <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
                 Une équipe dédiée prend en charge vos réclamations sous 24h via WhatsApp ou téléphone pour un traitement sans tracas.
               </p>

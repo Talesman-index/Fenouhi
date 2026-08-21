@@ -390,7 +390,7 @@ export default function ProductsManagementPage() {
       {/* HEADER BAR */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, flexWrap: "wrap", gap: 16 }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: 0, display: "flex", alignItems: "center", gap: 10 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0, display: "flex", alignItems: "center", gap: 10 }}>
             <Package style={{ width: 28, height: 28, color: "var(--orange-primary)" }} />
             Gestion du Catalogue Produits Supabase
           </h1>
@@ -403,7 +403,7 @@ export default function ProductsManagementPage() {
           type="button"
           onClick={openCreateModal}
           className="btn btn-primary"
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 18px", fontWeight: 800, cursor: "pointer" }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 18px", fontWeight: 600, cursor: "pointer" }}
         >
           <Plus style={{ width: 18 }} /> Ajouter un Nouveau Produit
         </button>
@@ -513,7 +513,7 @@ export default function ProductsManagementPage() {
                           style={{ width: 44, height: 44, borderRadius: 8, objectFit: "cover", border: "1px solid #E2E8F0" }}
                         />
                         <div>
-                          <div style={{ fontWeight: 800, color: "var(--navy-dark)" }}>{p.name}</div>
+                          <div style={{ fontWeight: 600, color: "var(--navy-dark)" }}>{p.name}</div>
                           <div style={{ fontSize: 11, color: "#64748B" }}>{p.slug}</div>
                         </div>
                       </div>
@@ -523,7 +523,7 @@ export default function ProductsManagementPage() {
                         {p.category?.name || "Non catégorisé"}
                       </span>
                     </td>
-                    <td style={{ fontWeight: 800, color: "var(--navy-dark)" }}>
+                    <td style={{ fontWeight: 600, color: "var(--navy-dark)" }}>
                       {p.price.toLocaleString()} {p.currency || "FCFA"}
                     </td>
                     <td>
@@ -598,7 +598,7 @@ export default function ProductsManagementPage() {
                 <span className="badge" style={{ background: "rgba(249, 115, 22, 0.2)", color: "#F97316", border: "1px solid rgba(249, 115, 22, 0.4)", marginBottom: 4, fontSize: 10 }}>
                   {editingProduct ? "ÉDITION PRODUIT" : "NOUVEL ARTICLE COMMERCIAL"}
                 </span>
-                <h2 style={{ fontSize: 20, fontWeight: 900, color: "#FFFFFF", margin: 0, display: "flex", alignItems: "center", gap: 10 }}>
+                <h2 style={{ fontSize: 20, fontWeight: 700, color: "#FFFFFF", margin: 0, display: "flex", alignItems: "center", gap: 10 }}>
                   <Package style={{ width: 22, color: "#F97316" }} />
                   {editingProduct ? `Modifier "${editingProduct.name}"` : "Créer un Produit Commercial Usine"}
                 </h2>
@@ -629,7 +629,7 @@ export default function ProductsManagementPage() {
                       gap: 8,
                       padding: "14px 18px",
                       fontSize: 13,
-                      fontWeight: 800,
+                      fontWeight: 600,
                       color: isActive ? "#F97316" : "#64748B",
                       border: "none",
                       borderBottom: isActive ? "3px solid #F97316" : "3px solid transparent",
@@ -654,7 +654,7 @@ export default function ProductsManagementPage() {
                   {/* IS DEMO SWITCH */}
                   <div style={{ background: isDemo ? "#FEF3C7" : "#F0FDF4", border: `1px solid ${isDemo ? "#FCD34D" : "#86EFAC"}`, padding: 14, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <div>
-                      <div style={{ fontWeight: 800, fontSize: 13, color: isDemo ? "#92400E" : "#166534", display: "flex", alignItems: "center", gap: 6 }}>
+                      <div style={{ fontWeight: 600, fontSize: 13, color: isDemo ? "#92400E" : "#166534", display: "flex", alignItems: "center", gap: 6 }}>
                         {isDemo ? (
                           <>
                             <Info style={{ width: 15, height: 15, color: "#D97706" }} />
@@ -673,7 +673,7 @@ export default function ProductsManagementPage() {
                           : "Produit usine réel certifié destiné aux commandes réelles de la boutique."}
                       </div>
                     </div>
-                    <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", fontSize: 12, fontWeight: 800 }}>
+                    <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
                       <input
                         type="checkbox"
                         checked={isDemo}
@@ -785,7 +785,7 @@ export default function ProductsManagementPage() {
                         <option value="archived">Archivé</option>
                       </select>
                     </div>
-                    <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 800, marginTop: 18, cursor: "pointer" }}>
+                    <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 600, marginTop: 18, cursor: "pointer" }}>
                       <input
                         type="checkbox"
                         checked={isFeatured}
@@ -804,7 +804,7 @@ export default function ProductsManagementPage() {
                     <span className="badge" style={{ background: "#2563EB", color: "#FFF", fontSize: 10, marginBottom: 4 }}>
                       PARAMÉTRAGE DE LA RENTABILITÉ CARGOLINK
                     </span>
-                    <h3 style={{ fontSize: 15, fontWeight: 900, color: "#1E3A8A", margin: "4px 0 0" }}>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: "#1E3A8A", margin: "4px 0 0" }}>
                       Définition du Prix Usine, de la Commission & du Fret
                     </h3>
                   </div>
@@ -820,7 +820,7 @@ export default function ProductsManagementPage() {
                         value={price}
                         onChange={(e) => setPrice(Number(e.target.value))}
                         className="admin-input"
-                        style={{ fontSize: 16, fontWeight: 900, color: "#0F172A" }}
+                        style={{ fontSize: 16, fontWeight: 700, color: "#0F172A" }}
                       />
                     </div>
 
@@ -838,7 +838,7 @@ export default function ProductsManagementPage() {
                           value={cargolinkMarginPercent}
                           onChange={(e) => setCargolinkMarginPercent(Number(e.target.value))}
                           className="admin-input"
-                          style={{ width: 90, fontWeight: 800 }}
+                          style={{ width: 90, fontWeight: 600 }}
                         />
                         <div style={{ display: "flex", gap: 4, flex: 1 }}>
                           {[5, 10, 15, 20].map((pct) => (
@@ -851,7 +851,7 @@ export default function ProductsManagementPage() {
                                 flex: 1,
                                 padding: "6px 8px",
                                 fontSize: 11,
-                                fontWeight: 800,
+                                fontWeight: 600,
                                 background: cargolinkMarginPercent === pct ? "#F97316" : "#F1F5F9",
                                 color: cargolinkMarginPercent === pct ? "#FFF" : "#334155"
                               }}
@@ -891,26 +891,26 @@ export default function ProductsManagementPage() {
 
                   {/* SIMULATEUR PRIX FINAL CLIENT */}
                   <div style={{ background: "#F8FAFC", border: "2px dashed #F97316", borderRadius: 14, padding: 18 }}>
-                    <div style={{ fontSize: 12, fontWeight: 800, color: "#EA580C", textTransform: "uppercase", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: "#EA580C", textTransform: "uppercase", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
                       <Zap style={{ width: 15 }} /> Simulateur de Prix de Vente Client Boutique
                     </div>
                     
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 12, fontSize: 12 }}>
                       <div>
                         <span style={{ color: "#64748B" }}>Prix Usine :</span>
-                        <div style={{ fontWeight: 800, color: "#0F172A" }}>{price.toLocaleString()} FCFA</div>
+                        <div style={{ fontWeight: 600, color: "#0F172A" }}>{price.toLocaleString()} FCFA</div>
                       </div>
                       <div>
                         <span style={{ color: "#64748B" }}>Marge ({cargolinkMarginPercent}%) :</span>
-                        <div style={{ fontWeight: 800, color: "#059669" }}>+{(price * (cargolinkMarginPercent / 100)).toLocaleString()} FCFA</div>
+                        <div style={{ fontWeight: 600, color: "#059669" }}>+{(price * (cargolinkMarginPercent / 100)).toLocaleString()} FCFA</div>
                       </div>
                       <div>
                         <span style={{ color: "#64748B" }}>Fret Aérien (ex: 0.5kg) :</span>
-                        <div style={{ fontWeight: 800, color: "#2563EB" }}>+{(weight * airFreightRatePerKg).toLocaleString()} FCFA</div>
+                        <div style={{ fontWeight: 600, color: "#2563EB" }}>+{(weight * airFreightRatePerKg).toLocaleString()} FCFA</div>
                       </div>
                       <div style={{ background: "#FFF", padding: "8px 12px", borderRadius: 8, border: "1px solid #FED7AA" }}>
-                        <span style={{ color: "#C2410C", fontWeight: 800 }}>PRIX CONSEILLÉ CLIENT :</span>
-                        <div style={{ fontSize: 16, fontWeight: 900, color: "#9A3412" }}>
+                        <span style={{ color: "#C2410C", fontWeight: 600 }}>PRIX CONSEILLÉ CLIENT :</span>
+                        <div style={{ fontSize: 16, fontWeight: 700, color: "#9A3412" }}>
                           {(price + (price * (cargolinkMarginPercent / 100)) + (weight * airFreightRatePerKg)).toLocaleString()} FCFA
                         </div>
                       </div>
@@ -926,7 +926,7 @@ export default function ProductsManagementPage() {
                   {/* MAIN IMAGE UPLOAD */}
                   <div style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 14, padding: 18 }}>
                     <label className="admin-label" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-                      <span style={{ fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ fontSize: 13, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6 }}>
                         <Camera style={{ width: 16, height: 16, color: "#F97316" }} /> Image Principale du Produit *
                       </span>
                       <span style={{ fontSize: 11, color: "#64748B" }}>JPG, PNG, WEBP acceptés</span>
@@ -978,7 +978,7 @@ export default function ProductsManagementPage() {
                   {/* GALLERY IMAGES MULTI UPLOAD */}
                   <div style={{ background: "#F1F5F9", border: "1px solid #CBD5E1", borderRadius: 14, padding: 18 }}>
                     <label className="admin-label" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-                      <span style={{ fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ fontSize: 13, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6 }}>
                         <Images style={{ width: 16, height: 16, color: "#2563EB" }} /> Galerie Photos Usine (Angles, Détails & Emballages)
                       </span>
                       <span style={{ fontSize: 11, color: "#64748B" }}>Sélection multiple</span>
@@ -1107,7 +1107,7 @@ export default function ProductsManagementPage() {
                   <button type="button" onClick={() => setIsModalOpen(false)} className="btn" style={{ background: "#F1F5F9", color: "#334155" }}>
                     Annuler
                   </button>
-                  <button type="submit" disabled={saving} className="btn btn-primary" style={{ padding: "10px 24px", fontWeight: 800 }}>
+                  <button type="submit" disabled={saving} className="btn btn-primary" style={{ padding: "10px 24px", fontWeight: 600 }}>
                     {saving ? "Enregistrement..." : editingProduct ? "Mettre à jour" : "Créer le Produit"}
                   </button>
                 </div>

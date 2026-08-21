@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Outfit } from "next/font/google";
+import { Plus_Jakarta_Sans, Poppins } from "next/font/google";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import Preloader from "@/components/Preloader";
 import PwaRegister from "@/components/PwaRegister";
@@ -16,9 +16,9 @@ const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-body",
 });
 
-const outfit = Outfit({
+const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-heading",
 });
@@ -92,7 +92,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${plusJakarta.variable} ${outfit.variable}`} style={{ backgroundColor: "#0F172A" }}>
+    <html lang="fr" className={`${plusJakarta.variable} ${poppins.variable}`} style={{ backgroundColor: "#0F172A" }}>
       <body className={plusJakarta.className} style={{ backgroundColor: "#FAF7F2", margin: 0, padding: 0 }}>
         <LayoutWrapper>{children}</LayoutWrapper>
         {/* PWA: Service Worker registration */}

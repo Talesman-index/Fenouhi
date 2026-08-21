@@ -130,7 +130,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
           <h3
             style={{
               fontSize: 13,
-              fontWeight: 800,
+              fontWeight: 600,
               color: "#0F172A",
               margin: "0 0 10px 4px",
             }}
@@ -174,7 +174,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
 
               {/* DETAILS */}
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 13.5, fontWeight: 800, color: "#0F172A", letterSpacing: 0.2 }}>
+                <div style={{ fontSize: 13.5, fontWeight: 600, color: "#0F172A", letterSpacing: 0.2 }}>
                   A DOMICILE
                 </div>
                 <div
@@ -252,7 +252,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
 
               {/* DETAILS */}
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 13.5, fontWeight: 800, color: "#0F172A", letterSpacing: 0.2 }}>
+                <div style={{ fontSize: 13.5, fontWeight: 600, color: "#0F172A", letterSpacing: 0.2 }}>
                   DRIVE
                 </div>
                 <div
@@ -305,7 +305,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
           <h3
             style={{
               fontSize: 13,
-              fontWeight: 800,
+              fontWeight: 600,
               color: "#0F172A",
               margin: "0 0 6px 4px",
             }}
@@ -359,7 +359,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
                 borderRadius: 12,
                 padding: "12px 14px",
                 fontSize: 12.5,
-                fontWeight: 800,
+                fontWeight: 600,
                 cursor: "pointer",
                 boxShadow: paymentMode === "4x" ? "0 4px 12px rgba(22, 163, 74, 0.25)" : "none",
                 transition: "all 0.2s ease",
@@ -425,7 +425,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
                       }}
                     />
                   </div>
-                  <div style={{ fontSize: 10, fontWeight: 800, color: "#0F172A", lineHeight: 1.2 }}>
+                  <div style={{ fontSize: 10, fontWeight: 600, color: "#0F172A", lineHeight: 1.2 }}>
                     {formatPrice(installmentAmount)}
                   </div>
                   <div style={{ fontSize: 8.5, color: "#475569", marginTop: 2 }}>Aujourd'hui</div>
@@ -454,7 +454,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
                       }}
                     />
                   </div>
-                  <div style={{ fontSize: 10, fontWeight: 800, color: "#0F172A", lineHeight: 1.2 }}>
+                  <div style={{ fontSize: 10, fontWeight: 600, color: "#0F172A", lineHeight: 1.2 }}>
                     {formatPrice(installmentAmount)}
                   </div>
                   <div style={{ fontSize: 8.5, color: "#475569", marginTop: 2 }}>dans 1 mois</div>
@@ -483,7 +483,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
                       }}
                     />
                   </div>
-                  <div style={{ fontSize: 10, fontWeight: 800, color: "#0F172A", lineHeight: 1.2 }}>
+                  <div style={{ fontSize: 10, fontWeight: 600, color: "#0F172A", lineHeight: 1.2 }}>
                     {formatPrice(installmentAmount)}
                   </div>
                   <div style={{ fontSize: 8.5, color: "#475569", marginTop: 2 }}>dans 2 mois</div>
@@ -512,7 +512,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
                       }}
                     />
                   </div>
-                  <div style={{ fontSize: 10, fontWeight: 800, color: "#0F172A", lineHeight: 1.2 }}>
+                  <div style={{ fontSize: 10, fontWeight: 600, color: "#0F172A", lineHeight: 1.2 }}>
                     {formatPrice(installmentAmount)}
                   </div>
                   <div style={{ fontSize: 8.5, color: "#475569", marginTop: 2 }}>dans 3 mois</div>
@@ -590,7 +590,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
             }}
           >
             <span>Total panier</span>
-            <span style={{ fontWeight: 800, color: "#0F172A" }}>
+            <span style={{ fontWeight: 600, color: "#0F172A" }}>
               {formatPrice(finalTotal)}
             </span>
           </div>
@@ -617,7 +617,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
               justifyContent: "space-between",
               alignItems: "center",
               fontSize: 14,
-              fontWeight: 800,
+              fontWeight: 600,
               color: "#0F172A",
               paddingTop: 4,
               borderTop: "1px solid #F1F5F9",
@@ -640,7 +640,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
               borderRadius: 14,
               padding: "14px 20px",
               fontSize: 15,
-              fontWeight: 800,
+              fontWeight: 600,
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
@@ -714,7 +714,7 @@ export default function CheckoutView({ onBack, onSuccess }: CheckoutViewProps) {
               <ShieldCheck style={{ width: 32, height: 32 }} />
             </div>
 
-            <h3 style={{ fontSize: 18, fontWeight: 800, color: "#0F172A", margin: "0 0 6px" }}>
+            <h3 style={{ fontSize: 18, fontWeight: 600, color: "#0F172A", margin: "0 0 6px" }}>
               Commande Validée !
             </h3>
             <p style={{ fontSize: 12.5, color: "#64748B", margin: "0 0 14px" }}>

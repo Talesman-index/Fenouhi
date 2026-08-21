@@ -139,7 +139,7 @@ export default function MobileBottomBar() {
                       background: "#DC2626",
                       color: "#FFFFFF",
                       fontSize: 10,
-                      fontWeight: 900,
+                      fontWeight: 700,
                       minWidth: 17,
                       height: 17,
                       borderRadius: "50%",

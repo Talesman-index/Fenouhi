@@ -28,7 +28,7 @@ export default function ContactPage() {
                   <MessageSquare style={{ width: 22, color: "var(--green-success)" }} />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", margin: "0 0 4px" }}>Assistance WhatsApp Directe</h3>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", margin: "0 0 4px" }}>Assistance WhatsApp Directe</h3>
                   <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 10 }}>Réponse instantanée pour devis et suivi de colis.</p>
                   <a href="https://wa.me/22997001122" target="_blank" rel="noopener noreferrer" className="btn btn-orange btn-pill-sm">
                     <PhoneCall style={{ width: 14 }} /> +229 97 00 11 22
@@ -41,7 +41,7 @@ export default function ContactPage() {
                   <MapPin style={{ width: 22, color: "var(--orange-primary)" }} />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", margin: "0 0 4px" }}>Entrepôt & Dépôt Cotonou</h3>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", margin: "0 0 4px" }}>Entrepôt & Dépôt Cotonou</h3>
                   <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>Quartier Akpakpa, Avenue Steinmetz, Cotonou, Bénin.</p>
                   <p style={{ fontSize: 12, color: "var(--text-light)", marginTop: 4 }}>Horaires : Lundi à Samedi de 08:00 à 19:00.</p>
                 </div>
@@ -52,30 +52,30 @@ export default function ContactPage() {
                   <Building2 style={{ width: 22, color: "var(--blue-primary)" }} />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", margin: "0 0 4px" }}>Hub Logistique International</h3>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", margin: "0 0 4px" }}>Hub Logistique International</h3>
                   <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>Centre Logistique Export & Dépôts de Groupage Internationaux (Asie-Pacifique & Europe).</p>
                 </div>
               </div>
             </div>
 
             <div className="card" style={{ padding: 28 }}>
-              <h3 style={{ fontSize: 20, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 16 }}>Envoyer un Message au Support</h3>
+              <h3 style={{ fontSize: 20, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 16 }}>Envoyer un Message au Support</h3>
               {submitted ? (
-                <div style={{ padding: 20, background: "var(--green-bg)", color: "var(--green-success)", borderRadius: "var(--radius-sm)", fontWeight: 800 }}>
+                <div style={{ padding: 20, background: "var(--green-bg)", color: "var(--green-success)", borderRadius: "var(--radius-sm)", fontWeight: 600 }}>
                   Message envoyé avec succès ! Notre équipe vous répond sous 2h.
                 </div>
               ) : (
                 <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   <div>
-                    <label style={{ fontSize: 12, fontWeight: 800, color: "var(--navy-dark)", display: "block", marginBottom: 6 }}>VOTRE NOM COMPLET *</label>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: "var(--navy-dark)", display: "block", marginBottom: 6 }}>VOTRE NOM COMPLET *</label>
                     <input type="text" required placeholder="Ex: Jean Koffi" className="admin-input" />
                   </div>
                   <div>
-                    <label style={{ fontSize: 12, fontWeight: 800, color: "var(--navy-dark)", display: "block", marginBottom: 6 }}>NUMÉRO TELEPHONE / WHATSAPP *</label>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: "var(--navy-dark)", display: "block", marginBottom: 6 }}>NUMÉRO TELEPHONE / WHATSAPP *</label>
                     <input type="text" required placeholder="+229 97 00 11 22" className="admin-input" />
                   </div>
                   <div>
-                    <label style={{ fontSize: 12, fontWeight: 800, color: "var(--navy-dark)", display: "block", marginBottom: 6 }}>VOTRE MESSAGE *</label>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: "var(--navy-dark)", display: "block", marginBottom: 6 }}>VOTRE MESSAGE *</label>
                     <textarea required placeholder="Précisez votre demande..." className="admin-input" style={{ height: 100 }}></textarea>
                   </div>
                   <button type="submit" className="btn btn-orange admin-btn" style={{ padding: 14 }}>

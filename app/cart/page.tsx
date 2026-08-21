@@ -75,15 +75,15 @@ function CartPageInner() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8, textAlign: "center" }}>
             {/* STEP 1 (ACTIVE) */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 13, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1", boxShadow: "0 0 0 3px rgba(15, 23, 42, 0.15)" }}>
+              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#0F172A", color: "#FFFFFF", fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1", boxShadow: "0 0 0 3px rgba(15, 23, 42, 0.15)" }}>
                 1
               </div>
-              <span style={{ fontSize: 12.5, fontWeight: 900, color: "#0F172A" }}>1. Mon Panier</span>
+              <span style={{ fontSize: 12.5, fontWeight: 700, color: "#0F172A" }}>1. Mon Panier</span>
             </div>
 
             {/* STEP 2 */}
             <Link href="/checkout" style={{ textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#CBD5E1", color: "#FFF", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
+              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#CBD5E1", color: "#FFF", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
                 2
               </div>
               <span style={{ fontSize: 12.5, fontWeight: 700, color: "#64748B" }} className="desktop-only">2. Fret & Livraison</span>
@@ -91,7 +91,7 @@ function CartPageInner() {
 
             {/* STEP 3 */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, opacity: 0.5 }}>
-              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#CBD5E1", color: "#FFF", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
+              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#CBD5E1", color: "#FFF", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
                 3
               </div>
               <span style={{ fontSize: 12.5, fontWeight: 700, color: "#64748B" }} className="desktop-only">3. Paiement Sécurisé</span>
@@ -99,7 +99,7 @@ function CartPageInner() {
 
             {/* STEP 4 */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, opacity: 0.5 }}>
-              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#CBD5E1", color: "#FFF", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
+              <div style={{ width: 28, height: 28, minWidth: 28, minHeight: 28, borderRadius: "50%", background: "#CBD5E1", color: "#FFF", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, aspectRatio: "1/1" }}>
                 4
               </div>
               <span style={{ fontSize: 12.5, fontWeight: 700, color: "#64748B" }} className="desktop-only">4. Suivi Expédition</span>
@@ -156,9 +156,9 @@ function CartPageInner() {
             <h1
               style={{
                 fontSize: 26,
-                fontWeight: 900,
+                fontWeight: 700,
                 color: "#0F172A",
-                fontFamily: "'Outfit', sans-serif",
+                fontFamily: "'Poppins', sans-serif",
                 margin: "0 0 4px",
               }}
             >
@@ -225,7 +225,7 @@ function CartPageInner() {
             >
               <ShoppingBag style={{ width: 32, height: 32 }} />
             </div>
-            <h2 style={{ fontSize: 20, fontWeight: 800, color: "#0F172A", margin: "0 0 8px" }}>
+            <h2 style={{ fontSize: 20, fontWeight: 600, color: "#0F172A", margin: "0 0 8px" }}>
               Votre panier est vide
             </h2>
             <p style={{ fontSize: 14, color: "#64748B", margin: "0 0 24px" }}>
@@ -409,9 +409,9 @@ function CartPageInner() {
                           <div
                             style={{
                               fontSize: 18,
-                              fontWeight: 900,
+                              fontWeight: 700,
                               color: "#DC2626", // Signature red price
-                              fontFamily: "'Outfit', sans-serif",
+                              fontFamily: "'Poppins', sans-serif",
                             }}
                           >
                             {formatPrice(itemTotal)}
@@ -489,7 +489,7 @@ function CartPageInner() {
                             <span
                               style={{
                                 fontSize: 14,
-                                fontWeight: 800,
+                                fontWeight: 600,
                                 color: "#0F172A",
                                 minWidth: 20,
                                 textAlign: "center",
@@ -578,7 +578,7 @@ function CartPageInner() {
                     borderRadius: 12,
                     padding: "9px 16px",
                     fontSize: 13,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     cursor: "pointer",
                   }}
                 >
@@ -618,7 +618,7 @@ function CartPageInner() {
                   gap: 14,
                 }}
               >
-                <h3 style={{ fontSize: 16, fontWeight: 900, color: "#0F172A", margin: "0 0 4px" }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "#0F172A", margin: "0 0 4px" }}>
                   Récapitulatif de commande
                 </h3>
 
@@ -632,7 +632,7 @@ function CartPageInner() {
                   }}
                 >
                   <span>Total panier</span>
-                  <span style={{ fontWeight: 800, color: "#0F172A" }}>{formatPrice(totalPanier)}</span>
+                  <span style={{ fontWeight: 600, color: "#0F172A" }}>{formatPrice(totalPanier)}</span>
                 </div>
 
                 {promoApplied && discountPercent > 0 && (
@@ -660,7 +660,7 @@ function CartPageInner() {
                   }}
                 >
                   <span>Fret & Livraison vers {country.name}</span>
-                  <span style={{ fontWeight: 800, color: "#059669" }}>Gratuit</span>
+                  <span style={{ fontWeight: 600, color: "#059669" }}>Gratuit</span>
                 </div>
 
                 <div
@@ -669,7 +669,7 @@ function CartPageInner() {
                     justifyContent: "space-between",
                     alignItems: "center",
                     fontSize: 16,
-                    fontWeight: 900,
+                    fontWeight: 700,
                     color: "#0F172A",
                     paddingTop: 12,
                     borderTop: "1px solid #F1F5F9",
@@ -680,7 +680,7 @@ function CartPageInner() {
                     style={{
                       fontSize: 20,
                       color: "#DC2626", // Red bold price
-                      fontFamily: "'Outfit', sans-serif",
+                      fontFamily: "'Poppins', sans-serif",
                     }}
                   >
                     {formatPrice(finalTotal)}
@@ -697,7 +697,7 @@ function CartPageInner() {
                     borderRadius: 14,
                     padding: "16px 20px",
                     fontSize: 15,
-                    fontWeight: 800,
+                    fontWeight: 600,
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",

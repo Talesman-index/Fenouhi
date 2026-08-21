@@ -14,11 +14,11 @@ export default function TermsPage() {
         <div className="container">
           <div className="card" style={{ padding: 32, fontSize: 14, lineHeight: 1.6, color: "var(--text-main)", display: "flex", flexDirection: "column", gap: 20 }}>
             <div>
-              <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 8 }}>1. Objet des Services</h3>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 8 }}>1. Objet des Services</h3>
               <p>FENOUHIMIN opère en tant qu'intermédiaire d'achat et commissionnaire de transport logistique entre les usines partenaires en Chine et les acheteurs/commerçants en Afrique.</p>
             </div>
             <div>
-              <h3 style={{ fontSize: 18, fontWeight: 900, color: "var(--navy-dark)", marginBottom: 8 }}>2. Validation des Devis & Paiements</h3>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 8 }}>2. Validation des Devis & Paiements</h3>
               <p>Tout devis émis est valable 7 jours ouvrés. Le paiement s'effectue par Mobile Money (MTN, Moov, Celtiis, Kkiapay) ou virement bancaire avant le déclenchement des commandes.</p>
             </div>
           </div>

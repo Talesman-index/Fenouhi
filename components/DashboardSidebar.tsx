@@ -73,7 +73,7 @@ export default function DashboardSidebar({ activeTab = "orders", onSelectTab, pr
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontWeight: 900,
+            fontWeight: 700,
             fontSize: 16,
             flexShrink: 0,
             boxShadow: "0 4px 12px rgba(15, 23, 42, 0.15)",
@@ -85,7 +85,7 @@ export default function DashboardSidebar({ activeTab = "orders", onSelectTab, pr
         <div style={{ minWidth: 0, flex: 1 }}>
           <div
             style={{
-              fontWeight: 800,
+              fontWeight: 600,
               color: "#0F172A",
               fontSize: 15,
               whiteSpace: "nowrap",
@@ -100,7 +100,7 @@ export default function DashboardSidebar({ activeTab = "orders", onSelectTab, pr
             <span
               style={{
                 fontSize: 10.5,
-                fontWeight: 800,
+                fontWeight: 600,
                 color: "#165491",
                 background: "#EFF6FF",
                 padding: "2px 8px",
@@ -180,7 +180,7 @@ export default function DashboardSidebar({ activeTab = "orders", onSelectTab, pr
               border: "none",
               background: "#FEF2F2",
               color: "#DC2626",
-              fontWeight: 800,
+              fontWeight: 600,
               fontSize: 13,
               cursor: "pointer",
               display: "flex",

@@ -119,7 +119,7 @@ export default function OfflinePage() {
         }
         .offline-title {
           font-size: 1.75rem;
-          font-weight: 800;
+          font-weight: 600;
           margin: 0 0 0.75rem;
           background: linear-gradient(135deg, #f8fafc, #94a3b8);
           -webkit-background-clip: text;

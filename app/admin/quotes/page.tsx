@@ -193,11 +193,11 @@ export default function QuotesManagementPage() {
           <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)", marginBottom: 4 }}>
             TARIFICATION & CHIFFRAGE LOGISTIQUE
           </span>
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--navy-dark)", margin: 0 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
             Gestion des Demandes de Devis
           </h1>
         </div>
-        <div style={{ fontSize: 13, fontWeight: 800, color: "var(--text-muted)" }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-muted)" }}>
           Total : <strong>{filteredQuotes.length}</strong> demandes reçues
         </div>
       </div>
@@ -216,7 +216,7 @@ export default function QuotesManagementPage() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <label style={{ fontSize: 12, fontWeight: 800, color: "var(--text-muted)" }}>Statut :</label>
+          <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>Statut :</label>
           <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} style={{ padding: "8px 12px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontSize: 13, fontWeight: 700, background: "#FFF" }}>
             <option value="all">Tous les statuts</option>
             <option value="new">Nouveau</option>
@@ -260,12 +260,12 @@ export default function QuotesManagementPage() {
               ) : (
                 filteredQuotes.map((q) => (
                   <tr key={q.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                    <td style={{ padding: "14px 16px", fontWeight: 800, color: "var(--navy-dark)" }}>
+                    <td style={{ padding: "14px 16px", fontWeight: 600, color: "var(--navy-dark)" }}>
                       {q.quote_number}
                     </td>
 
                     <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 800, color: "var(--navy-dark)" }}>{q.product_name}</div>
+                      <div style={{ fontWeight: 600, color: "var(--navy-dark)" }}>{q.product_name}</div>
                       {q.product_link && (
                         <a href={q.product_link} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "var(--blue-primary)", display: "inline-flex", alignItems: "center", gap: 3 }}>
                           Lien Fournisseur Chine <ExternalLink style={{ width: 10 }} />
@@ -289,7 +289,7 @@ export default function QuotesManagementPage() {
                       <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{q.destination_country}</div>
                     </td>
 
-                    <td style={{ padding: "14px 16px", fontWeight: 900, color: "var(--orange-primary)", fontSize: 14 }}>
+                    <td style={{ padding: "14px 16px", fontWeight: 700, color: "var(--orange-primary)", fontSize: 14 }}>
                       {(q.total_amount || calculatedTotal).toLocaleString()} FCFA
                     </td>
 
@@ -334,7 +334,7 @@ export default function QuotesManagementPage() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, paddingBottom: 12, borderBottom: "1px solid var(--border-light)" }}>
               <div>
                 <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)" }}>ÉLABORATION DE DEVIS</span>
-                <h2 style={{ fontSize: 20, fontWeight: 900, color: "var(--navy-dark)", margin: "4px 0 0" }}>
+                <h2 style={{ fontSize: 20, fontWeight: 700, color: "var(--navy-dark)", margin: "4px 0 0" }}>
                   Chiffrer le Devis #{selectedQuote.quote_number}
                 </h2>
               </div>
@@ -343,7 +343,7 @@ export default function QuotesManagementPage() {
 
             {/* PRODUCT SUMMARY BOX */}
             <div style={{ background: "var(--bg-main)", padding: 14, borderRadius: "var(--radius-sm)", marginBottom: 20, border: "1px solid var(--border-light)" }}>
-              <div style={{ fontWeight: 800, color: "var(--navy-dark)" }}>Produit : {selectedQuote.product_name}</div>
+              <div style={{ fontWeight: 600, color: "var(--navy-dark)" }}>Produit : {selectedQuote.product_name}</div>
               <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
                 Qté : {selectedQuote.quantity} • Mode : Fret {selectedQuote.shipping_mode === "air" ? "Aérien" : "Maritime"} • Destination : {selectedQuote.destination_city}, {selectedQuote.destination_country}
               </div>
@@ -352,32 +352,32 @@ export default function QuotesManagementPage() {
             {/* CALCULATOR INPUTS */}
             <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 20 }}>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>1. PRIX D'ACHAT PRODUIT CHINE (FCFA)</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>1. PRIX D'ACHAT PRODUIT CHINE (FCFA)</label>
                 <input type="number" value={productCost} onChange={(e) => setProductCost(Number(e.target.value))} className="admin-input" style={{ width: "100%", padding: 10, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontWeight: 700 }} />
               </div>
 
               <div>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>2. FRAIS DE SERVICE CARGOLINK (FCFA)</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>2. FRAIS DE SERVICE CARGOLINK (FCFA)</label>
                 <input type="number" value={serviceFee} onChange={(e) => setServiceFee(Number(e.target.value))} className="admin-input" style={{ width: "100%", padding: 10, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontWeight: 700 }} />
               </div>
 
               <div>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>3. FRAIS DE TRANSPORT LOGISTIQUE (FCFA)</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>3. FRAIS DE TRANSPORT LOGISTIQUE (FCFA)</label>
                 <input type="number" value={shippingFee} onChange={(e) => setShippingFee(Number(e.target.value))} className="admin-input" style={{ width: "100%", padding: 10, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontWeight: 700 }} />
               </div>
 
               <div>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>4. FRAIS SUPPLÉMENTAIRES / DOUANE (FCFA)</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>4. FRAIS SUPPLÉMENTAIRES / DOUANE (FCFA)</label>
                 <input type="number" value={extraFee} onChange={(e) => setExtraFee(Number(e.target.value))} className="admin-input" style={{ width: "100%", padding: 10, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontWeight: 700 }} />
               </div>
 
               <div>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>5. DATE D'EXPIRATION DU DEVIS</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>5. DATE D'EXPIRATION DU DEVIS</label>
                 <input type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} style={{ width: "100%", padding: 10, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontWeight: 700 }} />
               </div>
 
               <div>
-                <label style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>NOTE INTERNE / INDICATION CLIENT</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>NOTE INTERNE / INDICATION CLIENT</label>
                 <textarea value={adminNotes} onChange={(e) => setAdminNotes(e.target.value)} placeholder="Précisez le détail des frais pour le client..." style={{ width: "100%", height: 70, padding: 10, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontSize: 13 }} />
               </div>
             </div>
@@ -385,7 +385,7 @@ export default function QuotesManagementPage() {
             {/* TOTAL BOX */}
             <div style={{ background: "var(--navy-dark)", color: "#FFF", padding: 18, borderRadius: "var(--radius-md)", marginBottom: 20, textAlign: "center" }}>
               <div style={{ fontSize: 11, color: "var(--text-light)", fontWeight: 700 }}>TOTAL CALCULÉ AUTOMATIQUEMENT</div>
-              <div style={{ fontSize: 28, fontWeight: 900, color: "var(--orange-primary)", marginTop: 2 }}>
+              <div style={{ fontSize: 28, fontWeight: 700, color: "var(--orange-primary)", marginTop: 2 }}>
                 {calculatedTotal.toLocaleString()} FCFA
               </div>
             </div>

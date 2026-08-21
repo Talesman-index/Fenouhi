@@ -121,9 +121,9 @@ function CategoriesPageInner() {
             <h1
               style={{
                 fontSize: 28,
-                fontWeight: 900,
+                fontWeight: 700,
                 color: "#0F172A",
-                fontFamily: "'Outfit', sans-serif",
+                fontFamily: "'Poppins', sans-serif",
                 margin: 0,
               }}
             >
@@ -243,7 +243,7 @@ function CategoriesPageInner() {
                     <div
                       style={{
                         fontSize: 14,
-                        fontWeight: 800,
+                        fontWeight: 600,
                         color: "#0F172A",
                         whiteSpace: "nowrap",
                         overflow: "hidden",
@@ -256,7 +256,7 @@ function CategoriesPageInner() {
                       <span
                         style={{
                           fontSize: 9.5,
-                          fontWeight: 800,
+                          fontWeight: 600,
                           background: "#FDE68A",
                           color: "#92400E",
                           padding: "1px 6px",
