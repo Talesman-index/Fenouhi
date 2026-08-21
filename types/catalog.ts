@@ -65,6 +65,7 @@ export interface Product {
   region_version?: "Version US (LL/A)" | "Version EU / ZB" | "Version Global" | null;
   storage_options?: string[] | null;
   battery_health?: string | null;
+  driveFolderUrl?: string | null;
   // Joined relation fields
   category?: Category | null;
   images?: ProductImage[];

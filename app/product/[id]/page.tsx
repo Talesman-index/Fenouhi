@@ -25,6 +25,8 @@ import {
   ArrowRight,
   Award,
   Check,
+  Folder,
+  Calculator,
   Box,
   MapPin,
   Lock,
@@ -648,19 +650,46 @@ function ProductDetailContent() {
                   border: "1.5px solid #CBD5E1",
                   borderRadius: 14,
                   padding: "12px 20px",
-                  fontSize: 13.5,
+                  fontSize: 14,
                   fontWeight: 800,
                   textDecoration: "none",
-                  textAlign: "center",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 6,
+                  gap: 8,
+                  textAlign: "center",
                 }}
               >
-                <MessageSquare style={{ width: 16, height: 16 }} />
-                <span>Demander une Cotation / Devis Spécifique</span>
+                <Calculator style={{ width: 18, height: 18 }} />
+                <span>Demander un Devis Personnalisé</span>
               </Link>
+
+              {product.driveFolderUrl && (
+                <a
+                  href={product.driveFolderUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    background: "linear-gradient(135deg, #165491 0%, #0F172A 100%)",
+                    color: "#FFFFFF",
+                    border: "none",
+                    borderRadius: 14,
+                    padding: "14px 20px",
+                    fontSize: 13,
+                    fontWeight: 800,
+                    textDecoration: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                    boxShadow: "0 4px 14px rgba(22, 84, 145, 0.25)",
+                    marginTop: 4,
+                  }}
+                >
+                  <Folder style={{ width: 18, height: 18, color: "#38BDF8" }} />
+                  <span>Consulter l'album photo réel usine sur Google Drive ↗</span>
+                </a>
+              )}
             </div>
 
           </div>
