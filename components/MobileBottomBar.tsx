@@ -3,47 +3,49 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, FileText, ShoppingCart, User, Heart } from "lucide-react";
+import { Compass, Grid, FileSpreadsheet, ShoppingCart, User } from "lucide-react";
 import { useMobileStore } from "@/lib/mobile-store";
 
 export default function MobileBottomBar() {
   const pathname = usePathname();
-  const { cart, favorites } = useMobileStore();
+  const { cart } = useMobileStore();
 
   // Hide on admin pages
   if (pathname?.startsWith("/admin")) {
     return null;
   }
 
-  const totalCartCount = cart && cart.length > 0 
-    ? cart.map((i) => i.quantity || 1).reduce((a, b) => a + b, 0) 
-    : 0;
+  const totalCartCount =
+    cart && cart.length > 0
+      ? cart.map((i) => i.quantity || 1).reduce((a, b) => a + b, 0)
+      : 0;
 
   const NAV_ITEMS = [
     {
       id: "home",
       label: "Découvrir",
       href: "/",
-      icon: Home,
+      icon: Compass,
       exact: true,
     },
     {
       id: "catalog",
-      label: "Recherche",
+      label: "Catalogue",
       href: "/catalog",
-      icon: Search,
+      icon: Grid,
       exact: false,
     },
     {
       id: "quote",
-      label: "Devis",
+      label: "Devis Usine",
       href: "/quote-request",
-      icon: FileText,
+      icon: FileSpreadsheet,
+      isCenter: true,
       exact: false,
     },
     {
       id: "cart",
-      label: "Mon Panier",
+      label: "Panier",
       href: "/cart",
       icon: ShoppingCart,
       badge: totalCartCount,
@@ -66,31 +68,83 @@ export default function MobileBottomBar() {
         bottom: 0,
         left: 0,
         right: 0,
-        zIndex: 999,
+        zIndex: 9999,
         background: "rgba(255, 255, 255, 0.94)",
-        backdropFilter: "blur(18px)",
-        WebkitBackdropFilter: "blur(18px)",
+        backdropFilter: "blur(20px) saturate(180%)",
+        WebkitBackdropFilter: "blur(20px) saturate(180%)",
         borderTop: "1px solid rgba(226, 232, 240, 0.8)",
-        padding: "8px 12px calc(8px + env(safe-area-inset-bottom, 8px))",
-        boxShadow: "0 -6px 24px rgba(15, 23, 42, 0.08)",
-        display: "none", // Display controlled by CSS media query in mobile mode
+        padding: "10px 16px calc(12px + env(safe-area-inset-bottom, 12px))",
+        boxShadow: "0 -8px 30px rgba(15, 23, 42, 0.08)",
+        display: "none", // Controlled via media query in CSS
       }}
     >
       <div
         style={{
           display: "flex",
-          justifyContent: "space-around",
+          justifyContent: "space-between",
           alignItems: "center",
-          maxWidth: 500,
+          maxWidth: 480,
           margin: "0 auto",
+          position: "relative",
         }}
       >
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
-          const isActive = item.exact 
-            ? pathname === item.href 
+          const isActive = item.exact
+            ? pathname === item.href
             : pathname?.startsWith(item.href) && item.href !== "/";
 
+          // Center Button Style (Devis Usine)
+          if (item.isCenter) {
+            return (
+              <Link
+                key={item.id}
+                href={item.href}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textDecoration: "none",
+                  marginTop: -24,
+                  zIndex: 2,
+                }}
+              >
+                <div
+                  style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: "50%",
+                    background: "linear-gradient(135deg, #165491 0%, #0F172A 100%)",
+                    color: "#FFFFFF",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: isActive
+                      ? "0 8px 24px rgba(22, 84, 145, 0.55)"
+                      : "0 6px 18px rgba(22, 84, 145, 0.4)",
+                    border: "3.5px solid #FFFFFF",
+                    transform: isActive ? "scale(1.08)" : "scale(1)",
+                    transition: "transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                  }}
+                >
+                  <Icon style={{ width: 24, height: 24, color: "#38BDF8" }} />
+                </div>
+                <span
+                  style={{
+                    fontSize: 10.5,
+                    fontWeight: isActive ? 700 : 500,
+                    color: isActive ? "#165491" : "#64748B",
+                    marginTop: 4,
+                  }}
+                >
+                  {item.label}
+                </span>
+              </Link>
+            );
+          }
+
+          // Standard Navigation Tabs
           return (
             <Link
               key={item.id}
@@ -99,13 +153,13 @@ export default function MobileBottomBar() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: 3,
+                gap: 4,
                 textDecoration: "none",
-                padding: "4px 8px",
-                borderRadius: 12,
-                color: isActive ? "#0F172A" : "#94A3B8",
-                transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                flex: 1,
+                padding: "6px 0",
+                color: isActive ? "#165491" : "#64748B",
                 position: "relative",
+                transition: "all 0.2s ease",
               }}
             >
               <div
@@ -114,39 +168,42 @@ export default function MobileBottomBar() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  padding: "4px 12px",
+                  width: 42,
+                  height: 30,
                   borderRadius: 16,
-                  background: isActive ? "#F1F5F9" : "transparent",
-                  transition: "background 0.2s ease",
+                  background: isActive ? "rgba(22, 84, 145, 0.08)" : "transparent",
+                  transition: "all 0.25s ease",
                 }}
               >
                 <Icon
                   style={{
                     width: 22,
                     height: 22,
-                    strokeWidth: isActive ? 2.5 : 1.8,
-                    color: isActive ? "#0F172A" : "#64748B",
-                    transition: "all 0.2s ease",
+                    strokeWidth: isActive ? 2.2 : 1.7,
+                    color: isActive ? "#165491" : "#64748B",
+                    transform: isActive ? "scale(1.1)" : "scale(1)",
+                    transition: "transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
                   }}
                 />
 
                 {item.badge !== undefined && item.badge > 0 && (
                   <span
+                    className="cart-badge-pulse"
                     style={{
                       position: "absolute",
-                      top: -2,
-                      right: 2,
+                      top: -3,
+                      right: -1,
                       background: "#DC2626",
                       color: "#FFFFFF",
                       fontSize: 10,
                       fontWeight: 700,
-                      minWidth: 17,
-                      height: 17,
+                      minWidth: 18,
+                      height: 18,
                       borderRadius: "50%",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      padding: "0 3px",
+                      padding: "0 4px",
                       boxShadow: "0 0 0 2px #FFFFFF",
                       lineHeight: 1,
                     }}
@@ -159,13 +216,28 @@ export default function MobileBottomBar() {
               <span
                 style={{
                   fontSize: 10.5,
-                  fontWeight: isActive ? 800 : 600,
-                  color: isActive ? "#0F172A" : "#64748B",
-                  letterSpacing: 0.1,
+                  fontWeight: isActive ? 700 : 500,
+                  color: isActive ? "#165491" : "#64748B",
+                  transition: "color 0.2s",
                 }}
               >
                 {item.label}
               </span>
+
+              {/* Glowing active indicator dot */}
+              {isActive && (
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: -2,
+                    width: 5,
+                    height: 5,
+                    borderRadius: "50%",
+                    background: "#165491",
+                    boxShadow: "0 0 8px #165491",
+                  }}
+                />
+              )}
             </Link>
           );
         })}
@@ -177,8 +249,16 @@ export default function MobileBottomBar() {
             display: block !important;
           }
           body {
-            padding-bottom: 70px !important;
+            padding-bottom: 88px !important;
           }
+        }
+        @keyframes cartPulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.15); }
+          100% { transform: scale(1); }
+        }
+        .cart-badge-pulse {
+          animation: cartPulse 2s infinite ease-in-out;
         }
       `}</style>
     </nav>
