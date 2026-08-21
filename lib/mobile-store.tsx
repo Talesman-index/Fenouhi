@@ -356,24 +356,25 @@ export function MobileStoreProvider({ children }: { children: React.ReactNode })
   const finalTotal = Math.max(0, totalPanier - discountAmount);
   const installmentAmount = Math.round(finalTotal / 4);
 
-  // Price formatting in Ar, FCFA, EUR, USD
-  const formatPrice = (priceInAr: number): string => {
-    if (currency === "Ar") {
-      return `${priceInAr.toLocaleString("fr-FR")} Ar`;
-    }
+  // Price formatting in FCFA, EUR, USD, Ar
+  const formatPrice = (priceInFcfa: number): string => {
+    if (!priceInFcfa || isNaN(priceInFcfa)) return "0 FCFA";
     if (currency === "FCFA") {
-      const converted = Math.round(priceInAr / 7.5);
-      return `${converted.toLocaleString("fr-FR")} FCFA`;
+      return `${Math.round(priceInFcfa).toLocaleString("fr-FR")} FCFA`;
     }
     if (currency === "EUR") {
-      const converted = Math.round(priceInAr / 4900);
+      const converted = Math.round(priceInFcfa / 655.957);
       return `${converted.toLocaleString("fr-FR")} €`;
     }
     if (currency === "USD") {
-      const converted = Math.round(priceInAr / 4500);
+      const converted = Math.round(priceInFcfa / 600);
       return `$${converted.toLocaleString("en-US")}`;
     }
-    return `${priceInAr.toLocaleString("fr-FR")} Ar`;
+    if (currency === "Ar") {
+      const converted = Math.round(priceInFcfa * 7.5);
+      return `${converted.toLocaleString("fr-FR")} Ar`;
+    }
+    return `${Math.round(priceInFcfa).toLocaleString("fr-FR")} FCFA`;
   };
 
   return (

@@ -11,7 +11,7 @@ const heroSlides = [
   {
     badge: "IMPORTATION DIRECTE CHINE",
     title: "iPhone 16 Pro Max",
-    priceTag: "À partir de 695 000 FCFA*",
+    priceTag: "À partir de 295 000 FCFA*",
     subtitle: "Puce A18 Pro & Design Titane. Obtenez le nouvel iPhone au meilleur tarif usine avec livraison express à Cotonou.",
     btnText: "Commander l'iPhone",
     btnLink: "/catalog?q=iphone+16",
@@ -90,26 +90,26 @@ export default function HomePage() {
   ];
 
   const todayDeals = [
-    { id: "1", title: "Smartwatch Sport GPS Étanche", price: "35 000 FCFA", oldPrice: "55 000 FCFA", image: "/images/assets/item_1.jpg", category: "Électronique" },
-    { id: "2", title: "Écouteurs Bluetooth ANC Réduction de Bruit", price: "22 000 FCFA", oldPrice: "40 000 FCFA", image: "/images/assets/item_2.jpg", category: "Électronique" },
-    { id: "3", title: "Casque Sans-Fil Hi-Fi Pro Audio", price: "45 000 FCFA", oldPrice: "70 000 FCFA", image: "/images/assets/cat_electronics.jpg", category: "Électronique" },
-    { id: "4", title: "Sac à Main Luxe Designer Rose Pastel", price: "48 000 FCFA", oldPrice: "75 000 FCFA", image: "/images/assets/cat_luxury.jpg", category: "Luxe" },
-    { id: "5", title: "Baskets Modernes Running Sport", price: "28 000 FCFA", oldPrice: "45 000 FCFA", image: "/images/assets/cat_sneakers.jpg", category: "Baskets & Sport" },
+    { id: "iphone-7-7plus", title: "iPhone 7 & 7 Plus Grossiste", price: "26 000 FCFA", oldPrice: "35 000 FCFA", image: "/images/assets/iphone7/iphone7_gold.png", category: "Téléphones" },
+    { id: "iphone-8-8plus", title: "iPhone 8 & 8 Plus Grossiste", price: "33 000 FCFA", oldPrice: "45 000 FCFA", image: "/images/assets/card_hero_iphone.jpg", category: "Téléphones" },
+    { id: "iphone-x-xr-xsmax", title: "iPhone X / XR / XS Max Grossiste", price: "46 000 FCFA", oldPrice: "65 000 FCFA", image: "/images/assets/card_hero_iphone.jpg", category: "Téléphones" },
+    { id: "iphone-11-11pro-11promax", title: "iPhone 11 / 11 Pro / 11 Pro Max", price: "79 000 FCFA", oldPrice: "110 000 FCFA", image: "/images/assets/card_hero_iphone.jpg", category: "Téléphones" },
+    { id: "iphone-12-12pro-12promax", title: "iPhone 12 / 12 Pro / 12 Pro Max", price: "98 000 FCFA", oldPrice: "135 000 FCFA", image: "/images/assets/card_hero_iphone.jpg", category: "Téléphones" },
   ];
 
   const laptopsShowcase = [
-    { title: "Smartphones", img: "/images/assets/card_hero_iphone.jpg", link: "/catalog?cat=electronics" },
-    { title: "Écouteurs TWS", img: "/images/assets/cat_electronics.jpg", link: "/catalog?cat=electronics" },
-    { title: "Sacs de Luxe", img: "/images/assets/cat_luxury.jpg", link: "/catalog?cat=luxury" },
-    { title: "Smartwatch", img: "/images/assets/item_1.jpg", link: "/catalog?cat=electronics" },
-    { title: "Chaussures Sport", img: "/images/assets/cat_sneakers.jpg", link: "/catalog?cat=sneakers" },
+    { title: "iPhone 16 Pro Max", img: "/images/assets/hero_iphone16.png", link: "/product/iphone-16-16pro-16promax" },
+    { title: "iPhone 15 Pro Max", img: "/images/assets/hero_iphone16.png", link: "/product/iphone-15-15pro-15promax" },
+    { title: "iPhone 14 Pro Max", img: "/images/assets/hero_iphone16.png", link: "/product/iphone-14-14pro-14promax" },
+    { title: "iPhone 13 Pro Max", img: "/images/assets/card_hero_iphone.jpg", link: "/product/iphone-13-13pro-13promax" },
+    { title: "iPhone 12 Pro Max", img: "/images/assets/card_hero_iphone.jpg", link: "/product/iphone-12-12pro-12promax" },
   ];
 
   const samplePrompts = [
-    "200 Casques Bluetooth ANC TWS",
-    "50 Sacs à main Cuir Véritable",
-    "Lot Baskets Running Sport",
-    "Panneaux Solaires Monocristallins 550W"
+    "Lot 10x iPhone 11 Pro 256 Go Grade B",
+    "Lot 5x iPhone 13 Pro 128 Go Reconditionné",
+    "Lot 20x iPhone 8 64 Go Occasion Usine",
+    "Lot iPhone 15 Pro Max 512 Go Scellé",
   ];
 
   const categoryPills = [

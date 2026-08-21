@@ -247,18 +247,20 @@ function ProductDetailContent() {
                   top: 18,
                   left: 18,
                   background: "#0F172A",
-                  color: "#F59E0B",
+                  color: "#FBBF24",
                   fontSize: 11,
                   fontWeight: 900,
-                  padding: "5px 12px",
+                  padding: "6px 14px",
                   borderRadius: 999,
                   letterSpacing: "0.5px",
                   display: "flex",
                   alignItems: "center",
-                  gap: 6,
+                  gap: 7,
+                  border: "1px solid rgba(251, 191, 36, 0.4)",
+                  boxShadow: "0 4px 14px rgba(15, 23, 42, 0.25)",
                 }}
               >
-                <Building2 style={{ width: 12, height: 12, color: "#0284C7" }} />
+                <Building2 style={{ width: 14, height: 14, color: "#FBBF24" }} />
                 <span>DIRECT USINE CHINE</span>
               </div>
 
@@ -663,33 +665,6 @@ function ProductDetailContent() {
                 <Calculator style={{ width: 18, height: 18 }} />
                 <span>Demander un Devis Personnalisé</span>
               </Link>
-
-              {product.driveFolderUrl && (
-                <a
-                  href={product.driveFolderUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    background: "linear-gradient(135deg, #165491 0%, #0F172A 100%)",
-                    color: "#FFFFFF",
-                    border: "none",
-                    borderRadius: 14,
-                    padding: "14px 20px",
-                    fontSize: 13,
-                    fontWeight: 800,
-                    textDecoration: "none",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 8,
-                    boxShadow: "0 4px 14px rgba(22, 84, 145, 0.25)",
-                    marginTop: 4,
-                  }}
-                >
-                  <Folder style={{ width: 18, height: 18, color: "#38BDF8" }} />
-                  <span>Consulter l'album photo réel usine sur Google Drive ↗</span>
-                </a>
-              )}
             </div>
 
           </div>
