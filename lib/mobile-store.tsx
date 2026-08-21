@@ -101,74 +101,9 @@ export const COUNTRIES: CountryInfo[] = [
   },
 ];
 
-const INITIAL_CART: CartItem[] = [
-  {
-    id: "cart-1",
-    name: "Apple Watch Ultra 3 GPS + Cellular - 49mm - Boîtier Titanium",
-    specs: "49mm Titanium • Bracelet Trail Loop • GPS Double Fréquence",
-    category: "Téléphonie & Objets connectés",
-    price: 3950000, // ~525 000 FCFA
-    oldPrice: 4500000,
-    quantity: 1,
-    image: "/images/assets/item_1.jpg",
-    deliveryRange: "Livraison Express Cotonou : 5-12 jours",
-    shippingMode: "air",
-  },
-  {
-    id: "cart-2",
-    name: "APPLE - Magic Keyboard - iPad Air 13-inch (M3)",
-    specs: "Pavé tactile intégré • Rétroéclairage • Port USB-C dédié",
-    category: "Informatique",
-    price: 1387500, // ~185 000 FCFA
-    oldPrice: 1650000,
-    quantity: 1,
-    image: "/images/assets/item_3.jpg",
-    deliveryRange: "Livraison Express Cotonou : 5-12 jours",
-    shippingMode: "air",
-  },
-  {
-    id: "cart-3",
-    name: "iPhone 16e 256GB - Direct Usine Certifiée",
-    specs: "256GB • Puce A18 Bionic • Écran Super Retina XDR",
-    category: "Téléphonie & Objets connectés",
-    price: 3375000, // ~450 000 FCFA
-    oldPrice: 3900000,
-    quantity: 1,
-    image: "/images/assets/hero_iphone16.png",
-    deliveryRange: "Livraison Express Cotonou : 5-12 jours",
-    shippingMode: "air",
-  },
-];
+const INITIAL_CART: CartItem[] = [];
 
-const INITIAL_FAVORITES: FavoriteItem[] = [
-  {
-    id: "fav-1",
-    name: "iPhone 16e",
-    category: "Téléphonie & Objets connectés",
-    price: 2966000,
-    oldPrice: 3400000,
-    image: "/images/assets/hero_iphone16.png",
-    inStock: true,
-  },
-  {
-    id: "fav-2",
-    name: "Folio iPad Gen 10 - 10.9 - PORT DESIGNS - 201353 NOUMEA 2 Slim...",
-    category: "Informatique",
-    price: 199000,
-    oldPrice: 250000,
-    image: "/images/assets/item_2.jpg",
-    inStock: true,
-  },
-  {
-    id: "fav-3",
-    name: "Apple Watch Ultra 3 GPS + Cellular - 49mm",
-    category: "Téléphonie & Objets connectés",
-    price: 5941000,
-    oldPrice: 6800000,
-    image: "/images/assets/item_1.jpg",
-    inStock: true,
-  },
-];
+const INITIAL_FAVORITES: FavoriteItem[] = [];
 
 interface MobileStoreContextType {
   cart: CartItem[];
