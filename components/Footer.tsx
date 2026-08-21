@@ -345,14 +345,14 @@ export default function Footer() {
               }}
             >
               <Smartphone style={{ width: 16, height: 16, color: "#165491" }} />
-              <span>Application</span>
+              <span>Application PWA</span>
             </div>
             <div style={{ fontSize: 12, fontWeight: 500, color: "#64748B", marginBottom: 12, lineHeight: 1.35 }}>
-              Disponible en Web App PWA
+              Télécharger notre Web App PWA
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {/* Sleek Dark PWA Install Button */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {/* Badge 1: PWA iOS */}
               <button
                 type="button"
                 onClick={() => {
@@ -363,48 +363,33 @@ export default function Footer() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: 10,
-                  background: "#0F172A",
+                  gap: 12,
+                  background: "#000000",
                   color: "#FFFFFF",
-                  padding: "9px 14px",
-                  borderRadius: 12,
-                  border: "1px solid #1E293B",
+                  padding: "8px 14px",
+                  borderRadius: 10,
+                  border: "none",
                   cursor: "pointer",
                   textAlign: "left",
-                  boxShadow: "0 4px 12px rgba(15, 23, 42, 0.15)",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                   width: "100%",
                   boxSizing: "border-box",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div
-                    style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: "50%",
-                      background: "rgba(245, 158, 11, 0.15)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                    }}
-                  >
-                    <Smartphone style={{ width: 15, height: 15, color: "#F59E0B" }} />
+                <svg viewBox="0 0 384 512" fill="#FFFFFF" style={{ width: 18, height: 18, flexShrink: 0 }}>
+                  <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-91.9-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.7 26.2 2 52.2-14.3 69.5-34.1z"/>
+                </svg>
+                <div>
+                  <div style={{ fontSize: 8.5, textTransform: "uppercase", letterSpacing: "0.4px", color: "#A1A1AA", fontWeight: 500 }}>
+                    APPLICATION PWA
                   </div>
-                  <div>
-                    <div style={{ fontSize: 8.5, textTransform: "uppercase", letterSpacing: "0.6px", color: "#F59E0B", fontWeight: 700 }}>
-                      INSTALLER L'APP
-                    </div>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: "#FFFFFF", lineHeight: 1.2 }}>
-                      Web App PWA
-                    </div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "#FFFFFF", lineHeight: 1.1, fontFamily: "'Poppins', sans-serif" }}>
+                    Disponible sur iOS
                   </div>
                 </div>
-                <Download style={{ width: 15, height: 15, color: "#94A3B8", flexShrink: 0 }} />
               </button>
 
-              {/* Sleek Light PWA Shortcut Button */}
+              {/* Badge 2: PWA Android */}
               <button
                 type="button"
                 onClick={() => {
@@ -415,48 +400,30 @@ export default function Footer() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: 10,
-                  background: "#FFFFFF",
-                  color: "#0F172A",
-                  padding: "9px 14px",
-                  borderRadius: 12,
-                  border: "1.5px solid #E2E8F0",
+                  gap: 12,
+                  background: "#000000",
+                  color: "#FFFFFF",
+                  padding: "8px 14px",
+                  borderRadius: 10,
+                  border: "none",
                   cursor: "pointer",
                   textAlign: "left",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                   width: "100%",
                   boxSizing: "border-box",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div
-                    style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: "50%",
-                      background: "#F1F5F9",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                    }}
-                  >
-                    <img
-                      src="/fenouhimin_logo_mark.png"
-                      alt="FENOUHIMIN"
-                      style={{ width: 18, height: 18, objectFit: "contain" }}
-                    />
+                <svg viewBox="0 0 24 24" fill="#3DDC84" style={{ width: 18, height: 18, flexShrink: 0 }}>
+                  <path d="M17.523 15.3414C17.06 15.3414 16.6853 14.9667 16.6853 14.5037C16.6853 14.0407 17.06 13.666 17.523 13.666C17.986 13.666 18.3607 14.0407 18.3607 14.5037C18.3607 14.9667 17.986 15.3414 17.523 15.3414ZM6.477 15.3414C6.014 15.3414 5.6393 14.9667 5.6393 14.5037C5.6393 14.0407 6.014 13.666 6.477 13.666C6.94 13.666 7.3147 14.0407 7.3147 14.5037C7.3147 14.9667 6.94 15.3414 6.477 15.3414ZM17.935 9.8714L19.789 6.6604C19.92 6.4334 19.843 6.1434 19.616 6.0124C19.389 5.8814 19.099 5.9584 18.968 6.1854L17.082 9.4524C15.545 8.7534 13.824 8.3584 12 8.3584C10.176 8.3584 8.455 8.7534 6.918 9.4524L5.032 6.1854C4.901 5.9584 4.611 5.8814 4.384 6.0124C4.157 6.1434 4.08 6.4334 4.211 6.6604L6.065 9.8714C2.585 11.8314 0.176 15.3984 0 19.6424H24C23.824 15.3984 21.415 11.8314 17.935 9.8714Z" />
+                </svg>
+                <div>
+                  <div style={{ fontSize: 8.5, textTransform: "uppercase", letterSpacing: "0.4px", color: "#A1A1AA", fontWeight: 500 }}>
+                    APPLICATION PWA
                   </div>
-                  <div>
-                    <div style={{ fontSize: 8.5, textTransform: "uppercase", letterSpacing: "0.6px", color: "#64748B", fontWeight: 600 }}>
-                      ACCÈS DIRECT
-                    </div>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: "#0F172A", lineHeight: 1.2 }}>
-                      Écran d'accueil
-                    </div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "#FFFFFF", lineHeight: 1.1, fontFamily: "'Poppins', sans-serif" }}>
+                    Disponible sur Android
                   </div>
                 </div>
-                <ChevronRight style={{ width: 15, height: 15, color: "#94A3B8", flexShrink: 0 }} />
               </button>
             </div>
           </div>
