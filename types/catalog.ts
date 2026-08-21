@@ -58,6 +58,13 @@ export interface Product {
   created_by?: string | null;
   created_at?: string;
   updated_at?: string;
+  // Téléphone & Étiquettes d'état
+  condition_state?: "Scellé" | "Reconditionné" | "Occasion" | null;
+  grade?: "Grade A" | "Grade B" | "Grade C" | "Grade A/B/C" | "Grade B/C" | null;
+  sim_type?: "SIM physique" | "eSIM" | "Dual SIM" | null;
+  region_version?: "Version US (LL/A)" | "Version EU / ZB" | "Version Global" | null;
+  storage_options?: string[] | null;
+  battery_health?: string | null;
   // Joined relation fields
   category?: Category | null;
   images?: ProductImage[];
@@ -67,6 +74,7 @@ export interface ProductFilterOptions {
   categorySlug?: string;
   categoryId?: string;
   search?: string;
+  conditionState?: string;
   status?: ProductStatus | "all";
   isDemo?: boolean | "all";
   isFeatured?: boolean;

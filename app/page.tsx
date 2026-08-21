@@ -5,7 +5,7 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { getPublicProducts } from "@/lib/supabase/catalog";
 import type { Product } from "@/types/catalog";
-import { Sparkles, ArrowRight, ChevronLeft, ChevronRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship } from "lucide-react";
+import { Building2, ArrowRight, ChevronLeft, ChevronRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship } from "lucide-react";
 
 const heroSlides = [
   {
@@ -112,235 +112,308 @@ export default function HomePage() {
     "Panneaux Solaires Monocristallins 550W"
   ];
 
+  const categoryPills = [
+    { name: "Tous", cat: "" },
+    { name: "Smartphones", cat: "telephonie" },
+    { name: "Écouteurs", cat: "audio" },
+    { name: "Laptops", cat: "informatique" },
+    { name: "Montres", cat: "watches" },
+    { name: "Mode", cat: "fashion" },
+    { name: "Accessoires", cat: "accessories" },
+  ];
+
+  const [activeCategory, setActiveCategory] = useState("");
+
   return (
-    <div style={{ background: "#F8FAFC", paddingBottom: 60, fontFamily: "var(--font-body), 'Plus Jakarta Sans', sans-serif" }}>
+    <div style={{ background: "#FAF7F2", paddingBottom: 80, fontFamily: "var(--font-body), 'Plus Jakarta Sans', sans-serif" }}>
       
-      {/* HERO 2-CARDS BANNERS SECTION */}
-      <section style={{ padding: "24px 0 28px" }}>
+      {/* 1. TOP DISCOVER SECTION HEADER (SINGLE SEARCH BAR MANAGED BY MAIN HEADER) */}
+      <section style={{ padding: "14px 0 10px", background: "#FFFFFF", borderBottom: "1px solid #E2E8F0" }}>
         <div className="container">
-          <div className="soft-hero-grid">
-
-            {/* CARD 1: DYNAMIC SLIDER CAROUSEL BANNER */}
-            <div 
-              className="soft-banner-main" 
-              style={{ 
-                position: "relative", 
-                overflow: "hidden",
-                background: heroSlides[currentSlide].bgGradient,
-                transition: "background 0.6s ease"
-              }}
-            >
-              {/* Left text & CTAs */}
-              <div style={{ zIndex: 2, maxWidth: 440, position: "relative" }}>
-                <span style={{ fontSize: 11.5, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.06em", textTransform: "uppercase" }}>
-                  {heroSlides[currentSlide].badge}
-                </span>
-                <h1 style={{ fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 900, color: "#FFFFFF", margin: "6px 0 4px", lineHeight: 1.1, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                  {heroSlides[currentSlide].title}
-                </h1>
-                <div style={{ fontSize: 14, fontWeight: 800, color: "#38BDF8", marginBottom: 12 }}>
-                  {heroSlides[currentSlide].priceTag}
-                </div>
-                <p style={{ fontSize: 12.5, color: "#CBD5E1", lineHeight: 1.45, margin: "0 0 20px" }}>
-                  {heroSlides[currentSlide].subtitle}
-                </p>
-                <Link
-                  href={heroSlides[currentSlide].btnLink}
-                  style={{
-                    background: "#0F172A",
-                    color: "#FFFFFF",
-                    borderRadius: 9999,
-                    padding: "12px 28px",
-                    fontSize: 13.5,
-                    fontWeight: 800,
-                    textDecoration: "none",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.4)",
-                    transition: "transform 0.2s ease"
-                  }}
-                >
-                  <span>{heroSlides[currentSlide].btnText}</span>
-                  <ArrowRight style={{ width: 16, height: 16 }} />
-                </Link>
-              </div>
-
-              {/* Seamless 3D Visual overlay on the right */}
-              <div style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "55%", pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                <img
-                  key={currentSlide}
-                  src={heroSlides[currentSlide].imgSrc}
-                  alt={heroSlides[currentSlide].title}
-                  style={{ 
-                    height: "110%", 
-                    width: "auto", 
-                    objectFit: "contain", 
-                    transform: "translate(5%, 4%)", 
-                    filter: "drop-shadow(-20px 20px 40px rgba(0,0,0,0.6))",
-                    transition: "all 0.5s ease"
-                  }}
-                />
-              </div>
-
-              {/* Bottom bar with French note, interactive pagination dots, and navigation controls */}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", marginTop: 24, zIndex: 2, position: "relative" }}>
-                <span style={{ fontSize: 11, color: "#94A3B8", fontWeight: 700 }}>
-                  *Fret & dédouanement Cotonou inclus
-                </span>
-                
-                {/* Carousel Interactive Pagination Dots */}
-                <div style={{ display: "flex", gap: 8, alignItems: "center", background: "rgba(255,255,255,0.12)", backdropFilter: "blur(6px)", padding: "6px 14px", borderRadius: 9999 }}>
-                  {heroSlides.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentSlide(idx)}
-                      aria-label={`Aller au slide ${idx + 1}`}
-                      style={{
-                        border: "none",
-                        padding: 0,
-                        cursor: "pointer",
-                        width: currentSlide === idx ? 18 : 7,
-                        height: 7,
-                        borderRadius: 9999,
-                        background: currentSlide === idx ? "#FFFFFF" : "rgba(255,255,255,0.35)",
-                        transition: "all 0.3s ease"
-                      }}
-                    />
-                  ))}
-                </div>
-
-                {/* Left / Right Carousel Controls */}
-                <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                  <button
-                    onClick={() => setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
-                    aria-label="Slide précédent"
-                    style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: "50%",
-                      background: "rgba(255,255,255,0.15)",
-                      border: "none",
-                      color: "#FFFFFF",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      cursor: "pointer",
-                      transition: "background 0.2s"
-                    }}
-                  >
-                    <ChevronLeft style={{ width: 15, height: 15 }} />
-                  </button>
-                  <button
-                    onClick={() => setCurrentSlide((prev) => (prev + 1) % heroSlides.length)}
-                    aria-label="Slide suivant"
-                    style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: "50%",
-                      background: "rgba(255,255,255,0.15)",
-                      border: "none",
-                      color: "#FFFFFF",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      cursor: "pointer",
-                      transition: "background 0.2s"
-                    }}
-                  >
-                    <ChevronRight style={{ width: 15, height: 15 }} />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* CARD 2: PROMO SALE BANNER (FULL FILL BACKGROUND VISUAL) */}
-            <div
-              className="soft-banner-sale"
-              style={{
-                backgroundImage: "linear-gradient(180deg, rgba(6, 182, 212, 0.82) 0%, rgba(6, 182, 212, 0.45) 45%, rgba(15, 23, 42, 0.88) 100%), url('/images/assets/card_hero_sale_fr.jpg')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                position: "relative",
-              }}
-            >
-              <div style={{ zIndex: 2 }}>
-                <div style={{ background: "rgba(255, 255, 255, 0.3)", backdropFilter: "blur(10px)", display: "inline-block", padding: "6px 14px", borderRadius: 9999, marginBottom: 14 }}>
-                  <span style={{ fontSize: 12.5, fontWeight: 900, color: "#0F172A", letterSpacing: "0.04em" }}>
-                    JUSQU'À -50% DE RÉDUCTION
-                  </span>
-                </div>
-                <h2 style={{ fontSize: 25, fontWeight: 900, color: "#FFFFFF", margin: "0 0 8px", lineHeight: 1.25, textShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>
-                  Offres Exclusives<br />Baskets & Équipements
-                </h2>
-              </div>
-
-              <div style={{ flex: 1 }} />
-
-              <Link
-                href="/catalog?cat=sneakers"
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div>
+              <h1
                 style={{
-                  zIndex: 2,
-                  background: "#0F172A",
-                  color: "#FFFFFF",
-                  borderRadius: 9999,
-                  padding: "13px 24px",
-                  fontSize: 13.5,
-                  fontWeight: 800,
-                  textDecoration: "none",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                  boxShadow: "0 8px 20px rgba(0,0,0,0.3)"
+                  fontSize: "clamp(20px, 3.5vw, 26px)",
+                  fontWeight: 900,
+                  color: "#0F172A",
+                  margin: 0,
+                  fontFamily: "'Outfit', sans-serif",
                 }}
               >
-                <span>Découvrir les offres</span>
-                <ArrowRight style={{ width: 15, height: 15 }} />
-              </Link>
+                Découvrir
+              </h1>
+              <p style={{ fontSize: 12.5, color: "#64748B", margin: "2px 0 0" }}>
+                Produits certifiés direct usines & iPhones authentiques
+              </p>
             </div>
 
+            <Link
+              href="/catalog"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                background: "#F1F5F9",
+                border: "1px solid #E2E8F0",
+                borderRadius: 9999,
+                padding: "6px 14px",
+                fontSize: 12,
+                fontWeight: 800,
+                color: "#165491",
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
+              }}
+            >
+              <span>Voir tout →</span>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* POPULAR CATEGORIES SECTION */}
-      <section style={{ padding: "24px 0 32px" }}>
+      {/* 2. DYNAMIC HERO PROMO SLIDER CAROUSEL (AUTOMATIC & MANUAL OFFERS) */}
+      <section style={{ padding: "18px 0 20px" }}>
         <div className="container">
-          
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 800, color: "#0F172A", margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              Explorer les Catégories Populaires
-            </h2>
-            <Link href="/catalog" style={{ fontSize: 13, fontWeight: 700, color: "#165491", textDecoration: "none", display: "flex", alignItems: "center", gap: 3 }}>
-              <span>Voir Tout</span>
-              <ChevronRight style={{ width: 14, height: 14 }} />
+          {(() => {
+            const activeSlide = heroSlides[currentSlide] || heroSlides[0];
+            return (
+              <div
+                style={{
+                  background: activeSlide.bgGradient || "linear-gradient(135deg, #0F172A 0%, #165491 60%, #1E293B 100%)",
+                  borderRadius: 24,
+                  padding: "24px 28px 36px",
+                  color: "#FFFFFF",
+                  position: "relative",
+                  overflow: "hidden",
+                  boxShadow: "0 10px 30px rgba(22, 84, 145, 0.25)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  minHeight: 190,
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  transition: "background 0.5s ease",
+                }}
+              >
+                {/* LEFT TEXT CONTENT */}
+                <div style={{ zIndex: 2, maxWidth: "55%", minWidth: 200 }}>
+                  <h2
+                    style={{
+                      fontSize: "clamp(22px, 4vw, 32px)",
+                      fontWeight: 900,
+                      margin: "0 0 6px",
+                      lineHeight: 1.1,
+                      fontFamily: "'Outfit', sans-serif",
+                      color: "#FFFFFF",
+                    }}
+                  >
+                    {activeSlide.title}
+                  </h2>
+
+                  <div
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      background: "#E8890C",
+                      color: "#FFFFFF",
+                      padding: "4px 12px",
+                      borderRadius: 999,
+                      fontSize: 11.5,
+                      fontWeight: 900,
+                      marginBottom: 12,
+                      boxShadow: "0 4px 12px rgba(232, 137, 12, 0.3)",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <span>{activeSlide.badge || activeSlide.priceTag}</span>
+                  </div>
+
+                  <p style={{ fontSize: 12.5, color: "#CBD5E1", margin: "0 0 16px", lineHeight: 1.4 }}>
+                    {activeSlide.subtitle}
+                  </p>
+
+                  <Link
+                    href={activeSlide.btnLink || "/catalog"}
+                    style={{
+                      background: "#FFFFFF",
+                      color: "#0F172A",
+                      padding: "10px 22px",
+                      borderRadius: 999,
+                      fontSize: 12.5,
+                      fontWeight: 800,
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      boxShadow: "0 4px 14px rgba(0, 0, 0, 0.3)",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <span>{activeSlide.btnText || "Explorer les Offres"}</span>
+                    <ArrowRight style={{ width: 14, height: 14 }} />
+                  </Link>
+                </div>
+
+                {/* RIGHT HERO IMAGE */}
+                <div
+                  style={{
+                    width: "42%",
+                    height: "100%",
+                    position: "absolute",
+                    right: 10,
+                    top: 0,
+                    bottom: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    pointerEvents: "none",
+                  }}
+                >
+                  <img
+                    src={activeSlide.imgSrc}
+                    alt={activeSlide.title}
+                    style={{
+                      maxHeight: "135%",
+                      maxWidth: "100%",
+                      objectFit: "contain",
+                      filter: "drop-shadow(0 10px 20px rgba(0,0,0,0.4))",
+                      transition: "transform 0.4s ease",
+                    }}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/images/assets/hero_iphone16.png";
+                    }}
+                  />
+                </div>
+
+                {/* SLIDE NAVIGATION ARROWS & DOTS */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 10,
+                    left: 28,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    zIndex: 10,
+                  }}
+                >
+                  {heroSlides.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentSlide(idx)}
+                      style={{
+                        width: currentSlide === idx ? 20 : 7,
+                        height: 7,
+                        borderRadius: 999,
+                        background: currentSlide === idx ? "#E8890C" : "rgba(255, 255, 255, 0.35)",
+                        border: "none",
+                        cursor: "pointer",
+                        padding: 0,
+                        transition: "all 0.25s ease",
+                      }}
+                      aria-label={`Offre ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      </section>
+
+      {/* 3. CATEGORIES HORIZONTAL PILLS ROW (MATCHING FENOUHIMIN BRAND PALETTE) */}
+      <section style={{ padding: "8px 0 16px" }}>
+        <div className="container">
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+            <h3 style={{ fontSize: 18, fontWeight: 900, color: "#0F172A", margin: 0, fontFamily: "'Outfit', sans-serif" }}>
+              Catégories
+            </h3>
+            <Link href="/catalog" style={{ fontSize: 12.5, fontWeight: 700, color: "#165491", textDecoration: "none" }}>
+              Voir tout
             </Link>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div ref={categoryRowRef} className="category-soft-pod-row" style={{ flex: 1 }}>
-              {softCategories.map((c, idx) => (
-                <Link key={idx} href={c.link} className="category-soft-pod">
-                  <div className="category-soft-circle">
-                    <img src={c.img} alt={c.name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-                  </div>
-                  <span className="category-soft-label">{c.name}</span>
-                </Link>
-              ))}
-            </div>
+          {/* HORIZONTAL SCROLL PILLS */}
+          <div
+            className="mobile-categories-scroll"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              overflowX: "auto",
+              paddingBottom: 4,
+            }}
+          >
+            {categoryPills.map((pill) => {
+              const isSelected = activeCategory === pill.cat;
+              return (
+                <button
+                  key={pill.name}
+                  onClick={() => setActiveCategory(pill.cat)}
+                  style={{
+                    background: isSelected ? "#165491" : "#FFFFFF",
+                    color: isSelected ? "#FFFFFF" : "#475569",
+                    border: isSelected ? "1px solid #165491" : "1px solid #E2E8F0",
+                    borderRadius: 999,
+                    padding: "8px 18px",
+                    fontSize: 12.5,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                    boxShadow: isSelected
+                      ? "0 4px 12px rgba(22, 84, 145, 0.25)"
+                      : "0 1px 3px rgba(15, 23, 42, 0.03)",
+                    transition: "all 0.18s ease",
+                  }}
+                >
+                  {pill.name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
-            {/* Circular Scroll Next Button */}
-            <button 
-              onClick={handleScrollNext} 
-              className="scroll-next-btn" 
-              aria-label="Catégories suivantes"
-              title="Faire défiler les catégories"
-            >
-              <ChevronRight style={{ width: 20, height: 20 }} />
-            </button>
+      {/* 4. PRODUCT CARDS GRID (EXACT 2-COLUMN MOBILE GRID MATCHING SCREENSHOT) */}
+      <section style={{ padding: "12px 0 32px" }}>
+        <div className="container">
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
+            <h3 style={{ fontSize: 18, fontWeight: 900, color: "#0F172A", margin: 0, fontFamily: "'Outfit', sans-serif" }}>
+              Sélection Produits & Nouveautés
+            </h3>
+            <span style={{ fontSize: 12, color: "#64748B", fontWeight: 600 }}>
+              {recentProducts.length} articles disponibles
+            </span>
           </div>
 
+          <div
+            className="product-grid-mobile"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(210px, 1fr))",
+              gap: 16,
+            }}
+          >
+            {recentProducts.map((p) => {
+              const img = p.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
+              return (
+                <ProductCard
+                  key={p.id}
+                  id={p.id}
+                  title={p.name}
+                  price={`${p.price.toLocaleString()} ${p.currency}`}
+                  image={img}
+                  category={p.category?.name || "Téléphonie"}
+                  isDemo={p.is_demo}
+                  conditionState={p.condition_state}
+                  grade={p.grade}
+                  simType={p.sim_type}
+                  regionVersion={p.region_version}
+                />
+              );
+            })}
+          </div>
         </div>
       </section>
 
@@ -398,6 +471,10 @@ export default function HomePage() {
                   image={img}
                   category={p.category?.name || "Général"}
                   isDemo={p.is_demo}
+                  conditionState={p.condition_state}
+                  grade={p.grade}
+                  simType={p.sim_type}
+                  regionVersion={p.region_version}
                 />
               );
             })}
@@ -457,9 +534,9 @@ export default function HomePage() {
           <div style={{ position: "absolute", top: -80, left: "30%", width: 300, height: 300, background: "rgba(56, 189, 248, 0.15)", filter: "blur(90px)", borderRadius: "50%", pointerEvents: "none" }} />
           <div style={{ position: "absolute", bottom: -80, right: "20%", width: 260, height: 260, background: "rgba(249, 115, 22, 0.12)", filter: "blur(90px)", borderRadius: "50%", pointerEvents: "none" }} />
 
-          {/* AI BADGE */}
+          {/* SOURCING BADGE */}
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(56, 189, 248, 0.12)", border: "1px solid rgba(56, 189, 248, 0.3)", borderRadius: 9999, padding: "6px 14px", color: "#38BDF8", fontSize: 11.5, fontWeight: 900, letterSpacing: "0.5px", marginBottom: 16, maxWidth: "100%", boxSizing: "border-box" }}>
-            <Sparkles style={{ width: 14, flexShrink: 0 }} /> <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>IA SOURCING INTERNATIONAL — USINES CERTIFIÉES</span>
+            <Building2 style={{ width: 14, flexShrink: 0 }} /> <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>SOURCING DIRECT USINES CHINE • BÉNIN BJ</span>
           </div>
 
           {/* HEADLINE */}
@@ -467,14 +544,14 @@ export default function HomePage() {
             Trouvez N'importe Quel Produit Direct Usine
           </h2>
           <p style={{ fontSize: 13.5, color: "#94A3B8", maxWidth: 640, margin: "0 auto 24px", lineHeight: 1.6 }}>
-            Collez un lien produit ou décrivez votre besoin. Notre algorithme IA identifie les fournisseurs usines certifiés au meilleur prix et calcule votre devis rendu Afrique.
+            Collez un lien produit ou décrivez votre besoin. Notre équipe logistique identifie les fournisseurs usines certifiés au meilleur prix et calcule votre devis rendu Cotonou.
           </p>
 
           {/* FLOATING SEARCH INPUT BAR (RESPONSIVE STACK ON MOBILE) */}
           <div className="cargolink-ai-search-box">
             <div className="cargolink-ai-search-box-input-wrap" style={{ display: "flex", alignItems: "center", flex: 1, gap: 8, paddingLeft: 8 }}>
-              <span style={{ color: "#38BDF8", display: "flex", alignItems: "center" }}>
-                <Sparkles style={{ width: 18 }} />
+              <span style={{ color: "#165491", display: "flex", alignItems: "center" }}>
+                <Search style={{ width: 18 }} />
               </span>
               <input
                 type="text"

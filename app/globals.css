@@ -731,8 +731,8 @@ input:-webkit-autofill:active {
   background: #FFFFFF;
   border-radius: 24px;
   padding: 36px 40px;
-  border: 1px solid #F1F5F9;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.04);
+  border: 1px solid #EAE5DC;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
 }
 
 .quote-field-row-2 {
@@ -764,6 +764,46 @@ input:-webkit-autofill:active {
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================================================
+   MOBILE NATIVE APP RESPONSIVE DISPLAY & GRID RULES
+   ========================================================= */
+
+@media (max-width: 768px) {
+  /* Ensure clean 2-column mobile grid for product cards */
+  .grid-2, .grid-3, .grid-4, .product-grid-mobile {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  /* Horizontal scrolling category pills bar */
+  .mobile-categories-scroll {
+    display: flex !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding: 4px 0 10px !important;
+    gap: 8px !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+
+  .mobile-categories-scroll::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Modern rounded card styling */
+  .mobile-card-app {
+    border-radius: 20px !important;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
+  }
+
+  /* Body bottom padding for floating bottom navigation bar */
+  body {
+    padding-bottom: 74px !important;
+  }
+}
+
 
 
 

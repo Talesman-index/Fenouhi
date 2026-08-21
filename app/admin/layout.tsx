@@ -3,8 +3,8 @@ import { requireAdmin } from "@/lib/admin/auth-guard";
 import AdminShell from "@/components/admin/AdminShell";
 
 export const metadata = {
-  title: "Espace Administrateur — CargoLink Africa",
-  description: "Plateforme de gestion logistique Chine-Afrique par CargoLink Africa",
+  title: "Espace Administrateur — FENOUHIMIN",
+  description: "Plateforme de gestion logistique Chine-Afrique par FENOUHIMIN",
 };
 
 export default async function AdminLayout({

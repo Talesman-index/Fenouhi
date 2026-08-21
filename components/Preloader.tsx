@@ -156,7 +156,7 @@ export default function Preloader() {
           >
             <Image
               src="/icons/icon-512x512.png"
-              alt="CargoLink Africa Logo App PWA"
+              alt="FENOUHIMIN Logo App PWA"
               width={94}
               height={94}
               priority
@@ -183,7 +183,7 @@ export default function Preloader() {
               gap: "6px",
             }}
           >
-            CargoLink <span style={{ color: "#38BDF8" }}>Africa</span>
+            FENOUHIMIN
           </h1>
 
           <div

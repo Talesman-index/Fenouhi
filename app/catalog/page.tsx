@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import { getCategories, getPublicProducts } from "@/lib/supabase/catalog";
 import type { Category, Product } from "@/types/catalog";
-import { SlidersHorizontal, Package, AlertCircle } from "lucide-react";
+import { SlidersHorizontal, Package, AlertCircle, Search, Filter, Check, ShieldCheck, RefreshCw, Smartphone, Layers, Building2 } from "lucide-react";
 
 function CatalogContent() {
   const searchParams = useSearchParams();
@@ -15,6 +15,7 @@ function CatalogContent() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedConditionState, setSelectedConditionState] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -37,6 +38,7 @@ function CatalogContent() {
           getCategories(),
           getPublicProducts({
             categorySlug: selectedCategory,
+            conditionState: selectedConditionState,
             search: searchQuery,
           }),
         ]);
@@ -50,96 +52,293 @@ function CatalogContent() {
     }
 
     loadData();
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, selectedConditionState, searchQuery]);
+
+  const CONDITION_OPTIONS = [
+    { id: "all", label: "Tous les états", icon: Layers, color: "#64748B" },
+    { id: "Scellé", label: "Scellé / Neuf", icon: ShieldCheck, color: "#10B981" },
+    { id: "Reconditionné", label: "Reconditionné Certifié", icon: RefreshCw, color: "#3B82F6" },
+    { id: "Occasion", label: "Occasion Contrôlée", icon: Smartphone, color: "#F59E0B" },
+  ];
 
   return (
-    <div style={{ padding: "40px 0", background: "var(--bg-main)", minHeight: "80vh" }}>
-      <div className="container">
-        {/* HEADER BAR */}
-        <div style={{ marginBottom: 30, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-          <div>
-            <h1 className="hero-page-title" style={{ color: "var(--navy-dark)", fontSize: 28, margin: 0 }}>
-              Catalogue Produits Usines Chine
-            </h1>
-            <p style={{ fontSize: 14, color: "var(--text-muted)", margin: "4px 0 0" }}>
-              Prix direct grossiste sans intermédiaire. Inspection et dédouanement garantis.
-            </p>
-          </div>
-
-          <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-            {/* SEARCH INPUT */}
-            <input
-              type="text"
-              placeholder="Rechercher un produit..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="admin-input"
-              style={{ width: 220, background: "#FFF" }}
-            />
-
-            {/* CATEGORY SELECT */}
-            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <SlidersHorizontal style={{ width: 18, color: "var(--navy-dark)" }} />
-              <select 
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="admin-input" 
-                style={{ width: "auto", background: "#FFF" }}
+    <div
+      style={{
+        padding: "20px 0 80px",
+        background: "#FAF7F2",
+        minHeight: "85vh",
+        fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+      }}
+    >
+      <div className="container" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px" }}>
+        
+        {/* 1. HEADER TITLE BANNER CARD */}
+        <div
+          style={{
+            background: "#FFFFFF",
+            borderRadius: 24,
+            padding: "24px",
+            border: "1px solid #EAE5DC",
+            boxShadow: "0 4px 20px rgba(15, 23, 42, 0.04)",
+            marginBottom: 20,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: 16,
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  background: "rgba(22, 84, 145, 0.08)",
+                  color: "#165491",
+                  padding: "4px 12px",
+                  borderRadius: 999,
+                  fontSize: 11.5,
+                  fontWeight: 800,
+                  marginBottom: 8,
+                  letterSpacing: "0.5px",
+                }}
               >
-                <option value="all">Toutes les catégories</option>
-                {categories.map((c) => (
-                  <option key={c.id} value={c.slug}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
+                <Building2 style={{ width: 14, height: 14, color: "#165491" }} />
+                <span>CATALOGUE OFFICIEL FENOUHIMIN & FENOUSSHOP</span>
+              </div>
+
+              <h1
+                style={{
+                  color: "#0F172A",
+                  fontSize: "clamp(22px, 4vw, 30px)",
+                  margin: "0 0 6px",
+                  fontWeight: 900,
+                  fontFamily: "'Outfit', sans-serif",
+                  lineHeight: 1.2,
+                }}
+              >
+                Catalogue Produits & iPhones Usines
+              </h1>
+
+              <p style={{ fontSize: 13.5, color: "#64748B", margin: 0, lineHeight: 1.4 }}>
+                iPhones certifiés réels avec états officiels (Scellé, Reconditionné, Occasion Grade A) & produits direct grossistes.
+              </p>
+            </div>
+
+            {/* SEARCH INPUT BAR */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                background: "#F8FAFC",
+                border: "1.5px solid #E2E8F0",
+                borderRadius: 999,
+                padding: "6px 14px",
+                gap: 8,
+                width: "100%",
+                maxWidth: 320,
+                boxShadow: "0 2px 6px rgba(15, 23, 42, 0.03)",
+              }}
+            >
+              <Search style={{ width: 16, height: 16, color: "#94A3B8", flexShrink: 0 }} />
+              <input
+                type="text"
+                placeholder="Rechercher iPhone, lot usine..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  width: "100%",
+                  border: "none",
+                  outline: "none",
+                  background: "transparent",
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "#0F172A",
+                }}
+              />
             </div>
           </div>
         </div>
 
-        {/* NOTICE SIMULATION / DEMO PRODUCTS */}
-        <div style={{ background: "#FEF3C7", border: "1px solid #FCD34D", borderRadius: 12, padding: "12px 16px", marginBottom: 28, fontSize: 13, color: "#92400E", display: "flex", alignItems: "center", gap: 10 }}>
-          <Package style={{ width: 18, flexShrink: 0, color: "#D97706" }} />
-          <div>
-            <strong>Information Catalogue :</strong> Les articles marqués d'un badge <strong>Démo / Simulation</strong> sont des exemples d'importation pour tester les devis. Les futurs articles ajoutés par les administrateurs sont de vrais produits commerciaux certifiés.
+        {/* 2. HORIZONTAL SCROLLABLE CONDITION STATE PILLS */}
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+            Filtrer par état du téléphone :
+          </div>
+
+          <div
+            className="mobile-categories-scroll"
+            style={{
+              display: "flex",
+              gap: 8,
+              overflowX: "auto",
+              paddingBottom: 6,
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
+            {CONDITION_OPTIONS.map((c) => {
+              const isActive = selectedConditionState === c.id;
+              const Icon = c.icon;
+              return (
+                <button
+                  key={c.id}
+                  onClick={() => setSelectedConditionState(c.id)}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    padding: "8px 16px",
+                    borderRadius: 999,
+                    border: isActive ? "none" : "1px solid #E2E8F0",
+                    background: isActive ? "#0F172A" : "#FFFFFF",
+                    color: isActive ? "#FFFFFF" : "#475569",
+                    fontSize: 12.5,
+                    fontWeight: isActive ? 800 : 600,
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                    boxShadow: isActive ? "0 4px 12px rgba(15, 23, 42, 0.15)" : "none",
+                    flexShrink: 0,
+                  }}
+                >
+                  <Icon style={{ width: 14, height: 14, color: isActive ? "#FFFFFF" : c.color, flexShrink: 0 }} />
+                  <span>{c.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 3. HORIZONTAL SCROLLABLE CATEGORIES BAR */}
+        <div style={{ marginBottom: 24 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+            Catégories :
+          </div>
+
+          <div
+            className="mobile-categories-scroll"
+            style={{
+              display: "flex",
+              gap: 8,
+              overflowX: "auto",
+              paddingBottom: 6,
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
+            <button
+              onClick={() => setSelectedCategory("all")}
+              style={{
+                padding: "8px 18px",
+                borderRadius: 999,
+                border: selectedCategory === "all" ? "none" : "1px solid #E2E8F0",
+                background: selectedCategory === "all" ? "#165491" : "#FFFFFF",
+                color: selectedCategory === "all" ? "#FFFFFF" : "#475569",
+                fontSize: 12.5,
+                fontWeight: selectedCategory === "all" ? 800 : 600,
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+                boxShadow: selectedCategory === "all" ? "0 4px 12px rgba(22, 84, 145, 0.2)" : "none",
+                flexShrink: 0,
+              }}
+            >
+              Toutes les catégories
+            </button>
+
+            {categories.map((cat) => {
+              const isActive = selectedCategory === cat.slug;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.slug)}
+                  style={{
+                    padding: "8px 18px",
+                    borderRadius: 999,
+                    border: isActive ? "none" : "1px solid #E2E8F0",
+                    background: isActive ? "#165491" : "#FFFFFF",
+                    color: isActive ? "#FFFFFF" : "#475569",
+                    fontSize: 12.5,
+                    fontWeight: isActive ? 800 : 600,
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                    boxShadow: isActive ? "0 4px 12px rgba(22, 84, 145, 0.2)" : "none",
+                    flexShrink: 0,
+                  }}
+                >
+                  {cat.name}
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* LOADING SKELETON */}
         {loading && (
-          <div className="grid-5">
-            {[1, 2, 3, 4, 5].map((n) => (
-              <div key={n} className="card" style={{ height: 280, background: "#F1F5F9", borderRadius: 16, animation: "pulse 1.5s infinite" }} />
+          <div className="product-grid-mobile grid-5">
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <div
+                key={n}
+                style={{
+                  height: 280,
+                  background: "#FFFFFF",
+                  borderRadius: 20,
+                  border: "1px solid #EAE5DC",
+                  animation: "pulse 1.5s infinite",
+                }}
+              />
             ))}
           </div>
         )}
 
         {/* ERROR STATE */}
         {errorMsg && !loading && (
-          <div className="card" style={{ textAlign: "center", padding: 40, color: "#EF4444" }}>
-            <AlertCircle style={{ width: 40, height: 40, margin: "0 auto 12px" }} />
-            <div style={{ fontWeight: 800 }}>{errorMsg}</div>
+          <div
+            style={{
+              background: "#FFFFFF",
+              borderRadius: 22,
+              padding: 40,
+              textAlign: "center",
+              border: "1px solid #FEF2F2",
+              color: "#DC2626",
+            }}
+          >
+            <AlertCircle style={{ width: 40, height: 40, margin: "0 auto 12px", color: "#DC2626" }} />
+            <div style={{ fontWeight: 800, fontSize: 15 }}>{errorMsg}</div>
           </div>
         )}
 
         {/* EMPTY STATE */}
         {!loading && !errorMsg && products.length === 0 && (
-          <div className="card" style={{ textAlign: "center", padding: "60px 20px" }}>
+          <div
+            style={{
+              background: "#FFFFFF",
+              borderRadius: 22,
+              padding: "60px 20px",
+              textAlign: "center",
+              border: "1px solid #EAE5DC",
+            }}
+          >
             <Package style={{ width: 48, height: 48, color: "#94A3B8", margin: "0 auto 16px" }} />
-            <h3 style={{ fontSize: 18, fontWeight: 800, color: "var(--navy-dark)", marginBottom: 8 }}>
+            <h3 style={{ fontSize: 18, fontWeight: 900, color: "#0F172A", margin: "0 0 8px" }}>
               Aucun produit disponible
             </h3>
-            <p style={{ fontSize: 14, color: "var(--text-muted)" }}>
+            <p style={{ fontSize: 13.5, color: "#64748B", margin: 0 }}>
               Aucun article ne correspond actuellement à vos critères de recherche ou de filtre.
             </p>
           </div>
         )}
 
-        {/* PRODUCTS GRID */}
+        {/* 4. PRODUCTS GRID (2 COLUMNS MOBILE, 5 COLUMNS DESKTOP) */}
         {!loading && !errorMsg && products.length > 0 && (
-          <div className="grid-5">
+          <div className="product-grid-mobile grid-5">
             {products.map((p) => {
-              const primaryImg = p.images?.find(i => i.is_primary)?.public_image_url || p.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
+              const primaryImg =
+                p.images?.find((i) => i.is_primary)?.public_image_url ||
+                p.images?.[0]?.public_image_url ||
+                "/images/assets/item_1.jpg";
               return (
                 <ProductCard
                   key={p.id}
@@ -149,6 +348,10 @@ function CatalogContent() {
                   image={primaryImg}
                   category={p.category?.name || "Général"}
                   isDemo={p.is_demo}
+                  conditionState={p.condition_state}
+                  grade={p.grade}
+                  simType={p.sim_type}
+                  regionVersion={p.region_version}
                 />
               );
             })}
@@ -161,7 +364,22 @@ function CatalogContent() {
 
 export default function CatalogPage() {
   return (
-    <Suspense fallback={<div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>Chargement du catalogue Supabase...</div>}>
+    <Suspense
+      fallback={
+        <div
+          style={{
+            textAlign: "center",
+            padding: "80px 0",
+            fontWeight: 800,
+            color: "#0F172A",
+            background: "#FAF7F2",
+            minHeight: "80vh",
+          }}
+        >
+          Chargement du catalogue Supabase...
+        </div>
+      }
+    >
       <CatalogContent />
     </Suspense>
   );

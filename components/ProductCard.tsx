@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Heart, ShoppingBag, ShoppingCart, Check } from "lucide-react";
 import { useMobileStore } from "@/lib/mobile-store";
+import PhoneStateBadge from "./PhoneStateBadge";
 
 interface ProductCardProps {
   id?: string;
@@ -15,6 +16,10 @@ interface ProductCardProps {
   image: string;
   category?: string;
   isDemo?: boolean;
+  conditionState?: "Scellé" | "Reconditionné" | "Occasion" | string | null;
+  grade?: string | null;
+  simType?: string | null;
+  regionVersion?: string | null;
 }
 
 export default function ProductCard({
@@ -27,6 +32,10 @@ export default function ProductCard({
   image,
   category = "High-Tech & Usines",
   isDemo = false,
+  conditionState,
+  grade,
+  simType,
+  regionVersion,
 }: ProductCardProps) {
   const [hovered, setHovered] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
@@ -175,9 +184,25 @@ export default function ProductCard({
       {/* PRODUCT INFO */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
         <div>
-          <span style={{ fontSize: 10.5, fontWeight: 700, color: "#165491", textTransform: "uppercase", letterSpacing: 0.4 }}>
-            {category}
-          </span>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, flexWrap: "wrap", marginBottom: 4 }}>
+            <span style={{ fontSize: 10.5, fontWeight: 700, color: "#165491", textTransform: "uppercase", letterSpacing: 0.4 }}>
+              {category}
+            </span>
+          </div>
+
+          {/* ÉTIQUETTE D'ÉTAT DU TÉLÉPHONE */}
+          {(conditionState || grade) && (
+            <div style={{ marginBottom: 6 }}>
+              <PhoneStateBadge
+                conditionState={conditionState}
+                grade={grade}
+                simType={simType}
+                regionVersion={regionVersion}
+                size="sm"
+                showSecondaryTags={true}
+              />
+            </div>
+          )}
 
           <div
             style={{
@@ -190,7 +215,7 @@ export default function ProductCard({
               WebkitLineClamp: 2,
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
-              height: 36,
+              minHeight: 36,
             }}
           >
             {title}

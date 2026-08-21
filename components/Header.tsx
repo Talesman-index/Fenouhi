@@ -134,7 +134,7 @@ export default function Header() {
 
             {/* SEARCH BAR (DESKTOP ONLY - HIDDEN ON MOBILE/TABLET STRICTLY) */}
             <div className="header-search-bar desktop-only">
-              <span style={{ color: "#38BDF8", marginRight: 8, display: "flex", alignItems: "center", fontSize: 15 }}>✦</span>
+              <Search style={{ width: 16, height: 16, color: "#94A3B8", marginRight: 8, flexShrink: 0 }} />
               <input 
                 type="text" 
                 value={searchQuery}
@@ -262,7 +262,7 @@ export default function Header() {
             {/* MOBILE SEARCH ROW (SINGLE SEARCH BAR WITH ELEGANT PADDING < 1025PX) */}
           <div className="mobile-search-row" style={{ marginTop: 14, marginBottom: 2 }}>
             <div className="mobile-search-bar-wrapper search-pill-wrapper" style={{ display: "flex", alignItems: "center", background: "#F1F5F9", border: "1.5px solid #E2E8F0", borderRadius: 9999, padding: "7px 8px 7px 16px", width: "100%", transition: "all 0.2s ease" }}>
-              <span style={{ color: "#38BDF8", marginRight: 8, fontSize: 15 }}>✦</span>
+              <Search style={{ width: 16, height: 16, color: "#94A3B8", marginRight: 8, flexShrink: 0 }} />
               <input 
                 type="text" 
                 value={searchQuery}

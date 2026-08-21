@@ -198,7 +198,7 @@ function QuoteRequestContent() {
   };
 
   const whatsappMessage = encodeURIComponent(
-    `Bonjour CargoLink Africa ! J'ai soumis la demande de devis N° *${createdQuoteNumber}*.\n\n` +
+    `Bonjour FENOUHIMIN ! J'ai soumis la demande de devis N° *${createdQuoteNumber}*.\n\n` +
       `*Produit* : ${formData.productName || selectedProduct?.name}\n` +
       `*Quantité* : ${formData.quantity} unités\n` +
       `*Mode* : ${formData.shippingMode === "sea" ? "Fret Maritime Groupé" : "Fret Aérien Express"}\n` +
@@ -208,32 +208,53 @@ function QuoteRequestContent() {
   );
 
   return (
-    <div style={{ background: "#F8FAFC", minHeight: "100vh", paddingBottom: 80, fontFamily: "var(--font-body), 'Plus Jakarta Sans', sans-serif" }}>
+    <div style={{ background: "#FAF7F2", minHeight: "100vh", paddingBottom: 80, fontFamily: "var(--font-body), 'Plus Jakarta Sans', sans-serif" }}>
       
-      {/* RICH CARGOLINK HERO HEADER */}
+      {/* RICH CARGOLINK HERO HEADER (OPTIMIZED FOR MOBILE & DESKTOP) */}
       <header
         style={{
           background: "linear-gradient(135deg, #0F172A 0%, #162438 60%, #1E293B 100%)",
           color: "#FFFFFF",
-          padding: "56px 0 68px",
+          padding: "36px 0 44px",
           position: "relative",
           overflow: "hidden",
         }}
       >
-        <div className="container" style={{ maxWidth: 1140, margin: "0 auto", padding: "0 20px", textAlign: "center", position: "relative", zIndex: 2 }}>
+        <div className="container" style={{ maxWidth: 1140, margin: "0 auto", padding: "0 16px", textAlign: "center", position: "relative", zIndex: 2 }}>
           
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#94A3B8", marginBottom: 14 }}>
-            <MapPin style={{ width: 14, height: 14, color: "#38BDF8" }} />
-            <span>Chine (Canton / Yiwu) ➔ Bénin (Cotonou & Régions)</span>
+          {/* LOCATION BADGE ON 1 BALANCED LINE */}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 6,
+              fontSize: "clamp(10px, 2.8vw, 12px)",
+              fontWeight: 800,
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+              color: "#38BDF8",
+              background: "rgba(56, 189, 248, 0.08)",
+              border: "1px solid rgba(56, 189, 248, 0.2)",
+              padding: "6px 14px",
+              borderRadius: 9999,
+              marginBottom: 16,
+              maxWidth: "100%",
+              boxSizing: "border-box",
+            }}
+          >
+            <MapPin style={{ width: 14, height: 14, flexShrink: 0, color: "#38BDF8" }} />
+            <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Chine (Canton / Yiwu) ➔ Bénin (Cotonou)</span>
           </div>
 
           <h1
             style={{
-              fontSize: "clamp(26px, 3.8vw, 44px)",
-              fontWeight: 800,
+              fontSize: "clamp(22px, 5.5vw, 42px)",
+              fontWeight: 900,
               color: "#FFFFFF",
-              margin: "0 0 14px",
-              lineHeight: 1.15,
+              margin: "0 0 10px",
+              lineHeight: 1.2,
+              fontFamily: "'Outfit', sans-serif",
             }}
           >
             Devis Sur-Mesure & Sourcing Usine
@@ -241,46 +262,50 @@ function QuoteRequestContent() {
 
           <p
             style={{
-              fontSize: 15,
+              fontSize: "clamp(12.5px, 3.2vw, 15px)",
               color: "#CBD5E1",
-              maxWidth: 680,
-              margin: "0 auto 32px",
-              lineHeight: 1.6,
+              maxWidth: 620,
+              margin: "0 auto 24px",
+              lineHeight: 1.5,
             }}
           >
             Obtenez une cotation précise avec tarif direct usine, inspection entrepôt, dédouanement et livraison sécurisée à Cotonou.
           </p>
 
-          {/* MINIMALIST STEP PROGRESS LINE */}
+          {/* HORIZONTAL STEP PROGRESS INDICATOR (NEVER STACKS VERTICALLY) */}
           <div
             style={{
-              display: "inline-flex",
+              display: "flex",
               alignItems: "center",
-              gap: 16,
+              justifyContent: "center",
+              gap: "clamp(6px, 2vw, 14px)",
               background: "rgba(255, 255, 255, 0.06)",
               border: "1px solid rgba(255, 255, 255, 0.12)",
-              padding: "10px 24px",
-              borderRadius: 9999,
-              fontSize: 13,
-              fontWeight: 600,
-              color: "#CBD5E1",
-              flexWrap: "wrap",
-              justifyContent: "center",
+              padding: "8px 14px",
+              borderRadius: 16,
+              width: "fit-content",
+              maxWidth: "100%",
+              margin: "0 auto",
+              boxSizing: "border-box",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#FFFFFF", fontWeight: 700 }}>
-              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#165491", color: "#FFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>1</span>
-              <span>Produit & Quantité</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#FFFFFF", fontWeight: 800, fontSize: "clamp(11px, 2.8vw, 13px)", whiteSpace: "nowrap" }}>
+              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#165491", color: "#FFF", fontSize: 11, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>1</span>
+              <span>Produit</span>
             </div>
-            <ChevronRight style={{ width: 14, height: 14, color: "#64748B" }} />
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>2</span>
-              <span>Transport & Options</span>
+
+            <ChevronRight style={{ width: 14, height: 14, color: "#64748B", flexShrink: 0 }} />
+
+            <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#94A3B8", fontWeight: 700, fontSize: "clamp(11px, 2.8vw, 13px)", whiteSpace: "nowrap" }}>
+              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>2</span>
+              <span>Transport</span>
             </div>
-            <ChevronRight style={{ width: 14, height: 14, color: "#64748B" }} />
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>3</span>
-              <span>Devis & Validation</span>
+
+            <ChevronRight style={{ width: 14, height: 14, color: "#64748B", flexShrink: 0 }} />
+
+            <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#94A3B8", fontWeight: 700, fontSize: "clamp(11px, 2.8vw, 13px)", whiteSpace: "nowrap" }}>
+              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>3</span>
+              <span>Validation</span>
             </div>
           </div>
 
@@ -891,8 +916,8 @@ function QuoteRequestContent() {
                         padding: "16px 24px",
                         fontSize: 15,
                         fontWeight: 800,
-                        borderRadius: 10,
-                        background: "#165491",
+                        borderRadius: 14,
+                        background: "#0F172A",
                         color: "#FFFFFF",
                         border: "none",
                         cursor: "pointer",
@@ -900,11 +925,11 @@ function QuoteRequestContent() {
                         alignItems: "center",
                         justifyContent: "center",
                         gap: 10,
-                        boxShadow: "0 6px 20px rgba(22, 84, 145, 0.22)",
+                        boxShadow: "0 6px 20px rgba(15, 23, 42, 0.22)",
                         transition: "all 0.2s ease",
                       }}
                     >
-                      <Send style={{ width: 17, height: 17 }} />
+                      <Send style={{ width: 17, height: 17, color: "#38BDF8" }} />
                       <span>{loading ? "Transmission en cours..." : "Soumettre ma Demande de Devis"}</span>
                     </button>
 
@@ -976,7 +1001,7 @@ function QuoteRequestContent() {
                     <div style={{ fontSize: 11, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.05em", textTransform: "uppercase" }}>
                       Estimation Totale Indicative
                     </div>
-                    <div style={{ fontSize: 26, fontWeight: 900, color: "#FFFFFF", marginTop: 4 }}>
+                    <div style={{ fontSize: 26, fontWeight: 900, color: "#DC2626", marginTop: 4, fontFamily: "'Outfit', sans-serif" }}>
                       {formatAmount(totalEstimatedFCFA)}
                     </div>
                     <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 6 }}>

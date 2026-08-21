@@ -1,12 +1,12 @@
-// CargoLink Africa — Service Worker
+// FENOUHIMIN — Service Worker
 // Strategy:
 //   - Static assets (JS, CSS, fonts, images): Cache First
 //   - API / dynamic pages:                    Network First → fallback to cache
 //   - Offline fallback page for navigation
 
 const CACHE_VERSION = "v1";
-const STATIC_CACHE = `cargolink-static-${CACHE_VERSION}`;
-const DYNAMIC_CACHE = `cargolink-dynamic-${CACHE_VERSION}`;
+const STATIC_CACHE = `fenouhimin-static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `fenouhimin-dynamic-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
   "/",

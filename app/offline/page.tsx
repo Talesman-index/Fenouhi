@@ -242,7 +242,7 @@ export default function OfflinePage() {
         </h1>
         <p className="offline-desc">
           {isOnline
-            ? "Votre connexion est rétablie. Vous pouvez retourner à CargoLink Africa."
+            ? "Votre connexion est rétablie. Vous pouvez retourner à FENOUHIMIN."
             : "Impossible de charger la page. Vérifiez votre connexion internet et réessayez."}
         </p>
 

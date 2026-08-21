@@ -38,7 +38,7 @@ export default function Logo({
     >
       <img
         src="/icons/icon-192x192.png"
-        alt="CargoLink Africa PWA App Icon"
+        alt="FENOUHIMIN PWA App Icon"
         className="logo-img"
         style={{
           width: size,
@@ -63,7 +63,7 @@ export default function Logo({
               letterSpacing: "-0.5px",
             }}
           >
-            CargoLink
+            FENOUHIMIN
           </span>
           {showSubtitle && (
             <span

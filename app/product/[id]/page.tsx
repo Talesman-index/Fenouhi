@@ -31,6 +31,7 @@ import {
   Building2,
 } from "lucide-react";
 import { MobileStoreProvider, useMobileStore } from "@/lib/mobile-store";
+import PhoneStateBadge from "@/components/PhoneStateBadge";
 
 type TabId = "description" | "specs" | "shipping" | "reviews";
 
@@ -52,6 +53,7 @@ function ProductDetailContent() {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [shippingMode, setShippingMode] = useState<"air" | "sea">("air");
+  const [selectedStorage, setSelectedStorage] = useState<string>("");
   const [activeTab, setActiveTab] = useState<TabId>("description");
   const [activeImage, setActiveImage] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -63,6 +65,9 @@ function ProductDetailContent() {
       setLoading(true);
       const data = await getProductByIdOrSlug(id);
       setProduct(data);
+      if (data?.storage_options && data.storage_options.length > 0) {
+        setSelectedStorage(data.storage_options[0]);
+      }
       setLoading(false);
       setActiveImage(0);
       if (data?.minimum_order_quantity) {
@@ -76,7 +81,7 @@ function ProductDetailContent() {
     return (
       <div style={{ padding: "100px 0", textAlign: "center", background: "#FAF7F2", color: "#0F172A", fontWeight: 700 }}>
         <div style={{ width: 40, height: 40, border: "3px solid #E2E8F0", borderTopColor: "#0284C7", borderRadius: "50%", margin: "0 auto 16px", animation: "spin 1s linear infinite" }} />
-        Chargement de la fiche produit CargoLink...
+        Chargement de la fiche produit FENOUHIMIN...
       </div>
     );
   }
@@ -114,9 +119,10 @@ function ProductDetailContent() {
   };
 
   const handleAddToCart = () => {
+    const itemName = selectedStorage ? `${product.name} (${selectedStorage})` : product.name;
     addToCart({
       id: product.id,
-      name: product.name,
+      name: itemName,
       category: product.category?.name || "Général",
       price: product.price,
       oldPrice: (product as any).oldPrice || Math.round(product.price * 1.25),
@@ -414,10 +420,60 @@ function ProductDetailContent() {
               <h1 style={{ fontSize: "clamp(20px, 2.5vw, 24px)", fontWeight: 900, color: "#0F172A", fontFamily: "'Outfit', sans-serif", margin: "0 0 8px", lineHeight: 1.25 }}>
                 {product.name}
               </h1>
+
+              {/* PHONE CONDITION & STATE BADGES */}
+              {(product.condition_state || product.grade) && (
+                <div style={{ margin: "10px 0 12px" }}>
+                  <PhoneStateBadge
+                    conditionState={product.condition_state}
+                    grade={product.grade}
+                    simType={product.sim_type}
+                    regionVersion={product.region_version}
+                    size="lg"
+                    showSecondaryTags={true}
+                  />
+                </div>
+              )}
+
               <p style={{ fontSize: 13.5, color: "#64748B", margin: 0, lineHeight: 1.4 }}>
                 {product.short_description || "Produit certifié usine pour importation directe avec dédouanement tout-en-un au Bénin."}
               </p>
             </div>
+
+            {/* STORAGE CAPACITY OPTIONS SELECTOR */}
+            {product.storage_options && product.storage_options.length > 0 && (
+              <div style={{ background: "#F8FAFC", padding: 14, borderRadius: 14, border: "1px solid #E2E8F0" }}>
+                <div style={{ fontSize: 11.5, fontWeight: 900, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+                  Sélectionner la capacité de stockage :
+                </div>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  {product.storage_options.map((option) => {
+                    const isSelected = selectedStorage === option;
+                    return (
+                      <button
+                        key={option}
+                        type="button"
+                        onClick={() => setSelectedStorage(option)}
+                        style={{
+                          padding: "6px 14px",
+                          borderRadius: 8,
+                          fontSize: 12.5,
+                          fontWeight: 800,
+                          cursor: "pointer",
+                          background: isSelected ? "#0F172A" : "#FFFFFF",
+                          color: isSelected ? "#FFFFFF" : "#334155",
+                          border: isSelected ? "2px solid #0F172A" : "1px solid #CBD5E1",
+                          boxShadow: isSelected ? "0 2px 6px rgba(15,23,42,0.15)" : "none",
+                          transition: "all 0.15s ease",
+                        }}
+                      >
+                        {option}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {/* RATING & REVIEWS */}
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -652,7 +708,7 @@ function ProductDetailContent() {
                 <ul style={{ paddingLeft: 20, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
                   <li>Inspection des composants et conformité aux normes internationales.</li>
                   <li>Conditionnement protecteur pour transport maritime ou aérien long courrier.</li>
-                  <li>Prise en charge directe par les équipes CargoLink à Shenzhen / Guangzhou.</li>
+                  <li>Prise en charge directe par les équipes FENOUHIMIN à Shenzhen / Guangzhou.</li>
                 </ul>
               </div>
             )}
@@ -681,7 +737,7 @@ function ProductDetailContent() {
             {activeTab === "shipping" && (
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <h3 style={{ fontSize: 18, fontWeight: 900, color: "#0F172A", margin: 0 }}>
-                  Processus Logistique CargoLink Chine ➔ Bénin
+                  Processus Logistique FENOUHIMIN Chine ➔ Bénin
                 </h3>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14 }}>
                   <div style={{ background: "#FAF7F2", padding: "16px", borderRadius: 14, border: "1px solid #E2D9CC" }}>

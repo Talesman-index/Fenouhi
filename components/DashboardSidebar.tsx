@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Package, FileText, User, Bell, Settings, LogOut } from "lucide-react";
+import { Package, FileText, User, Bell, Settings, LogOut, ShieldCheck, Truck } from "lucide-react";
 import type { Profile } from "@/types/supabase";
 
 interface DashboardSidebarProps {
@@ -26,13 +26,13 @@ export default function DashboardSidebar({ activeTab = "orders", onSelectTab, pr
     { id: "orders", label: "Mes Commandes (2)", icon: Package },
     { id: "quotes", label: "Devis à Valider (1)", icon: FileText },
     { id: "profile", label: "Profil & Adresses", icon: User },
-    { id: "notifications", label: "WhatsApp", icon: Bell },
+    { id: "notifications", label: "WhatsApp & Suivi", icon: Bell },
     { id: "settings", label: "Paramètres", icon: Settings },
   ];
 
   const initials = profile 
     ? `${profile.first_name?.[0] || ""}${profile.last_name?.[0] || ""}`.toUpperCase() 
-    : "CL";
+    : "FH";
 
   const accountTypeLabel = profile?.account_type === "business" 
     ? "Entreprise / PME" 
@@ -41,27 +41,102 @@ export default function DashboardSidebar({ activeTab = "orders", onSelectTab, pr
     : "Particulier";
 
   return (
-    <div className="card dashboard-sidebar-card" style={{ padding: 16, maxWidth: "100%", boxSizing: "border-box", overflow: "hidden" }}>
-      {/* USER INFO BAR */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14, paddingBottom: 12, borderBottom: "1px solid var(--border-light)" }}>
-        <div style={{ width: 42, height: 42, borderRadius: "50%", background: "var(--navy-dark)", color: "#FFF", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 15, flexShrink: 0 }}>
+    <div
+      style={{
+        background: "#FFFFFF",
+        borderRadius: 22,
+        padding: 20,
+        border: "1px solid #EAE5DC",
+        boxShadow: "0 4px 16px rgba(15, 23, 42, 0.03)",
+        maxWidth: "100%",
+        boxSizing: "border-box",
+      }}
+    >
+      {/* USER PROFILE AVATAR CARD */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          paddingBottom: 16,
+          marginBottom: 16,
+          borderBottom: "1px solid #F1F5F9",
+        }}
+      >
+        <div
+          style={{
+            width: 48,
+            height: 48,
+            borderRadius: "50%",
+            background: "#0F172A",
+            color: "#FFFFFF",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 900,
+            fontSize: 16,
+            flexShrink: 0,
+            boxShadow: "0 4px 12px rgba(15, 23, 42, 0.15)",
+          }}
+        >
           {initials}
         </div>
+
         <div style={{ minWidth: 0, flex: 1 }}>
-          <div style={{ fontWeight: 800, color: "var(--navy-dark)", fontSize: 14, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-            {profile ? `${profile.first_name} ${profile.last_name}` : "Client CargoLink"}
+          <div
+            style={{
+              fontWeight: 800,
+              color: "#0F172A",
+              fontSize: 15,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {profile ? `${profile.first_name} ${profile.last_name}` : "Client FENOUHIMIN"}
           </div>
-          <div style={{ fontSize: 11, color: "var(--orange-primary)", fontWeight: 700 }}>
-            {accountTypeLabel}
+
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
+            <span
+              style={{
+                fontSize: 10.5,
+                fontWeight: 800,
+                color: "#165491",
+                background: "#EFF6FF",
+                padding: "2px 8px",
+                borderRadius: 6,
+              }}
+            >
+              {accountTypeLabel}
+            </span>
           </div>
-          <div style={{ fontSize: 10.5, color: "var(--text-muted)", marginTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-            {profile?.email || ""}
+
+          <div
+            style={{
+              fontSize: 11,
+              color: "#64748B",
+              marginTop: 3,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {profile?.email || "client@fenouhimin.com"}
           </div>
         </div>
       </div>
 
-      {/* TABS LIST (HORIZONTAL SCROLL ON MOBILE, VERTICAL LIST ON DESKTOP) */}
-      <ul className="dashboard-sidebar-tabs" style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+      {/* NAVIGATION TABS */}
+      <ul
+        style={{
+          listStyle: "none",
+          padding: 0,
+          margin: 0,
+          display: "flex",
+          flexDirection: "column",
+          gap: 6,
+        }}
+      >
         {tabs.map((t) => {
           const Icon = t.icon;
           const isActive = activeTab === t.id;
@@ -70,30 +145,53 @@ export default function DashboardSidebar({ activeTab = "orders", onSelectTab, pr
               <button
                 onClick={() => onSelectTab && onSelectTab(t.id)}
                 style={{
-                  width: "100%", textAlign: "left", padding: "9px 12px", borderRadius: 8,
-                  border: "none", background: isActive ? "var(--orange-light)" : "transparent",
-                  color: isActive ? "var(--orange-hover)" : "var(--navy-dark)",
-                  fontWeight: isActive ? 800 : 700, fontSize: 13, cursor: "pointer",
-                  display: "flex", alignItems: "center", gap: 8, whiteSpace: "nowrap"
+                  width: "100%",
+                  textAlign: "left",
+                  padding: "10px 14px",
+                  borderRadius: 12,
+                  border: "none",
+                  background: isActive ? "#0F172A" : "transparent",
+                  color: isActive ? "#FFFFFF" : "#475569",
+                  fontWeight: isActive ? 800 : 600,
+                  fontSize: 13,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  whiteSpace: "nowrap",
+                  transition: "all 0.18s ease",
                 }}
               >
-                <Icon style={{ width: 16, flexShrink: 0 }} /> {t.label}
+                <Icon style={{ width: 17, height: 17, flexShrink: 0, color: isActive ? "#38BDF8" : "#64748B" }} />
+                <span>{t.label}</span>
               </button>
             </li>
           );
         })}
 
-        <li style={{ marginTop: 6, paddingTop: 6, borderTop: "1px solid var(--border-light)" }}>
+        <li style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid #F1F5F9" }}>
           <button
             onClick={handleSignOut}
             style={{
-              width: "100%", textAlign: "left", padding: "9px 12px", borderRadius: 8,
-              border: "none", background: "#FEF2F2", color: "#991B1B",
-              fontWeight: 800, fontSize: 13, cursor: "pointer",
-              display: "flex", alignItems: "center", gap: 8, whiteSpace: "nowrap"
+              width: "100%",
+              textAlign: "left",
+              padding: "10px 14px",
+              borderRadius: 12,
+              border: "none",
+              background: "#FEF2F2",
+              color: "#DC2626",
+              fontWeight: 800,
+              fontSize: 13,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              whiteSpace: "nowrap",
+              transition: "all 0.18s ease",
             }}
           >
-            <LogOut style={{ width: 16, flexShrink: 0 }} /> Déconnexion
+            <LogOut style={{ width: 17, height: 17, flexShrink: 0 }} />
+            <span>Déconnexion</span>
           </button>
         </li>
       </ul>

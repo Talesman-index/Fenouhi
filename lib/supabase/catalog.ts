@@ -89,13 +89,19 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
         currency: "FCFA",
         stock_quantity: 100,
         minimum_order_quantity: p.minQty || 1,
-        country_of_origin: "Hub International",
+        country_of_origin: p.origin || "Hub International",
         weight: parseFloat(p.weight || "0.5"),
         available_shipping_modes: ["air", "sea"],
         estimated_delivery_time: (p as any).estDelivery || "5-15 jours (Air)",
         status: "active" as ProductStatus,
-        is_demo: true,
-        is_featured: (p as any).isPopular || false,
+        is_demo: !p.id.startsWith("iphone-"),
+        is_featured: (p as any).isPopular || p.id.startsWith("iphone-"),
+        condition_state: p.conditionState || null,
+        grade: (p.grade as any) || null,
+        sim_type: (p.simType as any) || null,
+        region_version: (p.regionVersion as any) || null,
+        storage_options: p.storageOptions || null,
+        battery_health: p.batteryHealth || null,
         images: (p.images || [p.image]).map((url, i) => ({
           id: `img-${p.id}-${i}`,
           product_id: p.id,
@@ -111,6 +117,10 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
         if (catObj) {
           list = list.filter(p => p.category?.slug === options.categorySlug);
         }
+      }
+
+      if (options.conditionState && options.conditionState !== "all") {
+        list = list.filter(p => p.condition_state === options.conditionState);
       }
 
       if (options.search && options.search.trim() !== "") {
@@ -179,14 +189,20 @@ export async function getProductByIdOrSlug(idOrSlug: string): Promise<Product | 
           currency: "FCFA",
           stock_quantity: 100,
           minimum_order_quantity: local.minQty || 1,
-          country_of_origin: "Hub International",
+          country_of_origin: local.origin || "Hub International",
           weight: parseFloat(local.weight || "0.5"),
           length: parseFloat(local.volume || "0.01"),
           available_shipping_modes: ["air", "sea"],
           estimated_delivery_time: (local as any).estDelivery || "5-15 jours (Air)",
           status: "active",
-          is_demo: true,
+          is_demo: !local.id.startsWith("iphone-"),
           is_featured: (local as any).isPopular || false,
+          condition_state: local.conditionState || null,
+          grade: (local.grade as any) || null,
+          sim_type: (local.simType as any) || null,
+          region_version: (local.regionVersion as any) || null,
+          storage_options: local.storageOptions || null,
+          battery_health: local.batteryHealth || null,
           images: (local.images || [local.image]).map((url, i) => ({
             id: `img-${local.id}-${i}`,
             product_id: local.id,
