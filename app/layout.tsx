@@ -57,6 +57,28 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
+  openGraph: {
+    title: "FENOUHIMIN — Sourcing Direct Usines Chine & iPhones Certifiés",
+    description: "Offres Exclusives Jusqu'à -50% de réduction ! iPhones certifiés, produits usines direct grossistes et livraison express Cotonou & Bénin.",
+    url: "https://fenouhimin.com",
+    siteName: "FENOUHIMIN",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "FENOUHIMIN - Offres Exclusives -50% Sourcing Chine & iPhones Certifiés",
+      },
+    ],
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FENOUHIMIN — Offres Exclusives & Sourcing Direct Usines",
+    description: "Jusqu'à -50% de réduction sur iPhones certifiés et produits usines direct grossistes.",
+    images: ["/og-image.jpg"],
+  },
   other: {
     "mobile-web-app-capable": "yes",
     "msapplication-TileColor": "#165491",
