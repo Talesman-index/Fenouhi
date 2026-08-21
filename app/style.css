@@ -2137,7 +2137,9 @@ a {
 
 @media (max-width: 1024px) {
   .desktop-only,
+  form.desktop-only,
   .header-search-bar,
+  form.header-search-bar,
   div.header-search-bar,
   div.desktop-only {
     display: none !important;
