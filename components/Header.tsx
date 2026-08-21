@@ -23,9 +23,12 @@ export default function Header() {
 
   const handleSearch = useCallback(() => {
     const q = searchQuery.trim();
-    if (q) router.push(`/catalog?q=${encodeURIComponent(q)}`);
-    else router.push("/catalog");
-  }, [searchQuery, router]);
+    if (q) {
+      window.location.href = `/catalog?q=${encodeURIComponent(q)}`;
+    } else {
+      window.location.href = "/catalog";
+    }
+  }, [searchQuery]);
 
   const totalCartItems = cart && cart.length > 0 ? cart.map((i) => i.quantity || 1).reduce((a, b) => a + b, 0) : 0;
 
@@ -133,26 +136,31 @@ export default function Header() {
             </div>
 
             {/* SEARCH BAR (DESKTOP ONLY - HIDDEN ON MOBILE/TABLET STRICTLY) */}
-            <div className="header-search-bar desktop-only">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSearch();
+              }}
+              className="header-search-bar desktop-only"
+            >
               <Search style={{ width: 16, height: 16, color: "#94A3B8", marginRight: 8, flexShrink: 0 }} />
               <input 
                 type="text" 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 placeholder="Rechercher un produit ou une usine en Chine..." 
                 className="clean-search-input"
                 style={{ flex: 1, border: "none", background: "transparent", outline: "none", boxShadow: "none", fontSize: 13, fontWeight: 600, color: "#0F172A" }}
               />
               <button
-                onClick={handleSearch}
+                type="submit"
                 className="search-submit-btn" 
                 aria-label="Rechercher" 
                 style={{ width: 34, height: 34, background: "#0F172A", color: "#FFF", borderRadius: "50%", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
               >
                 <Search style={{ width: 14 }} />
               </button>
-            </div>
+            </form>
 
             {/* RIGHT CONTROLS (ONLY DEVIS GRATUIT ON MOBILE) */}
             <div className="header-right-actions">
@@ -261,25 +269,31 @@ export default function Header() {
 
             {/* MOBILE SEARCH ROW (SINGLE SEARCH BAR WITH ELEGANT PADDING < 1025PX) */}
           <div className="mobile-search-row" style={{ marginTop: 14, marginBottom: 2 }}>
-            <div className="mobile-search-bar-wrapper search-pill-wrapper" style={{ display: "flex", alignItems: "center", background: "#F1F5F9", border: "1.5px solid #E2E8F0", borderRadius: 9999, padding: "7px 8px 7px 16px", width: "100%", transition: "all 0.2s ease" }}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSearch();
+              }}
+              className="mobile-search-bar-wrapper search-pill-wrapper"
+              style={{ display: "flex", alignItems: "center", background: "#F1F5F9", border: "1.5px solid #E2E8F0", borderRadius: 9999, padding: "7px 8px 7px 16px", width: "100%", transition: "all 0.2s ease" }}
+            >
               <Search style={{ width: 16, height: 16, color: "#94A3B8", marginRight: 8, flexShrink: 0 }} />
               <input 
                 type="text" 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 placeholder="Rechercher un produit ou une usine en Chine..." 
                 className="clean-search-input"
                 style={{ flex: 1, border: "none", background: "transparent", outline: "none", boxShadow: "none", fontSize: 13, fontWeight: 600, color: "#0F172A" }}
               />
               <button
-                onClick={handleSearch}
+                type="submit"
                 style={{ width: 32, height: 32, background: "#0F172A", color: "#FFF", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "none", cursor: "pointer", flexShrink: 0 }}
                 aria-label="Rechercher"
               >
                 <Search style={{ width: 14 }} />
               </button>
-            </div>
+            </form>
           </div>
 
         </div>
