@@ -641,6 +641,49 @@ export const PRODUCTS: Product[] = [
     ],
     related: ["disaar-creme-depilatoire", "efero-blanchiment-dents", "cat_beauty"],
   },
+  {
+    id: "masque-levres-rose-hydrogel",
+    title: "Masque Lèvres Rose Hydrogel Hydratant & Repulpant au Collagène",
+    subtitle: "Soin SOS lèvres gercées, nutrition intense & lissage avant maquillage",
+    price: 500,
+    oldPrice: 1200,
+    minQty: 1,
+    image: "/images/assets/pink_lip_mask.jpg",
+    images: [
+      "/images/assets/pink_lip_mask.jpg",
+      "/images/assets/cat_beauty.jpg",
+    ],
+    category: "beauty",
+    badge: "SOIN LÈVRES",
+    origin: "Chine (FenouShop Partner)",
+    weight: "0.02 kg",
+    volume: "0.0001 CBM",
+    rating: 4.9,
+    reviewsCount: 185,
+    conditionState: "Scellé",
+    grade: "Grade A",
+    description:
+      "Masque patch pour lèvres rose au collagène et hydrogel. Allié indispensable contre le dessèchement et les agressions extérieures (baisse de température, froid, vent). Le geste malin : s'applique le matin avant de se maquiller ou le soir après le démaquillage. Associe son pouvoir ultra-hydratant avec votre baume à lèvres fétiche pour des lèvres douces, lisses, nourries et naturellement repulpées.",
+    features: [
+      "Patch hydrogel au collagène rose lissant & repulpant",
+      "Hydratation intense SOS contre le dessèchement des lèvres",
+      "S'applique 15-20 min le matin (pré-maquillage) ou le soir",
+      "Prépare les lèvres pour une tenue parfaite du rouge à lèvres",
+      "Format individuel stérile scellé à emporter partout",
+    ],
+    specifications: [
+      { label: "Type de produit", value: "Masque Lèvres Hydrogel Patch" },
+      { label: "Actifs principaux", value: "Collagène, Acide Hyaluronique, Extrait de Rose" },
+      { label: "Utilisation conseillée", value: "Matin (avant maquillage) / Soir (après démaquillage)" },
+      { label: "Temps de pose", value: "15 à 20 minutes" },
+      { label: "Bénéfice", value: "Hydratation intense & Lèvres lisses" },
+      { label: "État / Condition", value: "Neuf Scellé Sachet individuel" },
+    ],
+    reviews: [
+      { author: "Sandrine K.", rating: 5, comment: "Indispensable avant le rouge à lèvres ! Mes lèvres ne gercent plus du tout.", date: "22 Fév. 2025" },
+    ],
+    related: ["disaar-masque-vitamine-c", "disaar-creme-depilatoire", "cat_beauty"],
+  },
 ];
 
 export function getProductById(id: string): Product | undefined {
