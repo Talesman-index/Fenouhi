@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
-import { getCategories, getPublicProducts } from "@/lib/supabase/catalog";
+import { getCategories, getPublicProducts, getPublicProductsSync, FALLBACK_CATEGORIES } from "@/lib/supabase/catalog";
 import type { Category, Product } from "@/types/catalog";
 import { SlidersHorizontal, Package, AlertCircle, Search, Filter, Check, ShieldCheck, RefreshCw, Smartphone, Layers, Building2 } from "lucide-react";
 
@@ -12,27 +12,39 @@ function CatalogContent() {
   const catParam = searchParams.get("cat");
   const searchParam = searchParams.get("q");
 
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const initialCat = catParam || "all";
+  const initialSearch = searchParam || "";
+
+  const [categories, setCategories] = useState<Category[]>(FALLBACK_CATEGORIES);
+  const [products, setProducts] = useState<Product[]>(() =>
+    getPublicProductsSync({ categorySlug: initialCat, search: initialSearch })
+  );
+  const [selectedCategory, setSelectedCategory] = useState(initialCat);
   const [selectedConditionState, setSelectedConditionState] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState(initialSearch);
+  const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    if (catParam) {
+    if (catParam && catParam !== selectedCategory) {
       setSelectedCategory(catParam);
     }
-    if (searchParam) {
+    if (searchParam && searchParam !== searchQuery) {
       setSearchQuery(searchParam);
     }
   }, [catParam, searchParam]);
 
   useEffect(() => {
-    async function loadData() {
-      setLoading(true);
-      setErrorMsg(null);
+    // Instant local filtering without blocking UI
+    const filteredProds = getPublicProductsSync({
+      categorySlug: selectedCategory,
+      conditionState: selectedConditionState,
+      search: searchQuery,
+    });
+    setProducts(filteredProds);
+
+    // Optional background sync with Supabase
+    async function loadBackgroundData() {
       try {
         const [cats, prods] = await Promise.all([
           getCategories(),
@@ -42,16 +54,14 @@ function CatalogContent() {
             search: searchQuery,
           }),
         ]);
-        setCategories(cats);
-        setProducts(prods);
+        if (cats && cats.length > 0) setCategories(cats);
+        if (prods && prods.length > 0) setProducts(prods);
       } catch (err: any) {
-        setErrorMsg("Impossible de charger le catalogue Supabase pour le moment.");
-      } finally {
-        setLoading(false);
+        // Silently preserve local product catalog
       }
     }
 
-    loadData();
+    loadBackgroundData();
   }, [selectedCategory, selectedConditionState, searchQuery]);
 
   const CONDITION_OPTIONS = [

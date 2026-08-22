@@ -3,7 +3,7 @@ import type { Category, Product, ProductFilterOptions, ProductStatus } from "@/t
 import { PRODUCTS, getProductById as getLocalProductById } from "@/lib/products";
 
 // Fallback seed categories (All 9 major wholesale categories)
-const FALLBACK_CATEGORIES: Category[] = [
+export const FALLBACK_CATEGORIES: Category[] = [
   { id: "c1000000-0000-0000-0000-000000000001", name: "High-Tech & Électronique", slug: "electronics", description: "Smartphones, montres connectées, écouteurs, casques audio et high-tech.", icon: "Smartphone", is_active: true },
   { id: "c1000000-0000-0000-0000-000000000002", name: "Mode & Chaussures", slug: "fashion", description: "Sneakers, vêtements streetwear, sacs maroquinerie, bijoux et textiles.", icon: "Shirt", is_active: true },
   { id: "c1000000-0000-0000-0000-000000000003", name: "Beauté & Soins", slug: "beauty", description: "Sérums visage, soin de la peau, cosmétiques et équipements esthétiques.", icon: "Sparkles", is_active: true },
@@ -40,7 +40,7 @@ export async function getCategories(): Promise<Category[]> {
       .order("name", { ascending: true });
 
     const timeoutPromise = new Promise<{ data: null; error: boolean }>((resolve) =>
-      setTimeout(() => resolve({ data: null, error: true }), 2000)
+      setTimeout(() => resolve({ data: null, error: true }), 1000)
     );
 
     const result: any = await Promise.race([fetchPromise, timeoutPromise]);
@@ -98,9 +98,9 @@ function mapLocalProductToCatalogProduct(p: any): Product {
 }
 
 /**
- * Fetch active products for the public catalog.
+ * Synchronous local product catalog fetcher for instant rendering.
  */
-export async function getPublicProducts(options: ProductFilterOptions = {}): Promise<Product[]> {
+export function getPublicProductsSync(options: ProductFilterOptions = {}): Product[] {
   try {
     let list = PRODUCTS.map(mapLocalProductToCatalogProduct);
 
@@ -134,6 +134,13 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
   } catch (err) {
     return PRODUCTS.map(mapLocalProductToCatalogProduct);
   }
+}
+
+/**
+ * Fetch active products for the public catalog.
+ */
+export async function getPublicProducts(options: ProductFilterOptions = {}): Promise<Product[]> {
+  return getPublicProductsSync(options);
 }
 
 /**
