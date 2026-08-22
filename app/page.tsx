@@ -5,7 +5,7 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { getPublicProducts } from "@/lib/supabase/catalog";
 import type { Product } from "@/types/catalog";
-import { Building2, ArrowRight, ChevronLeft, ChevronRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship } from "lucide-react";
+import { Building2, ArrowRight, ChevronLeft, ChevronRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship, Sparkles } from "lucide-react";
 
 const heroSlides = [
   {
@@ -105,6 +105,13 @@ export default function HomePage() {
     { title: "iPhone 12 Pro Max", img: "/images/assets/card_hero_iphone.jpg", link: "/product/iphone-12-12pro-12promax" },
   ];
 
+  const beautyShowcase = [
+    { title: "Disaar Crème Dépilatoire (2 500 F)", img: "/images/assets/disaar_hair_removal.jpg", link: "/product/disaar-creme-depilatoire" },
+    { title: "EFERO Essence Blanchiment (2 500 F)", img: "/images/assets/efero_teeth_whitening.jpg", link: "/product/efero-blanchiment-dents" },
+    { title: "Disaar Masque Vitamine C (500 F)", img: "/images/assets/disaar_vitamin_c_mask.jpg", link: "/product/disaar-masque-vitamine-c" },
+    { title: "Masque Lèvres Rose (500 F)", img: "/images/assets/pink_lip_mask.jpg", link: "/product/masque-levres-rose-hydrogel" },
+  ];
+
   const samplePrompts = [
     "Lot 10x iPhone 11 Pro 256 Go Grade B",
     "Lot 5x iPhone 13 Pro 128 Go Reconditionné",
@@ -114,12 +121,10 @@ export default function HomePage() {
 
   const categoryPills = [
     { name: "Tous", cat: "" },
-    { name: "Smartphones", cat: "telephonie" },
-    { name: "Écouteurs", cat: "audio" },
-    { name: "Laptops", cat: "informatique" },
-    { name: "Montres", cat: "watches" },
-    { name: "Mode", cat: "fashion" },
-    { name: "Accessoires", cat: "accessories" },
+    { name: "Beauté & Soins", cat: "beauty" },
+    { name: "Smartphones", cat: "electronics" },
+    { name: "Mode & Chaussures", cat: "fashion" },
+    { name: "Maison & Déco", cat: "home" },
   ];
 
   const [activeCategory, setActiveCategory] = useState("");
@@ -519,6 +524,54 @@ export default function HomePage() {
                     <img src={item.img} alt={item.title} style={{ maxHeight: 95, maxWidth: "100%", objectFit: "contain" }} />
                   </div>
                   <span style={{ fontSize: 13, fontWeight: 600, color: "#0F172A", marginTop: 10, textAlign: "center" }}>{item.title}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* BEAUTY & SOINS SHOWCASE BANNER CONTAINER */}
+      <section style={{ padding: "0 0 40px" }}>
+        <div className="container">
+          <div style={{ background: "#FAF5FF", borderRadius: 24, padding: "28px 24px", border: "1px solid #F3E8FF" }}>
+            <div className="section-title-row" style={{ marginBottom: 20 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <Sparkles style={{ width: 20, height: 20, color: "#9333EA" }} />
+                <h2 className="section-title" style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#0F172A" }}>
+                  Beauté & Soins Direct Usines
+                </h2>
+              </div>
+              <Link href="/catalog?cat=beauty" className="view-all-link" style={{ color: "#9333EA" }}>
+                <span>Voir tout</span>
+                <ChevronRight style={{ width: 14, height: 14 }} />
+              </Link>
+            </div>
+
+            <div className="grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+              {beautyShowcase.map((item, idx) => (
+                <Link 
+                  key={idx} 
+                  href={item.link}
+                  style={{
+                    background: "#FFFFFF",
+                    borderRadius: 16,
+                    padding: 16,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    minHeight: 200,
+                    textDecoration: "none",
+                    boxShadow: "0 4px 12px rgba(15, 23, 42, 0.04)",
+                    border: "1px solid #F3E8FF",
+                    transition: "transform 0.2s ease, box-shadow 0.2s ease"
+                  }}
+                >
+                  <div style={{ height: 120, width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <img src={item.img} alt={item.title} style={{ maxHeight: 110, maxWidth: "100%", objectFit: "contain", borderRadius: 12 }} />
+                  </div>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: "#0F172A", marginTop: 10, textAlign: "center", lineHeight: 1.3 }}>{item.title}</span>
                 </Link>
               ))}
             </div>
