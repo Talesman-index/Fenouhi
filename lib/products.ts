@@ -512,6 +512,49 @@ export const PRODUCTS: Product[] = [
     reviews: [],
     related: ["iphone-16-16pro-16promax"],
   },
+  {
+    id: "disaar-creme-depilatoire",
+    title: "Disaar Crème Dépilatoire – Épilation Rapide 3 Minutes (100 g)",
+    subtitle: "Épilation douce & réduction de la pousse des poils sans irritation",
+    price: 2500,
+    oldPrice: 4000,
+    minQty: 1,
+    image: "/images/assets/disaar_hair_removal.jpg",
+    images: [
+      "/images/assets/disaar_hair_removal.jpg",
+      "/images/assets/cat_beauty.jpg",
+    ],
+    category: "beauty",
+    badge: "BEAUTÉ & SOINS",
+    origin: "Chine (FenouShop Partner)",
+    weight: "0.10 kg",
+    volume: "0.0003 CBM",
+    rating: 4.9,
+    reviewsCount: 124,
+    conditionState: "Scellé",
+    grade: "Grade A",
+    description:
+      "Marque : DISAAR. Contenance : 100ml / 100g. Efficacité : douce et n'irrite pas la peau. Contient des facteurs dépilatoires qui peuvent ramollir et étirer les follicules pileux, facilement absorbés par le corps humain ou la peau. Réduit la sécrétion des glandes sudoripares, rétrécit les pores et les follicules pileux. Propre, durable, facile à enlever ou à rincer et rend la peau lisse et hydratée. Épilation douce sur les bras, poils du bikini, lèvres supérieures, aisselles, jambes, visage, zone pubienne et autres zones du corps.",
+    features: [
+      "Épilation ultra-rapide 3 minutes douce et sans douleur",
+      "Facteurs dépilatoires réducteurs de repousse des poils",
+      "Rétrécit les pores & hydrate la peau en profondeur",
+      "Convient pour bras, aisselles, maillot, jambes, visage et zone pubienne",
+      "Contrôle de qualité professionnel épilation + réduction pousse",
+    ],
+    specifications: [
+      { label: "Marque", value: "DISAAR Beauty Skincare" },
+      { label: "Contenance / Contenu", value: "100 g / 100 ml" },
+      { label: "Temps d'action", value: "3 à 8 minutes" },
+      { label: "Zones d'application", value: "Corps, bras, aisselles, bikini, jambes, visage" },
+      { label: "Propriétés", value: "Épilation douce & Réduction pousse" },
+      { label: "État / Condition", value: "Neuf Scellé" },
+    ],
+    reviews: [
+      { author: "Amina K.", rating: 5, comment: "Crème très efficace et douce, ne brûle pas du tout la peau !", date: "18 Fév. 2025" },
+    ],
+    related: ["cat_beauty"],
+  },
 ];
 
 export function getProductById(id: string): Product | undefined {
