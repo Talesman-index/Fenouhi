@@ -598,6 +598,49 @@ export const PRODUCTS: Product[] = [
     ],
     related: ["disaar-creme-depilatoire", "cat_beauty"],
   },
+  {
+    id: "disaar-masque-vitamine-c",
+    title: "Disaar Masque Visage Hydratant Vitamine C & Acide Hyaluronique",
+    subtitle: "Rajeunissant, réparateur & coup d'éclat effet SPA rafraîchissant",
+    price: 500,
+    oldPrice: 1200,
+    minQty: 1,
+    image: "/images/assets/disaar_vitamin_c_mask.jpg",
+    images: [
+      "/images/assets/disaar_vitamin_c_mask.jpg",
+      "/images/assets/cat_beauty.jpg",
+    ],
+    category: "beauty",
+    badge: "HYDRATATION & ÉCLAT",
+    origin: "Chine (FenouShop Partner)",
+    weight: "0.03 kg",
+    volume: "0.0001 CBM",
+    rating: 4.9,
+    reviewsCount: 210,
+    conditionState: "Scellé",
+    grade: "Grade A",
+    description:
+      "Marque : DISAAR Beauty Skincare. Formulé avec des ingrédients rajeunissants à la Vitamine C et Acide Hyaluronique pour offrir à la peau un soin souple et hydraté. Apporte une expérience rafraîchissante unique. Riche en essence hydratante de haute pureté. Masque en pur coton absorbant la saleté et l'excès de sébum tout en hydratant en profondeur. Enrichi en vitamines, minéraux et antioxydants. Favorise la régénération de la peau pour réparer les peaux sèches et sensibles, réduire les rougeurs, réparer la couche cornée et offrir un véritable effet SPA hydratant continu.",
+    features: [
+      "Formule concentrée Vitamine C + Acide Hyaluronique + Glutathion de baies",
+      "Masque 100% pur coton absorbant le sébum et la saleté",
+      "Hydratation en profondeur & réparation des peaux sèches et sensibles",
+      "Effet rajeunissant, améliore la souplesse et réduit la sensibilité",
+      "Expérience fraîcheur instantanée type SPA à domicile",
+    ],
+    specifications: [
+      { label: "Marque", value: "DISAAR Beauty Skincare" },
+      { label: "Actifs principaux", value: "Vitamine C & Acide Hyaluronique" },
+      { label: "Matière du masque", value: "Pur Coton doux & respirant" },
+      { label: "Type de peau", value: "Tous types de peaux, y compris sensibles" },
+      { label: "Action", value: "Hydratation continuous, Éclat & Anti-âge" },
+      { label: "État / Condition", value: "Neuf Scellé Sachet individuel" },
+    ],
+    reviews: [
+      { author: "Clarisse N.", rating: 5, comment: "Incroyable sensation de fraîcheur ! Ma peau est super douce et lumineuse dès le premier masque.", date: "21 Fév. 2025" },
+    ],
+    related: ["disaar-creme-depilatoire", "efero-blanchiment-dents", "cat_beauty"],
+  },
 ];
 
 export function getProductById(id: string): Product | undefined {
