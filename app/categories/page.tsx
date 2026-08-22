@@ -64,11 +64,11 @@ function CategoriesPageInner() {
   );
 
   return (
-    <div style={{ background: "var(--bg-main, #FAF7F2)", minHeight: "85vh", padding: "32px 0 60px" }}>
-      <div className="container" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px" }}>
+    <div style={{ background: "var(--bg-main, #FAF7F2)", minHeight: "85vh", padding: "20px 0 calc(100px + env(safe-area-inset-bottom, 20px))" }}>
+      <div className="container" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px" }}>
         
         {/* BREADCRUMB */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
           <Link
             href="/"
             style={{
@@ -95,19 +95,19 @@ function CategoriesPageInner() {
             alignItems: "center",
             justifyContent: "space-between",
             flexWrap: "wrap",
-            gap: 20,
-            paddingBottom: 24,
+            gap: 16,
+            paddingBottom: 20,
             borderBottom: "1px solid #E2D9CC",
-            marginBottom: 32,
+            marginBottom: 24,
           }}
         >
-          <div>
+          <div style={{ flex: 1, minWidth: 260 }}>
             <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 6,
-                fontSize: 12,
+                fontSize: 11.5,
                 fontWeight: 700,
                 color: "#165491",
                 textTransform: "uppercase",
@@ -120,11 +120,12 @@ function CategoriesPageInner() {
             </div>
             <h1
               style={{
-                fontSize: 28,
+                fontSize: "clamp(22px, 4vw, 28px)",
                 fontWeight: 700,
                 color: "#0F172A",
                 fontFamily: "'Poppins', sans-serif",
                 margin: 0,
+                lineHeight: 1.2,
               }}
             >
               20 Univers & Catégories Produits
@@ -137,7 +138,7 @@ function CategoriesPageInner() {
               background: "#FFFFFF",
               border: "1.5px solid #CBD5E1",
               borderRadius: 14,
-              padding: "8px 16px",
+              padding: "10px 16px",
               display: "flex",
               alignItems: "center",
               gap: 10,
@@ -146,10 +147,10 @@ function CategoriesPageInner() {
               boxShadow: "0 2px 8px rgba(15, 23, 42, 0.03)",
             }}
           >
-            <Search style={{ width: 18, height: 18, color: "#64748B" }} />
+            <Search style={{ width: 18, height: 18, color: "#64748B", flexShrink: 0 }} />
             <input
               type="text"
-              placeholder="Rechercher une catégorie ou un produit..."
+              placeholder="Rechercher une catégorie..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               style={{
@@ -174,6 +175,10 @@ function CategoriesPageInner() {
                   height: 18,
                   fontSize: 11,
                   cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
                 }}
               >
                 ✕
@@ -183,13 +188,7 @@ function CategoriesPageInner() {
         </div>
 
         {/* RESPONSIVE CATEGORIES GRID */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-            gap: 18,
-          }}
-        >
+        <div className="categories-responsive-grid">
           {filtered.map((cat) => {
             const Icon = cat.icon;
 
@@ -197,33 +196,26 @@ function CategoriesPageInner() {
               <Link
                 key={cat.id}
                 href={`/catalog?cat=${cat.slug}`}
+                className="category-card-item"
                 style={{
                   background: "#FFFFFF",
-                  borderRadius: 18,
-                  padding: "18px 20px",
+                  borderRadius: 16,
+                  padding: "14px 16px",
                   border: "1px solid #EAE5DC",
                   boxShadow: "0 2px 10px rgba(15, 23, 42, 0.03)",
                   display: "flex",
                   alignItems: "center",
-                  gap: 14,
+                  gap: 12,
                   textDecoration: "none",
                   color: "inherit",
                   transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "#165491";
-                  e.currentTarget.style.boxShadow = "0 8px 24px rgba(22, 84, 145, 0.08)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "#EAE5DC";
-                  e.currentTarget.style.boxShadow = "0 2px 10px rgba(15, 23, 42, 0.03)";
                 }}
               >
                 {/* ICON */}
                 <div
                   style={{
-                    width: 44,
-                    height: 44,
+                    width: 42,
+                    height: 42,
                     borderRadius: 12,
                     background: "#F8FAFC",
                     display: "flex",
@@ -239,19 +231,18 @@ function CategoriesPageInner() {
 
                 {/* DETAILS */}
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <div
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                    <span
                       style={{
                         fontSize: 14,
                         fontWeight: 600,
                         color: "#0F172A",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
+                        lineHeight: 1.3,
+                        wordBreak: "break-word",
                       }}
                     >
                       {cat.name}
-                    </div>
+                    </span>
                     {cat.badge && (
                       <span
                         style={{
@@ -268,7 +259,7 @@ function CategoriesPageInner() {
                       </span>
                     )}
                   </div>
-                  <div style={{ fontSize: 11.5, color: "#64748B", marginTop: 2 }}>
+                  <div style={{ fontSize: 11.5, color: "#64748B", marginTop: 3, lineHeight: 1.3 }}>
                     {cat.tag} • <strong style={{ color: "#165491" }}>{cat.count}</strong>
                   </div>
                 </div>
@@ -279,6 +270,19 @@ function CategoriesPageInner() {
           })}
         </div>
 
+        <style jsx>{`
+          .categories-responsive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+          }
+          @media (max-width: 640px) {
+            .categories-responsive-grid {
+              grid-template-columns: 1fr;
+              gap: 10px;
+            }
+          }
+        `}</style>
       </div>
     </div>
   );

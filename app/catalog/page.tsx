@@ -64,7 +64,7 @@ function CatalogContent() {
   return (
     <div
       style={{
-        padding: "20px 0 80px",
+        padding: "16px 0 calc(100px + env(safe-area-inset-bottom, 20px))",
         background: "#FAF7F2",
         minHeight: "85vh",
         fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
@@ -76,8 +76,8 @@ function CatalogContent() {
         <div
           style={{
             background: "#FFFFFF",
-            borderRadius: 24,
-            padding: "24px",
+            borderRadius: 20,
+            padding: "18px 20px",
             border: "1px solid #EAE5DC",
             boxShadow: "0 4px 20px rgba(15, 23, 42, 0.04)",
             marginBottom: 20,
