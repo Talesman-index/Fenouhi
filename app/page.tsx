@@ -329,7 +329,7 @@ export default function HomePage() {
             <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: 0, fontFamily: "'Poppins', sans-serif" }}>
               Catégories
             </h3>
-            <Link href="/catalog" style={{ fontSize: 12.5, fontWeight: 700, color: "#165491", textDecoration: "none" }}>
+            <Link href="/categories" style={{ fontSize: 12.5, fontWeight: 700, color: "#165491", textDecoration: "none" }}>
               Voir tout
             </Link>
           </div>

@@ -15,17 +15,36 @@ const FALLBACK_CATEGORIES: Category[] = [
   { id: "c1000000-0000-0000-0000-000000000009", name: "Vrac & Grossistes", slug: "wholesale", description: "Lots d'articles en vrac et approvisionnement direct usines.", icon: "Package", is_active: true }
 ];
 
+const isSupabaseConfigured = () => {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  return Boolean(url && !url.includes("placeholder") && key && !key.includes("placeholder"));
+};
+
 /**
- * Fetch all active categories from Supabase (with fallback if DB table not yet created).
+ * Fetch all active categories from Supabase (with instant fallback if DB table or URL not configured).
  */
 export async function getCategories(): Promise<Category[]> {
+  if (!isSupabaseConfigured()) {
+    return FALLBACK_CATEGORIES;
+  }
+
   try {
     const supabase = createClient();
-    const { data, error } = await supabase
+    const fetchPromise = supabase
       .from("categories")
       .select("*")
       .eq("is_active", true)
       .order("name", { ascending: true });
+
+    const timeoutPromise = new Promise<{ data: null; error: boolean }>((resolve) =>
+      setTimeout(() => resolve({ data: null, error: true }), 2000)
+    );
+
+    const result: any = await Promise.race([fetchPromise, timeoutPromise]);
+    const { data, error } = result || {};
 
     if (error || !data || data.length === 0) {
       return FALLBACK_CATEGORIES;
