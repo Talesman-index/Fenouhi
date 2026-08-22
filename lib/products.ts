@@ -555,6 +555,49 @@ export const PRODUCTS: Product[] = [
     ],
     related: ["cat_beauty"],
   },
+  {
+    id: "efero-blanchiment-dents",
+    title: "EFERO Essence de Blanchiment des Dents & Hygiène Buccale (10 ml)",
+    subtitle: "Élimine les taches de thé, café, plaque dentaire & améliore l'hygiène buccale",
+    price: 2500,
+    oldPrice: 4500,
+    minQty: 1,
+    image: "/images/assets/efero_teeth_whitening.jpg",
+    images: [
+      "/images/assets/efero_teeth_whitening.jpg",
+      "/images/assets/cat_beauty.jpg",
+    ],
+    category: "beauty",
+    badge: "HYGIÈNE BUCCALE",
+    origin: "Chine (FenouShop Partner)",
+    weight: "0.05 kg",
+    volume: "0.0001 CBM",
+    rating: 4.9,
+    reviewsCount: 158,
+    conditionState: "Scellé",
+    grade: "Grade A",
+    description:
+      "Marque : EFERO. Contenance : 10 ml. Efficacité : formule ultra-performante pour éliminer les taches de thé, café, tabac, dents pigmentées et plaque dentaire. Blanchit les dents, réduit la saleté dentaire, améliore l'hygiène buccale et réduit les maladies buccales. Posologie : Avant l'utilisation, veuillez nettoyer la bouche avec de l'eau tiède, puis utilisez un coton-tige pour tremper la quantité appropriée du produit, essuyez la surface des dents uniformément et rincez-la à l'eau claire après 15-20 minutes. Recommandation : 2 à 3 fois par semaine.",
+    features: [
+      "Élimine efficacement taches de café, thé, tabac et plaque dentaire",
+      "Blanchit les dents & réduit la saleté dentaire pour un sourire éclatant",
+      "Améliore l'hygiène buccale & réduit les risques d'affections gingivales",
+      "Application facile et précise au coton-tige",
+      "Recommandé 2 à 3 fois par semaine (résultat visible rapide)",
+    ],
+    specifications: [
+      { label: "Marque", value: "EFERO Oral Care" },
+      { label: "Contenance / Contenu", value: "10 ml" },
+      { label: "Fonction principale", value: "Blanchiment & Élimination de la plaque" },
+      { label: "Fréquence d'utilisation", value: "2 à 3 fois par semaine" },
+      { label: "Temps d'application", value: "15 à 20 minutes" },
+      { label: "État / Condition", value: "Neuf Scellé" },
+    ],
+    reviews: [
+      { author: "Marc O.", rating: 5, comment: "Incroyable résultat dès la première semaine ! Mes taches de café ont complètement disparu.", date: "20 Fév. 2025" },
+    ],
+    related: ["disaar-creme-depilatoire", "cat_beauty"],
+  },
 ];
 
 export function getProductById(id: string): Product | undefined {
