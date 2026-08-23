@@ -440,8 +440,11 @@ export const PRODUCTS: Product[] = [
     price: 394000,
     oldPrice: 520000,
     minQty: 1,
-    image: "/images/assets/hero_iphone16.png",
-    images: ["/images/assets/hero_iphone16.png"],
+    image: "/images/assets/iphone17_pro_dark.png",
+    images: [
+      "/images/assets/iphone17_pro_dark.png",
+      "/images/assets/iphone17_pro_silver.png",
+    ],
     driveFolderUrl: "https://drive.google.com/drive/folders/1MQ6F-SZHMqsn5y2zcEDGA2BxpPWbbAe3?usp=sharing",
     category: "electronics",
     badge: "AVANT-PREMIÈRE",
