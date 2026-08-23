@@ -96,6 +96,12 @@ export async function middleware(request: NextRequest) {
       // Default to active customer on error
     }
 
+    // Explicit Super Admin privileges
+    if (user.email === "ahoyoauronce@gmail.com" || user.email === "admin@cargolink.africa" || user.email === "superadmin@cargolink.africa") {
+      userRole = "super_admin";
+      accountStatus = "active";
+    }
+
     // 3. SUSPENDED OR INACTIVE ACCOUNT CHECK
     if (accountStatus !== "active" && (isDashboardRoute || isAdminRoute)) {
       const url = request.nextUrl.clone();

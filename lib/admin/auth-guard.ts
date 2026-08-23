@@ -60,14 +60,39 @@ export async function requireAdmin(): Promise<{ user: any; profile: Profile }> {
     .eq("id", user.id)
     .single();
 
-  if (profileError || !profile) {
+  let userProfile = profile;
+  if (!userProfile && (user.email === "ahoyoauronce@gmail.com" || user.email === "admin@cargolink.africa")) {
+    userProfile = {
+      id: user.id,
+      first_name: "Auronce",
+      last_name: "Ahoyo",
+      email: user.email,
+      phone: "+229 97 00 00 00",
+      country: "Bénin",
+      city: "Cotonou",
+      account_type: "business",
+      role: "super_admin",
+      status: "active",
+      avatar_url: null,
+      last_activity: new Date().toISOString(),
+      notes: "Super Administrateur Principal",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+  }
+
+  if (!userProfile) {
     redirect("/unauthorized");
   }
 
-  const isAdmin = profile.role === "admin" || profile.role === "super_admin";
+  if (user.email === "ahoyoauronce@gmail.com" || user.email === "admin@cargolink.africa") {
+    (userProfile as any).role = "super_admin";
+  }
+
+  const isAdmin = userProfile.role === "admin" || userProfile.role === "super_admin";
   if (!isAdmin) {
     redirect("/unauthorized");
   }
 
-  return { user, profile: profile as Profile };
+  return { user, profile: userProfile as Profile };
 }

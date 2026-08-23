@@ -48,13 +48,19 @@ function LoginFormContent() {
       }
 
       if (authData.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", authData.user.id)
-          .single();
+        let userRole: UserRole = "customer";
+        try {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("role")
+            .eq("id", authData.user.id)
+            .single();
+          if (profile?.role) userRole = profile.role as UserRole;
+        } catch {}
 
-        const userRole: UserRole = profile?.role || "customer";
+        if (authData.user.email === "ahoyoauronce@gmail.com" || authData.user.email === "admin@cargolink.africa" || authData.user.email === "superadmin@cargolink.africa") {
+          userRole = "super_admin";
+        }
 
         setLoading(false);
 
