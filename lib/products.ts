@@ -522,7 +522,6 @@ export const PRODUCTS: Product[] = [
     image: "/images/assets/disaar_hair_removal.jpg",
     images: [
       "/images/assets/disaar_hair_removal.jpg",
-      "/images/assets/cat_beauty.jpg",
     ],
     category: "beauty",
     badge: "BEAUTÉ & SOINS",
@@ -565,7 +564,6 @@ export const PRODUCTS: Product[] = [
     image: "/images/assets/efero_teeth_whitening.jpg",
     images: [
       "/images/assets/efero_teeth_whitening.jpg",
-      "/images/assets/cat_beauty.jpg",
     ],
     category: "beauty",
     badge: "HYGIÈNE BUCCALE",
@@ -608,7 +606,6 @@ export const PRODUCTS: Product[] = [
     image: "/images/assets/disaar_vitamin_c_mask.jpg",
     images: [
       "/images/assets/disaar_vitamin_c_mask.jpg",
-      "/images/assets/cat_beauty.jpg",
     ],
     category: "beauty",
     badge: "HYDRATATION & ÉCLAT",
@@ -651,7 +648,6 @@ export const PRODUCTS: Product[] = [
     image: "/images/assets/pink_lip_mask.jpg",
     images: [
       "/images/assets/pink_lip_mask.jpg",
-      "/images/assets/cat_beauty.jpg",
     ],
     category: "beauty",
     badge: "SOIN LÈVRES",
