@@ -280,10 +280,12 @@ export default function ProductsManagementPage() {
 
   const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !slug.trim()) {
-      alert("Veuillez renseigner le nom et le slug du produit.");
+    if (!name.trim()) {
+      alert("Veuillez renseigner le nom du produit.");
       return;
     }
+
+    const finalSlug = slug.trim() || generateSlug(name);
 
     setSaving(true);
     try {
@@ -292,7 +294,7 @@ export default function ProductsManagementPage() {
 
       const payload = {
         name,
-        slug: slug.trim(),
+        slug: finalSlug,
         short_description: shortDescription,
         description,
         category_id: categoryId || null,
@@ -724,30 +726,17 @@ export default function ProductsManagementPage() {
                     </label>
                   </div>
 
-                  {/* NAME & SLUG */}
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                    <div>
-                      <label className="admin-label">Nom du Produit *</label>
-                      <input
-                        type="text"
-                        required
-                        value={name}
-                        onChange={handleNameChange}
-                        className="admin-input"
-                        placeholder="ex: Casque Bluetooth ANC Usine Pro"
-                      />
-                    </div>
-                    <div>
-                      <label className="admin-label">Slug URL *</label>
-                      <input
-                        type="text"
-                        required
-                        value={slug}
-                        onChange={(e) => setSlug(e.target.value)}
-                        className="admin-input"
-                        placeholder="ex: casque-bluetooth-anc-usine-pro"
-                      />
-                    </div>
+                  {/* NAME */}
+                  <div>
+                    <label className="admin-label">Nom du Produit *</label>
+                    <input
+                      type="text"
+                      required
+                      value={name}
+                      onChange={handleNameChange}
+                      className="admin-input"
+                      placeholder="ex: Casque Bluetooth ANC Usine Pro"
+                    />
                   </div>
 
                   {/* CATEGORY */}
