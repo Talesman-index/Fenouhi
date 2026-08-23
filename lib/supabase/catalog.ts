@@ -97,18 +97,41 @@ function mapLocalProductToCatalogProduct(p: any): Product {
   } as Product;
 }
 
+export function getStoredCustomProducts(): Product[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const data = localStorage.getItem("fenou_custom_products");
+    return data ? JSON.parse(data) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveStoredCustomProducts(products: Product[]) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem("fenou_custom_products", JSON.stringify(products));
+  } catch {}
+}
+
 /**
  * Synchronous local product catalog fetcher for instant rendering.
  */
 export function getPublicProductsSync(options: ProductFilterOptions = {}): Product[] {
   try {
+    const custom = getStoredCustomProducts();
     // Reverse PRODUCTS array so newly added products come first
     const raw = [...PRODUCTS].reverse();
-    let list = raw.map(mapLocalProductToCatalogProduct);
+    const defaultList = raw.map(mapLocalProductToCatalogProduct);
+    
+    // Merge custom products on top
+    const combined = [...custom, ...defaultList];
+
+    let list = combined;
 
     if (options.categorySlug && options.categorySlug !== "all") {
-      list = list.filter((p) => p.category?.slug === options.categorySlug);
-    } else if (!options.search) {
+      list = list.filter((p) => p.category?.slug === options.categorySlug || p.category_id === options.categorySlug);
+    } else if (!options.search && custom.length === 0) {
       // Interleave products across categories for a rich varied homepage feed
       const byCategory: Record<string, Product[]> = {};
       for (const item of list) {
@@ -172,6 +195,10 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
  */
 export async function getProductByIdOrSlug(idOrSlug: string): Promise<Product | null> {
   try {
+    const custom = getStoredCustomProducts();
+    const foundCustom = custom.find((p) => p.id === idOrSlug || p.slug === idOrSlug);
+    if (foundCustom) return foundCustom;
+
     const cleanId = idOrSlug.replace(/^product-/, "");
     const local = getLocalProductById(cleanId) || getLocalProductById(idOrSlug) || PRODUCTS.find((p) => `product-${p.id}` === idOrSlug || p.id === idOrSlug);
     if (local) {
