@@ -750,34 +750,22 @@ export default function ProductsManagementPage() {
                     </div>
                   </div>
 
-                  {/* CATEGORY & SUBCATEGORY */}
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                    <div>
-                      <label className="admin-label">Catégorie *</label>
-                      <select
-                        value={categoryId}
-                        onChange={(e) => setCategoryId(e.target.value)}
-                        className="admin-input"
-                      >
-                        {categories.map((c) => (
-                          <option key={c.id} value={c.id}>{c.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="admin-label">Sous-Catégorie</label>
-                      <input
-                        type="text"
-                        value={subcategory}
-                        onChange={(e) => setSubcategory(e.target.value)}
-                        className="admin-input"
-                        placeholder="ex: Électronique & High-Tech"
-                      />
-                    </div>
+                  {/* CATEGORY */}
+                  <div>
+                    <label className="admin-label">Catégorie *</label>
+                    <select
+                      value={categoryId}
+                      onChange={(e) => setCategoryId(e.target.value)}
+                      className="admin-input"
+                    >
+                      {categories.map((c) => (
+                        <option key={c.id} value={c.id}>{c.name}</option>
+                      ))}
+                    </select>
                   </div>
 
-                  {/* STOCK, MOQ, ORIGIN */}
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14 }}>
+                  {/* STOCK, MOQ */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
                     <div>
                       <label className="admin-label">Stock Usine Disponible *</label>
                       <input
@@ -799,19 +787,6 @@ export default function ProductsManagementPage() {
                         onChange={(e) => setMinimumOrderQuantity(Number(e.target.value))}
                         className="admin-input"
                       />
-                    </div>
-                    <div>
-                      <label className="admin-label">Hub d'Origine</label>
-                      <select
-                        value={countryOfOrigin}
-                        onChange={(e) => setCountryOfOrigin(e.target.value)}
-                        className="admin-input"
-                      >
-                        <option value="Hub Asie & International">Hub Asie & International</option>
-                        <option value="Hub International Usines">Hub International Usines</option>
-                        <option value="Hub Europe & International">Hub Europe & International</option>
-                        <option value="Hub Grossistes International">Hub Grossistes International</option>
-                      </select>
                     </div>
                   </div>
 
