@@ -1084,6 +1084,52 @@ export const PRODUCTS: Product[] = [
     ],
     related: ["appareil-vapeur-facial-2en1", "iphone-16-16pro-16promax"],
   },
+  {
+    id: "support-telephone-tablette-pliable-ergonomique",
+    title: "Support Téléphone & Tablette Télescopique – Pliable & Réglable en Hauteur / Angle",
+    subtitle: "Ergonomique pour bureau, visioconférence & mains libres – Universel jusqu'à 10.5 pouces",
+    price: 1000,
+    oldPrice: 2500,
+    minQty: 1,
+    image: "/images/assets/support_telephone_pliable_2.png",
+    images: [
+      "/images/assets/support_telephone_pliable_2.png",
+      "/images/assets/support_telephone_pliable_1.png",
+    ],
+    category: "electronics",
+    badge: "ACCESSOIRE • ERGONOMIQUE",
+    origin: "Chine (FenouShop Partner)",
+    weight: "0.15 kg",
+    volume: "0.0002 CBM",
+    rating: 4.9,
+    reviewsCount: 214,
+    conditionState: "Scellé",
+    grade: "Grade A",
+    description:
+      "Support de bureau pliable télescopique pour smartphones et tablettes. Réglable en hauteur et en angle pour positionner votre écran au niveau parfait des yeux et soulager efficacement la fatigue du cou lors de longues visioconférences. Libérez vos mains en toute simplicité pendant que vous cuisinez, lisez, dînez, jouez à des jeux ou travaillez. Ultra-compact et pliable en format de poche : se glisse facilement dans un sac pour vous accompagner partout au quotidien. Compatibilité universelle avec tous les smartphones et tablettes jusqu'à 10.5 pouces (même avec coque de protection). Base antidérapante en silicone et patins ultra-stables pour éviter tout glissement ou rayure.",
+    features: [
+      "Réglable et télescopique : hauteur et inclinaison ergonomiques pour soulager les cervicales",
+      "Mains libres idéales pour visioconférences Zoom/Meet, visionnage vidéo, cuisine et bureau",
+      "Format de poche pliable ultra-compact : facile à transporter partout en voyage ou travail",
+      "Compatibilité universelle : s'adapte à tous les téléphones et tablettes jusqu'à 10,5 pouces",
+      "Base lestée stable et patins en silicone antidérapants anti-rayures",
+      "Conception robuste en alliage d'aluminium et finition métallique soignée",
+    ],
+    specifications: [
+      { label: "Type de produit", value: "Support bureau réglable & pliable pour téléphone/tablette" },
+      { label: "Compatibilité", value: "Smartphones et tablettes jusqu'à 10.5 pouces (iPhone, Samsung, iPad, etc.)" },
+      { label: "Réglages", value: "Hauteur télescopique & Double axe d'inclinaison multi-angles" },
+      { label: "Matériaux", value: "Alliage métallique + ABS renforcé + Patins silicone antidérapants" },
+      { label: "Format", value: "Pliable 100% à plat (Format de poche)" },
+      { label: "Poids", value: "150 g (Base lestée ultra-stable)" },
+      { label: "État / Condition", value: "Neuf Scellé avec boîte individuelle" },
+    ],
+    reviews: [
+      { author: "Stéphane M.", rating: 5, comment: "Ce support est génial ! Très solide, tient parfaitement mon iPhone et mon iPad sans basculer.", date: "23 Fév. 2025" },
+      { author: "Carine A.", rating: 5, comment: "Indispensable pour mes appels vidéo et mes cours en ligne. Se plie tout plat dans mon sac.", date: "23 Fév. 2025" },
+    ],
+    related: ["coque-iphone-16-renforcee-militaire", "iphone-16-16pro-16promax"],
+  },
 ];
 
 export function getProductById(id: string): Product | undefined {
