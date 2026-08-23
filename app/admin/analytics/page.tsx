@@ -22,22 +22,17 @@ export default function AnalyticsPage() {
   const [period, setPeriod] = useState("30d");
   const [loading, setLoading] = useState(true);
   const [analytics, setAnalytics] = useState({
-    totalRevenue: 15787500,
-    totalOrders: 4,
-    totalQuotes: 5,
-    conversionRate: 80,
-    productCostTotal: 12900000,
-    shippingCostTotal: 2187500,
-    serviceFeeTotal: 645000,
-    extraFeeTotal: 55000,
-    airShippingTotal: 1212500,
-    seaShippingTotal: 975000,
-    topCountries: [
-      { country: "Côte d'Ivoire", count: 2, amount: 4850000 },
-      { country: "Bénin", count: 1, amount: 3390000 },
-      { country: "Togo", count: 1, amount: 2360000 },
-      { country: "Sénégal", count: 1, amount: 5180000 },
-    ],
+    totalRevenue: 0,
+    totalOrders: 0,
+    totalQuotes: 0,
+    conversionRate: 0,
+    productCostTotal: 0,
+    shippingCostTotal: 0,
+    serviceFeeTotal: 0,
+    extraFeeTotal: 0,
+    airShippingTotal: 0,
+    seaShippingTotal: 0,
+    topCountries: [] as { country: string; count: number; amount: number }[],
   });
 
   useEffect(() => {
@@ -45,30 +40,24 @@ export default function AnalyticsPage() {
   }, [period]);
 
   async function loadAnalytics() {
-    let completed = false;
     setLoading(true);
-
-    const timer = setTimeout(() => {
-      if (!completed) {
-        setLoading(false);
-      }
-    }, 1500);
 
     try {
       const supabase = createClient();
-      const { data: quotes } = await supabase.from("quotes").select("*");
-      const { data: orders } = await supabase.from("orders").select("id, amount, order_status");
-      completed = true;
-      clearTimeout(timer);
+      const [{ data: quotes }, { data: orders }, { data: payments }] = await Promise.all([
+        supabase.from("quotes").select("*"),
+        supabase.from("orders").select("id, amount, order_status, shipping_address"),
+        supabase.from("payments").select("amount, status").eq("status", "paid")
+      ]);
+
+      let prodTotal = 0;
+      let shipTotal = 0;
+      let servTotal = 0;
+      let extraTotal = 0;
+      let airTotal = 0;
+      let seaTotal = 0;
 
       if (quotes && quotes.length > 0) {
-        let prodTotal = 0;
-        let shipTotal = 0;
-        let servTotal = 0;
-        let extraTotal = 0;
-        let airTotal = 0;
-        let seaTotal = 0;
-
         quotes.forEach((q) => {
           prodTotal += q.product_cost || 0;
           shipTotal += q.shipping_fee || 0;
@@ -77,34 +66,54 @@ export default function AnalyticsPage() {
           if (q.shipping_mode === "air") airTotal += q.shipping_fee || 0;
           if (q.shipping_mode === "sea") seaTotal += q.shipping_fee || 0;
         });
-
-        const grandTotal = prodTotal + shipTotal + servTotal + extraTotal;
-
-        setAnalytics((prev) => ({
-          ...prev,
-          totalRevenue: grandTotal > 0 ? grandTotal : prev.totalRevenue,
-          productCostTotal: prodTotal || prev.productCostTotal,
-          shippingCostTotal: shipTotal || prev.shippingCostTotal,
-          serviceFeeTotal: servTotal || prev.serviceFeeTotal,
-          extraFeeTotal: extraTotal || prev.extraFeeTotal,
-          airShippingTotal: airTotal || prev.airShippingTotal,
-          seaShippingTotal: seaTotal || prev.seaShippingTotal,
-          totalOrders: orders?.length || prev.totalOrders,
-          totalQuotes: quotes.length,
-        }));
       }
+
+      const totalPaidRevenue = payments?.reduce((sum, p) => sum + (Number(p.amount) || 0), 0) || (prodTotal + shipTotal + servTotal + extraTotal);
+      const quotesCount = quotes?.length || 0;
+      const ordersCount = orders?.length || 0;
+      const convRate = quotesCount > 0 ? Math.round((ordersCount / quotesCount) * 100) : 0;
+
+      // Group countries from orders
+      const countryMap: Record<string, { count: number; amount: number }> = {};
+      if (orders && orders.length > 0) {
+        orders.forEach((o: any) => {
+          const c = o.shipping_address?.country || "Bénin";
+          if (!countryMap[c]) countryMap[c] = { count: 0, amount: 0 };
+          countryMap[c].count += 1;
+          countryMap[c].amount += Number(o.amount) || 0;
+        });
+      }
+
+      const topCountries = Object.entries(countryMap).map(([country, data]) => ({
+        country,
+        count: data.count,
+        amount: data.amount,
+      }));
+
+      setAnalytics({
+        totalRevenue: totalPaidRevenue,
+        totalOrders: ordersCount,
+        totalQuotes: quotesCount,
+        conversionRate: convRate,
+        productCostTotal: prodTotal,
+        shippingCostTotal: shipTotal,
+        serviceFeeTotal: servTotal,
+        extraFeeTotal: extraTotal,
+        airShippingTotal: airTotal,
+        seaShippingTotal: seaTotal,
+        topCountries,
+      });
     } catch (e) {
-      completed = true;
-      clearTimeout(timer);
+      console.warn("Analytics loading failed:", e);
     } finally {
       setLoading(false);
     }
   }
 
-  const prodPct = Math.round((analytics.productCostTotal / analytics.totalRevenue) * 100);
-  const shipPct = Math.round((analytics.shippingCostTotal / analytics.totalRevenue) * 100);
-  const servPct = Math.round((analytics.serviceFeeTotal / analytics.totalRevenue) * 100);
-  const extraPct = Math.round((analytics.extraFeeTotal / analytics.totalRevenue) * 100);
+  const prodPct = analytics.totalRevenue > 0 ? Math.round((analytics.productCostTotal / analytics.totalRevenue) * 100) : 0;
+  const shipPct = analytics.totalRevenue > 0 ? Math.round((analytics.shippingCostTotal / analytics.totalRevenue) * 100) : 0;
+  const servPct = analytics.totalRevenue > 0 ? Math.round((analytics.serviceFeeTotal / analytics.totalRevenue) * 100) : 0;
+  const extraPct = analytics.totalRevenue > 0 ? Math.round((analytics.extraFeeTotal / analytics.totalRevenue) * 100) : 0;
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>

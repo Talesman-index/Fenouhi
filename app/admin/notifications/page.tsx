@@ -14,31 +14,19 @@ export default function NotificationsManagementPage() {
   }, []);
 
   async function fetchNotifications() {
-    let completed = false;
     setLoading(true);
-
-    const timer = setTimeout(() => {
-      if (!completed) {
-        setNotifications(DEMO_NOTIFICATIONS);
-        setLoading(false);
-      }
-    }, 1500);
 
     try {
       const supabase = createClient();
       const { data, error } = await supabase.from("notifications").select("*").order("created_at", { ascending: false });
-      completed = true;
-      clearTimeout(timer);
 
-      if (error || !data || data.length === 0) {
-        setNotifications(DEMO_NOTIFICATIONS);
+      if (error || !data) {
+        setNotifications([]);
       } else {
         setNotifications(data);
       }
     } catch (err) {
-      completed = true;
-      clearTimeout(timer);
-      setNotifications(DEMO_NOTIFICATIONS);
+      setNotifications([]);
     } finally {
       setLoading(false);
     }

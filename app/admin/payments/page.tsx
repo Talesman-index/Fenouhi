@@ -16,31 +16,19 @@ export default function PaymentsManagementPage() {
   }, []);
 
   async function fetchPayments() {
-    let completed = false;
     setLoading(true);
-
-    const timer = setTimeout(() => {
-      if (!completed) {
-        setPayments(DEMO_PAYMENTS);
-        setLoading(false);
-      }
-    }, 1500);
 
     try {
       const supabase = createClient();
       const { data, error } = await supabase.from("payments").select("*, order:orders(*), profile:profiles(*)").order("created_at", { ascending: false });
-      completed = true;
-      clearTimeout(timer);
 
-      if (error || !data || data.length === 0) {
-        setPayments(DEMO_PAYMENTS);
+      if (error || !data) {
+        setPayments([]);
       } else {
         setPayments(data);
       }
     } catch (err) {
-      completed = true;
-      clearTimeout(timer);
-      setPayments(DEMO_PAYMENTS);
+      setPayments([]);
     } finally {
       setLoading(false);
     }

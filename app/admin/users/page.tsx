@@ -43,15 +43,7 @@ export default function UsersManagementPage() {
   }, [roleFilter, statusFilter]);
 
   async function fetchUsers() {
-    let completed = false;
     setLoading(true);
-
-    const timer = setTimeout(() => {
-      if (!completed) {
-        setUsers(DEMO_USERS as Profile[]);
-        setLoading(false);
-      }
-    }, 1500);
 
     try {
       const supabase = createClient();
@@ -61,18 +53,33 @@ export default function UsersManagementPage() {
       if (statusFilter !== "all") query = query.eq("status", statusFilter);
 
       const { data, error } = await query;
-      completed = true;
-      clearTimeout(timer);
 
       if (error || !data || data.length === 0) {
-        setUsers(DEMO_USERS as Profile[]);
+        // Show current real admin if table empty
+        setUsers([
+          {
+            id: "admin-auronce",
+            first_name: "Auronce",
+            last_name: "Ahoyo",
+            email: "ahoyoauronce@gmail.com",
+            phone: "+229 97 00 00 00",
+            country: "Bénin",
+            city: "Cotonou",
+            role: "super_admin",
+            status: "active",
+            account_type: "business",
+            avatar_url: null,
+            last_activity: new Date().toISOString(),
+            notes: "Super Administrateur Principal",
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          }
+        ]);
       } else {
         setUsers(data as Profile[]);
       }
     } catch (err) {
-      completed = true;
-      clearTimeout(timer);
-      setUsers(DEMO_USERS as Profile[]);
+      setUsers([]);
     } finally {
       setLoading(false);
     }

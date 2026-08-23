@@ -48,15 +48,7 @@ export default function QuotesManagementPage() {
   }, [statusFilter]);
 
   async function fetchQuotes() {
-    let completed = false;
     setLoading(true);
-
-    const timer = setTimeout(() => {
-      if (!completed) {
-        setQuotes(DEMO_QUOTES as Quote[]);
-        setLoading(false);
-      }
-    }, 1500);
 
     try {
       const supabase = createClient();
@@ -65,18 +57,14 @@ export default function QuotesManagementPage() {
       if (statusFilter !== "all") query = query.eq("status", statusFilter);
 
       const { data, error } = await query;
-      completed = true;
-      clearTimeout(timer);
 
-      if (error || !data || data.length === 0) {
-        setQuotes(DEMO_QUOTES as Quote[]);
+      if (error || !data) {
+        setQuotes([]);
       } else {
         setQuotes(data as Quote[]);
       }
     } catch (err) {
-      completed = true;
-      clearTimeout(timer);
-      setQuotes(DEMO_QUOTES as Quote[]);
+      setQuotes([]);
     } finally {
       setLoading(false);
     }

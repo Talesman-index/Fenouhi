@@ -45,15 +45,7 @@ export default function OrdersManagementPage() {
   }, [statusFilter]);
 
   async function fetchOrders() {
-    let completed = false;
     setLoading(true);
-
-    const timer = setTimeout(() => {
-      if (!completed) {
-        setOrders(DEMO_ORDERS as Order[]);
-        setLoading(false);
-      }
-    }, 1500);
 
     try {
       const supabase = createClient();
@@ -62,18 +54,14 @@ export default function OrdersManagementPage() {
       if (statusFilter !== "all") query = query.eq("order_status", statusFilter);
 
       const { data, error } = await query;
-      completed = true;
-      clearTimeout(timer);
 
-      if (error || !data || data.length === 0) {
-        setOrders(DEMO_ORDERS as Order[]);
+      if (error || !data) {
+        setOrders([]);
       } else {
         setOrders(data as Order[]);
       }
     } catch (err) {
-      completed = true;
-      clearTimeout(timer);
-      setOrders(DEMO_ORDERS as Order[]);
+      setOrders([]);
     } finally {
       setLoading(false);
     }

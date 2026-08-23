@@ -16,31 +16,19 @@ export default function DisputesManagementPage() {
   }, []);
 
   async function fetchDisputes() {
-    let completed = false;
     setLoading(true);
-
-    const timer = setTimeout(() => {
-      if (!completed) {
-        setDisputes(DEMO_DISPUTES);
-        setLoading(false);
-      }
-    }, 1500);
 
     try {
       const supabase = createClient();
       const { data, error } = await supabase.from("disputes").select("*, order:orders(*), profile:profiles(*)").order("created_at", { ascending: false });
-      completed = true;
-      clearTimeout(timer);
 
-      if (error || !data || data.length === 0) {
-        setDisputes(DEMO_DISPUTES);
+      if (error || !data) {
+        setDisputes([]);
       } else {
         setDisputes(data);
       }
     } catch (err) {
-      completed = true;
-      clearTimeout(timer);
-      setDisputes(DEMO_DISPUTES);
+      setDisputes([]);
     } finally {
       setLoading(false);
     }

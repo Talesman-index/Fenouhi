@@ -17,31 +17,19 @@ export default function ShipmentsManagementPage() {
   }, []);
 
   async function fetchShipments() {
-    let completed = false;
     setLoading(true);
-
-    const timer = setTimeout(() => {
-      if (!completed) {
-        setShipments(DEMO_SHIPMENTS);
-        setLoading(false);
-      }
-    }, 1500);
 
     try {
       const supabase = createClient();
       const { data, error } = await supabase.from("shipments").select("*").order("created_at", { ascending: false });
-      completed = true;
-      clearTimeout(timer);
 
-      if (error || !data || data.length === 0) {
-        setShipments(DEMO_SHIPMENTS);
+      if (error || !data) {
+        setShipments([]);
       } else {
         setShipments(data as Shipment[]);
       }
     } catch (err) {
-      completed = true;
-      clearTimeout(timer);
-      setShipments(DEMO_SHIPMENTS);
+      setShipments([]);
     } finally {
       setLoading(false);
     }
