@@ -55,6 +55,23 @@ export default function ProductsManagementPage() {
   // Modal Active Tab State
   const [activeTab, setActiveTab] = useState<"info" | "pricing" | "media" | "specs">("info");
 
+  // Custom Delete Modal & Toast State
+  const [deleteModalProduct, setDeleteModalProduct] = useState<Product | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [toast, setToast] = useState<{ show: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
+    show: false,
+    title: "",
+    message: "",
+    type: "success"
+  });
+
+  const showToast = (title: string, message: string, type: "success" | "error" | "info" = "success") => {
+    setToast({ show: true, title, message, type });
+    setTimeout(() => {
+      setToast((prev) => ({ ...prev, show: false }));
+    }, 3800);
+  };
+
   // Form State
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
@@ -401,11 +418,15 @@ export default function ProductsManagementPage() {
 
       setIsModalOpen(false);
       fetchProducts();
-      alert("Produit enregistré et mis à jour avec succès !");
+      showToast(
+        editingProduct ? "Produit Modifié avec Succès !" : "Nouveau Produit Ajouté !",
+        `L'article "${name}" est désormais à jour dans le catalogue.`,
+        "success"
+      );
     } catch (err: any) {
-      alert(`Produit enregistré dans le catalogue !`);
       setIsModalOpen(false);
       fetchProducts();
+      showToast("Produit Enregistré !", `L'article "${name}" a été synchronisé.`, "success");
     } finally {
       setSaving(false);
     }
@@ -429,6 +450,12 @@ export default function ProductsManagementPage() {
       prev.map((p) => (p.id === product.id ? { ...p, status: newStatus } : p))
     );
 
+    showToast(
+      newStatus === "active" ? "Produit Publié en Boutique" : "Produit Dépublié (Inactif)",
+      `Le statut de "${product.name}" a été mis à jour.`,
+      newStatus === "active" ? "success" : "info"
+    );
+
     try {
       const supabase = createClient();
       await supabase.from("products").update({ status: newStatus }).eq("id", product.id);
@@ -444,30 +471,37 @@ export default function ProductsManagementPage() {
     }
   };
 
-  const handleDeleteProduct = async (product: Product) => {
-    if (!confirm(`Êtes-vous sûr de vouloir supprimer définitivement le produit "${product.name}" ?`)) {
-      return;
-    }
-
-    // 1. Add ID to deleted list so it never reappears
-    const deletedIds = getStoredDeletedProductIds();
-    if (!deletedIds.includes(product.id)) {
-      deletedIds.push(product.id);
-    }
-    if (product.slug && !deletedIds.includes(product.slug)) {
-      deletedIds.push(product.slug);
-    }
-    saveStoredDeletedProductIds(deletedIds);
-
-    // 2. Remove from custom products
-    const custom = getStoredCustomProducts();
-    const updatedCustom = custom.filter((p) => p.id !== product.id && p.slug !== product.slug);
-    saveStoredCustomProducts(updatedCustom);
-
-    // 3. Update React state immediately
-    setProducts((prev) => prev.filter((p) => p.id !== product.id && p.slug !== product.slug));
+  const confirmDeleteProduct = async () => {
+    if (!deleteModalProduct) return;
+    const product = deleteModalProduct;
+    setIsDeleting(true);
 
     try {
+      // 1. Add ID to deleted list so it never reappears
+      const deletedIds = getStoredDeletedProductIds();
+      if (!deletedIds.includes(product.id)) {
+        deletedIds.push(product.id);
+      }
+      if (product.slug && !deletedIds.includes(product.slug)) {
+        deletedIds.push(product.slug);
+      }
+      saveStoredDeletedProductIds(deletedIds);
+
+      // 2. Remove from custom products
+      const custom = getStoredCustomProducts();
+      const updatedCustom = custom.filter((p) => p.id !== product.id && p.slug !== product.slug);
+      saveStoredCustomProducts(updatedCustom);
+
+      // 3. Update React state immediately
+      setProducts((prev) => prev.filter((p) => p.id !== product.id && p.slug !== product.slug));
+
+      setDeleteModalProduct(null);
+      showToast(
+        "Produit Supprimé Définitivement",
+        `L'article "${product.name}" a été retiré de la boutique et du catalogue.`,
+        "error"
+      );
+
       const supabase = createClient();
       await supabase.from("products").delete().eq("id", product.id);
 
@@ -479,6 +513,8 @@ export default function ProductsManagementPage() {
       });
     } catch (err: any) {
       console.warn("Product deletion synced locally");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -674,9 +710,10 @@ export default function ProductsManagementPage() {
                         </button>
                         <button
                           type="button"
-                          onClick={() => handleDeleteProduct(p)}
+                          onClick={() => setDeleteModalProduct(p)}
                           className="btn"
                           style={{ padding: "6px 10px", fontSize: 12, background: "#FEE2E2", color: "#991B1B" }}
+                          title="Supprimer définitivement"
                         >
                           <Trash2 style={{ width: 14 }} />
                         </button>
@@ -1138,6 +1175,86 @@ export default function ProductsManagementPage() {
               </div>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* POP-UP DESIGN: CONFIRMATION DE SUPPRESSION */}
+      {deleteModalProduct && (
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(15, 23, 42, 0.75)", backdropFilter: "blur(6px)", zIndex: 999999, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+          <div style={{ background: "#FFFFFF", maxWidth: 440, width: "100%", borderRadius: 20, padding: 24, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.35)", border: "1px solid #FEE2E2", textAlign: "center" }}>
+            
+            {/* ICON RED GLOW */}
+            <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#FEE2E2", color: "#DC2626", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px", boxShadow: "0 0 20px rgba(239, 68, 68, 0.2)" }}>
+              <Trash2 style={{ width: 28, height: 28 }} />
+            </div>
+
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: "0 0 8px" }}>
+              Confirmer la Suppression
+            </h3>
+
+            <p style={{ fontSize: 13, color: "#64748B", margin: "0 0 16px", lineHeight: 1.5 }}>
+              Êtes-vous certain de vouloir retirer définitivement cet article du catalogue et de la boutique en ligne ?
+            </p>
+
+            {/* PRODUCT MINI CARD PREVIEW */}
+            <div style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 12, padding: "12px 14px", display: "flex", alignItems: "center", gap: 12, textAlign: "left", marginBottom: 20 }}>
+              <img
+                src={deleteModalProduct.images?.[0]?.public_image_url || "/images/assets/item_1.jpg"}
+                alt={deleteModalProduct.name}
+                style={{ width: 44, height: 44, borderRadius: 8, objectFit: "cover", border: "1px solid #CBD5E1" }}
+              />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontWeight: 600, fontSize: 13, color: "#0F172A", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  {deleteModalProduct.name}
+                </div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#EA580C" }}>
+                  {deleteModalProduct.price?.toLocaleString()} FCFA
+                </div>
+              </div>
+            </div>
+
+            {/* ACTION BUTTONS */}
+            <div style={{ display: "flex", gap: 12 }}>
+              <button
+                type="button"
+                onClick={() => setDeleteModalProduct(null)}
+                disabled={isDeleting}
+                className="btn"
+                style={{ flex: 1, padding: "11px 16px", background: "#F1F5F9", color: "#334155", fontWeight: 600, borderRadius: 10 }}
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                onClick={confirmDeleteProduct}
+                disabled={isDeleting}
+                className="btn"
+                style={{ flex: 1, padding: "11px 16px", background: "linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)", color: "#FFFFFF", fontWeight: 600, borderRadius: 10, boxShadow: "0 4px 12px rgba(220, 38, 38, 0.3)" }}
+              >
+                {isDeleting ? "Suppression..." : "Oui, Supprimer"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* POP-UP DESIGN: FLOATING TOAST NOTIFICATION */}
+      {toast.show && (
+        <div style={{ position: "fixed", bottom: 30, right: 30, zIndex: 9999999, background: "#0F172A", color: "#FFFFFF", padding: "16px 20px", borderRadius: 16, display: "flex", alignItems: "center", gap: 14, boxShadow: "0 20px 40px rgba(0,0,0,0.3)", border: `1px solid ${toast.type === "error" ? "#EF4444" : toast.type === "info" ? "#3B82F6" : "#22C55E"}`, maxWidth: 380, animation: "slideIn 0.3s ease" }}>
+          <div style={{ width: 36, height: 36, borderRadius: "50%", background: toast.type === "error" ? "rgba(239, 68, 68, 0.2)" : toast.type === "info" ? "rgba(59, 130, 246, 0.2)" : "rgba(34, 197, 94, 0.2)", color: toast.type === "error" ? "#EF4444" : toast.type === "info" ? "#3B82F6" : "#22C55E", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            {toast.type === "error" ? <Trash2 style={{ width: 18, height: 18 }} /> : toast.type === "info" ? <Info style={{ width: 18, height: 18 }} /> : <CheckCircle2 style={{ width: 18, height: 18 }} />}
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 700, fontSize: 13.5, marginBottom: 2 }}>{toast.title}</div>
+            <div style={{ fontSize: 12, color: "#94A3B8", lineHeight: 1.4 }}>{toast.message}</div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setToast((prev) => ({ ...prev, show: false }))}
+            style={{ background: "transparent", border: "none", color: "#64748B", cursor: "pointer", padding: 4 }}
+          >
+            <X style={{ width: 16, height: 16 }} />
+          </button>
         </div>
       )}
     </div>
