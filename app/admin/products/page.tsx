@@ -72,8 +72,8 @@ export default function ProductsManagementPage() {
   
   // Custom CargoLink Margin & Freight Controls
   const [cargolinkMarginPercent, setCargolinkMarginPercent] = useState<number>(10);
-  const [airFreightRatePerKg, setAirFreightRatePerKg] = useState<number>(7500);
-  const [seaFreightRatePerCbm, setSeaFreightRatePerCbm] = useState<number>(250000);
+  const [airFreightRatePerKg, setAirFreightRatePerKg] = useState<number>(2000);
+  const [seaFreightRatePerCbm, setSeaFreightRatePerCbm] = useState<number>(2000);
 
   // Image Upload & Gallery State
   const [imageUrl, setImageUrl] = useState("/images/assets/item_1.jpg");
@@ -223,8 +223,8 @@ export default function ProductsManagementPage() {
       setSubcategory("");
       setPrice(5000);
       setCargolinkMarginPercent(10);
-      setAirFreightRatePerKg(7500);
-      setSeaFreightRatePerCbm(250000);
+      setAirFreightRatePerKg(2000);
+      setSeaFreightRatePerCbm(2000);
       setCurrency("FCFA");
       setStockQuantity(200);
       setMinimumOrderQuantity(10);
@@ -257,8 +257,8 @@ export default function ProductsManagementPage() {
     setSubcategory(product.subcategory || "");
     setPrice(product.price);
     setCargolinkMarginPercent(product.cargolink_margin_percent ?? 10);
-    setAirFreightRatePerKg(product.air_freight_rate_per_kg ?? 7500);
-    setSeaFreightRatePerCbm(product.sea_freight_rate_per_cbm ?? 250000);
+    setAirFreightRatePerKg(product.air_freight_rate_per_kg ?? 2000);
+    setSeaFreightRatePerCbm(product.sea_freight_rate_per_cbm ?? 2000);
     setCurrency(product.currency || "FCFA");
     setStockQuantity(product.stock_quantity);
     setMinimumOrderQuantity(product.minimum_order_quantity);
@@ -872,7 +872,7 @@ export default function ProductsManagementPage() {
                   {/* FREIGHT RATES PER PRODUCT */}
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                     <div>
-                      <label className="admin-label">Fret Aérien Déclaré (FCFA / kg) *</label>
+                      <label className="admin-label">Fret Aérien *</label>
                       <input
                         type="number"
                         min={0}
@@ -883,7 +883,7 @@ export default function ProductsManagementPage() {
                     </div>
 
                     <div>
-                      <label className="admin-label">Fret Maritime Déclaré (FCFA / m³) *</label>
+                      <label className="admin-label">Fret Maritime *</label>
                       <input
                         type="number"
                         min={0}
