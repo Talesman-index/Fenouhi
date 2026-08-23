@@ -1025,47 +1025,6 @@ export default function ProductsManagementPage() {
               {/* TAB 4: SPECS & DESCRIPTIONS */}
               {activeTab === "specs" && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                  {/* WEIGHT & DIMENSIONS */}
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12 }}>
-                    <div>
-                      <label className="admin-label">Poids (kg)</label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        value={weight}
-                        onChange={(e) => setWeight(Number(e.target.value))}
-                        className="admin-input"
-                      />
-                    </div>
-                    <div>
-                      <label className="admin-label">Long. (cm)</label>
-                      <input
-                        type="number"
-                        value={length}
-                        onChange={(e) => setLength(Number(e.target.value))}
-                        className="admin-input"
-                      />
-                    </div>
-                    <div>
-                      <label className="admin-label">Larg. (cm)</label>
-                      <input
-                        type="number"
-                        value={width}
-                        onChange={(e) => setWidth(Number(e.target.value))}
-                        className="admin-input"
-                      />
-                    </div>
-                    <div>
-                      <label className="admin-label">Haut. (cm)</label>
-                      <input
-                        type="number"
-                        value={height}
-                        onChange={(e) => setHeight(Number(e.target.value))}
-                        className="admin-input"
-                      />
-                    </div>
-                  </div>
-
                   <div>
                     <label className="admin-label">Délai Estimé de Livraison</label>
                     <select
