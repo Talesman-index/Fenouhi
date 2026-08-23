@@ -105,11 +105,27 @@ function ProductDetailContent() {
     : ["/images/assets/item_1.jpg"];
   const mainImage = productImages[activeImage] || productImages[0];
 
+  // Beauty product detection (no international freight charged, 10% quality control)
+  const isBeauty =
+    product.category?.slug === "beauty" ||
+    (product as any).category === "beauty" ||
+    (product as any).category === "Beauté & Soins" ||
+    product.id?.includes("disaar") ||
+    product.id?.includes("efero") ||
+    product.id?.includes("masque") ||
+    product.id?.includes("snail") ||
+    product.id?.includes("rashel") ||
+    product.id?.includes("aichun") ||
+    product.id?.includes("roushun") ||
+    product.id?.includes("savon-papaye") ||
+    product.id?.includes("vapeur");
+
   // Pricing calculations
   const unitPrice = product.price;
   const productTotal = quantity * unitPrice;
-  const serviceFee = Math.round(productTotal * 0.05);
-  const shippingFee = shippingMode === "air" ? Math.round(2500 * quantity * 0.4) : Math.round(950 * quantity * 0.4);
+  const serviceRate = isBeauty ? 0.10 : 0.05;
+  const serviceFee = Math.round(productTotal * serviceRate);
+  const shippingFee = isBeauty ? 0 : (shippingMode === "air" ? Math.round(2500 * quantity * 0.4) : Math.round(950 * quantity * 0.4));
   const total = productTotal + serviceFee + shippingFee;
 
   const handleCopyLink = () => {
@@ -125,13 +141,13 @@ function ProductDetailContent() {
     addToCart({
       id: product.id,
       name: itemName,
-      category: product.category?.name || "Général",
+      category: product.category?.name || (isBeauty ? "Beauté & Soins" : "Général"),
       price: product.price,
       oldPrice: (product as any).oldPrice || Math.round(product.price * 1.25),
       image: mainImage,
       quantity: quantity,
       shippingMode: shippingMode,
-      deliveryRange: shippingMode === "air" ? "Express 5-12j (Cotonou)" : "Maritime 40-65j (Port Cotonou)",
+      deliveryRange: isBeauty ? "Contrôle Qualité & Livraison Directe" : (shippingMode === "air" ? "Express 5-12j (Cotonou)" : "Maritime 40-65j (Port Cotonou)"),
     });
     setAddedToast(true);
     setTimeout(() => setAddedToast(false), 4000);
@@ -522,49 +538,51 @@ function ProductDetailContent() {
               </div>
             </div>
 
-            {/* SHIPPING MODE SELECTOR */}
-            <div>
-              <label style={{ display: "block", fontSize: 11.5, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
-                Mode de Transit Chine ➔ Bénin :
-              </label>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                {/* AIR FREIGHT */}
-                <div
-                  onClick={() => setShippingMode("air")}
-                  style={{
-                    background: shippingMode === "air" ? "#E0F2FE" : "#FFFFFF",
-                    border: shippingMode === "air" ? "2px solid #0284C7" : "1.5px solid #E2E8F0",
-                    borderRadius: 14,
-                    padding: "12px",
-                    cursor: "pointer",
-                    textAlign: "center",
-                    transition: "all 0.2s ease",
-                  }}
-                >
-                  <Plane style={{ width: 22, height: 22, color: "#0284C7", margin: "0 auto 4px" }} />
-                  <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>Fret Aérien Express</div>
-                  <div style={{ fontSize: 11, color: "#0369A1", fontWeight: 700 }}>5–12 jours • Aéroport Cotonou</div>
-                </div>
+            {/* SHIPPING MODE SELECTOR (Uniquement pour articles hors beauté / fret international requis) */}
+            {!isBeauty && (
+              <div>
+                <label style={{ display: "block", fontSize: 11.5, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+                  Mode de Transit Chine ➔ Bénin :
+                </label>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                  {/* AIR FREIGHT */}
+                  <div
+                    onClick={() => setShippingMode("air")}
+                    style={{
+                      background: shippingMode === "air" ? "#E0F2FE" : "#FFFFFF",
+                      border: shippingMode === "air" ? "2px solid #0284C7" : "1.5px solid #E2E8F0",
+                      borderRadius: 14,
+                      padding: "12px",
+                      cursor: "pointer",
+                      textAlign: "center",
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    <Plane style={{ width: 22, height: 22, color: "#0284C7", margin: "0 auto 4px" }} />
+                    <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>Fret Aérien Express</div>
+                    <div style={{ fontSize: 11, color: "#0369A1", fontWeight: 700 }}>5–12 jours • Aéroport Cotonou</div>
+                  </div>
 
-                {/* SEA FREIGHT */}
-                <div
-                  onClick={() => setShippingMode("sea")}
-                  style={{
-                    background: shippingMode === "sea" ? "#DCFCE7" : "#FFFFFF",
-                    border: shippingMode === "sea" ? "2px solid #16A34A" : "1.5px solid #E2E8F0",
-                    borderRadius: 14,
-                    padding: "12px",
-                    cursor: "pointer",
-                    textAlign: "center",
-                    transition: "all 0.2s ease",
-                  }}
-                >
-                  <Ship style={{ width: 22, height: 22, color: "#16A34A", margin: "0 auto 4px" }} />
-                  <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>Fret Maritime Groupé</div>
-                  <div style={{ fontSize: 11, color: "#15803D", fontWeight: 700 }}>40–65 jours • Port Cotonou</div>
+                  {/* SEA FREIGHT */}
+                  <div
+                    onClick={() => setShippingMode("sea")}
+                    style={{
+                      background: shippingMode === "sea" ? "#DCFCE7" : "#FFFFFF",
+                      border: shippingMode === "sea" ? "2px solid #16A34A" : "1.5px solid #E2E8F0",
+                      borderRadius: 14,
+                      padding: "12px",
+                      cursor: "pointer",
+                      textAlign: "center",
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    <Ship style={{ width: 22, height: 22, color: "#16A34A", margin: "0 auto 4px" }} />
+                    <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>Fret Maritime Groupé</div>
+                    <div style={{ fontSize: 11, color: "#15803D", fontWeight: 700 }}>40–65 jours • Port Cotonou</div>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* TRANSPARENT COST BREAKDOWN */}
             <div
@@ -579,7 +597,7 @@ function ProductDetailContent() {
               }}
             >
               <div style={{ fontSize: 12, fontWeight: 600, color: "#0F172A", textTransform: "uppercase", marginBottom: 2 }}>
-                Estimation Transparente (Tout Compris)
+                Estimation Transparente ({isBeauty ? "Tout Compris • Sans Fret" : "Tout Compris"})
               </div>
 
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
@@ -588,14 +606,21 @@ function ProductDetailContent() {
               </div>
 
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
-                <span>Service & Contrôle Qualité Usine (5%)</span>
+                <span>Service & Contrôle Qualité Usine ({isBeauty ? "10%" : "5%"})</span>
                 <strong style={{ color: "#0F172A" }}>{formatPrice(serviceFee)}</strong>
               </div>
 
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
-                <span>Fret international ({shippingMode === "air" ? "Aérien Express" : "Maritime Groupé"})</span>
-                <strong style={{ color: "#0284C7" }}>{formatPrice(shippingFee)}</strong>
-              </div>
+              {!isBeauty ? (
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
+                  <span>Fret international ({shippingMode === "air" ? "Aérien Express" : "Maritime Groupé"})</span>
+                  <strong style={{ color: "#0284C7" }}>{formatPrice(shippingFee)}</strong>
+                </div>
+              ) : (
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#16A34A", fontWeight: 600 }}>
+                  <span>Fret International Aérien</span>
+                  <span style={{ color: "#16A34A" }}>Offert (0 FCFA)</span>
+                </div>
+              )}
 
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#16A34A", fontWeight: 700 }}>
                 <span>Dédouanement Cotonou</span>
@@ -638,7 +663,7 @@ function ProductDetailContent() {
               </button>
 
               <Link
-                href={`/quote-request?prod=${encodeURIComponent(product.name)}&qty=${quantity}&mode=${shippingMode}`}
+                href={`/quote-request?prod=${encodeURIComponent(product.name)}&qty=${quantity}${isBeauty ? "" : `&mode=${shippingMode}`}`}
                 style={{
                   background: "#FFFFFF",
                   color: "#0F172A",
