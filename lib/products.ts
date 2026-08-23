@@ -529,6 +529,7 @@ export const PRODUCTS: Product[] = [
     image: "/images/assets/disaar_hair_removal.jpg",
     images: [
       "/images/assets/disaar_hair_removal.jpg",
+      "/images/assets/disaar_hair_removal_2.png",
     ],
     category: "beauty",
     badge: "BEAUTÉ & SOINS",
@@ -571,6 +572,7 @@ export const PRODUCTS: Product[] = [
     image: "/images/assets/efero_teeth_whitening.jpg",
     images: [
       "/images/assets/efero_teeth_whitening.jpg",
+      "/images/assets/efero_teeth_whitening_2.png",
     ],
     category: "beauty",
     badge: "HYGIÈNE BUCCALE",
@@ -655,6 +657,7 @@ export const PRODUCTS: Product[] = [
     image: "/images/assets/pink_lip_mask.jpg",
     images: [
       "/images/assets/pink_lip_mask.jpg",
+      "/images/assets/pink_lip_mask_2.png",
     ],
     category: "beauty",
     badge: "SOIN LÈVRES",
