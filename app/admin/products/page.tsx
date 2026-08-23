@@ -63,7 +63,7 @@ export default function ProductsManagementPage() {
   const [price, setPrice] = useState<number>(5000);
   const [currency, setCurrency] = useState("FCFA");
   const [stockQuantity, setStockQuantity] = useState<number>(100);
-  const [minimumOrderQuantity, setMinimumOrderQuantity] = useState<number>(10);
+  const [minimumOrderQuantity, setMinimumOrderQuantity] = useState<number>(1);
   const [countryOfOrigin, setCountryOfOrigin] = useState("Hub Asie & International");
   const [weight, setWeight] = useState<number>(0.5);
   const [length, setLength] = useState<number>(10);
@@ -232,7 +232,7 @@ export default function ProductsManagementPage() {
       setSeaFreightRatePerCbm(2000);
       setCurrency("FCFA");
       setStockQuantity(200);
-      setMinimumOrderQuantity(10);
+      setMinimumOrderQuantity(1);
       setCountryOfOrigin("Hub Asie & International");
       setWeight(0.5);
       setLength(10);
