@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
-import { getPublicProducts } from "@/lib/supabase/catalog";
+import { getPublicProducts, getPublicProductsSync } from "@/lib/supabase/catalog";
 import type { Product } from "@/types/catalog";
 import { Building2, ArrowRight, ChevronLeft, ChevronRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship, Sparkles } from "lucide-react";
 
@@ -42,8 +42,9 @@ const heroSlides = [
 
 export default function HomePage() {
   const [searchUrl, setSearchUrl] = useState("");
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
-  const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>(() => getPublicProductsSync({ isFeatured: true }));
+  const [recentProducts, setRecentProducts] = useState<Product[]>(() => getPublicProductsSync());
+  const [activeCategory, setActiveCategory] = useState("");
   const [currentSlide, setCurrentSlide] = useState(0);
   const categoryRowRef = React.useRef<HTMLDivElement>(null);
 
@@ -69,15 +70,15 @@ export default function HomePage() {
     async function loadHomeProducts() {
       try {
         const [featured, recent] = await Promise.all([
-          getPublicProducts({ isFeatured: true, limit: 5 }),
-          getPublicProducts({ limit: 10 })
+          getPublicProducts({ isFeatured: true }),
+          getPublicProducts({ categorySlug: activeCategory || undefined })
         ]);
-        setFeaturedProducts(featured);
-        setRecentProducts(recent);
+        if (featured.length > 0) setFeaturedProducts(featured);
+        if (recent.length > 0) setRecentProducts(recent);
       } catch {}
     }
     loadHomeProducts();
-  }, []);
+  }, [activeCategory]);
 
   const softCategories = [
     { name: "Électronique", img: "/images/assets/cat_electronics_v2.jpg", link: "/catalog?cat=electronics" },
@@ -126,8 +127,6 @@ export default function HomePage() {
     { name: "Mode & Chaussures", cat: "fashion" },
     { name: "Maison & Déco", cat: "home" },
   ];
-
-  const [activeCategory, setActiveCategory] = useState("");
 
   return (
     <div style={{ background: "#FAF7F2", paddingBottom: 80, fontFamily: "var(--font-body), 'Plus Jakarta Sans', sans-serif" }}>

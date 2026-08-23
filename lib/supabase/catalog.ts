@@ -102,10 +102,34 @@ function mapLocalProductToCatalogProduct(p: any): Product {
  */
 export function getPublicProductsSync(options: ProductFilterOptions = {}): Product[] {
   try {
-    let list = PRODUCTS.map(mapLocalProductToCatalogProduct);
+    // Reverse PRODUCTS array so newly added products come first
+    const raw = [...PRODUCTS].reverse();
+    let list = raw.map(mapLocalProductToCatalogProduct);
 
     if (options.categorySlug && options.categorySlug !== "all") {
       list = list.filter((p) => p.category?.slug === options.categorySlug);
+    } else if (!options.search) {
+      // Interleave products across categories for a rich varied homepage feed
+      const byCategory: Record<string, Product[]> = {};
+      for (const item of list) {
+        const catKey = item.category?.slug || "general";
+        if (!byCategory[catKey]) byCategory[catKey] = [];
+        byCategory[catKey].push(item);
+      }
+      const categoryKeys = Object.keys(byCategory);
+      const interleaved: Product[] = [];
+      let maxLen = 0;
+      for (const key of categoryKeys) {
+        if (byCategory[key].length > maxLen) maxLen = byCategory[key].length;
+      }
+      for (let i = 0; i < maxLen; i++) {
+        for (const key of categoryKeys) {
+          if (byCategory[key][i]) {
+            interleaved.push(byCategory[key][i]);
+          }
+        }
+      }
+      list = interleaved;
     }
 
     if (options.conditionState && options.conditionState !== "all") {
