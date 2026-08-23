@@ -114,45 +114,54 @@ export function saveStoredCustomProducts(products: Product[]) {
   } catch {}
 }
 
+export function getStoredDeletedProductIds(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const data = localStorage.getItem("fenou_deleted_product_ids");
+    return data ? JSON.parse(data) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveStoredDeletedProductIds(ids: string[]) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem("fenou_deleted_product_ids", JSON.stringify(ids));
+  } catch {}
+}
+
 /**
  * Synchronous local product catalog fetcher for instant rendering.
  */
 export function getPublicProductsSync(options: ProductFilterOptions = {}): Product[] {
   try {
+    const deletedIds = new Set(getStoredDeletedProductIds());
     const custom = getStoredCustomProducts();
+    
     // Reverse PRODUCTS array so newly added products come first
     const raw = [...PRODUCTS].reverse();
     const defaultList = raw.map(mapLocalProductToCatalogProduct);
     
-    // Merge custom products on top
-    const combined = [...custom, ...defaultList];
+    // Map with default products
+    const productMap = new Map<string, Product>();
+    for (const p of defaultList) {
+      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+        productMap.set(p.id, p);
+      }
+    }
 
-    let list = combined;
+    // Overwrite / Add custom and modified products
+    for (const p of custom) {
+      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+        productMap.set(p.id, p);
+      }
+    }
+
+    let list = Array.from(productMap.values());
 
     if (options.categorySlug && options.categorySlug !== "all") {
       list = list.filter((p) => p.category?.slug === options.categorySlug || p.category_id === options.categorySlug);
-    } else if (!options.search && custom.length === 0) {
-      // Interleave products across categories for a rich varied homepage feed
-      const byCategory: Record<string, Product[]> = {};
-      for (const item of list) {
-        const catKey = item.category?.slug || "general";
-        if (!byCategory[catKey]) byCategory[catKey] = [];
-        byCategory[catKey].push(item);
-      }
-      const categoryKeys = Object.keys(byCategory);
-      const interleaved: Product[] = [];
-      let maxLen = 0;
-      for (const key of categoryKeys) {
-        if (byCategory[key].length > maxLen) maxLen = byCategory[key].length;
-      }
-      for (let i = 0; i < maxLen; i++) {
-        for (const key of categoryKeys) {
-          if (byCategory[key][i]) {
-            interleaved.push(byCategory[key][i]);
-          }
-        }
-      }
-      list = interleaved;
     }
 
     if (options.conditionState && options.conditionState !== "all") {
@@ -195,13 +204,16 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
  */
 export async function getProductByIdOrSlug(idOrSlug: string): Promise<Product | null> {
   try {
+    const deletedIds = new Set(getStoredDeletedProductIds());
+    if (deletedIds.has(idOrSlug)) return null;
+
     const custom = getStoredCustomProducts();
     const foundCustom = custom.find((p) => p.id === idOrSlug || p.slug === idOrSlug);
     if (foundCustom) return foundCustom;
 
     const cleanId = idOrSlug.replace(/^product-/, "");
     const local = getLocalProductById(cleanId) || getLocalProductById(idOrSlug) || PRODUCTS.find((p) => `product-${p.id}` === idOrSlug || p.id === idOrSlug);
-    if (local) {
+    if (local && !deletedIds.has(local.id) && !deletedIds.has(`product-${local.id}`)) {
       return mapLocalProductToCatalogProduct(local);
     }
     return null;

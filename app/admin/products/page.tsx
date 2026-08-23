@@ -33,7 +33,9 @@ import {
   FALLBACK_CATEGORIES,
   getPublicProductsSync,
   getStoredCustomProducts,
-  saveStoredCustomProducts
+  saveStoredCustomProducts,
+  getStoredDeletedProductIds,
+  saveStoredDeletedProductIds
 } from "@/lib/supabase/catalog";
 
 export default function ProductsManagementPage() {
@@ -387,13 +389,19 @@ export default function ProductsManagementPage() {
       };
 
       const existingCustom = getStoredCustomProducts();
-      const updatedCustom = existingCustom.filter(p => p.id !== newProdId);
+      const updatedCustom = existingCustom.filter(p => p.id !== newProdId && (editingProduct ? p.id !== editingProduct.id : true));
       updatedCustom.unshift(productObject);
       saveStoredCustomProducts(updatedCustom);
 
+      // Un-delete if re-created/edited
+      const deletedIds = getStoredDeletedProductIds();
+      if (deletedIds.includes(newProdId)) {
+        saveStoredDeletedProductIds(deletedIds.filter(id => id !== newProdId));
+      }
+
       setIsModalOpen(false);
       fetchProducts();
-      alert("Produit enregistré et ajouté à la boutique avec succès !");
+      alert("Produit enregistré et mis à jour avec succès !");
     } catch (err: any) {
       alert(`Produit enregistré dans le catalogue !`);
       setIsModalOpen(false);
@@ -405,9 +413,22 @@ export default function ProductsManagementPage() {
 
   const handleToggleStatus = async (product: Product) => {
     const newStatus: ProductStatus = product.status === "active" ? "inactive" : "active";
+    
+    // 1. Update in custom products store
+    const custom = getStoredCustomProducts();
+    const existingIndex = custom.findIndex((p) => p.id === product.id || p.slug === product.slug);
+    if (existingIndex >= 0) {
+      custom[existingIndex] = { ...custom[existingIndex], status: newStatus };
+    } else {
+      custom.unshift({ ...product, status: newStatus });
+    }
+    saveStoredCustomProducts(custom);
+
+    // 2. Update UI state immediately
     setProducts((prev) =>
       prev.map((p) => (p.id === product.id ? { ...p, status: newStatus } : p))
     );
+
     try {
       const supabase = createClient();
       await supabase.from("products").update({ status: newStatus }).eq("id", product.id);
@@ -424,11 +445,27 @@ export default function ProductsManagementPage() {
   };
 
   const handleDeleteProduct = async (product: Product) => {
-    if (!confirm(`Êtes-vous sûr de vouloir retirer le produit "${product.name}" ?`)) {
+    if (!confirm(`Êtes-vous sûr de vouloir supprimer définitivement le produit "${product.name}" ?`)) {
       return;
     }
 
-    setProducts((prev) => prev.filter((p) => p.id !== product.id));
+    // 1. Add ID to deleted list so it never reappears
+    const deletedIds = getStoredDeletedProductIds();
+    if (!deletedIds.includes(product.id)) {
+      deletedIds.push(product.id);
+    }
+    if (product.slug && !deletedIds.includes(product.slug)) {
+      deletedIds.push(product.slug);
+    }
+    saveStoredDeletedProductIds(deletedIds);
+
+    // 2. Remove from custom products
+    const custom = getStoredCustomProducts();
+    const updatedCustom = custom.filter((p) => p.id !== product.id && p.slug !== product.slug);
+    saveStoredCustomProducts(updatedCustom);
+
+    // 3. Update React state immediately
+    setProducts((prev) => prev.filter((p) => p.id !== product.id && p.slug !== product.slug));
 
     try {
       const supabase = createClient();
