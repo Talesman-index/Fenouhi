@@ -86,6 +86,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { PreloaderProvider } from "@/lib/preloader-context";
+
 export default function RootLayout({
   children,
 }: {
@@ -94,13 +96,15 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${plusJakarta.variable} ${poppins.variable}`} style={{ backgroundColor: "#0F172A" }}>
       <body className={plusJakarta.className} style={{ backgroundColor: "#FAF7F2", margin: 0, padding: 0 }}>
-        <LayoutWrapper>{children}</LayoutWrapper>
-        {/* PWA: Service Worker registration */}
-        <PwaRegister />
-        {/* PWA: Install prompt banner */}
-        <PwaInstallPrompt />
-        {/* PWA: Offline real-time status toast */}
-        <OfflineStatusIndicator />
+        <PreloaderProvider>
+          <LayoutWrapper>{children}</LayoutWrapper>
+          {/* PWA: Service Worker registration */}
+          <PwaRegister />
+          {/* PWA: Install prompt banner */}
+          <PwaInstallPrompt />
+          {/* PWA: Offline real-time status toast */}
+          <OfflineStatusIndicator />
+        </PreloaderProvider>
       </body>
     </html>
   );

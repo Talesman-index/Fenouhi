@@ -45,6 +45,7 @@ const PRESET_CATEGORIES = [
 ];
 
 function QuoteRequestContent() {
+  const { showPreloader, hidePreloader } = usePreloader();
   const searchParams = useSearchParams();
   const productId = searchParams.get("id");
   const prodTitle = searchParams.get("prod");
@@ -98,9 +99,6 @@ function QuoteRequestContent() {
         setFormData((prev) => ({
           ...prev,
           productName: prodTitle,
-          url: prodTitle.startsWith("http") ? prodTitle : "",
-          quantity: parseInt(initialQty) || 50,
-          shippingMode: initialMode === "sea" ? "sea" : "air",
         }));
       }
     }
@@ -108,10 +106,13 @@ function QuoteRequestContent() {
   }, [productId, prodTitle, initialQty, initialMode]);
 
   // Dynamic calculations based on product and options (Strictly in FCFA)
-  const unitPriceFCFA = selectedProduct ? selectedProduct.price : 6500;
-  const quantity = Math.max(1, formData.quantity || 1);
+  const unitPriceFCFA = selectedProduct ? selectedProduct.price : 4500;
+  const quantity = formData.quantity || 1;
   const productCostFCFA = unitPriceFCFA * quantity;
-  const serviceFeeFCFA = Math.round(productCostFCFA * 0.05);
+
+  // Service Fee (Tiered)
+  const serviceFeeRate = quantity >= 500 ? 0.03 : quantity >= 100 ? 0.05 : 0.07;
+  const serviceFeeFCFA = Math.round(productCostFCFA * serviceFeeRate);
 
   const weightPerUnit = selectedProduct ? (selectedProduct.weight || 0.35) : 0.35;
   const volumePerUnit = selectedProduct ? ((selectedProduct.length || 0.1) * (selectedProduct.width || 0.1) * (selectedProduct.height || 0.1)) : 0.002;
@@ -142,13 +143,18 @@ function QuoteRequestContent() {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
-      setAttachedFile({ name: file.name, size: `${sizeMb} MB` });
+      showPreloader(`Téléversement du fichier : ${file.name}...`);
+      setTimeout(() => {
+        setAttachedFile({ name: file.name, size: `${sizeMb} MB` });
+        hidePreloader();
+      }, 700);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    showPreloader("Transmission de votre demande de devis Fenouhimin...");
 
     const generatedNum = `DEV-2026-${Math.floor(100000 + Math.random() * 900000)}`;
     setCreatedQuoteNumber(generatedNum);
@@ -192,8 +198,11 @@ function QuoteRequestContent() {
     } catch (err) {
       console.warn("Notice: quote record saved locally", err);
     } finally {
-      setLoading(false);
-      setSubmitted(true);
+      setTimeout(() => {
+        setLoading(false);
+        setSubmitted(true);
+        hidePreloader();
+      }, 500);
     }
   };
 

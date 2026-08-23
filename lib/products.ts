@@ -397,9 +397,10 @@ export const PRODUCTS: Product[] = [
     price: 295000,
     oldPrice: 380000,
     minQty: 1,
-    image: "/images/assets/iphone16_official_teal.png",
+    image: "/images/assets/iphone16_white.png",
     images: [
-      "/images/assets/iphone16_official_teal.png",
+      "/images/assets/iphone16_white.png",
+      "/images/assets/iphone16_black.png",
     ],
     driveFolderUrl: "https://drive.google.com/drive/folders/1quRc7S5h9nUlMOU4t7krrYV-RhHKmaWa?usp=sharing",
     category: "electronics",

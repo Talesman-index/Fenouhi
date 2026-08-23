@@ -5,26 +5,44 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { getPublicProducts, getPublicProductsSync } from "@/lib/supabase/catalog";
 import type { Product } from "@/types/catalog";
-import { Building2, ArrowRight, ChevronLeft, ChevronRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship, Sparkles } from "lucide-react";
+import { Building2, ArrowRight, ChevronLeft, ChevronRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship, Sparkles, ShieldCheck } from "lucide-react";
 
 const heroSlides = [
   {
-    title: "Trouvez Vos Produits Préférés Direct Usines",
-    btnText: "Explorer le Catalogue",
+    badge: "FENOUHIMIN • IMPORTATION DIRECTE CHINE",
+    title: "Trouvez Vos Produits Préférés au Meilleur Prix Usine",
+    subtitle: "iPhones 16 certifiés scellés, high-tech & articles tendance en direct des fabricants avec livraison rapide à Cotonou.",
+    btnText: "Explorer le Catalogue Fenouhimin",
     btnLink: "/catalog",
-    bannerImg: "/images/assets/banner_hero_1.jpg",
+    gradient: "linear-gradient(135deg, #0F172A 0%, #165491 60%, #0F172A 100%)",
+    badgeBg: "linear-gradient(90deg, #165491 0%, #0284C7 100%)",
+    mainImg: "/images/assets/iphone16_white.png",
+    secondaryImg: "/images/assets/iphone16_black.png",
+    tagline: "Direct Usines",
   },
   {
-    title: "Expédition Express Chine → Bénin",
-    btnText: "Demander un Devis Fret",
+    badge: "FENOUHIMIN • FRET & LIVRAISON BÉNIN",
+    title: "Expédition Express Chine → Cotonou, Bénin",
+    subtitle: "Sourcing direct usines à Canton & Yiwu. Fret aérien sécurisé en 5 à 8 jours avec suivi en temps réel et dédouanement.",
+    btnText: "Demander un Devis de Fret",
     btnLink: "/quote-request",
-    bannerImg: "/images/assets/banner_hero_2.jpg",
+    gradient: "linear-gradient(135deg, #0A192F 0%, #0F3B5F 60%, #165491 100%)",
+    badgeBg: "linear-gradient(90deg, #165491 0%, #0284C7 100%)",
+    mainImg: "/images/assets/iphone17_pro_dark.png",
+    secondaryImg: "/images/assets/iphone17_pro_silver.png",
+    tagline: "Fret Express 5-8J",
   },
   {
-    title: "Ventes Flash & Sourcing Usines -50%",
-    btnText: "Découvrir les Ventes Flash",
+    badge: "FENOUHIMIN • VENTES FLASH GROSSISTES",
+    title: "Jusqu'à -50% sur les Lots & Produits de la Semaine",
+    subtitle: "Soin & beauté, électronique et cosmétiques en promotion directe grossiste pour revendeurs et particuliers au Bénin.",
+    btnText: "Découvrir les Offres Flash",
     btnLink: "/catalog?cat=beauty",
-    bannerImg: "/images/assets/banner_hero_3.jpg",
+    gradient: "linear-gradient(135deg, #180E29 0%, #2E1065 60%, #0F172A 100%)",
+    badgeBg: "linear-gradient(90deg, #2563EB 0%, #0284C7 100%)",
+    mainImg: "/images/assets/disaar_vitamin_c_mask.jpg",
+    secondaryImg: "/images/assets/pink_lip_mask.jpg",
+    tagline: "Offres Limités -50%",
   }
 ];
 
@@ -164,112 +182,70 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. DYNAMIC HERO PROMO SLIDER CAROUSEL (3D MARKETING VISUAL BANNERS) */}
+      {/* 2. DYNAMIC HERO PROMO BANNER (OFFICIAL FENOUHIMIN HIGH-IMPACT COVER) */}
       <section style={{ padding: "16px 0 20px" }}>
         <div className="container">
-          {(() => {
-            const activeSlide = heroSlides[currentSlide] || heroSlides[0];
-            return (
+          <Link
+            href="/catalog"
+            style={{
+              display: "block",
+              textDecoration: "none",
+              borderRadius: 24,
+              overflow: "hidden",
+              boxShadow: "0 16px 45px rgba(15, 23, 42, 0.22)",
+              border: "1px solid rgba(226, 232, 240, 0.8)",
+              position: "relative",
+              transition: "transform 0.25s ease, boxShadow 0.25s ease",
+            }}
+          >
+            {/* FULL-BLEED OFFICIAL 3D FENOUHIMIN HERO BANNER */}
+            <img
+              src="/images/banners/fenouhimin_hero_official.jpg"
+              alt="Fenouhimin - Achetez en Chine, Livré au Bénin"
+              style={{
+                width: "100%",
+                height: "auto",
+                maxHeight: 380,
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
+
+            {/* INTERACTIVE CTA BUTTON OVERLAY */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: 22,
+                left: 28,
+                zIndex: 5,
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+              }}
+            >
               <div
                 style={{
-                  borderRadius: 24,
-                  position: "relative",
-                  overflow: "hidden",
-                  boxShadow: "0 12px 35px rgba(15, 23, 42, 0.2)",
-                  minHeight: 220,
-                  border: "1px solid rgba(226, 232, 240, 0.8)",
-                  background: "#0F172A",
+                  background: "#165491",
+                  color: "#FFFFFF",
+                  padding: "10px 22px",
+                  borderRadius: 999,
+                  fontSize: 13,
+                  fontWeight: 800,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  boxShadow: "0 8px 24px rgba(22, 84, 145, 0.45)",
+                  border: "1px solid rgba(255, 255, 255, 0.4)",
+                  letterSpacing: "0.3px",
                 }}
               >
-                {/* 3D FRENCH MARKETING BANNER VISUAL */}
-                <img
-                  src={activeSlide.bannerImg}
-                  alt={activeSlide.title}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    maxHeight: 340,
-                    objectFit: "cover",
-                    display: "block",
-                  }}
-                />
-
-                {/* OVERLAY CTA BUTTON PLACED ON VISUAL */}
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: 20,
-                    left: 24,
-                    zIndex: 10,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 12,
-                  }}
-                >
-                  <Link
-                    href={activeSlide.btnLink || "/catalog"}
-                    style={{
-                      background: "#FFFFFF",
-                      color: "#0F172A",
-                      padding: "11px 24px",
-                      borderRadius: 999,
-                      fontSize: 13,
-                      fontWeight: 700,
-                      textDecoration: "none",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                      boxShadow: "0 8px 24px rgba(0, 0, 0, 0.45)",
-                      whiteSpace: "nowrap",
-                      border: "1px solid rgba(255, 255, 255, 0.9)",
-                      transition: "transform 0.2s ease, boxShadow 0.2s ease",
-                    }}
-                  >
-                    <span>{activeSlide.btnText}</span>
-                    <div style={{ width: 22, height: 22, borderRadius: 999, background: "#F97316", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFFFFF" }}>
-                      <ArrowRight style={{ width: 13, height: 13 }} />
-                    </div>
-                  </Link>
-                </div>
-
-                {/* SLIDE NAVIGATION DOTS */}
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: 24,
-                    right: 24,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 6,
-                    zIndex: 10,
-                    background: "rgba(15, 23, 42, 0.55)",
-                    backdropFilter: "blur(8px)",
-                    padding: "6px 12px",
-                    borderRadius: 999,
-                    border: "1px solid rgba(255, 255, 255, 0.2)",
-                  }}
-                >
-                  {heroSlides.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentSlide(idx)}
-                      style={{
-                        width: currentSlide === idx ? 22 : 7,
-                        height: 7,
-                        borderRadius: 999,
-                        background: currentSlide === idx ? "#F97316" : "rgba(255, 255, 255, 0.45)",
-                        border: "none",
-                        cursor: "pointer",
-                        padding: 0,
-                        transition: "all 0.25s ease",
-                      }}
-                      aria-label={`Bannière ${idx + 1}`}
-                    />
-                  ))}
+                <span>Commander Maintenant</span>
+                <div style={{ width: 20, height: 20, borderRadius: 999, background: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", color: "#165491" }}>
+                  <ArrowRight style={{ width: 12, height: 12 }} />
                 </div>
               </div>
-            );
-          })()}
+            </div>
+          </Link>
         </div>
       </section>
 
