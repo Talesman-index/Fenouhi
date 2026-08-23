@@ -17,15 +17,17 @@ import {
   CheckCircle2,
   AlertCircle,
   RefreshCw,
-  Plus
+  Plus,
+  Package
 } from "lucide-react";
 import type { Order, Quote, ActivityLog } from "@/types/supabase";
+import { PRODUCTS } from "@/lib/products";
 
 export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [kpis, setKpis] = useState({
-    totalUsers: 0,
-    newUsersMonth: 0,
+    totalUsers: 1,
+    newUsersMonth: 1,
     totalQuotes: 0,
     pendingQuotes: 0,
     activeOrders: 0,
@@ -34,6 +36,7 @@ export default function AdminDashboardPage() {
     totalRevenue: 0,
     pendingPayments: 0,
     openDisputes: 0,
+    totalCatalogProducts: PRODUCTS.length,
   });
 
   const [recentOrders, setRecentOrders] = useState<Order[]>([]);
@@ -87,21 +90,22 @@ export default function AdminDashboardPage() {
 
         if (isMounted) {
           setKpis({
-            totalUsers: usersCount || 124,
-            newUsersMonth: newUsersCount || 18,
-            totalQuotes: quotesCount || 86,
-            pendingQuotes: pendingQuotesCount || 12,
-            activeOrders: activeOrdersCount || 34,
-            deliveredOrders: deliveredOrdersCount || 142,
-            parcelsInTransit: transitCount || 28,
-            totalRevenue: totalRevenueCalculated || 45850000,
-            pendingPayments: pendingPaymentsCount || 5,
-            openDisputes: openDisputesCount || 3,
+            totalUsers: typeof usersCount === "number" ? Math.max(usersCount, 1) : 1,
+            newUsersMonth: typeof newUsersCount === "number" ? Math.max(newUsersCount, 1) : 1,
+            totalQuotes: quotesCount ?? 0,
+            pendingQuotes: pendingQuotesCount ?? 0,
+            activeOrders: activeOrdersCount ?? 0,
+            deliveredOrders: deliveredOrdersCount ?? 0,
+            parcelsInTransit: transitCount ?? 0,
+            totalRevenue: totalRevenueCalculated ?? 0,
+            pendingPayments: pendingPaymentsCount ?? 0,
+            openDisputes: openDisputesCount ?? 0,
+            totalCatalogProducts: PRODUCTS.length,
           });
 
-          if (orders && orders.length > 0) setRecentOrders(orders as Order[]);
-          if (quotes && quotes.length > 0) setRecentQuotes(quotes as Quote[]);
-          if (logs && logs.length > 0) setRecentActivities(logs as ActivityLog[]);
+          setRecentOrders(orders && orders.length > 0 ? (orders as Order[]) : []);
+          setRecentQuotes(quotes && quotes.length > 0 ? (quotes as Quote[]) : []);
+          setRecentActivities(logs && logs.length > 0 ? (logs as ActivityLog[]) : []);
         }
       } catch (err) {
         console.warn("Notice: using fallback dashboard metrics", err);
@@ -131,21 +135,35 @@ export default function AdminDashboardPage() {
         </div>
 
         <div style={{ display: "flex", gap: 10 }}>
+          <Link href="/admin/products" className="btn btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13 }}>
+            <Package style={{ width: 16 }} /> Articles & Catalogue ({kpis.totalCatalogProducts})
+          </Link>
           <Link href="/admin/quotes" className="btn btn-orange" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13 }}>
             <Plus style={{ width: 16 }} /> Nouveau Devis
-          </Link>
-          <Link href="/admin/shipments" className="btn btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13 }}>
-            <Truck style={{ width: 16 }} /> Suivi Transit
           </Link>
         </div>
       </div>
 
       {/* KPI CARDS GRID */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-        {/* KPI 1 */}
+        {/* KPI 0: CATALOG PRODUCTS */}
         <div className="card" style={{ padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Utilisateurs Totaux</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Articles en Boutique</span>
+            <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#EFF6FF", color: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Package style={{ width: 16 }} />
+            </div>
+          </div>
+          <div style={{ fontSize: 26, fontWeight: 700, color: "var(--navy-dark)" }}>{kpis.totalCatalogProducts}</div>
+          <div style={{ fontSize: 11, color: "var(--green-success)", fontWeight: 700, marginTop: 4, display: "flex", alignItems: "center", gap: 4 }}>
+            <CheckCircle2 style={{ width: 12 }} /> Produits actifs au catalogue
+          </div>
+        </div>
+
+        {/* KPI 1: USERS */}
+        <div className="card" style={{ padding: 18 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Utilisateurs Inscrits</span>
             <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#EFF6FF", color: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Users style={{ width: 16 }} />
             </div>
@@ -156,7 +174,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* KPI 2 */}
+        {/* KPI 2: DEVIS */}
         <div className="card" style={{ padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
             <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Devis en Attente</span>
@@ -170,7 +188,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* KPI 3 */}
+        {/* KPI 3: COMMANDES */}
         <div className="card" style={{ padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
             <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Commandes en Cours</span>
@@ -184,7 +202,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* KPI 4 */}
+        {/* KPI 4: COLIS TRANSIT */}
         <div className="card" style={{ padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
             <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Colis en Transit</span>
@@ -198,7 +216,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* KPI 5 */}
+        {/* KPI 5: CHIFFRE D'AFFAIRES */}
         <div className="card" style={{ padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
             <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Chiffre d'Affaires</span>
@@ -212,7 +230,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* KPI 6 */}
+        {/* KPI 6: LITIGES */}
         <div className="card" style={{ padding: 18 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
             <span style={{ fontSize: 11.5, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase" }}>Litiges Ouverts</span>
@@ -253,68 +271,6 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
-      {/* VISUAL CHARTS SECTION */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
-        {/* CHART 1: ORDERS BY MONTH */}
-        <div className="card" style={{ padding: 20 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <div>
-              <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)", fontSize: 10 }}>VOLUMÉTRIE LOGISTIQUE</span>
-              <h3 style={{ fontSize: 16, fontWeight: 600, color: "var(--navy-dark)", margin: "4px 0 0" }}>Commandes par Mois (2026)</h3>
-            </div>
-            <TrendingUp style={{ width: 18, color: "var(--blue-primary)" }} />
-          </div>
-
-          {/* SIMULATED VISUAL BAR CHART */}
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 12, height: 160, paddingTop: 20, paddingBottom: 10, borderBottom: "1px solid var(--border-light)" }}>
-            {[
-              { month: "Jan", count: 24, h: "40%" },
-              { month: "Fév", count: 32, h: "52%" },
-              { month: "Mar", count: 45, h: "70%" },
-              { month: "Avr", count: 38, h: "60%" },
-              { month: "Mai", count: 52, h: "82%" },
-              { month: "Juin", count: 68, h: "100%" },
-              { month: "Juil", count: 54, h: "85%" },
-            ].map((bar) => (
-              <div key={bar.month} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-                <span style={{ fontSize: 10, fontWeight: 600, color: "var(--navy-dark)" }}>{bar.count}</span>
-                <div style={{ width: "100%", height: bar.h, borderRadius: "4px 4px 0 0", background: bar.month === "Juil" ? "var(--orange-primary)" : "var(--blue-primary)" }} />
-                <span style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 700 }}>{bar.month}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* CHART 2: REVENUE BY MONTH */}
-        <div className="card" style={{ padding: 20 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <div>
-              <span className="badge" style={{ background: "var(--green-bg)", color: "var(--green-success)", fontSize: 10 }}>FINANCIER</span>
-              <h3 style={{ fontSize: 16, fontWeight: 600, color: "var(--navy-dark)", margin: "4px 0 0" }}>Revenus Mensuels (MFCFA)</h3>
-            </div>
-            <CreditCard style={{ width: 18, color: "var(--green-success)" }} />
-          </div>
-
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 12, height: 160, paddingTop: 20, paddingBottom: 10, borderBottom: "1px solid var(--border-light)" }}>
-            {[
-              { month: "Jan", val: "8.2", h: "45%" },
-              { month: "Fév", val: "11.4", h: "60%" },
-              { month: "Mar", val: "14.8", h: "75%" },
-              { month: "Avr", val: "12.6", h: "68%" },
-              { month: "Mai", val: "17.9", h: "90%" },
-              { month: "Juin", val: "21.5", h: "100%" },
-              { month: "Juil", val: "18.4", h: "86%" },
-            ].map((bar) => (
-              <div key={bar.month} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-                <span style={{ fontSize: 10, fontWeight: 600, color: "var(--navy-dark)" }}>{bar.val}M</span>
-                <div style={{ width: "100%", height: bar.h, borderRadius: "4px 4px 0 0", background: "var(--green-success)" }} />
-                <span style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 700 }}>{bar.month}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* TABLES ROW: RECENT ORDERS & RECENT QUOTES */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
         {/* RECENT ORDERS TABLE */}
@@ -345,18 +301,12 @@ export default function AdminDashboardPage() {
                     </tr>
                   ))
                 ) : (
-                  [
-                    { id: "1", num: "CMD-2026-4589", client: "Jean Marc Koffi", amount: 185000, status: "shipped" },
-                    { id: "2", num: "CMD-2026-4590", client: "Aminata Diallo", amount: 420000, status: "product_purchased" },
-                    { id: "3", num: "CMD-2026-4591", client: "Serge Mensah", amount: 95000, status: "pending_payment" },
-                  ].map((o) => (
-                    <tr key={o.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                      <td style={{ padding: "10px 4px", fontWeight: 600, color: "var(--navy-dark)" }}>{o.num}</td>
-                      <td style={{ padding: "10px 4px" }}>{o.client}</td>
-                      <td style={{ padding: "10px 4px", fontWeight: 700 }}>{o.amount.toLocaleString()} FCFA</td>
-                      <td style={{ padding: "10px 4px" }}><StatusBadge status={o.status} type="order" /></td>
-                    </tr>
-                  ))
+                  <tr>
+                    <td colSpan={4} style={{ textAlign: "center", padding: "28px 12px", color: "#64748B" }}>
+                      <ShoppingBag style={{ width: 28, height: 28, margin: "0 auto 8px", opacity: 0.4 }} />
+                      <div>Aucune commande enregistrée pour le moment.</div>
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
@@ -391,18 +341,12 @@ export default function AdminDashboardPage() {
                     </tr>
                   ))
                 ) : (
-                  [
-                    { id: "1", num: "DEV-2026-9410", prod: "20 Montres SmartFit", qte: 20, status: "under_review" },
-                    { id: "2", num: "DEV-2026-9411", prod: "50 Casques ANC SoundBass", qte: 50, status: "quote_sent" },
-                    { id: "3", num: "DEV-2026-9412", prod: "10 Panneaux Solaires 450W", qte: 10, status: "new" },
-                  ].map((q) => (
-                    <tr key={q.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                      <td style={{ padding: "10px 4px", fontWeight: 600, color: "var(--navy-dark)" }}>{q.num}</td>
-                      <td style={{ padding: "10px 4px" }}>{q.prod}</td>
-                      <td style={{ padding: "10px 4px", fontWeight: 700 }}>{q.qte}</td>
-                      <td style={{ padding: "10px 4px" }}><StatusBadge status={q.status} type="quote" /></td>
-                    </tr>
-                  ))
+                  <tr>
+                    <td colSpan={4} style={{ textAlign: "center", padding: "28px 12px", color: "#64748B" }}>
+                      <FileText style={{ width: 28, height: 28, margin: "0 auto 8px", opacity: 0.4 }} />
+                      <div>Aucune demande de devis en attente.</div>
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
