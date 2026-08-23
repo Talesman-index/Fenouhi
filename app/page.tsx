@@ -9,34 +9,22 @@ import { Building2, ArrowRight, ChevronLeft, ChevronRight, Search, Zap, DollarSi
 
 const heroSlides = [
   {
-    badge: "IMPORTATION DIRECTE CHINE",
-    title: "iPhone 16 Pro Max",
-    priceTag: "À partir de 295 000 FCFA*",
-    subtitle: "Puce A18 Pro & Design Titane. Obtenez le nouvel iPhone au meilleur tarif usine avec livraison express à Cotonou.",
-    btnText: "Commander l'iPhone",
-    btnLink: "/catalog?q=iphone+16",
-    imgSrc: "/images/assets/hero_iphone16.png",
-    bgGradient: "linear-gradient(135deg, #130D2B 0%, #201740 50%, #0F172A 100%)"
-  },
-  {
-    badge: "FRET & LIVRAISON BÉNIN",
-    title: "Expédition Express Chine",
-    priceTag: "Livraison Aérienne en 5 à 8 Jours",
-    subtitle: "Sourcing direct usines à Canton & Yiwu. Dédouanement et suivi de colis sécurisés.",
-    btnText: "Demander un Devis",
-    btnLink: "/quote-request",
-    imgSrc: "/images/assets/hero_box.png",
-    bgGradient: "linear-gradient(135deg, #0A192F 0%, #0F3B5F 50%, #165491 100%)"
-  },
-  {
-    badge: "VENTES FLASH DE LA SEMAINE",
-    title: "Ventes Flash Électronique",
-    priceTag: "Jusqu'à -50% de Réduction Directe",
-    subtitle: "Smartphones, casques audio et gadgets certifiés en direct des plus grands fabricants.",
-    btnText: "Découvrir les Offres",
+    title: "Trouvez Vos Produits Préférés Direct Usines",
+    btnText: "Explorer le Catalogue",
     btnLink: "/catalog",
-    imgSrc: "/images/assets/hero_samsung.png",
-    bgGradient: "linear-gradient(135deg, #2D0B33 0%, #5B125E 50%, #0F172A 100%)"
+    bannerImg: "/images/assets/banner_hero_1.jpg",
+  },
+  {
+    title: "Expédition Express Chine → Bénin",
+    btnText: "Demander un Devis Fret",
+    btnLink: "/quote-request",
+    bannerImg: "/images/assets/banner_hero_2.jpg",
+  },
+  {
+    title: "Ventes Flash & Sourcing Usines -50%",
+    btnText: "Découvrir les Ventes Flash",
+    btnLink: "/catalog?cat=beauty",
+    bannerImg: "/images/assets/banner_hero_3.jpg",
   }
 ];
 
@@ -176,130 +164,89 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. DYNAMIC HERO PROMO SLIDER CAROUSEL (AUTOMATIC & MANUAL OFFERS) */}
-      <section style={{ padding: "18px 0 20px" }}>
+      {/* 2. DYNAMIC HERO PROMO SLIDER CAROUSEL (3D MARKETING VISUAL BANNERS) */}
+      <section style={{ padding: "16px 0 20px" }}>
         <div className="container">
           {(() => {
             const activeSlide = heroSlides[currentSlide] || heroSlides[0];
             return (
               <div
                 style={{
-                  background: activeSlide.bgGradient || "linear-gradient(135deg, #0F172A 0%, #165491 60%, #1E293B 100%)",
                   borderRadius: 24,
-                  padding: "24px 28px 36px",
-                  color: "#FFFFFF",
                   position: "relative",
                   overflow: "hidden",
-                  boxShadow: "0 10px 30px rgba(22, 84, 145, 0.25)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  minHeight: 190,
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
-                  transition: "background 0.5s ease",
+                  boxShadow: "0 12px 35px rgba(15, 23, 42, 0.2)",
+                  minHeight: 220,
+                  border: "1px solid rgba(226, 232, 240, 0.8)",
+                  background: "#0F172A",
                 }}
               >
-                {/* LEFT TEXT CONTENT */}
-                <div style={{ zIndex: 2, maxWidth: "55%", minWidth: 200 }}>
-                  <h2
-                    style={{
-                      fontSize: "clamp(22px, 4vw, 32px)",
-                      fontWeight: 700,
-                      margin: "0 0 6px",
-                      lineHeight: 1.1,
-                      fontFamily: "'Poppins', sans-serif",
-                      color: "#FFFFFF",
-                    }}
-                  >
-                    {activeSlide.title}
-                  </h2>
+                {/* 3D FRENCH MARKETING BANNER VISUAL */}
+                <img
+                  src={activeSlide.bannerImg}
+                  alt={activeSlide.title}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    maxHeight: 340,
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
 
-                  <div
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 6,
-                      background: "#E8890C",
-                      color: "#FFFFFF",
-                      padding: "4px 12px",
-                      borderRadius: 999,
-                      fontSize: 11.5,
-                      fontWeight: 700,
-                      marginBottom: 12,
-                      boxShadow: "0 4px 12px rgba(232, 137, 12, 0.3)",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    <span>{activeSlide.badge || activeSlide.priceTag}</span>
-                  </div>
-
-                  <p style={{ fontSize: 12.5, color: "#CBD5E1", margin: "0 0 16px", lineHeight: 1.4 }}>
-                    {activeSlide.subtitle}
-                  </p>
-
+                {/* OVERLAY CTA BUTTON PLACED ON VISUAL */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 20,
+                    left: 24,
+                    zIndex: 10,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                  }}
+                >
                   <Link
                     href={activeSlide.btnLink || "/catalog"}
                     style={{
                       background: "#FFFFFF",
                       color: "#0F172A",
-                      padding: "10px 22px",
+                      padding: "11px 24px",
                       borderRadius: 999,
-                      fontSize: 12.5,
-                      fontWeight: 600,
+                      fontSize: 13,
+                      fontWeight: 700,
                       textDecoration: "none",
                       display: "inline-flex",
                       alignItems: "center",
-                      gap: 6,
-                      boxShadow: "0 4px 14px rgba(0, 0, 0, 0.3)",
+                      gap: 8,
+                      boxShadow: "0 8px 24px rgba(0, 0, 0, 0.45)",
                       whiteSpace: "nowrap",
+                      border: "1px solid rgba(255, 255, 255, 0.9)",
+                      transition: "transform 0.2s ease, boxShadow 0.2s ease",
                     }}
                   >
-                    <span>{activeSlide.btnText || "Explorer les Offres"}</span>
-                    <ArrowRight style={{ width: 14, height: 14 }} />
+                    <span>{activeSlide.btnText}</span>
+                    <div style={{ width: 22, height: 22, borderRadius: 999, background: "#F97316", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFFFFF" }}>
+                      <ArrowRight style={{ width: 13, height: 13 }} />
+                    </div>
                   </Link>
                 </div>
 
-                {/* RIGHT HERO IMAGE */}
-                <div
-                  style={{
-                    width: "42%",
-                    height: "100%",
-                    position: "absolute",
-                    right: 10,
-                    top: 0,
-                    bottom: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    pointerEvents: "none",
-                  }}
-                >
-                  <img
-                    src={activeSlide.imgSrc}
-                    alt={activeSlide.title}
-                    style={{
-                      maxHeight: "135%",
-                      maxWidth: "100%",
-                      objectFit: "contain",
-                      filter: "drop-shadow(0 10px 20px rgba(0,0,0,0.4))",
-                      transition: "transform 0.4s ease",
-                    }}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = "/images/assets/hero_iphone16.png";
-                    }}
-                  />
-                </div>
-
-                {/* SLIDE NAVIGATION ARROWS & DOTS */}
+                {/* SLIDE NAVIGATION DOTS */}
                 <div
                   style={{
                     position: "absolute",
-                    bottom: 10,
-                    left: 28,
+                    bottom: 24,
+                    right: 24,
                     display: "flex",
                     alignItems: "center",
                     gap: 6,
                     zIndex: 10,
+                    background: "rgba(15, 23, 42, 0.55)",
+                    backdropFilter: "blur(8px)",
+                    padding: "6px 12px",
+                    borderRadius: 999,
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
                   }}
                 >
                   {heroSlides.map((_, idx) => (
@@ -307,16 +254,16 @@ export default function HomePage() {
                       key={idx}
                       onClick={() => setCurrentSlide(idx)}
                       style={{
-                        width: currentSlide === idx ? 20 : 7,
+                        width: currentSlide === idx ? 22 : 7,
                         height: 7,
                         borderRadius: 999,
-                        background: currentSlide === idx ? "#E8890C" : "rgba(255, 255, 255, 0.35)",
+                        background: currentSlide === idx ? "#F97316" : "rgba(255, 255, 255, 0.45)",
                         border: "none",
                         cursor: "pointer",
                         padding: 0,
                         transition: "all 0.25s ease",
                       }}
-                      aria-label={`Offre ${idx + 1}`}
+                      aria-label={`Bannière ${idx + 1}`}
                     />
                   ))}
                 </div>

@@ -175,53 +175,55 @@ function CatalogContent() {
           </div>
         </div>
 
-        {/* 2. HORIZONTAL SCROLLABLE CONDITION STATE PILLS */}
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
-            Filtrer par état du téléphone :
-          </div>
+        {/* 2. HORIZONTAL SCROLLABLE CONDITION STATE PILLS (ONLY DISPLAYED ON ELECTRONICS / SMARTPHONES CATEGORY) */}
+        {selectedCategory === "electronics" && (
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+              Filtrer par état du téléphone :
+            </div>
 
-          <div
-            className="mobile-categories-scroll"
-            style={{
-              display: "flex",
-              gap: 8,
-              overflowX: "auto",
-              paddingBottom: 6,
-              WebkitOverflowScrolling: "touch",
-            }}
-          >
-            {CONDITION_OPTIONS.map((c) => {
-              const isActive = selectedConditionState === c.id;
-              const Icon = c.icon;
-              return (
-                <button
-                  key={c.id}
-                  onClick={() => setSelectedConditionState(c.id)}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    padding: "8px 16px",
-                    borderRadius: 999,
-                    border: isActive ? "none" : "1px solid #E2E8F0",
-                    background: isActive ? "#0F172A" : "#FFFFFF",
-                    color: isActive ? "#FFFFFF" : "#475569",
-                    fontSize: 12.5,
-                    fontWeight: isActive ? 800 : 600,
-                    cursor: "pointer",
-                    whiteSpace: "nowrap",
-                    boxShadow: isActive ? "0 4px 12px rgba(15, 23, 42, 0.15)" : "none",
-                    flexShrink: 0,
-                  }}
-                >
-                  <Icon style={{ width: 14, height: 14, color: isActive ? "#FFFFFF" : c.color, flexShrink: 0 }} />
-                  <span>{c.label}</span>
-                </button>
-              );
-            })}
+            <div
+              className="mobile-categories-scroll"
+              style={{
+                display: "flex",
+                gap: 8,
+                overflowX: "auto",
+                paddingBottom: 6,
+                WebkitOverflowScrolling: "touch",
+              }}
+            >
+              {CONDITION_OPTIONS.map((c) => {
+                const isActive = selectedConditionState === c.id;
+                const Icon = c.icon;
+                return (
+                  <button
+                    key={c.id}
+                    onClick={() => setSelectedConditionState(c.id)}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      padding: "8px 16px",
+                      borderRadius: 999,
+                      border: isActive ? "none" : "1px solid #E2E8F0",
+                      background: isActive ? "#0F172A" : "#FFFFFF",
+                      color: isActive ? "#FFFFFF" : "#475569",
+                      fontSize: 12.5,
+                      fontWeight: isActive ? 800 : 600,
+                      cursor: "pointer",
+                      whiteSpace: "nowrap",
+                      boxShadow: isActive ? "0 4px 12px rgba(15, 23, 42, 0.15)" : "none",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Icon style={{ width: 14, height: 14, color: isActive ? "#FFFFFF" : c.color, flexShrink: 0 }} />
+                    <span>{c.label}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* 3. HORIZONTAL SCROLLABLE CATEGORIES BAR */}
         <div style={{ marginBottom: 24 }}>
@@ -240,7 +242,10 @@ function CatalogContent() {
             }}
           >
             <button
-              onClick={() => setSelectedCategory("all")}
+              onClick={() => {
+                setSelectedCategory("all");
+                setSelectedConditionState("all");
+              }}
               style={{
                 padding: "8px 18px",
                 borderRadius: 999,
@@ -263,7 +268,12 @@ function CatalogContent() {
               return (
                 <button
                   key={cat.id}
-                  onClick={() => setSelectedCategory(cat.slug)}
+                  onClick={() => {
+                    setSelectedCategory(cat.slug);
+                    if (cat.slug !== "electronics") {
+                      setSelectedConditionState("all");
+                    }
+                  }}
                   style={{
                     padding: "8px 18px",
                     borderRadius: 999,
