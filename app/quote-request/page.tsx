@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { getProductByIdOrSlug } from "@/lib/supabase/catalog";
 import type { Product } from "@/types/catalog";
 import { createClient } from "@/lib/supabase/client";
+import { usePreloader } from "@/lib/preloader-context";
 import {
   Send,
   CheckCircle2,
