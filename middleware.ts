@@ -15,14 +15,13 @@ export async function middleware(request: NextRequest) {
     response.cookies.delete("client_demo_access");
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    "https://ujxkxfsmbargtttoooam.supabase.co";
   const supabaseKey =
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-
-  if (!supabaseUrl || !supabaseKey) {
-    return response;
-  }
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    "sb_publishable_ANc4XjBnSsp3i97FSbn2oA_lD3-NrsS";
 
   const pathname = request.nextUrl.pathname;
   const isAuthRoute = pathname.startsWith("/auth/login") || pathname.startsWith("/auth/sign-up");

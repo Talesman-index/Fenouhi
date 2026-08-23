@@ -3,11 +3,13 @@ import { cookies } from "next/headers";
 
 export const createClient = async () => {
   const cookieStore = await cookies();
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    "https://ujxkxfsmbargtttoooam.supabase.co";
   const supabaseKey =
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-    "placeholder-key";
+    "sb_publishable_ANc4XjBnSsp3i97FSbn2oA_lD3-NrsS";
 
   return createServerClient(supabaseUrl, supabaseKey, {
     cookies: {
