@@ -400,10 +400,6 @@ export const PRODUCTS: Product[] = [
     image: "/images/assets/iphone16_official_teal.png",
     images: [
       "/images/assets/iphone16_official_teal.png",
-      "/images/assets/iphone16_case_blue.png",
-      "/images/assets/iphone16_case_pink.png",
-      "/images/assets/iphone16_case_black.png",
-      "/images/assets/iphone16_case_white.png",
     ],
     driveFolderUrl: "https://drive.google.com/drive/folders/1quRc7S5h9nUlMOU4t7krrYV-RhHKmaWa?usp=sharing",
     category: "electronics",
