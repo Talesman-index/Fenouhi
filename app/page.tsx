@@ -104,11 +104,11 @@ export default function HomePage() {
   ];
 
   const todayDeals = [
-    { id: "iphone-7-7plus", title: "iPhone 7 & 7 Plus Grossiste", price: "26 000 FCFA", oldPrice: "35 000 FCFA", image: "/images/assets/iphone7/iphone7_gold.png", category: "Téléphones" },
-    { id: "iphone-8-8plus", title: "iPhone 8 & 8 Plus Grossiste", price: "33 000 FCFA", oldPrice: "45 000 FCFA", image: "/images/assets/card_hero_iphone.jpg", category: "Téléphones" },
-    { id: "iphone-x-xr-xsmax", title: "iPhone X / XR / XS Max Grossiste", price: "46 000 FCFA", oldPrice: "65 000 FCFA", image: "/images/assets/card_hero_iphone.jpg", category: "Téléphones" },
-    { id: "iphone-11-11pro-11promax", title: "iPhone 11 / 11 Pro / 11 Pro Max", price: "79 000 FCFA", oldPrice: "110 000 FCFA", image: "/images/assets/card_hero_iphone.jpg", category: "Téléphones" },
-    { id: "iphone-12-12pro-12promax", title: "iPhone 12 / 12 Pro / 12 Pro Max", price: "98 000 FCFA", oldPrice: "135 000 FCFA", image: "/images/assets/card_hero_iphone.jpg", category: "Téléphones" },
+    { id: "iphone-15-15pro-15promax", title: "iPhone 15 / 15 Pro / 15 Pro Max", price: "230 000 FCFA", oldPrice: "310 000 FCFA", image: "/images/assets/iphone15/iphone15_bluetitanium.jpg", category: "High-Tech" },
+    { id: "dr-rashel-vitamin-c-set", title: "Dr. Rashel Vitamine C (Coffret 4 Pièces)", price: "10 000 FCFA", oldPrice: "16 000 FCFA", image: "/images/assets/dr_rashel_vitamin_c_2.jpg", category: "Beauté & Soins" },
+    { id: "iphone-13-13pro-13promax", title: "iPhone 13 / 13 Pro / 13 Pro Max", price: "131 000 FCFA", oldPrice: "180 000 FCFA", image: "/images/assets/iphone13/iphone13_gold.png", category: "High-Tech" },
+    { id: "efero-blanchiment-dents", title: "EFERO Essence Blanchiment Dents", price: "2 500 FCFA", oldPrice: "4 500 FCFA", image: "/images/assets/efero_teeth_whitening.jpg", category: "Hygiène Buccale" },
+    { id: "defroisseur-vapeur-haeger-vetements", title: "Mini Défroisseur Vapeur Portatif HAEGER", price: "10 000 FCFA", oldPrice: "16 500 FCFA", image: "/images/assets/defroisseur_vapeur_haeger_2.png", category: "Électroménager" },
   ];
 
   const laptopsShowcase = [
