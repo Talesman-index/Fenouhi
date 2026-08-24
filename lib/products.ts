@@ -1043,7 +1043,7 @@ export const PRODUCTS: Product[] = [
     oldPrice: 2800,
     minQty: 1,
     image: "/images/assets/aichun_collagen_milk_mask_2.png",
-    images: ["/images/assets/aichun_collagen_milk_mask_2.png", "/images/assets/aichun_collagen_milk_mask_1.png"],
+    images: ["/images/assets/aichun_collagen_milk_mask_2.png"],
     category: "beauty",
     badge: "PEEL-OFF • COLLAGÈNE & LAIT",
     origin: "Chine (FenouShop Partner)",
