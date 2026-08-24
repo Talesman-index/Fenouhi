@@ -156,12 +156,19 @@ export default function ProductsManagementPage() {
 
       // 3. Filter by category
       if (categoryFilter !== "all") {
-        allProducts = allProducts.filter(
-          (p) =>
-            p.category_id === categoryFilter ||
-            p.category?.id === categoryFilter ||
-            p.category?.slug === categoryFilter
-        );
+        const target = categoryFilter.toLowerCase();
+        allProducts = allProducts.filter((p) => {
+          const catId = (p.category_id || "").toLowerCase();
+          const catSlug = (p.category?.slug || "").toLowerCase();
+          const catName = (p.category?.name || "").toLowerCase();
+          return (
+            catId === target ||
+            catSlug === target ||
+            catName === target ||
+            (target.includes("c1000000-0000-0000-0000-000000000003") && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
+            (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin")))
+          );
+        });
       }
 
       // 4. Filter by status
@@ -244,7 +251,13 @@ export default function ProductsManagementPage() {
       setSlug("");
       setShortDescription("");
       setDescription("");
-      setCategoryId(categories && categories.length > 0 ? categories[0].id : "");
+      const defaultCatId =
+        categoryFilter !== "all"
+          ? categoryFilter
+          : categories && categories.length > 0
+          ? categories[0].id
+          : "";
+      setCategoryId(defaultCatId);;
       setSubcategory("");
       setPrice(0);
       setCargolinkMarginPercent(10);
@@ -453,11 +466,17 @@ export default function ProductsManagementPage() {
         ...galleryUrls.map((url, i) => ({ id: `img_${newProdId}_${i + 1}`, product_id: newProdId, public_image_url: url, position: i + 1, is_primary: false }))
       ];
 
+      const matchedCategory =
+        categories.find((c) => c.id === categoryId || c.slug === categoryId) ||
+        FALLBACK_CATEGORIES.find((c) => c.id === categoryId || c.slug === categoryId) ||
+        { id: categoryId, name: "Beauté & Soins", slug: "beauty", is_active: true } as any;
+
       const productObject: Product = {
         id: newProdId,
         ...payload,
+        category_id: matchedCategory.id,
+        category: matchedCategory,
         images: fullImages,
-        category: categories.find(c => c.id === categoryId) || { id: categoryId, name: "Catalogue", slug: "general", is_active: true } as any
       };
 
       const existingCustom = getStoredCustomProducts();

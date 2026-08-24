@@ -59,13 +59,18 @@ export async function getCategories(): Promise<Category[]> {
  * Helper to map a local Product item from lib/products.ts to the full Product model.
  */
 function mapLocalProductToCatalogProduct(p: any): Product {
+  const matchedCat =
+    FALLBACK_CATEGORIES.find((c) => c.slug === p.category || c.id === p.category) ||
+    FALLBACK_CATEGORIES.find((c) => (p.category || "").toLowerCase().includes(c.slug.toLowerCase())) ||
+    null;
+
   return {
     id: p.id,
     name: p.title,
     slug: `product-${p.id}`,
     short_description: p.subtitle || p.description,
     description: p.description,
-    category_id: null,
+    category_id: matchedCat?.id || null,
     subcategory: null,
     price: p.price,
     currency: "FCFA",
@@ -93,7 +98,7 @@ function mapLocalProductToCatalogProduct(p: any): Product {
       position: i,
       is_primary: i === 0,
     })),
-    category: FALLBACK_CATEGORIES.find((c) => c.slug === p.category) || null,
+    category: matchedCat,
   } as Product;
 }
 
@@ -132,21 +137,18 @@ export function saveStoredDeletedProductIds(ids: string[]) {
 }
 
 /**
- * Synchronous local product catalog fetcher for instant rendering.
+ * Synchronously get products from lib/products.ts merged with localStorage custom/modified products.
  */
 export function getPublicProductsSync(options: ProductFilterOptions = {}): Product[] {
   try {
     const deletedIds = new Set(getStoredDeletedProductIds());
     const custom = getStoredCustomProducts();
-    
-    // Reverse PRODUCTS array so newly added products come first
-    const raw = [...PRODUCTS].reverse();
-    const defaultList = raw.map(mapLocalProductToCatalogProduct);
-    
-    // Map with default products
     const productMap = new Map<string, Product>();
-    for (const p of defaultList) {
-      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+
+    // Add base products from lib/products.ts
+    for (const raw of PRODUCTS) {
+      const p = mapLocalProductToCatalogProduct(raw);
+      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
         productMap.set(p.id, p);
       }
     }
@@ -161,7 +163,18 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
     let list = Array.from(productMap.values());
 
     if (options.categorySlug && options.categorySlug !== "all") {
-      list = list.filter((p) => p.category?.slug === options.categorySlug || p.category_id === options.categorySlug);
+      const target = options.categorySlug.toLowerCase();
+      list = list.filter((p) => {
+        const catId = (p.category_id || "").toLowerCase();
+        const catSlug = (p.category?.slug || "").toLowerCase();
+        const catName = (p.category?.name || "").toLowerCase();
+        return (
+          catId === target ||
+          catSlug === target ||
+          catName === target ||
+          (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin")))
+        );
+      });
     }
 
     if (options.conditionState && options.conditionState !== "all") {
