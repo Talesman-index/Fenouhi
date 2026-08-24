@@ -139,7 +139,22 @@ export default function ProductsManagementPage() {
         }
       }
 
-      // 2. Query Supabase for any additional/updated DB products
+      // 2. Query Server API route /api/products
+      try {
+        const res = await fetch(`/api/products`, { cache: "no-store" });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.products && json.products.length > 0) {
+            for (const p of json.products) {
+              if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+                productMap.set(p.id, p as Product);
+              }
+            }
+          }
+        }
+      } catch (e) {}
+
+      // 3. Query Supabase for any additional/updated DB products
       try {
         const supabase = createClient();
         const { data: dbProducts } = await supabase
@@ -158,7 +173,7 @@ export default function ProductsManagementPage() {
         // Fallback to local catalog
       }
 
-      // 3. Put remaining catalog products
+      // 4. Put remaining catalog products
       for (const p of localProducts) {
         if (!productMap.has(p.id) && !deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
           productMap.set(p.id, p);
@@ -530,6 +545,15 @@ export default function ProductsManagementPage() {
         type: "product"
       });
 
+      // Sync with Server API route /api/products
+      try {
+        fetch("/api/products", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(productObject)
+        }).catch(() => {});
+      } catch {}
+
       // Update UI state immediately in memory at index 0
       setProducts((prev) => {
         const filtered = prev.filter((p) => p.id !== newProdId && (editingProduct ? p.id !== editingProduct.id : true));
@@ -620,6 +644,15 @@ export default function ProductsManagementPage() {
 
       // 3. Update React state immediately
       setProducts((prev) => prev.filter((p) => p.id !== product.id && p.slug !== product.slug));
+
+      // Sync deletion with Server API route /api/products
+      try {
+        fetch("/api/products", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: product.id, slug: product.slug })
+        }).catch(() => {});
+      } catch {}
 
       addRealNotification({
         title: "Produit Supprimé",

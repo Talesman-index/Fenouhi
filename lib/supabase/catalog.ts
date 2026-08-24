@@ -233,12 +233,31 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
     const localProducts = getPublicProductsSync(options);
     const productMap = new Map<string, Product>();
 
+    // 1. Local products & custom products
     for (const p of localProducts) {
       if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
         productMap.set(p.id, p);
       }
     }
 
+    // 2. Fetch from Server API route /api/products
+    try {
+      if (typeof window !== "undefined") {
+        const res = await fetch(`/api/products?cat=${options.categorySlug || "all"}&q=${options.search || ""}`, { cache: "no-store" });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.products && json.products.length > 0) {
+            for (const p of json.products) {
+              if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+                productMap.set(p.id, p as Product);
+              }
+            }
+          }
+        }
+      }
+    } catch {}
+
+    // 3. Query Supabase
     try {
       const supabase = createClient();
       let query = supabase
