@@ -222,32 +222,52 @@ export default function ProductsManagementPage() {
     }
   };
 
+  const compressImage = (file: File, maxWidth = 800, quality = 0.75): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          let { width, height } = img;
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL("image/jpeg", quality));
+          } else {
+            resolve(e.target?.result as string);
+          }
+        };
+        img.onerror = () => resolve(e.target?.result as string);
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = () => resolve("/images/assets/item_1.jpg");
+      reader.readAsDataURL(file);
+    });
+  };
+
   // Image Upload Handlers
-  const handleMainImageFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMainImageFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (typeof reader.result === "string") {
-          setImageUrl(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
+      const compressed = await compressImage(file, 800, 0.75);
+      setImageUrl(compressed);
     }
   };
 
-  const handleGalleryImagesUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGalleryImagesUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
-      Array.from(files).forEach((file) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          if (typeof reader.result === "string") {
-            setGalleryUrls((prev) => [...prev, reader.result as string]);
-          }
-        };
-        reader.readAsDataURL(file);
-      });
+      for (const file of Array.from(files)) {
+        const compressed = await compressImage(file, 800, 0.75);
+        setGalleryUrls((prev) => [...prev, compressed]);
+      }
     }
   };
 
@@ -508,6 +528,12 @@ export default function ProductsManagementPage() {
         title: editingProduct ? "Produit Modifié" : "Nouveau Produit Ajouté",
         desc: `"${name}" (${Number(price).toLocaleString()} FCFA) a été mis à jour dans le catalogue.`,
         type: "product"
+      });
+
+      // Update UI state immediately in memory at index 0
+      setProducts((prev) => {
+        const filtered = prev.filter((p) => p.id !== newProdId && (editingProduct ? p.id !== editingProduct.id : true));
+        return [productObject, ...filtered];
       });
 
       setIsModalOpen(false);

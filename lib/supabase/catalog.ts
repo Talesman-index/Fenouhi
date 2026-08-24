@@ -102,38 +102,57 @@ function mapLocalProductToCatalogProduct(p: any): Product {
   } as Product;
 }
 
+let inMemoryCustomProducts: Product[] = [];
+let inMemoryDeletedIds: string[] = [];
+
 export function getStoredCustomProducts(): Product[] {
-  if (typeof window === "undefined") return [];
+  if (typeof window === "undefined") return inMemoryCustomProducts;
   try {
     const data = localStorage.getItem("fenou_custom_products");
-    return data ? JSON.parse(data) : [];
+    const parsed = data ? JSON.parse(data) : [];
+    if (parsed && parsed.length > 0) {
+      inMemoryCustomProducts = parsed;
+      return parsed;
+    }
+    return inMemoryCustomProducts;
   } catch {
-    return [];
+    return inMemoryCustomProducts;
   }
 }
 
 export function saveStoredCustomProducts(products: Product[]) {
+  inMemoryCustomProducts = products;
   if (typeof window === "undefined") return;
   try {
     localStorage.setItem("fenou_custom_products", JSON.stringify(products));
-  } catch {}
+  } catch (err) {
+    console.warn("LocalStorage error, preserved in memory:", err);
+  }
 }
 
 export function getStoredDeletedProductIds(): string[] {
-  if (typeof window === "undefined") return [];
+  if (typeof window === "undefined") return inMemoryDeletedIds;
   try {
     const data = localStorage.getItem("fenou_deleted_product_ids");
-    return data ? JSON.parse(data) : [];
+    const parsed = data ? JSON.parse(data) : [];
+    if (parsed && parsed.length > 0) {
+      inMemoryDeletedIds = parsed;
+      return parsed;
+    }
+    return inMemoryDeletedIds;
   } catch {
-    return [];
+    return inMemoryDeletedIds;
   }
 }
 
 export function saveStoredDeletedProductIds(ids: string[]) {
+  inMemoryDeletedIds = ids;
   if (typeof window === "undefined") return;
   try {
     localStorage.setItem("fenou_deleted_product_ids", JSON.stringify(ids));
-  } catch {}
+  } catch (err) {
+    console.warn("LocalStorage error, preserved in memory:", err);
+  }
 }
 
 /**
