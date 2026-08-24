@@ -5,8 +5,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Logo from "@/components/Logo";
-import { Search, Bell, Menu, X, ShieldAlert, LogOut, Package, CheckCircle2, FileText } from "lucide-react";
+import { Search, Bell, Menu, X, ShieldAlert, LogOut, Package, CheckCircle2, FileText, Info } from "lucide-react";
 import type { Profile } from "@/types/supabase";
+import { fetchAllRealNotifications, RealNotification } from "@/lib/admin/notifications";
 
 import DemoBanner from "@/components/DemoBanner";
 
@@ -19,6 +20,15 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState<RealNotification[]>([]);
+
+  React.useEffect(() => {
+    async function loadNotifications() {
+      const realNotifs = await fetchAllRealNotifications();
+      setNotifications(realNotifs);
+    }
+    loadNotifications();
+  }, [showNotifications]);
 
   const handleSignOut = async () => {
     const supabase = createClient();
@@ -33,11 +43,7 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
     router.push(`/admin/quotes?search=${encodeURIComponent(searchQuery.trim())}`);
   };
 
-  const notificationsMock = [
-    { id: "1", title: "Nouveau Devis", desc: "Devis #DEV-2026-9410 soumis par Koffi", time: "Il y a 10 min", icon: FileText },
-    { id: "2", title: "Paiement Reçu", desc: "Confirmation Mobile Money 140.000 FCFA", time: "Il y a 35 min", icon: CheckCircle2 },
-    { id: "3", title: "Vol Confirmé", desc: "Expédition #EXP-8899 en transit aérien", time: "Il y a 2h", icon: Package },
-  ];
+  const unreadCount = notifications.filter((n) => !n.is_read).length;
 
   return (
     <>
@@ -129,17 +135,19 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
               aria-label="Notifications"
             >
               <Bell style={{ width: 18, height: 18, color: "var(--navy-dark)" }} />
-              <span
-                style={{
-                  position: "absolute",
-                  top: 2,
-                  right: 2,
-                  width: 9,
-                  height: 9,
-                  borderRadius: "50%",
-                  background: "var(--orange-primary)"
-                }}
-              />
+              {unreadCount > 0 && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: 2,
+                    right: 2,
+                    width: 9,
+                    height: 9,
+                    borderRadius: "50%",
+                    background: "var(--orange-primary)"
+                  }}
+                />
+              )}
             </button>
 
             {showNotifications && (
@@ -149,33 +157,45 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
                   position: "absolute",
                   right: 0,
                   top: 48,
-                  width: 320,
+                  width: 340,
                   padding: 16,
                   zIndex: 50,
-                  boxShadow: "0 10px 25px rgba(0,0,0,0.12)"
+                  boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
+                  borderRadius: 16
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, paddingBottom: 8, borderBottom: "1px solid var(--border-light)" }}>
-                  <span style={{ fontWeight: 600, fontSize: 14, color: "var(--navy-dark)" }}>Notifications Récentes</span>
-                  <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)", fontSize: 10 }}>3 Nouvelles</span>
+                  <span style={{ fontWeight: 700, fontSize: 13.5, color: "var(--navy-dark)" }}>Notifications Réelles</span>
+                  {notifications.length > 0 ? (
+                    <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)", fontSize: 11, fontWeight: 700 }}>
+                      {notifications.length} {notifications.length > 1 ? "Événements" : "Événement"}
+                    </span>
+                  ) : (
+                    <span className="badge" style={{ background: "#F1F5F9", color: "#64748B", fontSize: 11 }}>0 Nouvelle</span>
+                  )}
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {notificationsMock.map((n) => {
-                    const Icon = n.icon;
-                    return (
-                      <div key={n.id} style={{ display: "flex", gap: 10, padding: 8, borderRadius: "var(--radius-sm)", background: "var(--bg-main)" }}>
-                        <div style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--blue-light)", color: "var(--blue-primary)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                          <Icon style={{ width: 14 }} />
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, maxHeight: 320, overflowY: "auto" }}>
+                  {notifications.length === 0 ? (
+                    <div style={{ padding: "20px 10px", textAlign: "center", color: "#64748B", fontSize: 12.5 }}>
+                      <CheckCircle2 style={{ width: 28, height: 28, color: "#10B981", margin: "0 auto 8px" }} />
+                      <div>Plateforme à jour</div>
+                      <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 2 }}>Les futures commandes, devis et ajouts de produits apparaîtront ici.</div>
+                    </div>
+                  ) : (
+                    notifications.map((n) => (
+                      <div key={n.id} style={{ display: "flex", gap: 10, padding: 10, borderRadius: 10, background: n.is_read ? "#FFFFFF" : "var(--bg-main)", border: "1px solid var(--border-light)" }}>
+                        <div style={{ width: 30, height: 30, borderRadius: "50%", background: n.type === "product" ? "#FEF3C7" : n.type === "payment" ? "#DCFCE7" : "var(--blue-light)", color: n.type === "product" ? "#D97706" : n.type === "payment" ? "#166534" : "var(--blue-primary)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                          {n.type === "product" ? <Package style={{ width: 15 }} /> : n.type === "payment" ? <CheckCircle2 style={{ width: 15 }} /> : <FileText style={{ width: 15 }} />}
                         </div>
-                        <div>
-                          <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--navy-dark)" }}>{n.title}</div>
-                          <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{n.desc}</div>
-                          <div style={{ fontSize: 10, color: "var(--text-light)", marginTop: 2 }}>{n.time}</div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: 12.5, fontWeight: 700, color: "var(--navy-dark)" }}>{n.title}</div>
+                          <div style={{ fontSize: 11.5, color: "#475569", lineHeight: 1.3 }}>{n.desc}</div>
+                          <div style={{ fontSize: 10.5, color: "#94A3B8", marginTop: 4 }}>{n.time}</div>
                         </div>
                       </div>
-                    );
-                  })}
+                    ))
+                  )}
                 </div>
 
                 <Link
@@ -185,14 +205,15 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
                     display: "block",
                     textAlign: "center",
                     fontSize: 12,
-                    fontWeight: 600,
+                    fontWeight: 700,
                     color: "var(--blue-primary)",
                     marginTop: 12,
                     paddingTop: 8,
-                    borderTop: "1px solid var(--border-light)"
+                    borderTop: "1px solid var(--border-light)",
+                    textDecoration: "none"
                   }}
                 >
-                  Voir toutes les notifications ➔
+                  Voir l'historique complet ➔
                 </Link>
               </div>
             )}

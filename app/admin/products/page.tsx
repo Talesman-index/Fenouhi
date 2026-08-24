@@ -37,6 +37,7 @@ import {
   getStoredDeletedProductIds,
   saveStoredDeletedProductIds
 } from "@/lib/supabase/catalog";
+import { addRealNotification } from "@/lib/admin/notifications";
 
 export default function ProductsManagementPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -470,6 +471,13 @@ export default function ProductsManagementPage() {
         saveStoredDeletedProductIds(deletedIds.filter(id => id !== newProdId));
       }
 
+      // Add Real Notification to system & header bell
+      addRealNotification({
+        title: editingProduct ? "Produit Modifié" : "Nouveau Produit Ajouté",
+        desc: `"${name}" (${Number(price).toLocaleString()} FCFA) a été mis à jour dans le catalogue.`,
+        type: "product"
+      });
+
       setIsModalOpen(false);
       fetchProducts();
       showToast(
@@ -503,6 +511,12 @@ export default function ProductsManagementPage() {
     setProducts((prev) =>
       prev.map((p) => (p.id === product.id ? { ...p, status: newStatus } : p))
     );
+
+    addRealNotification({
+      title: newStatus === "active" ? "Produit Publié en Boutique" : "Produit Dépublié (Inactif)",
+      desc: `L'article "${product.name}" est passé au statut ${newStatus.toUpperCase()}.`,
+      type: "product"
+    });
 
     showToast(
       newStatus === "active" ? "Produit Publié en Boutique" : "Produit Dépublié (Inactif)",
@@ -548,6 +562,12 @@ export default function ProductsManagementPage() {
 
       // 3. Update React state immediately
       setProducts((prev) => prev.filter((p) => p.id !== product.id && p.slug !== product.slug));
+
+      addRealNotification({
+        title: "Produit Supprimé",
+        desc: `"${product.name}" a été définitivement retiré du catalogue.`,
+        type: "product"
+      });
 
       setDeleteModalProduct(null);
       showToast(
