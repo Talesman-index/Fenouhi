@@ -193,23 +193,98 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
 }
 
 /**
- * Fetch active products for the public catalog.
+ * Fetch active products for the public catalog (live Supabase query + fallback).
  */
 export async function getPublicProducts(options: ProductFilterOptions = {}): Promise<Product[]> {
-  return getPublicProductsSync(options);
+  try {
+    const deletedIds = new Set(getStoredDeletedProductIds());
+    const localProducts = getPublicProductsSync(options);
+    const productMap = new Map<string, Product>();
+
+    for (const p of localProducts) {
+      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+        productMap.set(p.id, p);
+      }
+    }
+
+    try {
+      const supabase = createClient();
+      let query = supabase
+        .from("products")
+        .select("*, category:categories(*), images:product_images(*)")
+        .eq("status", "active")
+        .order("created_at", { ascending: false });
+
+      if (options.categorySlug && options.categorySlug !== "all") {
+        query = query.eq("category_id", options.categorySlug);
+      }
+
+      const { data: dbProducts, error } = await query;
+      if (!error && dbProducts && dbProducts.length > 0) {
+        for (const p of dbProducts) {
+          if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+            productMap.set(p.id, p as Product);
+          }
+        }
+      }
+    } catch {}
+
+    let list = Array.from(productMap.values());
+
+    if (options.categorySlug && options.categorySlug !== "all") {
+      list = list.filter((p) => p.category?.slug === options.categorySlug || p.category_id === options.categorySlug);
+    }
+
+    if (options.search && options.search.trim() !== "") {
+      const q = options.search.trim().toLowerCase();
+      list = list.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          (p.short_description || "").toLowerCase().includes(q) ||
+          (p.category?.name || "").toLowerCase().includes(q)
+      );
+    }
+
+    if (options.isFeatured) {
+      list = list.filter((p) => p.is_featured);
+    }
+
+    if (options.limit) {
+      list = list.slice(0, options.limit);
+    }
+
+    return list;
+  } catch (err) {
+    return getPublicProductsSync(options);
+  }
 }
 
 /**
- * Fetch a single product by ID or slug.
+ * Fetch a single product by ID or slug (from live Supabase DB or local catalogue).
  */
 export async function getProductByIdOrSlug(idOrSlug: string): Promise<Product | null> {
   try {
     const deletedIds = new Set(getStoredDeletedProductIds());
     if (deletedIds.has(idOrSlug)) return null;
 
+    try {
+      const supabase = createClient();
+      const { data: dbProd } = await supabase
+        .from("products")
+        .select("*, category:categories(*), images:product_images(*)")
+        .or(`id.eq.${idOrSlug},slug.eq.${idOrSlug}`)
+        .maybeSingle();
+
+      if (dbProd && !deletedIds.has(dbProd.id) && !deletedIds.has(dbProd.slug)) {
+        return dbProd as Product;
+      }
+    } catch {}
+
     const custom = getStoredCustomProducts();
     const foundCustom = custom.find((p) => p.id === idOrSlug || p.slug === idOrSlug);
-    if (foundCustom) return foundCustom;
+    if (foundCustom && !deletedIds.has(foundCustom.id) && !deletedIds.has(foundCustom.slug)) {
+      return foundCustom;
+    }
 
     const cleanId = idOrSlug.replace(/^product-/, "");
     const local = getLocalProductById(cleanId) || getLocalProductById(idOrSlug) || PRODUCTS.find((p) => `product-${p.id}` === idOrSlug || p.id === idOrSlug);
