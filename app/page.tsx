@@ -73,14 +73,21 @@ export default function HomePage() {
   };
 
   useEffect(() => {
+    // 1. Sync immediately from client store
+    const localRecents = getPublicProductsSync({ categorySlug: activeCategory || undefined });
+    setRecentProducts(localRecents);
+    const localFeatured = getPublicProductsSync({ isFeatured: true });
+    setFeaturedProducts(localFeatured.length > 0 ? localFeatured : localRecents);
+
+    // 2. Query Supabase async
     async function loadHomeProducts() {
       try {
         const [featured, recent] = await Promise.all([
           getPublicProducts({ isFeatured: true }),
           getPublicProducts({ categorySlug: activeCategory || undefined })
         ]);
-        if (featured.length > 0) setFeaturedProducts(featured);
-        if (recent.length > 0) setRecentProducts(recent);
+        if (featured && featured.length > 0) setFeaturedProducts(featured);
+        if (recent && recent.length > 0) setRecentProducts(recent);
       } catch {}
     }
     loadHomeProducts();

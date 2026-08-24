@@ -241,16 +241,16 @@ export default function ProductsManagementPage() {
       setActiveTab("info");
       setName("");
       setSlug("");
-      setShortDescription("Produit usine certifié import direct - Hubs internationaux.");
-      setDescription("Description détaillée des caractéristiques techniques, de la garantie usine et de l'emballage sécurisé.");
+      setShortDescription("");
+      setDescription("");
       setCategoryId(categories && categories.length > 0 ? categories[0].id : "");
       setSubcategory("");
-      setPrice(5000);
+      setPrice(0);
       setCargolinkMarginPercent(10);
       setAirFreightRatePerKg(2000);
       setSeaFreightRatePerCbm(2000);
       setCurrency("FCFA");
-      setStockQuantity(200);
+      setStockQuantity(100);
       setMinimumOrderQuantity(1);
       setCountryOfOrigin("Hub Asie & International");
       setWeight(0.5);
@@ -262,7 +262,7 @@ export default function ProductsManagementPage() {
       setStatus("active");
       setIsDemo(false);
       setIsFeatured(false);
-      setImageUrl("/images/assets/item_1.jpg");
+      setImageUrl("");
       setGalleryUrls([]);
     } catch (err) {
       console.error("Error opening create modal:", err);
@@ -304,8 +304,62 @@ export default function ProductsManagementPage() {
 
   const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // 1. Validation Onglet 1 : Infos Générales
     if (!name.trim()) {
-      alert("Veuillez renseigner le nom du produit.");
+      setActiveTab("info");
+      showToast("Nom requis", "Veuillez renseigner le nom du produit (Onglet 1).", "error");
+      return;
+    }
+    if (!categoryId) {
+      setActiveTab("info");
+      showToast("Catégorie requise", "Veuillez choisir une catégorie pour le produit (Onglet 1).", "error");
+      return;
+    }
+    if (Number(stockQuantity) < 1) {
+      setActiveTab("info");
+      showToast("Stock requis", "Veuillez renseigner une quantité de stock valide (au moins 1).", "error");
+      return;
+    }
+    if (Number(minimumOrderQuantity) < 1) {
+      setActiveTab("info");
+      showToast("Commande minimum requise", "Veuillez indiquer un MOQ d'au moins 1.", "error");
+      return;
+    }
+
+    // 2. Validation Onglet 2 : Prix & Fret
+    if (!price || Number(price) <= 0) {
+      setActiveTab("pricing");
+      showToast("Prix requis", "Veuillez renseigner le prix de vente unitaire (Onglet 2).", "error");
+      return;
+    }
+    if (airFreightRatePerKg === undefined || airFreightRatePerKg === null || Number(airFreightRatePerKg) < 0) {
+      setActiveTab("pricing");
+      showToast("Fret Aérien requis", "Veuillez indiquer le tarif de fret aérien (Onglet 2).", "error");
+      return;
+    }
+    if (seaFreightRatePerCbm === undefined || seaFreightRatePerCbm === null || Number(seaFreightRatePerCbm) < 0) {
+      setActiveTab("pricing");
+      showToast("Fret Maritime requis", "Veuillez indiquer le tarif de fret maritime (Onglet 2).", "error");
+      return;
+    }
+
+    // 3. Validation Onglet 3 : Photos & Médias
+    if (!imageUrl || !imageUrl.trim()) {
+      setActiveTab("media");
+      showToast("Photo Principale requise", "Veuillez sélectionner ou charger une photo principale pour cet article (Onglet 3).", "error");
+      return;
+    }
+
+    // 4. Validation Onglet 4 : Fiche & Specs
+    if (!shortDescription.trim()) {
+      setActiveTab("specs");
+      showToast("Description courte requise", "Veuillez renseigner l'accroche courte du produit (Onglet 4).", "error");
+      return;
+    }
+    if (!description.trim()) {
+      setActiveTab("specs");
+      showToast("Description complète requise", "Veuillez renseigner la description détaillée du produit (Onglet 4).", "error");
       return;
     }
 
@@ -1160,16 +1214,70 @@ export default function ProductsManagementPage() {
 
               {/* FOOTER ACTIONS BAR */}
               <div style={{ display: "flex", gap: 12, justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #E2E8F0", paddingTop: 16, marginTop: 10 }}>
-                <div style={{ fontSize: 12, color: "#64748B", fontWeight: 700 }}>
-                  Onglet actif : <strong style={{ color: "#0F172A" }}>{activeTab.toUpperCase()}</strong>
-                </div>
-
-                <div style={{ display: "flex", gap: 10 }}>
-                  <button type="button" onClick={() => setIsModalOpen(false)} className="btn" style={{ background: "#F1F5F9", color: "#334155" }}>
+                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                  <button type="button" onClick={() => setIsModalOpen(false)} className="btn" style={{ background: "#F1F5F9", color: "#64748B" }}>
                     Annuler
                   </button>
-                  <button type="submit" disabled={saving} className="btn btn-primary" style={{ padding: "10px 24px", fontWeight: 600 }}>
-                    {saving ? "Enregistrement..." : editingProduct ? "Mettre à jour" : "Créer le Produit"}
+                  {activeTab !== "info" && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (activeTab === "pricing") setActiveTab("info");
+                        if (activeTab === "media") setActiveTab("pricing");
+                        if (activeTab === "specs") setActiveTab("media");
+                      }}
+                      className="btn"
+                      style={{ background: "#E2E8F0", color: "#0F172A", fontWeight: 600 }}
+                    >
+                      ← Étape Précédente
+                    </button>
+                  )}
+                </div>
+
+                <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                  {activeTab !== "specs" ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (activeTab === "info") {
+                          if (!name.trim() || !categoryId) {
+                            showToast("Infos requises", "Veuillez renseigner le Nom et la Catégorie avant de continuer.", "error");
+                            return;
+                          }
+                          setActiveTab("pricing");
+                        } else if (activeTab === "pricing") {
+                          if (!price || Number(price) <= 0) {
+                            showToast("Prix requis", "Veuillez renseigner un Prix de vente valide.", "error");
+                            return;
+                          }
+                          setActiveTab("media");
+                        } else if (activeTab === "media") {
+                          if (!imageUrl || !imageUrl.trim()) {
+                            showToast("Photo requise", "Veuillez charger au moins une image principale.", "error");
+                            return;
+                          }
+                          setActiveTab("specs");
+                        }
+                      }}
+                      className="btn"
+                      style={{ background: "#0F172A", color: "#FFFFFF", fontWeight: 600, padding: "10px 18px" }}
+                    >
+                      Étape Suivante ➔
+                    </button>
+                  ) : null}
+
+                  <button
+                    type="submit"
+                    disabled={saving}
+                    className="btn btn-primary"
+                    style={{
+                      padding: "10px 24px",
+                      fontWeight: 700,
+                      background: activeTab === "specs" ? "linear-gradient(135deg, #EA580C 0%, #C2410C 100%)" : "var(--blue-primary)",
+                      boxShadow: activeTab === "specs" ? "0 4px 12px rgba(234, 88, 12, 0.35)" : "none"
+                    }}
+                  >
+                    {saving ? "Enregistrement..." : editingProduct ? "Mettre à jour le Produit" : "Valider & Créer le Produit"}
                   </button>
                 </div>
               </div>
