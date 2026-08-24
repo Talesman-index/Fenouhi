@@ -145,17 +145,17 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
     const custom = getStoredCustomProducts();
     const productMap = new Map<string, Product>();
 
-    // Add base products from lib/products.ts
-    for (const raw of PRODUCTS) {
-      const p = mapLocalProductToCatalogProduct(raw);
-      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
+    // 1. Add custom and newly added products FIRST so they appear at the very TOP
+    for (const p of custom) {
+      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
         productMap.set(p.id, p);
       }
     }
 
-    // Overwrite / Add custom and modified products
-    for (const p of custom) {
-      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+    // 2. Add base products from lib/products.ts if not already present
+    for (const raw of PRODUCTS) {
+      const p = mapLocalProductToCatalogProduct(raw);
+      if (!productMap.has(p.id) && !deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
         productMap.set(p.id, p);
       }
     }

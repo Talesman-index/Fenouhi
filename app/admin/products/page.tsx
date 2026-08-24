@@ -127,12 +127,16 @@ export default function ProductsManagementPage() {
   async function fetchProducts() {
     setLoading(true);
     try {
-      // 1. Get all store catalog products
+      const deletedIds = new Set(getStoredDeletedProductIds());
+      const customProducts = getStoredCustomProducts();
       const localProducts = getPublicProductsSync();
       const productMap = new Map<string, Product>();
 
-      for (const p of localProducts) {
-        productMap.set(p.id, p);
+      // 1. Put custom/newly created products FIRST so they appear at the very TOP
+      for (const p of customProducts) {
+        if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+          productMap.set(p.id, p);
+        }
       }
 
       // 2. Query Supabase for any additional/updated DB products
@@ -145,16 +149,25 @@ export default function ProductsManagementPage() {
 
         if (dbProducts && dbProducts.length > 0) {
           for (const p of dbProducts) {
-            productMap.set(p.id, p as Product);
+            if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+              productMap.set(p.id, p as Product);
+            }
           }
         }
       } catch (e) {
         // Fallback to local catalog
       }
 
+      // 3. Put remaining catalog products
+      for (const p of localProducts) {
+        if (!productMap.has(p.id) && !deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+          productMap.set(p.id, p);
+        }
+      }
+
       let allProducts = Array.from(productMap.values());
 
-      // 3. Filter by category
+      // 4. Filter by category
       if (categoryFilter !== "all") {
         const target = categoryFilter.toLowerCase();
         allProducts = allProducts.filter((p) => {
@@ -171,12 +184,12 @@ export default function ProductsManagementPage() {
         });
       }
 
-      // 4. Filter by status
+      // 5. Filter by status
       if (statusFilter !== "all") {
         allProducts = allProducts.filter((p) => p.status === statusFilter);
       }
 
-      // 5. Filter by demo mode
+      // 6. Filter by demo mode
       if (demoFilter === "real") {
         allProducts = allProducts.filter((p) => !p.is_demo);
       } else if (demoFilter === "demo") {
@@ -257,7 +270,7 @@ export default function ProductsManagementPage() {
           : categories && categories.length > 0
           ? categories[0].id
           : "";
-      setCategoryId(defaultCatId);;
+      setCategoryId(defaultCatId);
       setSubcategory("");
       setPrice(0);
       setCargolinkMarginPercent(10);
@@ -275,7 +288,7 @@ export default function ProductsManagementPage() {
       setEstimatedDeliveryTime("5 - 15 jours (Aérien) / 50 - 95 jours (Maritime)");
       setStatus("active");
       setIsDemo(false);
-      setIsFeatured(false);
+      setIsFeatured(true);
       setImageUrl("");
       setGalleryUrls([]);
     } catch (err) {
