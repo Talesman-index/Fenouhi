@@ -104,6 +104,8 @@ export default function HomePage() {
   ];
 
   const todayDeals = [
+    { id: "gaine-amincissante-100-latex", title: "Gaine Amincissante 100% Latex", price: "20 000 FCFA", oldPrice: "32 000 FCFA", image: "/images/assets/gaine_amincissante_latex_1.png", category: "Mode & Minceur" },
+    { id: "robot-nettoyeur-4en1-jallen-gabor", title: "Robot Nettoyeur 4-en-1 Jallen Gabor", price: "15 000 FCFA", oldPrice: "25 000 FCFA", image: "/images/assets/robot_nettoyeur_jallen_gabor_1.png", category: "Électroménager" },
     { id: "iphone-15-15pro-15promax", title: "iPhone 15 / 15 Pro / 15 Pro Max", price: "230 000 FCFA", oldPrice: "310 000 FCFA", image: "/images/assets/iphone15/iphone15_bluetitanium.jpg", category: "High-Tech" },
     { id: "dr-rashel-vitamin-c-set", title: "Dr. Rashel Vitamine C (Coffret 4 Pièces)", price: "10 000 FCFA", oldPrice: "16 000 FCFA", image: "/images/assets/dr_rashel_vitamin_c_2.jpg", category: "Beauté & Soins" },
     { id: "iphone-13-13pro-13promax", title: "iPhone 13 / 13 Pro / 13 Pro Max", price: "131 000 FCFA", oldPrice: "180 000 FCFA", image: "/images/assets/iphone13/iphone13_gold.png", category: "High-Tech" },
@@ -120,6 +122,7 @@ export default function HomePage() {
   ];
 
   const beautyShowcase = [
+    { title: "Wokali Masque Gold Caviar (1 500 F)", img: "/images/assets/wokali_gold_caviar_mask_1.png", link: "/product/wokali-whitening-gold-caviar-peel-off-mask" },
     { title: "Disaar Crème Dépilatoire (2 500 F)", img: "/images/assets/disaar_hair_removal.jpg", link: "/product/disaar-creme-depilatoire" },
     { title: "EFERO Essence Blanchiment (2 500 F)", img: "/images/assets/efero_teeth_whitening.jpg", link: "/product/efero-blanchiment-dents" },
     { title: "Disaar Masque Vitamine C (500 F)", img: "/images/assets/disaar_vitamin_c_mask.jpg", link: "/product/disaar-masque-vitamine-c" },

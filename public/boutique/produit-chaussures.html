@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chaussures de Running Homme Été 2026 — Maille Soie Glacée | Offre Spéciale 5 000 FCFA</title>
+  <meta name="description" content="Nouvelles chaussures de running pour homme Été 2026 en maille effet soie glacée. Légères, semelle souple, respirantes et anti-odeurs. Pointures 39 à 44. Prix : 5 000 FCFA.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --primary: #f95700;
+      --primary-hover: #e04e00;
+      --primary-light: #fff2eb;
+      --dark: #111317;
+      --dark-card: #181a1f;
+      --bg: #f8f9fb;
+      --white: #ffffff;
+      --text: #101828;
+      --text-muted: #667085;
+      --border: rgba(16, 24, 40, 0.08);
+      --green: #10b981;
+      --radius: 16px;
+      --radius-pill: 9999px;
+      --shadow: 0 10px 30px -4px rgba(16, 24, 40, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding-bottom: 90px;
+    }
+
+    /* Top Announcement Bar */
+    .top-promo-bar {
+      background: var(--dark);
+      color: #ffffff;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .top-promo-bar span.badge {
+      background: var(--primary);
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+    }
+
+    /* Container */
+    .product-container {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .product-container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-top: 12px;
+      }
+    }
+
+    /* Gallery Card */
+    .gallery-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      position: sticky;
+      top: 20px;
+    }
+
+    .main-image-wrap {
+      width: 100%;
+      height: 420px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f1f3f6;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .main-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .promo-float-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      text-transform: uppercase;
+      box-shadow: 0 4px 12px rgba(249, 87, 0, 0.3);
+    }
+
+    .stock-badge {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      background: rgba(17, 19, 23, 0.85);
+      backdrop-filter: blur(8px);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stock-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .thumbs-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .thumb-btn {
+      width: 76px;
+      height: 76px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      background: #f1f3f6;
+      transition: all 0.2s ease;
+    }
+
+    .thumb-btn.active {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(249, 87, 0, 0.2);
+    }
+
+    .thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Product Details Card */
+    .details-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .product-tag-sub {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+    }
+
+    .product-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text);
+    }
+
+    /* Ratings & Reviews */
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+    }
+
+    .stars {
+      color: #f59e0b;
+      display: flex;
+      gap: 2px;
+    }
+
+    /* Price Section */
+    .price-box {
+      background: var(--primary-light);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid rgba(249, 87, 0, 0.2);
+    }
+
+    .price-main {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .price-old {
+      font-size: 1rem;
+      text-decoration: line-through;
+      color: var(--text-muted);
+      margin-left: 8px;
+    }
+
+    .discount-pill {
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Color Selector */
+    .option-group-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .color-options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .color-option-card {
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .color-option-card.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .color-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    /* Size Selector */
+    .size-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+
+    .size-btn {
+      padding: 12px 0;
+      text-align: center;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .size-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(249, 87, 0, 0.3);
+    }
+
+    /* Features List */
+    .features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.88rem;
+      padding: 16px;
+      background: var(--bg);
+      border-radius: 12px;
+    }
+
+    .features-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .features-list li i {
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    /* Order Form */
+    .order-form-box {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+    }
+
+    .btn-buy-now {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 16px;
+      border-radius: var(--radius-pill);
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(249, 87, 0, 0.4);
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .btn-buy-now:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .btn-whatsapp {
+      background: #25d366;
+      color: #ffffff;
+      border: none;
+      padding: 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .btn-whatsapp:hover {
+      background: #1eb956;
+    }
+
+    /* Trust Guarantees */
+    .guarantees-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    .guarantee-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .guarantee-item i {
+      color: var(--primary);
+    }
+
+    /* Fixed Mobile Sticky Bar */
+    .mobile-sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 100;
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    @media (max-width: 768px) {
+      .mobile-sticky-bar {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Announcement -->
+  <div class="top-promo-bar">
+    <span class="badge">NOUVEAU</span>
+    <span>Collection Été 2026 — Paiement sécurisé à la livraison !</span>
+  </div>
+
+  <div class="product-container">
+
+    <!-- Gallery Column -->
+    <div class="gallery-card">
+      <div class="main-image-wrap">
+        <span class="promo-float-tag">-50% PROMO</span>
+        <img id="mainProductImg" src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Chaussures de running homme Été 2026">
+        <div class="stock-badge">
+          <span class="stock-dot"></span>
+          <span>En Stock • Expédition 24h</span>
+        </div>
+      </div>
+
+      <!-- Thumbnail Switchers -->
+      <div class="thumbs-row">
+        <button class="thumb-btn active" data-color="Vert / Blanc (Lime)" data-img="color-lime">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg, #a3e635, #ffffff);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;">Vert Lime</div>
+        </button>
+        <button class="thumb-btn" data-color="Noir / Bleu Cyan (Dark)" data-img="color-dark">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg, #0f172a, #06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;">Noir Cyan</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Details & Order Column -->
+    <div class="details-card">
+      <div>
+        <div class="product-tag-sub">Running & Sport Décontracté • Édition 2026</div>
+        <h1 class="product-title">Chaussures Running Homme Maille Effet Soie Glacée</h1>
+      </div>
+
+      <div class="rating-row">
+        <div class="stars">
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+        </div>
+        <span style="font-weight:700;">4.9/5</span>
+        <span style="color:var(--text-muted);">(128 avis vérifiés)</span>
+      </div>
+
+      <!-- Price Box -->
+      <div class="price-box">
+        <div>
+          <span class="price-main">5 000 FCFA</span>
+          <span class="price-old">10 000 FCFA</span>
+        </div>
+        <span class="discount-pill">ÉCONOMISEZ 50%</span>
+      </div>
+
+      <!-- Key Benefits -->
+      <ul class="features-list">
+        <li>
+          <i data-lucide="check-circle-2" style="width:18px;height:18px;"></i>
+          <span><strong>Maille effet Soie Glacée :</strong> Ultra-respirante, fraîcheur permanente même sous forte chaleur.</span>
+        </li>
+        <li>
+          <i data-lucide="check-circle-2" style="width:18px;height:18px;"></i>
+          <span><strong>Semelle Souple Amortissante :</strong> Absorption des chocs, marche et course sans fatigue.</span>
+        </li>
+        <li>
+          <i data-lucide="check-circle-2" style="width:18px;height:18px;"></i>
+          <span><strong>Technologie Anti-Odeurs :</strong> Aération continue pour garder vos pieds au sec.</span>
+        </li>
+        <li>
+          <i data-lucide="check-circle-2" style="width:18px;height:18px;"></i>
+          <span><strong>Design Polyvalent :</strong> Parfait pour le sport, le travail ou le style décontracté quotidien.</span>
+        </li>
+      </ul>
+
+      <!-- Color Choice -->
+      <div>
+        <div class="option-group-title">
+          <span>Couleur : <strong id="selectedColorName">Vert / Blanc (Lime)</strong></span>
+        </div>
+        <div class="color-options-grid">
+          <div class="color-option-card active" data-color-val="Vert / Blanc (Lime)">
+            <div class="color-circle" style="background:linear-gradient(135deg, #a3e635, #fff);"></div>
+            <span style="font-size:0.85rem;font-weight:700;">Vert Lime</span>
+          </div>
+          <div class="color-option-card" data-color-val="Noir / Bleu Cyan (Dark)">
+            <div class="color-circle" style="background:linear-gradient(135deg, #1e293b, #06b6d4);"></div>
+            <span style="font-size:0.85rem;font-weight:700;">Noir Cyan</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Size Choice -->
+      <div>
+        <div class="option-group-title">
+          <span>Pointure : <strong id="selectedSizeVal">41</strong></span>
+          <span style="color:var(--text-muted);font-size:0.8rem;">Guide des tailles</span>
+        </div>
+        <div class="size-grid">
+          <button class="size-btn" data-size="39">39</button>
+          <button class="size-btn" data-size="40">40</button>
+          <button class="size-btn active" data-size="41">41</button>
+          <button class="size-btn" data-size="42">42</button>
+          <button class="size-btn" data-size="43">43</button>
+          <button class="size-btn" data-size="44">44</button>
+        </div>
+      </div>
+
+      <!-- Direct Checkout Form -->
+      <form id="orderForm" class="order-form-box">
+        <div style="font-size:0.95rem;font-weight:700;color:var(--text);">
+          Remplissez vos coordonnées pour commander (Paiement à la réception) :
+        </div>
+
+        <input type="text" id="clientName" class="form-input" placeholder="Votre Nom complet *" required>
+        <input type="tel" id="clientPhone" class="form-input" placeholder="Numéro de téléphone / WhatsApp *" required>
+        <input type="text" id="clientCity" class="form-input" placeholder="Ville et Quartier de livraison *" required>
+
+        <button type="submit" class="btn-buy-now">
+          <i data-lucide="shopping-bag" style="width:20px;height:20px;"></i>
+          <span>COMMANDER MAINTENANT (5 000 FCFA)</span>
+        </button>
+
+        <a href="https://wa.me/22999905555?text=Bonjour,%20je%20souhaite%20commander%20les%20Chaussures%20de%20Running%20%C3%89t%C3%A9%202026%20%C3%A0%205000%20FCFA." target="_blank" class="btn-whatsapp">
+          <i data-lucide="message-circle" style="width:20px;height:20px;"></i>
+          <span>Commander directement via WhatsApp</span>
+        </a>
+
+        <div id="orderSuccessMsg" style="display:none;padding:14px;background:#ecfdf5;border:1px solid #10b981;border-radius:8px;color:#065f46;font-size:0.9rem;text-align:center;font-weight:600;">
+          🎉 Félicitations ! Votre commande a été enregistrée avec succès. Notre service de livraison vous contactera sous peu.
+        </div>
+      </form>
+
+      <!-- Guarantees -->
+      <div class="guarantees-row">
+        <div class="guarantee-item">
+          <i data-lucide="truck" style="width:20px;height:20px;"></i>
+          <span>Livraison Rapide</span>
+        </div>
+        <div class="guarantee-item">
+          <i data-lucide="shield-check" style="width:20px;height:20px;"></i>
+          <span>Paiement à la Livraison</span>
+        </div>
+        <div class="guarantee-item">
+          <i data-lucide="refresh-cw" style="width:20px;height:20px;"></i>
+          <span>Échange de Taille Facile</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Mobile Sticky Footer Bar -->
+  <div class="mobile-sticky-bar">
+    <div>
+      <div style="font-size:0.75rem;color:var(--text-muted);">Prix Spécial</div>
+      <div style="font-size:1.25rem;font-weight:800;color:var(--primary);">5 000 FCFA</div>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="document.getElementById('orderForm').scrollIntoView({behavior:'smooth'})" style="padding:10px 20px;">
+      <span>Commander</span>
+      <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>
+    </button>
+  </div>
+
+  <script>
+    let selectedColor = 'Vert / Blanc (Lime)';
+    let selectedSize = '41';
+
+    // Color Selector
+    document.querySelectorAll('.color-option-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.color-option-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        selectedColor = card.getAttribute('data-color-val');
+        document.getElementById('selectedColorName').textContent = selectedColor;
+      });
+    });
+
+    // Size Selector
+    document.querySelectorAll('.size-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedSize = btn.getAttribute('data-size');
+        document.getElementById('selectedSizeVal').textContent = selectedSize;
+      });
+    });
+
+    // Order Submit
+    document.getElementById('orderForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('clientName').value;
+      const phone = document.getElementById('clientPhone').value;
+      const city = document.getElementById('clientCity').value;
+
+      document.getElementById('orderSuccessMsg').style.display = 'block';
+
+      // Optional redirect to WhatsApp with pre-filled message
+      const msg = encodeURIComponent(`Nouvelle Commande !\nProduit: Chaussures Running Homme Été 2026\nCouleur: ${selectedColor}\nPointure: ${selectedSize}\nPrix: 5000 FCFA\nClient: ${name}\nTél: ${phone}\nAdresse: ${city}`);
+      setTimeout(() => {
+        window.open(`https://wa.me/22999905555?text=${msg}`, '_blank');
+      }, 1500);
+    });
+
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

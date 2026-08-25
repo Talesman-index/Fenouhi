@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chargeur Rapide 100W avec Déconnexion Automatique IA — Protection Anti-Surcharge | 20 000 FCFA</title>
+  <meta name="description" content="Chargeur rapide intelligent 100W avec puce IA à coupure automatique d'alimentation. Évite la surchauffe et prolonge la durée de vie de votre batterie. Prix : 20 000 FCFA.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --primary: #0066ff;
+      --primary-glow: rgba(0, 102, 255, 0.35);
+      --primary-light: #eff6ff;
+      --accent: #00d2ff;
+      --dark: #0b0f17;
+      --dark-card: #131b26;
+      --bg: #070a0f;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+      --green: #10b981;
+      --radius: 20px;
+      --radius-pill: 9999px;
+      --shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding-bottom: 90px;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 102, 255, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 210, 255, 0.08) 0%, transparent 40%);
+    }
+
+    /* Top Announcement Bar */
+    .top-promo-bar {
+      background: linear-gradient(90deg, #0b0f17, #131b26, #0b0f17);
+      border-bottom: 1px solid var(--border);
+      color: #ffffff;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .top-promo-bar span.badge {
+      background: var(--primary);
+      padding: 2px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    /* Container */
+    .product-container {
+      max-width: 1200px;
+      margin: 32px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .product-container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-top: 16px;
+      }
+    }
+
+    /* Gallery Card */
+    .gallery-card {
+      background: var(--dark-card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      position: sticky;
+      top: 20px;
+    }
+
+    .main-image-wrap {
+      width: 100%;
+      height: 440px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0b0f17;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+    }
+
+    .main-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .promo-float-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      text-transform: uppercase;
+      box-shadow: 0 4px 16px var(--primary-glow);
+    }
+
+    .ai-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(11, 15, 23, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 210, 255, 0.4);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ai-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+    }
+
+    .thumbs-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .thumb-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      cursor: pointer;
+      background: #0b0f17;
+      transition: all 0.2s ease;
+    }
+
+    .thumb-btn.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 14px var(--primary-glow);
+      transform: translateY(-2px);
+    }
+
+    .thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Product Details Card */
+    .details-card {
+      background: var(--dark-card);
+      border-radius: var(--radius);
+      padding: 36px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .product-tag-sub {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+    }
+
+    .product-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.45rem, 2.5vw, 2rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: #ffffff;
+    }
+
+    /* Ratings */
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+    }
+
+    .stars {
+      color: #f59e0b;
+      display: flex;
+      gap: 2px;
+    }
+
+    /* Price Box */
+    .price-box {
+      background: rgba(0, 102, 255, 0.1);
+      border-radius: 14px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid rgba(0, 102, 255, 0.3);
+    }
+
+    .price-main {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .price-old {
+      font-size: 1.05rem;
+      text-decoration: line-through;
+      color: var(--text-muted);
+      margin-left: 10px;
+    }
+
+    .discount-pill {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Tech Specs & Features */
+    .features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.9rem;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .features-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .features-list li i {
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .features-list li strong {
+      color: #ffffff;
+    }
+
+    /* Compatibility Badges */
+    .compat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    .compat-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 6px;
+      font-size: 0.75rem;
+      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .compat-item i {
+      color: var(--accent);
+    }
+
+    /* Order Form */
+    .order-form-box {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.94rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .btn-buy-now {
+      background: linear-gradient(135deg, var(--primary), #0052cc);
+      color: #ffffff;
+      border: none;
+      padding: 16px;
+      border-radius: var(--radius-pill);
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px var(--primary-glow);
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .btn-buy-now:hover {
+      background: linear-gradient(135deg, #1a75ff, var(--primary));
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0, 102, 255, 0.5);
+    }
+
+    .btn-whatsapp {
+      background: #25d366;
+      color: #ffffff;
+      border: none;
+      padding: 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-whatsapp:hover {
+      background: #1eb956;
+    }
+
+    /* Guarantees */
+    .guarantees-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+    }
+
+    .guarantee-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .guarantee-item i {
+      color: var(--accent);
+    }
+
+    /* Mobile Sticky Bar */
+    .mobile-sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(19, 27, 38, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 100;
+      box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      .mobile-sticky-bar {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Promo Banner -->
+  <div class="top-promo-bar">
+    <span class="badge">TECHNOLOGIE IA</span>
+    <span>Déconnexion Automatique Intelligente • Protège 100% de la batterie contre la surcharge</span>
+  </div>
+
+  <div class="product-container">
+
+    <!-- Gallery Column -->
+    <div class="gallery-card">
+      <div class="main-image-wrap">
+        <span class="promo-float-tag">-33% PROMO</span>
+        <div class="ai-badge">
+          <span class="ai-dot"></span>
+          <span>Puce IA Intelligente</span>
+        </div>
+        <img id="mainProductImg" src="images/stacked-steel-metal-bars-in-a-factory-2026-01-08-07-15-37-utc.jpg" alt="Chargeur rapide 100W avec coupure automatique IA">
+      </div>
+
+      <!-- Thumbnail Switchers -->
+      <div class="thumbs-row">
+        <button class="thumb-btn active" data-img="flatlay">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg, #1e293b, #0f172a);color:#00d2ff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;text-align:center;padding:4px;">Pack 100W Multi</div>
+        </button>
+        <button class="thumb-btn" data-img="closeup">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg, #334155, #1e293b);color:#ffffff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;text-align:center;padding:4px;">Module IA LED</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Details Column -->
+    <div class="details-card">
+      <div>
+        <div class="product-tag-sub">Haute Technologie • Modèle Révolutionnaire 2026</div>
+        <h1 class="product-title">Chargeur Rapide 100W avec Déconnexion Automatique Intelligente (IA)</h1>
+      </div>
+
+      <div class="rating-row">
+        <div class="stars">
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+        </div>
+        <span style="font-weight:700;color:#fff;">4.95/5</span>
+        <span style="color:var(--text-muted);">(214 avis vérifiés)</span>
+      </div>
+
+      <!-- Price Box -->
+      <div class="price-box">
+        <div>
+          <span class="price-main">20 000 FCFA</span>
+          <span class="price-old">30 000 FCFA</span>
+        </div>
+        <span class="discount-pill">ÉCONOMISEZ 10 000 FCFA</span>
+      </div>
+
+      <!-- Key Benefits List -->
+      <ul class="features-list">
+        <li>
+          <i data-lucide="shield-alert" style="width:18px;height:18px;"></i>
+          <span><strong>Déconnexion Automatique par IA :</strong> Coupe instantanément le courant à 100% de charge pour empêcher toute surchauffe et dégradation de la batterie.</span>
+        </li>
+        <li>
+          <i data-lucide="zap" style="width:18px;height:18px;"></i>
+          <span><strong>Puissance Éclair 100W :</strong> Recharge ultra-rapide jusqu'à 4 fois plus vite qu'un chargeur standard.</span>
+        </li>
+        <li>
+          <i data-lucide="activity" style="width:18px;height:18px;"></i>
+          <span><strong>Indicateur LED Intelligent :</strong> Témoin lumineux bleu qui s'éteint automatiquement quand vos appareils sont pleinement chargés.</span>
+        </li>
+        <li>
+          <i data-lucide="shield-check" style="width:18px;height:18px;"></i>
+          <span><strong>Câble Blindé Tressé Indéchirable :</strong> Conçu en alliage d'aluminium et nylon militaire pour une durabilité extrême.</span>
+        </li>
+      </ul>
+
+      <!-- Compatibility -->
+      <div>
+        <div style="font-size:0.85rem;font-weight:700;margin-bottom:8px;color:#e2e8f0;">
+          Compatibilité Universelle Haute Performance :
+        </div>
+        <div class="compat-grid">
+          <div class="compat-item">
+            <i data-lucide="smartphone" style="width:18px;height:18px;"></i>
+            <span>iPhone & Android</span>
+          </div>
+          <div class="compat-item">
+            <i data-lucide="laptop" style="width:18px;height:18px;"></i>
+            <span>MacBook & PC</span>
+          </div>
+          <div class="compat-item">
+            <i data-lucide="headphones" style="width:18px;height:18px;"></i>
+            <span>AirPods / Audio</span>
+          </div>
+          <div class="compat-item">
+            <i data-lucide="battery-charging" style="width:18px;height:18px;"></i>
+            <span>Powerbank / Rasoirs</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checkout Form -->
+      <form id="orderForm" class="order-form-box">
+        <div style="font-size:0.95rem;font-weight:700;color:#ffffff;">
+          Remplissez vos coordonnées pour commander (Paiement à la livraison) :
+        </div>
+
+        <input type="text" id="clientName" class="form-input" placeholder="Votre Nom complet *" required>
+        <input type="tel" id="clientPhone" class="form-input" placeholder="Numéro de téléphone / WhatsApp *" required>
+        <input type="text" id="clientCity" class="form-input" placeholder="Ville et Quartier de livraison *" required>
+
+        <button type="submit" class="btn-buy-now">
+          <i data-lucide="shopping-cart" style="width:20px;height:20px;"></i>
+          <span>COMMANDER MAINTENANT (20 000 FCFA)</span>
+        </button>
+
+        <a href="https://wa.me/22999905555?text=Bonjour,%20je%20souhaite%20commander%20le%20Chargeur%20Rapide%20100W%20avec%20d%C3%A9connexion%20automatique%20IA%20%C3%A0%2020%20000%20FCFA." target="_blank" class="btn-whatsapp">
+          <i data-lucide="message-circle" style="width:20px;height:20px;"></i>
+          <span>Commander directement via WhatsApp</span>
+        </a>
+
+        <div id="orderSuccessMsg" style="display:none;padding:14px;background:rgba(16,185,129,0.15);border:1px solid #10b981;border-radius:10px;color:#10b981;font-size:0.9rem;text-align:center;font-weight:600;">
+          🎉 Félicitations ! Votre commande a été confirmée. Notre livreur vous contactera dans les plus brefs délais.
+        </div>
+      </form>
+
+      <!-- Guarantees -->
+      <div class="guarantees-row">
+        <div class="guarantee-item">
+          <i data-lucide="truck" style="width:20px;height:20px;"></i>
+          <span>Livraison Express 24h</span>
+        </div>
+        <div class="guarantee-item">
+          <i data-lucide="shield-check" style="width:20px;height:20px;"></i>
+          <span>Garantie 1 An</span>
+        </div>
+        <div class="guarantee-item">
+          <i data-lucide="credit-card" style="width:20px;height:20px;"></i>
+          <span>Paiement à Réception</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Mobile Sticky Footer Bar -->
+  <div class="mobile-sticky-bar">
+    <div>
+      <div style="font-size:0.75rem;color:var(--text-muted);">Prix Spécial IA</div>
+      <div style="font-size:1.25rem;font-weight:800;color:#ffffff;">20 000 FCFA</div>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="document.getElementById('orderForm').scrollIntoView({behavior:'smooth'})" style="padding:10px 20px;">
+      <span>Commander</span>
+      <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>
+    </button>
+  </div>
+
+  <script>
+    // Form Submit
+    document.getElementById('orderForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('clientName').value;
+      const phone = document.getElementById('clientPhone').value;
+      const city = document.getElementById('clientCity').value;
+
+      document.getElementById('orderSuccessMsg').style.display = 'block';
+
+      const msg = encodeURIComponent(`Nouvelle Commande !\nProduit: Chargeur Rapide 100W avec Déconnexion IA\nPrix: 20 000 FCFA\nClient: ${name}\nTél: ${phone}\nAdresse de livraison: ${city}`);
+      setTimeout(() => {
+        window.open(`https://wa.me/22999905555?text=${msg}`, '_blank');
+      }, 1500);
+    });
+
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaine Minceur 100% Latex Naturel — Ventre Plat Immédiat & Taille Affinée | 20 000 FCFA</title>
+  <meta name="description" content="Gaine amincissante 100% latex naturel haute compression. Réduit instantanément le tour de taille, galbe le ventre, corrige la posture et reste invisible sous vos robes. Prix : 20 000 FCFA.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --primary: #be123c;
+      --primary-hover: #9f1239;
+      --primary-light: #fff1f2;
+      --accent: #e11d48;
+      --dark: #0f172a;
+      --bg: #fffbfb;
+      --white: #ffffff;
+      --text: #1c1917;
+      --text-muted: #78716c;
+      --border: rgba(190, 18, 60, 0.12);
+      --radius: 18px;
+      --radius-pill: 9999px;
+      --shadow: 0 12px 32px -4px rgba(190, 18, 60, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding-bottom: 90px;
+    }
+
+    .top-promo-bar {
+      background: linear-gradient(90deg, #881337, #be123c, #881337);
+      color: #ffffff;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .top-promo-bar span.badge {
+      background: #ffffff;
+      padding: 2px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #be123c;
+    }
+
+    .product-container {
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .product-container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-top: 16px;
+      }
+    }
+
+    .gallery-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      position: sticky;
+      top: 20px;
+    }
+
+    .main-image-wrap {
+      width: 100%;
+      height: 460px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fdf2f4;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .main-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .promo-float-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      text-transform: uppercase;
+      box-shadow: 0 4px 14px rgba(190, 18, 60, 0.35);
+    }
+
+    .thumbs-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .thumb-btn {
+      padding: 10px;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      cursor: pointer;
+      background: #fff;
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .thumb-btn.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .details-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 36px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .product-tag-sub {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+    }
+
+    .product-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.45rem, 2.5vw, 1.95rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text);
+    }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+    }
+
+    .stars {
+      color: #f59e0b;
+      display: flex;
+      gap: 2px;
+    }
+
+    .price-box {
+      background: var(--primary-light);
+      border-radius: 14px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid rgba(190, 18, 60, 0.2);
+    }
+
+    .price-main {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .price-old {
+      font-size: 1.05rem;
+      text-decoration: line-through;
+      color: var(--text-muted);
+      margin-left: 10px;
+    }
+
+    .discount-pill {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Size Selector */
+    .sizes-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+
+    .size-btn {
+      border: 1.5px solid var(--border);
+      background: #ffffff;
+      padding: 10px 4px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .size-btn.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.9rem;
+      padding: 20px;
+      background: #fffbfb;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .features-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .features-list li i {
+      color: var(--primary);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .order-form-box {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-family: inherit;
+      font-size: 0.94rem;
+      outline: none;
+      background: #ffffff;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+    }
+
+    .btn-buy-now {
+      background: linear-gradient(135deg, var(--primary), #9f1239);
+      color: #ffffff;
+      border: none;
+      padding: 16px;
+      border-radius: var(--radius-pill);
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(190, 18, 60, 0.35);
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .btn-buy-now:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-whatsapp {
+      background: #25d366;
+      color: #ffffff;
+      border: none;
+      padding: 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .guarantees-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+    }
+
+    .guarantee-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .guarantee-item i {
+      color: var(--primary);
+    }
+
+    .mobile-sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 100;
+      box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    @media (max-width: 768px) {
+      .mobile-sticky-bar { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-promo-bar">
+    <span class="badge">100% LATEX NATUREL</span>
+    <span>Silhouette Sablier Immédiate • Discrète & Invisible sous vos Robes • Maintien Lombaire</span>
+  </div>
+
+  <div class="product-container">
+
+    <!-- Gallery Column -->
+    <div class="gallery-card">
+      <div class="main-image-wrap">
+        <span class="promo-float-tag">-40% PROMO</span>
+        <img id="mainGaineImg" src="images/gaine-latex-silhouette.jpg" alt="Gaine minceur 100% latex silhouette sablier">
+      </div>
+
+      <div class="thumbs-row">
+        <button class="thumb-btn active" data-img="images/gaine-latex-silhouette.jpg">
+          <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
+          <span>Rendu Porté & Silhouette</span>
+        </button>
+        <button class="thumb-btn" data-img="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg">
+          <i data-lucide="shield-check" style="width:16px;height:16px;"></i>
+          <span>Structure & Fermetures</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Details Column -->
+    <div class="details-card">
+      <div>
+        <div class="product-tag-sub">Minceur & Galbe Parfait • Édition Premium</div>
+        <h1 class="product-title">Gaine Amincissante 100% Latex Naturel Haute Compression</h1>
+      </div>
+
+      <div class="rating-row">
+        <div class="stars">
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+          <i data-lucide="star" style="width:16px;height:16px;fill:#f59e0b;"></i>
+        </div>
+        <span style="font-weight:700;">4.95/5</span>
+        <span style="color:var(--text-muted);">(384 avis clientes satisfaites)</span>
+      </div>
+
+      <!-- Price Box -->
+      <div class="price-box">
+        <div>
+          <span class="price-main">20 000 FCFA</span>
+          <span class="price-old">35 000 FCFA</span>
+        </div>
+        <span class="discount-pill">ÉCONOMISEZ 15 000 FCFA</span>
+      </div>
+
+      <!-- Size Selector -->
+      <div>
+        <div style="font-size:0.9rem;font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;">
+          <span>Sélectionnez votre taille : <strong id="selectedSizeLabel" style="color:var(--primary);">M (Tour 70-76 cm)</strong></span>
+        </div>
+        <div class="sizes-grid">
+          <div class="size-btn" data-size="S (65-70 cm)">S</div>
+          <div class="size-btn active" data-size="M (70-76 cm)">M</div>
+          <div class="size-btn" data-size="L (76-82 cm)">L</div>
+          <div class="size-btn" data-size="XL (82-88 cm)">XL</div>
+          <div class="size-btn" data-size="XXL (88-95 cm)">XXL</div>
+          <div class="size-btn" data-size="3XL (95-105 cm)">3XL</div>
+        </div>
+      </div>
+
+      <!-- Benefits -->
+      <ul class="features-list">
+        <li>
+          <i data-lucide="check-circle-2" style="width:18px;height:18px;"></i>
+          <span><strong>Ventre Plat Immédiat :</strong> Galbe et rentre le ventre dès l'enfilage pour une silhouette nette et sans démarcations.</span>
+        </li>
+        <li>
+          <i data-lucide="eye-off" style="width:18px;height:18px;"></i>
+          <span><strong>100% Invisible sous vos Vêtements :</strong> Ultra-discrète et agréable à porter sous une robe moulante, tailleur ou pantalon près du corps.</span>
+        </li>
+        <li>
+          <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
+          <span><strong>Affine & Marque la Taille :</strong> Réduit instantanément votre tour de taille de 2 à 3 crans grâce à la compression superficielle en latex naturel.</span>
+        </li>
+        <li>
+          <i data-lucide="shield" style="width:18px;height:18px;"></i>
+          <span><strong>Dissimule les Bourrelets & Graisses :</strong> Lisse complètement les rondeurs latérales du dos et du ventre.</span>
+        </li>
+        <li>
+          <i data-lucide="heart-pulse" style="width:18px;height:18px;"></i>
+          <span><strong>Soulage les Lombaires & Corrige la Posture :</strong> Baleines flexibles intégrées offrant un maintien parfait du dos au quotidien.</span>
+        </li>
+      </ul>
+
+      <!-- Checkout Form -->
+      <form id="orderForm" class="order-form-box">
+        <div style="font-size:0.95rem;font-weight:700;color:var(--text);">
+          Remplissez vos coordonnées pour commander (Paiement à la livraison) :
+        </div>
+
+        <input type="text" id="clientName" class="form-input" placeholder="Votre Nom complet *" required>
+        <input type="tel" id="clientPhone" class="form-input" placeholder="Numéro de téléphone / WhatsApp *" required>
+        <input type="text" id="clientCity" class="form-input" placeholder="Ville et Quartier de livraison *" required>
+
+        <button type="submit" class="btn-buy-now">
+          <i data-lucide="shopping-bag" style="width:20px;height:20px;"></i>
+          <span>COMMANDER LA GAINE 100% LATEX (20 000 FCFA)</span>
+        </button>
+
+        <a href="https://wa.me/22999905555?text=Bonjour,%20je%20souhaite%20commander%20la%20Gaine%20100%25%20Latex%20%C3%A0%2020%20000%20FCFA." target="_blank" class="btn-whatsapp">
+          <i data-lucide="message-circle" style="width:20px;height:20px;"></i>
+          <span>Commander directement via WhatsApp</span>
+        </a>
+
+        <div id="orderSuccessMsg" style="display:none;padding:14px;background:#fff1f2;border:1px solid #be123c;border-radius:10px;color:#881337;font-size:0.9rem;text-align:center;font-weight:600;">
+          🎉 Félicitations ! Votre commande de gaine 100% latex a été enregistrée avec succès. Notre service client vous contacte immédiatement.
+        </div>
+      </form>
+
+      <!-- Guarantees -->
+      <div class="guarantees-row">
+        <div class="guarantee-item">
+          <i data-lucide="truck" style="width:20px;height:20px;"></i>
+          <span>Livraison Rapide 24h</span>
+        </div>
+        <div class="guarantee-item">
+          <i data-lucide="shield-check" style="width:20px;height:20px;"></i>
+          <span>100% Latex Naturel</span>
+        </div>
+        <div class="guarantee-item">
+          <i data-lucide="credit-card" style="width:20px;height:20px;"></i>
+          <span>Paiement à Réception</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Mobile Sticky Footer Bar -->
+  <div class="mobile-sticky-bar">
+    <div>
+      <div style="font-size:0.75rem;color:var(--text-muted);">Prix Spécial Gaine</div>
+      <div style="font-size:1.25rem;font-weight:800;color:var(--primary);">20 000 FCFA</div>
+    </div>
+    <button class="btn-buy-now" onclick="document.getElementById('orderForm').scrollIntoView({behavior:'smooth'})" style="width:auto;padding:10px 20px;font-size:0.9rem;">
+      <span>Commander</span>
+    </button>
+  </div>
+
+  <script>
+    let selectedSize = 'M (70-76 cm)';
+
+    document.querySelectorAll('.size-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedSize = btn.getAttribute('data-size');
+        document.getElementById('selectedSizeLabel').textContent = selectedSize;
+      });
+    });
+
+    document.querySelectorAll('.thumb-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const src = btn.getAttribute('data-img');
+        if (!src) return;
+        document.getElementById('mainGaineImg').src = src;
+        document.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    document.getElementById('orderForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('clientName').value;
+      const phone = document.getElementById('clientPhone').value;
+      const city = document.getElementById('clientCity').value;
+
+      document.getElementById('orderSuccessMsg').style.display = 'block';
+
+      const msg = encodeURIComponent(`Nouvelle Commande !\nProduit: Gaine 100% Latex Naturel\nTaille: ${selectedSize}\nPrix: 20 000 FCFA\nClient: ${name}\nTél: ${phone}\nAdresse de livraison: ${city}`);
+      setTimeout(() => {
+        window.open(`https://wa.me/22999905555?text=${msg}`, '_blank');
+      }, 1500);
+    });
+
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

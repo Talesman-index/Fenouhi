@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutique Officielle — Nouveautés & Offres Exclusives</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --primary: #f95700;
+      --dark: #111317;
+      --bg: #f8f9fb;
+      --text: #101828;
+      --text-muted: #667085;
+      --border: rgba(16, 24, 40, 0.08);
+      --radius: 20px;
+      --shadow: 0 12px 32px -4px rgba(16, 24, 40, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); padding: 40px 16px; }
+    .store-container { max-width: 1320px; margin: 0 auto; }
+    
+    .store-header { text-align: center; margin-bottom: 48px; }
+    .store-header h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; margin-bottom: 8px; }
+    .store-header p { color: var(--text-muted); font-size: 1.05rem; }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .product-card {
+      background: #ffffff;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px -6px rgba(16, 24, 40, 0.12);
+    }
+
+    .product-thumb-wrap {
+      height: 250px;
+      position: relative;
+      background: #f1f3f6;
+      overflow: hidden;
+    }
+
+    .product-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .product-card:hover .product-thumb-wrap img {
+      transform: scale(1.05);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+    }
+
+    .product-badge.steel { background: #991b1b; }
+    .product-badge.latex { background: #be123c; }
+    .product-badge.gold { background: #d97706; }
+    .product-badge.robot { background: #0284c7; }
+    .product-badge.tech { background: #0066ff; }
+    .product-badge.vlog { background: #ec4899; }
+    .product-badge.auto { background: #0284c7; }
+    .product-badge.ring { background: #8b5cf6; }
+    .product-badge.foot { background: #2563eb; }
+    .product-badge.case { background: #0284c7; }
+    .product-badge.remax { background: #0ea5e9; }
+    .product-badge.chair { background: #10b981; }
+    .product-badge.gan { background: #f97316; }
+    .product-badge.glass { background: #6366f1; }
+    .product-badge.retro { background: #ea580c; }
+    .product-badge.diy { background: #2563eb; }
+    .product-badge.glow { background: #10b981; color: #000; }
+    .product-badge.grad { background: #18181b; }
+
+    .product-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .product-cat {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .product-title {
+      font-size: 1.12rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .product-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      flex-grow: 1;
+      line-height: 1.45;
+    }
+
+    .product-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    .product-price {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .btn-buy {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-buy.steel { background: #991b1b; }
+    .btn-buy.latex { background: #be123c; }
+    .btn-buy.gold { background: #d97706; }
+    .btn-buy.robot { background: #0284c7; }
+    .btn-buy.tech { background: #0066ff; }
+    .btn-buy.vlog { background: #ec4899; }
+    .btn-buy.auto { background: #0284c7; }
+    .btn-buy.ring { background: #8b5cf6; }
+    .btn-buy.foot { background: #2563eb; }
+    .btn-buy.case { background: #0284c7; }
+    .btn-buy.remax { background: #0ea5e9; }
+    .btn-buy.chair { background: #10b981; }
+    .btn-buy.gan { background: #f97316; }
+    .btn-buy.glass { background: #6366f1; }
+    .btn-buy.retro { background: #ea580c; }
+    .btn-buy.diy { background: #2563eb; }
+    .btn-buy.glow { background: #10b981; color: #000; }
+    .btn-buy.grad { background: #18181b; }
+  </style>
+</head>
+<body>
+
+  <div class="store-container">
+    <header class="store-header">
+      <h1>Boutique Officielle — Catalogue des Nouveautés</h1>
+      <p>Paiement sécurisé à la livraison • Expédition sous 24h partout au Bénin</p>
+    </header>
+
+    <div class="products-grid">
+      <!-- Product 1 : Gaine 25 Baleines -->
+      <a href="produit-gaine-25-baleines.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge steel">25 BALEINES ACIER</span>
+          <img src="images/gaine-25-baleines.jpg" alt="Gaine 25 baleines latex sablier">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#991b1b;">Minceur & Galbe Colombien</span>
+          <h2 class="product-title">Gaine 25 Baleines en Acier 100% Latex (Modèle Long)</h2>
+          <p class="product-desc">
+            Couvre tout le ventre jusqu'au bas-ventre, maintien extrême 25 baleines, invisible sous les vêtements. Tailles S à 3XL.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">25 000 FCFA</div>
+            <div class="btn-buy steel">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 2 : Gaine 100% Latex Classique -->
+      <a href="produit-gaine-latex.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge latex">100% LATEX</span>
+          <img src="images/gaine-latex-silhouette.jpg" alt="Gaine minceur latex silhouette sablier">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#be123c;">Minceur & Galbe Parfait</span>
+          <h2 class="product-title">Gaine Amincissante 100% Latex Naturel Haute Compression</h2>
+          <p class="product-desc">
+            Ventre plat immédiat, affine le tour de taille, invisible sous vos robes et soulage les lombaires. Tailles S à 3XL.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">20 000 FCFA</div>
+            <div class="btn-buy latex">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 3 : Masque Gold Caviar 24K -->
+      <a href="produit-masque-gold-caviar.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge gold">OR 24K & CAVIAR</span>
+          <img src="images/masque-gold-caviar.jpg" alt="Masque Gold Caviar Peel Off">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#d97706;">Beauté & Soins Visage</span>
+          <h2 class="product-title">Masque Peel-Off Blanchissant & Anti-Taches Gold Caviar</h2>
+          <p class="product-desc">
+            Or 24K, extrait de caviar, réglisse et vitamines A & E. Élimine les taches, régule le sébum et illumine le teint.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">5 000 FCFA</div>
+            <div class="btn-buy gold">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 4 : Robot Nettoyeur 4 en 1 Spray UV -->
+      <a href="produit-robot-nettoyeur.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge robot">ROBOT 4-EN-1 UV</span>
+          <img src="images/robot-nettoyeur-action.jpg" alt="Robot nettoyeur laveur 4 en 1">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#0284c7;">Maison Intelligente</span>
+          <h2 class="product-title">Robot Laveur de Sol 4-en-1 Spray & Stérilisation UV</h2>
+          <p class="product-desc">
+            Balaye, lave avec vadrouille rotative (+200% pression), pulvérise un spray brumisateur et désinfecte aux UV. Autonomie 2400 mAh.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">25 000 FCFA</div>
+            <div class="btn-buy robot">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 5 : Étui Dégradé Style Anglais HELLO -->
+      <a href="produit-coque-degrade-anglais.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge grad">STYLE ANGLAIS</span>
+          <img src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Étui dégradé style anglais iPhone">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#18181b;">Mode & Minimalisme</span>
+          <h2 class="product-title">Étui Souple Dégradé Style Anglais « HELLO »</h2>
+          <p class="product-desc">
+            Typographie stylée « HELLO », dégradé bicolore et coupe ergonomique soft-touch. iPhone 7 à 17 Pro Max.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">2 500 FCFA</div>
+            <div class="btn-buy grad">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 6 : Coque Phosphorescente Glow-in-the-Dark -->
+      <a href="produit-coque-phosphorescente.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge glow">GLOW DANS LE NOIR</span>
+          <img src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Coque phosphorescente iPhone">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#10b981;">Tendance 2026 & Coques</span>
+          <h2 class="product-title">Coque Phosphorescente Glow-in-the-Dark + Dragonne</h2>
+          <p class="product-desc">
+            Brille intensément dans le noir, dragonne lumineuse incluse, protection caméra renforcée. iPhone 12 à 17/18 Pro Max.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">7 000 FCFA</div>
+            <div class="btn-buy glow">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 7 : Coque Plaque Personnalisable DIY -->
+      <a href="produit-coque-plaque-personnalisee.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge diy">DIY PERSONNALISABLE</span>
+          <img src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Coque personnalisable plaque immatriculation">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#2563eb;">Personnalisation DIY</span>
+          <h2 class="product-title">Coque Personnalisable « Plaque & Numéro » iPhone</h2>
+          <p class="product-desc">
+            Créez votre coque avec votre numéro fétiche, nom ou plaque. Silicone souple antichoc. iPhone 11 à 16 Pro Max.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">2 500 FCFA</div>
+            <div class="btn-buy diy">
+              <span>Personnaliser</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 8 : Coque Clavier Messages Rétro -->
+      <a href="produit-coque-clavier-retro.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge retro">STYLE RÉTRO 2026</span>
+          <img src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Coque clavier rétro iPhone">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#ea580c;">Mode & Coques iPhone</span>
+          <h2 class="product-title">Coque Créative « Clavier & Messages » iPhone</h2>
+          <p class="product-desc">
+            Motif clavier rétro en relief avec citations inspirantes. Découpe ergonomique soft-touch. iPhone XS à 15 Pro Max.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">3 500 FCFA</div>
+            <div class="btn-buy retro">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 9 : Étui Magnétique Verre HD & Cadre Métal -->
+      <a href="produit-etui-verre-magsafe.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge glass">VERRE HD 360°</span>
+          <img src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Étui magnétique verre HD iPhone">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#6366f1;">Protection Luxe iPhone</span>
+          <h2 class="product-title">Étui Magnétique Verre HD & Cadre Métallique</h2>
+          <p class="product-desc">
+            Protection intégrale 360° en verre trempé double face 9H et cadre en aluminium. iPhone 12 à 16 Pro Max.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">15 000 FCFA</div>
+            <div class="btn-buy glass">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 10 : Chargeur GaN PD 45W Shuoying -->
+      <a href="produit-chargeur-gan-45w.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge gan">GaN PD 45W</span>
+          <img src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Chargeur GaN PD 45W Shuoying">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#f97316;">Chargeurs Rapides GaN</span>
+          <h2 class="product-title">Chargeur Rapide GaN PD 45W + Câble Tressé</h2>
+          <p class="product-desc">
+            Puce GaN ultra-compacte, 60% en 25 min, câble tressé inclus. Compatible iPhone 11 à 17/18 & Android.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">7 000 FCFA</div>
+            <div class="btn-buy gan">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 11 : Support Bureau Sans Fil Chaise -->
+      <a href="produit-support-chaise-chargeur.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge chair">STYLE CHAISE AUDIO</span>
+          <img src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Support sans fil chaise bureau">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#10b981;">Bureau & High-Tech</span>
+          <h2 class="product-title">Support Sans Fil Style « Chaise » (Amplificateur Audio)</h2>
+          <p class="product-desc">
+            Charge rapide verticale & horizontale, amplificateur sonore acoustique intégré. Compatible Apple, Huawei, Xiaomi & Android.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">20 000 FCFA</div>
+            <div class="btn-buy chair">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 12 : Chargeur Sans Fil REMAX MagSafe 15W -->
+      <a href="produit-chargeur-remax-magsafe.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge remax">REMAX 15W</span>
+          <img src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Chargeur sans fil magnétique REMAX">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#0ea5e9;">Chargeurs Sans Fil</span>
+          <h2 class="product-title">Chargeur Sans Fil Magnétique REMAX MagSafe 15W</h2>
+          <p class="product-desc">
+            Recharge rapide 15W, alignement magnétique ultra-précis pour iPhone 12 à 17/18 et Android. Puce anti-surchauffe.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">10 000 FCFA</div>
+            <div class="btn-buy remax">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 13 : Coque MagSafe iPhone -->
+      <a href="produit-coque-magsafe.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge case">IPHONE 12 À 18</span>
+          <img src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Coque MagSafe iPhone">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#0284c7;">Protection iPhone</span>
+          <h2 class="product-title">Coque Magnétique MagSafe Transparente iPhone</h2>
+          <p class="product-desc">
+            Dos rigide transparent anti-jaunissement et contours TPU souples antichoc. Compatible iPhone 12 à 18 Pro Max.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">5 000 FCFA</div>
+            <div class="btn-buy case">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 14 : Chaussures Football 11Pro -->
+      <a href="produit-crampons-11pro.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge foot">MATCH & TF/FG</span>
+          <img src="images/metal-frames-being-constructed-on-a-building-site-2026-03-27-01-30-54-utc.JPG" alt="Chaussures football 11Pro">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#2563eb;">Football & Crampons</span>
+          <h2 class="product-title">Chaussures de Football 11Pro TF/FG (Gamme Pro)</h2>
+          <p class="product-desc">
+            Toucher de balle chirurgical, semelle haute traction pour terrain synthétique et gazon naturel. Pointures 39 à 45.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">8 000 FCFA</div>
+            <div class="btn-buy foot">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 15 : Support Magnétique MagSafe Anneau -->
+      <a href="produit-support-anneau-magsafe.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge ring">DOUBLE FACE 3-EN-1</span>
+          <img src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Support MagSafe avec anneau double face">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#8b5cf6;">Accessoires MagSafe</span>
+          <h2 class="product-title">Support Magnétique MagSafe avec Anneau Double Face</h2>
+          <p class="product-desc">
+            Se fixe au dos du téléphone ET sur surfaces métalliques (frigo, gym). Anneau pliable 360° et poignée anti-chute.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">7 500 FCFA</div>
+            <div class="btn-buy ring">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 16 : Support Voiture Hoco MagSafe -->
+      <a href="produit-support-voiture.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge auto">MAGSAFE 15W</span>
+          <img src="images/stacked-steel-metal-bars-in-a-factory-2026-01-08-07-15-37-utc.jpg" alt="Support magnétique voiture Hoco">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#0284c7;">Auto & Conduite</span>
+          <h2 class="product-title">Support Voiture Magnétique Hoco avec Charge Sans Fil</h2>
+          <p class="product-desc">
+            Compatible MagSafe, fixation ventouse ultra-puissante verrouillable, rotation 360° et charge rapide sans fil 15W.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">10 000 FCFA</div>
+            <div class="btn-buy auto">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 17 : Smart Charger IA -->
+      <a href="produit-chargeur.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge tech">PUCE IA 100W</span>
+          <img src="images/stacked-steel-metal-bars-in-a-factory-2026-01-08-07-15-37-utc.jpg" alt="Chargeur rapide 100W IA">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#0066ff;">High-Tech & Énergie</span>
+          <h2 class="product-title">Chargeur Rapide 100W avec Déconnexion IA</h2>
+          <p class="product-desc">
+            Coupure automatique à 100% de charge pour protéger la batterie. Témoin LED intelligent et câble blindé.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">20 000 FCFA</div>
+            <div class="btn-buy tech">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 18 : Selfie Magnetic Screen -->
+      <a href="produit-ecran-selfie.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge vlog">TIKTOK & VLOG</span>
+          <img src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Mini Écran Magnétique Selfie Smartphone">
+        </div>
+        <div class="product-body">
+          <span class="product-cat" style="color:#ec4899;">Vidéo & Création</span>
+          <h2 class="product-title">Mini Écran Magnétique Selfie & Vlog HD Smartphone</h2>
+          <p class="product-desc">
+            Filmez en 4K avec la caméra arrière tout en vous voyant en direct. Fixation magnétique sans fil sans latence.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">20 000 FCFA</div>
+            <div class="btn-buy vlog">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Product 19 : Running Shoes -->
+      <a href="produit-chaussures.html" class="product-card">
+        <div class="product-thumb-wrap">
+          <span class="product-badge">-50% PROMO</span>
+          <img src="images/the-house-in-the-mountain-2026-03-23-23-03-52-utc.jpeg" alt="Chaussures de running Été 2026">
+        </div>
+        <div class="product-body">
+          <span class="product-cat">Mode & Running</span>
+          <h2 class="product-title">Chaussures de Running Homme Été 2026 (Soie Glacée)</h2>
+          <p class="product-desc">
+            Maille respirante effet soie glacée, semelle souple amortissante, anti-odeurs. Pointures 39 à 44.
+          </p>
+          <div class="product-bottom-row">
+            <div class="product-price">5 000 FCFA</div>
+            <div class="btn-buy">
+              <span>Commander</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
