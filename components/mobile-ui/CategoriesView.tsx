@@ -47,7 +47,7 @@ const CATEGORY_LIST = [
   { id: "librairie", name: "Librairie", icon: BookOpen, count: "310 usines", tag: "Papeterie & Édition" },
   { id: "jeux-video", name: "Jeux vidéo", icon: Gamepad2, count: "420 usines", tag: "Consoles & Gaming" },
   { id: "jeux-jouets", name: "Jeux & Jouets", icon: Puzzle, count: "590 usines", tag: "Éveil & Modélisme" },
-  { id: "sport", name: "Sport", icon: Activity, count: "680 usines", tag: "Fitness & Outdoor" },
+  { id: "sport", name: "Sport & Fitness", icon: Activity, count: "680 usines", tag: "Fitness & Outdoor" },
   { id: "animalerie", name: "Animalerie", icon: PawPrint, count: "230 usines", tag: "Accessoires & Soins" },
   { id: "bebe-puericulture", name: "Bébé & Puériculture", icon: Baby, count: "410 usines", tag: "Poussettes & Éveil" },
   { id: "beaute-parfumerie", name: "Beauté, Parfumerie & Hygiène", icon: Brush, count: "950 usines", tag: "Soins & Cosmétiques" },

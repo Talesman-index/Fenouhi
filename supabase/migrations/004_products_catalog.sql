@@ -146,7 +146,8 @@ INSERT INTO public.categories (id, name, slug, description, icon, is_active) VAL
   ('c1000000-0000-0000-0000-000000000003', 'Beauté & Soins', 'beauty', 'Sérums visage, soins cosmétiques et matériel esthétique.', 'Sparkles', TRUE),
   ('c1000000-0000-0000-0000-000000000004', 'Outillage & PME', 'machinery', 'Gants de protection, équipements de travail et machines industrielles.', 'Wrench', TRUE),
   ('c1000000-0000-0000-0000-000000000005', 'Agro-alimentaire & Vrac', 'agro', 'Emballages alimentaires, conditionnements et produits bruts.', 'ShoppingBag', TRUE),
-  ('c1000000-0000-0000-0000-000000000006', 'Vrac & Grossistes', 'wholesale', 'Lots d''articles en gros import direct usines Chine.', 'Package', TRUE)
+  ('c1000000-0000-0000-0000-000000000006', 'Sport & Fitness', 'sport', 'Équipements fitness, vêtements sportifs et plein air.', 'Activity', TRUE),
+  ('c1000000-0000-0000-0000-000000000007', 'Vrac & Grossistes', 'wholesale', 'Lots d''articles en gros import direct usines Chine.', 'Package', TRUE)
 ON CONFLICT (slug) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,

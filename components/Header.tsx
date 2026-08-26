@@ -321,6 +321,11 @@ export default function Header() {
               </Link>
             </li>
             <li>
+              <Link href="/catalog?cat=sport" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
+                Sport & Fitness
+              </Link>
+            </li>
+            <li>
               <Link href="/catalog?cat=womens" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
                 Mode Femme
               </Link>

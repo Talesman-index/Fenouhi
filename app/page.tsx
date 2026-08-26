@@ -100,7 +100,7 @@ export default function HomePage() {
     { name: "Maison & Déco", img: "/images/assets/cat_homedecor.jpg", link: "/catalog?cat=home" },
     { name: "Santé & Beauté", img: "/images/assets/cat_beauty.jpg", link: "/catalog?cat=beauty" },
     { name: "Épicerie", img: "/images/assets/cat_groceries.jpg", link: "/catalog?cat=groceries" },
-    { name: "Baskets & Sport", img: "/images/assets/cat_sneakers.jpg", link: "/catalog?cat=sneakers" },
+    { name: "Baskets & Sport", img: "/images/assets/cat_sneakers.jpg", link: "/catalog?cat=sport" },
   ];
 
   const todayDeals = [
@@ -141,6 +141,7 @@ export default function HomePage() {
     { name: "Beauté & Soins", cat: "beauty" },
     { name: "Smartphones", cat: "electronics" },
     { name: "Mode & Chaussures", cat: "fashion" },
+    { name: "Sport & Fitness", cat: "sport" },
     { name: "Maison & Déco", cat: "home" },
   ];
 
