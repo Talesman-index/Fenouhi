@@ -79,16 +79,9 @@ export async function GET(request: NextRequest) {
     const deletedIds = readDeletedIdsFromFile();
     const deletedSet = new Set(deletedIds);
     const productMap = new Map<string, Product>();
+    const seenSlugs = new Set<string>();
 
-    // 1. Load persistent custom products from server disk
-    const customFromFile = readCustomProductsFromFile();
-    for (const p of customFromFile) {
-      if (!deletedSet.has(p.id) && !deletedSet.has(p.slug)) {
-        productMap.set(p.id, p);
-      }
-    }
-
-    // 2. Try querying Supabase if available
+    // 1. Query Supabase database first (source of truth)
     try {
       const supabase = createClient();
       const { data: dbProducts, error } = await supabase
@@ -100,14 +93,25 @@ export async function GET(request: NextRequest) {
         for (const p of dbProducts) {
           if (!deletedSet.has(p.id) && !deletedSet.has(p.slug)) {
             productMap.set(p.id, p as Product);
+            if (p.slug) seenSlugs.add(p.slug);
           }
         }
       }
     } catch {}
 
+    // 2. Load persistent custom products from server disk
+    const customFromFile = readCustomProductsFromFile();
+    for (const p of customFromFile) {
+      if (!deletedSet.has(p.id) && !deletedSet.has(p.slug) && !productMap.has(p.id) && !seenSlugs.has(p.slug)) {
+        productMap.set(p.id, p);
+        if (p.slug) seenSlugs.add(p.slug);
+      }
+    }
+
     // 3. Add base static products
     for (const raw of PRODUCTS) {
-      if (!productMap.has(raw.id) && !deletedSet.has(raw.id) && !deletedSet.has(`product-${raw.id}`)) {
+      const slugKey = `product-${raw.id}`;
+      if (!productMap.has(raw.id) && !seenSlugs.has(slugKey) && !seenSlugs.has(raw.id) && !deletedSet.has(raw.id) && !deletedSet.has(slugKey)) {
         productMap.set(raw.id, {
           id: raw.id,
           name: raw.title,
