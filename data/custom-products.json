@@ -1,1 +1,45 @@
-[]
+[
+  {
+    "id": "prod_coque_iphone_pliable_magsafe",
+    "name": "Coque de téléphone avec support pliable magnétique antichoc à charge sans fil pour iPhone 11 à 18 pro Max",
+    "slug": "coque-de-telephone-avec-support-pliable-magnetique-antichoc-charge-sans-fil-pour-iphone-11-18-pro-max",
+    "short_description": "Coque de protection antichoc premium avec anneau support pliable rotatif 360°, compatibilité MagSafe et charge sans fil.",
+    "description": "Protection intégrale haute résistance aux chutes et impacts pour tous modèles iPhone (du 11 au 18 Pro Max). Équipée d'un support métallique pliable intégré ultra-fin servant de support vidéo horizontal/vertical et d'une compatibilité optimale avec les chargeurs à induction magnétiques MagSafe.",
+    "category_id": "c1000000-0000-0000-0000-000000000001",
+    "subcategory": "Accessoires Téléphonie",
+    "price": 12000,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Hub Asie & International",
+    "weight": 0.15,
+    "length": 16,
+    "width": 8,
+    "height": 2,
+    "available_shipping_modes": ["air", "sea"],
+    "estimated_delivery_time": "5 - 15 jours (Aérien) / 50 - 95 jours (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "category": {
+      "id": "c1000000-0000-0000-0000-000000000001",
+      "name": "High-Tech & Électronique",
+      "slug": "electronics",
+      "is_active": true
+    },
+    "images": [
+      {
+        "id": "img_coque_iphone_0",
+        "product_id": "prod_coque_iphone_pliable_magsafe",
+        "public_image_url": "/images/assets/item_1.jpg",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "created_at": "2026-08-27T08:50:00.000Z",
+    "updated_at": "2026-08-27T08:57:00.000Z"
+  }
+]
