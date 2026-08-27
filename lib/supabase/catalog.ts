@@ -13,7 +13,8 @@ export const FALLBACK_CATEGORIES: Category[] = [
   { id: "c1000000-0000-0000-0000-000000000007", name: "Quincaillerie & Matériaux", slug: "hardware", description: "Matériaux de construction, robinetterie, quincaillerie et outillage.", icon: "Hammer", is_active: true },
   { id: "c1000000-0000-0000-0000-000000000008", name: "Jouets & Puériculture", slug: "toys", description: "Jeux éducatifs, jouets enfants et articles de puériculture.", icon: "Smile", is_active: true },
   { id: "c1000000-0000-0000-0000-000000000009", name: "Sport & Fitness", slug: "sport", description: "Équipements fitness, vêtements sportifs, musculation et articles de plein air.", icon: "Activity", is_active: true },
-  { id: "c1000000-0000-0000-0000-000000000010", name: "Vrac & Grossistes", slug: "wholesale", description: "Lots d'articles en vrac et approvisionnement direct usines.", icon: "Package", is_active: true }
+  { id: "c1000000-0000-0000-0000-000000000010", name: "Vrac & Grossistes", slug: "wholesale", description: "Lots d'articles en vrac et approvisionnement direct usines.", icon: "Package", is_active: true },
+  { id: "c1000000-0000-0000-0000-000000000011", name: "Mode Pagne Africain", slug: "mode-pagne-africain", description: "Pagnes traditionnels, wax hollandais, imprimés africains, tenues sur-mesure et accessoires en pagne.", icon: "Sparkles", is_active: true }
 ];
 
 const isSupabaseConfigured = () => {

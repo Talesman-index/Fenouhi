@@ -31,6 +31,7 @@ import {
 import { MobileStoreProvider, useMobileStore } from "@/lib/mobile-store";
 
 const ALL_CATEGORIES = [
+  { id: "pagne-africain", name: "Mode Pagne Africain", icon: Sparkles, count: "1 850 usines", tag: "Wax, Kente, Bazin & Tenues Africaines", slug: "mode-pagne-africain", highlight: true, badge: "Afrique" },
   { id: "meuble", name: "Meuble & Décoration", icon: BedDouble, count: "480 usines", tag: "Design & Intérieur", slug: "home" },
   { id: "telephonie", name: "Téléphonie & Objets connectés", icon: Smartphone, count: "1 250 usines", tag: "Smartphones & Accessoires", slug: "electronics", highlight: true },
   { id: "informatique", name: "Informatique", icon: Laptop, count: "890 usines", tag: "PC, Tablettes & Périphériques", slug: "electronics" },

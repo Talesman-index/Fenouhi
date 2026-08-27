@@ -140,6 +140,7 @@ export default function HomePage() {
     { name: "Tous", cat: "" },
     { name: "Beauté & Soins", cat: "beauty" },
     { name: "High-Tech & Electronics", cat: "electronics" },
+    { name: "Mode Pagne Africain", cat: "mode-pagne-africain" },
     { name: "Mode & Chaussures", cat: "fashion" },
     { name: "Sport & Fitness", cat: "sport" },
     { name: "Maison & Déco", cat: "home" },
