@@ -373,8 +373,8 @@ export default function ProductsManagementPage() {
       setSubcategory("Accessoires & Coques");
       setPrice(3500);
       setCargolinkMarginPercent(10);
-      setAirFreightRatePerKg(2000);
-      setSeaFreightRatePerCbm(2000);
+      setAirFreightRatePerKg(0);
+      setSeaFreightRatePerCbm(0);
       setCurrency("FCFA");
       setStockQuantity(100);
       setMinimumOrderQuantity(1);
@@ -406,9 +406,9 @@ export default function ProductsManagementPage() {
     setCategoryId(product.category_id || categories[0]?.id || "");
     setSubcategory(product.subcategory || "");
     setPrice(product.price);
-    setCargolinkMarginPercent(product.cargolink_margin_percent ?? 10);
-    setAirFreightRatePerKg(product.air_freight_rate_per_kg ?? 2000);
-    setSeaFreightRatePerCbm(product.sea_freight_rate_per_cbm ?? 2000);
+    setCargolinkMarginPercent(product.cargolink_margin_percent !== undefined && product.cargolink_margin_percent !== null ? product.cargolink_margin_percent : 10);
+    setAirFreightRatePerKg(product.air_freight_rate_per_kg !== undefined && product.air_freight_rate_per_kg !== null ? Number(product.air_freight_rate_per_kg) : 0);
+    setSeaFreightRatePerCbm(product.sea_freight_rate_per_cbm !== undefined && product.sea_freight_rate_per_cbm !== null ? Number(product.sea_freight_rate_per_cbm) : 0);
     setCurrency(product.currency || "FCFA");
     setStockQuantity(product.stock_quantity);
     setMinimumOrderQuantity(product.minimum_order_quantity);
@@ -492,8 +492,8 @@ export default function ProductsManagementPage() {
         subcategory: subcategory || "Accessoires & Coques",
         price: Number(price),
         cargolink_margin_percent: Number(cargolinkMarginPercent ?? 10),
-        air_freight_rate_per_kg: Number(airFreightRatePerKg ?? 2000),
-        sea_freight_rate_per_cbm: Number(seaFreightRatePerCbm ?? 2000),
+        air_freight_rate_per_kg: Number(airFreightRatePerKg ?? 0),
+        sea_freight_rate_per_cbm: Number(seaFreightRatePerCbm ?? 0),
         currency: currency || "FCFA",
         stock_quantity: Number(stockQuantity ?? 100),
         minimum_order_quantity: Number(minimumOrderQuantity ?? 1),
@@ -1375,8 +1375,7 @@ export default function ProductsManagementPage() {
                         required
                         min={0}
                         placeholder="100"
-                        value={stockQuantity === 0 ? "" : stockQuantity}
-                        onFocus={(e) => { if (stockQuantity === 0) e.target.select(); }}
+                        value={stockQuantity}
                         onChange={(e) => {
                           const val = e.target.value;
                           setStockQuantity(val === "" ? 0 : Number(val));
@@ -1391,8 +1390,7 @@ export default function ProductsManagementPage() {
                         required
                         min={1}
                         placeholder="1"
-                        value={minimumOrderQuantity === 0 ? "" : minimumOrderQuantity}
-                        onFocus={(e) => { if (minimumOrderQuantity === 0) e.target.select(); }}
+                        value={minimumOrderQuantity}
                         onChange={(e) => {
                           const val = e.target.value;
                           setMinimumOrderQuantity(val === "" ? 0 : Number(val));
@@ -1446,8 +1444,7 @@ export default function ProductsManagementPage() {
                         required
                         min={0}
                         placeholder="Ex: 15000"
-                        value={price === 0 ? "" : price}
-                        onFocus={(e) => { if (price === 0) e.target.select(); }}
+                        value={price}
                         onChange={(e) => {
                           const val = e.target.value;
                           setPrice(val === "" ? 0 : Number(val));
@@ -1469,8 +1466,7 @@ export default function ProductsManagementPage() {
                           min={0}
                           max={100}
                           placeholder="10"
-                          value={cargolinkMarginPercent === 0 ? "" : cargolinkMarginPercent}
-                          onFocus={(e) => { if (cargolinkMarginPercent === 0) e.target.select(); }}
+                          value={cargolinkMarginPercent}
                           onChange={(e) => {
                             const val = e.target.value;
                             setCargolinkMarginPercent(val === "" ? 0 : Number(val));
@@ -1505,13 +1501,31 @@ export default function ProductsManagementPage() {
                   {/* FREIGHT RATES PER PRODUCT */}
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                     <div>
-                      <label className="admin-label">Fret Aérien *</label>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                        <label className="admin-label" style={{ margin: 0 }}>Fret Aérien (FCFA / kg) *</label>
+                        <button
+                          type="button"
+                          onClick={() => setAirFreightRatePerKg(0)}
+                          style={{
+                            border: "1px solid #CBD5E1",
+                            background: airFreightRatePerKg === 0 ? "#DCFCE7" : "#F1F5F9",
+                            color: airFreightRatePerKg === 0 ? "#166534" : "#475569",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            padding: "2px 8px",
+                            borderRadius: 6,
+                            cursor: "pointer"
+                          }}
+                        >
+                          0 FCFA (Inclus)
+                        </button>
+                      </div>
                       <input
                         type="number"
                         min={0}
-                        placeholder="2000"
-                        value={airFreightRatePerKg === 0 ? "" : airFreightRatePerKg}
-                        onFocus={(e) => { if (airFreightRatePerKg === 0) e.target.select(); }}
+                        step={100}
+                        placeholder="0"
+                        value={airFreightRatePerKg}
                         onChange={(e) => {
                           const val = e.target.value;
                           setAirFreightRatePerKg(val === "" ? 0 : Number(val));
@@ -1521,13 +1535,31 @@ export default function ProductsManagementPage() {
                     </div>
 
                     <div>
-                      <label className="admin-label">Fret Maritime *</label>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                        <label className="admin-label" style={{ margin: 0 }}>Fret Maritime (FCFA / CBM) *</label>
+                        <button
+                          type="button"
+                          onClick={() => setSeaFreightRatePerCbm(0)}
+                          style={{
+                            border: "1px solid #CBD5E1",
+                            background: seaFreightRatePerCbm === 0 ? "#DCFCE7" : "#F1F5F9",
+                            color: seaFreightRatePerCbm === 0 ? "#166534" : "#475569",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            padding: "2px 8px",
+                            borderRadius: 6,
+                            cursor: "pointer"
+                          }}
+                        >
+                          0 FCFA (Inclus)
+                        </button>
+                      </div>
                       <input
                         type="number"
                         min={0}
-                        placeholder="2000"
-                        value={seaFreightRatePerCbm === 0 ? "" : seaFreightRatePerCbm}
-                        onFocus={(e) => { if (seaFreightRatePerCbm === 0) e.target.select(); }}
+                        step={100}
+                        placeholder="0"
+                        value={seaFreightRatePerCbm}
                         onChange={(e) => {
                           const val = e.target.value;
                           setSeaFreightRatePerCbm(val === "" ? 0 : Number(val));

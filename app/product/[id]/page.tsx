@@ -120,12 +120,29 @@ function ProductDetailContent() {
     product.id?.includes("savon-papaye") ||
     product.id?.includes("vapeur");
 
+  // Margin / Service rate from product configuration
+  const marginPercent = product.cargolink_margin_percent !== undefined && product.cargolink_margin_percent !== null
+    ? Number(product.cargolink_margin_percent)
+    : (isBeauty ? 10 : 5);
+  const serviceRate = marginPercent / 100;
+
+  // Weight & Freight rates per unit
+  const weightKg = Number(product.weight || 0.5);
+  const airRatePerKg = product.air_freight_rate_per_kg !== undefined && product.air_freight_rate_per_kg !== null
+    ? Number(product.air_freight_rate_per_kg)
+    : (isBeauty ? 0 : 2000);
+  const seaRatePerCbm = product.sea_freight_rate_per_cbm !== undefined && product.sea_freight_rate_per_cbm !== null
+    ? Number(product.sea_freight_rate_per_cbm)
+    : 2000;
+
+  const unitAirFreight = isBeauty ? 0 : Math.round(weightKg * airRatePerKg);
+  const unitSeaFreight = isBeauty ? 0 : Math.round(0.01 * seaRatePerCbm);
+
   // Pricing calculations
-  const unitPrice = product.price;
+  const unitPrice = Number(product.price) || 0;
   const productTotal = quantity * unitPrice;
-  const serviceRate = isBeauty ? 0.10 : 0.05;
   const serviceFee = Math.round(productTotal * serviceRate);
-  const shippingFee = isBeauty ? 0 : (shippingMode === "air" ? Math.round(2500 * quantity * 0.4) : Math.round(950 * quantity * 0.4));
+  const shippingFee = isBeauty ? 0 : (shippingMode === "air" ? quantity * unitAirFreight : quantity * unitSeaFreight);
   const total = productTotal + serviceFee + shippingFee;
 
   const handleCopyLink = () => {
@@ -606,14 +623,18 @@ function ProductDetailContent() {
               </div>
 
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
-                <span>Service & Contrôle Qualité Usine ({isBeauty ? "10%" : "5%"})</span>
+                <span>Service & Contrôle Qualité Usine ({marginPercent}%)</span>
                 <strong style={{ color: "#0F172A" }}>{formatPrice(serviceFee)}</strong>
               </div>
 
               {!isBeauty ? (
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
                   <span>Fret international ({shippingMode === "air" ? "Aérien Express" : "Maritime Groupé"})</span>
-                  <strong style={{ color: "#0284C7" }}>{formatPrice(shippingFee)}</strong>
+                  {shippingFee === 0 ? (
+                    <span style={{ color: "#16A34A", fontWeight: 700 }}>Inclus / Offert (0 FCFA)</span>
+                  ) : (
+                    <strong style={{ color: "#0284C7" }}>{formatPrice(shippingFee)}</strong>
+                  )}
                 </div>
               ) : (
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#16A34A", fontWeight: 600 }}>

@@ -374,6 +374,27 @@ export async function getProductByIdOrSlug(idOrSlug: string): Promise<Product | 
     const deletedIds = new Set(getStoredDeletedProductIds());
     if (deletedIds.has(idOrSlug)) return null;
 
+    // 1. Check local custom products (reflects real-time admin changes)
+    const custom = getStoredCustomProducts();
+    const foundCustom = custom.find((p) => p.id === idOrSlug || p.slug === idOrSlug);
+    if (foundCustom && !deletedIds.has(foundCustom.id) && !deletedIds.has(foundCustom.slug)) {
+      return foundCustom;
+    }
+
+    // 2. Try fetching from server API (synchronizes custom-products.json)
+    if (typeof window !== "undefined") {
+      try {
+        const res = await fetch(`/api/products?id=${encodeURIComponent(idOrSlug)}`, { cache: "no-store" });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.product && !deletedIds.has(json.product.id) && !deletedIds.has(json.product.slug)) {
+            return json.product as Product;
+          }
+        }
+      } catch {}
+    }
+
+    // 3. Try live Supabase DB
     try {
       const supabase = createClient();
       const { data: dbProd } = await supabase
@@ -386,25 +407,6 @@ export async function getProductByIdOrSlug(idOrSlug: string): Promise<Product | 
         return dbProd as Product;
       }
     } catch {}
-
-    const custom = getStoredCustomProducts();
-    const foundCustom = custom.find((p) => p.id === idOrSlug || p.slug === idOrSlug);
-    if (foundCustom && !deletedIds.has(foundCustom.id) && !deletedIds.has(foundCustom.slug)) {
-      return foundCustom;
-    }
-
-    // Try fetching from server API
-    if (typeof window !== "undefined") {
-      try {
-        const res = await fetch(`/api/products?id=${encodeURIComponent(idOrSlug)}`, { cache: "no-store" });
-        if (res.ok) {
-          const json = await res.json();
-          if (json.product && !deletedIds.has(json.product.id) && !deletedIds.has(json.product.slug)) {
-            return json.product as Product;
-          }
-        }
-      } catch {}
-    }
 
     const cleanId = idOrSlug.replace(/^product-/, "");
     const local = getLocalProductById(cleanId) || getLocalProductById(idOrSlug) || PRODUCTS.find((p) => `product-${p.id}` === idOrSlug || p.id === idOrSlug);
