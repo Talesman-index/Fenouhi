@@ -493,19 +493,19 @@ export default function ProductsManagementPage() {
         updated_at: new Date().toISOString()
       };
 
-      let savedInDb = false;
       let newProdId = editingProduct?.id || `custom_prod_${Date.now()}`;
+      let dbError: any = null;
 
+      // 1. Supabase database write
       try {
         const supabase = createClient();
         const { data: { user } } = await supabase.auth.getUser();
 
         if (editingProduct) {
           const { error } = await supabase.from("products").update(payload).eq("id", editingProduct.id);
-          if (!error) savedInDb = true;
-
-          // Update primary image if DB table exists
-          if (editingProduct.images?.[0]?.id) {
+          if (error) {
+            dbError = error;
+          } else if (editingProduct.images?.[0]?.id) {
             await supabase
               .from("product_images")
               .update({ public_image_url: imageUrl })
@@ -521,9 +521,10 @@ export default function ProductsManagementPage() {
             .select()
             .single();
 
-          if (!error && newProd?.id) {
+          if (error) {
+            dbError = error;
+          } else if (newProd?.id) {
             newProdId = newProd.id;
-            savedInDb = true;
             await supabase.from("product_images").insert({
               product_id: newProd.id,
               public_image_url: imageUrl,
@@ -532,14 +533,16 @@ export default function ProductsManagementPage() {
           }
         }
 
-        await logAdminAction({
-          action: editingProduct ? "UPDATE_PRODUCT" : "CREATE_PRODUCT",
-          entityType: "products",
-          entityId: newProdId,
-          details: { name, price, isDemo, status }
-        });
-      } catch (dbErr) {
-        console.warn("Supabase products table bypassed or not ready:", dbErr);
+        if (!dbError) {
+          await logAdminAction({
+            action: editingProduct ? "UPDATE_PRODUCT" : "CREATE_PRODUCT",
+            entityType: "products",
+            entityId: newProdId,
+            details: { name, price, isDemo, status }
+          });
+        }
+      } catch (dbErr: any) {
+        dbError = dbErr;
       }
 
       // Build product object for local catalog persistence
@@ -561,34 +564,64 @@ export default function ProductsManagementPage() {
         images: fullImages,
       };
 
+      // 2. Server API sync
+      let apiSuccess = false;
+      let apiErrorMessage = "";
+      try {
+        const apiRes = await fetch("/api/products", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(productObject)
+        });
+        const apiJson = await apiRes.json().catch(() => ({ success: false }));
+        apiSuccess = apiJson.success === true;
+        if (!apiSuccess && apiJson.error) {
+          apiErrorMessage = apiJson.error;
+        }
+      } catch (apiErr: any) {
+        apiErrorMessage = apiErr.message || "Erreur de connexion au serveur API";
+      }
+
+      // Check for errors
+      if (dbError) {
+        const isPermissionError = dbError.code === "42501" || dbError.message?.includes("permission denied");
+        const errMsg = isPermissionError
+          ? "Permission Supabase refusée (code 42501). Exécutez le script SQL dans Supabase pour autoriser l'enregistrement."
+          : (dbError.message || dbError.details || "Erreur lors de l'enregistrement dans la base de données.");
+
+        showToast(
+          "Échec de l'enregistrement en base de données !",
+          errMsg,
+          "error"
+        );
+        return;
+      }
+
+      if (!apiSuccess && apiErrorMessage) {
+        showToast(
+          "Échec de synchronisation du produit !",
+          apiErrorMessage,
+          "error"
+        );
+        return;
+      }
+
+      // SUCCESS: Update local cache and state
       const existingCustom = getStoredCustomProducts();
       const updatedCustom = existingCustom.filter(p => p.id !== newProdId && (editingProduct ? p.id !== editingProduct.id : true));
       updatedCustom.unshift(productObject);
       saveStoredCustomProducts(updatedCustom);
 
-      // Un-delete if re-created/edited
       const deletedIds = getStoredDeletedProductIds();
       if (deletedIds.includes(newProdId)) {
         saveStoredDeletedProductIds(deletedIds.filter(id => id !== newProdId));
       }
 
-      // Add Real Notification to system & header bell
       addRealNotification({
         title: editingProduct ? "Produit Modifié" : "Nouveau Produit Ajouté",
-        desc: `"${name}" (${Number(price).toLocaleString()} FCFA) a été mis à jour dans le catalogue.`,
+        desc: `"${name}" (${Number(price).toLocaleString()} FCFA) a été enregistré dans le catalogue.`,
         type: "product"
       });
-
-      // Sync with Server API route /api/products (persisted to server disk & Supabase)
-      try {
-        await fetch("/api/products", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(productObject)
-        });
-      } catch (apiErr) {
-        console.warn("API products sync notice:", apiErr);
-      }
 
       // Update UI state immediately in memory at index 0
       setProducts((prev) => {
@@ -600,13 +633,16 @@ export default function ProductsManagementPage() {
       await fetchProducts();
       showToast(
         editingProduct ? "Produit Modifié avec Succès !" : "Nouveau Produit Ajouté !",
-        `L'article "${name}" est désormais enregistré et visible sur toute la plateforme.`,
+        `L'article "${name}" est désormais enregistré et synchronisé.`,
         "success"
       );
     } catch (err: any) {
-      setIsModalOpen(false);
-      await fetchProducts();
-      showToast("Produit Enregistré !", `L'article "${name}" a été synchronisé.`, "success");
+      console.error("Erreur ajout produit:", err);
+      showToast(
+        "Échec de l'enregistrement !",
+        err.message || "Une erreur inattendue est survenue.",
+        "error"
+      );
     } finally {
       setSaving(false);
     }
