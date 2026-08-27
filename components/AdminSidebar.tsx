@@ -134,6 +134,29 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
           })}
 
           <li style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--border-light)" }}>
+            <Link
+              href="/catalog"
+              onClick={onCloseMobile}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "9px 12px",
+                borderRadius: "var(--radius-sm)",
+                textDecoration: "none",
+                fontSize: 13.5,
+                fontWeight: 700,
+                background: "rgba(249, 115, 22, 0.08)",
+                color: "var(--orange-primary)",
+                border: "1px solid rgba(249, 115, 22, 0.2)",
+                marginBottom: 6,
+                transition: "all 0.15s ease"
+              }}
+            >
+              <ShoppingBag style={{ width: 18, height: 18 }} />
+              <span>Voir la Boutique</span>
+            </Link>
+
             <button
               onClick={handleSignOut}
               style={{

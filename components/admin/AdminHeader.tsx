@@ -230,8 +230,8 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
               </div>
             </div>
 
-            <button
-              onClick={handleSignOut}
+            <Link
+              href="/catalog"
               style={{
                 background: "#FEF2F2",
                 color: "#991B1B",
@@ -243,13 +243,14 @@ export default function AdminHeader({ profile, onToggleMobileSidebar }: AdminHea
                 cursor: "pointer",
                 display: "inline-flex",
                 alignItems: "center",
-                gap: 6
+                gap: 6,
+                textDecoration: "none"
               }}
-              title="Se déconnecter"
+              title="Retourner à la boutique"
             >
               <LogOut style={{ width: 14 }} />
               <span className="admin-logout-label">Sortir</span>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
