@@ -310,12 +310,37 @@ export async function POST(request: NextRequest) {
 
       const { data: dbProd, error: dbErr } = await supabase.from("products").upsert(payload).select().single();
       if (!dbErr && dbProd?.id) {
-        const primaryImg = product.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
-        await supabase.from("product_images").insert({
-          product_id: dbProd.id,
-          public_image_url: primaryImg,
-          is_primary: true
-        });
+        // Clear previous images to avoid duplicate image stacking
+        await supabase.from("product_images").delete().eq("product_id", dbProd.id);
+
+        const allRawImages: any[] = Array.isArray(product.images) && product.images.length > 0 ? product.images : [];
+        const seenUrls = new Set<string>();
+        const cleanImages: any[] = [];
+
+        for (let i = 0; i < allRawImages.length; i++) {
+          const raw = allRawImages[i];
+          const url = typeof raw === "string" ? raw : (raw?.public_image_url || "");
+          if (url && !seenUrls.has(url)) {
+            seenUrls.add(url);
+            cleanImages.push({
+              product_id: dbProd.id,
+              public_image_url: url,
+              is_primary: cleanImages.length === 0,
+              position: cleanImages.length
+            });
+          }
+        }
+
+        if (cleanImages.length === 0) {
+          cleanImages.push({
+            product_id: dbProd.id,
+            public_image_url: "/images/assets/item_1.jpg",
+            is_primary: true,
+            position: 0
+          });
+        }
+
+        await supabase.from("product_images").insert(cleanImages);
       }
     } catch (dbErr) {
       console.warn("[API Products] Supabase single upsert notice:", dbErr);

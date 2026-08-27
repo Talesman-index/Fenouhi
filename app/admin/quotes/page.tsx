@@ -18,7 +18,8 @@ import {
   ArrowRight,
   Plus,
   Plane,
-  Ship
+  Ship,
+  RefreshCw
 } from "lucide-react";
 import type { Quote, QuoteStatus } from "@/types/supabase";
 
@@ -173,97 +174,228 @@ export default function QuotesManagementPage() {
     return num.includes(query) || prod.includes(query) || client.includes(query);
   });
 
+  // Summary stats
+  const totalQuotesCount = quotes.length;
+  const newQuotesCount = quotes.filter((q) => q.status === "new" || q.status === "under_review").length;
+  const sentQuotesCount = quotes.filter((q) => q.status === "quote_sent").length;
+  const acceptedQuotesCount = quotes.filter((q) => q.status === "accepted").length;
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      {/* HEADER BAR */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+    <div style={{ padding: "20px 0 60px", maxWidth: 1280, margin: "0 auto" }}>
+      {/* 1. HEADER BAR */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 16 }}>
         <div>
-          <span className="badge" style={{ background: "var(--orange-light)", color: "var(--orange-hover)", marginBottom: 4 }}>
-            TARIFICATION & CHIFFRAGE LOGISTIQUE
-          </span>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(234, 88, 12, 0.08)", color: "#EA580C", padding: "4px 12px", borderRadius: 999, fontSize: 11.5, fontWeight: 700, marginBottom: 6 }}>
+            <FileText style={{ width: 14, height: 14 }} /> SOURCING SUR MESURE & DEVIS LOGISTIQUES
+          </div>
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: "#0F172A", margin: 0, letterSpacing: "-0.5px" }}>
             Gestion des Demandes de Devis
           </h1>
+          <p style={{ fontSize: 13, color: "#64748B", margin: "4px 0 0" }}>
+            Chiffrez les coûts d'achat en Chine, commissions et frais de transport maritime / aérien.
+          </p>
         </div>
-        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-muted)" }}>
-          Total : <strong>{filteredQuotes.length}</strong> demandes reçues
+
+        <button
+          type="button"
+          onClick={fetchQuotes}
+          className="btn"
+          style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 16px", background: "#FFFFFF", border: "1px solid #E2E8F0", color: "#475569", borderRadius: 12, fontWeight: 600, fontSize: 13, boxShadow: "0 1px 3px rgba(15,23,42,0.04)" }}
+        >
+          <RefreshCw style={{ width: 15 }} /> Actualiser
+        </button>
+      </div>
+
+      {/* 2. SUMMARY KPI STAT CARDS */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, marginBottom: 20 }}>
+        <div style={{ background: "#FFFFFF", padding: "14px 18px", borderRadius: 16, border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "0 2px 6px rgba(15,23,42,0.03)" }}>
+          <div>
+            <div style={{ fontSize: 11.5, fontWeight: 600, color: "#64748B", textTransform: "uppercase" }}>Total Demandes</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#0F172A", marginTop: 2 }}>{totalQuotesCount}</div>
+          </div>
+          <div style={{ width: 38, height: 38, borderRadius: 10, background: "#EFF6FF", color: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <FileText style={{ width: 18 }} />
+          </div>
+        </div>
+
+        <div style={{ background: "#FFFFFF", padding: "14px 18px", borderRadius: 16, border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "0 2px 6px rgba(15,23,42,0.03)" }}>
+          <div>
+            <div style={{ fontSize: 11.5, fontWeight: 600, color: "#64748B", textTransform: "uppercase" }}>À Traiter / Nouveaux</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#EA580C", marginTop: 2 }}>{newQuotesCount}</div>
+          </div>
+          <div style={{ width: 38, height: 38, borderRadius: 10, background: "#FFF7ED", color: "#EA580C", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Clock style={{ width: 18 }} />
+          </div>
+        </div>
+
+        <div style={{ background: "#FFFFFF", padding: "14px 18px", borderRadius: 16, border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "0 2px 6px rgba(15,23,42,0.03)" }}>
+          <div>
+            <div style={{ fontSize: 11.5, fontWeight: 600, color: "#64748B", textTransform: "uppercase" }}>Devis Envoyés</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#165491", marginTop: 2 }}>{sentQuotesCount}</div>
+          </div>
+          <div style={{ width: 38, height: 38, borderRadius: 10, background: "#F0F9FF", color: "#0284C7", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Send style={{ width: 18 }} />
+          </div>
+        </div>
+
+        <div style={{ background: "#FFFFFF", padding: "14px 18px", borderRadius: 16, border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "0 2px 6px rgba(15,23,42,0.03)" }}>
+          <div>
+            <div style={{ fontSize: 11.5, fontWeight: 600, color: "#64748B", textTransform: "uppercase" }}>Acceptés & Validés</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#16A34A", marginTop: 2 }}>{acceptedQuotesCount}</div>
+          </div>
+          <div style={{ width: 38, height: 38, borderRadius: 10, background: "#F0FDF4", color: "#16A34A", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <CheckCircle2 style={{ width: 18 }} />
+          </div>
         </div>
       </div>
 
-      {/* FILTER & SEARCH BAR */}
-      <div className="card" style={{ padding: 18, display: "flex", flexWrap: "wrap", gap: 14, alignItems: "center", justifyContent: "space-between" }}>
-        <div style={{ flex: 1, minWidth: 260, display: "flex", alignItems: "center", background: "var(--bg-main)", border: "1px solid var(--border-light)", borderRadius: "var(--radius-sm)", padding: "8px 12px", gap: 8 }}>
-          <Search style={{ width: 16, color: "var(--text-muted)" }} />
+      {/* 3. SEARCH & FILTERS TOOLBAR */}
+      <div
+        style={{
+          background: "#FFFFFF",
+          padding: "16px 20px",
+          borderRadius: 16,
+          border: "1px solid #E2E8F0",
+          boxShadow: "0 4px 12px rgba(15, 23, 42, 0.03)",
+          marginBottom: 20,
+          display: "flex",
+          gap: 12,
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-between"
+        }}
+      >
+        <div style={{ position: "relative", flex: "1 1 280px", maxWidth: 440 }}>
+          <Search style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", width: 16, color: "#94A3B8" }} />
           <input
             type="text"
             placeholder="Rechercher par N° devis, produit, client..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            style={{ border: "none", background: "transparent", outline: "none", width: "100%", fontSize: 13.5, fontWeight: 600 }}
+            style={{
+              width: "100%",
+              padding: "10px 14px 10px 40px",
+              borderRadius: 10,
+              border: "1.5px solid #E2E8F0",
+              outline: "none",
+              fontSize: 13,
+              fontWeight: 500,
+              background: "#F8FAFC",
+              color: "#0F172A"
+            }}
           />
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>Statut :</label>
-          <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} style={{ padding: "8px 12px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontSize: 13, fontWeight: 700, background: "#FFF" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            style={{
+              padding: "9px 32px 9px 12px",
+              borderRadius: 10,
+              border: "1.5px solid #E2E8F0",
+              fontSize: 12.5,
+              fontWeight: 600,
+              color: "#334155",
+              background: "#FFFFFF",
+              cursor: "pointer",
+              outline: "none"
+            }}
+          >
             <option value="all">Tous les statuts</option>
-            <option value="new">Nouveau</option>
+            <option value="new">Nouveaux</option>
             <option value="under_review">En cours d'étude</option>
             <option value="quote_sent">Devis Envoyé</option>
             <option value="accepted">Accepté</option>
             <option value="rejected">Rejeté</option>
             <option value="expired">Expiré</option>
           </select>
+
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", background: "#F1F5F9", padding: "6px 12px", borderRadius: 999 }}>
+            {filteredQuotes.length} devis
+          </div>
         </div>
       </div>
 
-      {/* QUOTES TABLE */}
-      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+      {/* 4. BALANCED QUOTES TABLE */}
+      <div
+        style={{
+          background: "#FFFFFF",
+          borderRadius: 18,
+          border: "1px solid #E2E8F0",
+          boxShadow: "0 4px 20px rgba(15, 23, 42, 0.04)",
+          overflow: "hidden"
+        }}
+      >
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13.5, textAlign: "left" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
             <thead>
-              <tr style={{ background: "var(--bg-main)", borderBottom: "1px solid var(--border-light)" }}>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5 }}>N° Devis</th>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5 }}>Produit & Lien</th>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5 }}>Qté / Mode</th>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5 }}>Destination</th>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5 }}>Total Devis</th>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5 }}>Statut</th>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5, textAlign: "right" }}>Actions</th>
+              <tr style={{ background: "#F8FAFC", borderBottom: "1.5px solid #E2E8F0" }}>
+                <th style={{ padding: "14px 18px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px" }}>N° Devis</th>
+                <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px" }}>Produit Demandé</th>
+                <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px" }}>Quantité & Mode</th>
+                <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px" }}>Destination</th>
+                <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px" }}>Total Devis</th>
+                <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px" }}>Statut</th>
+                <th style={{ padding: "14px 18px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px", textAlign: "right" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={7} style={{ padding: 32, textAlign: "center", color: "var(--text-muted)" }}>
-                    Chargement des devis logistiques...
+                  <td colSpan={7} style={{ padding: 48, textAlign: "center", color: "#64748B" }}>
+                    <RefreshCw style={{ width: 26, height: 26, animation: "spin 1.5s linear infinite", margin: "0 auto 10px", color: "#165491" }} />
+                    <div style={{ fontWeight: 600 }}>Chargement des devis logistiques...</div>
                   </td>
                 </tr>
               ) : filteredQuotes.length === 0 ? (
                 <tr>
-                  <td colSpan={7} style={{ padding: 32, textAlign: "center", color: "var(--text-muted)" }}>
-                    Aucune demande de devis trouvée.
+                  <td colSpan={7} style={{ padding: 48, textAlign: "center", color: "#64748B" }}>
+                    <FileText style={{ width: 40, height: 40, margin: "0 auto 10px", color: "#CBD5E1" }} />
+                    <div style={{ fontWeight: 700, fontSize: 15, color: "#0F172A" }}>Aucun devis trouvé</div>
                   </td>
                 </tr>
               ) : (
-                filteredQuotes.map((q) => (
-                  <tr key={q.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                    <td style={{ padding: "14px 16px", fontWeight: 600, color: "var(--navy-dark)" }}>
+                filteredQuotes.map((q, idx) => (
+                  <tr
+                    key={q.id}
+                    style={{
+                      borderBottom: "1px solid #F1F5F9",
+                      background: idx % 2 === 0 ? "#FFFFFF" : "#FAFAFA",
+                      transition: "background-color 0.15s ease"
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F8FAFC"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = idx % 2 === 0 ? "#FFFFFF" : "#FAFAFA"; }}
+                  >
+                    <td style={{ padding: "14px 18px", fontWeight: 700, color: "#0F172A", fontFamily: "monospace" }}>
                       {q.quote_number}
                     </td>
 
-                    <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "var(--navy-dark)" }}>{q.product_name}</div>
+                    <td style={{ padding: "14px 14px" }}>
+                      <div style={{ fontWeight: 700, color: "#0F172A" }}>{q.product_name}</div>
                       {q.product_link && (
-                        <a href={q.product_link} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "var(--blue-primary)", display: "inline-flex", alignItems: "center", gap: 3 }}>
+                        <a href={q.product_link} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "#2563EB", display: "inline-flex", alignItems: "center", gap: 3, textDecoration: "none", marginTop: 2 }}>
                           Lien Fournisseur Chine <ExternalLink style={{ width: 10 }} />
                         </a>
                       )}
                     </td>
 
-                    <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 700 }}>{q.quantity} unités</div>
-                      <span className="badge" style={{ background: q.shipping_mode === "air" ? "var(--orange-light)" : "var(--blue-light)", color: q.shipping_mode === "air" ? "var(--orange-hover)" : "var(--blue-primary)", fontSize: 10, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                    <td style={{ padding: "14px 14px" }}>
+                      <div style={{ fontWeight: 700, color: "#0F172A" }}>{q.quantity} unités</div>
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 4,
+                          fontSize: 11,
+                          fontWeight: 700,
+                          padding: "2px 8px",
+                          borderRadius: 6,
+                          marginTop: 3,
+                          background: q.shipping_mode === "air" ? "#FFF7ED" : "#EFF6FF",
+                          color: q.shipping_mode === "air" ? "#EA580C" : "#2563EB"
+                        }}
+                      >
                         {q.shipping_mode === "air" ? (
                           <><Plane style={{ width: 12, height: 12 }} /> Fret Aérien</>
                         ) : (
@@ -272,27 +404,27 @@ export default function QuotesManagementPage() {
                       </span>
                     </td>
 
-                    <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 700 }}>{q.destination_city}</div>
-                      <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{q.destination_country}</div>
+                    <td style={{ padding: "14px 14px" }}>
+                      <div style={{ fontWeight: 700, color: "#0F172A" }}>{q.destination_city || "Cotonou"}</div>
+                      <div style={{ fontSize: 11, color: "#64748B" }}>{q.destination_country || "Bénin"}</div>
                     </td>
 
-                    <td style={{ padding: "14px 16px", fontWeight: 700, color: "var(--orange-primary)", fontSize: 14 }}>
-                      {(q.total_amount || calculatedTotal).toLocaleString()} FCFA
+                    <td style={{ padding: "14px 14px", fontWeight: 800, color: "#EA580C", fontSize: 14 }}>
+                      {(Number(q.total_amount) || calculatedTotal).toLocaleString()} FCFA
                     </td>
 
-                    <td style={{ padding: "14px 16px" }}>
+                    <td style={{ padding: "14px 14px" }}>
                       <StatusBadge status={q.status} type="quote" />
                     </td>
 
-                    <td style={{ padding: "14px 16px", textAlign: "right" }}>
+                    <td style={{ padding: "14px 18px", textAlign: "right" }}>
                       <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
                         <button
                           onClick={() => openQuoteModal(q)}
                           className="btn btn-primary"
-                          style={{ padding: "6px 10px", fontSize: 12 }}
+                          style={{ padding: "7px 12px", fontSize: 12.5, borderRadius: 8, display: "inline-flex", alignItems: "center", gap: 5 }}
                         >
-                          <Calculator style={{ width: 14 }} /> Calculer
+                          <Calculator style={{ width: 13 }} /> Chiffrer
                         </button>
 
                         {(q.status === "accepted" || q.status === "quote_sent") && (

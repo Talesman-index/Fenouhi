@@ -120,128 +120,259 @@ export default function OrdersManagementPage() {
     return num.includes(query) || tracking.includes(query) || dest.includes(query);
   });
 
+  // Summary stats
+  const totalOrdersCount = orders.length;
+  const inTransitCount = orders.filter((o) => ["shipped", "customs", "processing"].includes(o.order_status)).length;
+  const deliveredCount = orders.filter((o) => o.order_status === "delivered").length;
+  const totalOrdersAmount = orders.reduce((sum, o) => sum + (Number(o.amount) || 0), 0);
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      {/* HEADER BAR */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+    <div style={{ padding: "20px 0 60px", maxWidth: 1280, margin: "0 auto" }}>
+      {/* 1. HEADER BAR */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 16 }}>
         <div>
-          <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)", marginBottom: 4 }}>
-            SUIVI LOGISTIQUE GLOBAL
-          </span>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(22, 84, 145, 0.08)", color: "#165491", padding: "4px 12px", borderRadius: 999, fontSize: 11.5, fontWeight: 700, marginBottom: 6 }}>
+            <ShoppingBag style={{ width: 14, height: 14 }} /> SUIVI COMMERCIAL & EXPÉDITIONS CLIENTS
+          </div>
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: "#0F172A", margin: 0, letterSpacing: "-0.5px" }}>
             Gestion des Commandes Clients
           </h1>
+          <p style={{ fontSize: 13, color: "#64748B", margin: "4px 0 0" }}>
+            Suivez les expéditions, les statuts de livraison et attribuez les numéros de tracking logistiques.
+          </p>
         </div>
-        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-muted)" }}>
-          Total : <strong>{filteredOrders.length}</strong> commandes
+
+        <button
+          type="button"
+          onClick={fetchOrders}
+          className="btn"
+          style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 16px", background: "#FFFFFF", border: "1px solid #E2E8F0", color: "#475569", borderRadius: 12, fontWeight: 600, fontSize: 13, boxShadow: "0 1px 3px rgba(15,23,42,0.04)" }}
+        >
+          <RefreshCw style={{ width: 15 }} /> Actualiser
+        </button>
+      </div>
+
+      {/* 2. SUMMARY STAT CARDS */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, marginBottom: 20 }}>
+        <div style={{ background: "#FFFFFF", padding: "14px 18px", borderRadius: 16, border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "0 2px 6px rgba(15,23,42,0.03)" }}>
+          <div>
+            <div style={{ fontSize: 11.5, fontWeight: 600, color: "#64748B", textTransform: "uppercase" }}>Total Commandes</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#0F172A", marginTop: 2 }}>{totalOrdersCount}</div>
+          </div>
+          <div style={{ width: 38, height: 38, borderRadius: 10, background: "#EFF6FF", color: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <ShoppingBag style={{ width: 18 }} />
+          </div>
+        </div>
+
+        <div style={{ background: "#FFFFFF", padding: "14px 18px", borderRadius: 16, border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "0 2px 6px rgba(15,23,42,0.03)" }}>
+          <div>
+            <div style={{ fontSize: 11.5, fontWeight: 600, color: "#64748B", textTransform: "uppercase" }}>En Cours / Transit</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#EA580C", marginTop: 2 }}>{inTransitCount}</div>
+          </div>
+          <div style={{ width: 38, height: 38, borderRadius: 10, background: "#FFF7ED", color: "#EA580C", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Plane style={{ width: 18 }} />
+          </div>
+        </div>
+
+        <div style={{ background: "#FFFFFF", padding: "14px 18px", borderRadius: 16, border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "0 2px 6px rgba(15,23,42,0.03)" }}>
+          <div>
+            <div style={{ fontSize: 11.5, fontWeight: 600, color: "#64748B", textTransform: "uppercase" }}>Livrées au Client</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#16A34A", marginTop: 2 }}>{deliveredCount}</div>
+          </div>
+          <div style={{ width: 38, height: 38, borderRadius: 10, background: "#F0FDF4", color: "#16A34A", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <PackageCheck style={{ width: 18 }} />
+          </div>
+        </div>
+
+        <div style={{ background: "#FFFFFF", padding: "14px 18px", borderRadius: 16, border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "0 2px 6px rgba(15,23,42,0.03)" }}>
+          <div>
+            <div style={{ fontSize: 11.5, fontWeight: 600, color: "#64748B", textTransform: "uppercase" }}>Volume Total</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "#0F172A", marginTop: 2 }}>{totalOrdersAmount.toLocaleString()} FCFA</div>
+          </div>
+          <div style={{ width: 38, height: 38, borderRadius: 10, background: "#ECFDF5", color: "#059669", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <DollarSign style={{ width: 18 }} />
+          </div>
         </div>
       </div>
 
-      {/* FILTER & SEARCH BAR */}
-      <div className="card" style={{ padding: 18, display: "flex", flexWrap: "wrap", gap: 14, alignItems: "center", justifyContent: "space-between" }}>
-        <div style={{ flex: 1, minWidth: 260, display: "flex", alignItems: "center", background: "var(--bg-main)", border: "1px solid var(--border-light)", borderRadius: "var(--radius-sm)", padding: "8px 12px", gap: 8 }}>
-          <Search style={{ width: 16, color: "var(--text-muted)" }} />
+      {/* 3. FILTER & SEARCH TOOLBAR */}
+      <div
+        style={{
+          background: "#FFFFFF",
+          padding: "16px 20px",
+          borderRadius: 16,
+          border: "1px solid #E2E8F0",
+          boxShadow: "0 4px 12px rgba(15, 23, 42, 0.03)",
+          marginBottom: 20,
+          display: "flex",
+          gap: 12,
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-between"
+        }}
+      >
+        <div style={{ position: "relative", flex: "1 1 280px", maxWidth: 440 }}>
+          <Search style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", width: 16, color: "#94A3B8" }} />
           <input
             type="text"
-            placeholder="Rechercher par N° commande, tracking, ville..."
+            placeholder="Rechercher par N° commande, tracking, client, ville..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            style={{ border: "none", background: "transparent", outline: "none", width: "100%", fontSize: 13.5, fontWeight: 600 }}
+            style={{
+              width: "100%",
+              padding: "10px 14px 10px 40px",
+              borderRadius: 10,
+              border: "1.5px solid #E2E8F0",
+              outline: "none",
+              fontSize: 13,
+              fontWeight: 500,
+              background: "#F8FAFC",
+              color: "#0F172A"
+            }}
           />
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>Statut :</label>
-          <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} style={{ padding: "8px 12px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontSize: 13, fontWeight: 700, background: "#FFF" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            style={{
+              padding: "9px 32px 9px 12px",
+              borderRadius: 10,
+              border: "1.5px solid #E2E8F0",
+              fontSize: 12.5,
+              fontWeight: 600,
+              color: "#334155",
+              background: "#FFFFFF",
+              cursor: "pointer",
+              outline: "none"
+            }}
+          >
             <option value="all">Tous les statuts</option>
-            <option value="pending_payment">En attente paiement</option>
-            <option value="processing">En traitement Chine</option>
-            <option value="shipped">En cours d'expédition</option>
-            <option value="customs">En douane</option>
-            <option value="delivered">LIVRÉE</option>
-            <option value="cancelled">Annulée</option>
+            <option value="pending_payment">Attente de Paiement</option>
+            <option value="processing">En Traitement Chine</option>
+            <option value="shipped">En Cours d'Expédition</option>
+            <option value="customs">En Dédouanement</option>
+            <option value="delivered">Livrées au Client</option>
+            <option value="cancelled">Annulées</option>
           </select>
+
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", background: "#F1F5F9", padding: "6px 12px", borderRadius: 999 }}>
+            {filteredOrders.length} commande{filteredOrders.length > 1 ? "s" : ""}
+          </div>
         </div>
       </div>
 
-      {/* ORDERS TABLE */}
-      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+      {/* 4. BALANCED ORDERS TABLE */}
+      <div
+        style={{
+          background: "#FFFFFF",
+          borderRadius: 18,
+          border: "1px solid #E2E8F0",
+          boxShadow: "0 4px 20px rgba(15, 23, 42, 0.04)",
+          overflow: "hidden"
+        }}
+      >
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13.5, textAlign: "left" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
             <thead>
-              <tr style={{ background: "var(--bg-main)", borderBottom: "1px solid var(--border-light)" }}>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5 }}>N° Commande</th>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5 }}>Client</th>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5 }}>Destination & Mode</th>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5 }}>Montant</th>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5 }}>Tracking</th>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5 }}>Statut</th>
-                <th style={{ padding: "14px 16px", color: "var(--text-muted)", fontSize: 11.5, textAlign: "right" }}>Actions</th>
+              <tr style={{ background: "#F8FAFC", borderBottom: "1.5px solid #E2E8F0" }}>
+                <th style={{ padding: "14px 18px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px" }}>N° Commande</th>
+                <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px" }}>Client</th>
+                <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px" }}>Destination & Fret</th>
+                <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px" }}>Montant</th>
+                <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px" }}>Tracking Logistique</th>
+                <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px" }}>Statut</th>
+                <th style={{ padding: "14px 18px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px", textAlign: "right" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={7} style={{ padding: 32, textAlign: "center", color: "var(--text-muted)" }}>
-                    Chargement des commandes...
+                  <td colSpan={7} style={{ padding: 48, textAlign: "center", color: "#64748B" }}>
+                    <RefreshCw style={{ width: 26, height: 26, animation: "spin 1.5s linear infinite", margin: "0 auto 10px", color: "#165491" }} />
+                    <div style={{ fontWeight: 600 }}>Chargement des commandes...</div>
                   </td>
                 </tr>
               ) : filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={7} style={{ padding: 32, textAlign: "center", color: "var(--text-muted)" }}>
-                    Aucune commande trouvée.
+                  <td colSpan={7} style={{ padding: 48, textAlign: "center", color: "#64748B" }}>
+                    <ShoppingBag style={{ width: 40, height: 40, margin: "0 auto 10px", color: "#CBD5E1" }} />
+                    <div style={{ fontWeight: 700, fontSize: 15, color: "#0F172A" }}>Aucune commande trouvée</div>
                   </td>
                 </tr>
               ) : (
-                filteredOrders.map((o) => (
-                  <tr key={o.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
-                    <td style={{ padding: "14px 16px", fontWeight: 600, color: "var(--navy-dark)" }}>
+                filteredOrders.map((o, idx) => (
+                  <tr
+                    key={o.id}
+                    style={{
+                      borderBottom: "1px solid #F1F5F9",
+                      background: idx % 2 === 0 ? "#FFFFFF" : "#FAFAFA",
+                      transition: "background-color 0.15s ease"
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F8FAFC"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = idx % 2 === 0 ? "#FFFFFF" : "#FAFAFA"; }}
+                  >
+                    <td style={{ padding: "14px 18px", fontWeight: 700, color: "#0F172A", fontFamily: "monospace" }}>
                       {o.order_number}
                     </td>
 
-                    <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 600, color: "var(--navy-dark)" }}>
+                    <td style={{ padding: "14px 14px" }}>
+                      <div style={{ fontWeight: 700, color: "#0F172A" }}>
                         {o.profile ? `${o.profile.first_name || ""} ${o.profile.last_name || ""}` : "Client Inconnu"}
                       </div>
-                      <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{o.profile?.email}</div>
+                      <div style={{ fontSize: 11, color: "#64748B" }}>{o.profile?.email}</div>
                     </td>
 
-                    <td style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: 700 }}>{o.destination_city}, {o.destination_country}</div>
-                      <span className="badge" style={{ background: o.shipping_mode === "air" ? "var(--orange-light)" : "var(--blue-light)", color: o.shipping_mode === "air" ? "var(--orange-hover)" : "var(--blue-primary)", fontSize: 10, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                    <td style={{ padding: "14px 14px" }}>
+                      <div style={{ fontWeight: 700, color: "#0F172A" }}>{o.destination_city || "Cotonou"}, {o.destination_country || "Bénin"}</div>
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 4,
+                          fontSize: 11,
+                          fontWeight: 700,
+                          padding: "2px 8px",
+                          borderRadius: 6,
+                          marginTop: 3,
+                          background: o.shipping_mode === "air" ? "#FFF7ED" : "#EFF6FF",
+                          color: o.shipping_mode === "air" ? "#EA580C" : "#2563EB"
+                        }}
+                      >
                         {o.shipping_mode === "air" ? (
-                          <><Plane style={{ width: 12, height: 12 }} /> Aérien</>
+                          <><Plane style={{ width: 12, height: 12 }} /> Fret Aérien</>
                         ) : (
-                          <><Ship style={{ width: 12, height: 12 }} /> Maritime</>
+                          <><Ship style={{ width: 12, height: 12 }} /> Fret Maritime</>
                         )}
                       </span>
                     </td>
 
-                    <td style={{ padding: "14px 16px", fontWeight: 700, color: "var(--navy-dark)", fontSize: 14 }}>
-                      {(o.amount || 0).toLocaleString()} FCFA
+                    <td style={{ padding: "14px 14px", fontWeight: 800, color: "#0F172A", fontSize: 14 }}>
+                      {(Number(o.amount) || 0).toLocaleString()} FCFA
                     </td>
 
-                    <td style={{ padding: "14px 16px" }}>
+                    <td style={{ padding: "14px 14px" }}>
                       {o.tracking_number ? (
-                        <span style={{ fontSize: 12, fontWeight: 700, color: "var(--blue-primary)", fontFamily: "monospace" }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: "#165491", fontFamily: "monospace", background: "#F1F5F9", padding: "4px 8px", borderRadius: 6 }}>
                           {o.tracking_number}
                         </span>
                       ) : (
-                        <span style={{ fontSize: 11, color: "var(--text-muted)", fontStyle: "italic" }}>Non attribué</span>
+                        <span style={{ fontSize: 11, color: "#94A3B8", fontStyle: "italic" }}>Non attribué</span>
                       )}
                     </td>
 
-                    <td style={{ padding: "14px 16px" }}>
+                    <td style={{ padding: "14px 14px" }}>
                       <StatusBadge status={o.order_status} type="order" />
                     </td>
 
-                    <td style={{ padding: "14px 16px", textAlign: "right" }}>
+                    <td style={{ padding: "14px 18px", textAlign: "right" }}>
                       <button
                         onClick={() => openOrderModal(o)}
                         className="btn btn-primary"
-                        style={{ padding: "6px 12px", fontSize: 12 }}
+                        style={{ padding: "7px 14px", fontSize: 12.5, borderRadius: 8, display: "inline-flex", alignItems: "center", gap: 6 }}
                       >
-                        <Eye style={{ width: 14 }} /> Gérer
+                        <Eye style={{ width: 13 }} /> Gérer
                       </button>
                     </td>
                   </tr>
@@ -254,22 +385,24 @@ export default function OrdersManagementPage() {
 
       {/* EDIT ORDER MODAL */}
       {isModalOpen && selectedOrder && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-          <div className="card" style={{ maxWidth: 550, width: "100%", padding: 24 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, paddingBottom: 12, borderBottom: "1px solid var(--border-light)" }}>
+        <div style={{ position: "fixed", inset: 0, background: "rgba(15, 23, 42, 0.7)", backdropFilter: "blur(4px)", zIndex: 99999, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+          <div className="card" style={{ maxWidth: 540, width: "100%", padding: 0, borderRadius: 20, overflow: "hidden", boxShadow: "0 25px 50px -12px rgba(0,0,0,0.35)", background: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+            <div style={{ background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)", padding: "20px 24px", color: "#FFFFFF", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
-                <span className="badge" style={{ background: "var(--blue-light)", color: "var(--blue-primary)" }}>ÉDITION COMMANDE</span>
-                <h2 style={{ fontSize: 20, fontWeight: 700, color: "var(--navy-dark)", margin: "4px 0 0" }}>
-                  Mise à jour Commande #{selectedOrder.order_number}
+                <span className="badge" style={{ background: "rgba(56, 189, 248, 0.2)", color: "#38BDF8", border: "1px solid rgba(56, 189, 248, 0.3)", marginBottom: 4, fontSize: 10 }}>
+                  MISE À JOUR LOGISTIQUE
+                </span>
+                <h2 style={{ fontSize: 18, fontWeight: 700, color: "#FFFFFF", margin: "4px 0 0" }}>
+                  Commande #{selectedOrder.order_number}
                 </h2>
               </div>
-              <button onClick={() => setIsModalOpen(false)} style={{ background: "transparent", border: "none", fontSize: 20, cursor: "pointer" }}>✕</button>
+              <button onClick={() => setIsModalOpen(false)} style={{ background: "rgba(255,255,255,0.1)", border: "none", color: "#FFF", width: 32, height: 32, borderRadius: "50%", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 20 }}>
+            <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 18 }}>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>STATUT DE LA COMMANDE</label>
-                <select value={editingStatus} onChange={(e) => setEditingStatus(e.target.value as OrderStatus)} style={{ width: "100%", padding: 10, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontWeight: 700 }}>
+                <label className="admin-label">Statut Actuel de la Commande</label>
+                <select value={editingStatus} onChange={(e) => setEditingStatus(e.target.value as OrderStatus)} className="admin-input" style={{ fontWeight: 700 }}>
                   <option value="pending_payment">Attente de Paiement</option>
                   <option value="processing">En Traitement en Chine</option>
                   <option value="shipped">Expédiée (En Transit)</option>
@@ -280,22 +413,23 @@ export default function OrdersManagementPage() {
               </div>
 
               <div>
-                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>NUMÉRO DE TRACKING LOGISTIQUE</label>
+                <label className="admin-label">Numéro de Tracking Logistique</label>
                 <input
                   type="text"
                   value={trackingNumber}
                   onChange={(e) => setTrackingNumber(e.target.value)}
                   placeholder="Ex: CLA-AIR-99231"
-                  style={{ width: "100%", padding: 10, borderRadius: "var(--radius-sm)", border: "1px solid var(--border-light)", fontWeight: 700, fontFamily: "monospace" }}
+                  className="admin-input"
+                  style={{ fontFamily: "monospace", fontWeight: 700 }}
                 />
               </div>
-            </div>
 
-            <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
-              <button onClick={() => setIsModalOpen(false)} className="btn" style={{ padding: "8px 16px" }}>Annuler</button>
-              <button onClick={handleUpdateOrder} disabled={saving} className="btn btn-primary" style={{ padding: "8px 20px" }}>
-                {saving ? "Mise à jour..." : "Enregistrer la Commande"}
-              </button>
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, paddingTop: 10, borderTop: "1px solid #E2E8F0" }}>
+                <button type="button" onClick={() => setIsModalOpen(false)} className="btn" style={{ padding: "9px 18px", background: "#F1F5F9", color: "#475569", borderRadius: 10, fontWeight: 600 }}>Annuler</button>
+                <button type="button" onClick={handleUpdateOrder} disabled={saving} className="btn btn-primary" style={{ padding: "9px 22px", borderRadius: 10, fontWeight: 700 }}>
+                  {saving ? "Enregistrement..." : "Enregistrer la Commande"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
