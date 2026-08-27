@@ -29,6 +29,7 @@ function DashboardContent() {
   const tabParam = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState(tabParam || "orders");
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // Profile Form States
   const [firstName, setFirstName] = useState("");
@@ -51,6 +52,13 @@ function DashboardContent() {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
+        const emailLower = (user.email || "").toLowerCase().trim();
+        let userIsAdmin = (
+          emailLower === "ahoyoauronce@gmail.com" ||
+          emailLower === "admin@cargolink.africa" ||
+          emailLower === "superadmin@cargolink.africa"
+        );
+
         const { data } = await supabase
           .from("profiles")
           .select("*")
@@ -59,6 +67,9 @@ function DashboardContent() {
 
         if (data) {
           const prof = data as Profile;
+          if (prof.role === "admin" || prof.role === "super_admin" || prof.role === "logistics" || prof.role === "agent") {
+            userIsAdmin = true;
+          }
           setProfile(prof);
           setFirstName(prof.first_name || "");
           setLastName(prof.last_name || "");
@@ -67,6 +78,7 @@ function DashboardContent() {
           setCountry(prof.country || "Bénin");
           setAccountType(prof.account_type || "individual");
         }
+        setIsAdmin(userIsAdmin);
       }
     }
 
@@ -214,6 +226,72 @@ function DashboardContent() {
             </div>
           </div>
 
+          {/* ADMIN SHORTCUT BANNER */}
+          {isAdmin && (
+            <div
+              style={{
+                background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)",
+                color: "#FFFFFF",
+                borderRadius: 18,
+                padding: "16px 20px",
+                marginBottom: 24,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                flexWrap: "wrap",
+                gap: 14,
+                border: "1px solid rgba(56, 189, 248, 0.4)",
+                boxShadow: "0 8px 24px -4px rgba(15, 23, 42, 0.25)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div
+                  style={{
+                    width: 42,
+                    height: 42,
+                    borderRadius: "50%",
+                    background: "rgba(56, 189, 248, 0.15)",
+                    border: "1px solid rgba(56, 189, 248, 0.3)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <ShieldCheck style={{ width: 22, height: 22, color: "#38BDF8" }} />
+                </div>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: 14.5, color: "#FFFFFF" }}>
+                    Compte Administrateur Détecté
+                  </div>
+                  <div style={{ fontSize: 12.5, color: "#94A3B8", marginTop: 2 }}>
+                    Vous êtes actuellement sur la vue espace client.
+                  </div>
+                </div>
+              </div>
+              <Link
+                href="/admin"
+                className="btn"
+                style={{
+                  background: "linear-gradient(90deg, #38BDF8 0%, #0284C7 100%)",
+                  color: "#0F172A",
+                  padding: "10px 18px",
+                  borderRadius: 10,
+                  fontWeight: 800,
+                  fontSize: 13,
+                  textDecoration: "none",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  boxShadow: "0 4px 14px rgba(56, 189, 248, 0.4)",
+                }}
+              >
+                <span>Accéder au Dashboard Admin</span>
+                <ArrowRight style={{ width: 15, height: 15 }} />
+              </Link>
+            </div>
+          )}
+
           {/* 2. MAIN 2-COLUMN DASHBOARD GRID */}
           <div
             style={{
@@ -229,6 +307,7 @@ function DashboardContent() {
                 activeTab={activeTab}
                 onSelectTab={setActiveTab}
                 profile={profile}
+                isAdmin={isAdmin}
               />
             </div>
 

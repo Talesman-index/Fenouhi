@@ -248,10 +248,17 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
         if (res.ok) {
           const json = await res.json();
           if (json.products && json.products.length > 0) {
+            const customList: Product[] = [];
             for (const p of json.products) {
               if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
                 productMap.set(p.id, p as Product);
+                if (p.id?.startsWith("custom_") || p.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === p.id)) {
+                  customList.push(p as Product);
+                }
               }
+            }
+            if (customList.length > 0) {
+              saveStoredCustomProducts(customList);
             }
           }
         }
@@ -282,6 +289,15 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
     } catch {}
 
     let list = Array.from(productMap.values());
+
+    // Sort to ensure custom products appear at the top
+    list.sort((a, b) => {
+      const aIsCustom = a.id?.startsWith("custom_") || a.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === a.id);
+      const bIsCustom = b.id?.startsWith("custom_") || b.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === b.id);
+      if (aIsCustom && !bIsCustom) return -1;
+      if (!aIsCustom && bIsCustom) return 1;
+      return 0;
+    });
 
     if (options.categorySlug && options.categorySlug !== "all") {
       list = list.filter((p) => p.category?.slug === options.categorySlug || p.category_id === options.categorySlug);
@@ -336,6 +352,19 @@ export async function getProductByIdOrSlug(idOrSlug: string): Promise<Product | 
     const foundCustom = custom.find((p) => p.id === idOrSlug || p.slug === idOrSlug);
     if (foundCustom && !deletedIds.has(foundCustom.id) && !deletedIds.has(foundCustom.slug)) {
       return foundCustom;
+    }
+
+    // Try fetching from server API
+    if (typeof window !== "undefined") {
+      try {
+        const res = await fetch(`/api/products?id=${encodeURIComponent(idOrSlug)}`, { cache: "no-store" });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.product && !deletedIds.has(json.product.id) && !deletedIds.has(json.product.slug)) {
+            return json.product as Product;
+          }
+        }
+      } catch {}
     }
 
     const cleanId = idOrSlug.replace(/^product-/, "");

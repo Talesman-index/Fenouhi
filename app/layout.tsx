@@ -2,7 +2,6 @@ import React from "react";
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Poppins } from "next/font/google";
 import LayoutWrapper from "@/components/LayoutWrapper";
-import Preloader from "@/components/Preloader";
 import PwaRegister from "@/components/PwaRegister";
 import PwaInstallPrompt from "@/components/PwaInstallPrompt";
 import OfflineStatusIndicator from "@/components/OfflineStatusIndicator";

@@ -86,7 +86,16 @@ export default function AdminDashboardPage() {
           supabase.from("activity_logs").select("*").order("created_at", { ascending: false }).limit(5)
         ]);
 
-        const totalRevenueCalculated = paidPayments?.reduce((sum, p) => sum + (Number(p.amount) || 0), 0) || 0;
+        let dynamicProductCount = PRODUCTS.length;
+        try {
+          const prodsRes = await fetch("/api/products", { cache: "no-store" });
+          if (prodsRes.ok) {
+            const prodsJson = await prodsRes.json();
+            if (typeof prodsJson.count === "number") {
+              dynamicProductCount = prodsJson.count;
+            }
+          }
+        } catch {}
 
         if (isMounted) {
           setKpis({
@@ -100,7 +109,7 @@ export default function AdminDashboardPage() {
             totalRevenue: totalRevenueCalculated ?? 0,
             pendingPayments: pendingPaymentsCount ?? 0,
             openDisputes: openDisputesCount ?? 0,
-            totalCatalogProducts: PRODUCTS.length,
+            totalCatalogProducts: dynamicProductCount,
           });
 
           setRecentOrders(orders && orders.length > 0 ? (orders as Order[]) : []);

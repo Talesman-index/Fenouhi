@@ -9,15 +9,16 @@ import { useMobileStore } from "@/lib/mobile-store";
 import { 
   Menu, X, Search, PlusCircle, Grid, User, LogIn, UserPlus, LogOut, FileText,
   MapPin, ChevronDown, ChevronRight, ArrowRight, Gift, Radio, Home, Package, 
-  ShoppingBag, Download, Heart, Sparkles, Check, Plane
+  ShoppingBag, Download, Heart, Sparkles, Check, Plane, ShieldCheck
 } from "lucide-react";
 
 export default function Header() {
   const { cart, favorites } = useMobileStore();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [userProfile, setUserProfile] = useState<{ name: string; email: string; initials: string; role: string } | null>(null);
+  const [userProfile, setUserProfile] = useState<{ name: string; email: string; initials: string; role: string; isAdmin?: boolean } | null>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -38,41 +39,56 @@ export default function Header() {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setIsLoggedIn(true);
+        const emailLower = (user.email || "").toLowerCase().trim();
+        let adminFlag = (
+          emailLower === "ahoyoauronce@gmail.com" ||
+          emailLower === "admin@cargolink.africa" ||
+          emailLower === "superadmin@cargolink.africa"
+        );
+
         try {
           const { data: prof } = await supabase.from("profiles").select("*").eq("id", user.id).single();
           if (prof) {
+            if (prof.role === "admin" || prof.role === "super_admin" || prof.role === "logistics" || prof.role === "agent") {
+              adminFlag = true;
+            }
             const fn = prof.first_name || "";
             const ln = prof.last_name || "";
-            const fullName = `${fn} ${ln}`.trim() || user.email?.split("@")[0] || "Client Démo";
-            const init = `${fn[0] || ""}${ln[0] || ""}`.toUpperCase() || "CD";
-            const role = prof.account_type === "business" ? "Entreprise / PME" : prof.account_type === "reseller" ? "Revendeur" : "Particulier";
+            const fullName = `${fn} ${ln}`.trim() || user.email?.split("@")[0] || "Administrateur";
+            const init = `${fn[0] || ""}${ln[0] || ""}`.toUpperCase() || "AD";
+            const role = adminFlag ? "Administrateur" : (prof.account_type === "business" ? "Entreprise / PME" : prof.account_type === "reseller" ? "Revendeur" : "Particulier");
             setUserProfile({
               name: fullName,
-              email: prof.email || user.email || "client.demo@cargolink.africa",
+              email: prof.email || user.email || "",
               initials: init,
-              role: role
+              role: role,
+              isAdmin: adminFlag
             });
           } else {
-            const email = user.email || "client.demo@cargolink.africa";
-            const name = user.user_metadata?.full_name || email.split("@")[0] || "Client Démo";
-            const init = name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) || "CD";
+            const email = user.email || "";
+            const name = user.user_metadata?.full_name || email.split("@")[0] || "Administrateur";
+            const init = name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) || "AD";
             setUserProfile({
               name,
               email,
               initials: init,
-              role: "Particulier"
+              role: adminFlag ? "Administrateur" : "Particulier",
+              isAdmin: adminFlag
             });
           }
         } catch (e) {
           setUserProfile({
-            name: user.email?.split("@")[0] || "Client Démo",
-            email: user.email || "client.demo@cargolink.africa",
-            initials: "CD",
-            role: "Particulier"
+            name: user.email?.split("@")[0] || "Administrateur",
+            email: user.email || "",
+            initials: "AD",
+            role: adminFlag ? "Administrateur" : "Particulier",
+            isAdmin: adminFlag
           });
         }
+        setIsAdmin(adminFlag);
       } else {
         setIsLoggedIn(false);
+        setIsAdmin(false);
         setUserProfile(null);
       }
     }
@@ -83,6 +99,7 @@ export default function Header() {
         checkAuth();
       } else {
         setIsLoggedIn(false);
+        setIsAdmin(false);
         setUserProfile(null);
       }
     });
@@ -97,6 +114,7 @@ export default function Header() {
       const supabase = createClient();
       await supabase.auth.signOut();
       setIsLoggedIn(false);
+      setIsAdmin(false);
       if (drawerOpen) setDrawerOpen(false);
       window.location.href = "/";
     } catch (e) {
@@ -241,8 +259,32 @@ export default function Header() {
               {/* USER / AUTH BUTTONS (DESKTOP ONLY) */}
               {isLoggedIn ? (
                 <div className="desktop-only" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <Link href="/dashboard" className="btn btn-pill-sm" style={{ background: "#0F172A", color: "#FFF", padding: "8px 16px", fontSize: 13, fontWeight: 600, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6 }}>
-                    <User style={{ width: 14 }} /> <span>Mon Espace</span>
+                  <Link 
+                    href={isAdmin ? "/admin" : "/dashboard"} 
+                    className="btn btn-pill-sm" 
+                    style={{ 
+                      background: isAdmin ? "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)" : "#0F172A", 
+                      color: "#FFF", 
+                      padding: "8px 16px", 
+                      fontSize: 13, 
+                      fontWeight: 600, 
+                      borderRadius: 9999, 
+                      display: "inline-flex", 
+                      alignItems: "center", 
+                      gap: 6,
+                      border: isAdmin ? "1px solid rgba(56, 189, 248, 0.4)" : "none",
+                      boxShadow: isAdmin ? "0 2px 10px rgba(15, 23, 42, 0.3)" : "none"
+                    }}
+                  >
+                    {isAdmin ? (
+                      <>
+                        <ShieldCheck style={{ width: 15, color: "#38BDF8" }} /> <span>Dashboard Admin</span>
+                      </>
+                    ) : (
+                      <>
+                        <User style={{ width: 14 }} /> <span>Mon Espace</span>
+                      </>
+                    )}
                   </Link>
                   <button
                     onClick={handleLogout}
@@ -620,21 +662,51 @@ export default function Header() {
 
             <div style={{ height: 1, background: "#F1F5F9", margin: "16px 8px 12px" }} />
 
-            {/* SECTION: ESPACE CLIENT */}
+            {/* SECTION: ESPACE ADMIN OU CLIENT */}
             <div style={{ fontSize: 10.5, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 6, paddingLeft: 8 }}>
-              {isLoggedIn ? "Mon Espace Client" : "Compte"}
+              {isAdmin ? "Administration" : (isLoggedIn ? "Mon Espace Client" : "Compte")}
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {isLoggedIn ? (
                 <>
+                  {isAdmin && (
+                    <div style={{ marginBottom: 6 }}>
+                      <Link 
+                        href="/admin" 
+                        onClick={toggleDrawer}
+                        style={{ 
+                          display: "flex", 
+                          alignItems: "center", 
+                          justifyContent: "space-between",
+                          gap: 10, 
+                          padding: "10px 12px", 
+                          borderRadius: 8, 
+                          color: "#FFFFFF", 
+                          fontWeight: 700, 
+                          fontSize: 13, 
+                          textDecoration: "none", 
+                          background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)",
+                          border: "1px solid rgba(56, 189, 248, 0.4)",
+                          boxShadow: "0 3px 10px rgba(15, 23, 42, 0.2)"
+                        }}
+                      >
+                        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                          <ShieldCheck style={{ width: 17, height: 17, color: "#38BDF8" }} />
+                          <span>Dashboard Admin</span>
+                        </div>
+                        <ArrowRight style={{ width: 14, height: 14, opacity: 0.8 }} />
+                      </Link>
+                    </div>
+                  )}
+
                   <Link 
                     href="/dashboard?tab=orders" 
                     onClick={toggleDrawer}
                     style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 10px", borderRadius: 8, color: "#334155", fontWeight: 500, fontSize: 13, textDecoration: "none" }}
                   >
                     <Package style={{ width: 18, height: 18, color: "#64748B", flexShrink: 0 }} />
-                    <span>Mes Commandes</span>
+                    <span>Mes Commandes Client</span>
                     <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFFFFF", fontSize: 9.5, fontWeight: 600, padding: "1px 6px", borderRadius: 9999 }}>2</span>
                   </Link>
 
@@ -644,7 +716,7 @@ export default function Header() {
                     style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 10px", borderRadius: 8, color: "#334155", fontWeight: 500, fontSize: 13, textDecoration: "none" }}
                   >
                     <FileText style={{ width: 18, height: 18, color: "#64748B", flexShrink: 0 }} />
-                    <span>Mes Devis</span>
+                    <span>Mes Devis Client</span>
                     <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFFFFF", fontSize: 9.5, fontWeight: 700, padding: "1px 6px", borderRadius: 9999 }}>1</span>
                   </Link>
 

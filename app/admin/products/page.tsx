@@ -132,14 +132,8 @@ export default function ProductsManagementPage() {
       const localProducts = getPublicProductsSync();
       const productMap = new Map<string, Product>();
 
-      // 1. Put custom/newly created products FIRST so they appear at the very TOP
-      for (const p of customProducts) {
-        if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
-          productMap.set(p.id, p);
-        }
-      }
-
-      // 2. Query Server API route /api/products
+      // 1. Query Server API route /api/products (persisted in data/custom-products.json)
+      let serverCustomProducts: Product[] = [];
       try {
         const res = await fetch(`/api/products`, { cache: "no-store" });
         if (res.ok) {
@@ -148,11 +142,51 @@ export default function ProductsManagementPage() {
             for (const p of json.products) {
               if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
                 productMap.set(p.id, p as Product);
+                if (p.id?.startsWith("custom_") || p.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === p.id)) {
+                  serverCustomProducts.push(p as Product);
+                }
               }
             }
           }
         }
       } catch (e) {}
+
+      // 2. Add local custom products from client localStorage
+      let hasNewLocalProductsToSync = false;
+      const unSyncedProducts: Product[] = [];
+
+      for (const p of customProducts) {
+        if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+          if (!productMap.has(p.id)) {
+            hasNewLocalProductsToSync = true;
+            unSyncedProducts.push(p);
+          }
+          productMap.set(p.id, p);
+        }
+      }
+
+      // Auto-sync un-synced local products to server disk & Supabase
+      if (hasNewLocalProductsToSync && unSyncedProducts.length > 0) {
+        try {
+          fetch("/api/products", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ products: unSyncedProducts })
+          }).catch(() => {});
+        } catch {}
+      }
+
+      // Sync server custom products back to localStorage as backup
+      if (serverCustomProducts.length > 0) {
+        const existingLocal = getStoredCustomProducts();
+        const mergedCustom = [...existingLocal];
+        for (const sp of serverCustomProducts) {
+          if (!mergedCustom.some(lp => lp.id === sp.id)) {
+            mergedCustom.push(sp);
+          }
+        }
+        saveStoredCustomProducts(mergedCustom);
+      }
 
       // 3. Query Supabase for any additional/updated DB products
       try {
@@ -182,7 +216,7 @@ export default function ProductsManagementPage() {
 
       let allProducts = Array.from(productMap.values());
 
-      // 4. Filter by category
+      // 5. Filter by category
       if (categoryFilter !== "all") {
         const target = categoryFilter.toLowerCase();
         allProducts = allProducts.filter((p) => {
@@ -199,12 +233,12 @@ export default function ProductsManagementPage() {
         });
       }
 
-      // 5. Filter by status
+      // 6. Filter by status
       if (statusFilter !== "all") {
         allProducts = allProducts.filter((p) => p.status === statusFilter);
       }
 
-      // 6. Filter by demo mode
+      // 7. Filter by demo mode
       if (demoFilter === "real") {
         allProducts = allProducts.filter((p) => !p.is_demo);
       } else if (demoFilter === "demo") {
@@ -545,14 +579,16 @@ export default function ProductsManagementPage() {
         type: "product"
       });
 
-      // Sync with Server API route /api/products
+      // Sync with Server API route /api/products (persisted to server disk & Supabase)
       try {
-        fetch("/api/products", {
+        await fetch("/api/products", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(productObject)
-        }).catch(() => {});
-      } catch {}
+        });
+      } catch (apiErr) {
+        console.warn("API products sync notice:", apiErr);
+      }
 
       // Update UI state immediately in memory at index 0
       setProducts((prev) => {
@@ -561,15 +597,15 @@ export default function ProductsManagementPage() {
       });
 
       setIsModalOpen(false);
-      fetchProducts();
+      await fetchProducts();
       showToast(
         editingProduct ? "Produit Modifié avec Succès !" : "Nouveau Produit Ajouté !",
-        `L'article "${name}" est désormais à jour dans le catalogue.`,
+        `L'article "${name}" est désormais enregistré et visible sur toute la plateforme.`,
         "success"
       );
     } catch (err: any) {
       setIsModalOpen(false);
-      fetchProducts();
+      await fetchProducts();
       showToast("Produit Enregistré !", `L'article "${name}" a été synchronisé.`, "success");
     } finally {
       setSaving(false);
@@ -578,20 +614,30 @@ export default function ProductsManagementPage() {
 
   const handleToggleStatus = async (product: Product) => {
     const newStatus: ProductStatus = product.status === "active" ? "inactive" : "active";
+    const updatedProduct = { ...product, status: newStatus };
     
     // 1. Update in custom products store
     const custom = getStoredCustomProducts();
     const existingIndex = custom.findIndex((p) => p.id === product.id || p.slug === product.slug);
     if (existingIndex >= 0) {
-      custom[existingIndex] = { ...custom[existingIndex], status: newStatus };
+      custom[existingIndex] = updatedProduct;
     } else {
-      custom.unshift({ ...product, status: newStatus });
+      custom.unshift(updatedProduct);
     }
     saveStoredCustomProducts(custom);
 
+    // Sync status with Server API route /api/products
+    try {
+      await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedProduct)
+      });
+    } catch {}
+
     // 2. Update UI state immediately
     setProducts((prev) =>
-      prev.map((p) => (p.id === product.id ? { ...p, status: newStatus } : p))
+      prev.map((p) => (p.id === product.id ? updatedProduct : p))
     );
 
     addRealNotification({
@@ -647,11 +693,11 @@ export default function ProductsManagementPage() {
 
       // Sync deletion with Server API route /api/products
       try {
-        fetch("/api/products", {
+        await fetch("/api/products", {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: product.id, slug: product.slug })
-        }).catch(() => {});
+        });
       } catch {}
 
       addRealNotification({

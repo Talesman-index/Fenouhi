@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 interface PreloaderContextType {
@@ -13,9 +13,9 @@ interface PreloaderContextType {
 }
 
 const PreloaderContext = createContext<PreloaderContextType>({
-  isLoading: true,
+  isLoading: false,
   message: "Chargement en cours...",
-  progress: 0,
+  progress: 100,
   showPreloader: () => {},
   hidePreloader: () => {},
   setProgress: () => {},
@@ -24,15 +24,17 @@ const PreloaderContext = createContext<PreloaderContextType>({
 export const usePreloader = () => useContext(PreloaderContext);
 
 export function PreloaderProvider({ children }: { children: React.ReactNode }) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isFading, setIsFading] = useState(false);
   const [message, setMessage] = useState("Achat & Expédition Chine → Afrique");
-  const [progress, setProgressState] = useState(15);
+  const [progress, setProgressState] = useState(100);
   const [isPWA, setIsPWA] = useState(false);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const isMountedRef = useRef(false);
 
   // Initial startup load
   useEffect(() => {
+    isMountedRef.current = true;
+
     // Hide static HTML splash screen if present
     if (typeof document !== "undefined") {
       const initialSplash = document.getElementById("initial-splash-screen");
@@ -48,64 +50,72 @@ export function PreloaderProvider({ children }: { children: React.ReactNode }) {
         window.matchMedia("(display-mode: standalone)").matches ||
         (navigator as any).standalone === true;
       setIsPWA(isStandalone);
-    }
 
-    // Progress animation for initial load
-    const interval = setInterval(() => {
-      setProgressState((prev) => {
-        if (prev >= 95) {
+      // Check if preloader was already shown in this session
+      const alreadySeen = sessionStorage.getItem("fenou_preloader_seen");
+      if (!alreadySeen) {
+        sessionStorage.setItem("fenou_preloader_seen", "true");
+        setIsLoading(true);
+        setProgressState(25);
+
+        // Smooth quick progress
+        const interval = setInterval(() => {
+          setProgressState((prev) => {
+            if (prev >= 95) {
+              clearInterval(interval);
+              return 95;
+            }
+            return prev + 25;
+          });
+        }, 60);
+
+        // Absolute dismiss timer
+        const dismissTimer = setTimeout(() => {
           clearInterval(interval);
-          return 95;
-        }
-        return prev + Math.floor(Math.random() * 14) + 6;
-      });
-    }, 80);
+          setProgressState(100);
+          setIsFading(true);
+          setTimeout(() => {
+            if (isMountedRef.current) {
+              setIsLoading(false);
+            }
+          }, 250);
+        }, 500);
 
-    const finishLoading = () => {
-      setProgressState(100);
-      setTimeout(() => {
-        setIsFading(true);
-        setTimeout(() => {
-          setIsLoading(false);
-          setIsInitialLoad(false);
-        }, 400);
-      }, 300);
-    };
-
-    if (document.readyState === "complete") {
-      finishLoading();
-    } else {
-      window.addEventListener("load", finishLoading);
-      const timer = setTimeout(finishLoading, 1400);
-      return () => {
-        window.removeEventListener("load", finishLoading);
-        clearTimeout(timer);
-        clearInterval(interval);
-      };
+        return () => {
+          clearInterval(interval);
+          clearTimeout(dismissTimer);
+        };
+      } else {
+        // Already seen, keep hidden
+        setIsLoading(false);
+      }
     }
-
-    return () => clearInterval(interval);
   }, []);
 
   const showPreloader = (msg = "Chargement en cours...") => {
     setMessage(msg);
-    setProgressState(40);
+    setProgressState(60);
     setIsFading(false);
     setIsLoading(true);
   };
 
   const hidePreloader = () => {
     setProgressState(100);
+    setIsFading(true);
     setTimeout(() => {
-      setIsFading(true);
-      setTimeout(() => {
+      if (isMountedRef.current) {
         setIsLoading(false);
-      }, 350);
-    }, 200);
+      }
+    }, 250);
   };
 
   const setProgress = (percent: number) => {
     setProgressState(percent);
+  };
+
+  const handleDismissImmediately = () => {
+    setIsFading(true);
+    setIsLoading(false);
   };
 
   return (
@@ -126,6 +136,9 @@ export function PreloaderProvider({ children }: { children: React.ReactNode }) {
         <div
           aria-hidden="true"
           id="fenouhimin-global-preloader"
+          onClick={handleDismissImmediately}
+          role="button"
+          tabIndex={0}
           style={{
             position: "fixed",
             top: 0,
@@ -140,10 +153,11 @@ export function PreloaderProvider({ children }: { children: React.ReactNode }) {
             justifyContent: "center",
             opacity: isFading ? 0 : 1,
             visibility: isFading ? "hidden" : "visible",
-            transition: "opacity 0.4s ease, visibility 0.4s ease",
+            transition: "opacity 0.25s ease, visibility 0.25s ease",
             userSelect: "none",
-            pointerEvents: isFading ? "none" : "all",
+            pointerEvents: isFading ? "none" : "auto",
             overflow: "hidden",
+            cursor: "pointer",
           }}
         >
           {/* Ambient Glow */}
@@ -302,7 +316,7 @@ export function PreloaderProvider({ children }: { children: React.ReactNode }) {
                     height: "100%",
                     background: "linear-gradient(90deg, #165491 0%, #38BDF8 100%)",
                     borderRadius: 999,
-                    transition: "width 0.25s ease-out",
+                    transition: "width 0.15s ease-out",
                     boxShadow: "0 0 12px rgba(56, 189, 248, 0.6)",
                   }}
                 />

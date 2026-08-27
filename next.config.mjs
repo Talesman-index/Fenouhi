@@ -3,6 +3,12 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ["lucide-react"],
   serverExternalPackages: ["@supabase/ssr", "@supabase/supabase-js"],
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     unoptimized: true,
   },

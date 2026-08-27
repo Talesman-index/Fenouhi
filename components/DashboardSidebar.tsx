@@ -6,13 +6,16 @@ import { createClient } from "@/lib/supabase/client";
 import { Package, FileText, User, Bell, Settings, LogOut, ShieldCheck, Truck } from "lucide-react";
 import type { Profile } from "@/types/supabase";
 
+import Link from "next/link";
+
 interface DashboardSidebarProps {
   activeTab?: string;
   onSelectTab?: (tab: string) => void;
   profile?: Profile | null;
+  isAdmin?: boolean;
 }
 
-export default function DashboardSidebar({ activeTab = "orders", onSelectTab, profile }: DashboardSidebarProps) {
+export default function DashboardSidebar({ activeTab = "orders", onSelectTab, profile, isAdmin = false }: DashboardSidebarProps) {
   const router = useRouter();
 
   const handleSignOut = async () => {
@@ -32,9 +35,11 @@ export default function DashboardSidebar({ activeTab = "orders", onSelectTab, pr
 
   const initials = profile 
     ? `${profile.first_name?.[0] || ""}${profile.last_name?.[0] || ""}`.toUpperCase() 
-    : "FH";
+    : (isAdmin ? "AD" : "FH");
 
-  const accountTypeLabel = profile?.account_type === "business" 
+  const accountTypeLabel = isAdmin 
+    ? "Administrateur" 
+    : profile?.account_type === "business" 
     ? "Entreprise / PME" 
     : profile?.account_type === "reseller" 
     ? "Revendeur" 
@@ -137,6 +142,36 @@ export default function DashboardSidebar({ activeTab = "orders", onSelectTab, pr
           gap: 6,
         }}
       >
+        {isAdmin && (
+          <li style={{ marginBottom: 6 }}>
+            <Link
+              href="/admin"
+              style={{
+                width: "100%",
+                boxSizing: "border-box",
+                textAlign: "left",
+                padding: "10px 14px",
+                borderRadius: 12,
+                border: "1px solid rgba(56, 189, 248, 0.4)",
+                background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)",
+                color: "#FFFFFF",
+                fontWeight: 700,
+                fontSize: 13,
+                textDecoration: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                boxShadow: "0 4px 12px rgba(15, 23, 42, 0.15)",
+                transition: "all 0.18s ease",
+              }}
+            >
+              <ShieldCheck style={{ width: 17, height: 17, flexShrink: 0, color: "#38BDF8" }} />
+              <span>Dashboard Admin</span>
+            </Link>
+          </li>
+        )}
+
         {tabs.map((t) => {
           const Icon = t.icon;
           const isActive = activeTab === t.id;
