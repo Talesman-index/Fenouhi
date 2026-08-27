@@ -138,6 +138,17 @@ export default function ProductsManagementPage() {
         const res = await fetch(`/api/products`, { cache: "no-store" });
         if (res.ok) {
           const json = await res.json();
+          if (json.deletedIds && Array.isArray(json.deletedIds)) {
+            const existingDel = getStoredDeletedProductIds();
+            const mergedDel = Array.from(new Set([...existingDel, ...json.deletedIds]));
+            saveStoredDeletedProductIds(mergedDel);
+            mergedDel.forEach(id => deletedIds.add(id));
+
+            const currentCustom = getStoredCustomProducts();
+            const cleanedCustom = currentCustom.filter(p => !deletedIds.has(p.id) && !deletedIds.has(p.slug));
+            saveStoredCustomProducts(cleanedCustom);
+          }
+
           if (json.products && json.products.length > 0) {
             for (const p of json.products) {
               if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {

@@ -259,6 +259,20 @@ export async function DELETE(request: NextRequest) {
     );
     writeCustomProductsToFile(updatedList);
 
+    // Also delete from Supabase database
+    try {
+      const supabase = createClient();
+      if (id) {
+        await supabase.from("product_images").delete().eq("product_id", id);
+        await supabase.from("products").delete().eq("id", id);
+      }
+      if (slug) {
+        await supabase.from("products").delete().eq("slug", slug);
+      }
+    } catch (dbErr) {
+      console.warn("Supabase delete notice:", dbErr);
+    }
+
     return NextResponse.json({ success: true, deleted: { id, slug } });
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });
