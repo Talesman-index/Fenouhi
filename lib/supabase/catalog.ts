@@ -4,7 +4,7 @@ import { PRODUCTS, getProductById as getLocalProductById } from "@/lib/products"
 
 // Fallback seed categories (All 9 major wholesale categories)
 export const FALLBACK_CATEGORIES: Category[] = [
-  { id: "c1000000-0000-0000-0000-000000000001", name: "High-Tech & Électronique", slug: "electronics", description: "Smartphones, montres connectées, écouteurs, casques audio et high-tech.", icon: "Smartphone", is_active: true },
+  { id: "c1000000-0000-0000-0000-000000000001", name: "High-Tech & Electronics", slug: "electronics", description: "Smartphones, montres connectées, écouteurs, casques audio et high-tech.", icon: "Smartphone", is_active: true },
   { id: "c1000000-0000-0000-0000-000000000002", name: "Mode & Chaussures", slug: "fashion", description: "Sneakers, vêtements streetwear, sacs maroquinerie, bijoux et textiles.", icon: "Shirt", is_active: true },
   { id: "c1000000-0000-0000-0000-000000000003", name: "Beauté & Soins", slug: "beauty", description: "Sérums visage, soin de la peau, cosmétiques et équipements esthétiques.", icon: "Sparkles", is_active: true },
   { id: "c1000000-0000-0000-0000-000000000004", name: "Machinerie & Outillage", slug: "machinery", description: "Équipements de travail, gants protection EPI et outillage industriel.", icon: "Wrench", is_active: true },

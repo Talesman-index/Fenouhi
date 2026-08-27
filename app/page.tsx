@@ -139,7 +139,7 @@ export default function HomePage() {
   const categoryPills = [
     { name: "Tous", cat: "" },
     { name: "Beauté & Soins", cat: "beauty" },
-    { name: "Smartphones", cat: "electronics" },
+    { name: "High-Tech & Electronics", cat: "electronics" },
     { name: "Mode & Chaussures", cat: "fashion" },
     { name: "Sport & Fitness", cat: "sport" },
     { name: "Maison & Déco", cat: "home" },
