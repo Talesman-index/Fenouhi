@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import type { Order, Quote, ActivityLog } from "@/types/supabase";
 import { PRODUCTS } from "@/lib/products";
+import { getPublicProducts } from "@/lib/supabase/catalog";
 
 export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
@@ -86,16 +87,25 @@ export default function AdminDashboardPage() {
           supabase.from("activity_logs").select("*").order("created_at", { ascending: false }).limit(5)
         ]);
 
+        const totalRevenueCalculated = paidPayments?.reduce((sum, p) => sum + (Number(p.amount) || 0), 0) || 0;
+
         let dynamicProductCount = PRODUCTS.length;
         try {
-          const prodsRes = await fetch("/api/products", { cache: "no-store" });
-          if (prodsRes.ok) {
-            const prodsJson = await prodsRes.json();
-            if (typeof prodsJson.count === "number") {
-              dynamicProductCount = prodsJson.count;
-            }
+          const prods = await getPublicProducts();
+          if (prods && prods.length > 0) {
+            dynamicProductCount = prods.length;
           }
-        } catch {}
+        } catch {
+          try {
+            const prodsRes = await fetch("/api/products", { cache: "no-store" });
+            if (prodsRes.ok) {
+              const prodsJson = await prodsRes.json();
+              if (typeof prodsJson.count === "number") {
+                dynamicProductCount = prodsJson.count;
+              }
+            }
+          } catch {}
+        }
 
         if (isMounted) {
           setKpis({
@@ -106,7 +116,7 @@ export default function AdminDashboardPage() {
             activeOrders: activeOrdersCount ?? 0,
             deliveredOrders: deliveredOrdersCount ?? 0,
             parcelsInTransit: transitCount ?? 0,
-            totalRevenue: totalRevenueCalculated ?? 0,
+            totalRevenue: totalRevenueCalculated,
             pendingPayments: pendingPaymentsCount ?? 0,
             openDisputes: openDisputesCount ?? 0,
             totalCatalogProducts: dynamicProductCount,
