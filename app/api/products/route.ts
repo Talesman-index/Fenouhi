@@ -150,7 +150,7 @@ export async function GET(request: NextRequest) {
     if (idParam) {
       const single = list.find((p) => p.id === idParam || p.slug === idParam || `product-${p.id}` === idParam);
       if (single) {
-        return NextResponse.json({ success: true, product: single });
+        return NextResponse.json({ success: true, product: single, deletedIds });
       }
     }
 
@@ -175,7 +175,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ success: true, products: list, count: list.length });
+    return NextResponse.json({ success: true, products: list, count: list.length, deletedIds });
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
@@ -207,6 +207,44 @@ export async function POST(request: NextRequest) {
       writeCustomProductsToFile(mergedList);
       writeDeletedIdsToFile(deletedIds);
 
+      // Also upsert batch to Supabase
+      try {
+        const supabase = createClient();
+        for (const p of incomingProducts) {
+          if (p && p.name) {
+            await supabase.from("products").upsert({
+              id: p.id.startsWith("custom_") || p.id.startsWith("prod_") ? undefined : p.id,
+              name: p.name,
+              slug: p.slug,
+              short_description: p.short_description,
+              description: p.description,
+              category_id: p.category_id,
+              subcategory: p.subcategory,
+              price: p.price,
+              cargolink_margin_percent: p.cargolink_margin_percent ?? 10,
+              air_freight_rate_per_kg: p.air_freight_rate_per_kg ?? 2000,
+              sea_freight_rate_per_cbm: p.sea_freight_rate_per_cbm ?? 2000,
+              currency: p.currency || "FCFA",
+              stock_quantity: p.stock_quantity ?? 100,
+              minimum_order_quantity: p.minimum_order_quantity ?? 1,
+              country_of_origin: p.country_of_origin || "Hub Asie & International",
+              weight: p.weight ?? 0.5,
+              length: p.length ?? 10,
+              width: p.width ?? 8,
+              height: p.height ?? 5,
+              available_shipping_modes: p.available_shipping_modes || ["air", "sea"],
+              estimated_delivery_time: p.estimated_delivery_time || "5 - 15 jours (Aérien)",
+              status: p.status || "active",
+              is_demo: p.is_demo ?? false,
+              is_featured: p.is_featured ?? true,
+              updated_at: new Date().toISOString()
+            });
+          }
+        }
+      } catch (dbErr) {
+        console.warn("[API Products] Supabase batch upsert notice:", dbErr);
+      }
+
       return NextResponse.json({
         success: true,
         message: `${incomingProducts.length} produits synchronisés avec succès`,
@@ -233,6 +271,55 @@ export async function POST(request: NextRequest) {
     );
     updatedList.unshift(product);
     writeCustomProductsToFile(updatedList);
+
+    // Upsert into Supabase database
+    try {
+      const supabase = createClient();
+      const payload: any = {
+        name: product.name,
+        slug: product.slug,
+        short_description: product.short_description || `${product.name} - Produit certifié avec expédition rapide.`,
+        description: product.description || `Découvrez ${product.name}, disponible au meilleur prix avec contrôle qualité.`,
+        category_id: product.category_id || null,
+        subcategory: product.subcategory || null,
+        price: Number(product.price) || 0,
+        cargolink_margin_percent: Number(product.cargolink_margin_percent ?? 10),
+        air_freight_rate_per_kg: Number(product.air_freight_rate_per_kg ?? 2000),
+        sea_freight_rate_per_cbm: Number(product.sea_freight_rate_per_cbm ?? 2000),
+        currency: product.currency || "FCFA",
+        stock_quantity: Number(product.stock_quantity ?? 100),
+        minimum_order_quantity: Number(product.minimum_order_quantity ?? 1),
+        country_of_origin: product.country_of_origin || "Hub Asie & International",
+        weight: Number(product.weight ?? 0.5),
+        length: Number(product.length ?? 10),
+        width: Number(product.width ?? 8),
+        height: Number(product.height ?? 5),
+        available_shipping_modes: product.available_shipping_modes || ["air", "sea"],
+        estimated_delivery_time: product.estimated_delivery_time || "5 - 15 jours (Aérien)",
+        status: product.status || "active",
+        is_demo: product.is_demo ?? false,
+        is_featured: product.is_featured ?? true,
+        updated_at: new Date().toISOString()
+      };
+
+      // If valid UUID, pass id for upsert
+      const isUUID = product.id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(product.id);
+      if (isUUID) {
+        payload.id = product.id;
+      }
+
+      const { data: dbProd, error: dbErr } = await supabase.from("products").upsert(payload).select().single();
+      if (!dbErr && dbProd?.id) {
+        const primaryImg = product.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
+        await supabase.from("product_images").insert({
+          product_id: dbProd.id,
+          public_image_url: primaryImg,
+          is_primary: true
+        });
+      }
+    } catch (dbErr) {
+      console.warn("[API Products] Supabase single upsert notice:", dbErr);
+    }
 
     return NextResponse.json({ success: true, product });
   } catch (err: any) {

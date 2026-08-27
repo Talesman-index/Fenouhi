@@ -34,6 +34,46 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
+  // 0. COQUE IPHONE 15 PRO MAX (Accessoire Nouveauté)
+  {
+    id: "coque-iphone-15-pro-max-silicone",
+    title: "Coque iPhone 15 Pro Max Silicone",
+    subtitle: "Protection antichoc en silicone liquide doux avec doublure microfibre",
+    price: 3500,
+    oldPrice: 6000,
+    minQty: 1,
+    image: "/images/assets/iphone16_case_blue.png",
+    images: ["/images/assets/iphone16_case_blue.png", "/images/assets/iphone16_case_black.png", "/images/assets/iphone16_case_pink.png"],
+    category: "electronics",
+    badge: "NOUVEAUTÉ",
+    origin: "Hub Asie & International",
+    weight: "0.08 kg",
+    volume: "0.0005 CBM",
+    rating: 5.0,
+    reviewsCount: 38,
+    conditionState: "Scellé",
+    grade: "Neuf Scellé",
+    description:
+      "Coque de protection antichoc en silicone liquide haute qualité pour iPhone 15 Pro Max. Doublure intérieure en microfibre anti-rayures, découpes précises pour tous les boutons et ports, et compatible charge sans fil MagSafe.",
+    features: [
+      "Silicone liquide soyeux et anti-dérapant",
+      "Doublure intérieure en microfibre douce",
+      "Rebords surélevés pour protéger l'écran et la caméra",
+      "Protection contre les chocs et chutes",
+      "Compatible charge sans fil",
+    ],
+    specifications: [
+      { label: "Modèle compatible", value: "iPhone 15 Pro Max / 16 Pro Max" },
+      { label: "Matériau", value: "Silicone liquide + Microfibre" },
+      { label: "Poids", value: "80 g" },
+      { label: "Finition", value: "Toucher soyeux anti-traces" },
+    ],
+    reviews: [
+      { author: "Marc A.", rating: 5, comment: "Excellente qualité de coque, très douce et protège parfaitement le téléphone !", date: "27 Août 2026" },
+    ],
+    related: ["iphone-15-15pro-15promax", "iphone-16-16pro-16promax"],
+  },
+
   // 1. IPHONE 15 (High-Tech Flagship)
   {
     id: "iphone-15-15pro-15promax",

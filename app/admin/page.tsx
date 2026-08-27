@@ -21,6 +21,7 @@ import {
   Package
 } from "lucide-react";
 import type { Order, Quote, ActivityLog } from "@/types/supabase";
+import type { Product } from "@/types/catalog";
 import { PRODUCTS } from "@/lib/products";
 import { getPublicProducts } from "@/lib/supabase/catalog";
 
@@ -43,6 +44,7 @@ export default function AdminDashboardPage() {
   const [recentOrders, setRecentOrders] = useState<Order[]>([]);
   const [recentQuotes, setRecentQuotes] = useState<Quote[]>([]);
   const [recentActivities, setRecentActivities] = useState<ActivityLog[]>([]);
+  const [recentProducts, setRecentProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -90,10 +92,12 @@ export default function AdminDashboardPage() {
         const totalRevenueCalculated = paidPayments?.reduce((sum, p) => sum + (Number(p.amount) || 0), 0) || 0;
 
         let dynamicProductCount = PRODUCTS.length;
+        let fetchedProds: Product[] = [];
         try {
           const prods = await getPublicProducts();
           if (prods && prods.length > 0) {
             dynamicProductCount = prods.length;
+            fetchedProds = prods.slice(0, 5);
           }
         } catch {
           try {
@@ -102,6 +106,9 @@ export default function AdminDashboardPage() {
               const prodsJson = await prodsRes.json();
               if (typeof prodsJson.count === "number") {
                 dynamicProductCount = prodsJson.count;
+              }
+              if (prodsJson.products && Array.isArray(prodsJson.products)) {
+                fetchedProds = prodsJson.products.slice(0, 5);
               }
             }
           } catch {}
@@ -125,6 +132,7 @@ export default function AdminDashboardPage() {
           setRecentOrders(orders && orders.length > 0 ? (orders as Order[]) : []);
           setRecentQuotes(quotes && quotes.length > 0 ? (quotes as Quote[]) : []);
           setRecentActivities(logs && logs.length > 0 ? (logs as ActivityLog[]) : []);
+          setRecentProducts(fetchedProds);
         }
       } catch (err) {
         console.warn("Notice: using fallback dashboard metrics", err);
@@ -370,6 +378,108 @@ export default function AdminDashboardPage() {
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+
+      {/* RECENT CATALOG PRODUCTS ROW */}
+      <div className="card" style={{ padding: 20 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, flexWrap: "wrap", gap: 10 }}>
+          <div>
+            <h3 style={{ fontSize: 16, fontWeight: 600, color: "var(--navy-dark)", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
+              <Package style={{ width: 18, height: 18, color: "var(--orange-primary)" }} />
+              Derniers Articles Ajoutés au Catalogue ({kpis.totalCatalogProducts})
+            </h3>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Produits récemment créés ou mis à jour dans la boutique</span>
+          </div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <Link href="/catalog" target="_blank" className="btn" style={{ fontSize: 12, padding: "6px 12px", background: "#F1F5F9", color: "#334155" }}>
+              Voir la Boutique ➔
+            </Link>
+            <Link href="/admin/products" className="btn btn-primary" style={{ fontSize: 12, padding: "6px 12px" }}>
+              Gérer les Articles ➔
+            </Link>
+          </div>
+        </div>
+
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+            <thead>
+              <tr style={{ borderBottom: "1px solid var(--border-light)", textAlign: "left" }}>
+                <th style={{ padding: "8px 4px", color: "var(--text-muted)", fontSize: 11 }}>Article</th>
+                <th style={{ padding: "8px 4px", color: "var(--text-muted)", fontSize: 11 }}>Catégorie</th>
+                <th style={{ padding: "8px 4px", color: "var(--text-muted)", fontSize: 11 }}>Prix Unitaire</th>
+                <th style={{ padding: "8px 4px", color: "var(--text-muted)", fontSize: 11 }}>Stock</th>
+                <th style={{ padding: "8px 4px", color: "var(--text-muted)", fontSize: 11 }}>Statut</th>
+                <th style={{ padding: "8px 4px", color: "var(--text-muted)", fontSize: 11, textAlign: "right" }}>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentProducts.length > 0 ? (
+                recentProducts.map((p) => {
+                  const img = p.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
+                  return (
+                    <tr key={p.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
+                      <td style={{ padding: "10px 4px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                          <img
+                            src={img}
+                            alt={p.name}
+                            style={{ width: 36, height: 36, borderRadius: 6, objectFit: "cover", border: "1px solid var(--border-light)" }}
+                          />
+                          <div>
+                            <div style={{ fontWeight: 600, color: "var(--navy-dark)" }}>{p.name}</div>
+                            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{p.slug}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td style={{ padding: "10px 4px", color: "var(--text-muted)" }}>
+                        {p.category?.name || "Général"}
+                      </td>
+                      <td style={{ padding: "10px 4px", fontWeight: 700, color: "var(--navy-dark)" }}>
+                        {Number(p.price).toLocaleString()} {p.currency || "FCFA"}
+                      </td>
+                      <td style={{ padding: "10px 4px" }}>
+                        <span style={{ fontWeight: 600, color: (p.stock_quantity ?? 0) > 10 ? "var(--green-success)" : "#EA580C" }}>
+                          {p.stock_quantity ?? 100} en stock
+                        </span>
+                      </td>
+                      <td style={{ padding: "10px 4px" }}>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            padding: "3px 8px",
+                            borderRadius: 999,
+                            fontSize: 11,
+                            fontWeight: 700,
+                            background: p.status === "active" ? "#DCFCE7" : "#F1F5F9",
+                            color: p.status === "active" ? "#166534" : "#64748B"
+                          }}
+                        >
+                          {p.status === "active" ? "Actif (Visible)" : "Inactif"}
+                        </span>
+                      </td>
+                      <td style={{ padding: "10px 4px", textAlign: "right" }}>
+                        <Link
+                          href={`/product/${p.slug || p.id}`}
+                          target="_blank"
+                          style={{ fontSize: 12, fontWeight: 600, color: "var(--blue-primary)", textDecoration: "none" }}
+                        >
+                          Aperçu ↗
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={6} style={{ textAlign: "center", padding: "28px 12px", color: "#64748B" }}>
+                    <Package style={{ width: 28, height: 28, margin: "0 auto 8px", opacity: 0.4 }} />
+                    <div>Chargement des articles...</div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

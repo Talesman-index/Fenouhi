@@ -1,1 +1,61 @@
-[]
+[
+  {
+    "id": "coque-iphone-15-pro-max-silicone",
+    "name": "Coque iPhone 15 Pro Max Silicone",
+    "slug": "coque-iphone-15-pro-max-silicone",
+    "short_description": "Coque de protection antichoc en silicone souple haute qualité",
+    "description": "Protection intégrale antichoc avec doublure microfibre douce, découpes ultra précises et boutons réactifs. Compatible charge sans fil MagSafe.",
+    "category_id": "c1000000-0000-0000-0000-000000000001",
+    "subcategory": "Accessoires & Coques",
+    "price": 3500,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 150,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Hub Asie & International",
+    "weight": 0.08,
+    "length": 16,
+    "width": 8,
+    "height": 1,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "5 - 15 jours (Aérien)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "category": {
+      "id": "c1000000-0000-0000-0000-000000000001",
+      "icon": "Smartphone",
+      "name": "High-Tech & Electronics",
+      "slug": "electronics",
+      "is_active": true
+    },
+    "images": [
+      {
+        "id": "img_case_1",
+        "product_id": "coque-iphone-15-pro-max-silicone",
+        "public_image_url": "/images/assets/iphone16_case_blue.png",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img_case_2",
+        "product_id": "coque-iphone-15-pro-max-silicone",
+        "public_image_url": "/images/assets/iphone16_case_black.png",
+        "position": 1,
+        "is_primary": false
+      },
+      {
+        "id": "img_case_3",
+        "product_id": "coque-iphone-15-pro-max-silicone",
+        "public_image_url": "/images/assets/iphone16_case_pink.png",
+        "position": 2,
+        "is_primary": false
+      }
+    ]
+  }
+]

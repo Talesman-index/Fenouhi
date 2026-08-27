@@ -183,6 +183,17 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
 
     let list = Array.from(productMap.values());
 
+    // Sort to ensure custom products appear at the top
+    list.sort((a, b) => {
+      const aIsCustom = a.id?.startsWith("custom_") || a.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === a.id);
+      const bIsCustom = b.id?.startsWith("custom_") || b.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === b.id);
+      if (aIsCustom && !bIsCustom) return -1;
+      if (!aIsCustom && bIsCustom) return 1;
+      const aTime = (a as any).updated_at ? new Date((a as any).updated_at).getTime() : ((a as any).created_at ? new Date((a as any).created_at).getTime() : 0);
+      const bTime = (b as any).updated_at ? new Date((b as any).updated_at).getTime() : ((b as any).created_at ? new Date((b as any).created_at).getTime() : 0);
+      return bTime - aTime;
+    });
+
     if (options.categorySlug && options.categorySlug !== "all") {
       const target = options.categorySlug.toLowerCase();
       list = list.filter((p) => {
@@ -193,6 +204,7 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
           catId === target ||
           catSlug === target ||
           catName === target ||
+          (target === "electronics" && (catSlug === "electronics" || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque"))) ||
           (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin")))
         );
       });
@@ -286,7 +298,8 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
         .eq("status", "active")
         .order("created_at", { ascending: false });
 
-      if (options.categorySlug && options.categorySlug !== "all") {
+      const isUUID = options.categorySlug && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(options.categorySlug);
+      if (isUUID && options.categorySlug !== "all") {
         query = query.eq("category_id", options.categorySlug);
       }
 
@@ -308,11 +321,25 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
       const bIsCustom = b.id?.startsWith("custom_") || b.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === b.id);
       if (aIsCustom && !bIsCustom) return -1;
       if (!aIsCustom && bIsCustom) return 1;
-      return 0;
+      const aTime = (a as any).updated_at ? new Date((a as any).updated_at).getTime() : ((a as any).created_at ? new Date((a as any).created_at).getTime() : 0);
+      const bTime = (b as any).updated_at ? new Date((b as any).updated_at).getTime() : ((b as any).created_at ? new Date((b as any).created_at).getTime() : 0);
+      return bTime - aTime;
     });
 
     if (options.categorySlug && options.categorySlug !== "all") {
-      list = list.filter((p) => p.category?.slug === options.categorySlug || p.category_id === options.categorySlug);
+      const target = options.categorySlug.toLowerCase();
+      list = list.filter((p) => {
+        const catId = (p.category_id || "").toLowerCase();
+        const catSlug = (p.category?.slug || "").toLowerCase();
+        const catName = (p.category?.name || "").toLowerCase();
+        return (
+          catId === target ||
+          catSlug === target ||
+          catName === target ||
+          (target === "electronics" && (catSlug === "electronics" || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque"))) ||
+          (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin")))
+        );
+      });
     }
 
     if (options.search && options.search.trim() !== "") {
