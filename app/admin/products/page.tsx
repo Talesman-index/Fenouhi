@@ -1105,8 +1105,13 @@ export default function ProductsManagementPage() {
                         type="number"
                         required
                         min={0}
-                        value={stockQuantity}
-                        onChange={(e) => setStockQuantity(Number(e.target.value))}
+                        placeholder="100"
+                        value={stockQuantity === 0 ? "" : stockQuantity}
+                        onFocus={(e) => { if (stockQuantity === 0) e.target.select(); }}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setStockQuantity(val === "" ? 0 : Number(val));
+                        }}
                         className="admin-input"
                       />
                     </div>
@@ -1116,8 +1121,13 @@ export default function ProductsManagementPage() {
                         type="number"
                         required
                         min={1}
-                        value={minimumOrderQuantity}
-                        onChange={(e) => setMinimumOrderQuantity(Number(e.target.value))}
+                        placeholder="1"
+                        value={minimumOrderQuantity === 0 ? "" : minimumOrderQuantity}
+                        onFocus={(e) => { if (minimumOrderQuantity === 0) e.target.select(); }}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setMinimumOrderQuantity(val === "" ? 0 : Number(val));
+                        }}
                         className="admin-input"
                       />
                     </div>
@@ -1166,8 +1176,13 @@ export default function ProductsManagementPage() {
                         type="number"
                         required
                         min={0}
-                        value={price}
-                        onChange={(e) => setPrice(Number(e.target.value))}
+                        placeholder="Ex: 15000"
+                        value={price === 0 ? "" : price}
+                        onFocus={(e) => { if (price === 0) e.target.select(); }}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setPrice(val === "" ? 0 : Number(val));
+                        }}
                         className="admin-input"
                         style={{ fontSize: 16, fontWeight: 700, color: "#0F172A" }}
                       />
@@ -1184,8 +1199,13 @@ export default function ProductsManagementPage() {
                           type="number"
                           min={0}
                           max={100}
-                          value={cargolinkMarginPercent}
-                          onChange={(e) => setCargolinkMarginPercent(Number(e.target.value))}
+                          placeholder="10"
+                          value={cargolinkMarginPercent === 0 ? "" : cargolinkMarginPercent}
+                          onFocus={(e) => { if (cargolinkMarginPercent === 0) e.target.select(); }}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setCargolinkMarginPercent(val === "" ? 0 : Number(val));
+                          }}
                           className="admin-input"
                           style={{ width: 90, fontWeight: 600 }}
                         />
@@ -1220,8 +1240,13 @@ export default function ProductsManagementPage() {
                       <input
                         type="number"
                         min={0}
-                        value={airFreightRatePerKg}
-                        onChange={(e) => setAirFreightRatePerKg(Number(e.target.value))}
+                        placeholder="2000"
+                        value={airFreightRatePerKg === 0 ? "" : airFreightRatePerKg}
+                        onFocus={(e) => { if (airFreightRatePerKg === 0) e.target.select(); }}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setAirFreightRatePerKg(val === "" ? 0 : Number(val));
+                        }}
                         className="admin-input"
                       />
                     </div>
@@ -1231,8 +1256,13 @@ export default function ProductsManagementPage() {
                       <input
                         type="number"
                         min={0}
-                        value={seaFreightRatePerCbm}
-                        onChange={(e) => setSeaFreightRatePerCbm(Number(e.target.value))}
+                        placeholder="2000"
+                        value={seaFreightRatePerCbm === 0 ? "" : seaFreightRatePerCbm}
+                        onFocus={(e) => { if (seaFreightRatePerCbm === 0) e.target.select(); }}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setSeaFreightRatePerCbm(val === "" ? 0 : Number(val));
+                        }}
                         className="admin-input"
                       />
                     </div>
