@@ -34,7 +34,54 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
-  // 0. PROJECTEUR LED RL-16 (NOUVEAU MODÈLE AVEC TRÉPIED ET SUPPORT TÉLÉPHONE)
+  // 0. PORTE VÊTEMENTS ET CHAUSSURES EN FER
+  {
+    id: "porte-vetements-chaussures-fer",
+    title: "Porte Vêtements et Chaussures en Fer",
+    subtitle: "Double penderie métallique avec étagère basse pour chaussures (150×110×57cm)",
+    price: 12000,
+    oldPrice: 22000,
+    minQty: 1,
+    image: "/images/assets/porte_vetements_chaussures_fer.png",
+    images: ["/images/assets/porte_vetements_chaussures_fer.png"],
+    category: "home",
+    badge: "TENDANCE",
+    origin: "Direct Usine Chine",
+    weight: "3.8 kg",
+    volume: "0.02 CBM",
+    rating: 4.9,
+    reviewsCount: 89,
+    conditionState: "Scellé",
+    grade: "Neuf en Carton",
+    description:
+      "Porte-vêtements double barre en structure métallique robuste et thermolaquée blanche. Équipé d'une double rangée pour cintres, de crochets latéraux pour sacs et chapeaux, et d'un plateau inférieur spacieux idéal pour ranger vos paires de chaussures et boîtes de rangement. Montage facile et rapide.",
+    features: [
+      "Dimensions : 150 cm (hauteur) × 110 cm (largeur) × 57 cm (profondeur)",
+      "Structure double tringle pour suspendre 2× plus de vêtements",
+      "Étagère basse intégrée pour chaussures, paniers et boîtes",
+      "Métal renforcé anti-rouille et finition laquée blanche élégante",
+      "Butées anti-glissement sur les barres pour maintenir les cintres",
+      "Montage et démontage ultra-rapide",
+    ],
+    specifications: [
+      { label: "Dimensions", value: "150 × 110 × 57 cm" },
+      { label: "Matériau", value: "Fer / Acier thermolaqué haute résistance" },
+      { label: "Configuration", value: "Double portant + étagère chaussures" },
+      { label: "Couleur", value: "Blanc épuré" },
+      { label: "Capacité de charge", value: "Jusqu'à 45 kg" },
+    ],
+    reviews: [
+      {
+        author: "Sandrine K.",
+        rating: 5,
+        comment: "Super pratique et solide ! Prend peu de place dans la chambre et permet de ranger plein de vêtements et chaussures.",
+        date: "28 Août 2026",
+      },
+    ],
+    related: ["projecteur-led-rl-16", "coque-iphone-15-pro-max-silicone"],
+  },
+
+  // 1. PROJECTEUR LED RL-16 (NOUVEAU MODÈLE AVEC TRÉPIED ET SUPPORT TÉLÉPHONE)
   {
     id: "projecteur-led-rl-16",
     title: "Projecteur Led RL-16",
