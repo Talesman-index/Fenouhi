@@ -135,10 +135,10 @@ function ProductDetailContent() {
   // Check if freight applies (fret > 0)
   const hasFreight = !isBeauty && (unitAirFreight > 0 || unitSeaFreight > 0 || (airRatePerKg > 0) || (seaRatePerCbm > 0));
 
-  // Margin / Service rate from product configuration
+  // Margin / Service rate from product configuration (5% standard Service & Contrôle Qualité Usine)
   const marginPercent = product.cargolink_margin_percent !== undefined && product.cargolink_margin_percent !== null
     ? Number(product.cargolink_margin_percent)
-    : (hasFreight ? 5 : 0);
+    : 5;
   const serviceRate = marginPercent / 100;
 
   // Pricing calculations
