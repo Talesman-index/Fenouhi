@@ -105,7 +105,7 @@ function ProductDetailContent() {
     : [getProductImageUrl(product)];
   const mainImage = productImages[activeImage] || productImages[0] || "/images/assets/hero_iphone16.png";
 
-  // Beauty product detection (no international freight charged, 10% quality control)
+  // Beauty product detection (no international freight charged)
   const isBeauty =
     product.category?.slug === "beauty" ||
     (product as any).category === "beauty" ||
@@ -120,29 +120,32 @@ function ProductDetailContent() {
     product.id?.includes("savon-papaye") ||
     product.id?.includes("vapeur");
 
+  // Freight rates per unit
+  const airRatePerKg = product.air_freight_rate_per_kg !== undefined && product.air_freight_rate_per_kg !== null
+    ? Number(product.air_freight_rate_per_kg)
+    : (isBeauty ? 0 : 0);
+  const seaRatePerCbm = product.sea_freight_rate_per_cbm !== undefined && product.sea_freight_rate_per_cbm !== null
+    ? Number(product.sea_freight_rate_per_cbm)
+    : 0;
+
+  const weightKg = Number(product.weight || 0);
+  const unitAirFreight = (isBeauty || airRatePerKg === 0) ? 0 : Math.round(weightKg * airRatePerKg);
+  const unitSeaFreight = (isBeauty || seaRatePerCbm === 0) ? 0 : Math.round(0.01 * seaRatePerCbm);
+
+  // Check if freight applies (fret > 0)
+  const hasFreight = !isBeauty && (unitAirFreight > 0 || unitSeaFreight > 0 || (airRatePerKg > 0) || (seaRatePerCbm > 0));
+
   // Margin / Service rate from product configuration
   const marginPercent = product.cargolink_margin_percent !== undefined && product.cargolink_margin_percent !== null
     ? Number(product.cargolink_margin_percent)
-    : (isBeauty ? 10 : 5);
+    : (hasFreight ? 5 : 0);
   const serviceRate = marginPercent / 100;
-
-  // Weight & Freight rates per unit
-  const weightKg = Number(product.weight || 0.5);
-  const airRatePerKg = product.air_freight_rate_per_kg !== undefined && product.air_freight_rate_per_kg !== null
-    ? Number(product.air_freight_rate_per_kg)
-    : (isBeauty ? 0 : 2000);
-  const seaRatePerCbm = product.sea_freight_rate_per_cbm !== undefined && product.sea_freight_rate_per_cbm !== null
-    ? Number(product.sea_freight_rate_per_cbm)
-    : 2000;
-
-  const unitAirFreight = isBeauty ? 0 : Math.round(weightKg * airRatePerKg);
-  const unitSeaFreight = isBeauty ? 0 : Math.round(0.01 * seaRatePerCbm);
 
   // Pricing calculations
   const unitPrice = Number(product.price) || 0;
   const productTotal = quantity * unitPrice;
   const serviceFee = Math.round(productTotal * serviceRate);
-  const shippingFee = isBeauty ? 0 : (shippingMode === "air" ? quantity * unitAirFreight : quantity * unitSeaFreight);
+  const shippingFee = hasFreight ? (shippingMode === "air" ? quantity * unitAirFreight : quantity * unitSeaFreight) : 0;
   const total = productTotal + serviceFee + shippingFee;
 
   const handleCopyLink = () => {
@@ -164,7 +167,7 @@ function ProductDetailContent() {
       image: mainImage,
       quantity: quantity,
       shippingMode: shippingMode,
-      deliveryRange: isBeauty ? "Contrôle Qualité & Livraison Directe" : (shippingMode === "air" ? "Express 5-12j (Cotonou)" : "Maritime 40-65j (Port Cotonou)"),
+      deliveryRange: hasFreight ? (shippingMode === "air" ? "Express 5-12j (Cotonou)" : "Maritime 40-65j (Port Cotonou)") : "Livraison Directe Cotonou",
     });
     setAddedToast(true);
     setTimeout(() => setAddedToast(false), 4000);
@@ -175,7 +178,7 @@ function ProductDetailContent() {
   const TABS: { id: TabId; label: string }[] = [
     { id: "description", label: "Description Détaillée" },
     { id: "specs", label: "Fiche Technique & Colisage" },
-    { id: "shipping", label: "Logistique Chine ➔ Bénin" },
+    ...(hasFreight ? [{ id: "shipping" as TabId, label: "Logistique Chine ➔ Bénin" }] : []),
     { id: "reviews", label: "Avis Clients Vérifiés (5.0)" },
   ];
 
@@ -555,8 +558,8 @@ function ProductDetailContent() {
               </div>
             </div>
 
-            {/* SHIPPING MODE SELECTOR (Uniquement pour articles hors beauté / fret international requis) */}
-            {!isBeauty && (
+            {/* SHIPPING MODE SELECTOR (Uniquement pour articles avec fret international requis) */}
+            {hasFreight && (
               <div>
                 <label style={{ display: "block", fontSize: 11.5, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
                   Mode de Transit Chine ➔ Bénin :
@@ -614,7 +617,7 @@ function ProductDetailContent() {
               }}
             >
               <div style={{ fontSize: 12, fontWeight: 600, color: "#0F172A", textTransform: "uppercase", marginBottom: 2 }}>
-                Estimation Transparente ({isBeauty ? "Tout Compris • Sans Fret" : "Tout Compris"})
+                Estimation {hasFreight ? "Transparente (Tout Compris)" : "Directe (Sans Fret)"}
               </div>
 
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
@@ -622,12 +625,14 @@ function ProductDetailContent() {
                 <strong style={{ color: "#0F172A" }}>{formatPrice(productTotal)}</strong>
               </div>
 
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
-                <span>Service & Contrôle Qualité Usine ({marginPercent}%)</span>
-                <strong style={{ color: "#0F172A" }}>{formatPrice(serviceFee)}</strong>
-              </div>
+              {serviceFee > 0 && (
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
+                  <span>Service & Contrôle Qualité Usine ({marginPercent}%)</span>
+                  <strong style={{ color: "#0F172A" }}>{formatPrice(serviceFee)}</strong>
+                </div>
+              )}
 
-              {!isBeauty ? (
+              {hasFreight && (
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
                   <span>Fret international ({shippingMode === "air" ? "Aérien Express" : "Maritime Groupé"})</span>
                   {shippingFee === 0 ? (
@@ -636,22 +641,17 @@ function ProductDetailContent() {
                     <strong style={{ color: "#0284C7" }}>{formatPrice(shippingFee)}</strong>
                   )}
                 </div>
-              ) : (
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#16A34A", fontWeight: 600 }}>
-                  <span>Fret International Aérien</span>
-                  <span style={{ color: "#16A34A" }}>Offert (0 FCFA)</span>
-                </div>
               )}
 
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#16A34A", fontWeight: 700 }}>
-                <span>Dédouanement Cotonou</span>
-                <span>Inclus (0 frais caché)</span>
+                <span>{hasFreight ? "Dédouanement Cotonou" : "Frais de Fret & Logistique"}</span>
+                <span>{hasFreight ? "Inclus (0 frais caché)" : "Non facturé (0 FCFA)"}</span>
               </div>
 
               <div style={{ height: 1, background: "#E2E8F0", margin: "4px 0" }} />
 
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontSize: 14.5, fontWeight: 700, color: "#0F172A" }}>Total Estimé TTC</span>
+                <span style={{ fontSize: 14.5, fontWeight: 700, color: "#0F172A" }}>Total TTC</span>
                 <span style={{ fontSize: 22, fontWeight: 700, color: "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
                   {formatPrice(total)}
                 </span>
