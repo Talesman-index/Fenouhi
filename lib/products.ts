@@ -34,7 +34,54 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
-  // 0. MACHINE À LAVER PLIABLE 9L
+  // 0. LAMPE LUMINEUSE D'ANGLE RGB
+  {
+    id: "lampe-lumineuse-d-angle",
+    title: "Lampe Lumineuse d'Angle",
+    subtitle: "Lampadaire d'angle design multicolore avec télécommande & contrôle smartphone (Minuterie & Ambiance)",
+    price: 6000,
+    oldPrice: 12000,
+    minQty: 1,
+    image: "/images/assets/lampe_lumineuse_d_angle.jpg",
+    images: ["/images/assets/lampe_lumineuse_d_angle.jpg"],
+    category: "home",
+    badge: "TENDANCE",
+    origin: "Direct Usine Chine",
+    weight: "0.95 kg",
+    volume: "0.004 CBM",
+    rating: 4.9,
+    reviewsCount: 178,
+    conditionState: "Scellé",
+    grade: "Neuf en Boîte",
+    description:
+      "Transformez votre intérieur en un espace chaleureux et stylé grâce à cette lampe d’angle design. Compacte, elle se glisse parfaitement dans n’importe quel coin de votre salon, chambre ou bureau pour créer une lumière douce, colorée et apaisante. Avec ses multiples couleurs, ses effets lumineux et sa télécommande, vous pouvez changer l’ambiance selon votre humeur : soirée détente, ambiance romantique ou décoration festive… tout est possible !",
+    features: [
+      "Design d'angle ultra-fin et minimaliste : s'intègre discrètement dans chaque coin",
+      "Plus de 16 millions de couleurs RGB + Blanc chaud / Blanc froid réglables",
+      "Double contrôle : Télécommande sans fil et Application mobile Bluetooth",
+      "Mode synchronisation musicale et effets d'ambiance dynamiques",
+      "Fonction minuterie programmable pour allumage et extinction automatiques",
+      "Alimentation USB / Secteur basse consommation",
+    ],
+    specifications: [
+      { label: "Modèle", value: "Smart RGB Floor Lamp" },
+      { label: "Contrôle", value: "Télécommande IR + App Smartphone" },
+      { label: "Palette de couleurs", value: "16 Millions de couleurs RGB + Blancs" },
+      { label: "Alimentation", value: "Câble USB + adaptateur secteur inclus" },
+      { label: "Structure", value: "Trépied stable aluminium et diffuseur acrylique" },
+    ],
+    reviews: [
+      {
+        author: "David E.",
+        rating: 5,
+        comment: "Effet wow garanti dans le salon ! Les ambiances de couleurs le soir sont magiques et l'appli fonctionne super bien.",
+        date: "28 Août 2026",
+      },
+    ],
+    related: ["bande-lumineuse-led-neon", "machine-a-laver-pliable-9l"],
+  },
+
+  // 1. MACHINE À LAVER PLIABLE 9L
   {
     id: "machine-a-laver-pliable-9l",
     title: "Machine à Laver Pliable 9L",
