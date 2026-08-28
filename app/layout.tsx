@@ -31,9 +31,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Fenouhi — Plateforme d'Achat et d'Expédition Chine → Afrique",
+  metadataBase: new URL("https://fenouhimin.vercel.app"),
+  title: "FENOUHI — Shopping Tendance & Direct Usine Chine",
   description:
-    "Achetez en Chine et faites-vous livrer en Afrique. Devis transparents, Fret Aérien & Maritime, Suivi logistique et Mobile Money.",
+    "Découvrez l'univers Fenouhi pour la mode, la maison, la beauté et le lifestyle. Tout en un seul endroit aux tarifs direct usine avec livraison rapide.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
@@ -55,16 +56,17 @@ export const metadata: Metadata = {
     apple: [{ url: "/icons/apple-touch-icon.png?v=3", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
-    title: "FENOUHI — Sourcing Direct Usines Chine & iPhones Certifiés",
-    description: "Offres Exclusives Jusqu'à -50% de réduction ! iPhones certifiés, produits usines direct grossistes et livraison express Cotonou & Bénin.",
-    url: "https://fenouhi.com",
-    siteName: "FENOUHI",
+    title: "FENOUHI — Shopping Tendance | Tout en un seul endroit",
+    description:
+      "Découvrez l'univers Fenouhi pour la mode, la maison, la beauté et le lifestyle. Tarifs direct usine et livraison rapide.",
+    url: "https://fenouhimin.vercel.app",
+    siteName: "Fenouhi",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/og-image.jpg?v=2",
         width: 1200,
         height: 630,
-        alt: "FENOUHI - Offres Exclusives -50% Sourcing Chine & iPhones Certifiés",
+        alt: "FENOUHI - Shopping Tendance, Mode, Maison, Beauté et Lifestyle",
       },
     ],
     locale: "fr_FR",
@@ -72,9 +74,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "FENOUHI — Offres Exclusives & Sourcing Direct Usines",
-    description: "Jusqu'à -50% de réduction sur iPhones certifiés et produits usines direct grossistes.",
-    images: ["/og-image.jpg"],
+    title: "FENOUHI — Shopping Tendance | Tout en un seul endroit",
+    description:
+      "Découvrez l'univers Fenouhi pour la mode, la maison, la beauté et le lifestyle. Tarifs direct usine et livraison rapide.",
+    images: ["/og-image.jpg?v=2"],
   },
   other: {
     "mobile-web-app-capable": "yes",
