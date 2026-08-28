@@ -34,7 +34,54 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
-  // 0. COQUE IPHONE 15 PRO MAX (Accessoire Nouveauté)
+  // 0. PROJECTEUR LED RL-16 (NOUVEAU MODÈLE AVEC TRÉPIED ET SUPPORT TÉLÉPHONE)
+  {
+    id: "projecteur-led-rl-16",
+    title: "Projecteur Led RL-16",
+    subtitle: "Panneau d'éclairage LED professionnel avec trépied de sol et support téléphone",
+    price: 8000,
+    oldPrice: 15000,
+    minQty: 1,
+    image: "/images/assets/projecteur_led_rl16.png",
+    images: ["/images/assets/projecteur_led_rl16.png"],
+    category: "electronics",
+    badge: "NOUVEAUTÉ",
+    origin: "Direct Usine Chine",
+    weight: "1.2 kg",
+    volume: "0.006 CBM",
+    rating: 4.9,
+    reviewsCount: 148,
+    conditionState: "Scellé",
+    grade: "Neuf en Boîte",
+    description:
+      "Projecteur lumière LED RL-16 nouveau modèle spécialement conçu pour les créateurs de contenu, le live streaming, les séances photo et vidéos TikTok / YouTube. Livré complet avec trépied de sol métallique robuste réglable en hauteur, télécommande sans fil multi-fonctions (réglage d'intensité et de température de couleur chaud/froid) et support flexible pour smartphone.",
+    features: [
+      "Panneau LED RL-16 haute puissance et lumière ultra-douce",
+      "Inclus : Grand trépied de sol réglable en hauteur",
+      "Inclus : Support rotatif et flexible pour smartphone",
+      "Télécommande sans fil pour contrôle à distance",
+      "3 modes de température de couleur (blanc froid, chaud, neutre)",
+      "Branchement secteur direct pour utilisation prolongée",
+    ],
+    specifications: [
+      { label: "Modèle", value: "RL-16 Nouveau Modèle" },
+      { label: "Type d'éclairage", value: "Panneau LED Studio & Vidéo" },
+      { label: "Accessoires inclus", value: "Trépied + Télécommande + Support Téléphone" },
+      { label: "Alimentation", value: "Secteur 220V" },
+      { label: "État", value: "Neuf Scellé d'origine" },
+    ],
+    reviews: [
+      {
+        author: "Grâce A.",
+        rating: 5,
+        comment: "Excellente luminosité pour mes lives TikTok et shooting produits. Le trépied est très stable et la télécommande super pratique !",
+        date: "28 Août 2026",
+      },
+    ],
+    related: ["coque-iphone-15-pro-max-silicone", "iphone-15"],
+  },
+
+  // 1. COQUE IPHONE 15 PRO MAX (Accessoire Nouveauté)
   {
     id: "coque-iphone-15-pro-max-silicone",
     title: "Coque iPhone 15 Pro Max Silicone",
