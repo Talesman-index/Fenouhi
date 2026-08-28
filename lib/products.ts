@@ -34,7 +34,54 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
-  // 0. PORTE MANTEAU ET HABIT EN FER AVEC ROULETTES (GRAND MODÈLE)
+  // 0. GOURDE ISOTHERME MOOD THE CUP (1L)
+  {
+    id: "gourde-isotherme-mood-the-cup",
+    title: "Gourde Isotherme Mood The Cup (1L)",
+    subtitle: "Thermos inox double paroi avec paille et poignée ergonomique (Chaud & Froid 24h)",
+    price: 4000,
+    oldPrice: 8000,
+    minQty: 1,
+    image: "/images/assets/gourde_isotherme_mood_the_cup.jpg",
+    images: ["/images/assets/gourde_isotherme_mood_the_cup.jpg"],
+    category: "home",
+    badge: "MEILLEURE VENTE",
+    origin: "Direct Usine Chine",
+    weight: "0.45 kg",
+    volume: "0.002 CBM",
+    rating: 4.9,
+    reviewsCount: 196,
+    conditionState: "Scellé",
+    grade: "Neuf en Boîte",
+    description:
+      "Gourde isotherme grande capacité de 1 Litre (1000ml) modèle Mood The Cup en acier inoxydable double paroi sous vide. Conserve parfaitement vos boissons chaudes jusqu'à 12 heures et vos boissons glacées jusqu'à 24 heures. Dotée d'un couvercle hermétique 2-en-1 avec paille réutilisable en silicone, bouchon antifuite et poignée ergonomique renforcée pour un transport aisé au quotidien, au bureau ou au sport.",
+    features: [
+      "Grande contenance de 1 Litre (1000 ml)",
+      "Isolation thermique double paroi sous vide (Chaud 12h / Froid 24h)",
+      "Acier inoxydable alimentaire 304 sans BPA, sain et inodore",
+      "Couvercle hermétique anti-fuite avec paille intégrée",
+      "Poignée ergonomique confortable et solide",
+      "Compatible avec les porte-gobelets de voiture",
+    ],
+    specifications: [
+      { label: "Contenance", value: "1 Litre (1000 ml)" },
+      { label: "Matériau", value: "Acier Inoxydable 304 sans BPA" },
+      { label: "Performance thermique", value: "Froid 24h / Chaud 12h" },
+      { label: "Finition", value: "Revêtement mat poudré" },
+      { label: "Accessoires inclus", value: "Paille silicone + Couvercle antifuite" },
+    ],
+    reviews: [
+      {
+        author: "Fadila T.",
+        rating: 5,
+        comment: "Incroyable ! L'eau reste fraîche toute la journée sous le soleil de Cotonou. Les couleurs sont magnifiques.",
+        date: "28 Août 2026",
+      },
+    ],
+    related: ["porte-manteau-roulettes-grand", "porte-vetements-chaussures-fer"],
+  },
+
+  // 1. PORTE MANTEAU ET HABIT EN FER AVEC ROULETTES (GRAND MODÈLE)
   {
     id: "porte-manteau-roulettes-grand",
     title: "Porte Manteau et Habit en Fer avec Roulettes",
