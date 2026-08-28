@@ -34,7 +34,54 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
-  // 0. GOURDE ISOTHERME MOOD THE CUP (1L)
+  // 0. BANDE LUMINEUSE LED NÉON DÉCORATIVE (5M & 10M)
+  {
+    id: "bande-lumineuse-led-neon",
+    title: "Bande Lumineuse LED Néon Décorative",
+    subtitle: "Ruban flexible LED néon étanche avec télécommande sans fil (5m : 6 000 F / 10m : 10 000 F)",
+    price: 6000,
+    oldPrice: 12000,
+    minQty: 1,
+    image: "/images/assets/bande_lumineuse_led_neon.png",
+    images: ["/images/assets/bande_lumineuse_led_neon.png"],
+    category: "home",
+    badge: "NOUVEAUTÉ",
+    origin: "Direct Usine Chine",
+    weight: "0.35 kg",
+    volume: "0.002 CBM",
+    rating: 4.9,
+    reviewsCount: 164,
+    conditionState: "Scellé",
+    grade: "Neuf en Boîte",
+    description:
+      "Bande lumineuse LED Néon flexible haute luminosité pour décoration intérieure, chambre, salon, setup gaming, bars et devantures. Éclairage uniforme et continu sans points LED visibles grâce à sa gaine en silicone souple étanche (IP67). Livrée avec son boîtier d'alimentation, ses clips de fixation murale et sa télécommande sans fil permettant de changer les couleurs, l'intensité et les modes d'éclairage dynamiques. Disponible en formats 5 mètres (6 000 FCFA) et 10 mètres (10 000 FCFA).",
+    features: [
+      "Disponible en 5 mètres (6 000 FCFA) et 10 mètres (10 000 FCFA)",
+      "Diffusion lumineuse uniforme sans points apparents (effet néon continu)",
+      "Silicone souple flexible pouvant former des lettres ou des formes",
+      "Télécommande sans fil multi-fonctions incluse",
+      "Étanchéité IP67 résistante aux éclaboussures",
+      "Clips de fixation et alimentation secteur inclus",
+    ],
+    specifications: [
+      { label: "Longueurs disponibles", value: "5m (6 000 FCFA) / 10m (10 000 FCFA)" },
+      { label: "Type d'éclairage", value: "Néon Flex Silicone Haute Densité" },
+      { label: "Contrôle", value: "Télécommande sans fil RF incluse" },
+      { label: "Indice de protection", value: "Étanche IP67" },
+      { label: "Alimentation", value: "Adaptateur secteur inclus" },
+    ],
+    reviews: [
+      {
+        author: "Kevin D.",
+        rating: 5,
+        comment: "L'effet néon continu est magnifique dans ma chambre ! Rien à voir avec les vieux rubans à points. Très facile à installer.",
+        date: "28 Août 2026",
+      },
+    ],
+    related: ["gourde-isotherme-mood-the-cup", "projecteur-led-rl-16"],
+  },
+
+  // 1. GOURDE ISOTHERME MOOD THE CUP (1L)
   {
     id: "gourde-isotherme-mood-the-cup",
     title: "Gourde Isotherme Mood The Cup (1L)",
