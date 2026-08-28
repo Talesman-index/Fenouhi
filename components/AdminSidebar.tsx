@@ -72,35 +72,94 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
     : "ADM";
 
   return (
-    <aside className="admin-sidebar-container card" style={{ padding: 18, height: "calc(100vh - 90px)", position: "sticky", top: 80, overflowY: "auto" }}>
+    <div
+      className="admin-sidebar-container"
+      style={{
+        background: "#FFFFFF",
+        borderRadius: 16,
+        border: "1px solid #E2E8F0",
+        boxShadow: "0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04)",
+        padding: "16px 12px",
+        maxHeight: "calc(100vh - 100px)",
+        position: "sticky",
+        top: 80,
+        overflowY: "auto",
+        boxSizing: "border-box",
+        width: "100%",
+      }}
+    >
       {/* MOBILE CLOSE HEADER */}
       {onCloseMobile && (
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, paddingBottom: 12, borderBottom: "1px solid var(--border-light)" }}>
-          <span style={{ fontWeight: 700, fontSize: 16, color: "var(--navy-dark)" }}>Menu Administrateur</span>
-          <button onClick={onCloseMobile} style={{ background: "transparent", border: "none", cursor: "pointer", padding: 4 }}>
-            <X style={{ width: 20 }} />
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, paddingBottom: 10, borderBottom: "1px solid #F1F5F9" }}>
+          <span style={{ fontWeight: 700, fontSize: 15, color: "#0F172A" }}>Menu Administrateur</span>
+          <button onClick={onCloseMobile} style={{ background: "transparent", border: "none", cursor: "pointer", padding: 4, color: "#64748B" }}>
+            <X style={{ width: 20, height: 20 }} />
           </button>
         </div>
       )}
 
       {/* USER PROFILE SUMMARY CARD */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, paddingBottom: 14, borderBottom: "1px solid var(--border-light)" }}>
-        <div style={{ width: 42, height: 42, borderRadius: "50%", background: "var(--orange-primary)", color: "#FFF", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 15, flexShrink: 0 }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          marginBottom: 14,
+          padding: "10px 12px",
+          background: "#F8FAFC",
+          borderRadius: 12,
+          border: "1px solid #F1F5F9",
+        }}
+      >
+        <div
+          style={{
+            width: 38,
+            height: 38,
+            borderRadius: "50%",
+            background: "#165491",
+            color: "#FFFFFF",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 800,
+            fontSize: 14,
+            flexShrink: 0,
+          }}
+        >
           {initials}
         </div>
-        <div style={{ overflow: "hidden" }}>
-          <div style={{ fontWeight: 600, color: "var(--navy-dark)", fontSize: 14, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+        <div style={{ overflow: "hidden", minWidth: 0, flex: 1 }}>
+          <div
+            style={{
+              fontWeight: 700,
+              color: "#0F172A",
+              fontSize: 13.5,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
             {profile ? `${profile.first_name} ${profile.last_name}` : "Admin Logistique"}
           </div>
-          <div style={{ fontSize: 11, color: "var(--blue-primary)", fontWeight: 600, display: "flex", alignItems: "center", gap: 4, marginTop: 1 }}>
-            <ShieldCheck style={{ width: 13 }} /> {profile?.role || "admin"}
+          <div
+            style={{
+              fontSize: 11,
+              color: "#0284C7",
+              fontWeight: 700,
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              marginTop: 1,
+            }}
+          >
+            <ShieldCheck style={{ width: 13, height: 13 }} /> {profile?.role || "admin"}
           </div>
         </div>
       </div>
 
       {/* NAVIGATION LINKS */}
       <nav>
-        <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
+        <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 3 }}>
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = item.href === "/admin" 
@@ -116,24 +175,32 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
                     display: "flex",
                     alignItems: "center",
                     gap: 10,
-                    padding: "9px 12px",
-                    borderRadius: "var(--radius-sm)",
+                    padding: "8px 12px",
+                    borderRadius: 10,
                     textDecoration: "none",
-                    fontSize: 13.5,
-                    fontWeight: isActive ? 800 : 600,
-                    background: isActive ? "var(--blue-light)" : "transparent",
-                    color: isActive ? "var(--blue-primary)" : "var(--navy-dark)",
-                    transition: "all 0.15s ease"
+                    fontSize: 13,
+                    fontWeight: isActive ? 700 : 500,
+                    background: isActive ? "#EFF6FF" : "transparent",
+                    color: isActive ? "#165491" : "#475569",
+                    border: isActive ? "1px solid #BFDBFE" : "1px solid transparent",
+                    transition: "all 0.15s ease",
                   }}
                 >
-                  <Icon style={{ width: 18, height: 18, flexShrink: 0, color: isActive ? "var(--blue-primary)" : "var(--text-muted)" }} />
+                  <Icon
+                    style={{
+                      width: 17,
+                      height: 17,
+                      flexShrink: 0,
+                      color: isActive ? "#165491" : "#94A3B8",
+                    }}
+                  />
                   <span>{item.label}</span>
                 </Link>
               </li>
             );
           })}
 
-          <li style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--border-light)" }}>
+          <li style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid #F1F5F9" }}>
             <Link
               href="/catalog"
               onClick={onCloseMobile}
@@ -141,19 +208,19 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
                 display: "flex",
                 alignItems: "center",
                 gap: 10,
-                padding: "9px 12px",
-                borderRadius: "var(--radius-sm)",
+                padding: "8px 12px",
+                borderRadius: 10,
                 textDecoration: "none",
-                fontSize: 13.5,
+                fontSize: 13,
                 fontWeight: 700,
                 background: "rgba(249, 115, 22, 0.08)",
-                color: "var(--orange-primary)",
+                color: "#EA580C",
                 border: "1px solid rgba(249, 115, 22, 0.2)",
                 marginBottom: 6,
-                transition: "all 0.15s ease"
+                transition: "all 0.15s ease",
               }}
             >
-              <ShoppingBag style={{ width: 18, height: 18 }} />
+              <ShoppingBag style={{ width: 17, height: 17 }} />
               <span>Voir la Boutique</span>
             </Link>
 
@@ -162,24 +229,24 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
               style={{
                 width: "100%",
                 textAlign: "left",
-                padding: "9px 12px",
-                borderRadius: "var(--radius-sm)",
-                border: "none",
+                padding: "8px 12px",
+                borderRadius: 10,
+                border: "1px solid #FEE2E2",
                 background: "#FEF2F2",
-                color: "#991B1B",
+                color: "#DC2626",
                 fontWeight: 600,
-                fontSize: 13.5,
+                fontSize: 13,
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
-                gap: 10
+                gap: 10,
               }}
             >
-              <LogOut style={{ width: 18 }} /> Déconnexion
+              <LogOut style={{ width: 17, height: 17 }} /> Déconnexion
             </button>
           </li>
         </ul>
       </nav>
-    </aside>
+    </div>
   );
 }

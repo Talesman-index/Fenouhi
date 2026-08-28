@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import LogoMark from "@/components/LogoMark";
 
 interface LogoProps {
   size?: number;
@@ -24,56 +25,53 @@ export default function Logo({
   className = "",
   onClick,
 }: LogoProps) {
+  const textColor = light ? "#FFFFFF" : "#0D2B4D";
+  const subColor = light ? "#A5D2EB" : "#7CB6D9";
+  const dotColor = light ? "#A5D2EB" : "#7CB6D9";
+
   const logoContent = (
     <div
       className={`brand-logo ${className}`}
       style={{
         display: "inline-flex",
         alignItems: "center",
-        gap: size > 34 ? 10 : 8,
+        gap: size > 34 ? 11 : 9,
         textDecoration: "none",
         cursor: href || onClick ? "pointer" : "default",
+        userSelect: "none",
       }}
       onClick={onClick}
     >
-      <img
-        src="/icons/icon-192x192.png"
-        alt="FENOUHIMIN PWA App Icon"
-        className="logo-img"
-        style={{
-          width: size,
-          height: size,
-          borderRadius: Math.round(size * 0.24),
-          objectFit: "cover",
-          flexShrink: 0,
-          display: "block",
-          boxShadow: light ? "0 2px 8px rgba(0,0,0,0.3)" : "none",
-        }}
-      />
+      <LogoMark size={size} light={light} />
 
       {showText && (
         <div className="logo-text-wrap" style={{ display: "flex", flexDirection: "column" }}>
           <span
             className="logo-text-main"
             style={{
-              fontSize: size * 0.55,
-              fontWeight: 700,
-              color: light ? "#FFFFFF" : "#0F172A",
+              fontSize: Math.round(size * 0.62),
+              fontWeight: 800,
+              color: textColor,
               lineHeight: 1,
-              letterSpacing: "-0.5px",
+              letterSpacing: "-0.03em",
+              fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif",
+              display: "inline-flex",
+              alignItems: "baseline",
             }}
           >
-            FENOUHIMIN
+            Fenouh<span style={{ color: dotColor }}>i</span>
           </span>
           {showSubtitle && (
             <span
               className="logo-text-sub"
               style={{
                 fontSize: Math.max(7.5, size * 0.22),
-                fontWeight: 600,
-                color: light ? "#38BDF8" : "#165491",
-                letterSpacing: "0.5px",
-                marginTop: 3,
+                fontWeight: 700,
+                color: subColor,
+                letterSpacing: "0.06em",
+                marginTop: 3.5,
+                textTransform: "uppercase",
+                fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
               }}
             >
               {subtitleText}
@@ -94,3 +92,4 @@ export default function Logo({
 
   return logoContent;
 }
+

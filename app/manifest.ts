@@ -2,44 +2,44 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Fenouhimin — Logistique Chine-Afrique",
-    short_name: "Fenouhimin",
+    name: "Fenouhi — Logistique Chine-Afrique",
+    short_name: "Fenouhi",
     description:
       "Achetez en Chine, livraison en Afrique. Fret aérien & maritime, devis transparents, Mobile Money.",
     start_url: "/",
     display: "standalone",
-    background_color: "#0F172A",
-    theme_color: "#165491",
+    background_color: "#FFFFFF",
+    theme_color: "#0D2B4D",
     orientation: "portrait-primary",
     categories: ["shopping", "logistics", "business"],
     lang: "fr",
     icons: [
       {
-        src: "/icons/icon-96x96.png",
+        src: "/icons/icon-96x96.png?v=3",
         sizes: "96x96",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icons/icon-192x192.png",
+        src: "/icons/icon-192x192.png?v=3",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icons/icon-512x512.png",
+        src: "/icons/icon-512x512.png?v=3",
         sizes: "512x512",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icons/icon-maskable-192x192.png",
+        src: "/icons/icon-maskable-192x192.png?v=3",
         sizes: "192x192",
         type: "image/png",
         purpose: "maskable",
       },
       {
-        src: "/icons/icon-maskable-512x512.png",
+        src: "/icons/icon-maskable-512x512.png?v=3",
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",

@@ -137,62 +137,35 @@ export default function Header() {
 
   return (
     <>
-      {/* MAIN NAVIGATION HEADER (SPACIOUS 14PX VERTICAL PADDING) */}
-      <header className="main-header" style={{ background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", padding: "14px 0", position: "sticky", top: 0, zIndex: 500 }}>
-        <div className="container">
+      {/* MAIN NAVIGATION HEADER (EXPANDED HEIGHT & LUXURY SPACING) */}
+      <header className="main-header" style={{ background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", padding: "18px 0", minHeight: 76, position: "sticky", top: 0, zIndex: 500, display: "flex", alignItems: "center" }}>
+        <div className="container" style={{ width: "100%" }}>
           
-          {/* TOP ROW: LOGO, SEARCH (DESKTOP) & ACTIONS */}
+          {/* TOP ROW: LOGO, QUICK ACTIONS & PROFILE */}
           <div className="header-top-row">
             
             {/* LOGO & HAMBURGER */}
-            <div className="header-logo-wrap">
-              <button className="mobile-menu-btn" onClick={toggleDrawer} aria-label="Menu Mobile">
-                <Menu style={{ width: 24, height: 24, color: "#0F172A" }} />
+            <div className="header-logo-wrap" style={{ gap: 14 }}>
+              <button className="mobile-menu-btn" onClick={toggleDrawer} aria-label="Menu Mobile" style={{ padding: 8 }}>
+                <Menu style={{ width: 26, height: 26, color: "#0F172A" }} />
               </button>
               
-              <Logo href="/" size={38} />
+              <Logo href="/" size={42} />
             </div>
 
-            {/* SEARCH BAR (DESKTOP ONLY - HIDDEN ON MOBILE/TABLET STRICTLY) */}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSearch();
-              }}
-              className="header-search-bar desktop-only"
-            >
-              <Search style={{ width: 16, height: 16, color: "#94A3B8", marginRight: 8, flexShrink: 0 }} />
-              <input 
-                type="text" 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Rechercher un produit ou une usine en Chine..." 
-                className="clean-search-input"
-                style={{ flex: 1, border: "none", background: "transparent", outline: "none", boxShadow: "none", fontSize: 13, fontWeight: 600, color: "#0F172A" }}
-              />
-              <button
-                type="submit"
-                className="search-submit-btn" 
-                aria-label="Rechercher" 
-                style={{ width: 34, height: 34, background: "#0F172A", color: "#FFF", borderRadius: "50%", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
-              >
-                <Search style={{ width: 14 }} />
-              </button>
-            </form>
-
-            {/* RIGHT CONTROLS (ONLY DEVIS GRATUIT ON MOBILE) */}
-            <div className="header-right-actions">
+            {/* RIGHT CONTROLS */}
+            <div className="header-right-actions" style={{ gap: 16 }}>
               
               {/* LOCATION PICKER (DESKTOP ONLY) */}
-              <div className="desktop-only" style={{ alignItems: "center", gap: 6, fontSize: 12, color: "#475569", cursor: "pointer" }}>
-                <MapPin style={{ width: 15, color: "#0F172A" }} />
+              <div className="desktop-only" style={{ alignItems: "center", gap: 8, fontSize: 12.5, color: "#475569", cursor: "pointer", marginRight: 6 }}>
+                <MapPin style={{ width: 17, height: 17, color: "#102A56" }} />
                 <div>
-                  <div style={{ fontSize: 9, color: "#94A3B8" }}>Livraison au Bénin</div>
-                  <div style={{ fontWeight: 600, color: "#0F172A" }}>Cotonou & Régions</div>
+                  <div style={{ fontSize: 9.5, color: "#94A3B8", fontWeight: 600 }}>Livraison au Bénin</div>
+                  <div style={{ fontWeight: 700, color: "#0A192F" }}>Cotonou & Régions</div>
                 </div>
               </div>
 
-              {/* FAVORITES BUTTON (NEW) */}
+              {/* FAVORITES BUTTON */}
               <Link 
                 href="/favorites" 
                 title="Mes Favoris"
@@ -200,20 +173,22 @@ export default function Header() {
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: 38,
-                  height: 38,
+                  width: 42,
+                  height: 42,
                   borderRadius: "50%",
                   background: "#F8FAFC",
                   border: "1px solid #E2E8F0",
                   color: "#DC2626",
                   textDecoration: "none",
-                  position: "relative"
+                  position: "relative",
+                  boxShadow: "0 2px 8px rgba(10, 25, 47, 0.03)",
+                  transition: "transform 0.15s ease",
                 }}
               >
-                <Heart style={{ width: 17, height: 17, fill: "#DC2626" }} />
+                <Heart style={{ width: 19, height: 19, fill: "#DC2626" }} />
               </Link>
 
-              {/* CART QUICK ACCESS (NEW) */}
+              {/* CART QUICK ACCESS */}
               <Link 
                 href="/cart" 
                 title="Mon Panier"
@@ -221,16 +196,18 @@ export default function Header() {
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: 38,
-                  height: 38,
+                  width: 42,
+                  height: 42,
                   borderRadius: "50%",
-                  background: "#0F172A",
+                  background: "#102A56",
                   color: "#FFF",
                   textDecoration: "none",
-                  position: "relative"
+                  position: "relative",
+                  boxShadow: "0 4px 12px rgba(16, 42, 86, 0.25)",
+                  transition: "transform 0.15s ease",
                 }}
               >
-                <ShoppingBag style={{ width: 16, height: 16 }} />
+                <ShoppingBag style={{ width: 18, height: 18 }} />
                 {totalCartItems > 0 && (
                   <span
                     style={{
@@ -239,16 +216,16 @@ export default function Header() {
                       right: -4,
                       background: "#DC2626",
                       color: "#FFF",
-                      fontSize: 9.5,
-                      fontWeight: 700,
-                      minWidth: 16,
-                      height: 16,
+                      fontSize: 10,
+                      fontWeight: 800,
+                      minWidth: 18,
+                      height: 18,
                       borderRadius: "50%",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      padding: "0 2px",
-                      boxShadow: "0 0 0 1.5px #FFFFFF"
+                      padding: "0 3px",
+                      boxShadow: "0 0 0 2px #FFFFFF"
                     }}
                   >
                     {totalCartItems}
@@ -288,150 +265,70 @@ export default function Header() {
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="btn btn-pill-sm"
-                    title="Se déconnecter"
-                    style={{ background: "rgba(220, 38, 38, 0.08)", color: "#DC2626", border: "1px solid rgba(220, 38, 38, 0.2)", padding: "8px 14px", fontSize: 12.5, fontWeight: 600, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 5, cursor: "pointer" }}
+                    title="Déconnexion"
+                    style={{
+                      background: "rgba(220, 38, 38, 0.08)",
+                      color: "#DC2626",
+                      border: "1px solid rgba(220, 38, 38, 0.2)",
+                      padding: "8px 14px",
+                      fontSize: 12.5,
+                      fontWeight: 600,
+                      borderRadius: 9999,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 5,
+                      cursor: "pointer"
+                    }}
                   >
-                    <LogOut style={{ width: 14 }} /> <span>Déconnexion</span>
+                    <LogOut style={{ width: 14 }} />
+                    <span>Déconnexion</span>
                   </button>
                 </div>
               ) : (
-                <div className="desktop-only" style={{ gap: 6, alignItems: "center" }}>
-                  <Link href="/auth/login" className="btn btn-pill-sm" style={{ background: "rgba(15,23,42,0.06)", color: "#0F172A", padding: "8px 16px", fontSize: 13, fontWeight: 600, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
-                    <LogIn style={{ width: 14 }} /> <span>Connexion</span>
+                <div className="desktop-only" style={{ alignItems: "center", gap: 8 }}>
+                  <Link
+                    href="/auth/login"
+                    style={{
+                      fontSize: 12.5,
+                      fontWeight: 600,
+                      color: "#0F172A",
+                      textDecoration: "none",
+                      padding: "6px 12px"
+                    }}
+                  >
+                    Connexion
                   </Link>
-                  <Link href="/auth/sign-up" className="btn btn-pill-sm" style={{ background: "#0F172A", color: "#FFF", padding: "8px 16px", fontSize: 13, fontWeight: 600, borderRadius: 9999, display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
-                    <UserPlus style={{ width: 14 }} /> <span>S'inscrire</span>
+
+                  <Link
+                    href="/auth/sign-up"
+                    style={{
+                      fontSize: 12.5,
+                      fontWeight: 600,
+                      color: "#FFFFFF",
+                      background: "#0F172A",
+                      textDecoration: "none",
+                      padding: "6px 14px",
+                      borderRadius: 8
+                    }}
+                  >
+                    S'inscrire
                   </Link>
                 </div>
               )}
 
             </div>
           </div>
-
-            {/* MOBILE SEARCH ROW (SINGLE SEARCH BAR WITH ELEGANT PADDING < 1025PX) */}
-          <div className="mobile-search-row" style={{ marginTop: 14, marginBottom: 2 }}>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSearch();
-              }}
-              className="mobile-search-bar-wrapper search-pill-wrapper"
-              style={{ display: "flex", alignItems: "center", background: "#F1F5F9", border: "1.5px solid #E2E8F0", borderRadius: 9999, padding: "7px 8px 7px 16px", width: "100%", transition: "all 0.2s ease" }}
-            >
-              <Search style={{ width: 16, height: 16, color: "#94A3B8", marginRight: 8, flexShrink: 0 }} />
-              <input 
-                type="text" 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Rechercher un produit ou une usine en Chine..." 
-                className="clean-search-input"
-                style={{ flex: 1, border: "none", background: "transparent", outline: "none", boxShadow: "none", fontSize: 13, fontWeight: 600, color: "#0F172A" }}
-              />
-              <button
-                type="submit"
-                style={{ width: 32, height: 32, background: "#0F172A", color: "#FFF", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "none", cursor: "pointer", flexShrink: 0 }}
-                aria-label="Rechercher"
-              >
-                <Search style={{ width: 14 }} />
-              </button>
-            </form>
-          </div>
-
         </div>
       </header>
-
-      {/* SUB NAV BAR WITH SOFT CATEGORIES & DEALS */}
-      <nav className="subnav-bar" style={{ background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", padding: "10px 0" }}>
-        <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          
-          <ul className="subnav-list" style={{ display: "flex", gap: 18, listStyle: "none", margin: 0, padding: 0, alignItems: "center", overflowX: "auto" }}>
-            <li>
-              <Link href="/categories" style={{ fontWeight: 700, color: "#0F172A", fontSize: 12.5, display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap" }}>
-                <Grid style={{ width: 14 }} /> toutes les catégories <ChevronDown style={{ width: 12 }} />
-              </Link>
-            </li>
-            <li style={{ borderLeft: "1px solid #E2E8F0", height: 16, margin: "0 2px" }} />
-            <li>
-              <Link href="/catalog?cat=electronics" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
-                Électronique
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalog?cat=fashion" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
-                Mode
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalog?cat=sport" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
-                Sport & Fitness
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalog?cat=womens" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
-                Mode Femme
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalog?cat=kids" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
-                Mode Enfant
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalog?cat=beauty" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
-                Beauté & Santé
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalog?cat=pharmacy" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
-                Pharmacie
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalog?cat=groceries" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
-                Épicerie
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalog?cat=luxury" style={{ fontSize: 12.5, fontWeight: 700, color: "#475569", whiteSpace: "nowrap" }}>
-                Articles de Luxe
-              </Link>
-            </li>
-          </ul>
-
-          <div className="desktop-only" style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 12.5, fontWeight: 600, flexShrink: 0 }}>
-            <Link href="/catalog?deals=true" style={{ color: "#165491", display: "flex", alignItems: "center", gap: 5, textDecoration: "none" }}>
-              <Gift style={{ width: 14, height: 14 }} /> Offres Exclusives
-            </Link>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "#F1F5F9", padding: "4px 10px", borderRadius: 9999, fontSize: 11.5, color: "#0F172A" }}>
-              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#DC2626", display: "inline-block" }} />
-              <span style={{ fontWeight: 700 }}>CargoLink</span>
-              <span style={{ fontWeight: 600, color: "#64748B" }}>Live</span>
-            </div>
-          </div>
-
-        </div>
-      </nav>
 
       {/* MOBILE DRAWER OVERLAY & SLIDING DRAWER MENU */}
       <div 
         className={`mobile-drawer-overlay ${drawerOpen ? "active" : ""}`} 
         onClick={toggleDrawer}
-        style={{ backdropFilter: "blur(4px)" }}
       />
 
       <div 
         className={`mobile-nav-drawer ${drawerOpen ? "active" : ""}`}
-        style={{
-          background: "#FFFFFF",
-          borderRight: "1px solid #F1F5F9",
-          boxShadow: "16px 0 48px rgba(15, 23, 42, 0.12)",
-          display: "flex",
-          flexDirection: "column",
-          width: 290,
-          maxWidth: "82vw",
-          height: "100vh",
-        }}
       >
         {/* CLEAN DRAWER HEADER */}
         <div 
@@ -507,55 +404,7 @@ export default function Header() {
             </div>
 
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 2 }}>
-              {/* 1. ACCUEIL */}
-              <li>
-                <Link 
-                  href="/" 
-                  onClick={toggleDrawer} 
-                  style={{ 
-                    display: "flex", 
-                    alignItems: "center", 
-                    gap: 12, 
-                    padding: "9px 10px", 
-                    borderRadius: 8, 
-                    color: pathname === "/" ? "#165491" : "#334155", 
-                    fontWeight: pathname === "/" ? 700 : 500, 
-                    fontSize: 13.5, 
-                    textDecoration: "none", 
-                    background: pathname === "/" ? "#F0F7FF" : "transparent",
-                    transition: "all 0.15s ease"
-                  }}
-                >
-                  <Home style={{ width: 18, height: 18, color: pathname === "/" ? "#165491" : "#64748B", flexShrink: 0 }} />
-                  <span>Accueil</span>
-                </Link>
-              </li>
-
-              {/* 2. FRET & LIVRAISON */}
-              <li>
-                <Link 
-                  href="/checkout" 
-                  onClick={toggleDrawer} 
-                  style={{ 
-                    display: "flex", 
-                    alignItems: "center", 
-                    gap: 12, 
-                    padding: "9px 10px", 
-                    borderRadius: 8, 
-                    color: pathname === "/checkout" ? "#165491" : "#334155", 
-                    fontWeight: pathname === "/checkout" ? 700 : 500, 
-                    fontSize: 13.5, 
-                    textDecoration: "none", 
-                    background: pathname === "/checkout" ? "#F0F7FF" : "transparent",
-                    transition: "all 0.15s ease"
-                  }}
-                >
-                  <Plane style={{ width: 18, height: 18, color: pathname === "/checkout" ? "#165491" : "#64748B", flexShrink: 0 }} />
-                  <span>Fret & Livraison Bénin</span>
-                </Link>
-              </li>
-
-              {/* 3. UNIVERS & CATEGORIES */}
+              {/* 1. UNIVERS & CATEGORIES */}
               <li>
                 <Link 
                   href="/categories" 
@@ -564,69 +413,42 @@ export default function Header() {
                     display: "flex", 
                     alignItems: "center", 
                     gap: 12, 
-                    padding: "9px 10px", 
+                    padding: "10px 10px", 
                     borderRadius: 8, 
-                    color: pathname === "/categories" ? "#165491" : "#334155", 
+                    color: pathname === "/categories" ? "#0D2B4D" : "#334155", 
                     fontWeight: pathname === "/categories" ? 700 : 500, 
                     fontSize: 13.5, 
                     textDecoration: "none", 
-                    background: pathname === "/categories" ? "#F0F7FF" : "transparent",
+                    background: pathname === "/categories" ? "#EEF4FB" : "transparent",
                     transition: "all 0.15s ease"
                   }}
                 >
-                  <Grid style={{ width: 18, height: 18, color: pathname === "/categories" ? "#165491" : "#64748B", flexShrink: 0 }} />
+                  <Grid style={{ width: 18, height: 18, color: pathname === "/categories" ? "#0D2B4D" : "#64748B", flexShrink: 0 }} />
                   <span>Univers & Catégories</span>
                 </Link>
               </li>
 
-              {/* 4. MON PANIER */}
+              {/* 2. FRET & LIVRAISON */}
               <li>
                 <Link 
-                  href="/cart" 
+                  href="/shipping-policy" 
                   onClick={toggleDrawer} 
                   style={{ 
                     display: "flex", 
                     alignItems: "center", 
                     gap: 12, 
-                    padding: "9px 10px", 
+                    padding: "10px 10px", 
                     borderRadius: 8, 
-                    color: pathname === "/cart" ? "#165491" : "#334155", 
-                    fontWeight: pathname === "/cart" ? 700 : 500, 
+                    color: pathname === "/shipping-policy" ? "#0D2B4D" : "#334155", 
+                    fontWeight: pathname === "/shipping-policy" ? 700 : 500, 
                     fontSize: 13.5, 
                     textDecoration: "none", 
-                    background: pathname === "/cart" ? "#F0F7FF" : "transparent",
+                    background: pathname === "/shipping-policy" ? "#EEF4FB" : "transparent",
                     transition: "all 0.15s ease"
                   }}
                 >
-                  <ShoppingBag style={{ width: 18, height: 18, color: pathname === "/cart" ? "#165491" : "#64748B", flexShrink: 0 }} />
-                  <span>Mon Panier</span>
-                  {totalCartItems > 0 && (
-                    <span style={{ marginLeft: "auto", background: "#DC2626", color: "#FFF", fontSize: 10, fontWeight: 600, padding: "1px 7px", borderRadius: 9999 }}>{totalCartItems}</span>
-                  )}
-                </Link>
-              </li>
-
-              {/* 5. MES FAVORIS */}
-              <li>
-                <Link 
-                  href="/favorites" 
-                  onClick={toggleDrawer} 
-                  style={{ 
-                    display: "flex", 
-                    alignItems: "center", 
-                    gap: 12, 
-                    padding: "9px 10px", 
-                    borderRadius: 8, 
-                    color: pathname === "/favorites" ? "#165491" : "#334155", 
-                    fontWeight: pathname === "/favorites" ? 700 : 500, 
-                    fontSize: 13.5, 
-                    textDecoration: "none", 
-                    background: pathname === "/favorites" ? "#F0F7FF" : "transparent",
-                    transition: "all 0.15s ease"
-                  }}
-                >
-                  <Heart style={{ width: 18, height: 18, color: pathname === "/favorites" ? "#165491" : "#64748B", flexShrink: 0 }} />
-                  <span>Mes Favoris</span>
+                  <Plane style={{ width: 18, height: 18, color: pathname === "/shipping-policy" ? "#0D2B4D" : "#64748B", flexShrink: 0 }} />
+                  <span>Fret & Livraison Bénin</span>
                 </Link>
               </li>
             </ul>
@@ -642,21 +464,21 @@ export default function Header() {
                   justifyContent: "space-between",
                   gap: 10, 
                   padding: "10px 14px", 
-                  borderRadius: 8, 
+                  borderRadius: 10, 
                   color: "#FFFFFF", 
                   fontWeight: 700, 
                   fontSize: 13.5, 
                   textDecoration: "none", 
-                  background: "#0F172A",
-                  boxShadow: "0 4px 12px rgba(15, 23, 42, 0.12)",
+                  background: "#0D2B4D",
+                  boxShadow: "0 4px 12px rgba(13, 43, 77, 0.2)",
                   transition: "all 0.15s ease"
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <PlusCircle style={{ width: 17, height: 17, color: "#F97316" }} />
+                  <PlusCircle style={{ width: 17, height: 17, color: "#7CB6D9" }} />
                   <span>Devis Sur-Mesure</span>
                 </div>
-                <ArrowRight style={{ width: 15, height: 15, opacity: 0.8 }} />
+                <ArrowRight style={{ width: 15, height: 15, color: "#7CB6D9" }} />
               </Link>
             </div>
 
@@ -773,7 +595,7 @@ export default function Header() {
                 <Download style={{ width: 16, height: 16, color: "#64748B" }} />
                 <span>Installer l'application</span>
               </div>
-              <span style={{ fontSize: 11, fontWeight: 700, color: "#165491" }}>Installer</span>
+              <span style={{ fontSize: 11, fontWeight: 700, color: "#102A56" }}>Installer</span>
             </button>
 
             {/* LOCATION & CURRENCY (VERY DISCREET) */}

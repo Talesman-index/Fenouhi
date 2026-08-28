@@ -98,7 +98,7 @@ export default function DashboardSidebar({ activeTab = "orders", onSelectTab, pr
               textOverflow: "ellipsis",
             }}
           >
-            {profile ? `${profile.first_name} ${profile.last_name}` : "Client FENOUHIMIN"}
+            {profile ? `${profile.first_name} ${profile.last_name}` : "Client FENOUHI"}
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
@@ -126,7 +126,7 @@ export default function DashboardSidebar({ activeTab = "orders", onSelectTab, pr
               textOverflow: "ellipsis",
             }}
           >
-            {profile?.email || "client@fenouhimin.com"}
+            {profile?.email || "client@fenouhi.com"}
           </div>
         </div>
       </div>

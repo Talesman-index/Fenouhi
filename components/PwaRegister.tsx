@@ -31,6 +31,9 @@ export default function PwaRegister() {
           scope: "/",
         });
 
+        // Proactively check for new version & icon assets on launch
+        registration.update();
+
         // Check if there is already a waiting worker
         if (registration.waiting) {
           setWaitingWorker(registration.waiting);
@@ -52,9 +55,9 @@ export default function PwaRegister() {
           });
         });
 
-        console.info("[CargoLink PWA] Service Worker enregistré ✅");
+        console.info("[Fenouhi PWA] Service Worker & Icônes à jour ✅");
       } catch (err) {
-        console.warn("[CargoLink PWA] Échec de l'enregistrement du SW :", err);
+        console.warn("[Fenouhi PWA] Échec de l'enregistrement du SW :", err);
       }
     };
 
@@ -76,7 +79,7 @@ export default function PwaRegister() {
 
   return (
     <div className="pwa-update-toast" role="alert">
-      <span>🚀 Une nouvelle version de Fenouhimin est disponible !</span>
+      <span>🚀 Une nouvelle version de Fenouhi est disponible !</span>
       <button onClick={handleUpdate} className="pwa-update-btn">
         Mettre à jour
       </button>

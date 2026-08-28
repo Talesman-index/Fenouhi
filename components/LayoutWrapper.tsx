@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBottomBar from "@/components/MobileBottomBar";
+import FloatingCartBar from "@/components/FloatingCartBar";
 import { MobileStoreProvider } from "@/lib/mobile-store";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
@@ -24,6 +25,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
       <Header />
       <main>{children}</main>
       <Footer />
+      <FloatingCartBar />
       <MobileBottomBar />
     </MobileStoreProvider>
   );

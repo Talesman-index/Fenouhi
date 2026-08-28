@@ -6,14 +6,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  /* Colors */
-  --navy-dark: #0F172A;
-  --navy-surface: #1E293B;
-  
-  --orange-primary: #165491;
-  --orange-hover: #114273;
-  --orange-light: #E8F1F9;
-  
   --blue-primary: #2563EB;
   --blue-light: #EFF6FF;
   

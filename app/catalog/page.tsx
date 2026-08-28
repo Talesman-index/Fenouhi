@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
-import { getCategories, getPublicProducts, getPublicProductsSync, FALLBACK_CATEGORIES } from "@/lib/supabase/catalog";
+import { getCategories, getPublicProducts, getPublicProductsSync, getProductImageUrl, FALLBACK_CATEGORIES } from "@/lib/supabase/catalog";
 import type { Category, Product } from "@/types/catalog";
 import { SlidersHorizontal, Package, AlertCircle, Search, Filter, Check, ShieldCheck, RefreshCw, Smartphone, Layers, Building2 } from "lucide-react";
 
@@ -108,18 +108,18 @@ function CatalogContent() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: 6,
-                  background: "rgba(22, 84, 145, 0.08)",
-                  color: "#165491",
+                  background: "rgba(16, 42, 86, 0.08)",
+                  color: "#102A56",
                   padding: "4px 12px",
                   borderRadius: 999,
                   fontSize: 11.5,
-                  fontWeight: 600,
+                  fontWeight: 700,
                   marginBottom: 8,
                   letterSpacing: "0.5px",
                 }}
               >
-                <Building2 style={{ width: 14, height: 14, color: "#165491" }} />
-                <span>CATALOGUE OFFICIEL FENOUHIMIN & FENOUSSHOP</span>
+                <Building2 style={{ width: 14, height: 14, color: "#102A56" }} />
+                <span>CATALOGUE OFFICIEL FENOUHI & FENOUSSHOP</span>
               </div>
 
               <h1
@@ -250,13 +250,13 @@ function CatalogContent() {
                 padding: "8px 18px",
                 borderRadius: 999,
                 border: selectedCategory === "all" ? "none" : "1px solid #E2E8F0",
-                background: selectedCategory === "all" ? "#165491" : "#FFFFFF",
+                background: selectedCategory === "all" ? "#102A56" : "#FFFFFF",
                 color: selectedCategory === "all" ? "#FFFFFF" : "#475569",
                 fontSize: 12.5,
                 fontWeight: selectedCategory === "all" ? 800 : 600,
                 cursor: "pointer",
                 whiteSpace: "nowrap",
-                boxShadow: selectedCategory === "all" ? "0 4px 12px rgba(22, 84, 145, 0.2)" : "none",
+                boxShadow: selectedCategory === "all" ? "0 4px 12px rgba(16, 42, 86, 0.25)" : "none",
                 flexShrink: 0,
               }}
             >
@@ -278,13 +278,13 @@ function CatalogContent() {
                     padding: "8px 18px",
                     borderRadius: 999,
                     border: isActive ? "none" : "1px solid #E2E8F0",
-                    background: isActive ? "#165491" : "#FFFFFF",
+                    background: isActive ? "#102A56" : "#FFFFFF",
                     color: isActive ? "#FFFFFF" : "#475569",
                     fontSize: 12.5,
                     fontWeight: isActive ? 800 : 600,
                     cursor: "pointer",
                     whiteSpace: "nowrap",
-                    boxShadow: isActive ? "0 4px 12px rgba(22, 84, 145, 0.2)" : "none",
+                    boxShadow: isActive ? "0 4px 12px rgba(16, 42, 86, 0.25)" : "none",
                     flexShrink: 0,
                   }}
                 >
@@ -355,10 +355,7 @@ function CatalogContent() {
         {!loading && !errorMsg && products.length > 0 && (
           <div className="product-grid-mobile grid-5">
             {products.map((p) => {
-              const primaryImg =
-                p.images?.find((i) => i.is_primary)?.public_image_url ||
-                p.images?.[0]?.public_image_url ||
-                "/images/assets/item_1.jpg";
+              const primaryImg = getProductImageUrl(p);
               return (
                 <ProductCard
                   key={p.id}

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { getProductByIdOrSlug } from "@/lib/supabase/catalog";
+import { getProductByIdOrSlug, getProductImageUrl } from "@/lib/supabase/catalog";
 import type { Product } from "@/types/catalog";
 import { createClient } from "@/lib/supabase/client";
 import { usePreloader } from "@/lib/preloader-context";
@@ -155,7 +155,7 @@ function QuoteRequestContent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    showPreloader("Transmission de votre demande de devis Fenouhimin...");
+    showPreloader("Transmission de votre demande de devis Fenouhi...");
 
     const generatedNum = `DEV-2026-${Math.floor(100000 + Math.random() * 900000)}`;
     setCreatedQuoteNumber(generatedNum);
@@ -208,7 +208,7 @@ function QuoteRequestContent() {
   };
 
   const whatsappMessage = encodeURIComponent(
-    `Bonjour FENOUHIMIN ! J'ai soumis la demande de devis N° *${createdQuoteNumber}*.\n\n` +
+    `Bonjour FENOUHI ! J'ai soumis la demande de devis N° *${createdQuoteNumber}*.\n\n` +
       `*Produit* : ${formData.productName || selectedProduct?.name}\n` +
       `*Quantité* : ${formData.quantity} unités\n` +
       `*Mode* : ${formData.shippingMode === "sea" ? "Fret Maritime Groupé" : "Fret Aérien Express"}\n` +
@@ -493,7 +493,7 @@ function QuoteRequestContent() {
                     }}
                   >
                     <img
-                      src={selectedProduct.images?.[0]?.public_image_url || "/images/assets/item_1.jpg"}
+                      src={getProductImageUrl(selectedProduct)}
                       alt={selectedProduct.name}
                       style={{ width: 76, height: 76, borderRadius: 10, objectFit: "cover", background: "#F8FAFC", border: "1px solid #F1F5F9", flexShrink: 0 }}
                     />

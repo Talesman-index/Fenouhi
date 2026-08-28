@@ -3,277 +3,409 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
-import { getPublicProducts, getPublicProductsSync } from "@/lib/supabase/catalog";
+import { getPublicProducts, getPublicProductsSync, getProductImageUrl } from "@/lib/supabase/catalog";
 import type { Product } from "@/types/catalog";
-import { Building2, ArrowRight, ChevronLeft, ChevronRight, Search, Zap, DollarSign, Truck, Package, Plane, Ship, Sparkles, ShieldCheck } from "lucide-react";
-
-const heroSlides = [
-  {
-    badge: "FENOUHIMIN • IMPORTATION DIRECTE CHINE",
-    title: "Trouvez Vos Produits Préférés au Meilleur Prix Usine",
-    subtitle: "iPhones 16 certifiés scellés, high-tech & articles tendance en direct des fabricants avec livraison rapide à Cotonou.",
-    btnText: "Explorer le Catalogue Fenouhimin",
-    btnLink: "/catalog",
-    gradient: "linear-gradient(135deg, #0F172A 0%, #165491 60%, #0F172A 100%)",
-    badgeBg: "linear-gradient(90deg, #165491 0%, #0284C7 100%)",
-    mainImg: "/images/assets/iphone16_white.png",
-    secondaryImg: "/images/assets/iphone16_black.png",
-    tagline: "Direct Usines",
-  },
-  {
-    badge: "FENOUHIMIN • FRET & LIVRAISON BÉNIN",
-    title: "Expédition Express Chine → Cotonou, Bénin",
-    subtitle: "Sourcing direct usines à Canton & Yiwu. Fret aérien sécurisé en 5 à 8 jours avec suivi en temps réel et dédouanement.",
-    btnText: "Demander un Devis de Fret",
-    btnLink: "/quote-request",
-    gradient: "linear-gradient(135deg, #0A192F 0%, #0F3B5F 60%, #165491 100%)",
-    badgeBg: "linear-gradient(90deg, #165491 0%, #0284C7 100%)",
-    mainImg: "/images/assets/iphone17_pro_dark.png",
-    secondaryImg: "/images/assets/iphone17_pro_silver.png",
-    tagline: "Fret Express 5-8J",
-  },
-  {
-    badge: "FENOUHIMIN • VENTES FLASH GROSSISTES",
-    title: "Jusqu'à -50% sur les Lots & Produits de la Semaine",
-    subtitle: "Soin & beauté, électronique et cosmétiques en promotion directe grossiste pour revendeurs et particuliers au Bénin.",
-    btnText: "Découvrir les Offres Flash",
-    btnLink: "/catalog?cat=beauty",
-    gradient: "linear-gradient(135deg, #180E29 0%, #2E1065 60%, #0F172A 100%)",
-    badgeBg: "linear-gradient(90deg, #2563EB 0%, #0284C7 100%)",
-    mainImg: "/images/assets/disaar_vitamin_c_mask.jpg",
-    secondaryImg: "/images/assets/pink_lip_mask.jpg",
-    tagline: "Offres Limités -50%",
-  }
-];
+import { useRouter } from "next/navigation";
+import { 
+  Building2, ArrowRight, ChevronRight, Search, Zap, DollarSign, Truck, 
+  Package, Plane, Sparkles, ShieldCheck, SlidersHorizontal, Bell,
+  Smartphone, Laptop, Headphones, ShoppingBag, Layers, X,
+  Shirt, Crown, Home, Dumbbell, Boxes
+} from "lucide-react";
 
 export default function HomePage() {
+  const router = useRouter();
   const [searchUrl, setSearchUrl] = useState("");
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>(() => getPublicProductsSync({ isFeatured: true }));
+  const [searchInput, setSearchInput] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(24);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>(() => {
+    const all = getPublicProductsSync();
+    // Interleave by category for a vibrant diverse mix
+    const catMap = new Map<string, Product[]>();
+    for (const p of all) {
+      const cat = p.category?.slug || p.category?.name || "other";
+      if (!catMap.has(cat)) catMap.set(cat, []);
+      catMap.get(cat)!.push(p);
+    }
+    const arrays = Array.from(catMap.values());
+    const maxLen = Math.max(...arrays.map((a) => a.length), 0);
+    const mixed: Product[] = [];
+    for (let i = 0; i < maxLen; i++) {
+      for (const arr of arrays) {
+        if (arr[i]) mixed.push(arr[i]);
+      }
+    }
+    return mixed.length > 0 ? mixed : all;
+  });
   const [recentProducts, setRecentProducts] = useState<Product[]>(() => getPublicProductsSync());
-  const [activeCategory, setActiveCategory] = useState("");
+  const [activeCategory, setActiveCategory] = useState("all");
   const [currentSlide, setCurrentSlide] = useState(0);
-  const categoryRowRef = React.useRef<HTMLDivElement>(null);
+
+  const heroPromoSlides = [
+    {
+      title: "High-Tech & Mode Direct Usines",
+      subtitle: "iPhones certifiés, Apple Watch, AirPods, sneakers & maroquinerie de luxe livrés à Cotonou.",
+      btnText: "Commander Maintenant",
+      btnLink: "/catalog",
+      image: "/images/banners/banner1.png",
+      tag: "Offre Exclusive -50%",
+      bgGradient: "linear-gradient(135deg, #0D2B4D 0%, #153B64 50%, #0D2B4D 100%)",
+    },
+    {
+      title: "Maison & Électroménager Fenouhi",
+      subtitle: "Air Fryers, blenders, ustensiles de cuisine & linge de maison haut de gamme aux tarifs fabricants.",
+      btnText: "Découvrir la Maison",
+      btnLink: "/catalog?cat=home",
+      image: "/images/banners/banner2.png",
+      tag: "Direct Fabricants",
+      bgGradient: "linear-gradient(135deg, #071C35 0%, #184576 50%, #0D2B4D 100%)",
+    },
+    {
+      title: "Beauté, Parfums & Cosmétiques",
+      subtitle: "Soins visage Radiance Essence, coffrets de soin & maroquinerie aux prix grossistes.",
+      btnText: "Voir les Produits Beauté",
+      btnLink: "/catalog?cat=beauty",
+      image: "/images/banners/banner3.png",
+      tag: "Ventes Flash Grossistes",
+      bgGradient: "linear-gradient(135deg, #0D2B4D 0%, #1C4D82 50%, #071C35 100%)",
+    },
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+      setCurrentSlide((prev) => (prev + 1) % heroPromoSlides.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
-
-  const handleScrollNext = () => {
-    if (categoryRowRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = categoryRowRef.current;
-      if (scrollLeft + clientWidth >= scrollWidth - 20) {
-        categoryRowRef.current.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        categoryRowRef.current.scrollBy({ left: 280, behavior: "smooth" });
-      }
-    }
-  };
+  }, [heroPromoSlides.length]);
 
   useEffect(() => {
     // 1. Sync immediately from client store
-    const localRecents = getPublicProductsSync({ categorySlug: activeCategory || undefined });
-    setRecentProducts(localRecents);
-    const localFeatured = getPublicProductsSync({ isFeatured: true });
-    setFeaturedProducts(localFeatured.length > 0 ? localFeatured : localRecents);
+    const filterCat = activeCategory === "all" ? undefined : activeCategory;
+    const localItems = getPublicProductsSync({ categorySlug: filterCat });
+    setRecentProducts(localItems);
+
+    let mixedList: Product[] = [];
+    if (activeCategory === "all") {
+      const catMap = new Map<string, Product[]>();
+      for (const p of localItems) {
+        const cat = p.category?.slug || p.category?.name || "other";
+        if (!catMap.has(cat)) catMap.set(cat, []);
+        catMap.get(cat)!.push(p);
+      }
+      const arrays = Array.from(catMap.values());
+      const maxLen = Math.max(...arrays.map((a) => a.length), 0);
+      for (let i = 0; i < maxLen; i++) {
+        for (const arr of arrays) {
+          if (arr[i]) mixedList.push(arr[i]);
+        }
+      }
+    } else {
+      mixedList = localItems;
+    }
+
+    setFeaturedProducts(mixedList.length > 0 ? mixedList : localItems);
 
     // 2. Query Supabase async
     async function loadHomeProducts() {
       try {
-        const [featured, recent] = await Promise.all([
-          getPublicProducts({ isFeatured: true }),
-          getPublicProducts({ categorySlug: activeCategory || undefined })
-        ]);
-        if (featured && featured.length > 0) setFeaturedProducts(featured);
-        if (recent && recent.length > 0) setRecentProducts(recent);
+        const recent = await getPublicProducts({ categorySlug: filterCat });
+        if (recent && recent.length > 0) {
+          if (activeCategory === "all") {
+            const catMap = new Map<string, Product[]>();
+            for (const p of recent) {
+              const cat = p.category?.slug || p.category?.name || "other";
+              if (!catMap.has(cat)) catMap.set(cat, []);
+              catMap.get(cat)!.push(p);
+            }
+            const arrays = Array.from(catMap.values());
+            const maxLen = Math.max(...arrays.map((a) => a.length), 0);
+            const asyncMixed: Product[] = [];
+            for (let i = 0; i < maxLen; i++) {
+              for (const arr of arrays) {
+                if (arr[i]) asyncMixed.push(arr[i]);
+              }
+            }
+            setFeaturedProducts(asyncMixed.length > 0 ? asyncMixed : recent);
+          } else {
+            setFeaturedProducts(recent);
+          }
+          setRecentProducts(recent);
+        }
       } catch {}
     }
     loadHomeProducts();
   }, [activeCategory]);
 
-  const softCategories = [
-    { name: "Électronique", img: "/images/assets/cat_electronics_v2.jpg", link: "/catalog?cat=electronics" },
-    { name: "Mode", img: "/images/assets/cat_fashion_v2.jpg", link: "/catalog?cat=fashion" },
-    { name: "Luxe", img: "/images/assets/cat_luxury.jpg", link: "/catalog?cat=luxury" },
-    { name: "Maison & Déco", img: "/images/assets/cat_homedecor.jpg", link: "/catalog?cat=home" },
-    { name: "Santé & Beauté", img: "/images/assets/cat_beauty.jpg", link: "/catalog?cat=beauty" },
-    { name: "Épicerie", img: "/images/assets/cat_groceries.jpg", link: "/catalog?cat=groceries" },
-    { name: "Baskets & Sport", img: "/images/assets/cat_sneakers.jpg", link: "/catalog?cat=sport" },
+  const categoryChips = [
+    { id: "all", label: "Tous les Produits", icon: Layers },
+    { id: "electronics", label: "iPhones & High-Tech", icon: Smartphone },
+    { id: "beauty", label: "Beauté & Soins", icon: Sparkles },
+    { id: "fashion", label: "Mode & Chaussures", icon: Shirt },
+    { id: "mode-pagne-africain", label: "Pagne Africain", icon: Crown },
+    { id: "home", label: "Maison & Électroménager", icon: Home },
+    { id: "sport", label: "Sport & Fitness", icon: Dumbbell },
+    { id: "wholesale", label: "Lots Grossiste & Usines", icon: Boxes },
+  ];
+
+  const subCategorySquircles = [
+    { id: "iphones", label: "iPhones & Tech", icon: Smartphone, link: "/catalog?cat=electronics" },
+    { id: "beaute", label: "Beauté & Soins", icon: Sparkles, link: "/catalog?cat=beauty" },
+    { id: "mode", label: "Mode & Style", icon: Shirt, link: "/catalog?cat=fashion" },
+    { id: "pagne", label: "Pagne Africain", icon: Crown, link: "/catalog?cat=mode-pagne-africain" },
+    { id: "maison", label: "Maison & Déco", icon: Home, link: "/catalog?cat=home" },
+    { id: "sport", label: "Sport & Fitness", icon: Dumbbell, link: "/catalog?cat=sport" },
+    { id: "grossiste", label: "Lots Usines", icon: Boxes, link: "/catalog?cat=wholesale" },
   ];
 
   const todayDeals = [
-    { id: "gaine-amincissante-100-latex", title: "Gaine Amincissante 100% Latex", price: "20 000 FCFA", oldPrice: "32 000 FCFA", image: "/images/assets/gaine_amincissante_latex_1.png", category: "Mode & Minceur" },
-    { id: "robot-nettoyeur-4en1-jallen-gabor", title: "Robot Nettoyeur 4-en-1 Jallen Gabor", price: "15 000 FCFA", oldPrice: "25 000 FCFA", image: "/images/assets/robot_nettoyeur_jallen_gabor_1.png", category: "Électroménager" },
-    { id: "iphone-15-15pro-15promax", title: "iPhone 15 / 15 Pro / 15 Pro Max", price: "230 000 FCFA", oldPrice: "310 000 FCFA", image: "/images/assets/iphone15/iphone15_bluetitanium.jpg", category: "High-Tech" },
-    { id: "dr-rashel-vitamin-c-set", title: "Dr. Rashel Vitamine C (Coffret 4 Pièces)", price: "10 000 FCFA", oldPrice: "16 000 FCFA", image: "/images/assets/dr_rashel_vitamin_c_2.jpg", category: "Beauté & Soins" },
-    { id: "iphone-13-13pro-13promax", title: "iPhone 13 / 13 Pro / 13 Pro Max", price: "131 000 FCFA", oldPrice: "180 000 FCFA", image: "/images/assets/iphone13/iphone13_gold.png", category: "High-Tech" },
-    { id: "efero-blanchiment-dents", title: "EFERO Essence Blanchiment Dents", price: "2 500 FCFA", oldPrice: "4 500 FCFA", image: "/images/assets/efero_teeth_whitening.jpg", category: "Hygiène Buccale" },
-    { id: "defroisseur-vapeur-haeger-vetements", title: "Mini Défroisseur Vapeur Portatif HAEGER", price: "10 000 FCFA", oldPrice: "16 500 FCFA", image: "/images/assets/defroisseur_vapeur_haeger_2.png", category: "Électroménager" },
-  ];
-
-  const laptopsShowcase = [
-    { title: "iPhone 16 Pro Max", img: "/images/assets/hero_iphone16.png", link: "/product/iphone-16-16pro-16promax" },
-    { title: "iPhone 15 Pro Max", img: "/images/assets/hero_iphone16.png", link: "/product/iphone-15-15pro-15promax" },
-    { title: "iPhone 14 Pro Max", img: "/images/assets/hero_iphone16.png", link: "/product/iphone-14-14pro-14promax" },
-    { title: "iPhone 13 Pro Max", img: "/images/assets/card_hero_iphone.jpg", link: "/product/iphone-13-13pro-13promax" },
-    { title: "iPhone 12 Pro Max", img: "/images/assets/card_hero_iphone.jpg", link: "/product/iphone-12-12pro-12promax" },
-  ];
-
-  const beautyShowcase = [
-    { title: "Wokali Masque Gold Caviar (1 500 F)", img: "/images/assets/wokali_gold_caviar_mask_1.png", link: "/product/wokali-whitening-gold-caviar-peel-off-mask" },
-    { title: "Disaar Crème Dépilatoire (2 500 F)", img: "/images/assets/disaar_hair_removal.jpg", link: "/product/disaar-creme-depilatoire" },
-    { title: "EFERO Essence Blanchiment (2 500 F)", img: "/images/assets/efero_teeth_whitening.jpg", link: "/product/efero-blanchiment-dents" },
-    { title: "Disaar Masque Vitamine C (500 F)", img: "/images/assets/disaar_vitamin_c_mask.jpg", link: "/product/disaar-masque-vitamine-c" },
-    { title: "Masque Lèvres Rose (500 F)", img: "/images/assets/pink_lip_mask.jpg", link: "/product/masque-levres-rose-hydrogel" },
+    { id: "gaine-amincissante-100-latex", title: "Gaine Amincissante 100% Latex", price: "20 000 FCFA", oldPrice: "32 000 FCFA", image: "/images/assets/gaine_amincissante_latex_1.png", category: "Mode & Minceur", stockLeft: 12, rating: "4.9", reviewsCount: 142 },
+    { id: "robot-nettoyeur-4en1-jallen-gabor", title: "Robot Nettoyeur 4-en-1 Jallen Gabor", price: "15 000 FCFA", oldPrice: "25 000 FCFA", image: "/images/assets/robot_nettoyeur_jallen_gabor_1.png", category: "Électroménager", stockLeft: 8, rating: "4.7", reviewsCount: 89 },
+    { id: "iphone-15", title: "iPhone 15", price: "230 000 FCFA", oldPrice: "310 000 FCFA", image: "/images/assets/iphone15/iphone15_bluetitanium.jpg", category: "High-Tech", stockLeft: 15, rating: "4.9", reviewsCount: 310 },
+    { id: "dr-rashel-vitamin-c-set", title: "Dr. Rashel Vitamine C (Coffret 4 Pièces)", price: "10 000 FCFA", oldPrice: "16 000 FCFA", image: "/images/assets/dr_rashel_vitamin_c_2.jpg", category: "Beauté & Soins", stockLeft: 24, rating: "4.8", reviewsCount: 201 },
+    { id: "iphone-13", title: "iPhone 13", price: "131 000 FCFA", oldPrice: "180 000 FCFA", image: "/images/assets/iphone13/iphone13_gold.png", category: "High-Tech", stockLeft: 10, rating: "4.8", reviewsCount: 185 },
+    { id: "efero-blanchiment-dents", title: "EFERO Essence Blanchiment Dents", price: "2 500 FCFA", oldPrice: "4 500 FCFA", image: "/images/assets/efero_teeth_whitening.jpg", category: "Hygiène Buccale", stockLeft: 35, rating: "4.6", reviewsCount: 94 },
+    { id: "defroisseur-vapeur-haeger-vetements", title: "Mini Défroisseur Vapeur Portatif HAEGER", price: "10 000 FCFA", oldPrice: "16 500 FCFA", image: "/images/assets/defroisseur_vapeur_haeger_2.png", category: "Électroménager", stockLeft: 14, rating: "4.8", reviewsCount: 120 },
   ];
 
   const samplePrompts = [
-    "Lot 10x iPhone 11 Pro 256 Go Grade B",
-    "Lot 5x iPhone 13 Pro 128 Go Reconditionné",
-    "Lot 20x iPhone 8 64 Go Occasion Usine",
-    "Lot iPhone 15 Pro Max 512 Go Scellé",
+    "iPhone 15 256 Go",
+    "Sérum Vitamine C Dr. Rashel",
+    "Gaine Amincissante 100% Latex",
+    "Mini Défroisseur Vapeur Portatif",
+    "Robot Nettoyeur 4-en-1",
+    "Lot 10x iPhone 13",
   ];
 
-  const categoryPills = [
-    { name: "Tous", cat: "" },
-    { name: "Beauté & Soins", cat: "beauty" },
-    { name: "High-Tech & Electronics", cat: "electronics" },
-    { name: "Mode Pagne Africain", cat: "mode-pagne-africain" },
-    { name: "Mode & Chaussures", cat: "fashion" },
-    { name: "Sport & Fitness", cat: "sport" },
-    { name: "Maison & Déco", cat: "home" },
-  ];
+  const activeSlide = heroPromoSlides[currentSlide] || heroPromoSlides[0];
 
   return (
-    <div style={{ background: "#FAF7F2", paddingBottom: 80, fontFamily: "var(--font-body), 'Plus Jakarta Sans', sans-serif" }}>
+    <div style={{ background: "#F7F5F1", minHeight: "100vh", paddingBottom: 90, fontFamily: "var(--font-body), 'Plus Jakarta Sans', sans-serif" }}>
       
-      {/* 1. TOP DISCOVER SECTION HEADER (SINGLE SEARCH BAR MANAGED BY MAIN HEADER) */}
-      <section style={{ padding: "14px 0 10px", background: "#FFFFFF", borderBottom: "1px solid #E2E8F0" }}>
+
+
+      {/* ========================================================================= */}
+      {/* 2. RECHERCHE PRINCIPALE FONCTIONNELLE EN FRANÇAIS                          */}
+      {/* ========================================================================= */}
+      <section style={{ padding: "10px 0 12px", position: "relative", zIndex: 40 }}>
         <div className="container">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div>
-              <h1
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (searchInput.trim()) {
+                router.push(`/catalog?q=${encodeURIComponent(searchInput.trim())}`);
+              }
+            }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              position: "relative",
+            }}
+          >
+            {/* SEARCH PILL */}
+            <div
+              style={{
+                flex: 1,
+                display: "flex",
+                alignItems: "center",
+                background: "#FFFFFF",
+                borderRadius: 999,
+                padding: "11px 16px 11px 18px",
+                border: searchFocused ? "2px solid #7CB6D9" : "1px solid #EFECE6",
+                boxShadow: searchFocused
+                  ? "0 6px 20px rgba(124, 182, 217, 0.28)"
+                  : "0 4px 14px rgba(13, 43, 77, 0.04)",
+                gap: 10,
+                transition: "all 0.18s ease",
+              }}
+            >
+              <Search
                 style={{
-                  fontSize: "clamp(20px, 3.5vw, 26px)",
-                  fontWeight: 700,
-                  color: "#0F172A",
-                  margin: 0,
-                  fontFamily: "'Poppins', sans-serif",
+                  width: 18,
+                  height: 18,
+                  color: searchFocused ? "#7CB6D9" : "#7E7970",
+                  flexShrink: 0,
+                  transition: "color 0.18s ease",
                 }}
-              >
-                Découvrir
-              </h1>
-              <p style={{ fontSize: 12.5, color: "#64748B", margin: "2px 0 0" }}>
-                Produits certifiés direct usines & iPhones authentiques
-              </p>
+              />
+              <input
+                type="text"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setTimeout(() => setSearchFocused(false), 250)}
+                placeholder="Que recherchez-vous ? (iPhones, usines, produits...)"
+                style={{
+                  width: "100%",
+                  border: "none",
+                  outline: "none",
+                  background: "transparent",
+                  fontSize: 13.5,
+                  fontWeight: 600,
+                  color: "#1E1B16",
+                  fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+                }}
+              />
+              {searchInput.trim() && (
+                <button
+                  type="button"
+                  onClick={() => setSearchInput("")}
+                  style={{
+                    background: "#EBF4FA",
+                    border: "none",
+                    borderRadius: "50%",
+                    width: 22,
+                    height: 22,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    color: "#534F47",
+                    padding: 0,
+                    flexShrink: 0,
+                  }}
+                  title="Effacer la recherche"
+                >
+                  <X style={{ width: 13, height: 13 }} />
+                </button>
+              )}
             </div>
 
+            {/* FILTER SLIDERS BUTTON */}
             <Link
               href="/catalog"
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                background: "#F1F5F9",
-                border: "1px solid #E2E8F0",
-                borderRadius: 9999,
-                padding: "6px 14px",
-                fontSize: 12,
-                fontWeight: 600,
-                color: "#165491",
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-                flexShrink: 0,
-              }}
-            >
-              <span>Voir tout →</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. DYNAMIC HERO PROMO BANNER (OFFICIAL FENOUHIMIN HIGH-IMPACT COVER) */}
-      <section style={{ padding: "16px 0 20px" }}>
-        <div className="container">
-          <Link
-            href="/catalog"
-            style={{
-              display: "block",
-              textDecoration: "none",
-              borderRadius: 24,
-              overflow: "hidden",
-              boxShadow: "0 16px 45px rgba(15, 23, 42, 0.22)",
-              border: "1px solid rgba(226, 232, 240, 0.8)",
-              position: "relative",
-              transition: "transform 0.25s ease, boxShadow 0.25s ease",
-            }}
-          >
-            {/* FULL-BLEED OFFICIAL 3D FENOUHIMIN HERO BANNER */}
-            <img
-              src="/images/banners/fenouhimin_hero_official.jpg"
-              alt="Fenouhimin - Achetez en Chine, Livré au Bénin"
-              style={{
-                width: "100%",
-                height: "auto",
-                maxHeight: 380,
-                objectFit: "cover",
-                display: "block",
-              }}
-            />
-
-            {/* INTERACTIVE CTA BUTTON OVERLAY */}
-            <div
-              style={{
-                position: "absolute",
-                bottom: 22,
-                left: 28,
-                zIndex: 5,
+                width: 46,
+                height: 46,
+                borderRadius: 16,
+                background: "#FFFFFF",
+                border: "1.5px solid rgba(124, 182, 217, 0.35)",
                 display: "flex",
                 alignItems: "center",
-                gap: 12,
+                justifyContent: "center",
+                color: "#7CB6D9",
+                boxShadow: "0 4px 14px rgba(124, 182, 217, 0.12)",
+                textDecoration: "none",
+                flexShrink: 0,
+                transition: "transform 0.15s ease",
               }}
+              title="Filtres du Catalogue"
             >
+              <SlidersHorizontal style={{ width: 19, height: 19, color: "#7CB6D9" }} />
+            </Link>
+
+            {/* LIVE AUTOCOMPLETE DROPDOWN */}
+            {searchFocused && searchInput.trim().length > 0 && (
               <div
                 style={{
-                  background: "#165491",
-                  color: "#FFFFFF",
-                  padding: "10px 22px",
-                  borderRadius: 999,
-                  fontSize: 13,
-                  fontWeight: 800,
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  boxShadow: "0 8px 24px rgba(22, 84, 145, 0.45)",
-                  border: "1px solid rgba(255, 255, 255, 0.4)",
-                  letterSpacing: "0.3px",
+                  position: "absolute",
+                  top: "calc(100% + 8px)",
+                  left: 0,
+                  right: 56,
+                  background: "#FFFFFF",
+                  borderRadius: 18,
+                  border: "1.5px solid rgba(124, 182, 217, 0.3)",
+                  boxShadow: "0 16px 36px rgba(13, 43, 77, 0.15)",
+                  padding: "10px 0",
+                  zIndex: 100,
+                  overflow: "hidden",
+                  animation: "fadeIn 0.18s ease-out",
                 }}
               >
-                <span>Commander Maintenant</span>
-                <div style={{ width: 20, height: 20, borderRadius: 999, background: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", color: "#165491" }}>
-                  <ArrowRight style={{ width: 12, height: 12 }} />
+                <div style={{ padding: "6px 16px 8px", fontSize: 11, fontWeight: 700, color: "#7E7970", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                  Suggestions de Produits
                 </div>
+
+                {recentProducts
+                  .filter((p) =>
+                    p.name.toLowerCase().includes(searchInput.toLowerCase().trim())
+                  )
+                  .slice(0, 4)
+                  .map((p) => {
+                    const img = getProductImageUrl(p);
+                    return (
+                      <Link
+                        key={p.id}
+                        href={`/product/${p.id}`}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 12,
+                          padding: "8px 16px",
+                          textDecoration: "none",
+                          color: "#1E1B16",
+                          transition: "background 0.15s ease",
+                          borderBottom: "1px solid #F7F5F1",
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = "#F7F5F1")}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                      >
+                        <div
+                          style={{
+                            width: 38,
+                            height: 38,
+                            borderRadius: 8,
+                            background: "#F7F5F1",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            overflow: "hidden",
+                            flexShrink: 0,
+                          }}
+                        >
+                          <img
+                            src={img}
+                            alt={p.name}
+                            style={{ width: "100%", height: "100%", objectFit: "contain", padding: 3 }}
+                          />
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 13, fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                            {p.name}
+                          </div>
+                          <div style={{ fontSize: 11.5, color: "#0D2B4D", fontWeight: 800 }}>
+                            {p.price.toLocaleString()} {p.currency}
+                          </div>
+                        </div>
+                        <ArrowRight style={{ width: 14, height: 14, color: "#7E7970", flexShrink: 0 }} />
+                      </Link>
+                    );
+                  })}
+
+                {/* VIEW ALL RESULTS FOR QUERY */}
+                <button
+                  type="submit"
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "10px 16px 6px",
+                    background: "transparent",
+                    border: "none",
+                    borderTop: "1px solid #EFECE6",
+                    cursor: "pointer",
+                    fontSize: 12.5,
+                    fontWeight: 700,
+                    color: "#0D2B4D",
+                    textAlign: "left",
+                  }}
+                >
+                  <span>Voir tous les résultats pour « {searchInput} »</span>
+                  <ArrowRight style={{ width: 14, height: 14 }} />
+                </button>
               </div>
-            </div>
-          </Link>
+            )}
+          </form>
         </div>
       </section>
 
-      {/* 3. CATEGORIES HORIZONTAL PILLS ROW (MATCHING FENOUHIMIN BRAND PALETTE) */}
-      <section style={{ padding: "8px 0 16px" }}>
+      {/* ========================================================================= */}
+      {/* 3. HORIZONTAL CATEGORY CHIPS WITH ICONS (MATCHING REFERENCE UI)          */}
+      {/* ========================================================================= */}
+      <section style={{ padding: "4px 0 14px" }}>
         <div className="container">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: 0, fontFamily: "'Poppins', sans-serif" }}>
-              Catégories
-            </h3>
-            <Link href="/categories" style={{ fontSize: 12.5, fontWeight: 700, color: "#165491", textDecoration: "none" }}>
-              Voir tout
-            </Link>
-          </div>
-
-          {/* HORIZONTAL SCROLL PILLS */}
           <div
             className="mobile-categories-scroll"
             style={{
@@ -284,29 +416,41 @@ export default function HomePage() {
               paddingBottom: 4,
             }}
           >
-            {categoryPills.map((pill) => {
-              const isSelected = activeCategory === pill.cat;
+            {categoryChips.map((chip) => {
+              const isActive = activeCategory === chip.id;
+              const Icon = chip.icon;
               return (
                 <button
-                  key={pill.name}
-                  onClick={() => setActiveCategory(pill.cat)}
+                  key={chip.id}
+                  onClick={() => setActiveCategory(chip.id)}
                   style={{
-                    background: isSelected ? "#165491" : "#FFFFFF",
-                    color: isSelected ? "#FFFFFF" : "#475569",
-                    border: isSelected ? "1px solid #165491" : "1px solid #E2E8F0",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    padding: "9px 16px",
                     borderRadius: 999,
-                    padding: "8px 18px",
+                    border: isActive ? "none" : "1px solid #EFECE6",
+                    background: isActive ? "#0D2B4D" : "#FFFFFF",
+                    color: isActive ? "#FFFFFF" : "#534F47",
                     fontSize: 12.5,
-                    fontWeight: 700,
+                    fontWeight: isActive ? 800 : 600,
                     cursor: "pointer",
                     whiteSpace: "nowrap",
-                    boxShadow: isSelected
-                      ? "0 4px 12px rgba(22, 84, 145, 0.25)"
-                      : "0 1px 3px rgba(15, 23, 42, 0.03)",
+                    boxShadow: isActive
+                      ? "0 4px 14px rgba(13, 43, 77, 0.35)"
+                      : "0 2px 6px rgba(13, 43, 77, 0.02)",
                     transition: "all 0.18s ease",
+                    flexShrink: 0,
                   }}
                 >
-                  {pill.name}
+                  <Icon
+                    style={{
+                      width: 14,
+                      height: 14,
+                      color: isActive ? "#7CB6D9" : "#7E7970",
+                    }}
+                  />
+                  <span>{chip.label}</span>
                 </button>
               );
             })}
@@ -314,28 +458,258 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. PRODUCT CARDS GRID (EXACT 2-COLUMN MOBILE GRID MATCHING SCREENSHOT) */}
-      <section style={{ padding: "12px 0 32px" }}>
+      {/* ========================================================================= */}
+      {/* 4. HERO PROMO CARD WITH PAGINATION DOTS (MATCHING REFERENCE UI)          */}
+      {/* ========================================================================= */}
+      <section style={{ padding: "8px 0 16px" }}>
         <div className="container">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: 0, fontFamily: "'Poppins', sans-serif" }}>
-              Sélection Produits & Nouveautés
-            </h3>
-            <span style={{ fontSize: 12, color: "#64748B", fontWeight: 600 }}>
-              {recentProducts.length} articles disponibles
-            </span>
+          <div
+            className="hero-promo-card"
+            style={{
+              background: activeSlide.bgGradient,
+            }}
+          >
+            {/* AMBIENT GLOW */}
+            <div
+              style={{
+                position: "absolute",
+                top: -60,
+                right: -40,
+                width: 260,
+                height: 260,
+                background: "radial-gradient(circle, rgba(124, 182, 217, 0.25) 0%, transparent 70%)",
+                borderRadius: "50%",
+                pointerEvents: "none",
+              }}
+            />
+
+            {/* LEFT CONTENT */}
+            <div style={{ position: "relative", zIndex: 2 }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 5,
+                  background: "rgba(124, 182, 217, 0.2)",
+                  border: "1px solid rgba(124, 182, 217, 0.4)",
+                  padding: "3px 10px",
+                  borderRadius: 999,
+                  fontSize: 10,
+                  fontWeight: 800,
+                  color: "#7CB6D9",
+                  letterSpacing: "0.04em",
+                  marginBottom: 8,
+                  textTransform: "uppercase",
+                }}
+              >
+                <span>{activeSlide.tag}</span>
+              </div>
+
+              <h2
+                style={{
+                  fontSize: "clamp(18px, 3.2vw, 28px)",
+                  fontWeight: 800,
+                  color: "#FFFFFF",
+                  margin: "0 0 6px",
+                  lineHeight: 1.2,
+                  letterSpacing: "-0.02em",
+                  fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+                }}
+              >
+                {activeSlide.title}
+              </h2>
+
+              <p
+                style={{
+                  fontSize: 12,
+                  color: "#CBD5E1",
+                  margin: "0 0 16px",
+                  lineHeight: 1.35,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {activeSlide.subtitle}
+              </p>
+
+              {/* CRISP WHITE CTA BUTTON FOR MAXIMUM CONTRAST */}
+              <Link
+                href={activeSlide.btnLink}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "#FFFFFF",
+                  color: "#0D2B4D",
+                  padding: "9px 20px",
+                  borderRadius: 999,
+                  fontSize: 12.5,
+                  fontWeight: 900,
+                  textDecoration: "none",
+                  boxShadow: "0 6px 20px rgba(0, 0, 0, 0.3)",
+                  transition: "transform 0.2s ease",
+                }}
+              >
+                <ShoppingBag style={{ width: 14, height: 14, color: "#0D2B4D" }} />
+                <span>Commander</span>
+              </Link>
+            </div>
+
+            {/* RIGHT PRODUCT CUTOUT VISUAL (ENLARGED FOR MOBILE) */}
+            <div className="hero-promo-img-box">
+              <img
+                src={activeSlide.image}
+                alt={activeSlide.title}
+                className="hero-promo-img"
+              />
+            </div>
+
+            {/* PAGINATION DOTS (BOTTOM CENTER) */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: 10,
+                left: 0,
+                right: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 6,
+                zIndex: 3,
+              }}
+            >
+              {heroPromoSlides.map((_, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  style={{
+                    width: currentSlide === idx ? 16 : 6,
+                    height: 6,
+                    borderRadius: 999,
+                    background: currentSlide === idx ? "#7CB6D9" : "rgba(255, 255, 255, 0.3)",
+                    cursor: "pointer",
+                    transition: "all 0.2s ease",
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 5. SUB-CATEGORIES SQUIRCLE GRID (MATCHING REFERENCE UI)                  */}
+      {/* ========================================================================= */}
+      <section style={{ padding: "8px 0 16px" }}>
+        <div className="container">
+          <div
+            className="mobile-categories-scroll"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              overflowX: "auto",
+              paddingBottom: 4,
+            }}
+          >
+            {subCategorySquircles.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.id}
+                  href={item.link}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 7,
+                    textDecoration: "none",
+                    flexShrink: 0,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: 20,
+                      background: "#FFFFFF",
+                      border: "1px solid #EFECE6",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 2px 8px rgba(13, 43, 77, 0.04)",
+                      transition: "transform 0.18s ease, box-shadow 0.18s ease",
+                    }}
+                  >
+                    <Icon style={{ width: 24, height: 24, color: "#0D2B4D" }} />
+                  </div>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      color: "#1E1B16",
+                      fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+                    }}
+                  >
+                    {item.label}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 6. FEATURED PRODUCTS (EXACT 2-COLUMN MOBILE & MULTI-COLUMN DESKTOP GRID)  */}
+      {/* ========================================================================= */}
+      <section style={{ padding: "12px 0 24px" }}>
+        <div className="container">
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14, flexWrap: "wrap", gap: 8 }}>
+            <div>
+              <h2 style={{ fontSize: 18, fontWeight: 800, color: "#1E1B16", margin: "0 0 2px", fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+                {activeCategory === "all" ? "Produits Vedettes & Nouveautés" : categoryChips.find(c => c.id === activeCategory)?.label || "Produits"}
+              </h2>
+              <p style={{ fontSize: 12, color: "#7E7970", margin: 0, fontWeight: 600 }}>
+                {featuredProducts.length} articles disponibles • Direct Usines & Fabricants
+              </p>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              {activeCategory !== "all" && (
+                <button
+                  onClick={() => setActiveCategory("all")}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#0D2B4D",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Voir tout
+                </button>
+              )}
+              <Link href="/catalog" style={{ fontSize: 12.5, fontWeight: 700, color: "#0D2B4D", textDecoration: "none" }}>
+                Explorer le catalogue →
+              </Link>
+            </div>
           </div>
 
           <div
             className="product-grid-mobile"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(210px, 1fr))",
-              gap: 16,
+              gridTemplateColumns: "repeat(auto-fill, minmax(170px, 1fr))",
+              gap: 14,
             }}
           >
-            {recentProducts.map((p) => {
-              const img = p.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
+            {featuredProducts.slice(0, visibleCount).map((p) => {
+              const img = getProductImageUrl(p);
               return (
                 <ProductCard
                   key={p.id}
@@ -343,34 +717,128 @@ export default function HomePage() {
                   title={p.name}
                   price={`${p.price.toLocaleString()} ${p.currency}`}
                   image={img}
-                  category={p.category?.name || "Téléphonie"}
+                  category={p.category?.name || "High-Tech"}
                   isDemo={p.is_demo}
                   conditionState={p.condition_state}
                   grade={p.grade}
                   simType={p.sim_type}
                   regionVersion={p.region_version}
+                  stockLeft={15}
+                  rating="4.8"
+                  reviewsCount={201}
                 />
               );
             })}
           </div>
+
+          {/* LOAD MORE BUTTON */}
+          {visibleCount < featuredProducts.length && (
+            <div style={{ display: "flex", justifyContent: "center", marginTop: 24 }}>
+              <button
+                onClick={() => setVisibleCount((prev) => prev + 24)}
+                style={{
+                  background: "#FFFFFF",
+                  color: "#0D2B4D",
+                  border: "1.5px solid #0D2B4D",
+                  borderRadius: 999,
+                  padding: "11px 28px",
+                  fontSize: 13,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                  boxShadow: "0 4px 14px rgba(13, 43, 77, 0.08)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  transition: "all 0.2s ease",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                }}
+              >
+                <span>Charger plus de produits ({featuredProducts.length - visibleCount} restants)</span>
+                <ArrowRight style={{ width: 14, height: 14, color: "#0D2B4D" }} />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* TODAY'S BEST DEALS FOR YOU SECTION */}
-      <section style={{ padding: "20px 0 40px" }}>
+      {/* ========================================================================= */}
+      {/* SPOTLIGHT BANNER 1: MAISON & ÉLECTROMÉNAGER FENOUHI                      */}
+      {/* ========================================================================= */}
+      <section style={{ padding: "8px 0 24px" }}>
         <div className="container">
-          
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 600, color: "#0F172A", margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              Les Meilleures Offres du Jour pour Vous !
-            </h2>
-            <Link href="/catalog" style={{ fontSize: 13, fontWeight: 700, color: "#165491", textDecoration: "none", display: "flex", alignItems: "center", gap: 3 }}>
-              <span>Voir Tout</span>
-              <ChevronRight style={{ width: 14, height: 14 }} />
+          <Link
+            href="/catalog?cat=home"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1.2fr 0.8fr",
+              alignItems: "center",
+              background: "linear-gradient(135deg, #071C35 0%, #0D2B4D 55%, #153B64 100%)",
+              borderRadius: 24,
+              overflow: "hidden",
+              textDecoration: "none",
+              position: "relative",
+              border: "1px solid rgba(124, 182, 217, 0.35)",
+              boxShadow: "0 18px 40px rgba(13, 43, 77, 0.35)",
+              padding: "24px 24px 20px",
+              gap: 16,
+            }}
+          >
+            <div>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(124, 182, 217, 0.2)", border: "1px solid rgba(124, 182, 217, 0.4)", borderRadius: 999, padding: "4px 12px", color: "#7CB6D9", fontSize: 10.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 }}>
+                FENOUHI MAISON
+              </div>
+              <h3 style={{ fontSize: "clamp(18px, 3vw, 24px)", fontWeight: 800, color: "#FFFFFF", margin: "0 0 8px", lineHeight: 1.25 }}>
+                Électroménager & Décoration Intérieure
+              </h3>
+              <p style={{ fontSize: 12, color: "#CBD5E1", margin: "0 0 16px", lineHeight: 1.4 }}>
+                Air fryers, blenders haute puissance, batteries de cuisine et linge de maison livrés à Cotonou.
+              </p>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#FFFFFF", color: "#0D2B4D", padding: "9px 20px", borderRadius: 999, fontSize: 12.5, fontWeight: 900, boxShadow: "0 6px 20px rgba(0, 0, 0, 0.3)" }}>
+                <span>Explorer l'Univers Maison</span>
+                <ArrowRight style={{ width: 13, height: 13, color: "#0D2B4D" }} />
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <img
+                src="/images/banners/banner2.png"
+                alt="Maison & Électroménager Fenouhi"
+                style={{
+                  maxHeight: 200,
+                  width: "auto",
+                  objectFit: "contain",
+                  filter: "drop-shadow(0 14px 24px rgba(0,0,0,0.5))",
+                }}
+              />
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 7. OFFRES FLASH & DEALS DE LA SEMAINE                                    */}
+      {/* ========================================================================= */}
+      <section style={{ padding: "12px 0 24px" }}>
+        <div className="container">
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <Zap style={{ width: 18, height: 18, color: "#7CB6D9" }} />
+              <h2 style={{ fontSize: 18, fontWeight: 800, color: "#1E1B16", margin: 0, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+                Ventes Flash du Jour
+              </h2>
+            </div>
+            <Link href="/catalog?deals=true" style={{ fontSize: 12.5, fontWeight: 700, color: "#0D2B4D", textDecoration: "none" }}>
+              Voir tout
             </Link>
           </div>
 
-          <div className="grid-5">
+          <div
+            className="product-grid-mobile"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(170px, 1fr))",
+              gap: 14,
+            }}
+          >
             {todayDeals.map((p) => (
               <ProductCard
                 key={p.id}
@@ -380,186 +848,104 @@ export default function HomePage() {
                 oldPrice={p.oldPrice}
                 image={p.image}
                 category={p.category}
+                stockLeft={p.stockLeft}
+                rating={p.rating}
+                reviewsCount={p.reviewsCount}
               />
             ))}
           </div>
-
         </div>
       </section>
 
-      {/* STYLE & FASHION SECTION */}
-      <section style={{ padding: "20px 0 30px" }}>
+      {/* ========================================================================= */}
+      {/* SPOTLIGHT BANNER 2: BEAUTÉ & COSMÉTIQUES FENOUHI                         */}
+      {/* ========================================================================= */}
+      <section style={{ padding: "8px 0 24px" }}>
         <div className="container">
-          <div className="section-title-row">
-            <h2 className="section-title">Sélection Catalogue Produits</h2>
-            <Link href="/catalog" className="view-all-link">
-              <span>Tout le catalogue</span>
-              <ChevronRight style={{ width: 14, height: 14 }} />
-            </Link>
-          </div>
-
-          <div className="grid-5">
-            {recentProducts.slice(5, 10).map((p) => {
-              const img = p.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
-              return (
-                <ProductCard
-                  key={p.id}
-                  id={p.id}
-                  title={p.name}
-                  price={`${p.price.toLocaleString()} ${p.currency}`}
-                  image={img}
-                  category={p.category?.name || "Général"}
-                  isDemo={p.is_demo}
-                  conditionState={p.condition_state}
-                  grade={p.grade}
-                  simType={p.sim_type}
-                  regionVersion={p.region_version}
-                />
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ELECTRONICS SHOWCASE BANNER CONTAINER */}
-      <section style={{ padding: "20px 0 40px" }}>
-        <div className="container">
-          <div style={{ background: "#F1F5F9", borderRadius: 24, padding: "28px 24px", border: "1px solid #E2E8F0" }}>
-            <div className="section-title-row" style={{ marginBottom: 20 }}>
-              <h2 className="section-title" style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#0F172A" }}>
-                High-Tech & Electronics Usines
-              </h2>
-              <Link href="/catalog?cat=electronics" className="view-all-link">
-                <span>Voir tout</span>
-                <ChevronRight style={{ width: 14, height: 14 }} />
-              </Link>
-            </div>
-
-            <div className="grid-5">
-              {laptopsShowcase.map((item, idx) => (
-                <Link 
-                  key={idx} 
-                  href={item.link}
-                  style={{
-                    background: "#FFFFFF",
-                    borderRadius: 16,
-                    padding: 16,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    minHeight: 180,
-                    textDecoration: "none",
-                    boxShadow: "0 4px 12px rgba(15, 23, 42, 0.04)",
-                    transition: "transform 0.2s ease, box-shadow 0.2s ease"
-                  }}
-                >
-                  <div style={{ height: 110, width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <img src={item.img} alt={item.title} style={{ maxHeight: 95, maxWidth: "100%", objectFit: "contain" }} />
-                  </div>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#0F172A", marginTop: 10, textAlign: "center" }}>{item.title}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* BEAUTY & SOINS SHOWCASE BANNER CONTAINER */}
-      <section style={{ padding: "0 0 40px" }}>
-        <div className="container">
-          <div style={{ background: "#FAF5FF", borderRadius: 24, padding: "28px 24px", border: "1px solid #F3E8FF" }}>
-            <div className="section-title-row" style={{ marginBottom: 20 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <Sparkles style={{ width: 20, height: 20, color: "#9333EA" }} />
-                <h2 className="section-title" style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#0F172A" }}>
-                  Beauté & Soins Direct Usines
-                </h2>
+          <Link
+            href="/catalog?cat=beauty"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1.2fr 0.8fr",
+              alignItems: "center",
+              background: "linear-gradient(135deg, #071C35 0%, #153B64 55%, #0D2B4D 100%)",
+              borderRadius: 24,
+              overflow: "hidden",
+              textDecoration: "none",
+              position: "relative",
+              border: "1px solid rgba(124, 182, 217, 0.35)",
+              boxShadow: "0 18px 40px rgba(13, 43, 77, 0.35)",
+              padding: "24px 24px 20px",
+              gap: 16,
+            }}
+          >
+            <div>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(124, 182, 217, 0.2)", border: "1px solid rgba(124, 182, 217, 0.4)", borderRadius: 999, padding: "4px 12px", color: "#7CB6D9", fontSize: 10.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 }}>
+                FENOUHI BEAUTÉ & SOINS
               </div>
-              <Link href="/catalog?cat=beauty" className="view-all-link" style={{ color: "#9333EA" }}>
-                <span>Voir tout</span>
-                <ChevronRight style={{ width: 14, height: 14 }} />
-              </Link>
+              <h3 style={{ fontSize: "clamp(18px, 3vw, 24px)", fontWeight: 800, color: "#FFFFFF", margin: "0 0 8px", lineHeight: 1.25 }}>
+                Parfums, Soins & Maroquinerie de Luxe
+              </h3>
+              <p style={{ fontSize: 12, color: "#CBD5E1", margin: "0 0 16px", lineHeight: 1.4 }}>
+                Sérum Fenouhi Radiance Essence, soins visage et maroquinerie tendance aux tarifs grossistes.
+              </p>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#FFFFFF", color: "#0D2B4D", padding: "9px 20px", borderRadius: 999, fontSize: 12.5, fontWeight: 900, boxShadow: "0 6px 20px rgba(0, 0, 0, 0.3)" }}>
+                <span>Découvrir l'Espace Beauté</span>
+                <ArrowRight style={{ width: 13, height: 13, color: "#0D2B4D" }} />
+              </div>
             </div>
-
-            <div className="grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-              {beautyShowcase.map((item, idx) => (
-                <Link 
-                  key={idx} 
-                  href={item.link}
-                  style={{
-                    background: "#FFFFFF",
-                    borderRadius: 16,
-                    padding: 16,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    minHeight: 200,
-                    textDecoration: "none",
-                    boxShadow: "0 4px 12px rgba(15, 23, 42, 0.04)",
-                    border: "1px solid #F3E8FF",
-                    transition: "transform 0.2s ease, box-shadow 0.2s ease"
-                  }}
-                >
-                  <div style={{ height: 120, width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <img src={item.img} alt={item.title} style={{ maxHeight: 110, maxWidth: "100%", objectFit: "contain", borderRadius: 12 }} />
-                  </div>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: "#0F172A", marginTop: 10, textAlign: "center", lineHeight: 1.3 }}>{item.title}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CARGOLINK AI SOURCING HERO CARD (FULLY RESPONSIVE DESIGN) */}
-      <section className="container" style={{ margin: "30px auto 50px" }}>
-        <div className="cargolink-ai-card">
-          
-          {/* AMBIENT GLOW EFFECTS */}
-          <div style={{ position: "absolute", top: -80, left: "30%", width: 300, height: 300, background: "rgba(56, 189, 248, 0.15)", filter: "blur(90px)", borderRadius: "50%", pointerEvents: "none" }} />
-          <div style={{ position: "absolute", bottom: -80, right: "20%", width: 260, height: 260, background: "rgba(249, 115, 22, 0.12)", filter: "blur(90px)", borderRadius: "50%", pointerEvents: "none" }} />
-
-          {/* SOURCING BADGE */}
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(56, 189, 248, 0.12)", border: "1px solid rgba(56, 189, 248, 0.3)", borderRadius: 9999, padding: "6px 14px", color: "#38BDF8", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.5px", marginBottom: 16, maxWidth: "100%", boxSizing: "border-box" }}>
-            <Building2 style={{ width: 14, flexShrink: 0 }} /> <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>SOURCING DIRECT USINES CHINE • BÉNIN BJ</span>
-          </div>
-
-          {/* HEADLINE */}
-          <h2 style={{ fontSize: "clamp(22px, 4vw, 36px)", fontWeight: 700, color: "#FFFFFF", marginBottom: 12, lineHeight: 1.2, letterSpacing: "-0.5px" }}>
-            Trouvez N'importe Quel Produit Direct Usine
-          </h2>
-          <p style={{ fontSize: 13.5, color: "#94A3B8", maxWidth: 640, margin: "0 auto 24px", lineHeight: 1.6 }}>
-            Collez un lien produit ou décrivez votre besoin. Notre équipe logistique identifie les fournisseurs usines certifiés au meilleur prix et calcule votre devis rendu Cotonou.
-          </p>
-
-          {/* FLOATING SEARCH INPUT BAR (RESPONSIVE STACK ON MOBILE) */}
-          <div className="cargolink-ai-search-box">
-            <div className="cargolink-ai-search-box-input-wrap" style={{ display: "flex", alignItems: "center", flex: 1, gap: 8, paddingLeft: 8 }}>
-              <span style={{ color: "#165491", display: "flex", alignItems: "center" }}>
-                <Search style={{ width: 18 }} />
-              </span>
-              <input
-                type="text"
-                value={searchUrl}
-                onChange={(e) => setSearchUrl(e.target.value)}
-                placeholder="Collez un lien produit ou décrivez votre besoin..."
-                style={{ width: "100%", border: "none", outline: "none", fontSize: 13.5, fontWeight: 600, color: "#0F172A", background: "transparent" }}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <img
+                src="/images/banners/banner3.png"
+                alt="Beauté & Cosmétiques Fenouhi"
+                style={{
+                  maxHeight: 200,
+                  width: "auto",
+                  objectFit: "contain",
+                  filter: "drop-shadow(0 14px 24px rgba(0,0,0,0.5))",
+                }}
               />
             </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 8. CARGOLINK AI SOURCING HERO CARD                                        */}
+      {/* ========================================================================= */}
+      <section className="container" style={{ margin: "20px auto 40px" }}>
+        <div className="cargolink-ai-card" style={{ background: "linear-gradient(135deg, #071C35 0%, #0D2B4D 55%, #14375F 100%)", borderRadius: 24, padding: "32px 24px", color: "#FFFFFF", textAlign: "center", position: "relative", overflow: "hidden", border: "1px solid rgba(124, 182, 217, 0.35)" }}>
+          
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(124, 182, 217, 0.18)", border: "1px solid rgba(124, 182, 217, 0.4)", borderRadius: 9999, padding: "5px 14px", color: "#7CB6D9", fontSize: 11, fontWeight: 800, letterSpacing: "0.5px", marginBottom: 14 }}>
+            <Building2 style={{ width: 14 }} /> SOURCING DIRECT USINES CHINE
+          </div>
+
+          <h2 style={{ fontSize: "clamp(20px, 3.5vw, 32px)", fontWeight: 800, color: "#FFFFFF", marginBottom: 10, lineHeight: 1.2 }}>
+            Trouvez N'importe Quel Produit Direct Usine
+          </h2>
+          <p style={{ fontSize: 13, color: "#CBD5E1", maxWidth: 600, margin: "0 auto 20px", lineHeight: 1.5 }}>
+            Collez un lien produit ou décrivez votre besoin. Notre équipe logistique identifie les fournisseurs certifiés et calcule votre devis rendu Cotonou.
+          </p>
+
+          <div style={{ display: "flex", alignItems: "center", maxWidth: 540, margin: "0 auto", background: "#FFFFFF", borderRadius: 999, padding: "6px 8px 6px 18px", gap: 10, boxShadow: "0 8px 24px rgba(13, 43, 77, 0.2)" }}>
+            <Search style={{ width: 18, color: "#0D2B4D" }} />
+            <input
+              type="text"
+              value={searchUrl}
+              onChange={(e) => setSearchUrl(e.target.value)}
+              placeholder="Collez un lien produit ou décrivez votre besoin..."
+              style={{ width: "100%", border: "none", outline: "none", fontSize: 13, fontWeight: 600, color: "#1E1B16", background: "transparent" }}
+            />
             <Link 
               href={`/quote-request?url=${encodeURIComponent(searchUrl)}`}
-              className="btn btn-orange cargolink-ai-search-btn"
-              style={{ borderRadius: 9999, padding: "12px 24px", fontSize: 13.5, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 8, background: "linear-gradient(135deg, #F97316 0%, #EA580C 100%)", boxShadow: "0 6px 20px rgba(249,115,22,0.35)", whiteSpace: "nowrap" }}
+              style={{ borderRadius: 999, padding: "10px 20px", fontSize: 12.5, fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 6, background: "#0D2B4D", color: "#FFFFFF", border: "1px solid rgba(124, 182, 217, 0.4)", textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0, boxShadow: "0 4px 14px rgba(13, 43, 77, 0.35)" }}
             >
-              <Search style={{ width: 16 }} /> Trouver l'Usine <ArrowRight style={{ width: 16 }} />
+              Trouver <ArrowRight style={{ width: 14, color: "#7CB6D9" }} />
             </Link>
           </div>
 
-          {/* SAMPLE SUGGESTION CHIPS */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, flexWrap: "wrap", marginTop: 18 }}>
-            <span style={{ fontSize: 11, color: "#64748B", fontWeight: 700, width: "100%", marginBottom: 4 }}>Exemples :</span>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, flexWrap: "wrap", marginTop: 14 }}>
+            <span style={{ fontSize: 11, color: "#7E7970", fontWeight: 700 }}>Exemples :</span>
             {samplePrompts.map((prompt, idx) => (
               <button
                 key={idx}
@@ -573,28 +959,15 @@ export default function HomePage() {
                   fontSize: 11,
                   fontWeight: 600,
                   cursor: "pointer",
-                  transition: "all 0.2s ease"
                 }}
               >
                 {prompt}
               </button>
             ))}
           </div>
-
-          {/* 3 REASSURANCE FEATURE PILLS (RESPONSIVE 1-COLUMN ON MOBILE) */}
-          <div className="cargolink-ai-features-grid">
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#E2E8F0", fontSize: 12, fontWeight: 700 }}>
-              <Zap style={{ width: 15, color: "#38BDF8", flexShrink: 0 }} /> Scan Instantané Usines
-            </div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#E2E8F0", fontSize: 12, fontWeight: 700 }}>
-              <DollarSign style={{ width: 15, color: "#10B981", flexShrink: 0 }} /> Prix Usine Direct
-            </div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#E2E8F0", fontSize: 12, fontWeight: 700 }}>
-              <Truck style={{ width: 15, color: "#F97316", flexShrink: 0 }} /> Fret & Dédouanement Afrique
-            </div>
-          </div>
         </div>
       </section>
+
     </div>
   );
 }

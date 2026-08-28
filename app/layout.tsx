@@ -34,39 +34,40 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Fenouhimin — Plateforme d'Achat et d'Expédition Chine → Afrique",
+  title: "Fenouhi — Plateforme d'Achat et d'Expédition Chine → Afrique",
   description:
     "Achetez en Chine et faites-vous livrer en Afrique. Devis transparents, Fret Aérien & Maritime, Suivi logistique et Mobile Money.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Fenouhimin",
+    title: "Fenouhi",
     startupImage: [
       {
-        url: "/icons/apple-touch-icon.png",
+        url: "/icons/apple-touch-icon.png?v=3",
       },
     ],
   },
   icons: {
     icon: [
-      { url: "/icons/icon-96x96.png", sizes: "96x96", type: "image/png" },
-      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon.svg?v=3", type: "image/svg+xml" },
+      { url: "/icons/icon-96x96.png?v=3", sizes: "96x96", type: "image/png" },
+      { url: "/icons/icon-192x192.png?v=3", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512x512.png?v=3", sizes: "512x512", type: "image/png" },
     ],
-    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [{ url: "/icons/apple-touch-icon.png?v=3", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
-    title: "FENOUHIMIN — Sourcing Direct Usines Chine & iPhones Certifiés",
+    title: "FENOUHI — Sourcing Direct Usines Chine & iPhones Certifiés",
     description: "Offres Exclusives Jusqu'à -50% de réduction ! iPhones certifiés, produits usines direct grossistes et livraison express Cotonou & Bénin.",
-    url: "https://fenouhimin.com",
-    siteName: "FENOUHIMIN",
+    url: "https://fenouhi.com",
+    siteName: "FENOUHI",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "FENOUHIMIN - Offres Exclusives -50% Sourcing Chine & iPhones Certifiés",
+        alt: "FENOUHI - Offres Exclusives -50% Sourcing Chine & iPhones Certifiés",
       },
     ],
     locale: "fr_FR",
@@ -74,14 +75,14 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "FENOUHIMIN — Offres Exclusives & Sourcing Direct Usines",
+    title: "FENOUHI — Offres Exclusives & Sourcing Direct Usines",
     description: "Jusqu'à -50% de réduction sur iPhones certifiés et produits usines direct grossistes.",
     images: ["/og-image.jpg"],
   },
   other: {
     "mobile-web-app-capable": "yes",
-    "msapplication-TileColor": "#165491",
-    "msapplication-TileImage": "/icons/icon-192x192.png",
+    "msapplication-TileColor": "#0D2B4D",
+    "msapplication-TileImage": "/icons/icon-192x192.png?v=3",
   },
 };
 

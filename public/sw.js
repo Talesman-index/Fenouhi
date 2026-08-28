@@ -1,20 +1,23 @@
-// FENOUHIMIN — Service Worker
+// FENOUHI — Service Worker
 // Strategy:
 //   - Static assets (JS, CSS, fonts, images): Cache First
 //   - API / dynamic pages:                    Network First → fallback to cache
 //   - Offline fallback page for navigation
 
-const CACHE_VERSION = "v1";
-const STATIC_CACHE = `fenouhimin-static-${CACHE_VERSION}`;
-const DYNAMIC_CACHE = `fenouhimin-dynamic-${CACHE_VERSION}`;
+const CACHE_VERSION = "v3-fenouhi-new-icons";
+const STATIC_CACHE = `fenouhi-static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `fenouhi-dynamic-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
   "/",
   "/offline",
+  "/favicon.svg",
+  "/favicon.ico",
   "/icons/icon-192x192.png",
   "/icons/icon-512x512.png",
-  "/images/cargolink_logo.svg",
-  "/images/cargolink_logo_light.svg",
+  "/icons/icon-maskable-192x192.png",
+  "/icons/icon-maskable-512x512.png",
+  "/icons/apple-touch-icon.png",
 ];
 
 // ─── Install ─────────────────────────────────────────────────────────────────
@@ -127,7 +130,7 @@ async function networkFirstNavigate(request) {
     return (
       offlinePage ||
       new Response(
-        `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Hors ligne — Fenouhimin</title></head><body style="font-family:sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0F172A;color:#fff;text-align:center"><div><h1>📦 Vous êtes hors ligne</h1><p>Reconnectez-vous pour accéder à Fenouhimin.</p></div></body></html>`,
+        `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Hors ligne — Fenouhi</title></head><body style="font-family:sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0F172A;color:#fff;text-align:center"><div><h1>📦 Vous êtes hors ligne</h1><p>Reconnectez-vous pour accéder à Fenouhi.</p></div></body></html>`,
         { headers: { "Content-Type": "text/html" } }
       )
     );
@@ -138,7 +141,7 @@ async function networkFirstNavigate(request) {
 self.addEventListener("push", (event) => {
   if (!event.data) return;
   const data = event.data.json();
-  self.registration.showNotification(data.title || "Fenouhimin", {
+  self.registration.showNotification(data.title || "Fenouhi", {
     body: data.body || "",
     icon: "/icons/icon-192x192.png",
     badge: "/icons/icon-96x96.png",

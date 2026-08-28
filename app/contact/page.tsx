@@ -11,7 +11,7 @@ export default function ContactPage() {
       <header style={{ background: "var(--navy-dark)", color: "#FFF", padding: "45px 0 55px", borderBottom: "4px solid var(--orange-primary)" }}>
         <div className="container" style={{ textAlign: "center" }}>
           <span className="badge" style={{ marginBottom: 12, background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 12 }}>SUPPORT CLIENT DÉDIÉ 7J/7</span>
-          <h1 className="hero-page-title">Contactez l'Équipe FENOUHIMIN</h1>
+          <h1 className="hero-page-title">Contactez l'Équipe FENOUHI</h1>
           <p style={{ fontSize: 15, color: "#CBD5E1", maxWidth: 660, margin: "0 auto", lineHeight: 1.5 }}>
             Une question sur une commande, un devis d'importation ou nos entrepôts de Cotonou et Guangzhou ? Nos agents vous répondent directement.
           </p>

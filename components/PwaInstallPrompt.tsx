@@ -91,7 +91,7 @@ export default function PwaInstallPrompt() {
         className="pwa-modal"
         role="dialog"
         aria-modal="true"
-        aria-label="Comment installer Fenouhimin"
+        aria-label="Comment installer Fenouhi"
       >
         {/* Header */}
         <div className="pwa-modal__header">
@@ -99,13 +99,13 @@ export default function PwaInstallPrompt() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/icons/icon-96x96.png"
-              alt="Fenouhimin"
+              alt="Fenouhi"
               width={44}
               height={44}
               className="pwa-modal__app-icon"
             />
             <div>
-              <div className="pwa-modal__app-name">Fenouhimin</div>
+              <div className="pwa-modal__app-name">Fenouhi</div>
               <div className="pwa-modal__app-sub">Application Mobile · PWA</div>
             </div>
           </div>
@@ -284,7 +284,7 @@ export default function PwaInstallPrompt() {
                 <strong>Confirmer</strong>
                 <span>
                   Appuyez sur <strong>Ajouter</strong> en haut à droite.
-                  L&apos;icône Fenouhimin apparaîtra sur votre écran
+                  L&apos;icône Fenouhi apparaîtra sur votre écran
                   d&apos;accueil.
                 </span>
               </div>

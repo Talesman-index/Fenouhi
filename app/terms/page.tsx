@@ -15,7 +15,7 @@ export default function TermsPage() {
           <div className="card" style={{ padding: 32, fontSize: 14, lineHeight: 1.6, color: "var(--text-main)", display: "flex", flexDirection: "column", gap: 20 }}>
             <div>
               <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 8 }}>1. Objet des Services</h3>
-              <p>FENOUHIMIN opère en tant qu'intermédiaire d'achat et commissionnaire de transport logistique entre les usines partenaires en Chine et les acheteurs/commerçants en Afrique.</p>
+              <p>FENOUHI opère en tant qu'intermédiaire d'achat et commissionnaire de transport logistique entre les usines partenaires en Chine et les acheteurs/commerçants en Afrique.</p>
             </div>
             <div>
               <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 8 }}>2. Validation des Devis & Paiements</h3>

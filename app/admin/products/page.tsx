@@ -36,7 +36,8 @@ import {
   getStoredCustomProducts,
   saveStoredCustomProducts,
   getStoredDeletedProductIds,
-  saveStoredDeletedProductIds
+  saveStoredDeletedProductIds,
+  getProductImageUrl
 } from "@/lib/supabase/catalog";
 import { addRealNotification } from "@/lib/admin/notifications";
 
@@ -423,7 +424,7 @@ export default function ProductsManagementPage() {
     setIsDemo(product.is_demo);
     setIsFeatured(product.is_featured);
 
-    const primaryImgUrl = product.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
+    const primaryImgUrl = getProductImageUrl(product);
     setImageUrl(primaryImgUrl);
 
     // Filter out duplicates of the main image and duplicate URLs in the gallery
@@ -475,7 +476,7 @@ export default function ProductsManagementPage() {
     // Smart fallbacks for descriptions & images
     const effectiveImageUrl = imageUrl?.trim() || "/images/assets/item_1.jpg";
     const effectiveShortDescription = shortDescription?.trim() || `${name} - Produit certifié avec expédition rapide.`;
-    const effectiveDescription = description?.trim() || `Découvrez ${name}, disponible au meilleur prix avec contrôle qualité rigoureux et garantie Fenouhimin.`;
+    const effectiveDescription = description?.trim() || `Découvrez ${name}, disponible au meilleur prix avec contrôle qualité rigoureux et garantie Fenouhi.`;
     const finalSlug = slug.trim() || generateSlug(name);
 
     setSaving(true);
@@ -783,7 +784,7 @@ export default function ProductsManagementPage() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 16 }}>
         <div>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(22, 84, 145, 0.08)", color: "#165491", padding: "4px 12px", borderRadius: 999, fontSize: 11.5, fontWeight: 700, marginBottom: 6 }}>
-            <Package style={{ width: 14, height: 14 }} /> CATALOGUE SUPABASE & BOUTIQUE FENOUHIMIN
+            <Package style={{ width: 14, height: 14 }} /> CATALOGUE SUPABASE & BOUTIQUE FENOUHI
           </div>
           <h1 style={{ fontSize: 24, fontWeight: 800, color: "#0F172A", margin: 0, letterSpacing: "-0.5px" }}>
             Gestion des Articles & Produits
@@ -1039,7 +1040,7 @@ export default function ProductsManagementPage() {
                 </tr>
               ) : (
                 filteredProducts.map((p, idx) => {
-                  const img = p.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
+                  const img = getProductImageUrl(p);
                   const isActive = p.status === "active";
                   const stockNum = p.stock_quantity ?? 100;
                   const isStockOk = stockNum > 10;
@@ -1831,7 +1832,7 @@ export default function ProductsManagementPage() {
             {/* PRODUCT MINI CARD PREVIEW */}
             <div style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 12, padding: "12px 14px", display: "flex", alignItems: "center", gap: 12, textAlign: "left", marginBottom: 20 }}>
               <img
-                src={deleteModalProduct.images?.[0]?.public_image_url || "/images/assets/item_1.jpg"}
+                src={getProductImageUrl(deleteModalProduct)}
                 alt={deleteModalProduct.name}
                 style={{ width: 44, height: 44, borderRadius: 8, objectFit: "cover", border: "1px solid #CBD5E1" }}
               />

@@ -23,7 +23,7 @@ import {
 import type { Order, Quote, ActivityLog } from "@/types/supabase";
 import type { Product } from "@/types/catalog";
 import { PRODUCTS } from "@/lib/products";
-import { getPublicProducts } from "@/lib/supabase/catalog";
+import { getPublicProducts, getProductImageUrl } from "@/lib/supabase/catalog";
 
 export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
@@ -416,7 +416,7 @@ export default function AdminDashboardPage() {
             <tbody>
               {recentProducts.length > 0 ? (
                 recentProducts.map((p) => {
-                  const img = p.images?.[0]?.public_image_url || "/images/assets/item_1.jpg";
+                  const img = getProductImageUrl(p);
                   return (
                     <tr key={p.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
                       <td style={{ padding: "10px 4px" }}>

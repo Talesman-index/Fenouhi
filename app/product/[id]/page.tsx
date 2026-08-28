@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { getProductByIdOrSlug } from "@/lib/supabase/catalog";
+import { getProductByIdOrSlug, getProductImageUrl } from "@/lib/supabase/catalog";
 import type { Product } from "@/types/catalog";
 import {
   ShoppingBag,
@@ -83,7 +83,7 @@ function ProductDetailContent() {
     return (
       <div style={{ padding: "100px 0", textAlign: "center", background: "#FAF7F2", color: "#0F172A", fontWeight: 700 }}>
         <div style={{ width: 40, height: 40, border: "3px solid #E2E8F0", borderTopColor: "#0284C7", borderRadius: "50%", margin: "0 auto 16px", animation: "spin 1s linear infinite" }} />
-        Chargement de la fiche produit FENOUHIMIN...
+        Chargement de la fiche produit FENOUHI...
       </div>
     );
   }
@@ -100,10 +100,10 @@ function ProductDetailContent() {
     );
   }
 
-  const productImages = product.images && product.images.length > 0 
-    ? product.images.map(img => img.public_image_url) 
-    : ["/images/assets/item_1.jpg"];
-  const mainImage = productImages[activeImage] || productImages[0];
+  const productImages = Array.isArray(product.images) && product.images.length > 0 
+    ? product.images.map((img: any) => typeof img === "string" ? img : (img?.public_image_url || img?.url || "/images/assets/hero_iphone16.png"))
+    : [getProductImageUrl(product)];
+  const mainImage = productImages[activeImage] || productImages[0] || "/images/assets/hero_iphone16.png";
 
   // Beauty product detection (no international freight charged, 10% quality control)
   const isBeauty =
@@ -751,7 +751,7 @@ function ProductDetailContent() {
                 <ul style={{ paddingLeft: 20, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
                   <li>Inspection des composants et conformité aux normes internationales.</li>
                   <li>Conditionnement protecteur pour transport maritime ou aérien long courrier.</li>
-                  <li>Prise en charge directe par les équipes FENOUHIMIN à Shenzhen / Guangzhou.</li>
+                  <li>Prise en charge directe par les équipes FENOUHI à Shenzhen / Guangzhou.</li>
                 </ul>
               </div>
             )}
@@ -780,7 +780,7 @@ function ProductDetailContent() {
             {activeTab === "shipping" && (
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: 0 }}>
-                  Processus Logistique FENOUHIMIN Chine ➔ Bénin
+                  Processus Logistique FENOUHI Chine ➔ Bénin
                 </h3>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14 }}>
                   <div style={{ background: "#FAF7F2", padding: "16px", borderRadius: 14, border: "1px solid #E2D9CC" }}>

@@ -30,7 +30,34 @@ function readCustomProductsFromFile(): Product[] {
     ensureDataFiles();
     if (fs.existsSync(PRODUCTS_FILE)) {
       const raw = fs.readFileSync(PRODUCTS_FILE, "utf-8");
-      return JSON.parse(raw) as Product[];
+      const list = JSON.parse(raw) as any[];
+      return list.map((p) => {
+        const rawList: string[] = [];
+        if (Array.isArray(p.images) && p.images.length > 0) {
+          for (const item of p.images) {
+            if (typeof item === "string" && item.trim()) rawList.push(item.trim());
+            else if (item && typeof item === "object") {
+              const u = item.public_image_url || item.url || item.src || item.image_url;
+              if (typeof u === "string" && u.trim()) rawList.push(u.trim());
+            }
+          }
+        }
+        const direct = p.image || p.image_url || p.imageUrl;
+        if (typeof direct === "string" && direct.trim() && !rawList.includes(direct.trim())) {
+          rawList.unshift(direct.trim());
+        }
+        if (rawList.length === 0) {
+          rawList.push("/images/assets/hero_iphone16.png");
+        }
+        p.images = rawList.map((url, i) => ({
+          id: `img-${p.id || "prod"}-${i}`,
+          product_id: p.id || "",
+          public_image_url: url,
+          position: i,
+          is_primary: i === 0,
+        }));
+        return p as Product;
+      });
     }
   } catch (e) {
     console.warn("[API Products] Could not read custom products file:", e);
@@ -334,7 +361,7 @@ export async function POST(request: NextRequest) {
         if (cleanImages.length === 0) {
           cleanImages.push({
             product_id: dbProd.id,
-            public_image_url: "/images/assets/item_1.jpg",
+            public_image_url: "/images/assets/hero_iphone16.png",
             is_primary: true,
             position: 0
           });

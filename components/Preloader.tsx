@@ -148,7 +148,7 @@ export default function Preloader() {
               height: "100%",
               borderRadius: "22px",
               overflow: "hidden",
-              backgroundColor: "#0F172A",
+              backgroundColor: "#FAF7F2",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -156,7 +156,7 @@ export default function Preloader() {
           >
             <Image
               src="/icons/icon-512x512.png"
-              alt="FENOUHIMIN Logo App PWA"
+              alt="Fenouhi Logo App PWA"
               width={94}
               height={94}
               priority
@@ -173,17 +173,17 @@ export default function Preloader() {
           <h1
             style={{
               margin: 0,
-              fontSize: "26px",
-              fontWeight: 700,
+              fontSize: "28px",
+              fontWeight: 800,
               color: "#FFFFFF",
-              letterSpacing: "-0.5px",
-              fontFamily: "var(--font-heading), system-ui, sans-serif",
+              letterSpacing: "-0.02em",
+              fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
               display: "flex",
               alignItems: "center",
-              gap: "6px",
+              gap: "2px",
             }}
           >
-            FENOUHIMIN
+            Fenouh<span style={{ color: "#D4A373" }}>i</span>
           </h1>
 
           <div

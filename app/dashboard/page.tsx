@@ -183,7 +183,7 @@ function DashboardContent() {
                   }}
                 >
                   <ShieldCheck style={{ width: 14, height: 14, color: "#165491" }} />
-                  <span>ESPACE CLIENT & SUIVI LOGISTIQUE FENOUHIMIN</span>
+                  <span>ESPACE CLIENT & SUIVI LOGISTIQUE FENOUHI</span>
                 </div>
 
                 <h1
@@ -200,7 +200,7 @@ function DashboardContent() {
                 </h1>
 
                 <p style={{ fontSize: 13, color: "#64748B", margin: 0 }}>
-                  Bienvenue <strong style={{ color: "#0F172A" }}>{profile ? `${profile.first_name} ${profile.last_name}` : "Client FENOUHIMIN"}</strong> • Compte : <strong style={{ color: "#165491" }}>{profile?.account_type || "Particulier"}</strong>
+                  Bienvenue <strong style={{ color: "#0F172A" }}>{profile ? `${profile.first_name} ${profile.last_name}` : "Client FENOUHI"}</strong> • Compte : <strong style={{ color: "#165491" }}>{profile?.account_type || "Particulier"}</strong>
                 </p>
               </div>
 
@@ -653,7 +653,7 @@ function DashboardContent() {
                         <input
                           type="email"
                           disabled
-                          value={profile?.email || "client@fenouhimin.com"}
+                          value={profile?.email || "client@fenouhi.com"}
                           style={{
                             width: "100%",
                             padding: "12px 14px",
@@ -790,7 +790,7 @@ function DashboardContent() {
                     Section en cours de synchronisation
                   </h3>
                   <p style={{ fontSize: 13, color: "#64748B", margin: 0 }}>
-                    Vos données FENOUHIMIN sont mises à jour en temps réel.
+                    Vos données FENOUHI sont mises à jour en temps réel.
                   </p>
                 </div>
               )}
@@ -816,7 +816,7 @@ export default function DashboardPage() {
             minHeight: "80vh",
           }}
         >
-          Chargement de l'Espace Client FENOUHIMIN...
+          Chargement de l'Espace Client FENOUHI...
         </div>
       }
     >

@@ -6,33 +6,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  /* Colors */
-  --navy-dark: #0F172A;
-  --navy-surface: #1E293B;
+  /* PRIMARY BRAND COLOR: Soft Sky Blue (#7CB6D9) */
+  --primary: #7CB6D9;
+  --primary-hover: #62A4CD;
+  --primary-light: #EBF4FA;
+  --primary-border: #BCD9EC;
+  --primary-text: #0D2B4D;
+
+  --sky-primary: #7CB6D9;
+  --sky-hover: #62A4CD;
+  --sky-light: #EBF4FA;
+  --sky-border: #BCD9EC;
+
+  /* Aliases mapped to Soft Sky Blue */
+  --orange-primary: #7CB6D9;
+  --orange-hover: #62A4CD;
+  --orange-light: #EBF4FA;
   
-  --orange-primary: #165491;
-  --orange-hover: #114273;
-  --orange-light: #E8F1F9;
+  --blue-primary: #7CB6D9;
+  --blue-hover: #62A4CD;
+  --blue-light: #EBF4FA;
   
-  --blue-primary: #2563EB;
-  --blue-light: #EFF6FF;
+  --beige-primary: #7CB6D9;
+  --beige-hover: #62A4CD;
+  --beige-light: #EBF4FA;
+  --beige-border: #BCD9EC;
+  --beige-gold: #7CB6D9;
+
+  /* High Contrast Deep Navy (Secondary Accent / Headers) */
+  --navy-dark: #0D2B4D;
+  --navy-primary: #0D2B4D;
+  --navy-hover: #071C35;
+  --navy-surface: #14375F;
+  --navy-light: #EBF4FA;
   
-  --green-success: #10B981;
-  --green-bg: #ECFDF5;
+  --green-success: #15803D;
+  --green-bg: #F0FDF4;
   
-  --amber-warning: #F59E0B;
+  --amber-warning: #B45309;
   --amber-bg: #FFFBEB;
   
-  --bg-main: #F4F3EF; /* Warm light beige/gray background matching mockup */
+  --bg-main: #F7F5F1; /* Off-White canvas */
   --bg-card: #FFFFFF;
-  --bg-subtle: #F8FAFC;
-  --bg-footer: #F3F4F8; /* Soft cool gray canvas for mockup footer */
+  --bg-subtle: #ECE8E1;
+  --bg-footer: #0D2B4D; /* Deep navy footer */
   
-  --text-main: #0F172A;
-  --text-muted: #64748B;
-  --text-light: #94A3B8;
+  --text-main: #1E1B16; /* Text Dark */
+  --text-muted: #534F47;
+  --text-light: #7E7970;
   
-  --border-light: #E2E8F0;
+  --border-light: #E4DFD7;
   
   --font-heading: 'Poppins', sans-serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
@@ -42,9 +65,9 @@
   --radius-lg: 20px;
   --radius-xl: 28px;
   
-  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.06);
-  --shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.1);
+  --shadow-sm: 0 2px 10px rgba(10, 25, 47, 0.04);
+  --shadow-md: 0 10px 30px rgba(10, 25, 47, 0.08);
+  --shadow-lg: 0 20px 40px rgba(10, 25, 47, 0.12);
 }
 
 * {
@@ -297,22 +320,30 @@ a {
 }
 
 .btn-primary {
-  background: var(--navy-dark);
-  color: #FFF;
+  background: var(--navy-dark, #0D2B4D);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(13, 43, 77, 0.25);
+  border: 1px solid rgba(124, 182, 217, 0.25);
 }
 
 .btn-primary:hover {
-  background: var(--orange-primary);
+  background: var(--navy-hover, #071C35);
+  color: #FFFFFF;
   transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(13, 43, 77, 0.35);
 }
 
 .btn-orange {
-  background: var(--orange-primary);
-  color: #FFF;
+  background: var(--navy-dark, #0D2B4D);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(13, 43, 77, 0.25);
 }
 
 .btn-orange:hover {
-  background: var(--orange-hover);
+  background: var(--navy-hover, #071C35);
+  color: #FFFFFF;
 }
 
 .btn-pill-sm {

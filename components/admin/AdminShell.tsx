@@ -70,9 +70,24 @@ export default function AdminShell({ profile, children }: AdminShellProps) {
       >
         <Breadcrumbs />
 
-        <div className="admin-layout-grid">
+        <div
+          className="admin-layout-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "260px minmax(0, 1fr)",
+            gap: 24,
+            alignItems: "flex-start",
+            width: "100%",
+          }}
+        >
           {/* DESKTOP SIDEBAR */}
-          <aside className="admin-desktop-sidebar">
+          <aside
+            className="admin-desktop-sidebar"
+            style={{
+              width: 260,
+              flexShrink: 0,
+            }}
+          >
             <AdminSidebar profile={profile} />
           </aside>
 

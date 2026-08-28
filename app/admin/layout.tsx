@@ -3,8 +3,8 @@ import { requireAdmin } from "@/lib/admin/auth-guard";
 import AdminShell from "@/components/admin/AdminShell";
 
 export const metadata = {
-  title: "Espace Administrateur — FENOUHIMIN",
-  description: "Plateforme de gestion logistique Chine-Afrique par FENOUHIMIN",
+  title: "Espace Administrateur — FENOUHI",
+  description: "Plateforme de gestion logistique Chine-Afrique par FENOUHI",
 };
 
 export default async function AdminLayout({

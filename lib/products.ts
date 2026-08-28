@@ -71,13 +71,13 @@ export const PRODUCTS: Product[] = [
     reviews: [
       { author: "Marc A.", rating: 5, comment: "Excellente qualité de coque, très douce et protège parfaitement le téléphone !", date: "27 Août 2026" },
     ],
-    related: ["iphone-15-15pro-15promax", "iphone-16-16pro-16promax"],
+    related: ["iphone-15", "iphone-16"],
   },
 
   // 1. IPHONE 15 (High-Tech Flagship)
   {
-    id: "iphone-15-15pro-15promax",
-    title: "iPhone 15 / 15 Pro / 15 Pro Max Grossiste",
+    id: "iphone-15",
+    title: "iPhone 15",
     subtitle: "Châssis Titane de qualité spatiale & USB-C Universel",
     price: 230000,
     oldPrice: 310000,
@@ -99,25 +99,25 @@ export const PRODUCTS: Product[] = [
     storageOptions: ["128 Go", "256 Go", "512 Go", "1 To"],
     batteryHealth: "100% Scellé / Neuf",
     description:
-      "La génération iPhone 15 en version Scellée / Neuf ou Grade A. Conçu en titane ultra léger et résistant, port USB-C 3.0 ultra rapide, bouton Action personnalisable et zoom optique 5x (Pro Max). Tarifs grossistes de 230 000 à 492 000 FCFA.",
+      "La génération iPhone 15 en version Scellée / Neuf ou Grade A. Conçu en titane ultra léger et résistant, port USB-C 3.0 ultra rapide, bouton Action personnalisable et zoom optique 5x. Tarifs grossistes de 230 000 à 492 000 FCFA.",
     features: [
       "Design Titane ultra léger et robuste",
       "Connectique universelle USB-C",
       "Bouton Action programmable",
       "Puce A17 Pro gravée en 3nm",
-      "Zoom optique 5x télescopique (Pro Max)",
+      "Zoom optique 5x télescopique",
     ],
     specifications: [
-      { label: "Gamme", value: "iPhone 15, 15 Plus, 15 Pro, 15 Pro Max" },
+      { label: "Gamme", value: "iPhone 15" },
       { label: "État produit", value: "Scellé / Neuf & Grade A/B/C" },
       { label: "Connecteur", value: "USB-C" },
       { label: "SIM", value: "eSIM / Dual SIM physique" },
       { label: "Plage tarifaire", value: "230 000 à 492 000 FCFA" },
     ],
     reviews: [
-      { author: "Rodrigue T.", rating: 5, comment: "Reçu l'iPhone 15 Pro Max scellé en boîte d'origine. Produit 100% authentique !", date: "15 Jan. 2025" },
+      { author: "Rodrigue T.", rating: 5, comment: "Reçu l'iPhone 15 scellé en boîte d'origine. Produit 100% authentique !", date: "15 Jan. 2025" },
     ],
-    related: ["iphone-14-14pro-14promax", "iphone-16-16pro-16promax", "iphone-17-17pro-17promax"],
+    related: ["iphone-14", "iphone-16", "iphone-17"],
   },
 
   // 2. DR RASHEL VITAMINE C (Beauty Best Seller)
@@ -167,9 +167,9 @@ export const PRODUCTS: Product[] = [
 
   // 3. IPHONE 13 (High-Tech Top Ventes)
   {
-    id: "iphone-13-13pro-13promax",
-    title: "iPhone 13 / 13 Pro / 13 Pro Max Grossiste",
-    subtitle: "Puce A15 Bionic, Écran ProMotion 120Hz & Mode Cinéma",
+    id: "iphone-13",
+    title: "iPhone 13",
+    subtitle: "Puce A15 Bionic, Écran 120Hz & Mode Cinéma",
     price: 131000,
     oldPrice: 180000,
     minQty: 1,
@@ -190,23 +190,23 @@ export const PRODUCTS: Product[] = [
     storageOptions: ["128 Go", "256 Go", "512 Go", "1 To"],
     batteryHealth: "90% - 100%",
     description:
-      "Excellence technologique : iPhone 13, 13 Pro et 13 Pro Max. Encoche réduite de 20%, écran fluide ProMotion 120 Hz, Mode Cinéma pour des vidéos professionnelles avec faible profondeur de champ. Tarifs de 131 000 à 328 000 FCFA.",
+      "Excellence technologique : iPhone 13. Encoche réduite de 20%, écran fluide 120 Hz, Mode Cinéma pour des vidéos professionnelles avec faible profondeur de champ. Tarifs de 131 000 à 328 000 FCFA.",
     features: [
-      "ProMotion 120 Hz adaptatif (13 Pro & Pro Max)",
+      "Écran 120 Hz adaptatif",
       "Mode Cinéma automatique avec focus dynamique",
       "Puce A15 Bionic 6-cœurs",
       "Capacité jusqu'à 1 To",
       "Prise en charge eSIM + Dual SIM",
     ],
     specifications: [
-      { label: "Série", value: "iPhone 13, 13 Pro, 13 Pro Max" },
+      { label: "Série", value: "iPhone 13" },
       { label: "État", value: "Reconditionné Certifié (Grade B/C)" },
       { label: "Type SIM", value: "eSIM / Dual SIM" },
       { label: "Version", value: "Version US (LL/A) / Global" },
       { label: "Plage tarifaire", value: "131 000 à 328 000 FCFA" },
     ],
     reviews: [],
-    related: ["iphone-12-12pro-12promax", "iphone-14-14pro-14promax", "iphone-15-15pro-15promax"],
+    related: ["iphone-12", "iphone-14", "iphone-15"],
   },
 
   // 4. EFERO BLANCHIMENT DENTS (Beauty Bestseller)
@@ -303,13 +303,13 @@ export const PRODUCTS: Product[] = [
       { author: "Koffi A.", rating: 5, comment: "Très pratique pour défroisser les chemises le matin en quelques secondes. Chauffe super vite et prend peu de place.", date: "23 Fév. 2025" },
       { author: "Marina S.", rating: 5, comment: "Je l'emporte toujours en voyage. Plus besoin de fer à repasser d'hôtel, la vapeur est bien dense.", date: "23 Fév. 2025" },
     ],
-    related: ["appareil-vapeur-facial-2en1", "iphone-16-16pro-16promax"],
+    related: ["appareil-vapeur-facial-2en1", "iphone-16"],
   },
 
   // 6. IPHONE 16 (High-Tech Nouveauté)
   {
-    id: "iphone-16-16pro-16promax",
-    title: "iPhone 16 / 16 Pro / 16 Pro Max Grossiste",
+    id: "iphone-16",
+    title: "iPhone 16",
     subtitle: "Apple Intelligence & Nouveau Bouton Commande de l'Appareil Photo",
     price: 295000,
     oldPrice: 380000,
@@ -334,22 +334,22 @@ export const PRODUCTS: Product[] = [
     storageOptions: ["128 Go", "256 Go", "512 Go", "1 To"],
     batteryHealth: "100% Neuf d'origine",
     description:
-      "Dernier né d'Apple : l'iPhone 16, 16 Pro et 16 Pro Max. Intégration d'Apple Intelligence, nouveau bouton de contrôle tactile pour la caméra, puce A18 / A18 Pro et enregistrement vidéo 4K 120 ips Dolby Vision. Prix de 295 000 à 623 000 FCFA.",
+      "Dernier né d'Apple : l'iPhone 16. Intégration d'Apple Intelligence, nouveau bouton de contrôle tactile pour la caméra, puce A18 et enregistrement vidéo 4K 120 ips Dolby Vision. Prix de 295 000 à 623 000 FCFA.",
     features: [
       "Bouton haptique Commande de la Caméra",
-      "Puce A18 Pro optimisée IA",
-      "Écrans agrandis 6.3\" et 6.9\" (Pro)",
+      "Puce A18 optimisée IA",
+      "Écrans agrandis 6.3\"",
       "Vidéo 4K 120 ips Dolby Vision",
       "Produits 100% Scellés avec boite scellée",
     ],
     specifications: [
-      { label: "Série", value: "iPhone 16, 16 Plus, 16 Pro, 16 Pro Max" },
+      { label: "Série", value: "iPhone 16" },
       { label: "État", value: "Scellé / Neuf (Grade A Premium)" },
-      { label: "Puce", value: "Apple A18 & A18 Pro" },
+      { label: "Puce", value: "Apple A18" },
       { label: "Plage tarifaire", value: "295 000 à 623 000 FCFA" },
     ],
     reviews: [],
-    related: ["iphone-15-15pro-15promax", "iphone-17-17pro-17promax"],
+    related: ["iphone-15", "iphone-17"],
   },
 
   // 7. DR RASHEL 24K GOLD (Beauty Luxe)
@@ -442,7 +442,7 @@ export const PRODUCTS: Product[] = [
       { author: "Stéphane M.", rating: 5, comment: "Ce support est génial ! Très solide, tient parfaitement mon iPhone et mon iPad sans basculer.", date: "23 Fév. 2025" },
       { author: "Carine A.", rating: 5, comment: "Indispensable pour mes appels vidéo et mes cours en ligne. Se plie tout plat dans mon sac.", date: "23 Fév. 2025" },
     ],
-    related: ["iphone-16-rugged-case", "iphone-16-16pro-16promax"],
+    related: ["iphone-16-rugged-case", "iphone-16"],
   },
 
   // 9. DISAAR MASQUE VITAMINE C (Beauty Masque)
@@ -491,8 +491,8 @@ export const PRODUCTS: Product[] = [
 
   // 10. IPHONE 14 (High-Tech Dynamic Island)
   {
-    id: "iphone-14-14pro-14promax",
-    title: "iPhone 14 / 14 Pro / 14 Pro Max Grossiste",
+    id: "iphone-14",
+    title: "iPhone 14",
     subtitle: "Dynamic Island, Capteur 48 MP & Détection d'Accident",
     price: 197000,
     oldPrice: 260000,
@@ -514,23 +514,23 @@ export const PRODUCTS: Product[] = [
     storageOptions: ["128 Go", "256 Go", "512 Go", "1 To"],
     batteryHealth: "90% - 100%",
     description:
-      "La gamme iPhone 14 avec l'innovation Dynamic Island sur les Pro. Capteur principal 48 MP ProRAW, écran Toujours Activé (Always-On), puce A16 Bionic et détection des accidents de la route. Fourchette tarifaire de 197 000 à 394 000 FCFA.",
+      "La gamme iPhone 14. Capteur principal 48 MP, écran Toujours Activé, puce A16 Bionic et détection des accidents de la route. Fourchette tarifaire de 197 000 à 394 000 FCFA.",
     features: [
-      "Dynamic Island interactive (Pro & Pro Max)",
+      "Dynamic Island interactive",
       "Capteur photo professionnel 48 MP",
-      "Puce A16 Bionic (Pro)",
+      "Puce A16 Bionic",
       "Détection d'accident et SOS urgence",
       "Disponibilité immédiate FenouShop",
     ],
     specifications: [
-      { label: "Modèles", value: "iPhone 14, 14 Plus, 14 Pro, 14 Pro Max" },
+      { label: "Modèles", value: "iPhone 14" },
       { label: "État", value: "Reconditionné Certifié (Grade B/C)" },
       { label: "Compatibilité SIM", value: "eSIM & Dual SIM" },
       { label: "Région", value: "Version US (LL/A)" },
       { label: "Plage tarifaire", value: "197 000 à 394 000 FCFA" },
     ],
     reviews: [],
-    related: ["iphone-13-13pro-13promax", "iphone-15-15pro-15promax", "iphone-16-16pro-16promax"],
+    related: ["iphone-13", "iphone-15", "iphone-16"],
   },
 
   // 11. APPAREIL VAPEUR FACIAL 2-EN-1 (Beauty & Bien-être)
@@ -580,8 +580,8 @@ export const PRODUCTS: Product[] = [
 
   // 12. IPHONE 12 (High-Tech 5G)
   {
-    id: "iphone-12-12pro-12promax",
-    title: "iPhone 12 / 12 Pro / 12 Pro Max Grossiste",
+    id: "iphone-12",
+    title: "iPhone 12",
     subtitle: "Design Ceramic Shield, Réseau 5G & MagSafe",
     price: 98000,
     oldPrice: 135000,
@@ -603,21 +603,21 @@ export const PRODUCTS: Product[] = [
     storageOptions: ["64 Go", "128 Go", "256 Go"],
     batteryHealth: "88% - 100%",
     description:
-      "La révolution 5G avec l'iPhone 12, 12 Pro et 12 Pro Max. Écran Super Retina XDR OLED, façade Ceramic Shield 4x plus résistante aux chutes, scanner LiDAR sur les séries Pro et recharge MagSafe. Tarifs grossistes de 98 000 à 249 000 FCFA.",
+      "La révolution 5G avec l'iPhone 12. Écran Super Retina XDR OLED, façade Ceramic Shield 4x plus résistante aux chutes et recharge MagSafe. Tarifs grossistes de 98 000 à 249 000 FCFA.",
     features: [
       "Connexion ultra rapide 5G",
       "Ceramic Shield & bords plats aluminium/acier",
       "Recharge magnétique MagSafe",
-      "Scanner LiDAR pour portraits de nuit (Pro)",
+      "Double capteur photo pour portraits de nuit",
     ],
     specifications: [
-      { label: "Gamme", value: "iPhone 12, 12 Pro, 12 Pro Max" },
+      { label: "Gamme", value: "iPhone 12" },
       { label: "État", value: "Reconditionné Certifié (Grade B/C)" },
       { label: "Capacités", value: "64 Go / 128 Go / 256 Go" },
       { label: "Plage tarifaire", value: "98 000 à 249 000 FCFA" },
     ],
     reviews: [],
-    related: ["iphone-11-11pro-11promax", "iphone-13-13pro-13promax", "iphone-14-14pro-14promax"],
+    related: ["iphone-11", "iphone-13", "iphone-14"],
   },
 
   // 13. COFFRET SNAIL COLLAGEN 5 PIÈCES (Beauty Soin Visage & Corps)
@@ -706,7 +706,7 @@ export const PRODUCTS: Product[] = [
       { label: "Coloris dispo.", value: "Violet / Purple & Noir" },
     ],
     reviews: [],
-    related: ["iphone-16-16pro-16promax"],
+    related: ["iphone-16"],
   },
 
   // 15. AICHUN HUILE ANTI-VERGETURES (Beauty Soin)
@@ -756,9 +756,9 @@ export const PRODUCTS: Product[] = [
 
   // 16. IPHONE 11 (High-Tech Best-Seller)
   {
-    id: "iphone-11-11pro-11promax",
-    title: "iPhone 11 / 11 Pro / 11 Pro Max Grossiste",
-    subtitle: "Triple appareil photo 4K, Mode Nuit & A13 Bionic",
+    id: "iphone-11",
+    title: "iPhone 11",
+    subtitle: "Double appareil photo 4K, Mode Nuit & A13 Bionic",
     price: 79000,
     oldPrice: 110000,
     minQty: 1,
@@ -779,25 +779,25 @@ export const PRODUCTS: Product[] = [
     storageOptions: ["64 Go", "256 Go"],
     batteryHealth: "88% - 100%",
     description:
-      "Incontournable pour la revente : iPhone 11, 11 Pro et 11 Pro Max reconditionnés. Double ou triple capteur ultra grand-angle, vidéo 4K à 60 ips, autonomie record et verre dépoli ultra résistant. Prix grossiste de 79 000 à 198 000 FCFA.",
+      "Incontournable pour la revente : iPhone 11 reconditionné. Double capteur ultra grand-angle, vidéo 4K à 60 ips, autonomie record et verre dépoli ultra résistant. Prix grossiste de 79 000 à 198 000 FCFA.",
     features: [
-      "Double / Triple capteur photo 12 MP avec Mode Nuit",
+      "Double capteur photo 12 MP avec Mode Nuit",
       "Puce A13 Bionic surpuissante",
       "Batterie longue autonomie",
-      "Finition verre mat / acier inoxydable (Pro)",
+      "Finition verre mat",
       "Reconditionné certifié FenouShop",
     ],
     specifications: [
-      { label: "Série", value: "iPhone 11 / 11 Pro / 11 Pro Max" },
+      { label: "Série", value: "iPhone 11" },
       { label: "État", value: "Reconditionné Certifié (Grade B/C)" },
       { label: "Stockages", value: "64 Go / 256 Go" },
       { label: "SIM", value: "SIM physique" },
       { label: "Plage tarifaire", value: "79 000 à 198 000 FCFA" },
     ],
     reviews: [
-      { author: "Saliou M.", rating: 5, comment: "Superbe lot d'iPhone 11 Pro. Qualité d'écran et batterie parfaites !", date: "02 Mar. 2025" },
+      { author: "Saliou M.", rating: 5, comment: "Superbe lot d'iPhone 11. Qualité d'écran et batterie parfaites !", date: "02 Mar. 2025" },
     ],
-    related: ["iphone-x-xr-xsmax", "iphone-12-12pro-12promax", "iphone-13-13pro-13promax"],
+    related: ["iphone-x", "iphone-12", "iphone-13"],
   },
 
   // 17. DISAAR CRÈME DÉPILATOIRE (Beauty Épilation)
@@ -845,11 +845,11 @@ export const PRODUCTS: Product[] = [
     related: ["cat_beauty"],
   },
 
-  // 18. IPHONE 17 PRO (High-Tech Avant-Première)
+  // 18. IPHONE 17 (High-Tech Avant-Première)
   {
-    id: "iphone-17-17pro-17promax",
-    title: "iPhone 17 / 17 Pro / 17 Pro Max (Avant-Première)",
-    subtitle: "Nouvelle Génération Apple A19 Pro & Refroidissement Chambre à Vapeur",
+    id: "iphone-17",
+    title: "iPhone 17",
+    subtitle: "Nouvelle Génération Apple A19 & Refroidissement Chambre à Vapeur",
     price: 394000,
     oldPrice: 520000,
     minQty: 1,
@@ -873,21 +873,21 @@ export const PRODUCTS: Product[] = [
     storageOptions: ["256 Go", "512 Go", "1 To", "2 To"],
     batteryHealth: "100% Neuf d'origine",
     description:
-      "La future référence d'Apple proposée en réservation grossiste par FenouShop. Puce A19 Pro, jusqu'à 2 To de stockage, système thermique à chambre à vapeur et capteurs ultra avancés. Tarifs indicatifs de 394 000 à 886 000 FCFA.",
+      "La future référence d'Apple proposée en réservation grossiste par FenouShop. Puce A19, jusqu'à 2 To de stockage, système thermique à chambre à vapeur et capteurs ultra avancés. Tarifs indicatifs de 394 000 à 886 000 FCFA.",
     features: [
-      "Puce A19 Pro nouvelle génération",
+      "Puce A19 nouvelle génération",
       "Système thermique avancé par chambre à vapeur",
       "Stockage étendu jusqu'à 2 To",
       "Design avant-gardiste ultra fin",
     ],
     specifications: [
-      { label: "Gamme", value: "iPhone 17, 17 Pro, 17 Pro Max" },
+      { label: "Gamme", value: "iPhone 17" },
       { label: "État", value: "Scellé / Neuf d'origine" },
       { label: "Stockage max.", value: "Jusqu'à 2 To" },
       { label: "Plage tarifaire", value: "394 000 à 886 000 FCFA" },
     ],
     reviews: [],
-    related: ["iphone-16-16pro-16promax"],
+    related: ["iphone-16"],
   },
 
   // 19. ROUSHUN GOMMAGE ALOE VERA (Beauty Gommage)
@@ -935,10 +935,10 @@ export const PRODUCTS: Product[] = [
     related: ["disaar-masque-vitamine-c", "dr-rashel-vitamin-c-set", "aichun-masque-peeloff-collagene-lait"],
   },
 
-  // 20. IPHONE X / XR / XS MAX (High-Tech Borderless)
+  // 20. IPHONE X (High-Tech Borderless)
   {
-    id: "iphone-x-xr-xsmax",
-    title: "iPhone X / XR / XS Max Grossiste",
+    id: "iphone-x",
+    title: "iPhone X",
     subtitle: "Écran Super Retina OLED & Face ID sécurisé",
     price: 46000,
     oldPrice: 65000,
@@ -963,23 +963,23 @@ export const PRODUCTS: Product[] = [
     storageOptions: ["64 Go", "128 Go", "256 Go"],
     batteryHealth: "85% - 100% origine",
     description:
-      "La génération borderless d'Apple : iPhone X, iPhone XR et iPhone XS Max. Écran OLED Super Retina / Liquid Retina HD, déverrouillage Face ID 3D et puce A12 Bionic. Tarifs de 46 000 à 125 000 FCFA selon la configuration.",
+      "La génération borderless d'Apple : iPhone X. Écran OLED Super Retina, déverrouillage Face ID 3D et puce A12 Bionic. Tarifs de 46 000 à 125 000 FCFA selon la configuration.",
     features: [
-      "Écran panoramique borderless OLED / Liquid Retina",
+      "Écran panoramique borderless OLED",
       "Face ID ultra rapide et sécurisé",
       "Puce A12 Bionic Neural Engine",
-      "Double appareil photo 12 MP (X & XS Max)",
-      "Autonomie batterie longue durée (XR)",
+      "Double appareil photo 12 MP",
+      "Autonomie batterie longue durée",
     ],
     specifications: [
-      { label: "Modèles", value: "iPhone X, XR, XS Max" },
+      { label: "Modèles", value: "iPhone X" },
       { label: "État", value: "Occasion Contrôlée (Grade B/C)" },
       { label: "Capacités", value: "64 Go / 128 Go / 256 Go" },
       { label: "Type SIM", value: "SIM physique" },
       { label: "Plage tarifaire", value: "46 000 à 125 000 FCFA" },
     ],
     reviews: [],
-    related: ["iphone-8-8plus", "iphone-11-11pro-11promax", "iphone-12-12pro-12promax"],
+    related: ["iphone-8", "iphone-11", "iphone-12"],
   },
 
   // 21. MASQUE LÈVRES ROSE (Beauty Soin Lèvres)
@@ -1027,10 +1027,10 @@ export const PRODUCTS: Product[] = [
     related: ["disaar-masque-vitamine-c", "disaar-creme-depilatoire", "cat_beauty"],
   },
 
-  // 22. IPHONE 8 & 8 PLUS (High-Tech Économique)
+  // 22. IPHONE 8 (High-Tech Économique)
   {
-    id: "iphone-8-8plus",
-    title: "iPhone 8 & 8 Plus Grossiste (Catalogue FenouShop)",
+    id: "iphone-8",
+    title: "iPhone 8",
     subtitle: "Dos en verre, Puce A11 Bionic & Charge sans fil",
     price: 33000,
     oldPrice: 45000,
@@ -1055,23 +1055,23 @@ export const PRODUCTS: Product[] = [
     storageOptions: ["32 Go", "128 Go", "256 Go"],
     batteryHealth: "85% - 100% origine",
     description:
-      "Gamme iPhone 8 et 8 Plus direct usine via FenouShop. Design élégant en verre résistant, compatibilité avec la recharge sans fil Qi et processeur A11 Bionic avec Neural Engine. Fourchette tarifaire de 33 000 à 85 000 FCFA selon la version.",
+      "Gamme iPhone 8 direct usine via FenouShop. Design élégant en verre résistant, compatibilité avec la recharge sans fil Qi et processeur A11 Bionic avec Neural Engine. Fourchette tarifaire de 33 000 à 85 000 FCFA selon la version.",
     features: [
       "Dos en verre avec recharge sans fil Qi",
       "Puce A11 Bionic haute rapidité",
       "Écran True Tone Retina HD",
-      "Capteur photo 12 MP (Portraits sur 8 Plus)",
+      "Capteur photo 12 MP",
       "Vérification batterie & boutons OK",
     ],
     specifications: [
-      { label: "Marque / Modèle", value: "Apple iPhone 8 & 8 Plus" },
+      { label: "Marque / Modèle", value: "Apple iPhone 8" },
       { label: "État", value: "Occasion Contrôlée (Grade B/C)" },
       { label: "Stockage", value: "32 Go / 128 Go / 256 Go" },
       { label: "SIM", value: "SIM physique" },
       { label: "Plage tarifaire", value: "33 000 à 85 000 FCFA" },
     ],
     reviews: [],
-    related: ["iphone-7-7plus", "iphone-x-xr-xsmax", "iphone-11-11pro-11promax"],
+    related: ["iphone-7", "iphone-x", "iphone-11"],
   },
 
   // 23. AICHUN MASQUE PEEL-OFF COLLAGÈNE & LAIT (Beauty)
@@ -1119,10 +1119,10 @@ export const PRODUCTS: Product[] = [
     related: ["roushun-gommage-aloe-vera-99", "disaar-masque-vitamine-c", "dr-rashel-vitamin-c-set"],
   },
 
-  // 24. IPHONE 7 & 7 PLUS (High-Tech Prix Minimal)
+  // 24. IPHONE 7 (High-Tech Prix Minimal)
   {
-    id: "iphone-7-7plus",
-    title: "iPhone 7 & 7 Plus Grossiste (Catalogue FenouShop)",
+    id: "iphone-7",
+    title: "iPhone 7",
     subtitle: "Modèles 4.7\" et 5.5\" — État certifié FenouShop",
     price: 26000,
     oldPrice: 35000,
@@ -1150,7 +1150,7 @@ export const PRODUCTS: Product[] = [
     storageOptions: ["32 Go", "128 Go", "256 Go"],
     batteryHealth: "85% - 100% origine",
     description:
-      "Lot grossiste d'iPhone 7 et 7 Plus authentiques issus du catalogue FenouShop. Écran Retina HD, processeur A10 Fusion, appareil photo 12 MP et étanchéité IP67. Chaque téléphone subit un contrôle qualité rigoureux (batterie, écran, haut-parleur). Fourchette tarifaire de 26 000 à 72 000 FCFA selon la capacité et le grade.",
+      "Lot grossiste d'iPhone 7 authentiques issus du catalogue FenouShop. Écran Retina HD, processeur A10 Fusion, appareil photo 12 MP et étanchéité IP67. Chaque téléphone subit un contrôle qualité rigoureux (batterie, écran, haut-parleur). Fourchette tarifaire de 26 000 à 72 000 FCFA selon la capacité et le grade.",
     features: [
       "Écran Retina HD 4.7\" / 5.5\"",
       "Puce A10 Fusion performante",
@@ -1160,7 +1160,7 @@ export const PRODUCTS: Product[] = [
       "Contrôle qualité FenouShop inclus",
     ],
     specifications: [
-      { label: "Marque / Modèle", value: "Apple iPhone 7 & 7 Plus" },
+      { label: "Marque / Modèle", value: "Apple iPhone 7" },
       { label: "État / Condition", value: "Occasion Contrôlée (Grade B/C)" },
       { label: "Stockage dispo.", value: "32 Go / 128 Go / 256 Go" },
       { label: "Type SIM", value: "SIM physique" },
@@ -1168,95 +1168,95 @@ export const PRODUCTS: Product[] = [
       { label: "Plage tarifaire", value: "26 000 à 72 000 FCFA" },
       { label: "Garantie", value: "Contrôle avant expédition" },
     ],
-    reviews: [
-      { author: "Koffi A.", rating: 5, comment: "Reçu en parfait état de fonctionnement à Cotonou. Vendu très rapidement !", date: "12 Fév. 2025" },
-    ],
-    related: ["iphone-8-8plus", "iphone-x-xr-xsmax", "1"],
+    reviews: [],
+    related: ["iphone-8"],
   },
 
-  // 25. SAVON PAPAYE LAIT NOURISH CARE (Beauty Toilette)
+  // 25. MINI DÉFROISSEUR VAPEUR PORTATIF HAEGER (Électroménager / Home)
   {
-    id: "savon-papaye-lait-nourish-care",
-    title: "Savon Éclaircissant & Nourrissant à la Papaye & Lait (Nourish Care-Skin)",
-    subtitle: "Améliore les peaux sèches, unifie le teint, anti-rides & mousse soyeuse",
-    price: 1000,
-    oldPrice: 2000,
+    id: "defroisseur-vapeur-haeger-vetements",
+    title: "Mini Défroisseur Vapeur Portatif HAEGER – Défroissage Express 1500W & Anti-Bactérien",
+    subtitle: "Défroisse tous tissus à la verticale / horizontale, réservoir amovible & idéal voyage",
+    price: 10000,
+    oldPrice: 16500,
     minQty: 1,
-    image: "/images/assets/papaya_soap_2.png",
-    images: ["/images/assets/papaya_soap_2.png", "/images/assets/papaya_soap_1.png"],
-    category: "beauty",
-    badge: "PAPAYE & LAIT • NATUREL",
+    image: "/images/assets/defroisseur_vapeur_haeger_2.png",
+    images: [
+      "/images/assets/defroisseur_vapeur_haeger_2.png",
+      "/images/assets/defroisseur_vapeur_haeger_1.png",
+    ],
+    category: "home",
+    badge: "MAISON & VOYAGE",
     origin: "Chine (FenouShop Partner)",
-    weight: "0.13 kg",
-    volume: "0.0002 CBM",
-    rating: 4.9,
-    reviewsCount: 189,
+    weight: "0.90 kg",
+    volume: "0.002 CBM",
+    rating: 4.8,
+    reviewsCount: 120,
     conditionState: "Scellé",
     grade: "Grade A",
     description:
-      "Le savon de soin à la papaye et au lait aide à améliorer considérablement les peaux sèches et à rendre le teint plus lisse et éclatant. Formulé à base d'extraits naturels de papaye fraîche et de lait riche en vitamines et protéines essentielles, il adoucit la peau et lui confère un toucher soyeux. Ses propriétés hydratantes, éclaircissantes naturelles et anti-rides créent une mousse soyeuse et onctueuse qui nettoie en profondeur pour laisser la peau douce, nette et hydratée. Recommandation : conserver dans un endroit frais et sec, usage externe uniquement.",
+      "Défroisseur à vapeur portatif multifonction HAEGER d'une puissance optimale de 1500W. Conçu pour défroisser rapidement, assainir et éliminer 99,9% des bactéries et mauvaises odeurs sur tous types de textiles (coton, soie, lin, velours, rideaux, costumes et robes de soirée).\n\nPrêt en seulement 25 secondes, sa semelle en acier inoxydable distribue un flux de vapeur continu haute pression qui pénètre au cœur des fibres sans jamais risquer de brûler vos vêtements délicats. Son design ergonomique et compact se glisse facilement dans une valise pour vous assurer une tenue impeccable en voyage d'affaires ou au quotidien.",
     features: [
-      "Formulé à base d'extraits de papaye fraîche et d'essence de lait enrichie en vitamines et protéines",
-      "Nourrit intensément les peaux sèches et apporte un toucher velouté et soyeux",
-      "Propriétés éclaircissantes et unifiantes naturelles pour un teint net et lumineux",
-      "Action préventive anti-rides et protection de l'élasticité cutanée",
-      "Crée une mousse généreuse et soyeuse qui se rince sans laisser de résidus",
-      "Convient pour la toilette quotidienne du visage et du corps",
+      "Préchauffage ultra-rapide en 25 secondes seulement",
+      "Débit de vapeur continu puissant pour un défroissage vertical et horizontal",
+      "Réservoir d'eau transparent amovible de 280 ml facile à remplir",
+      "Semelle en acier inoxydable anti-accrochage et anti-brûlure",
+      "Assainit et purifie les vêtements, rideaux, canapés et literie",
+      "Compact, léger et facilement transportable en voyage",
     ],
     specifications: [
-      { label: "Marque / Fabricant", value: "Papaya Essence Profession – Nourish Care-Skin" },
-      { label: "Type de produit", value: "Savon de toilette visage & corps" },
-      { label: "Actifs clés", value: "Jus naturel de papaye fraîche, Extraits de lait, Vitamines & Protéines" },
-      { label: "Actions principales", value: "Éclaircissant naturel, Hydratation peaux sèches, Anti-rides & Douceur" },
-      { label: "Type de peau", value: "Convient à tous types de peaux (visage & corps)" },
-      { label: "Précautions", value: "Usage externe uniquement, tenir hors de portée des enfants" },
-      { label: "État / Condition", value: "Neuf Boîte Scellée" },
+      { label: "Marque / Modèle", value: "HAEGER Garment Steamer" },
+      { label: "Puissance", value: "1500 Watts" },
+      { label: "Capacité réservoir", value: "280 ml (Autonomie 15 à 20 min)" },
+      { label: "Temps de chauffe", value: "25 secondes" },
+      { label: "Tension", value: "220-240V ~ 50/60Hz (Prise standard)" },
+      { label: "Sécurité", value: "Arrêt automatique anti-surchauffe & manque d'eau" },
+      { label: "État / Condition", value: "Neuf Boîte Scellée d'origine" },
     ],
     reviews: [
-      { author: "Berthe S.", rating: 5, comment: "Ce savon à la papaye est magique ! Il mousse super bien, sent très bon et illumine le teint dès la première semaine.", date: "23 Fév. 2025" },
-      { author: "Audrey N.", rating: 5, comment: "Très doux pour le visage, ne sèche pas la peau du tout et élimine les petites taches.", date: "23 Fév. 2025" },
+      { author: "Marc D.", rating: 5, comment: "Ce défroisseur Haeger m'a sauvé la vie en voyage d'affaires ! Mes costumes sont parfaits en 2 minutes.", date: "24 Fév. 2025" },
+      { author: "Estelle N.", rating: 5, comment: "Très maniable, chauffe instantanément et ne fuit pas du tout. Beaucoup plus pratique qu'un fer classique.", date: "25 Fév. 2025" },
     ],
-    related: ["aichun-masque-peeloff-collagene-lait", "roushun-gommage-aloe-vera-99", "disaar-masque-vitamine-c"],
+    related: ["robot-nettoyeur-4en1-jallen-gabor", "gaine-amincissante-100-latex"],
   },
 
-  // 26. ROBOT NETTOYEUR 4 EN 1 JALLEN GABOR (Home / Électroménager Intelligent)
+  // 26. ROBOT NETTOYEUR 4-EN-1 JALLEN GABOR (Électroménager Intelligent)
   {
     id: "robot-nettoyeur-4en1-jallen-gabor",
-    title: "Robot Nettoyeur 4-en-1 Jallen Gabor (Balayage, Vadrouille, Spray & UV)",
-    subtitle: "Pression +200%, vadrouille sèche & humide, brumisateur spray & désinfection UV",
+    title: "Robot Nettoyeur Balayeur Intelligent 4-en-1 Jallen Gabor – Balayage, Frottage, Humidification & UV",
+    subtitle: "Double disque rotatif haute pression 3000 tr/min, désinfection UV & brumisateur d'ambiance",
     price: 15000,
     oldPrice: 25000,
     minQty: 1,
     image: "/images/assets/robot_nettoyeur_jallen_gabor_1.png",
     images: [
       "/images/assets/robot_nettoyeur_jallen_gabor_1.png",
+      "/images/assets/robot_nettoyeur_jallen_gabor_2.png",
     ],
     category: "home",
-    badge: "INNOVATION MAISON • 4-EN-1",
+    badge: "ROBOTIQUE • 4-EN-1",
     origin: "Chine (FenouShop Partner)",
-    weight: "0.80 kg",
-    volume: "0.003 CBM",
-    rating: 4.9,
-    reviewsCount: 142,
+    weight: "1.20 kg",
+    volume: "0.004 CBM",
+    rating: 4.7,
+    reviewsCount: 89,
     conditionState: "Scellé",
     grade: "Grade A",
     description:
-      "Êtes-vous fatigué de passer la serpillière dans toute la maison où la poussière et la saleté ne finissent jamais ? Le robot nettoyeur intelligent 4 en 1 Jallen Gabor intègre les fonctions de nettoyage, balayage, pulvérisation d'humidification et stérilisation UV. Démarrage automatique en une seule touche, vadrouille sèche et humide, conception intelligente anti-crash : il est idéal pour les sols carrelés, parquets en bois, marbre, linoléum et stratifiés.\n\n● Nouveau robot de pulvérisation et balayage intelligent 4 en 1 qui nettoie, balaie, pulvérise et désinfecte par UV.\n● Simulation d'essuyage manuel : pression de nettoyage augmentée de 200 %, combinée à une fonction de nettoyage rotatif bionique pour éliminer les taches incrustées.\n● Nettoyage longue durée : batterie haute capacité de 2400 mAh alliée à une faible consommation d'énergie et un moteur puissant de 3000 tours/min pour un fonctionnement continu de 2 à 3 heures.",
+      "Robot nettoyeur intelligent 4-en-1 de nouvelle génération Jallen Gabor (IS28A) conçu pour un nettoyage autonome et en profondeur de tous vos sols durs (carrelage, parquet, marbre, stratifié).\n\nGrâce à son système innovant d'essuyage rotatif à double moteur (3000 tours/min), il exerce une pression constante sur le sol pour déloger les taches tenaces, la poussière, les poils d'animaux et les traces de graisse. Équipé d'un brumisateur humidificateur intégré pour assainir l'air ambiant et d'une lumière UV stérilisante pour éliminer les acariens et bactéries.",
     features: [
-      "Robot intelligent 4-en-1 : Nettoyage, Balayage, Pulvérisation d'eau & Désinfection UV",
-      "Simulation d'essuyage manuel : Pression accrue de 200% et rotation active contre les taches",
-      "Double mode serpillière : Vadrouille sèche pour dépoussiérer et vadrouille humide pour laver",
-      "Autonomie record de 2 à 3 heures en continu grâce à la batterie 2400 mAh",
-      "Moteur haute performance 3000 tr/min ultra-silencieux à basse consommation",
-      "Conception anti-collision intelligente protégeant les meubles et les angles de pièces",
-      "Compatible tous revêtements : Carrelage, parquet, marbre et sols stratifiés",
-      "Pack complet inclus : Robot Jallen Gabor, 2 lingettes microfibres, câble de charge USB et flacon doseur",
+      "4 actions simultanées : Balaye, frotte à haute pression, humidifie et désinfecte par UV",
+      "Double plateau rotatif haute vitesse 3000 tr/min simulant un frottement manuel vigoureux",
+      "Brumisateur d'eau / parfum intégré pour rafraîchir l'air pendant le nettoyage",
+      "Lampe UV germicide intégrée pour éliminer bactéries et allergènes au sol",
+      "Batterie rechargeable Lithium 2400mAh offrant plus de 90 minutes d'autonomie continue",
+      "Navigation intelligente anti-collision et profil ultra-fin pour passer sous les meubles et lits",
     ],
     specifications: [
-      { label: "Marque / Modèle", value: "Jallen Gabor – Smart Mopping Robot 4-in-1" },
-      { label: "Fonctions 4-en-1", value: "Balayage, Essuyage Humide/Sec, Pulvérisation Spray, Stérilisation UV" },
-      { label: "Capacité Batterie", value: "2400 mAh (Rechargeable par câble USB)" },
-      { label: "Autonomie de travail", value: "2 à 3 heures en continu" },
+      { label: "Marque / Modèle", value: "JALLEN GABOR 4-in-1 Smart Mopping Robot (IS28A)" },
+      { label: "Batterie", value: "Lithium 2400mAh (Recharge USB 3-4h)" },
+      { label: "Autonomie", value: "90 à 120 minutes en continu" },
+      { label: "Niveau sonore", value: "Ultra-silencieux (< 50 dB)" },
       { label: "Vitesse moteur", value: "3000 tr/min" },
       { label: "Efficacité de pression", value: "+200% vs essuyage classique" },
       { label: "Types de sols", value: "Carrelage, Parquet / Bois, Marbre, Stratifié" },

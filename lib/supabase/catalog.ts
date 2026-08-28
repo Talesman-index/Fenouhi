@@ -58,6 +58,81 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 /**
+ * Safely extracts the best public image URL from any product representation.
+ */
+export function getProductImageUrl(p: any): string {
+  if (!p) return "/images/assets/hero_iphone16.png";
+
+  if (typeof p === "string" && p.trim()) return p.trim();
+
+  // 1. Array of images (supports both objects with public_image_url and raw string URLs)
+  if (Array.isArray(p.images) && p.images.length > 0) {
+    const primary = p.images.find((img: any) => img && (img.is_primary === true || img.isPrimary === true));
+    const target = primary || p.images[0];
+    if (typeof target === "string" && target.trim()) {
+      return target.trim();
+    }
+    if (target && typeof target === "object") {
+      const url = target.public_image_url || target.url || target.src || target.image_url;
+      if (typeof url === "string" && url.trim()) {
+        return url.trim();
+      }
+    }
+  }
+
+  // 2. Direct string image properties
+  const direct = p.image || p.image_url || p.imageUrl || p.primary_image || p.img;
+  if (typeof direct === "string" && direct.trim()) {
+    return direct.trim();
+  }
+
+  return "/images/assets/hero_iphone16.png";
+}
+
+/**
+ * Normalizes a product so its `images` property is guaranteed to be an array of ProductImage objects with valid `public_image_url`.
+ */
+export function normalizeProduct(p: any): Product {
+  if (!p) return p;
+
+  const rawList: string[] = [];
+  if (Array.isArray(p.images) && p.images.length > 0) {
+    for (const item of p.images) {
+      if (typeof item === "string" && item.trim()) {
+        rawList.push(item.trim());
+      } else if (item && typeof item === "object") {
+        const url = item.public_image_url || item.url || item.src || item.image_url;
+        if (typeof url === "string" && url.trim()) {
+          rawList.push(url.trim());
+        }
+      }
+    }
+  }
+
+  const direct = p.image || p.image_url || p.imageUrl;
+  if (typeof direct === "string" && direct.trim() && !rawList.includes(direct.trim())) {
+    rawList.unshift(direct.trim());
+  }
+
+  if (rawList.length === 0) {
+    rawList.push("/images/assets/hero_iphone16.png");
+  }
+
+  const normalizedImages = rawList.map((url, i) => ({
+    id: `img-${p.id || "prod"}-${i}`,
+    product_id: p.id || "",
+    public_image_url: url,
+    position: i,
+    is_primary: i === 0,
+  }));
+
+  return {
+    ...p,
+    images: normalizedImages,
+  } as Product;
+}
+
+/**
  * Helper to map a local Product item from lib/products.ts to the full Product model.
  */
 function mapLocalProductToCatalogProduct(p: any): Product {
@@ -65,6 +140,11 @@ function mapLocalProductToCatalogProduct(p: any): Product {
     FALLBACK_CATEGORIES.find((c) => c.slug === p.category || c.id === p.category) ||
     FALLBACK_CATEGORIES.find((c) => (p.category || "").toLowerCase().includes(c.slug.toLowerCase())) ||
     null;
+
+  const rawImages = (p.images || (p.image ? [p.image] : [])).filter(Boolean);
+  if (rawImages.length === 0) {
+    rawImages.push("/images/assets/hero_iphone16.png");
+  }
 
   return {
     id: p.id,
@@ -93,7 +173,7 @@ function mapLocalProductToCatalogProduct(p: any): Product {
     storage_options: p.storageOptions || null,
     battery_health: p.batteryHealth || null,
     driveFolderUrl: p.driveFolderUrl || null,
-    images: (p.images || [p.image]).map((url: string, i: number) => ({
+    images: rawImages.map((url: string, i: number) => ({
       id: `img-${p.id}-${i}`,
       product_id: p.id,
       public_image_url: url,
@@ -108,17 +188,17 @@ let inMemoryCustomProducts: Product[] = [];
 let inMemoryDeletedIds: string[] = [];
 
 export function getStoredCustomProducts(): Product[] {
-  if (typeof window === "undefined") return inMemoryCustomProducts;
+  if (typeof window === "undefined") return inMemoryCustomProducts.map(normalizeProduct);
   try {
     const data = localStorage.getItem("fenou_custom_products");
     const parsed = data ? JSON.parse(data) : [];
     if (parsed && parsed.length > 0) {
-      inMemoryCustomProducts = parsed;
-      return parsed;
+      inMemoryCustomProducts = parsed.map(normalizeProduct);
+      return inMemoryCustomProducts;
     }
-    return inMemoryCustomProducts;
+    return inMemoryCustomProducts.map(normalizeProduct);
   } catch {
-    return inMemoryCustomProducts;
+    return inMemoryCustomProducts.map(normalizeProduct);
   }
 }
 
@@ -232,7 +312,7 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
       list = list.slice(0, options.limit);
     }
 
-    return list;
+    return list.map(normalizeProduct);
   } catch (err) {
     return PRODUCTS.map(mapLocalProductToCatalogProduct);
   }
@@ -273,11 +353,12 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
 
           if (json.products && json.products.length > 0) {
             const customList: Product[] = [];
-            for (const p of json.products) {
+            for (const rawP of json.products) {
+              const p = normalizeProduct(rawP);
               if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
-                productMap.set(p.id, p as Product);
+                productMap.set(p.id, p);
                 if (p.id?.startsWith("custom_") || p.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === p.id)) {
-                  customList.push(p as Product);
+                  customList.push(p);
                 }
               }
             }
@@ -305,9 +386,10 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
 
       const { data: dbProducts, error } = await query;
       if (!error && dbProducts && dbProducts.length > 0) {
-        for (const p of dbProducts) {
+        for (const rawP of dbProducts) {
+          const p = normalizeProduct(rawP);
           if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
-            productMap.set(p.id, p as Product);
+            productMap.set(p.id, p);
           }
         }
       }
@@ -360,7 +442,7 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
       list = list.slice(0, options.limit);
     }
 
-    return list;
+    return list.map(normalizeProduct);
   } catch (err) {
     return getPublicProductsSync(options);
   }

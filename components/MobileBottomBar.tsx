@@ -1,58 +1,63 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Compass, Grid, FileSpreadsheet, ShoppingCart, User } from "lucide-react";
+import { Home, Package, Heart, User } from "lucide-react";
 import { useMobileStore } from "@/lib/mobile-store";
 
 export default function MobileBottomBar() {
   const pathname = usePathname();
-  const { cart } = useMobileStore();
+  const { favorites } = useMobileStore();
+  const [shouldShow, setShouldShow] = useState(false);
+  const [pressedId, setPressedId] = useState<string | null>(null);
 
-  // Hide on admin pages
-  if (pathname?.startsWith("/admin")) {
+  React.useEffect(() => {
+    const checkVisibility = () => {
+      const isMobileScreen = window.innerWidth <= 768;
+      const isStandalonePWA =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        (navigator as any).standalone === true;
+      setShouldShow(isMobileScreen || isStandalonePWA);
+    };
+
+    checkVisibility();
+    window.addEventListener("resize", checkVisibility);
+    return () => window.removeEventListener("resize", checkVisibility);
+  }, []);
+
+  // Hide on admin pages or on desktop
+  if (pathname?.startsWith("/admin") || !shouldShow) {
     return null;
   }
 
-  const totalCartCount =
-    cart && cart.length > 0
-      ? cart.map((i) => i.quantity || 1).reduce((a, b) => a + b, 0)
-      : 0;
+  const favCount = favorites ? favorites.length : 0;
 
   const NAV_ITEMS = [
     {
       id: "home",
-      label: "Découvrir",
+      label: "Accueil",
       href: "/",
-      icon: Compass,
+      icon: Home,
       exact: true,
     },
     {
-      id: "catalog",
-      label: "Catalogue",
-      href: "/catalog",
-      icon: Grid,
+      id: "orders",
+      label: "Commandes",
+      href: "/dashboard?tab=orders",
+      icon: Package,
       exact: false,
     },
     {
-      id: "quote",
-      label: "Devis Usine",
-      href: "/quote-request",
-      icon: FileSpreadsheet,
-      isCenter: true,
+      id: "favorites",
+      label: "Favoris",
+      href: "/favorites",
+      icon: Heart,
+      badge: favCount,
       exact: false,
     },
     {
-      id: "cart",
-      label: "Panier",
-      href: "/cart",
-      icon: ShoppingCart,
-      badge: totalCartCount,
-      exact: false,
-    },
-    {
-      id: "dashboard",
+      id: "profile",
       label: "Compte",
       href: "/dashboard",
       icon: User,
@@ -68,24 +73,23 @@ export default function MobileBottomBar() {
         bottom: 0,
         left: 0,
         right: 0,
-        zIndex: 9999,
-        background: "rgba(255, 255, 255, 0.94)",
+        zIndex: 500,
+        background: "rgba(255, 255, 255, 0.96)",
         backdropFilter: "blur(20px) saturate(180%)",
         WebkitBackdropFilter: "blur(20px) saturate(180%)",
-        borderTop: "1px solid rgba(226, 232, 240, 0.8)",
-        padding: "10px 16px calc(12px + env(safe-area-inset-bottom, 12px))",
-        boxShadow: "0 -8px 30px rgba(15, 23, 42, 0.08)",
-        display: "none", // Controlled via media query in CSS
+        borderTop: "1px solid #EFECE6",
+        padding: "8px 16px calc(8px + env(safe-area-inset-bottom, 8px))",
+        boxShadow: "0 -4px 24px rgba(13, 43, 77, 0.08)",
+        userSelect: "none",
       }}
     >
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "space-around",
           alignItems: "center",
-          maxWidth: 480,
+          maxWidth: 440,
           margin: "0 auto",
-          position: "relative",
         }}
       >
         {NAV_ITEMS.map((item) => {
@@ -93,158 +97,115 @@ export default function MobileBottomBar() {
           const isActive = item.exact
             ? pathname === item.href
             : pathname?.startsWith(item.href) && item.href !== "/";
+          const isPressed = pressedId === item.id;
 
-          // Center Button Style (Devis Usine)
-          if (item.isCenter) {
-            return (
-              <Link
-                key={item.id}
-                href={item.href}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textDecoration: "none",
-                  marginTop: -24,
-                  zIndex: 2,
-                }}
-              >
-                <div
-                  style={{
-                    width: 52,
-                    height: 52,
-                    borderRadius: "50%",
-                    background: "linear-gradient(135deg, #165491 0%, #0F172A 100%)",
-                    color: "#FFFFFF",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    boxShadow: isActive
-                      ? "0 8px 24px rgba(22, 84, 145, 0.55)"
-                      : "0 6px 18px rgba(22, 84, 145, 0.4)",
-                    border: "3.5px solid #FFFFFF",
-                    transform: isActive ? "scale(1.08)" : "scale(1)",
-                    transition: "transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)",
-                  }}
-                >
-                  <Icon style={{ width: 24, height: 24, color: "#38BDF8" }} />
-                </div>
-                <span
-                  style={{
-                    fontSize: 10.5,
-                    fontWeight: isActive ? 700 : 500,
-                    color: isActive ? "#165491" : "#64748B",
-                    marginTop: 4,
-                  }}
-                >
-                  {item.label}
-                </span>
-              </Link>
-            );
-          }
-
-          // Standard Navigation Tabs
           return (
             <Link
               key={item.id}
               href={item.href}
+              onTouchStart={() => setPressedId(item.id)}
+              onTouchEnd={() => setPressedId(null)}
+              onMouseDown={() => setPressedId(item.id)}
+              onMouseUp={() => setPressedId(null)}
+              onMouseLeave={() => setPressedId(null)}
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: 4,
+                justifyContent: "center",
                 textDecoration: "none",
-                flex: 1,
-                padding: "6px 0",
-                color: isActive ? "#165491" : "#64748B",
+                color: isActive ? "#0D2B4D" : "#7E7970",
+                padding: "6px 14px 4px",
+                borderRadius: 16,
                 position: "relative",
-                transition: "all 0.2s ease",
+                transform: isPressed
+                  ? "scale(0.88)"
+                  : isActive
+                  ? "scale(1.04)"
+                  : "scale(1)",
+                transition: "all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                touchAction: "manipulation",
+                WebkitTapHighlightColor: "transparent",
               }}
             >
-              <div
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: 42,
-                  height: 30,
-                  borderRadius: 16,
-                  background: isActive ? "rgba(22, 84, 145, 0.08)" : "transparent",
-                  transition: "all 0.25s ease",
-                }}
-              >
+              {/* ICON WITH BADGE */}
+              <div style={{ position: "relative", display: "inline-flex" }}>
                 <Icon
                   style={{
                     width: 22,
                     height: 22,
-                    strokeWidth: isActive ? 2.2 : 1.7,
-                    color: isActive ? "#165491" : "#64748B",
-                    transform: isActive ? "scale(1.1)" : "scale(1)",
-                    transition: "transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                    strokeWidth: isActive ? 2.4 : 1.8,
+                    fill: isActive && (item.id === "home" || item.id === "favorites") ? "#7CB6D9" : "none",
+                    color: isActive ? "#0D2B4D" : "#7E7970",
+                    transition: "all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                    transform: isActive ? "translateY(-1px)" : "none",
                   }}
                 />
-
-                {item.badge !== undefined && item.badge > 0 && (
+                {item.badge && item.badge > 0 ? (
                   <span
-                    className="cart-badge-pulse"
                     style={{
                       position: "absolute",
-                      top: -3,
-                      right: -1,
-                      background: "#DC2626",
+                      top: -4,
+                      right: -8,
+                      background: "#E11D48",
                       color: "#FFFFFF",
-                      fontSize: 10,
-                      fontWeight: 700,
-                      minWidth: 18,
-                      height: 18,
+                      fontSize: 9,
+                      fontWeight: 800,
+                      minWidth: 16,
+                      height: 16,
                       borderRadius: "50%",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      padding: "0 4px",
-                      boxShadow: "0 0 0 2px #FFFFFF",
-                      lineHeight: 1,
+                      padding: "0 3px",
+                      boxShadow: "0 0 0 1.5px #FFFFFF",
+                      animation: "badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
                     }}
                   >
                     {item.badge}
                   </span>
-                )}
+                ) : null}
               </div>
 
+              {/* LABEL IN FRENCH */}
               <span
                 style={{
-                  fontSize: 10.5,
-                  fontWeight: isActive ? 700 : 500,
-                  color: isActive ? "#165491" : "#64748B",
-                  transition: "color 0.2s",
+                  fontSize: 11,
+                  fontWeight: isActive ? 800 : 600,
+                  marginTop: 3,
+                  color: isActive ? "#0D2B4D" : "#7E7970",
+                  fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+                  letterSpacing: "-0.01em",
+                  transition: "color 0.2s ease",
                 }}
               >
                 {item.label}
               </span>
 
-              {/* Glowing active indicator dot */}
-              {isActive && (
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: -2,
-                    width: 5,
-                    height: 5,
-                    borderRadius: "50%",
-                    background: "#165491",
-                    boxShadow: "0 0 8px #165491",
-                  }}
-                />
-              )}
+              {/* ACTIVE GLOWING DOT INDICATOR */}
+              <div
+                style={{
+                  width: isActive ? 5 : 0,
+                  height: 5,
+                  borderRadius: "50%",
+                  background: "#7CB6D9",
+                  boxShadow: isActive ? "0 0 8px rgba(124, 182, 217, 0.9)" : "none",
+                  marginTop: 2,
+                  opacity: isActive ? 1 : 0,
+                  transform: isActive ? "scale(1)" : "scale(0)",
+                  transition: "all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                }}
+              />
             </Link>
           );
         })}
       </div>
 
       <style jsx global>{`
-        @media (max-width: 768px) {
+        .mobile-bottom-bar {
+          display: none !important;
+        }
+        @media (max-width: 768px), (display-mode: standalone) {
           .mobile-bottom-bar {
             display: block !important;
           }
@@ -252,13 +213,10 @@ export default function MobileBottomBar() {
             padding-bottom: 88px !important;
           }
         }
-        @keyframes cartPulse {
-          0% { transform: scale(1); }
-          50% { transform: scale(1.15); }
+        @keyframes badgePop {
+          0% { transform: scale(0.4); }
+          70% { transform: scale(1.2); }
           100% { transform: scale(1); }
-        }
-        .cart-badge-pulse {
-          animation: cartPulse 2s infinite ease-in-out;
         }
       `}</style>
     </nav>

@@ -47,7 +47,7 @@ export const COUNTRIES: CountryInfo[] = [
     rateToAr: 7.5,
     defaultCity: "Cotonou",
     defaultAddress: "Haie Vive, Avenue Pape Jean-Paul II, Cotonou",
-    defaultDriveHub: "Hub Principal FENOUHIMIN Akpakpa Port (Cotonou)",
+    defaultDriveHub: "Hub Principal FENOUHI Akpakpa Port (Cotonou)",
   },
   {
     code: "CI",
@@ -57,7 +57,7 @@ export const COUNTRIES: CountryInfo[] = [
     rateToAr: 7.5,
     defaultCity: "Abidjan",
     defaultAddress: "Cocody Angré 8e Tranche, Rue L14",
-    defaultDriveHub: "Hub Logistique FENOUHIMIN Vridi Port",
+    defaultDriveHub: "Hub Logistique FENOUHI Vridi Port",
   },
   {
     code: "TG",
@@ -67,7 +67,7 @@ export const COUNTRIES: CountryInfo[] = [
     rateToAr: 7.5,
     defaultCity: "Lomé",
     defaultAddress: "Boulevard du 13 Janvier, Lomé",
-    defaultDriveHub: "Hub Logistique FENOUHIMIN Port de Lomé",
+    defaultDriveHub: "Hub Logistique FENOUHI Port de Lomé",
   },
   {
     code: "SN",
@@ -77,7 +77,7 @@ export const COUNTRIES: CountryInfo[] = [
     rateToAr: 7.5,
     defaultCity: "Dakar",
     defaultAddress: "Plateau, Boulevard de la République",
-    defaultDriveHub: "Hub Logistique FENOUHIMIN Bel-Air",
+    defaultDriveHub: "Hub Logistique FENOUHI Bel-Air",
   },
   {
     code: "CM",
@@ -87,7 +87,7 @@ export const COUNTRIES: CountryInfo[] = [
     rateToAr: 7.5,
     defaultCity: "Douala",
     defaultAddress: "Bonanjo, Rue de la Marine",
-    defaultDriveHub: "Hub Fret FENOUHIMIN Aéroport Douala",
+    defaultDriveHub: "Hub Fret FENOUHI Aéroport Douala",
   },
   {
     code: "MG",
@@ -97,7 +97,7 @@ export const COUNTRIES: CountryInfo[] = [
     rateToAr: 1,
     defaultCity: "Antananarivo",
     defaultAddress: "Ambohimanarina, Antanety Avaratra",
-    defaultDriveHub: "Zoma Morarano Alarobia (Hub FENOUHIMIN)",
+    defaultDriveHub: "Zoma Morarano Alarobia (Hub FENOUHI)",
   },
 ];
 
@@ -297,7 +297,7 @@ export function MobileStoreProvider({ children }: { children: React.ReactNode })
     if (cleaned === "CHINAFREE") {
       setDiscountPercent(3);
       setPromoApplied(true);
-      return { success: true, message: "Remise FENOUHIMIN Chine appliquée (-3%) !" };
+      return { success: true, message: "Remise FENOUHI Chine appliquée (-3%) !" };
     }
     return { success: false, message: "Code promo invalide ou expiré." };
   };

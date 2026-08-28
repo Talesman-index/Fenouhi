@@ -6,7 +6,7 @@ export default function ReturnsWarrantyPage() {
     <div>
       <header style={{ background: "var(--navy-dark)", color: "#FFF", padding: "45px 0 55px", borderBottom: "4px solid var(--orange-primary)" }}>
         <div className="container" style={{ textAlign: "center" }}>
-          <span className="badge" style={{ marginBottom: 12, background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 12 }}>GARANTIE FENOUHIMIN 100% SÉCURISÉE</span>
+          <span className="badge" style={{ marginBottom: 12, background: "rgba(255,255,255,0.15)", color: "#FFF", fontSize: 12 }}>GARANTIE FENOUHI 100% SÉCURISÉE</span>
           <h1 className="hero-page-title">Politique de Garanties & Gestion des Litiges</h1>
           <p style={{ fontSize: 15, color: "#CBD5E1", maxWidth: 660, margin: "0 auto", lineHeight: 1.5 }}>
             Votre sérénité d'importation est notre priorité absolue. Découvrez nos engagements en cas de non-conformité, produit défectueux ou retard d'acheminement.
@@ -29,7 +29,7 @@ export default function ReturnsWarrantyPage() {
               <RotateCcw style={{ width: 32, color: "var(--orange-primary)", marginBottom: 12 }} />
               <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--navy-dark)", marginBottom: 8 }}>Remplacement / Remboursement</h3>
               <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
-                Si l'article reçu ne correspond pas à votre devis officiel, FENOUHIMIN s'engage au remboursement ou à la réexpédition à nos frais.
+                Si l'article reçu ne correspond pas à votre devis officiel, FENOUHI s'engage au remboursement ou à la réexpédition à nos frais.
               </p>
             </div>
 

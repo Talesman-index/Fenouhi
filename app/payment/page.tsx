@@ -93,7 +93,7 @@ function PaymentContent() {
 
   const merchantDetails = paymentProvider === "mtn"
     ? {
-        name: "FENOUHIMIN SAS",
+        name: "FENOUHI SAS",
         phone: "+229 97 00 00 01",
         ussd: `*880*41*97000001*${totalToPay}#`,
         operatorName: "MTN Mobile Money",
@@ -103,7 +103,7 @@ function PaymentContent() {
         borderActive: "#EAB308",
       }
     : {
-        name: "FENOUHIMIN SAS",
+        name: "FENOUHI SAS",
         phone: "+229 95 00 00 01",
         ussd: `*155*2*1*95000001*${totalToPay}#`,
         operatorName: "Moov Money (Flooz)",

@@ -152,7 +152,7 @@ function CheckoutPageInner() {
     return (
       <div style={{ background: "#FAF7F2", minHeight: "85vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div style={{ textAlign: "center", color: "#64748B", fontSize: 14, fontWeight: 700 }}>
-          Vérification de la session sécurisée FENOUHIMIN...
+          Vérification de la session sécurisée FENOUHI...
         </div>
       </div>
     );
@@ -206,7 +206,7 @@ function CheckoutPageInner() {
               }}
             >
               <ShieldCheck style={{ width: 14, height: 14, color: "#D97706" }} />
-              <span>Espace Client Sécurisé FENOUHIMIN</span>
+              <span>Espace Client Sécurisé FENOUHI</span>
             </div>
 
             <h1
@@ -296,7 +296,7 @@ function CheckoutPageInner() {
                 }}
               >
                 <UserPlus style={{ width: 18, height: 18 }} />
-                <span>Créer un compte client FENOUHIMIN</span>
+                <span>Créer un compte client FENOUHI</span>
               </Link>
             </div>
           </div>
@@ -448,7 +448,7 @@ function CheckoutPageInner() {
             }}
           >
             <ShieldCheck style={{ width: 14, height: 14, color: "#10B981" }} />
-            <span>Compte vérifié FENOUHIMIN</span>
+            <span>Compte vérifié FENOUHI</span>
           </div>
         </div>
 
@@ -467,7 +467,7 @@ function CheckoutPageInner() {
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#10B981" }} />
               <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#38BDF8" }}>
-                Processus Logistique FENOUHIMIN
+                Processus Logistique FENOUHI
               </span>
             </div>
             <span style={{ fontSize: 11.5, color: "#94A3B8" }}>Traçabilité 100% garantie Chine ➔ {country.name}</span>
@@ -1127,7 +1127,7 @@ function CheckoutPageInner() {
                 </div>
 
                 <span style={{ fontSize: 13.5, fontWeight: 600, color: "#0F172A" }}>
-                  J'ai lu les conditions générales de vente FENOUHIMIN et j'y adhère sans réserve.
+                  J'ai lu les conditions générales de vente FENOUHI et j'y adhère sans réserve.
                 </span>
               </div>
 
@@ -1283,7 +1283,7 @@ function CheckoutPageInner() {
             >
               <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#0F172A", fontWeight: 600 }}>
                 <ShieldCheck style={{ width: 16, height: 16, color: "#16A34A" }} />
-                <span>Garantie FENOUHIMIN 100% Sécurisé</span>
+                <span>Garantie FENOUHI 100% Sécurisé</span>
               </div>
               <div>
                 Fournisseurs d'usines certifiés, contrôle qualité avant embarquement et dédouanement tout-en-un.

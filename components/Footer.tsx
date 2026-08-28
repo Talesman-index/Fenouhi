@@ -58,23 +58,23 @@ export default function Footer() {
           }}
         >
           {/* Subtle background decorative shapes */}
-          <div style={{ position: "absolute", left: "4%", top: "20%", opacity: 0.15, pointerEvents: "none" }}>
-            <Percent style={{ width: 28, height: 28, color: "#D97706" }} />
+          <div style={{ position: "absolute", left: "4%", top: "20%", opacity: 0.25, pointerEvents: "none" }}>
+            <Percent style={{ width: 28, height: 28, color: "#7CB6D9" }} />
           </div>
-          <div style={{ position: "absolute", left: "18%", bottom: "15%", opacity: 0.2, pointerEvents: "none" }}>
-            <Mail style={{ width: 24, height: 24, color: "#D97706" }} />
+          <div style={{ position: "absolute", left: "18%", bottom: "15%", opacity: 0.3, pointerEvents: "none" }}>
+            <Mail style={{ width: 24, height: 24, color: "#7CB6D9" }} />
           </div>
-          <div style={{ position: "absolute", right: "16%", top: "15%", opacity: 0.2, pointerEvents: "none" }}>
-            <Mail style={{ width: 24, height: 24, color: "#D97706" }} />
+          <div style={{ position: "absolute", right: "16%", top: "15%", opacity: 0.3, pointerEvents: "none" }}>
+            <Mail style={{ width: 24, height: 24, color: "#7CB6D9" }} />
           </div>
-          <div style={{ position: "absolute", right: "6%", bottom: "20%", opacity: 0.15, pointerEvents: "none" }}>
-            <Tag style={{ width: 28, height: 28, color: "#D97706" }} />
+          <div style={{ position: "absolute", right: "6%", bottom: "20%", opacity: 0.25, pointerEvents: "none" }}>
+            <Tag style={{ width: 28, height: 28, color: "#7CB6D9" }} />
           </div>
 
           {/* Left Title with Vertical Accent */}
           <div style={{ display: "flex", alignItems: "center", gap: 12, zIndex: 1 }}>
-            <div style={{ width: 5, height: 32, background: "#F59E0B", borderRadius: 4 }} />
-            <h3 style={{ fontSize: 24, fontWeight: 700, color: "#0F172A", margin: 0, fontFamily: "'Poppins', sans-serif" }}>
+            <div style={{ width: 5, height: 32, background: "#7CB6D9", borderRadius: 4 }} />
+            <h3 style={{ fontSize: 24, fontWeight: 800, color: "#0D2B4D", margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Restez branché
             </h3>
           </div>
@@ -88,17 +88,17 @@ export default function Footer() {
               background: "#FFFFFF",
               borderRadius: 99,
               padding: "4px 4px 4px 20px",
-              border: "1px solid #CBD5E1",
+              border: "1.5px solid rgba(124, 182, 217, 0.4)",
               maxWidth: 520,
               width: "100%",
-              boxShadow: "0 4px 14px rgba(0,0,0,0.04)",
+              boxShadow: "0 4px 14px rgba(124, 182, 217, 0.12)",
               zIndex: 1,
             }}
           >
             {subscribed ? (
               <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#16A34A", fontWeight: 700, fontSize: 13, width: "100%", padding: "8px 0" }}>
                 <CheckCircle2 style={{ width: 18, height: 18 }} />
-                <span>Merci ! Vous êtes inscrit aux offres usine FENOUHIMIN.</span>
+                <span>Merci ! Vous êtes inscrit aux offres usine FENOUHI.</span>
               </div>
             ) : (
               <>
@@ -113,7 +113,7 @@ export default function Footer() {
                     outline: "none",
                     width: "100%",
                     fontSize: 13,
-                    color: "#0F172A",
+                    color: "#0D2B4D",
                     background: "transparent",
                     paddingRight: 10,
                   }}
@@ -121,24 +121,24 @@ export default function Footer() {
                 <button
                   type="submit"
                   style={{
-                    background: "linear-gradient(135deg, #F59E0B 0%, #D97706 100%)",
+                    background: "#0D2B4D",
                     color: "#FFFFFF",
-                    border: "none",
+                    border: "1px solid rgba(124, 182, 217, 0.4)",
                     borderRadius: 99,
                     padding: "10px 22px",
                     fontSize: 13,
-                    fontWeight: 600,
+                    fontWeight: 800,
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
                     gap: 6,
                     flexShrink: 0,
-                    boxShadow: "0 2px 8px rgba(245, 158, 11, 0.3)",
-                    transition: "transform 0.2s",
+                    boxShadow: "0 4px 14px rgba(13, 43, 77, 0.35)",
+                    transition: "transform 0.2s, background 0.2s",
                   }}
                 >
                   <span>Inscrivez-vous</span>
-                  <ChevronRight style={{ width: 16, height: 16 }} />
+                  <ChevronRight style={{ width: 16, height: 16, color: "#7CB6D9" }} />
                 </button>
               </>
             )}
@@ -186,7 +186,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* COL 2: FENOUHIMIN */}
+          {/* COL 2: FENOUHI */}
           <div>
             <div
               style={{
@@ -204,7 +204,7 @@ export default function Footer() {
               }}
             >
               <ShoppingBag style={{ width: 16, height: 16, color: "#94A3B8" }} />
-              <span>FENOUHIMIN</span>
+              <span>FENOUHI</span>
             </div>
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
               <li><a href="#app" style={{ color: "#64748B", textDecoration: "none" }}>Téléchargez l'Application</a></li>
@@ -431,7 +431,7 @@ export default function Footer() {
       </div>
 
         {/* ==================================================================== */}
-        {/* 3. LEGAL BOTTOM BAR                                                  */}
+        {/* 3. LEGAL BOTTOM BAR & VERCEL BADGE                                  */}
         {/* ==================================================================== */}
         <div
           style={{
@@ -446,7 +446,31 @@ export default function Footer() {
             gap: 12,
           }}
         >
-          <div>© FENOUHIMIN — Logistique Directe Chine-Bénin. Tous droits réservés.</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+            <div>© FENOUHI — Logistique Directe Chine-Bénin. Tous droits réservés.</div>
+            
+            {/* VERCEL OFFICIAL DEPLOYMENT BADGE */}
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                background: "#000000",
+                color: "#FFFFFF",
+                padding: "3px 9px",
+                borderRadius: 6,
+                fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: "0.2px",
+              }}
+            >
+              <svg width="10" height="9" viewBox="0 0 76 65" fill="#FFFFFF">
+                <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" />
+              </svg>
+              <span>Vercel</span>
+            </div>
+          </div>
+
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <Link href="/privacy-policy" style={{ color: "#64748B", textDecoration: "none" }}>Politique de Confidentialité</Link>
             <Link href="/terms" style={{ color: "#64748B", textDecoration: "none" }}>Conditions d'Utilisation</Link>

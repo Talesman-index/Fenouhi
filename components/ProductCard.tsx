@@ -2,9 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Heart, ShoppingBag, ShoppingCart, Check } from "lucide-react";
+import { Heart, ShoppingCart, Check, Star } from "lucide-react";
 import { useMobileStore } from "@/lib/mobile-store";
-import PhoneStateBadge from "./PhoneStateBadge";
 
 interface ProductCardProps {
   id?: string;
@@ -16,6 +15,7 @@ interface ProductCardProps {
   image: string;
   category?: string;
   isDemo?: boolean;
+  stockLeft?: number;
   conditionState?: "Scellé" | "Reconditionné" | "Occasion" | string | null;
   grade?: string | null;
   simType?: string | null;
@@ -27,11 +27,12 @@ export default function ProductCard({
   title,
   price,
   oldPrice,
-  rating = "★★★★★",
+  rating = "4.8",
   reviewsCount = 120,
   image,
-  category = "High-Tech & Usines",
+  category = "HIGH-TECH & ELECTRONICS",
   isDemo = false,
+  stockLeft = 15,
   conditionState,
   grade,
   simType,
@@ -67,11 +68,11 @@ export default function ProductCard({
       category: category,
       price: numPrice,
       image: image,
-      deliveryRange: "Express 5-12j (Cotonou)",
+      deliveryRange: "Express 5-8j (Cotonou)",
       shippingMode: "air",
     });
     setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 2000);
+    setTimeout(() => setJustAdded(false), 1800);
   };
 
   return (
@@ -84,194 +85,244 @@ export default function ProductCard({
         flexDirection: "column",
         justifyContent: "space-between",
         background: "#FFFFFF",
-        borderRadius: 20,
-        padding: 16,
-        border: "1px solid #EAE5DC",
+        borderRadius: 22,
+        padding: "12px 12px 14px",
+        border: hovered ? "1.5px solid #7CB6D9" : "1px solid #EFECE6",
         position: "relative",
         cursor: "pointer",
         boxShadow: hovered
-          ? "0 12px 32px rgba(15, 23, 42, 0.08)"
-          : "0 2px 10px rgba(15, 23, 42, 0.02)",
-        transform: hovered ? "translateY(-4px)" : "none",
-        transition: "all 0.22s ease",
+          ? "0 14px 34px rgba(13, 43, 77, 0.12)"
+          : "0 2px 10px rgba(13, 43, 77, 0.03)",
+        transform: hovered ? "translateY(-3px)" : "none",
+        transition: "all 0.2s ease",
         textDecoration: "none",
         color: "inherit",
       }}
     >
-      {/* HEART BUTTON */}
-      <div
-        onClick={handleToggleFavorite}
-        style={{
-          position: "absolute",
-          top: 12,
-          right: 12,
-          width: 32,
-          height: 32,
-          borderRadius: "50%",
-          background: "rgba(255, 255, 255, 0.95)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer",
-          zIndex: 10,
-          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-        }}
-        title="Ajouter aux favoris"
-      >
-        <Heart
-          style={{
-            width: 16,
-            height: 16,
-            fill: isFav ? "#DC2626" : "none",
-            color: isFav ? "#DC2626" : "#94A3B8",
-            transition: "all 0.15s ease",
-          }}
-        />
-      </div>
-
-      {/* PRODUCT IMAGE */}
-      <div
-        style={{
-          width: "100%",
-          height: 175,
-          background: "#F8FAFC",
-          borderRadius: 14,
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 12,
-          position: "relative",
-        }}
-      >
-        {isDemo && (
-          <div
-            style={{
-              position: "absolute",
-              top: 8,
-              left: 8,
-              background: "#E8890C",
-              color: "#FFFFFF",
-              fontSize: 9.5,
-              fontWeight: 600,
-              padding: "2px 7px",
-              borderRadius: 6,
-              zIndex: 10,
-              textTransform: "uppercase",
-              letterSpacing: "0.5px",
-            }}
-          >
-            Direct Usine
-          </div>
-        )}
-        <img
-          src={image}
-          alt={title}
+      {/* TOP CONTENT: IMAGE + CATEGORY + TITLE + STARS + PRICE */}
+      <div>
+        {/* 1. IMAGE CONTAINER WITH FLOATING HEART */}
+        <div
           style={{
             width: "100%",
-            height: "100%",
-            objectFit: "contain",
-            padding: 8,
-            transition: "transform 0.35s ease",
-            transform: hovered ? "scale(1.05)" : "scale(1)",
-          }}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = "/images/assets/hero_iphone16.png";
-          }}
-        />
-      </div>
-
-      {/* PRODUCT INFO */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-        <div>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, flexWrap: "wrap", marginBottom: 4 }}>
-            <span style={{ fontSize: 10.5, fontWeight: 700, color: "#165491", textTransform: "uppercase", letterSpacing: 0.4 }}>
-              {category}
-            </span>
-          </div>
-
-
-
-          <div
-            style={{
-              fontSize: 13.5,
-              fontWeight: 700,
-              color: "#0F172A",
-              lineHeight: 1.35,
-              margin: "2px 0 6px",
-              display: "-webkit-box",
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-              minHeight: 36,
-            }}
-          >
-            {title}
-          </div>
-
-          {/* Rating */}
-          <div
-            style={{
-              fontSize: 11,
-              color: "#94A3B8",
-              marginBottom: 6,
-              display: "flex",
-              alignItems: "center",
-              gap: 4,
-            }}
-          >
-            <span style={{ color: "#F59E0B" }}>{rating}</span>
-            <span>({reviewsCount})</span>
-          </div>
-
-          {/* Price */}
-          <div style={{ display: "flex", alignItems: "baseline", gap: 6, flexWrap: "wrap", marginBottom: 12 }}>
-            <span style={{ fontSize: 16, fontWeight: 700, color: "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
-              {price}
-            </span>
-            {oldPrice && (
-              <span style={{ fontSize: 11, color: "#94A3B8", textDecoration: "line-through" }}>
-                {oldPrice}
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* ACTION: PANIER ONLY */}
-        <button
-          onClick={handleAddToCart}
-          style={{
-            width: "100%",
-            padding: "10px 0",
-            textAlign: "center",
-            fontSize: 12.5,
-            fontWeight: 600,
-            borderRadius: 10,
-            background: justAdded ? "#16A34A" : "#0F172A",
-            color: "#FFF",
-            border: "none",
+            height: 165,
+            background: "#F7F5F1",
+            borderRadius: 16,
+            overflow: "hidden",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: 6,
-            cursor: "pointer",
-            transition: "all 0.18s ease",
-            boxShadow: justAdded ? "0 4px 12px rgba(22, 163, 74, 0.25)" : "0 2px 8px rgba(15, 23, 42, 0.08)",
+            position: "relative",
+            marginBottom: 12,
           }}
         >
-          {justAdded ? (
-            <>
-              <Check style={{ width: 14, height: 14 }} />
-              <span>Ajouté au Panier !</span>
-            </>
-          ) : (
-            <>
-              <ShoppingCart style={{ width: 14, height: 14 }} />
-              <span>Ajouter au Panier</span>
-            </>
+          {/* FAVORITE FLOATING CIRCLE BUTTON */}
+          <div
+            onClick={handleToggleFavorite}
+            style={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              width: 32,
+              height: 32,
+              borderRadius: "50%",
+              background: "rgba(255, 255, 255, 0.96)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              zIndex: 10,
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+              transition: "transform 0.15s ease",
+              transform: isFav ? "scale(1.1)" : "none",
+            }}
+            title="Favoris"
+          >
+            <Heart
+              style={{
+                width: 16,
+                height: 16,
+                fill: isFav ? "#E11D48" : "none",
+                color: isFav ? "#E11D48" : "#94A3B8",
+              }}
+            />
+          </div>
+
+          {/* CONDITION / USINE TAG */}
+          {(conditionState || isDemo) && (
+            <div
+              style={{
+                position: "absolute",
+                top: 8,
+                left: 8,
+                background: "#0D2B4D",
+                color: "#FFFFFF",
+                fontSize: 9.5,
+                fontWeight: 700,
+                padding: "3px 8px",
+                borderRadius: 6,
+                zIndex: 10,
+                letterSpacing: "0.3px",
+              }}
+            >
+              {conditionState || "Direct Usine"}
+            </div>
           )}
-        </button>
+
+          {/* PRODUCT VISUAL */}
+          <img
+            src={image}
+            alt={title}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+              padding: 8,
+              transition: "transform 0.3s ease",
+              transform: hovered ? "scale(1.06)" : "scale(1)",
+            }}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "/images/assets/iphone16_white.png";
+            }}
+          />
+        </div>
+
+        {/* 2. CATEGORY LABEL */}
+        <div
+          style={{
+            fontSize: 10.5,
+            fontWeight: 800,
+            color: "#7CB6D9",
+            letterSpacing: "0.5px",
+            textTransform: "uppercase",
+            marginBottom: 4,
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+          }}
+        >
+          {category}
+        </div>
+
+        {/* 3. PRODUCT TITLE */}
+        <h4
+          style={{
+            fontSize: 13.5,
+            fontWeight: 800,
+            color: "#1E1B16",
+            lineHeight: 1.3,
+            margin: "0 0 6px",
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            minHeight: 35,
+            fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+          }}
+        >
+          {title}
+        </h4>
+
+        {/* 4. RATING STARS & REVIEWS COUNT */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 3,
+            fontSize: 11,
+            marginBottom: 8,
+          }}
+        >
+          <div style={{ display: "inline-flex", gap: 1 }}>
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                style={{
+                  width: 11.5,
+                  height: 11.5,
+                  fill: "#F59E0B",
+                  color: "#F59E0B",
+                }}
+              />
+            ))}
+          </div>
+          <span style={{ color: "#94A3B8", fontWeight: 600, marginLeft: 2 }}>
+            ({reviewsCount})
+          </span>
+        </div>
+
+        {/* 5. PRICE DISPLAY */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            gap: 6,
+            marginBottom: 12,
+          }}
+        >
+          <span
+            style={{
+              fontSize: 16,
+              fontWeight: 900,
+              color: "#E11D48", // Vibrant accent price red
+              fontFamily: "'Plus Jakarta Sans', 'Poppins', sans-serif",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            {price}
+          </span>
+          {oldPrice && (
+            <span
+              style={{
+                fontSize: 12,
+                color: "#94A3B8",
+                textDecoration: "line-through",
+                fontWeight: 600,
+              }}
+            >
+              {oldPrice}
+            </span>
+          )}
+        </div>
       </div>
+
+      {/* 6. FULL-WIDTH 'AJOUTER AU PANIER' BUTTON */}
+      <button
+        onClick={handleAddToCart}
+        type="button"
+        style={{
+          width: "100%",
+          padding: "10px 14px",
+          borderRadius: 999,
+          background: justAdded ? "#15803D" : "#0D2B4D",
+          color: "#FFFFFF",
+          border: "none",
+          fontSize: 12.5,
+          fontWeight: 800,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 7,
+          cursor: "pointer",
+          boxShadow: justAdded
+            ? "0 4px 14px rgba(21, 128, 61, 0.35)"
+            : "0 4px 14px rgba(13, 43, 77, 0.25)",
+          transition: "all 0.18s ease",
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+        }}
+      >
+        {justAdded ? (
+          <>
+            <Check style={{ width: 14, height: 14 }} />
+            <span>Ajouté !</span>
+          </>
+        ) : (
+          <>
+            <ShoppingCart style={{ width: 14, height: 14, color: "#7CB6D9" }} />
+            <span>Ajouter au Panier</span>
+          </>
+        )}
+      </button>
     </Link>
   );
 }
+
+
