@@ -32,9 +32,9 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://fenouhimin.vercel.app"),
-  title: "FENOUHI — Shopping Tendance & Direct Usine Chine",
+  title: "Fenouhi — Shopping Tendance Direct Usine Chine → Afrique",
   description:
-    "Découvrez l'univers Fenouhi pour la mode, la maison, la beauté et le lifestyle. Tout en un seul endroit aux tarifs direct usine avec livraison rapide.",
+    "Découvrez l'univers Fenouhi pour la mode, la maison, la beauté et le lifestyle. Vos produits préférés direct usine livrés chez vous.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
@@ -57,16 +57,15 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "FENOUHI — Shopping Tendance | Tout en un seul endroit",
-    description:
-      "Découvrez l'univers Fenouhi pour la mode, la maison, la beauté et le lifestyle. Tarifs direct usine et livraison rapide.",
+    description: "Découvrez l'univers Fenouhi pour la mode, la maison, la beauté et le lifestyle. Tarifs direct usine et livraison rapide !",
     url: "https://fenouhimin.vercel.app",
-    siteName: "Fenouhi",
+    siteName: "FENOUHI",
     images: [
       {
-        url: "/og-image.jpg?v=2",
-        width: 1200,
-        height: 630,
-        alt: "FENOUHI - Shopping Tendance, Mode, Maison, Beauté et Lifestyle",
+        url: "/og-image.jpg",
+        width: 1080,
+        height: 1350,
+        alt: "FENOUHI - Shopping Tendance Mode, Maison, Beauté & Lifestyle",
       },
     ],
     locale: "fr_FR",
@@ -75,9 +74,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "FENOUHI — Shopping Tendance | Tout en un seul endroit",
-    description:
-      "Découvrez l'univers Fenouhi pour la mode, la maison, la beauté et le lifestyle. Tarifs direct usine et livraison rapide.",
-    images: ["/og-image.jpg?v=2"],
+    description: "Découvrez l'univers Fenouhi pour la mode, la maison, la beauté et le lifestyle.",
+    images: ["/og-image.jpg"],
   },
   other: {
     "mobile-web-app-capable": "yes",
