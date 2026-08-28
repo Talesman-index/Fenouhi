@@ -34,7 +34,54 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
-  // 0. BANDE LUMINEUSE LED NÉON DÉCORATIVE (5M & 10M)
+  // 0. MACHINE À LAVER PLIABLE 9L
+  {
+    id: "machine-a-laver-pliable-9l",
+    title: "Machine à Laver Pliable 9L",
+    subtitle: "Mini lave-linge portable avec panier essorage & désinfection lumière bleue (9L)",
+    price: 12000,
+    oldPrice: 24000,
+    minQty: 1,
+    image: "/images/assets/machine_a_laver_pliable_9l.png",
+    images: ["/images/assets/machine_a_laver_pliable_9l.png"],
+    category: "home",
+    badge: "COUP DE COEUR",
+    origin: "Direct Usine Chine",
+    weight: "1.8 kg",
+    volume: "0.008 CBM",
+    rating: 5.0,
+    reviewsCount: 230,
+    conditionState: "Scellé",
+    grade: "Neuf en Boîte",
+    description:
+      "Finies les corvées compliquées ! Découvrez la machine à laver pliable 9L, compacte, légère et ultra-pratique. Équipée d'un puissant moteur à pulsation bidirectionnel, d'une lumière bleue antibactérienne (Blu-ray) et d'un panier d'essorage amovible. Idéale pour les petits espaces, les chambres d'étudiants, les voyages ou le lavage hygiénique séparé des vêtements de bébé et sous-vêtements. Se plie en quelques secondes pour un rangement discret.",
+    features: [
+      "Grande capacité de 9 Litres pour les vêtements du quotidien",
+      "Pliable et ultra-compacte : se range facilement sous un lit ou dans un placard",
+      "Désinfection par lumière bleue antibactérienne intégrée (Blu-ray)",
+      "Panier d'essorage amovible inclus pour un essorage rapide",
+      "3 modes de minuterie tactile (3 min, 5 min, 10 min)",
+      "Tuyau d'évacuation d'eau et poignée de transport intégrés",
+    ],
+    specifications: [
+      { label: "Capacité de cuve", value: "9 Litres" },
+      { label: "Fonctions", value: "Lavage automatique + Essorage + Stérilisation Blu-ray" },
+      { label: "Puissance", value: "36W haute efficacité" },
+      { label: "Alimentation", value: "Adaptateur secteur 220V inclus" },
+      { label: "Matériaux", value: "Silicone TPE haute durabilité + ABS résistant" },
+    ],
+    reviews: [
+      {
+        author: "Audrey S.",
+        rating: 5,
+        comment: "Une vraie révolution pour laver les habits de mon bébé sans fatigue ! Très silencieuse et essore super bien.",
+        date: "28 Août 2026",
+      },
+    ],
+    related: ["bande-lumineuse-led-neon", "gourde-isotherme-mood-the-cup"],
+  },
+
+  // 1. BANDE LUMINEUSE LED NÉON DÉCORATIVE (5M & 10M)
   {
     id: "bande-lumineuse-led-neon",
     title: "Bande Lumineuse LED Néon Décorative",
