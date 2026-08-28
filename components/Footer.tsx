@@ -431,7 +431,7 @@ export default function Footer() {
       </div>
 
         {/* ==================================================================== */}
-        {/* 3. LEGAL BOTTOM BAR & VERCEL BADGE                                  */}
+        {/* 3. LEGAL BOTTOM BAR                                                  */}
         {/* ==================================================================== */}
         <div
           style={{
@@ -446,30 +446,7 @@ export default function Footer() {
             gap: 12,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-            <div>© FENOUHI — Logistique Directe Chine-Bénin. Tous droits réservés.</div>
-            
-            {/* VERCEL OFFICIAL DEPLOYMENT BADGE */}
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                background: "#000000",
-                color: "#FFFFFF",
-                padding: "3px 9px",
-                borderRadius: 6,
-                fontSize: 11,
-                fontWeight: 600,
-                letterSpacing: "0.2px",
-              }}
-            >
-              <svg width="10" height="9" viewBox="0 0 76 65" fill="#FFFFFF">
-                <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" />
-              </svg>
-              <span>Vercel</span>
-            </div>
-          </div>
+          <div>© FENOUHI — Logistique Directe Chine-Bénin. Tous droits réservés.</div>
 
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <Link href="/privacy-policy" style={{ color: "#64748B", textDecoration: "none" }}>Politique de Confidentialité</Link>
