@@ -34,7 +34,54 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
-  // 0. PORTE VÊTEMENTS ET CHAUSSURES EN FER
+  // 0. PORTE MANTEAU ET HABIT EN FER AVEC ROULETTES (GRAND MODÈLE)
+  {
+    id: "porte-manteau-roulettes-grand",
+    title: "Porte Manteau et Habit en Fer avec Roulettes",
+    subtitle: "Grand modèle double portant mobile avec roulettes 360° et double étagère chaussures",
+    price: 15000,
+    oldPrice: 28000,
+    minQty: 1,
+    image: "/images/assets/porte_manteau_roulettes_grand.jpg",
+    images: ["/images/assets/porte_manteau_roulettes_grand.jpg"],
+    category: "home",
+    badge: "GRAND MODÈLE",
+    origin: "Direct Usine Chine",
+    weight: "4.9 kg",
+    volume: "0.025 CBM",
+    rating: 5.0,
+    reviewsCount: 112,
+    conditionState: "Scellé",
+    grade: "Neuf en Carton",
+    description:
+      "Grand porte-manteau et penderie mobile en fer noir mat renforcé. Conçu avec deux grandes barres de suspension à billes anti-chute, 6 crochets latéraux pour chapeaux, sacs et écharpes, ainsi qu'une double étagère inférieure extra-large pour ranger chaussures, valises et boîtes. Équipé de 4 roulettes multidirectionnelles 360° avec freins pour un déplacement fluide et sans effort.",
+    features: [
+      "Grand format haute capacité avec double penderie étagée",
+      "4 roulettes pivotantes à 360° avec système de blocage / freins",
+      "Double niveau d'étagères basses pour chaussures, valises et linge",
+      "Structure en acier tubulaire noir mat anti-corrosion et anti-rayures",
+      "Crochets latéraux ergonomiques pour sacs, manteaux et accessoires",
+      "Billes d'espacement sur les barres pour maintenir les cintres ordonnés",
+    ],
+    specifications: [
+      { label: "Modèle", value: "Grand Modèle Renforcé" },
+      { label: "Mobilité", value: "4 Roulettes 360° avec freins" },
+      { label: "Rangement", value: "Double portant + Double étagère + 6 crochets" },
+      { label: "Couleur", value: "Noir mat élégant" },
+      { label: "Capacité max", value: "Jusqu'à 65 kg" },
+    ],
+    reviews: [
+      {
+        author: "Boris M.",
+        rating: 5,
+        comment: "Ce grand modèle est parfait ! Les roulettes permettent de le déplacer très facilement et il supporte beaucoup d'habits et vestes.",
+        date: "28 Août 2026",
+      },
+    ],
+    related: ["porte-vetements-chaussures-fer", "projecteur-led-rl-16"],
+  },
+
+  // 1. PORTE VÊTEMENTS ET CHAUSSURES EN FER
   {
     id: "porte-vetements-chaussures-fer",
     title: "Porte Vêtements et Chaussures en Fer",
