@@ -23,10 +23,7 @@ const poppins = Poppins({
 });
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#165491" },
-    { media: "(prefers-color-scheme: dark)", color: "#0F172A" },
-  ],
+  themeColor: "#0D2B4D",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -94,10 +91,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${plusJakarta.variable} ${poppins.variable}`} style={{ backgroundColor: "#0F172A" }}>
-      <body className={plusJakarta.className} style={{ backgroundColor: "#FAF7F2", margin: 0, padding: 0 }}>
+    <html lang="fr" className={`${plusJakarta.variable} ${poppins.variable}`} style={{ backgroundColor: "#0D2B4D" }}>
+      <body className={plusJakarta.className} style={{ backgroundColor: "#0D2B4D", margin: 0, padding: 0 }}>
         <PreloaderProvider>
-          <LayoutWrapper>{children}</LayoutWrapper>
+          <div style={{ backgroundColor: "#FAF7F2", minHeight: "100vh" }}>
+            <LayoutWrapper>{children}</LayoutWrapper>
+          </div>
           {/* PWA: Service Worker registration */}
           <PwaRegister />
           {/* PWA: Install prompt banner */}

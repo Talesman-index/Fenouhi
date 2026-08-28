@@ -8,7 +8,7 @@ export default function manifest(): MetadataRoute.Manifest {
       "Achetez en Chine, livraison en Afrique. Fret aérien & maritime, devis transparents, Mobile Money.",
     start_url: "/",
     display: "standalone",
-    background_color: "#FFFFFF",
+    background_color: "#0D2B4D",
     theme_color: "#0D2B4D",
     orientation: "portrait-primary",
     categories: ["shopping", "logistics", "business"],
