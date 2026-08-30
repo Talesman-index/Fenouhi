@@ -20,6 +20,7 @@ interface ProductCardProps {
   grade?: string | null;
   simType?: string | null;
   regionVersion?: string | null;
+  wholesalePrice5?: string | number | null;
 }
 
 export default function ProductCard({
@@ -37,6 +38,7 @@ export default function ProductCard({
   grade,
   simType,
   regionVersion,
+  wholesalePrice5,
 }: ProductCardProps) {
   const [hovered, setHovered] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
@@ -62,17 +64,24 @@ export default function ProductCard({
     e.preventDefault();
     e.stopPropagation();
     const numPrice = parseInt(price.replace(/[^0-9]/g, ""), 10) || 50000;
+    const numWholesale = typeof wholesalePrice5 === "number"
+      ? wholesalePrice5
+      : wholesalePrice5
+      ? parseInt(String(wholesalePrice5).replace(/[^0-9]/g, ""), 10)
+      : null;
+
     addToCart({
       id: `prod-${id}`,
       name: title,
       category: category,
       price: numPrice,
+      wholesalePrice5: numWholesale,
       image: image,
-      deliveryRange: "Express 5-8j (Cotonou)",
+      deliveryRange: "Livraison Directe Cotonou",
       shippingMode: "air",
     });
     setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1800);
+    setTimeout(() => setJustAdded(false), 2000);
   };
 
   return (
@@ -250,36 +259,55 @@ export default function ProductCard({
         </div>
 
         {/* 5. PRICE DISPLAY */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "baseline",
-            gap: 6,
-            marginBottom: 12,
-          }}
-        >
-          <span
+        <div>
+          <div
             style={{
-              fontSize: 16,
-              fontWeight: 900,
-              color: "#E11D48", // Vibrant accent price red
-              fontFamily: "'Plus Jakarta Sans', 'Poppins', sans-serif",
-              letterSpacing: "-0.02em",
+              display: "flex",
+              alignItems: "baseline",
+              gap: 6,
+              marginBottom: wholesalePrice5 ? 4 : 12,
             }}
           >
-            {price}
-          </span>
-          {oldPrice && (
             <span
               style={{
-                fontSize: 12,
-                color: "#94A3B8",
-                textDecoration: "line-through",
-                fontWeight: 600,
+                fontSize: 16,
+                fontWeight: 900,
+                color: "#E11D48", // Vibrant accent price red
+                fontFamily: "'Plus Jakarta Sans', 'Poppins', sans-serif",
+                letterSpacing: "-0.02em",
               }}
             >
-              {oldPrice}
+              {price}
             </span>
+            {oldPrice && (
+              <span
+                style={{
+                  fontSize: 12,
+                  color: "#94A3B8",
+                  textDecoration: "line-through",
+                  fontWeight: 600,
+                }}
+              >
+                {oldPrice}
+              </span>
+            )}
+          </div>
+
+          {wholesalePrice5 && (
+            <div
+              style={{
+                fontSize: 11,
+                fontWeight: 700,
+                color: "#166534",
+                background: "#DCFCE7",
+                padding: "2px 6px",
+                borderRadius: 4,
+                display: "inline-block",
+                marginBottom: 10,
+              }}
+            >
+              Dès 5 art. : {typeof wholesalePrice5 === "number" ? `${wholesalePrice5.toLocaleString()} FCFA` : wholesalePrice5}
+            </div>
           )}
         </div>
       </div>

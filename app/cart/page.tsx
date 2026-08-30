@@ -263,8 +263,10 @@ function CartPageInner() {
             <div style={{ display: "flex", flexDirection: "column", gap: 16, gridColumn: "span 2" }}>
               {cart.map((item) => {
                 const fav = isFavorite(item.id);
-                const itemTotal = item.price * item.quantity;
-                const oldTotal = item.oldPrice ? item.oldPrice * item.quantity : itemTotal * 1.15;
+                const hasWholesaleDiscount = item.quantity >= 5 && item.wholesalePrice5 && Number(item.wholesalePrice5) > 0;
+                const effectiveUnitPrice = hasWholesaleDiscount ? Number(item.wholesalePrice5) : item.price;
+                const itemTotal = effectiveUnitPrice * item.quantity;
+                const oldTotal = item.oldPrice ? item.oldPrice * item.quantity : (hasWholesaleDiscount ? item.price * item.quantity : itemTotal * 1.15);
 
                 return (
                   <div
@@ -377,12 +379,25 @@ function CartPageInner() {
                           background: "#ECFDF5",
                           padding: "3px 8px",
                           borderRadius: 6,
-                          marginBottom: 10,
+                          marginBottom: 8,
                         }}
                       >
                         <Truck style={{ width: 13, height: 13 }} />
                         <span>{item.deliveryRange}</span>
                       </div>
+
+                      {/* WHOLESALE TIER NOTICE */}
+                      {hasWholesaleDiscount ? (
+                        <div style={{ marginBottom: 8 }}>
+                          <span style={{ fontSize: 11, background: "#DCFCE7", color: "#15803D", fontWeight: 700, padding: "2px 8px", borderRadius: 6, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                            ✓ Tarif de Gros Appliqué : {formatPrice(effectiveUnitPrice)}/u (≥ 5 art.)
+                          </span>
+                        </div>
+                      ) : item.wholesalePrice5 && Number(item.wholesalePrice5) > 0 ? (
+                        <div style={{ fontSize: 11.5, color: "#D97706", fontWeight: 600, marginBottom: 8, background: "#FEF3C7", padding: "3px 8px", borderRadius: 6, display: "inline-block" }}>
+                          💡 Plus que {5 - item.quantity} article(s) pour débloquer le prix de gros à {formatPrice(Number(item.wholesalePrice5))}/u
+                        </div>
+                      ) : null}
 
                       {/* PRICE & STEPPER ACTIONS */}
                       <div
@@ -410,7 +425,7 @@ function CartPageInner() {
                             style={{
                               fontSize: 18,
                               fontWeight: 700,
-                              color: "#DC2626", // Signature red price
+                              color: hasWholesaleDiscount ? "#16A34A" : "#DC2626", // Green when wholesale discount applied
                               fontFamily: "'Poppins', sans-serif",
                             }}
                           >

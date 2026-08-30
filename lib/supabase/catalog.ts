@@ -162,6 +162,7 @@ function mapLocalProductToCatalogProduct(p: any): Product {
     category_id: matchedCat?.id || null,
     subcategory: null,
     price: p.price,
+    wholesale_price_5_units: p.wholesale_price_5_units || p.wholesalePrice5 || null,
     currency: "FCFA",
     stock_quantity: 100,
     minimum_order_quantity: p.minQty || 1,

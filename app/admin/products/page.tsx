@@ -83,6 +83,7 @@ export default function ProductsManagementPage() {
   const [categoryId, setCategoryId] = useState("");
   const [subcategory, setSubcategory] = useState("");
   const [price, setPrice] = useState<number>(5000);
+  const [wholesalePrice5, setWholesalePrice5] = useState<number>(0);
   const [currency, setCurrency] = useState("FCFA");
   const [stockQuantity, setStockQuantity] = useState<number>(100);
   const [minimumOrderQuantity, setMinimumOrderQuantity] = useState<number>(1);
@@ -416,6 +417,7 @@ export default function ProductsManagementPage() {
       setCategoryId(defaultCatId);
       setSubcategory("Accessoires & Coques");
       setPrice(3500);
+      setWholesalePrice5(2800);
       setCargolinkMarginPercent(10);
       setAirFreightRatePerKg(0);
       setSeaFreightRatePerCbm(0);
@@ -450,6 +452,7 @@ export default function ProductsManagementPage() {
     setCategoryId(product.category_id || categories[0]?.id || "");
     setSubcategory(product.subcategory || "");
     setPrice(product.price);
+    setWholesalePrice5(product.wholesale_price_5_units ? Number(product.wholesale_price_5_units) : 0);
     setCargolinkMarginPercent(product.cargolink_margin_percent !== undefined && product.cargolink_margin_percent !== null ? product.cargolink_margin_percent : 10);
     setAirFreightRatePerKg(product.air_freight_rate_per_kg !== undefined && product.air_freight_rate_per_kg !== null ? Number(product.air_freight_rate_per_kg) : 0);
     setSeaFreightRatePerCbm(product.sea_freight_rate_per_cbm !== undefined && product.sea_freight_rate_per_cbm !== null ? Number(product.sea_freight_rate_per_cbm) : 0);
@@ -535,6 +538,7 @@ export default function ProductsManagementPage() {
         category_id: categoryId || null,
         subcategory: subcategory || "Accessoires & Coques",
         price: Number(price),
+        wholesale_price_5_units: Number(wholesalePrice5) > 0 ? Number(wholesalePrice5) : null,
         cargolink_margin_percent: Number(cargolinkMarginPercent ?? 10),
         air_freight_rate_per_kg: Number(airFreightRatePerKg ?? 0),
         sea_freight_rate_per_cbm: Number(seaFreightRatePerCbm ?? 0),
@@ -1167,7 +1171,16 @@ export default function ProductsManagementPage() {
                       <td style={{ padding: "14px 14px" }}>
                         <div style={{ fontWeight: 800, color: "#0F172A", fontSize: 14 }}>
                           {Number(p.price).toLocaleString()} {p.currency || "FCFA"}
+                          <span style={{ fontSize: 10.5, fontWeight: 600, color: "#64748B", marginLeft: 4 }}>(1 art)</span>
                         </div>
+                        {p.wholesale_price_5_units && Number(p.wholesale_price_5_units) > 0 && (
+                          <div style={{ fontSize: 11.5, fontWeight: 700, color: "#16A34A", marginTop: 2, display: "flex", alignItems: "center", gap: 4 }}>
+                            <span>{Number(p.wholesale_price_5_units).toLocaleString()} {p.currency || "FCFA"}</span>
+                            <span style={{ fontSize: 9.5, background: "#DCFCE7", color: "#15803D", padding: "1px 5px", borderRadius: 4, fontWeight: 700 }}>
+                              ≥ 5 art.
+                            </span>
+                          </div>
+                        )}
                         <div style={{ fontSize: 11, color: "#64748B", marginTop: 2 }}>
                           Marge : +{p.cargolink_margin_percent ?? 10}%
                         </div>
@@ -1484,65 +1497,116 @@ export default function ProductsManagementPage() {
                     </h3>
                   </div>
 
+                  {/* DUAL PRICING: PRIX UNITAIRE (1 ART) & PRIX GROS (≥ 5 ART) */}
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                    {/* PRIX USINE */}
-                    <div>
-                      <label className="admin-label">Prix Achat Usine Unitaire (FCFA) *</label>
-                      <input
-                        type="number"
-                        required
-                        min={0}
-                        placeholder="Ex: 15000"
-                        value={price}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setPrice(val === "" ? 0 : Number(val));
-                        }}
-                        className="admin-input"
-                        style={{ fontSize: 16, fontWeight: 700, color: "#0F172A" }}
-                      />
-                    </div>
-
-                    {/* % CARGOLINK MARGIN */}
+                    {/* PRIX UNITAIRE (1 PIÈCE) */}
                     <div>
                       <label className="admin-label" style={{ display: "flex", justifyContent: "space-between" }}>
-                        <span>Marge / Commission CargoLink (%) *</span>
-                        <strong style={{ color: "#F97316" }}>{cargolinkMarginPercent}%</strong>
+                        <span>Prix Unitaire (1 article) *</span>
+                        <span style={{ fontSize: 11, color: "#64748B", fontWeight: 500 }}>Tarif de base</span>
                       </label>
-                      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                      <div style={{ position: "relative" }}>
+                        <input
+                          type="number"
+                          required
+                          min={0}
+                          placeholder="Ex: 5000"
+                          value={price}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setPrice(val === "" ? 0 : Number(val));
+                          }}
+                          className="admin-input"
+                          style={{ fontSize: 15, fontWeight: 700, color: "#0F172A", paddingRight: 60 }}
+                        />
+                        <span style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", fontSize: 12, fontWeight: 700, color: "#64748B" }}>
+                          FCFA
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* PRIX DE GROS (≥ 5 ARTICLES) */}
+                    <div>
+                      <label className="admin-label" style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span>Prix Gros (dès 5 articles)</span>
+                        {wholesalePrice5 > 0 && price > 0 && wholesalePrice5 < price && (
+                          <span style={{ fontSize: 11, fontWeight: 700, color: "#16A34A" }}>
+                            -{Math.round(((price - wholesalePrice5) / price) * 100)}% d'économie
+                          </span>
+                        )}
+                      </label>
+                      <div style={{ position: "relative" }}>
                         <input
                           type="number"
                           min={0}
-                          max={100}
-                          placeholder="10"
-                          value={cargolinkMarginPercent}
+                          placeholder={`Ex: ${price > 0 ? Math.round(price * 0.8) : 4000}`}
+                          value={wholesalePrice5 === 0 ? "" : wholesalePrice5}
                           onChange={(e) => {
                             const val = e.target.value;
-                            setCargolinkMarginPercent(val === "" ? 0 : Number(val));
+                            setWholesalePrice5(val === "" ? 0 : Number(val));
                           }}
                           className="admin-input"
-                          style={{ width: 90, fontWeight: 600 }}
+                          style={{
+                            fontSize: 15,
+                            fontWeight: 700,
+                            color: wholesalePrice5 > 0 ? "#15803D" : "#0F172A",
+                            borderColor: wholesalePrice5 > 0 ? "#86EFAC" : undefined,
+                            background: wholesalePrice5 > 0 ? "#F0FDF4" : undefined,
+                            paddingRight: 70
+                          }}
                         />
-                        <div style={{ display: "flex", gap: 4, flex: 1 }}>
-                          {[5, 10, 15, 20].map((pct) => (
-                            <button
-                              key={pct}
-                              type="button"
-                              onClick={() => setCargolinkMarginPercent(pct)}
-                              className="btn"
-                              style={{
-                                flex: 1,
-                                padding: "6px 8px",
-                                fontSize: 11,
-                                fontWeight: 600,
-                                background: cargolinkMarginPercent === pct ? "#F97316" : "#F1F5F9",
-                                color: cargolinkMarginPercent === pct ? "#FFF" : "#334155"
-                              }}
-                            >
-                              {pct}%
-                            </button>
-                          ))}
-                        </div>
+                        <span style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", fontSize: 11.5, fontWeight: 700, color: wholesalePrice5 > 0 ? "#15803D" : "#64748B" }}>
+                          FCFA/u
+                        </span>
+                      </div>
+                      <div style={{ fontSize: 11, color: "#64748B", marginTop: 4 }}>
+                        Tarif dégressif automatique dès que le client sélectionne 5 pièces ou plus.
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* % CARGOLINK MARGIN */}
+                  <div style={{ background: "#F8FAFC", padding: 14, borderRadius: 12, border: "1px solid #E2E8F0" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <label className="admin-label" style={{ margin: 0 }}>
+                        <span>Marge / Commission CargoLink (%) *</span>
+                      </label>
+                      <strong style={{ color: "#F97316", fontSize: 14 }}>{cargolinkMarginPercent}%</strong>
+                    </div>
+                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                      <input
+                        type="number"
+                        min={0}
+                        max={100}
+                        placeholder="10"
+                        value={cargolinkMarginPercent}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setCargolinkMarginPercent(val === "" ? 0 : Number(val));
+                        }}
+                        className="admin-input"
+                        style={{ width: 90, fontWeight: 600 }}
+                      />
+                      <div style={{ display: "flex", gap: 4, flex: 1 }}>
+                        {[5, 10, 15, 20].map((pct) => (
+                          <button
+                            key={pct}
+                            type="button"
+                            onClick={() => setCargolinkMarginPercent(pct)}
+                            className="btn"
+                            style={{
+                              flex: 1,
+                              padding: "6px 8px",
+                              fontSize: 11,
+                              fontWeight: 600,
+                              background: cargolinkMarginPercent === pct ? "#F97316" : "#FFFFFF",
+                              color: cargolinkMarginPercent === pct ? "#FFF" : "#334155",
+                              border: "1px solid #CBD5E1"
+                            }}
+                          >
+                            {pct}%
+                          </button>
+                        ))}
                       </div>
                     </div>
                   </div>

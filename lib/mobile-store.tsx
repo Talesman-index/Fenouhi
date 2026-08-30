@@ -7,7 +7,8 @@ export interface CartItem {
   name: string;
   specs?: string;
   category: string;
-  price: number; // in Ariary (base currency)
+  price: number; // Unit price (1 article)
+  wholesalePrice5?: number | null; // Wholesale tier price (>= 5 articles)
   oldPrice?: number;
   quantity: number;
   image: string;
@@ -302,8 +303,14 @@ export function MobileStoreProvider({ children }: { children: React.ReactNode })
     return { success: false, message: "Code promo invalide ou expiré." };
   };
 
-  // Calculations
-  const totalPanier = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  // Calculations taking into account wholesale price tier (>= 5 units)
+  const totalPanier = cart.reduce((sum, item) => {
+    const effectiveUnitPrice =
+      item.quantity >= 5 && item.wholesalePrice5 && Number(item.wholesalePrice5) > 0
+        ? Number(item.wholesalePrice5)
+        : item.price;
+    return sum + effectiveUnitPrice * item.quantity;
+  }, 0);
   const discountAmount = Math.round((totalPanier * discountPercent) / 100);
   const finalTotal = Math.max(0, totalPanier - discountAmount);
   const installmentAmount = Math.round(finalTotal / 4);

@@ -141,9 +141,14 @@ function ProductDetailContent() {
     : 5;
   const serviceRate = marginPercent / 100;
 
-  // Pricing calculations
-  const unitPrice = Number(product.price) || 0;
-  const productTotal = quantity * unitPrice;
+  // Pricing calculations (Single & Wholesale Tier)
+  const baseUnitPrice = Number(product.price) || 0;
+  const wholesalePrice5 = product.wholesale_price_5_units ? Number(product.wholesale_price_5_units) : null;
+  const hasWholesaleDiscount = Boolean(wholesalePrice5 && wholesalePrice5 > 0 && wholesalePrice5 < baseUnitPrice);
+  const isWholesaleApplied = Boolean(hasWholesaleDiscount && quantity >= 5);
+  const activeUnitPrice = isWholesaleApplied ? (wholesalePrice5 as number) : baseUnitPrice;
+
+  const productTotal = quantity * activeUnitPrice;
   const serviceFee = Math.round(productTotal * serviceRate);
   const shippingFee = hasFreight ? (shippingMode === "air" ? quantity * unitAirFreight : quantity * unitSeaFreight) : 0;
   const total = productTotal + serviceFee + shippingFee;
@@ -163,6 +168,7 @@ function ProductDetailContent() {
       name: itemName,
       category: product.category?.name || (isBeauty ? "Beauté & Soins" : "Général"),
       price: product.price,
+      wholesalePrice5: product.wholesale_price_5_units || null,
       oldPrice: (product as any).oldPrice || Math.round(product.price * 1.25),
       image: mainImage,
       quantity: quantity,
@@ -519,16 +525,73 @@ function ProductDetailContent() {
               <span style={{ fontSize: 12, color: "#94A3B8" }}>• Stock disponible usine : {product.stock_quantity || 100} unités</span>
             </div>
 
-            {/* UNIT PRICE IN FCFA */}
-            <div style={{ display: "flex", alignItems: "baseline", gap: 10, padding: "14px 0", borderTop: "1px solid #F1F5F9", borderBottom: "1px solid #F1F5F9" }}>
-              <span style={{ fontSize: 32, fontWeight: 700, color: "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
-                {formatPrice(unitPrice)}
-              </span>
-              <span style={{ fontSize: 13, color: "#64748B", fontWeight: 600 }}>/ unité usine</span>
-              {(product as any).oldPrice && (
-                <span style={{ fontSize: 15, color: "#94A3B8", textDecoration: "line-through", fontWeight: 600 }}>
-                  {formatPrice((product as any).oldPrice)}
+            {/* PRICING & VOLUME TIERS (1 ART vs 5+ ART) */}
+            <div style={{ padding: "16px 0", borderTop: "1px solid #F1F5F9", borderBottom: "1px solid #F1F5F9" }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+                <span style={{ fontSize: 32, fontWeight: 800, color: isWholesaleApplied ? "#15803D" : "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
+                  {formatPrice(activeUnitPrice)}
                 </span>
+                <span style={{ fontSize: 13, color: "#64748B", fontWeight: 600 }}>/ unité usine</span>
+                {isWholesaleApplied && (
+                  <span style={{ fontSize: 16, color: "#94A3B8", textDecoration: "line-through", fontWeight: 600 }}>
+                    {formatPrice(baseUnitPrice)}
+                  </span>
+                )}
+                {isWholesaleApplied && (
+                  <span style={{ fontSize: 11.5, background: "#DCFCE7", color: "#166534", padding: "3px 10px", borderRadius: 999, fontWeight: 700, border: "1px solid #86EFAC" }}>
+                    ✓ TARIF GROS APPLIQUÉ ({quantity} unités)
+                  </span>
+                )}
+              </div>
+
+              {/* GRILLE TARIFAIRE DÉGRESSIVE (VOLUME PRICING WIDGET) */}
+              {hasWholesaleDiscount && wholesalePrice5 && (
+                <div style={{ marginTop: 14, background: "#F8FAFC", border: "1.5px solid #E2E8F0", borderRadius: 14, padding: "12px" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>
+                    💰 Grille Tarifaire Dégressive Usine :
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                    {/* TIER 1: 1 à 4 articles */}
+                    <div
+                      onClick={() => setQuantity(1)}
+                      style={{
+                        padding: "10px 12px",
+                        borderRadius: 10,
+                        background: !isWholesaleApplied ? "#FFFFFF" : "#F1F5F9",
+                        border: !isWholesaleApplied ? "2px solid #0F172A" : "1px solid #E2E8F0",
+                        cursor: "pointer",
+                        transition: "all 0.2s ease"
+                      }}
+                    >
+                      <div style={{ fontSize: 11, color: "#64748B", fontWeight: 600 }}>1 à 4 articles</div>
+                      <div style={{ fontSize: 15, fontWeight: 800, color: "#0F172A" }}>{formatPrice(baseUnitPrice)} <span style={{ fontSize: 10.5, fontWeight: 500 }}>/u</span></div>
+                      <div style={{ fontSize: 10.5, color: "#64748B" }}>Prix standard</div>
+                    </div>
+
+                    {/* TIER 2: 5 articles et + */}
+                    <div
+                      onClick={() => setQuantity(Math.max(5, quantity))}
+                      style={{
+                        padding: "10px 12px",
+                        borderRadius: 10,
+                        background: isWholesaleApplied ? "#F0FDF4" : "#FFFFFF",
+                        border: isWholesaleApplied ? "2px solid #16A34A" : "1.5px dashed #86EFAC",
+                        cursor: "pointer",
+                        position: "relative",
+                        transition: "all 0.2s ease"
+                      }}
+                    >
+                      <span style={{ position: "absolute", top: -8, right: 8, background: "#16A34A", color: "#FFF", fontSize: 9.5, fontWeight: 800, padding: "1px 6px", borderRadius: 999 }}>
+                        -{Math.round(((baseUnitPrice - wholesalePrice5) / baseUnitPrice) * 100)}% GROS
+                      </span>
+                      <div style={{ fontSize: 11, color: "#166534", fontWeight: 700 }}>5 articles et plus</div>
+                      <div style={{ fontSize: 15, fontWeight: 800, color: "#15803D" }}>{formatPrice(wholesalePrice5)} <span style={{ fontSize: 10.5, fontWeight: 500 }}>/u</span></div>
+                      <div style={{ fontSize: 10.5, color: "#16A34A", fontWeight: 600 }}>
+                        {isWholesaleApplied ? "✓ Activé dans votre commande" : "👉 Choisir 5 pièces (Prix Gros)"}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
 

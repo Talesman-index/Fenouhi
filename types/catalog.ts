@@ -38,6 +38,7 @@ export interface Product {
   category_id?: string | null;
   subcategory?: string | null;
   price: number;
+  wholesale_price_5_units?: number | null;
   currency: string;
   stock_quantity: number;
   minimum_order_quantity: number;

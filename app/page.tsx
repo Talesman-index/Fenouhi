@@ -716,6 +716,7 @@ export default function HomePage() {
                   id={p.id}
                   title={p.name}
                   price={`${p.price.toLocaleString()} ${p.currency}`}
+                  wholesalePrice5={p.wholesale_price_5_units ? `${Number(p.wholesale_price_5_units).toLocaleString()} ${p.currency}` : null}
                   image={img}
                   category={p.category?.name || "High-Tech"}
                   isDemo={p.is_demo}
