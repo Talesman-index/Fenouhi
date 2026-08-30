@@ -22,13 +22,14 @@ export default function ShippingPolicyPage() {
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, paddingBottom: 12, borderBottom: "2px solid var(--orange-light)" }}>
                   <Plane style={{ width: 28, color: "var(--orange-primary)" }} />
                   <div>
-                    <h3 style={{ fontSize: 20, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>Fret Aérien Express</h3>
-                    <span style={{ fontSize: 12, color: "var(--orange-primary)", fontWeight: 600 }}>Délais : 5 à 15 jours</span>
+                    <h3 style={{ fontSize: 20, fontWeight: 700, color: "var(--navy-dark)", margin: 0 }}>Fret Aérien (Express & Simple)</h3>
+                    <span style={{ fontSize: 12, color: "var(--orange-primary)", fontWeight: 600 }}>Délais : 15 jours (Express) / 30 jours (Simple)</span>
                   </div>
                 </div>
                 <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 12, fontSize: 14 }}>
-                  <li style={{ display: "flex", gap: 10 }}><CheckCircle style={{ width: 18, color: "var(--green-success)" }} /> Départs quotidiens depuis nos hubs logistiques internationaux.</li>
-                  <li style={{ display: "flex", gap: 10 }}><CheckCircle style={{ width: 18, color: "var(--green-success)" }} /> Emballage renforcé antichoc et suivi GPS en direct.</li>
+                  <li style={{ display: "flex", gap: 10 }}><CheckCircle style={{ width: 18, color: "var(--green-success)" }} /> Aérien Express : livraison en 15 jours vers l'Aéroport de Cotonou.</li>
+                  <li style={{ display: "flex", gap: 10 }}><CheckCircle style={{ width: 18, color: "var(--green-success)" }} /> Aérien Simple / Standard : livraison économique en 30 jours.</li>
+                  <li style={{ display: "flex", gap: 10 }}><CheckCircle style={{ width: 18, color: "var(--green-success)" }} /> Emballage renforcé antichoc et suivi de votre expédition.</li>
                 </ul>
               </div>
 

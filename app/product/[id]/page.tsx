@@ -818,7 +818,7 @@ function ProductDetailContent() {
                     >
                       <Plane style={{ width: 22, height: 22, color: "#0284C7", margin: "0 auto 4px" }} />
                       <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>Fret Aérien Express</div>
-                      <div style={{ fontSize: 11, color: "#0369A1", fontWeight: 700 }}>5–12 jours • Aéroport Cotonou</div>
+                      <div style={{ fontSize: 11, color: "#0369A1", fontWeight: 700 }}>15 jours • Aéroport Cotonou</div>
                     </div>
 
                     {/* SEA FREIGHT */}
@@ -836,7 +836,7 @@ function ProductDetailContent() {
                     >
                       <Ship style={{ width: 22, height: 22, color: "#16A34A", margin: "0 auto 4px" }} />
                       <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>Fret Maritime Groupé</div>
-                      <div style={{ fontSize: 11, color: "#15803D", fontWeight: 700 }}>40–65 jours • Port Cotonou</div>
+                      <div style={{ fontSize: 11, color: "#15803D", fontWeight: 700 }}>50–95 jours • Port Cotonou</div>
                     </div>
                   </div>
                 </div>

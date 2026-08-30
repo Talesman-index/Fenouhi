@@ -99,8 +99,7 @@ export default function ProductsManagementPage() {
   const [length, setLength] = useState<number>(10);
   const [width, setWidth] = useState<number>(8);
   const [height, setHeight] = useState<number>(5);
-  const [availableShippingModes, setAvailableShippingModes] = useState<string[]>(["air", "sea"]);
-  const [estimatedDeliveryTime, setEstimatedDeliveryTime] = useState("5 - 15 jours (Aérien) / 50 - 95 jours (Maritime)");
+  const [estimatedDeliveryTime, setEstimatedDeliveryTime] = useState("15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)");
   const [status, setStatus] = useState<ProductStatus>("active");
   const [isDemo, setIsDemo] = useState<boolean>(false);
   const [isFeatured, setIsFeatured] = useState<boolean>(false);
@@ -560,7 +559,7 @@ export default function ProductsManagementPage() {
       setWidth(8);
       setHeight(5);
       setAvailableShippingModes(["air", "sea"]);
-      setEstimatedDeliveryTime("5 - 15 jours (Aérien) / 50 - 95 jours (Maritime)");
+      setEstimatedDeliveryTime("15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)");
       setStatus("active");
       setIsDemo(false);
       setIsFeatured(true);
@@ -605,7 +604,7 @@ export default function ProductsManagementPage() {
     setWidth(product.width || 8);
     setHeight(product.height || 5);
     setAvailableShippingModes(product.available_shipping_modes || ["air", "sea"]);
-    setEstimatedDeliveryTime(product.estimated_delivery_time || "5 - 15 jours (Aérien) / 50 - 95 jours (Maritime)");
+    setEstimatedDeliveryTime(product.estimated_delivery_time || "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)");
     setStatus(product.status);
     setIsDemo(product.is_demo);
     setIsFeatured(product.is_featured);
@@ -2423,9 +2422,11 @@ export default function ProductsManagementPage() {
                       onChange={(e) => setEstimatedDeliveryTime(e.target.value)}
                       className="admin-input"
                     >
-                      <option value="5 - 15 jours (Aérien) / 50 - 95 jours (Maritime)">5–15j (Aérien) / 50–95j (Maritime)</option>
-                      <option value="5 à 15 jours (Fret Aérien Express)">5 à 15 jours (Fret Aérien Express)</option>
+                      <option value="15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)">15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)</option>
+                      <option value="15 jours (Fret Aérien Express)">15 jours (Fret Aérien Express)</option>
+                      <option value="30 jours (Fret Aérien Simple)">30 jours (Fret Aérien Simple / Standard)</option>
                       <option value="50 à 95 jours (Fret Maritime Groupé)">50 à 95 jours (Fret Maritime Groupé)</option>
+                      <option value="Livraison Directe Cotonou (24-48h)">Livraison Directe Cotonou (24–48h)</option>
                     </select>
                   </div>
 
