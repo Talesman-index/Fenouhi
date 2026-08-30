@@ -159,6 +159,7 @@ export default function HomePage() {
   ];
 
   const todayDeals = [
+    { id: "raf-electric-kettle-r7928", title: "Chauffe-eau Électrique RAF (2.3L 1800W)", price: "7 000 FCFA", oldPrice: "12 000 FCFA", image: "/images/assets/chauffe_eau_raf_r7928.png", category: "Électroménager", stockLeft: 18, rating: "4.9", reviewsCount: 142 },
     { id: "gaine-amincissante-100-latex", title: "Gaine Amincissante 100% Latex", price: "20 000 FCFA", oldPrice: "32 000 FCFA", image: "/images/assets/gaine_amincissante_latex_1.png", category: "Mode & Minceur", stockLeft: 12, rating: "4.9", reviewsCount: 142 },
     { id: "robot-nettoyeur-4en1-jallen-gabor", title: "Robot Nettoyeur 4-en-1 Jallen Gabor", price: "15 000 FCFA", oldPrice: "25 000 FCFA", image: "/images/assets/robot_nettoyeur_jallen_gabor_1.png", category: "Électroménager", stockLeft: 8, rating: "4.7", reviewsCount: 89 },
     { id: "iphone-15", title: "iPhone 15", price: "230 000 FCFA", oldPrice: "310 000 FCFA", image: "/images/assets/iphone15/iphone15_bluetitanium.jpg", category: "High-Tech", stockLeft: 15, rating: "4.9", reviewsCount: 310 },

@@ -6,6 +6,7 @@ export interface Product {
   title: string;
   subtitle: string;
   price: number; // prix unitaire FCFA
+  wholesale_price_5_units?: number; // prix gros dès 5 unités
   oldPrice?: number;
   minQty: number;
   maxQty?: number;
@@ -34,6 +35,55 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
+  // 0. CHAUFFE-EAU ÉLECTRIQUE RAF R.7928 (2.3L - 1800W)
+  {
+    id: "raf-electric-kettle-r7928",
+    title: "Chauffe-eau Électrique RAF R.7928",
+    subtitle: "Bouilloire électrique rapide 2.3L 1800W en acier inoxydable avec arrêt automatique et socle 360°",
+    price: 7000,
+    wholesale_price_5_units: 5500,
+    oldPrice: 12000,
+    minQty: 1,
+    image: "/images/assets/chauffe_eau_raf_r7928.png",
+    images: ["/images/assets/chauffe_eau_raf_r7928.png"],
+    category: "home",
+    badge: "BEST-SELLER",
+    origin: "Direct Usine RAF International",
+    weight: "0.9 kg",
+    volume: "0.004 CBM",
+    rating: 4.9,
+    reviewsCount: 142,
+    conditionState: "Scellé",
+    grade: "Neuf en Boîte",
+    description:
+      "Découvrez le Chauffe-eau Électrique / Bouilloire Inox RAF R.7928 haute performance 1800W. Doté d'une grande capacité de 2.3 Litres et d'un corps robuste en acier inoxydable brossé alimentaire sans BPA, il assure une ébullition ultra-rapide de votre eau en quelques minutes seulement. Équipé d'un système de sécurité avancé avec arrêt automatique après ébullition, protection anti-chauffe à sec, témoin lumineux LED et socle pivotant 360° sans fil avec poignée ergonomique anti-brûlure.",
+    features: [
+      "Puissance haute performance 1800W : Ébullition ultra-rapide en moins de 3 minutes",
+      "Grande capacité familiale 2.3 Litres (2.3L Large capacity)",
+      "Intérieur et corps en acier inoxydable de qualité alimentaire garanti sans BPA",
+      "Sécurité automatique : Arrêt automatique après ébullition (Automatic switch off)",
+      "Protection contre la surchauffe et la mise en marche à vide",
+      "Socle pivotant 360° sans fil avec range-cordon intégré",
+      "Témoin lumineux LED de fonctionnement",
+      "Poignée ergonomique anti-brûlure Cool-Touch",
+    ],
+    specifications: [
+      { label: "Marque & Modèle", value: "RAF Electric Kettle R.7928" },
+      { label: "Puissance", value: "1800 Watts (1800W)" },
+      { label: "Capacité", value: "2.3 Litres" },
+      { label: "Matériau", value: "Acier Inoxydable Brossé & Plastique Sans BPA" },
+      { label: "Alimentation", value: "220V-240V / 50-60Hz" },
+      { label: "Sécurité", value: "Arrêt automatique + Protection anti-chauffe à sec" },
+      { label: "Socle", value: "Pivotant 360° sans fil" },
+      { label: "Garantie", value: "Garantie Usine & Contrôle Qualité Fenouhi" },
+    ],
+    reviews: [
+      { author: "Marc A. (Cotonou)", rating: 5, comment: "Chauffe l'eau à une vitesse impressionnante. La finition inox est de très bonne qualité.", date: "Il y a 3 jours" },
+      { author: "Félicité K. (Calavi)", rating: 5, comment: "Super bouilloire, grande capacité de 2.3L parfaite pour toute la famille. Prix imbattable !", date: "Il y a 1 semaine" },
+      { author: "Brice T. (Porto-Novo)", rating: 5, comment: "Reçu conforme, fonctionne parfaitement. Très pratique avec le socle 360.", date: "Il y a 2 semaines" },
+    ],
+    related: ["lampe-lumineuse-d-angle", "robot-nettoyeur-4en1-jallen-gabor", "defroisseur-vapeur-haeger-vetements"],
+  },
   // 0. LAMPE LUMINEUSE D'ANGLE RGB
   {
     id: "lampe-lumineuse-d-angle",
