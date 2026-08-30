@@ -120,7 +120,7 @@ export const CATEGORY_VARIANT_TEMPLATES: CategoryVariantTemplate[] = [
   {
     key: "shoes",
     label: "Chaussure",
-    matchKeywords: ["chaussure", "sneaker", "basket", "soulier", "sandale", "talon", "mocassin", "botte", "claquette"],
+    matchKeywords: ["shoes", "shoe", "chaussures", "chaussure", "sneakers", "sneaker", "basket", "baskets", "soulier", "souliers", "sandale", "sandales", "talon", "talons", "mocassin", "mocassins", "botte", "bottes", "claquette", "claquettes", "pointure", "pointures"],
     attributes: [
       {
         name: "Profil",
@@ -132,7 +132,7 @@ export const CATEGORY_VARIANT_TEMPLATES: CategoryVariantTemplate[] = [
       },
       {
         name: "Couleur",
-        values: ["Noir", "Blanc", "Gris", "Rouge / Noir", "Beige", "Multicolore"],
+        values: ["Noir", "Blanc", "Gris", "Rouge", "Bleu", "Beige", "Multicolore"],
       },
     ],
   },
@@ -141,7 +141,7 @@ export const CATEGORY_VARIANT_TEMPLATES: CategoryVariantTemplate[] = [
   {
     key: "other",
     label: "Autre Produit",
-    matchKeywords: ["autre", "maison", "cuisine", "beauté", "gadget", "divers"],
+    matchKeywords: ["other", "autre", "maison", "cuisine", "beauté", "gadget", "divers"],
     attributes: [
       {
         name: "Format / Taille",
@@ -159,11 +159,21 @@ export const CATEGORY_VARIANT_TEMPLATES: CategoryVariantTemplate[] = [
  * Returns suggested preset attribute definitions based on category slug/ID or product name keywords.
  */
 export function getPresetAttributesForCategory(
-  categorySlugOrId: string = "",
+  categorySlugOrKey: string = "",
   productName: string = ""
 ): ProductAttributeDefinition[] {
-  const query = `${categorySlugOrId} ${productName}`.toLowerCase();
+  const normalizedKey = categorySlugOrKey.toLowerCase().trim();
 
+  // 1. Direct template key match (e.g. "shoes", "phones", "tablets", "laptops", "clothing", "other")
+  const directMatch = CATEGORY_VARIANT_TEMPLATES.find(
+    (t) => t.key.toLowerCase() === normalizedKey
+  );
+  if (directMatch) {
+    return JSON.parse(JSON.stringify(directMatch.attributes));
+  }
+
+  // 2. Keyword query match against category or product name
+  const query = `${normalizedKey} ${productName}`.toLowerCase();
   for (const template of CATEGORY_VARIANT_TEMPLATES) {
     if (template.matchKeywords.some((kw) => query.includes(kw))) {
       return JSON.parse(JSON.stringify(template.attributes));

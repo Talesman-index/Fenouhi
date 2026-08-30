@@ -423,10 +423,18 @@ export default function ProductsManagementPage() {
     setSelectedProductType(typeKey);
     const preset = getPresetAttributesForCategory(typeKey, name);
     setAttributesDefinition(preset);
-    // Pre-check reasonable defaults (first 2-3 options per characteristic)
+    // Pre-check reasonable defaults per characteristic
     const initialChecked: Record<string, string[]> = {};
     preset.forEach((attr) => {
-      initialChecked[attr.name] = attr.values.slice(0, Math.min(attr.values.length, 3));
+      if (attr.name === "Pointure") {
+        initialChecked[attr.name] = ["39", "40", "41", "42", "43"].filter((p) => attr.values.includes(p));
+      } else if (attr.name === "Profil") {
+        initialChecked[attr.name] = ["Adulte"].filter((p) => attr.values.includes(p));
+      } else if (attr.name === "Taille") {
+        initialChecked[attr.name] = ["M", "L", "XL"].filter((p) => attr.values.includes(p));
+      } else {
+        initialChecked[attr.name] = attr.values.slice(0, Math.min(attr.values.length, 3));
+      }
     });
     setCheckedOptions(initialChecked);
     setHasVariants(true);
