@@ -8,97 +8,89 @@ export interface CategoryVariantTemplate {
 }
 
 export const CATEGORY_VARIANT_TEMPLATES: CategoryVariantTemplate[] = [
-  // 1. TÉLÉPHONES & SMARTPHONES (Apple iPhone, Samsung Galaxy, Xiaomi, etc.)
+  // 1. TÉLÉPHONES & SMARTPHONES
   {
     key: "phones",
-    label: "Smartphones & Téléphones",
-    matchKeywords: ["phone", "iphone", "téléphone", "smartphone", "samsung", "redmi", "xiaomi", "pixel", "huawei", "infinix", "tecno"],
+    label: "Téléphone",
+    matchKeywords: ["phone", "iphone", "téléphone", "telephone", "smartphone", "samsung", "redmi", "xiaomi", "pixel", "huawei", "infinix", "tecno"],
     attributes: [
       {
         name: "Capacité",
         values: ["64 Go", "128 Go", "256 Go", "512 Go", "1 To"],
       },
       {
-        name: "Grade & État",
-        values: ["Scellé (Neuf)", "Grade A (Comme neuf)", "Grade B (Très bon état)", "Grade C (Bon état)"],
+        name: "État",
+        values: ["Neuf", "Reconditionné", "Occasion"],
       },
       {
         name: "Couleur",
-        values: ["Titane Naturel", "Titane Noir", "Titane Blanc", "Bleu Titane", "Noir Sidéral", "Argent", "Or", "Bleu Nuit", "Vert Alpin", "Rose", "Rouge"],
+        values: ["Noir", "Titane Naturel", "Blanc", "Bleu", "Or"],
       },
       {
-        name: "Format SIM",
-        values: ["SIM physique + eSIM", "eSIM uniquement (US)", "Dual SIM physique (HK/Chine)"],
+        name: "SIM",
+        values: ["SIM physique + eSIM", "eSIM uniquement", "Dual SIM physique"],
       },
     ],
   },
 
-  // 2. IPAD & TABLETTES (iPad Pro, iPad Air, iPad Mini, Galaxy Tab)
+  // 2. IPAD & TABLETTES
   {
     key: "tablets",
-    label: "iPad & Tablettes",
+    label: "Tablette / iPad",
     matchKeywords: ["ipad", "tablette", "tablet", "galaxy tab", "surface"],
     attributes: [
       {
         name: "Capacité",
-        values: ["64 Go", "128 Go", "256 Go", "512 Go", "1 To", "2 To"],
+        values: ["64 Go", "128 Go", "256 Go", "512 Go", "1 To"],
       },
       {
-        name: "Taille Écran",
-        values: ["8.3 pouces (Mini)", "10.2 pouces", "10.9 pouces (Air)", "11 pouces (Pro)", "12.9 pouces (Pro)", "13 pouces (Pro/Air)"],
-      },
-      {
-        name: "Puce / Processeur",
-        values: ["Puce A14 Bionic", "Puce A15 Bionic", "Puce M1", "Puce M2", "Puce M4"],
+        name: "Taille",
+        values: ["11 pouces", "12.9 pouces", "13 pouces", "10.9 pouces", "8.3 pouces"],
       },
       {
         name: "Connectivité",
-        values: ["Wi-Fi", "Wi-Fi + 5G Cellular"],
+        values: ["Wi-Fi", "Wi-Fi + 5G"],
       },
       {
-        name: "Grade & État",
-        values: ["Scellé (Neuf)", "Grade A (Comme neuf)", "Grade B (Très bon état)"],
+        name: "État",
+        values: ["Neuf", "Reconditionné", "Occasion"],
       },
       {
         name: "Couleur",
-        values: ["Gris Sidéral", "Argent", "Noir Spatial", "Lumière Stellaire", "Bleu", "Mauve"],
+        values: ["Gris Sidéral", "Argent", "Lumière Stellaire", "Noir"],
       },
     ],
   },
 
-  // 3. MACBOOK & ORDINATEURS PORTABLES
+  // 3. MACBOOK & PC PORTABLES
   {
     key: "laptops",
-    label: "MacBook & Ordinateurs",
+    label: "MacBook / PC",
     matchKeywords: ["macbook", "laptop", "ordinateur", "pc", "dell", "hp", "lenovo", "thinkpad", "asus"],
     attributes: [
       {
-        name: "Taille Écran",
-        values: ["13.3 pouces", "13.6 pouces", "14.2 pouces", "15.3 pouces", "16.2 pouces"],
-      },
-      {
         name: "Puce / Processeur",
-        values: ["Apple M1", "Apple M2", "Apple M3", "Apple M4", "Intel Core i5", "Intel Core i7", "Intel Core i9"],
-      },
-      {
-        name: "Configuration Puce",
-        values: ["Standard", "Pro", "Max", "Ultra"],
+        values: ["Apple M1", "Apple M2", "Apple M3", "Apple M4", "Intel Core i7", "Intel Core i9"],
       },
       {
         name: "Mémoire RAM",
-        values: ["8 Go", "16 Go", "18 Go", "24 Go", "36 Go", "48 Go", "64 Go", "96 Go", "128 Go"],
+        values: ["8 Go", "16 Go", "24 Go", "36 Go", "48 Go", "64 Go"],
       },
       {
         name: "Stockage SSD",
-        values: ["256 Go", "512 Go", "1 To", "2 To", "4 To", "8 To"],
+        values: ["256 Go", "512 Go", "1 To", "2 To"],
       },
       {
-        name: "Grade & État",
-        values: ["Scellé (Neuf)", "Grade A (Comme neuf)", "Grade B (Très bon état)"],
+        name: "Taille Écran",
+        values: ["13 pouces", "14 pouces", "15 pouces", "16 pouces"],
+      },
+      {
+        name: "État",
+        values: ["Neuf", "Reconditionné", "Occasion"],
       },
       {
         name: "Couleur",
-        values: ["Gris Sidéral", "Minuit", "Noir Sidéral", "Lumière Stellaire", "Argent"],
+        values: ["Gris Sidéral", "Minuit", "Argent", "Noir"],
       },
     ],
   },
@@ -106,12 +98,12 @@ export const CATEGORY_VARIANT_TEMPLATES: CategoryVariantTemplate[] = [
   // 4. VÊTEMENTS & MODE
   {
     key: "clothing",
-    label: "Vêtements & Mode",
+    label: "Vêtement",
     matchKeywords: ["vêtement", "vetement", "mode", "shirt", "robe", "pantalon", "jean", "veste", "t-shirt", "chemise", "gaine", "costume", "sweat", "hoodie"],
     attributes: [
       {
         name: "Profil",
-        values: ["Adulte Homme", "Adulte Femme", "Enfant", "Unisexe"],
+        values: ["Adulte", "Enfant", "Unisexe"],
       },
       {
         name: "Taille",
@@ -119,7 +111,7 @@ export const CATEGORY_VARIANT_TEMPLATES: CategoryVariantTemplate[] = [
       },
       {
         name: "Couleur",
-        values: ["Noir", "Blanc", "Bleu Marine", "Gris", "Beige", "Rouge", "Vert", "Kaki", "Marron"],
+        values: ["Noir", "Blanc", "Bleu Marine", "Gris", "Rouge", "Beige", "Kaki"],
       },
     ],
   },
@@ -127,56 +119,37 @@ export const CATEGORY_VARIANT_TEMPLATES: CategoryVariantTemplate[] = [
   // 5. CHAUSSURES & SNEAKERS
   {
     key: "shoes",
-    label: "Chaussures & Sneakers",
+    label: "Chaussure",
     matchKeywords: ["chaussure", "sneaker", "basket", "soulier", "sandale", "talon", "mocassin", "botte", "claquette"],
     attributes: [
       {
         name: "Profil",
-        values: ["Adulte", "Junior / Enfant", "Bébé"],
+        values: ["Adulte", "Enfant", "Bébé"],
       },
       {
         name: "Pointure",
-        values: [
-          "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48"
-        ],
+        values: ["36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48"],
       },
       {
         name: "Couleur",
-        values: ["Noir / Blanc", "Blanc Pur", "Triple Black", "Gris / Bleu", "Rouge / Noir", "Beige / Crème", "Multicolore"],
+        values: ["Noir", "Blanc", "Gris", "Rouge / Noir", "Beige", "Multicolore"],
       },
     ],
   },
 
-  // 6. BEAUTÉ & COSMÉTIQUES
+  // 6. AUTRE PRODUIT
   {
-    key: "beauty",
-    label: "Beauté, Soins & Parfums",
-    matchKeywords: ["beauté", "beaute", "soin", "parfum", "crème", "sérum", "lotion", "cosmétique"],
+    key: "other",
+    label: "Autre Produit",
+    matchKeywords: ["autre", "maison", "cuisine", "beauté", "gadget", "divers"],
     attributes: [
       {
-        name: "Contenance / Format",
-        values: ["30 ml", "50 ml", "100 ml", "150 ml", "200 ml", "Coffret Cadeau"],
-      },
-      {
-        name: "Variante / Teinte",
-        values: ["Standard", "Peau Sensible", "Formule Éclaircissante", "Anti-Âge Pro"],
-      },
-    ],
-  },
-
-  // 7. MAISON, CUISINE & ÉLECTROMÉNAGER
-  {
-    key: "home",
-    label: "Maison, Cuisine & Électroménager",
-    matchKeywords: ["maison", "cuisine", "électroménager", "electromenager", "robot", "bouilloire", "lampe", "défroisseur"],
-    attributes: [
-      {
-        name: "Capacité / Taille",
-        values: ["Standard", "Grande Capacité (XXL)", "Format Compact"],
+        name: "Format / Taille",
+        values: ["Standard", "Grande Taille (XL)", "Compact"],
       },
       {
         name: "Couleur / Finition",
-        values: ["Inox Brossé", "Noir Mat", "Blanc Pur", "Gris Métallisé"],
+        values: ["Noir", "Blanc", "Inox", "Gris"],
       },
     ],
   },

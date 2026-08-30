@@ -107,7 +107,9 @@ export default function ProductsManagementPage() {
   
   // Dynamic Product Variants & Attributes State
   const [hasVariants, setHasVariants] = useState<boolean>(false);
+  const [selectedProductType, setSelectedProductType] = useState<string>("phones");
   const [attributesDefinition, setAttributesDefinition] = useState<ProductAttributeDefinition[]>([]);
+  const [checkedOptions, setCheckedOptions] = useState<Record<string, string[]>>({});
   const [variants, setVariants] = useState<ProductVariant[]>([]);
   const [newAttrInputName, setNewAttrInputName] = useState<string>("");
   const [newAttrValueInput, setNewAttrValueInput] = useState<Record<string, string>>({});
@@ -416,21 +418,58 @@ export default function ProductsManagementPage() {
     setGalleryUrls((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // Variant Management Handlers
-  const handleLoadCategoryPreset = (templateKey?: string) => {
-    const selectedCat = categories.find((c) => c.id === categoryId);
-    const catSlug = selectedCat ? selectedCat.slug : "";
-    const preset = getPresetAttributesForCategory(templateKey || catSlug, name);
+  // Variant Management Handlers (Simplified 3-Part Flow)
+  const handleSelectProductType = (typeKey: string) => {
+    setSelectedProductType(typeKey);
+    const preset = getPresetAttributesForCategory(typeKey, name);
     setAttributesDefinition(preset);
+    // Pre-check reasonable defaults (first 2-3 options per characteristic)
+    const initialChecked: Record<string, string[]> = {};
+    preset.forEach((attr) => {
+      initialChecked[attr.name] = attr.values.slice(0, Math.min(attr.values.length, 3));
+    });
+    setCheckedOptions(initialChecked);
     setHasVariants(true);
-    showToast("Attributs chargés", `Modèle d'attributs appliqué pour ${templateKey || selectedCat?.name || "cette catégorie"}.`, "info");
+  };
+
+  const handleToggleOptionValue = (attrName: string, value: string) => {
+    setCheckedOptions((prev) => {
+      const currentList = prev[attrName] || [];
+      const exists = currentList.includes(value);
+      const updatedList = exists
+        ? currentList.filter((v) => v !== value)
+        : [...currentList, value];
+      return { ...prev, [attrName]: updatedList };
+    });
+    setHasVariants(true);
+  };
+
+  const handleAddCustomValue = (attrName: string) => {
+    const val = (newAttrValueInput[attrName] || "").trim();
+    if (!val) return;
+    setAttributesDefinition((prev) =>
+      prev.map((attr) => {
+        if (attr.name === attrName && !attr.values.includes(val)) {
+          return { ...attr, values: [...attr.values, val] };
+        }
+        return attr;
+      })
+    );
+    setCheckedOptions((prev) => {
+      const currentList = prev[attrName] || [];
+      if (!currentList.includes(val)) {
+        return { ...prev, [attrName]: [...currentList, val] };
+      }
+      return prev;
+    });
+    setNewAttrValueInput((prev) => ({ ...prev, [attrName]: "" }));
   };
 
   const handleAddAttribute = () => {
     if (!newAttrInputName.trim()) return;
     const trimmed = newAttrInputName.trim();
     if (attributesDefinition.some((a) => a.name.toLowerCase() === trimmed.toLowerCase())) {
-      showToast("Attribut existant", "Cet attribut est déjà présent dans la liste.", "info");
+      showToast("Propriété existante", "Cette caractéristique est déjà présente.", "info");
       return;
     }
     setAttributesDefinition((prev) => [...prev, { name: trimmed, values: [] }]);
@@ -442,53 +481,30 @@ export default function ProductsManagementPage() {
     setAttributesDefinition((prev) => prev.filter((_, i) => i !== attrIndex));
   };
 
-  const handleAddAttributeValue = (attrName: string) => {
-    const val = (newAttrValueInput[attrName] || "").trim();
-    if (!val) return;
-    setAttributesDefinition((prev) =>
-      prev.map((attr) => {
-        if (attr.name === attrName) {
-          if (!attr.values.includes(val)) {
-            return { ...attr, values: [...attr.values, val] };
-          }
-        }
-        return attr;
-      })
-    );
-    setNewAttrValueInput((prev) => ({ ...prev, [attrName]: "" }));
-  };
+  const handleCreateVariantsFromChecked = () => {
+    const activeDefs: ProductAttributeDefinition[] = attributesDefinition
+      .map((attr) => ({
+        name: attr.name,
+        values: (checkedOptions[attr.name] || []).filter((v) => v.trim() !== ""),
+      }))
+      .filter((attr) => attr.values.length > 0);
 
-  const handleRemoveAttributeValue = (attrName: string, valueToRemove: string) => {
-    setAttributesDefinition((prev) =>
-      prev.map((attr) => {
-        if (attr.name === attrName) {
-          return { ...attr, values: attr.values.filter((v) => v !== valueToRemove) };
-        }
-        return attr;
-      })
-    );
-  };
-
-  const handleGenerateVariantsMatrix = () => {
-    const activeAttrs = attributesDefinition.filter((a) => a.values && a.values.length > 0);
-    if (activeAttrs.length === 0) {
-      showToast("Aucun attribut", "Veuillez renseigner au moins une valeur pour vos attributs.", "error");
+    if (activeDefs.length === 0) {
+      showToast("Options requises", "Veuillez cocher au moins une option pour créer les variantes.", "error");
       return;
     }
+
     const generated = generateCartesianVariants(
-      activeAttrs,
+      activeDefs,
       price,
       wholesalePrice5 > 0 ? wholesalePrice5 : null,
-      stockQuantity > 0 ? Math.round(stockQuantity / Math.max(1, activeAttrs.length)) : 15,
+      stockQuantity > 0 ? Math.round(stockQuantity / Math.max(1, activeDefs.length)) : 10,
       slug || name
     );
+
     setVariants(generated);
     setHasVariants(true);
-    showToast(
-      "Matrice générée",
-      `${generated.length} combinaisons de variantes générées avec succès.`,
-      "success"
-    );
+    showToast("Variantes créées", `${generated.length} versions créées. Vous pouvez maintenant renseigner leurs prix et stocks.`, "success");
   };
 
   const handleUpdateVariantField = (
@@ -499,35 +515,6 @@ export default function ProductsManagementPage() {
     setVariants((prev) =>
       prev.map((v) => (v.id === variantId ? { ...v, [field]: value } : v))
     );
-  };
-
-  const handleBatchApplyPrices = () => {
-    const numPrice = Number(batchPriceInput);
-    if (!numPrice || numPrice <= 0) return;
-    setVariants((prev) => prev.map((v) => ({ ...v, price: numPrice })));
-    setBatchPriceInput("");
-    showToast("Prix mis à jour", `Le prix ${numPrice.toLocaleString()} FCFA a été appliqué à toutes les variantes.`, "info");
-  };
-
-  const handleBatchApplyWholesale = () => {
-    const numWholesale = Number(batchWholesaleInput);
-    if (!numWholesale || numWholesale <= 0) return;
-    setVariants((prev) => prev.map((v) => ({ ...v, wholesale_price_5_units: numWholesale })));
-    setBatchWholesaleInput("");
-    showToast("Prix de gros mis à jour", `Le prix de gros ${numWholesale.toLocaleString()} FCFA a été appliqué à toutes les variantes.`, "info");
-  };
-
-  const handleBatchApplyStock = () => {
-    const numStock = Number(batchStockInput);
-    if (isNaN(numStock) || numStock < 0) return;
-    setVariants((prev) => prev.map((v) => ({ ...v, stock_quantity: numStock })));
-    setBatchStockInput("");
-    showToast("Stock mis à jour", `Le stock ${numStock} a été appliqué à toutes les variantes.`, "info");
-  };
-
-  const handleBatchToggleAllActive = (active: boolean) => {
-    setVariants((prev) => prev.map((v) => ({ ...v, is_active: active })));
-    showToast("Disponibilité", active ? "Toutes les variantes ont été activées." : "Toutes les variantes ont été désactivées.", "info");
   };
 
   const handleRemoveVariant = (variantId: string) => {
@@ -570,7 +557,14 @@ export default function ProductsManagementPage() {
       setIsDemo(false);
       setIsFeatured(true);
       setHasVariants(false);
-      setAttributesDefinition(getPresetAttributesForCategory(defaultCatId, ""));
+      setSelectedProductType("phones");
+      const initialPreset = getPresetAttributesForCategory("phones", "");
+      setAttributesDefinition(initialPreset);
+      const initChecked: Record<string, string[]> = {};
+      initialPreset.forEach((attr) => {
+        initChecked[attr.name] = attr.values.slice(0, Math.min(attr.values.length, 3));
+      });
+      setCheckedOptions(initChecked);
       setVariants([]);
       setImageUrl("/images/assets/item_1.jpg");
       setGalleryUrls([]);
@@ -610,17 +604,39 @@ export default function ProductsManagementPage() {
 
     const isVar = Boolean(product.has_variants || (product.variants && product.variants.length > 0));
     setHasVariants(isVar);
-    setAttributesDefinition(
-      product.attributes_definition && product.attributes_definition.length > 0
-        ? product.attributes_definition
-        : getPresetAttributesForCategory(product.category?.slug || product.category_id || "", product.name)
-    );
+
+    // Infer product type
+    const query = `${product.category?.slug || ""} ${product.name}`.toLowerCase();
+    let detectedType = "other";
+    if (query.includes("phone") || query.includes("iphone") || query.includes("samsung")) detectedType = "phones";
+    else if (query.includes("ipad") || query.includes("tab")) detectedType = "tablets";
+    else if (query.includes("mac") || query.includes("laptop") || query.includes("pc")) detectedType = "laptops";
+    else if (query.includes("robe") || query.includes("shirt") || query.includes("vetement") || query.includes("vêtement")) detectedType = "clothing";
+    else if (query.includes("chaussure") || query.includes("sneaker")) detectedType = "shoes";
+    setSelectedProductType(detectedType);
+
+    const existingDefs = product.attributes_definition && product.attributes_definition.length > 0
+      ? product.attributes_definition
+      : getPresetAttributesForCategory(detectedType, product.name);
+    setAttributesDefinition(existingDefs);
+
+    const initChecked: Record<string, string[]> = {};
+    if (product.variants && product.variants.length > 0) {
+      existingDefs.forEach((attr) => {
+        const uniqueInVars = Array.from(new Set(product.variants!.map((v) => v.attributes[attr.name]).filter(Boolean)));
+        initChecked[attr.name] = uniqueInVars.length > 0 ? uniqueInVars : attr.values;
+      });
+    } else {
+      existingDefs.forEach((attr) => {
+        initChecked[attr.name] = attr.values;
+      });
+    }
+    setCheckedOptions(initChecked);
     setVariants(product.variants || []);
 
     const primaryImgUrl = getProductImageUrl(product);
     setImageUrl(primaryImgUrl);
 
-    // Filter out duplicates of the main image and duplicate URLs in the gallery
     const rawGallery = (product.images || []).slice(1).map((img) => img.public_image_url);
     const seen = new Set<string>([primaryImgUrl]);
     const uniqueGallery: string[] = [];
@@ -1666,17 +1682,17 @@ export default function ProductsManagementPage() {
                 </div>
               )}
 
-              {/* TAB 2: VARIANTES & ATTRIBUTS */}
+              {/* TAB 2: VARIANTES (FLOW EN 3 ÉTAPES ULTRA-SIMPLE) */}
               {activeTab === "variants" && (
-                <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 24, padding: "4px 0" }}>
                   
-                  {/* ACTIVATION TOGGLE */}
+                  {/* ACTIVATION SIMPLE */}
                   <div
                     style={{
                       background: hasVariants ? "#F0FDF4" : "#F8FAFC",
                       border: `1.5px solid ${hasVariants ? "#86EFAC" : "#E2E8F0"}`,
-                      padding: 16,
-                      borderRadius: 14,
+                      padding: "16px 20px",
+                      borderRadius: 16,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
@@ -1684,441 +1700,351 @@ export default function ProductsManagementPage() {
                     }}
                   >
                     <div>
-                      <div style={{ fontSize: 14, fontWeight: 700, color: hasVariants ? "#15803D" : "#0F172A", display: "flex", alignItems: "center", gap: 8 }}>
+                      <div style={{ fontSize: 14.5, fontWeight: 700, color: hasVariants ? "#15803D" : "#0F172A", display: "flex", alignItems: "center", gap: 8 }}>
                         <Layers style={{ width: 18, height: 18, color: hasVariants ? "#16A34A" : "#64748B" }} />
-                        Activer les Variantes de Caractéristiques
+                        Activer les versions & options pour cet article
                       </div>
-                      <div style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>
-                        Permet de définir des prix, stocks et références distincts selon la capacité, le grade, la taille, la RAM, la couleur, etc.
+                      <div style={{ fontSize: 12.5, color: "#64748B", marginTop: 2 }}>
+                        Cochez cette option si le prix ou le stock change selon la capacité, la taille, l'état ou la couleur.
                       </div>
                     </div>
-                    <label style={{ display: "inline-flex", alignItems: "center", cursor: "pointer", position: "relative" }}>
+                    <label style={{ display: "inline-flex", alignItems: "center", cursor: "pointer" }}>
                       <input
                         type="checkbox"
                         checked={hasVariants}
                         onChange={(e) => {
                           const checked = e.target.checked;
                           setHasVariants(checked);
-                          if (checked && attributesDefinition.length === 0) {
-                            handleLoadCategoryPreset();
+                          if (checked && (!attributesDefinition || attributesDefinition.length === 0)) {
+                            handleSelectProductType("phones");
                           }
                         }}
-                        style={{ width: 20, height: 20, cursor: "pointer", accentColor: "#16A34A" }}
+                        style={{ width: 22, height: 22, cursor: "pointer", accentColor: "#16A34A" }}
                       />
                     </label>
                   </div>
 
-                  {/* PRESET SHORTCUTS BAR */}
-                  <div style={{ background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 14, padding: 14 }}>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-                      <span style={{ fontSize: 11.5, fontWeight: 700, color: "#1E40AF", textTransform: "uppercase", letterSpacing: 0.5, display: "flex", alignItems: "center", gap: 6 }}>
-                        <Wand2 style={{ width: 14, height: 14 }} />
-                        Modèles Prédéfinis Intelligents (Presets) :
-                      </span>
-                    </div>
-                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                      {[
-                        { key: "phones", label: "📱 Téléphones (Capacité/Grade/Couleur/SIM)" },
-                        { key: "tablets", label: "📟 iPad / Tablettes (Pouces/Puce/Capacité)" },
-                        { key: "laptops", label: "💻 MacBook / PC (Pouces/Puce/RAM/SSD)" },
-                        { key: "clothing", label: "👕 Vêtements (Profil/Taille/Couleur)" },
-                        { key: "shoes", label: "👟 Chaussures (Pointures 36-48)" },
-                        { key: "beauty", label: "💄 Beauté (Contenance/Teinte)" },
-                        { key: "home", label: "🏠 Maison / Cuisine" },
-                      ].map((preset) => (
-                        <button
-                          key={preset.key}
-                          type="button"
-                          onClick={() => handleLoadCategoryPreset(preset.key)}
-                          style={{
-                            background: "#FFFFFF",
-                            border: "1px solid #93C5FD",
-                            color: "#1D4ED8",
-                            padding: "5px 10px",
-                            borderRadius: 8,
-                            fontSize: 11.5,
-                            fontWeight: 600,
-                            cursor: "pointer",
-                            transition: "all 0.15s ease"
-                          }}
-                        >
-                          {preset.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                  {hasVariants && (
+                    <>
+                      {/* ÉTAPE 1 : TYPE DE PRODUIT (6 GROSSES CARTES) */}
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
+                          <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#0F172A", color: "#FFF", fontSize: 12, display: "inline-flex", alignItems: "center", justifyContent: "center", fontWeight: 800 }}>1</span>
+                          Type de produit
+                        </div>
 
-                  {/* SECTION 1: ATTRIBUTES BUILDER */}
-                  <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 14, padding: 16 }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: "#0F172A", marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <span>1. Attributs du Produit ({attributesDefinition.length})</span>
-                      <span style={{ fontSize: 11.5, color: "#64748B", fontWeight: 400 }}>
-                        Ajoutez ou personnalisez les caractéristiques disponibles
-                      </span>
-                    </div>
-
-                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                      {attributesDefinition.map((attr, attrIdx) => (
-                        <div
-                          key={attrIdx}
-                          style={{
-                            background: "#F8FAFC",
-                            border: "1px solid #E2E8F0",
-                            borderRadius: 12,
-                            padding: 12,
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: 8
-                          }}
-                        >
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                              <span style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", background: "#E2E8F0", padding: "2px 8px", borderRadius: 6 }}>
-                                {attr.name}
-                              </span>
-                              <span style={{ fontSize: 11, color: "#64748B" }}>
-                                ({attr.values.length} valeur{attr.values.length > 1 ? "s" : ""})
-                              </span>
-                            </div>
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveAttribute(attrIdx)}
-                              style={{ background: "transparent", border: "none", color: "#EF4444", fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}
-                            >
-                              <Trash2 style={{ width: 13, height: 13 }} /> Supprimer
-                            </button>
-                          </div>
-
-                          {/* VALUES CHIPS */}
-                          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
-                            {attr.values.map((val, valIdx) => (
-                              <span
-                                key={valIdx}
-                                style={{
-                                  display: "inline-flex",
-                                  alignItems: "center",
-                                  gap: 4,
-                                  background: "#FFFFFF",
-                                  border: "1px solid #CBD5E1",
-                                  padding: "3px 8px",
-                                  borderRadius: 6,
-                                  fontSize: 11.5,
-                                  fontWeight: 600,
-                                  color: "#334155"
-                                }}
-                              >
-                                {val}
-                                <button
-                                  type="button"
-                                  onClick={() => handleRemoveAttributeValue(attr.name, val)}
-                                  style={{ background: "transparent", border: "none", color: "#94A3B8", cursor: "pointer", padding: 0, display: "flex" }}
-                                >
-                                  <X style={{ width: 12, height: 12 }} />
-                                </button>
-                              </span>
-                            ))}
-
-                            {/* ADD CUSTOM VALUE TO THIS ATTRIBUTE */}
-                            <div style={{ display: "inline-flex", gap: 4, alignItems: "center" }}>
-                              <input
-                                type="text"
-                                placeholder="+ Ajouter une valeur..."
-                                value={newAttrValueInput[attr.name] || ""}
-                                onChange={(e) => setNewAttrValueInput({ ...newAttrValueInput, [attr.name]: e.target.value })}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter") {
-                                    e.preventDefault();
-                                    handleAddAttributeValue(attr.name);
-                                  }
-                                }}
-                                style={{
-                                  border: "1px solid #CBD5E1",
-                                  borderRadius: 6,
-                                  padding: "3px 8px",
-                                  fontSize: 11.5,
-                                  width: 140,
-                                  background: "#FFFFFF"
-                                }}
-                              />
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(115px, 1fr))", gap: 10 }}>
+                          {[
+                            { key: "phones", label: "Téléphone", icon: "📱" },
+                            { key: "tablets", label: "Tablette", icon: "📟" },
+                            { key: "laptops", label: "MacBook / PC", icon: "💻" },
+                            { key: "clothing", label: "Vêtement", icon: "👕" },
+                            { key: "shoes", label: "Chaussure", icon: "👟" },
+                            { key: "other", label: "Autre", icon: "📦" },
+                          ].map((t) => {
+                            const isSelected = selectedProductType === t.key;
+                            return (
                               <button
+                                key={t.key}
                                 type="button"
-                                onClick={() => handleAddAttributeValue(attr.name)}
+                                onClick={() => handleSelectProductType(t.key)}
                                 style={{
-                                  background: "#0F172A",
-                                  color: "#FFF",
-                                  border: "none",
-                                  borderRadius: 6,
-                                  padding: "4px 8px",
-                                  fontSize: 11,
-                                  fontWeight: 600,
-                                  cursor: "pointer"
+                                  padding: "14px 10px",
+                                  borderRadius: 14,
+                                  border: isSelected ? "2px solid #0F172A" : "1.5px solid #E2E8F0",
+                                  background: isSelected ? "#0F172A" : "#FFFFFF",
+                                  color: isSelected ? "#FFFFFF" : "#334155",
+                                  cursor: "pointer",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "center",
+                                  gap: 6,
+                                  boxShadow: isSelected ? "0 4px 14px rgba(15, 23, 42, 0.18)" : "none",
+                                  transition: "all 0.15s ease",
                                 }}
                               >
-                                +
+                                <span style={{ fontSize: 24 }}>{t.icon}</span>
+                                <span style={{ fontSize: 12.5, fontWeight: 700 }}>{t.label}</span>
                               </button>
-                            </div>
-                          </div>
+                            );
+                          })}
                         </div>
-                      ))}
-
-                      {/* ADD NEW ATTRIBUTE FIELD */}
-                      <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
-                        <input
-                          type="text"
-                          placeholder="Nom de l'attribut (ex: RAM, Matière, Puce, etc.)"
-                          value={newAttrInputName}
-                          onChange={(e) => setNewAttrInputName(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              e.preventDefault();
-                              handleAddAttribute();
-                            }
-                          }}
-                          className="admin-input"
-                          style={{ flex: 1, fontSize: 12 }}
-                        />
-                        <button
-                          type="button"
-                          onClick={handleAddAttribute}
-                          style={{
-                            background: "#0F172A",
-                            color: "#FFFFFF",
-                            border: "none",
-                            padding: "0 16px",
-                            borderRadius: 10,
-                            fontSize: 12,
-                            fontWeight: 600,
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 6
-                          }}
-                        >
-                          <Plus style={{ width: 14, height: 14 }} /> Ajouter l'attribut
-                        </button>
                       </div>
-                    </div>
 
-                    {/* GENERATE VARIANTS MATRIX BUTTON */}
-                    <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid #E2E8F0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <div style={{ fontSize: 12, color: "#64748B" }}>
-                        Attributs configurés : <strong>{attributesDefinition.filter((a) => a.values.length > 0).length}</strong>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={handleGenerateVariantsMatrix}
-                        style={{
-                          background: "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)",
-                          color: "#FFFFFF",
-                          border: "none",
-                          padding: "10px 18px",
-                          borderRadius: 10,
-                          fontSize: 13,
-                          fontWeight: 700,
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 8,
-                          boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25)"
-                        }}
-                      >
-                        <Zap style={{ width: 16, height: 16 }} />
-                        Générer / Synchroniser la Matrice des Variantes
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* SECTION 2: VARIANTS MATRIX TABLE */}
-                  {variants.length > 0 && (
-                    <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 14, padding: 16 }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 10 }}>
-                        <div>
-                          <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A" }}>
-                            2. Matrice des Variantes Générées ({variants.length} combinaisons)
-                          </div>
-                          <div style={{ fontSize: 11.5, color: "#64748B" }}>
-                            Personnalisez le prix, le stock et le SKU pour chaque combinaison spécifique.
-                          </div>
+                      {/* ÉTAPE 2 : CARACTÉRISTIQUES DISPONIBLES (CHIPS COCHABLES SIMPLES) */}
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A", marginBottom: 12, display: "flex", alignItems: "center", gap: 6 }}>
+                          <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#0F172A", color: "#FFF", fontSize: 12, display: "inline-flex", alignItems: "center", justifyContent: "center", fontWeight: 800 }}>2</span>
+                          Caractéristiques disponibles
                         </div>
 
-                        {/* BATCH ACTIONS BAR */}
-                        <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
-                          {/* Batch Price */}
-                          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                          {attributesDefinition.map((attr, attrIdx) => {
+                            const checkedList = checkedOptions[attr.name] || [];
+                            return (
+                              <div key={attr.name} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                  <span style={{ fontSize: 13, fontWeight: 700, color: "#1E293B" }}>
+                                    {attr.name} :
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleRemoveAttribute(attrIdx)}
+                                    style={{ background: "transparent", border: "none", color: "#94A3B8", fontSize: 11, cursor: "pointer" }}
+                                    title="Masquer cette propriété"
+                                  >
+                                    Retirer
+                                  </button>
+                                </div>
+
+                                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                                  {attr.values.map((val) => {
+                                    const isChecked = checkedList.includes(val);
+                                    return (
+                                      <button
+                                        key={val}
+                                        type="button"
+                                        onClick={() => handleToggleOptionValue(attr.name, val)}
+                                        style={{
+                                          padding: "7px 14px",
+                                          borderRadius: 10,
+                                          fontSize: 12.5,
+                                          fontWeight: 600,
+                                          cursor: "pointer",
+                                          background: isChecked ? "#0F172A" : "#FFFFFF",
+                                          color: isChecked ? "#FFFFFF" : "#475569",
+                                          border: isChecked ? "2px solid #0F172A" : "1px solid #CBD5E1",
+                                          display: "inline-flex",
+                                          alignItems: "center",
+                                          gap: 6,
+                                          transition: "all 0.15s ease",
+                                        }}
+                                      >
+                                        <span style={{ width: 14, height: 14, borderRadius: 4, background: isChecked ? "#16A34A" : "#E2E8F0", color: "#FFF", fontSize: 10, display: "inline-flex", alignItems: "center", justifyContent: "center", fontWeight: 800 }}>
+                                          {isChecked ? "✓" : ""}
+                                        </span>
+                                        {val}
+                                      </button>
+                                    );
+                                  })}
+
+                                  {/* INLINE CUSTOM VALUE INPUT */}
+                                  <div style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                                    <input
+                                      type="text"
+                                      placeholder="+ Autre..."
+                                      value={newAttrValueInput[attr.name] || ""}
+                                      onChange={(e) => setNewAttrValueInput({ ...newAttrValueInput, [attr.name]: e.target.value })}
+                                      onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                          e.preventDefault();
+                                          handleAddCustomValue(attr.name);
+                                        }
+                                      }}
+                                      style={{
+                                        border: "1px solid #CBD5E1",
+                                        borderRadius: 8,
+                                        padding: "6px 10px",
+                                        fontSize: 12,
+                                        width: 100,
+                                        background: "#FFFFFF",
+                                      }}
+                                    />
+                                    <button
+                                      type="button"
+                                      onClick={() => handleAddCustomValue(attr.name)}
+                                      style={{
+                                        background: "#F1F5F9",
+                                        border: "1px solid #CBD5E1",
+                                        borderRadius: 8,
+                                        padding: "6px 10px",
+                                        fontSize: 12,
+                                        fontWeight: 700,
+                                        cursor: "pointer",
+                                        color: "#334155",
+                                      }}
+                                    >
+                                      Ajouter
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+
+                          {/* ADD ANOTHER PROPERTY BUTTON */}
+                          <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
                             <input
-                              type="number"
-                              placeholder="Prix unitaire..."
-                              value={batchPriceInput}
-                              onChange={(e) => setBatchPriceInput(e.target.value)}
-                              style={{ width: 100, fontSize: 11, padding: "4px 6px", border: "1px solid #CBD5E1", borderRadius: 6 }}
+                              type="text"
+                              placeholder="Ajouter une autre caractéristique (ex: Format, Voltage...)"
+                              value={newAttrInputName}
+                              onChange={(e) => setNewAttrInputName(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  e.preventDefault();
+                                  handleAddAttribute();
+                                }
+                              }}
+                              className="admin-input"
+                              style={{ flex: 1, fontSize: 12.5 }}
                             />
                             <button
                               type="button"
-                              onClick={handleBatchApplyPrices}
-                              style={{ background: "#F1F5F9", border: "1px solid #CBD5E1", padding: "4px 8px", borderRadius: 6, fontSize: 10.5, fontWeight: 700, cursor: "pointer" }}
+                              onClick={handleAddAttribute}
+                              style={{
+                                background: "#F1F5F9",
+                                border: "1px solid #CBD5E1",
+                                color: "#0F172A",
+                                padding: "0 14px",
+                                borderRadius: 10,
+                                fontSize: 12,
+                                fontWeight: 700,
+                                cursor: "pointer",
+                              }}
                             >
-                              Appliquer Prix
+                              + Ajouter
                             </button>
                           </div>
+                        </div>
 
-                          {/* Batch Stock */}
-                          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                            <input
-                              type="number"
-                              placeholder="Stock..."
-                              value={batchStockInput}
-                              onChange={(e) => setBatchStockInput(e.target.value)}
-                              style={{ width: 75, fontSize: 11, padding: "4px 6px", border: "1px solid #CBD5E1", borderRadius: 6 }}
-                            />
-                            <button
-                              type="button"
-                              onClick={handleBatchApplyStock}
-                              style={{ background: "#F1F5F9", border: "1px solid #CBD5E1", padding: "4px 8px", borderRadius: 6, fontSize: 10.5, fontWeight: 700, cursor: "pointer" }}
-                            >
-                              Appliquer Stock
-                            </button>
-                          </div>
-
-                          {/* Toggle Active All */}
+                        {/* SINGLE PROMINENT MAIN CTA */}
+                        <div style={{ marginTop: 20, display: "flex", justifyContent: "center" }}>
                           <button
                             type="button"
-                            onClick={() => handleBatchToggleAllActive(true)}
-                            style={{ background: "#DCFCE7", color: "#166534", border: "1px solid #86EFAC", padding: "4px 8px", borderRadius: 6, fontSize: 10.5, fontWeight: 700, cursor: "pointer" }}
+                            onClick={handleCreateVariantsFromChecked}
+                            style={{
+                              background: "linear-gradient(135deg, #F97316 0%, #EA580C 100%)",
+                              color: "#FFFFFF",
+                              border: "none",
+                              padding: "14px 32px",
+                              borderRadius: 14,
+                              fontSize: 15,
+                              fontWeight: 700,
+                              cursor: "pointer",
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 10,
+                              boxShadow: "0 6px 20px rgba(249, 115, 22, 0.28)",
+                              transition: "all 0.2s ease",
+                            }}
                           >
-                            Activer tout
+                            <Zap style={{ width: 18, height: 18 }} />
+                            Créer les variantes
                           </button>
                         </div>
                       </div>
 
-                      {/* MATRIX TABLE */}
-                      <div style={{ overflowX: "auto", maxHeight: 400, border: "1px solid #E2E8F0", borderRadius: 10 }}>
-                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, textAlign: "left" }}>
-                          <thead style={{ background: "#F8FAFC", position: "sticky", top: 0, zIndex: 2 }}>
-                            <tr style={{ borderBottom: "1px solid #E2E8F0" }}>
-                              <th style={{ padding: "8px 12px", fontWeight: 700, color: "#475569" }}>Combinaison / Options</th>
-                              <th style={{ padding: "8px 10px", fontWeight: 700, color: "#475569", width: 130 }}>SKU / Réf</th>
-                              <th style={{ padding: "8px 10px", fontWeight: 700, color: "#475569", width: 120 }}>Prix (1 art) *</th>
-                              <th style={{ padding: "8px 10px", fontWeight: 700, color: "#475569", width: 120 }}>Prix Gros (≥5)</th>
-                              <th style={{ padding: "8px 10px", fontWeight: 700, color: "#475569", width: 90 }}>Stock *</th>
-                              <th style={{ padding: "8px 10px", fontWeight: 700, color: "#475569", width: 80 }}>Actif</th>
-                              <th style={{ padding: "8px 8px", width: 36 }}></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {variants.map((v, vIdx) => (
-                              <tr
-                                key={v.id || vIdx}
-                                style={{
-                                  borderBottom: "1px solid #F1F5F9",
-                                  background: v.is_active ? "#FFFFFF" : "#F8FAFC",
-                                  opacity: v.is_active ? 1 : 0.6
-                                }}
-                              >
-                                {/* COMBINATION CHIPS */}
-                                <td style={{ padding: "8px 12px" }}>
-                                  <div style={{ fontWeight: 700, color: "#0F172A", marginBottom: 2 }}>
-                                    {v.title || Object.values(v.attributes).join(" • ")}
-                                  </div>
-                                  <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                                    {Object.entries(v.attributes).map(([k, val]) => (
-                                      <span
-                                        key={k}
-                                        style={{
-                                          fontSize: 10,
-                                          background: "#EFF6FF",
-                                          color: "#1D4ED8",
-                                          padding: "1px 5px",
-                                          borderRadius: 4,
-                                          border: "1px solid #DBEAFE"
-                                        }}
-                                      >
-                                        {k}: {val}
-                                      </span>
-                                    ))}
-                                  </div>
-                                </td>
+                      {/* ÉTAPE 3 : PRIX & STOCK DES VARIANTES (LISTE ULTRA-LISIBLE) */}
+                      {variants.length > 0 && (
+                        <div>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A", marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                              <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#0F172A", color: "#FFF", fontSize: 12, display: "inline-flex", alignItems: "center", justifyContent: "center", fontWeight: 800 }}>3</span>
+                              Prix & stock des variantes ({variants.length})
+                            </div>
+                            <span style={{ fontSize: 12, color: "#166534", fontWeight: 600 }}>
+                              ✓ {variants.filter((v) => v.is_active).length} actives • Stock total : {variants.filter((v) => v.is_active).reduce((sum, v) => sum + (Number(v.stock_quantity) || 0), 0)} unités
+                            </span>
+                          </div>
 
-                                {/* SKU */}
-                                <td style={{ padding: "8px 10px" }}>
-                                  <input
-                                    type="text"
-                                    value={v.sku || ""}
-                                    onChange={(e) => handleUpdateVariantField(v.id, "sku", e.target.value)}
-                                    style={{ width: "100%", padding: "4px 6px", fontSize: 11, border: "1px solid #CBD5E1", borderRadius: 6 }}
-                                  />
-                                </td>
-
-                                {/* PRICE */}
-                                <td style={{ padding: "8px 10px" }}>
-                                  <input
-                                    type="number"
-                                    min={0}
-                                    value={v.price}
-                                    onChange={(e) => handleUpdateVariantField(v.id, "price", Number(e.target.value))}
-                                    style={{ width: "100%", padding: "4px 6px", fontSize: 11.5, fontWeight: 700, color: "#0F172A", border: "1px solid #CBD5E1", borderRadius: 6 }}
-                                  />
-                                </td>
-
-                                {/* WHOLESALE PRICE (5+) */}
-                                <td style={{ padding: "8px 10px" }}>
-                                  <input
-                                    type="number"
-                                    min={0}
-                                    placeholder="Optionnel"
-                                    value={v.wholesale_price_5_units || ""}
-                                    onChange={(e) => handleUpdateVariantField(v.id, "wholesale_price_5_units", e.target.value ? Number(e.target.value) : null)}
-                                    style={{ width: "100%", padding: "4px 6px", fontSize: 11.5, fontWeight: 700, color: "#166534", border: "1px solid #86EFAC", background: "#F0FDF4", borderRadius: 6 }}
-                                  />
-                                </td>
-
-                                {/* STOCK */}
-                                <td style={{ padding: "8px 10px" }}>
-                                  <input
-                                    type="number"
-                                    min={0}
-                                    value={v.stock_quantity}
-                                    onChange={(e) => handleUpdateVariantField(v.id, "stock_quantity", Number(e.target.value))}
-                                    style={{ width: "100%", padding: "4px 6px", fontSize: 11.5, fontWeight: 700, color: "#0F172A", border: "1px solid #CBD5E1", borderRadius: 6 }}
-                                  />
-                                </td>
-
-                                {/* ACTIVE TOGGLE */}
-                                <td style={{ padding: "8px 10px", textAlign: "center" }}>
-                                  <input
-                                    type="checkbox"
-                                    checked={v.is_active}
-                                    onChange={(e) => handleUpdateVariantField(v.id, "is_active", e.target.checked)}
-                                    style={{ width: 16, height: 16, cursor: "pointer", accentColor: "#16A34A" }}
-                                  />
-                                </td>
-
-                                {/* DELETE VARIANT */}
-                                <td style={{ padding: "8px 8px" }}>
-                                  <button
-                                    type="button"
-                                    onClick={() => handleRemoveVariant(v.id)}
-                                    style={{ background: "transparent", border: "none", color: "#EF4444", cursor: "pointer", padding: 2 }}
-                                    title="Retirer cette combinaison"
+                          <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 16, overflow: "hidden" }}>
+                            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left" }}>
+                              <thead style={{ background: "#F8FAFC", borderBottom: "1px solid #E2E8F0" }}>
+                                <tr>
+                                  <th style={{ padding: "12px 16px", fontWeight: 700, color: "#475569" }}>Variante</th>
+                                  <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569", width: 160 }}>Prix (FCFA)</th>
+                                  <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569", width: 120 }}>Stock</th>
+                                  <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569", width: 110, textAlign: "center" }}>Disponible</th>
+                                  <th style={{ padding: "12px 10px", width: 40 }}></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {variants.map((v, vIdx) => (
+                                  <tr
+                                    key={v.id || vIdx}
+                                    style={{
+                                      borderBottom: "1px solid #F1F5F9",
+                                      background: v.is_active ? "#FFFFFF" : "#F8FAFC",
+                                      opacity: v.is_active ? 1 : 0.6,
+                                      transition: "all 0.15s ease",
+                                    }}
                                   >
-                                    <Trash2 style={{ width: 14, height: 14 }} />
-                                  </button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
+                                    {/* TITLE */}
+                                    <td style={{ padding: "12px 16px" }}>
+                                      <div style={{ fontWeight: 700, color: "#0F172A" }}>
+                                        {v.title || Object.values(v.attributes).join(" · ")}
+                                      </div>
+                                    </td>
 
-                      {/* SUMMARY BANNER */}
-                      <div style={{ marginTop: 12, background: "#F0FDF4", border: "1px solid #86EFAC", padding: "8px 12px", borderRadius: 8, display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 12 }}>
-                        <span style={{ color: "#166534", fontWeight: 700 }}>
-                          ✓ {variants.filter((v) => v.is_active).length} variantes actives sur {variants.length}
-                        </span>
-                        <span style={{ color: "#166534" }}>
-                          Stock cumulé calculé : <strong>{variants.filter((v) => v.is_active).reduce((sum, v) => sum + (Number(v.stock_quantity) || 0), 0)} unités</strong>
-                        </span>
-                      </div>
-                    </div>
+                                    {/* PRICE */}
+                                    <td style={{ padding: "10px 14px" }}>
+                                      <input
+                                        type="number"
+                                        min={0}
+                                        value={v.price}
+                                        onChange={(e) => handleUpdateVariantField(v.id, "price", Number(e.target.value))}
+                                        style={{
+                                          width: "100%",
+                                          padding: "8px 10px",
+                                          fontSize: 13,
+                                          fontWeight: 700,
+                                          color: "#0F172A",
+                                          border: "1px solid #CBD5E1",
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </td>
+
+                                    {/* STOCK */}
+                                    <td style={{ padding: "10px 14px" }}>
+                                      <input
+                                        type="number"
+                                        min={0}
+                                        value={v.stock_quantity}
+                                        onChange={(e) => handleUpdateVariantField(v.id, "stock_quantity", Number(e.target.value))}
+                                        style={{
+                                          width: "100%",
+                                          padding: "8px 10px",
+                                          fontSize: 13,
+                                          fontWeight: 700,
+                                          color: "#0F172A",
+                                          border: "1px solid #CBD5E1",
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </td>
+
+                                    {/* DISPONIBLE TOGGLE */}
+                                    <td style={{ padding: "10px 14px", textAlign: "center" }}>
+                                      <label style={{ display: "inline-flex", alignItems: "center", cursor: "pointer" }}>
+                                        <input
+                                          type="checkbox"
+                                          checked={v.is_active}
+                                          onChange={(e) => handleUpdateVariantField(v.id, "is_active", e.target.checked)}
+                                          style={{ width: 18, height: 18, cursor: "pointer", accentColor: "#16A34A" }}
+                                        />
+                                      </label>
+                                    </td>
+
+                                    {/* DELETE */}
+                                    <td style={{ padding: "10px 10px", textAlign: "center" }}>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleRemoveVariant(v.id)}
+                                        style={{ background: "transparent", border: "none", color: "#EF4444", cursor: "pointer", padding: 4 }}
+                                        title="Supprimer cette variante"
+                                      >
+                                        <Trash2 style={{ width: 15, height: 15 }} />
+                                      </button>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               )}
