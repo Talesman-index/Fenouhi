@@ -31,9 +31,13 @@ import {
   MapPin,
   Lock,
   Building2,
+  Layers,
+  XCircle,
 } from "lucide-react";
 import { MobileStoreProvider, useMobileStore } from "@/lib/mobile-store";
 import PhoneStateBadge from "@/components/PhoneStateBadge";
+import { findMatchingVariant, getAvailableOptionsForAttribute } from "@/lib/variant-presets";
+import type { ProductAttributeDefinition } from "@/types/catalog";
 
 type TabId = "description" | "specs" | "shipping" | "reviews";
 
@@ -56,6 +60,7 @@ function ProductDetailContent() {
   const [quantity, setQuantity] = useState(1);
   const [shippingMode, setShippingMode] = useState<"air" | "sea">("air");
   const [selectedStorage, setSelectedStorage] = useState<string>("");
+  const [selectedAttributes, setSelectedAttributes] = useState<Record<string, string>>({});
   const [activeTab, setActiveTab] = useState<TabId>("description");
   const [activeImage, setActiveImage] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -69,6 +74,13 @@ function ProductDetailContent() {
       setProduct(data);
       if (data?.storage_options && data.storage_options.length > 0) {
         setSelectedStorage(data.storage_options[0]);
+      }
+      // Initialize dynamic variant selection
+      if (data?.has_variants && data.variants && data.variants.length > 0) {
+        const firstActive = data.variants.find((v) => v.is_active) || data.variants[0];
+        if (firstActive && firstActive.attributes) {
+          setSelectedAttributes(firstActive.attributes);
+        }
       }
       setLoading(false);
       setActiveImage(0);
@@ -104,6 +116,26 @@ function ProductDetailContent() {
     ? product.images.map((img: any) => typeof img === "string" ? img : (img?.public_image_url || img?.url || "/images/assets/hero_iphone16.png"))
     : [getProductImageUrl(product)];
   const mainImage = productImages[activeImage] || productImages[0] || "/images/assets/hero_iphone16.png";
+
+  // Dynamic Variant Resolution
+  const hasProductVariants = Boolean(
+    product &&
+    product.has_variants &&
+    product.variants &&
+    product.variants.length > 0
+  );
+
+  const currentVariant = hasProductVariants
+    ? findMatchingVariant(product.variants, selectedAttributes)
+    : null;
+
+  const currentAvailableStock = currentVariant
+    ? currentVariant.stock_quantity
+    : (product.stock_quantity ?? 100);
+
+  const isVariantInStock = hasProductVariants
+    ? Boolean(currentVariant && currentVariant.is_active && currentAvailableStock > 0)
+    : Boolean(product.status === "active" && currentAvailableStock > 0);
 
   // Beauty product detection (no international freight charged)
   const isBeauty =
@@ -141,9 +173,15 @@ function ProductDetailContent() {
     : 5;
   const serviceRate = marginPercent / 100;
 
-  // Pricing calculations (Single & Wholesale Tier)
-  const baseUnitPrice = Number(product.price) || 0;
-  const wholesalePrice5 = product.wholesale_price_5_units ? Number(product.wholesale_price_5_units) : null;
+  // Pricing calculations (Single & Wholesale Tier) - Variant aware!
+  const baseUnitPrice = currentVariant
+    ? Number(currentVariant.price)
+    : (Number(product.price) || 0);
+
+  const wholesalePrice5 = currentVariant
+    ? (currentVariant.wholesale_price_5_units ? Number(currentVariant.wholesale_price_5_units) : null)
+    : (product.wholesale_price_5_units ? Number(product.wholesale_price_5_units) : null);
+
   const hasWholesaleDiscount = Boolean(wholesalePrice5 && wholesalePrice5 > 0 && wholesalePrice5 < baseUnitPrice);
   const isWholesaleApplied = Boolean(hasWholesaleDiscount && quantity >= 5);
   const activeUnitPrice = isWholesaleApplied ? (wholesalePrice5 as number) : baseUnitPrice;
@@ -161,16 +199,36 @@ function ProductDetailContent() {
     }
   };
 
+  const handleSelectAttributeOption = (attrName: string, value: string) => {
+    setSelectedAttributes((prev) => ({
+      ...prev,
+      [attrName]: value,
+    }));
+  };
+
   const handleAddToCart = () => {
-    const itemName = selectedStorage ? `${product.name} (${selectedStorage})` : product.name;
+    if (!isVariantInStock) return;
+
+    let variantTitle = "";
+    if (currentVariant) {
+      variantTitle = currentVariant.title || Object.values(currentVariant.attributes).join(" • ");
+    } else if (selectedStorage) {
+      variantTitle = selectedStorage;
+    }
+
+    const itemName = variantTitle ? `${product.name} (${variantTitle})` : product.name;
+
     addToCart({
       id: product.id,
+      variantId: currentVariant ? currentVariant.id : null,
+      variantTitle: variantTitle || null,
+      variantAttributes: currentVariant ? currentVariant.attributes : null,
       name: itemName,
       category: product.category?.name || (isBeauty ? "Beauté & Soins" : "Général"),
-      price: product.price,
-      wholesalePrice5: product.wholesale_price_5_units || null,
-      oldPrice: (product as any).oldPrice || Math.round(product.price * 1.25),
-      image: mainImage,
+      price: activeUnitPrice,
+      wholesalePrice5: wholesalePrice5,
+      oldPrice: (product as any).oldPrice || Math.round(activeUnitPrice * 1.25),
+      image: currentVariant?.image_url || mainImage,
       quantity: quantity,
       shippingMode: shippingMode,
       deliveryRange: hasFreight ? (shippingMode === "air" ? "Express 5-12j (Cotonou)" : "Maritime 40-65j (Port Cotonou)") : "Livraison Directe Cotonou",
@@ -479,295 +537,423 @@ function ProductDetailContent() {
               </p>
             </div>
 
-            {/* STORAGE CAPACITY OPTIONS SELECTOR */}
-            {product.storage_options && product.storage_options.length > 0 && (
-              <div style={{ background: "#F8FAFC", padding: 14, borderRadius: 14, border: "1px solid #E2E8F0" }}>
-                <div style={{ fontSize: 11.5, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
-                  Sélectionner la capacité de stockage :
+                {/* DYNAMIC ATTRIBUTE & VARIANT SELECTORS */}
+                {hasProductVariants && product.variants && product.variants.length > 0 ? (
+                  <div style={{ background: "#F8FAFC", padding: "16px", borderRadius: 16, border: "1.5px solid #E2E8F0", display: "flex", flexDirection: "column", gap: 14 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", display: "flex", alignItems: "center", gap: 6 }}>
+                        <Layers style={{ width: 15, height: 15, color: "#2563EB" }} />
+                        Caractéristiques & Options :
+                      </div>
+                      {currentVariant && (
+                        <span style={{ fontSize: 11, background: isVariantInStock ? "#DCFCE7" : "#FEE2E2", color: isVariantInStock ? "#166534" : "#DC2626", padding: "2px 8px", borderRadius: 6, fontWeight: 700 }}>
+                          {isVariantInStock ? `✓ En Stock (${currentAvailableStock} dispo)` : "✕ Épuisé / Non disponible"}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* GROUPS PER ATTRIBUTE */}
+                    {(() => {
+                      const effectiveDefs = (product.attributes_definition && product.attributes_definition.length > 0)
+                        ? product.attributes_definition
+                        : (() => {
+                            const keys = Array.from(new Set(product.variants!.flatMap((v) => Object.keys(v.attributes))));
+                            return keys.map((k) => ({
+                              name: k,
+                              values: Array.from(new Set(product.variants!.map((v) => v.attributes[k]).filter(Boolean))),
+                            }));
+                          })();
+
+                      return effectiveDefs.map((attr) => {
+                        const selectedVal = selectedAttributes[attr.name] || "";
+                        const availableOptions = getAvailableOptionsForAttribute(product.variants, selectedAttributes, attr.name);
+
+                        return (
+                          <div key={attr.name} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                            <div style={{ fontSize: 12, fontWeight: 600, color: "#334155", display: "flex", justifyContent: "space-between" }}>
+                              <span>{attr.name} :</span>
+                              <strong style={{ color: "#0F172A" }}>{selectedVal || "Non sélectionné"}</strong>
+                            </div>
+                            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                              {attr.values.map((val) => {
+                                const isSelected = selectedVal === val;
+                                const optStatus = availableOptions.find((o) => o.value === val);
+                                const isOptionValid = optStatus ? optStatus.isAvailable : true;
+                                const isOptionInStock = optStatus ? optStatus.isInStock : true;
+
+                                return (
+                                  <button
+                                    key={val}
+                                    type="button"
+                                    onClick={() => handleSelectAttributeOption(attr.name, val)}
+                                    style={{
+                                      padding: "6px 14px",
+                                      borderRadius: 8,
+                                      fontSize: 12,
+                                      fontWeight: 600,
+                                      cursor: "pointer",
+                                      background: isSelected ? "#0F172A" : isOptionValid ? "#FFFFFF" : "#F1F5F9",
+                                      color: isSelected ? "#FFFFFF" : isOptionValid ? "#334155" : "#94A3B8",
+                                      border: isSelected
+                                        ? "2px solid #0F172A"
+                                        : isOptionValid
+                                        ? "1px solid #CBD5E1"
+                                        : "1px dashed #CBD5E1",
+                                      boxShadow: isSelected ? "0 2px 8px rgba(15,23,42,0.2)" : "none",
+                                      opacity: isOptionValid ? 1 : 0.6,
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                      gap: 4,
+                                      transition: "all 0.15s ease",
+                                    }}
+                                  >
+                                    {isSelected && <Check style={{ width: 12, height: 12, strokeWidth: 3 }} />}
+                                    <span>{val}</span>
+                                    {!isOptionInStock && isOptionValid && (
+                                      <span style={{ fontSize: 9.5, color: isSelected ? "#FCD34D" : "#EA580C", fontWeight: 700 }}>
+                                        (Épuisé)
+                                      </span>
+                                    )}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      });
+                    })()}
+
+                    {/* CURRENT COMBINATION SKU / SUMMARY */}
+                    {currentVariant && (
+                      <div style={{ borderTop: "1px solid #E2E8F0", paddingTop: 10, display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 11.5, color: "#64748B" }}>
+                        <span>Réf : <strong>{currentVariant.sku || currentVariant.id}</strong></span>
+                        <span>Prix unitaire : <strong style={{ color: "#0F172A" }}>{formatPrice(currentVariant.price)}</strong></span>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  /* STORAGE CAPACITY OPTIONS SELECTOR FALLBACK FOR OLD PHONES */
+                  product.storage_options && product.storage_options.length > 0 && (
+                    <div style={{ background: "#F8FAFC", padding: 14, borderRadius: 14, border: "1px solid #E2E8F0" }}>
+                      <div style={{ fontSize: 11.5, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+                        Sélectionner la capacité de stockage :
+                      </div>
+                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        {product.storage_options.map((option) => {
+                          const isSelected = selectedStorage === option;
+                          return (
+                            <button
+                              key={option}
+                              type="button"
+                              onClick={() => setSelectedStorage(option)}
+                              style={{
+                                padding: "6px 14px",
+                                borderRadius: 8,
+                                fontSize: 12.5,
+                                fontWeight: 600,
+                                cursor: "pointer",
+                                background: isSelected ? "#0F172A" : "#FFFFFF",
+                                color: isSelected ? "#FFFFFF" : "#334155",
+                                border: isSelected ? "2px solid #0F172A" : "1px solid #CBD5E1",
+                                boxShadow: isSelected ? "0 2px 6px rgba(15,23,42,0.15)" : "none",
+                                transition: "all 0.15s ease",
+                              }}
+                            >
+                              {option}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )
+                )}
+
+              {/* RATING & REVIEWS */}
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ display: "flex", gap: 2 }}>
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <Star key={s} style={{ width: 15, height: 15, fill: "#F59E0B", color: "#F59E0B" }} />
+                  ))}
                 </div>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  {product.storage_options.map((option) => {
-                    const isSelected = selectedStorage === option;
-                    return (
-                      <button
-                        key={option}
-                        type="button"
-                        onClick={() => setSelectedStorage(option)}
+                <span style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>5.0</span>
+                <span style={{ fontSize: 12, color: "#94A3B8" }}>• Stock disponible usine : {currentAvailableStock} unités</span>
+              </div>
+
+              {/* PRICING & VOLUME TIERS (1 ART vs 5+ ART) */}
+              <div style={{ padding: "16px 0", borderTop: "1px solid #F1F5F9", borderBottom: "1px solid #F1F5F9" }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+                  <span style={{ fontSize: 32, fontWeight: 800, color: isWholesaleApplied ? "#15803D" : "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
+                    {formatPrice(activeUnitPrice)}
+                  </span>
+                  <span style={{ fontSize: 13, color: "#64748B", fontWeight: 600 }}>/ unité usine</span>
+                  {isWholesaleApplied && (
+                    <span style={{ fontSize: 16, color: "#94A3B8", textDecoration: "line-through", fontWeight: 600 }}>
+                      {formatPrice(baseUnitPrice)}
+                    </span>
+                  )}
+                  {isWholesaleApplied && (
+                    <span style={{ fontSize: 11.5, background: "#DCFCE7", color: "#166534", padding: "3px 10px", borderRadius: 999, fontWeight: 700, border: "1px solid #86EFAC" }}>
+                      ✓ TARIF GROS APPLIQUÉ ({quantity} unités)
+                    </span>
+                  )}
+                </div>
+
+                {/* GRILLE TARIFAIRE DÉGRESSIVE (VOLUME PRICING WIDGET) */}
+                {hasWholesaleDiscount && wholesalePrice5 && (
+                  <div style={{ marginTop: 14, background: "#F8FAFC", border: "1.5px solid #E2E8F0", borderRadius: 14, padding: "12px" }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>
+                      💰 Grille Tarifaire Dégressive Usine :
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                      {/* TIER 1: 1 à 4 articles */}
+                      <div
+                        onClick={() => setQuantity(1)}
                         style={{
-                          padding: "6px 14px",
-                          borderRadius: 8,
-                          fontSize: 12.5,
-                          fontWeight: 600,
+                          padding: "10px 12px",
+                          borderRadius: 10,
+                          background: !isWholesaleApplied ? "#FFFFFF" : "#F1F5F9",
+                          border: !isWholesaleApplied ? "2px solid #0F172A" : "1px solid #CBD5E1",
                           cursor: "pointer",
-                          background: isSelected ? "#0F172A" : "#FFFFFF",
-                          color: isSelected ? "#FFFFFF" : "#334155",
-                          border: isSelected ? "2px solid #0F172A" : "1px solid #CBD5E1",
-                          boxShadow: isSelected ? "0 2px 6px rgba(15,23,42,0.15)" : "none",
+                          boxShadow: !isWholesaleApplied ? "0 2px 8px rgba(0,0,0,0.08)" : "none",
                           transition: "all 0.15s ease",
                         }}
                       >
-                        {option}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+                        <div style={{ fontSize: 11, fontWeight: 700, color: !isWholesaleApplied ? "#0F172A" : "#64748B" }}>
+                          1 à 4 articles (Standard)
+                        </div>
+                        <div style={{ fontSize: 16, fontWeight: 800, color: "#0F172A", marginTop: 2 }}>
+                          {formatPrice(baseUnitPrice)}
+                        </div>
+                        <div style={{ fontSize: 10, color: "#64748B", marginTop: 2 }}>
+                          Prix au détail
+                        </div>
+                      </div>
 
-            {/* RATING & REVIEWS */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <div style={{ display: "flex", gap: 2 }}>
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <Star key={s} style={{ width: 15, height: 15, fill: "#F59E0B", color: "#F59E0B" }} />
-                ))}
-              </div>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>5.0</span>
-              <span style={{ fontSize: 12, color: "#94A3B8" }}>• Stock disponible usine : {product.stock_quantity || 100} unités</span>
-            </div>
-
-            {/* PRICING & VOLUME TIERS (1 ART vs 5+ ART) */}
-            <div style={{ padding: "16px 0", borderTop: "1px solid #F1F5F9", borderBottom: "1px solid #F1F5F9" }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-                <span style={{ fontSize: 32, fontWeight: 800, color: isWholesaleApplied ? "#15803D" : "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
-                  {formatPrice(activeUnitPrice)}
-                </span>
-                <span style={{ fontSize: 13, color: "#64748B", fontWeight: 600 }}>/ unité usine</span>
-                {isWholesaleApplied && (
-                  <span style={{ fontSize: 16, color: "#94A3B8", textDecoration: "line-through", fontWeight: 600 }}>
-                    {formatPrice(baseUnitPrice)}
-                  </span>
-                )}
-                {isWholesaleApplied && (
-                  <span style={{ fontSize: 11.5, background: "#DCFCE7", color: "#166534", padding: "3px 10px", borderRadius: 999, fontWeight: 700, border: "1px solid #86EFAC" }}>
-                    ✓ TARIF GROS APPLIQUÉ ({quantity} unités)
-                  </span>
-                )}
-              </div>
-
-              {/* GRILLE TARIFAIRE DÉGRESSIVE (VOLUME PRICING WIDGET) */}
-              {hasWholesaleDiscount && wholesalePrice5 && (
-                <div style={{ marginTop: 14, background: "#F8FAFC", border: "1.5px solid #E2E8F0", borderRadius: 14, padding: "12px" }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>
-                    💰 Grille Tarifaire Dégressive Usine :
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                    {/* TIER 1: 1 à 4 articles */}
-                    <div
-                      onClick={() => setQuantity(1)}
-                      style={{
-                        padding: "10px 12px",
-                        borderRadius: 10,
-                        background: !isWholesaleApplied ? "#FFFFFF" : "#F1F5F9",
-                        border: !isWholesaleApplied ? "2px solid #0F172A" : "1px solid #E2E8F0",
-                        cursor: "pointer",
-                        transition: "all 0.2s ease"
-                      }}
-                    >
-                      <div style={{ fontSize: 11, color: "#64748B", fontWeight: 600 }}>1 à 4 articles</div>
-                      <div style={{ fontSize: 15, fontWeight: 800, color: "#0F172A" }}>{formatPrice(baseUnitPrice)} <span style={{ fontSize: 10.5, fontWeight: 500 }}>/u</span></div>
-                      <div style={{ fontSize: 10.5, color: "#64748B" }}>Prix standard</div>
-                    </div>
-
-                    {/* TIER 2: 5 articles et + */}
-                    <div
-                      onClick={() => setQuantity(Math.max(5, quantity))}
-                      style={{
-                        padding: "10px 12px",
-                        borderRadius: 10,
-                        background: isWholesaleApplied ? "#F0FDF4" : "#FFFFFF",
-                        border: isWholesaleApplied ? "2px solid #16A34A" : "1.5px dashed #86EFAC",
-                        cursor: "pointer",
-                        position: "relative",
-                        transition: "all 0.2s ease"
-                      }}
-                    >
-                      <span style={{ position: "absolute", top: -8, right: 8, background: "#16A34A", color: "#FFF", fontSize: 9.5, fontWeight: 800, padding: "1px 6px", borderRadius: 999 }}>
-                        -{Math.round(((baseUnitPrice - wholesalePrice5) / baseUnitPrice) * 100)}% GROS
-                      </span>
-                      <div style={{ fontSize: 11, color: "#166534", fontWeight: 700 }}>5 articles et plus</div>
-                      <div style={{ fontSize: 15, fontWeight: 800, color: "#15803D" }}>{formatPrice(wholesalePrice5)} <span style={{ fontSize: 10.5, fontWeight: 500 }}>/u</span></div>
-                      <div style={{ fontSize: 10.5, color: "#16A34A", fontWeight: 600 }}>
-                        {isWholesaleApplied ? "✓ Activé dans votre commande" : "👉 Choisir 5 pièces (Prix Gros)"}
+                      {/* TIER 2: 5 articles et plus */}
+                      <div
+                        onClick={() => setQuantity(Math.max(5, quantity))}
+                        style={{
+                          padding: "10px 12px",
+                          borderRadius: 10,
+                          background: isWholesaleApplied ? "#F0FDF4" : "#FFFFFF",
+                          border: isWholesaleApplied ? "2px solid #16A34A" : "1.5px dashed #86EFAC",
+                          cursor: "pointer",
+                          position: "relative",
+                          boxShadow: isWholesaleApplied ? "0 2px 8px rgba(22, 163, 74, 0.15)" : "none",
+                          transition: "all 0.15s ease",
+                        }}
+                      >
+                        <span style={{ position: "absolute", top: -8, right: 8, background: "#16A34A", color: "#FFF", fontSize: 9, fontWeight: 800, padding: "2px 6px", borderRadius: 999 }}>
+                          PRIX DE GROS
+                        </span>
+                        <div style={{ fontSize: 11, fontWeight: 700, color: isWholesaleApplied ? "#15803D" : "#16A34A" }}>
+                          Dès 5 articles (Économie)
+                        </div>
+                        <div style={{ fontSize: 16, fontWeight: 800, color: "#15803D", marginTop: 2 }}>
+                          {formatPrice(wholesalePrice5)}
+                        </div>
+                        <div style={{ fontSize: 10, color: "#16A34A", marginTop: 2, fontWeight: 600 }}>
+                          -{Math.round(((baseUnitPrice - wholesalePrice5) / baseUnitPrice) * 100)}% d'économie / unité
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
-
-            {/* QUANTITY SELECTOR */}
-            <div>
-              <label style={{ display: "block", fontSize: 11.5, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
-                Quantité à commander :
-              </label>
-              <div style={{ display: "inline-flex", alignItems: "center", background: "#F1F5F9", borderRadius: 14, padding: "4px 8px", gap: 10 }}>
-                <button
-                  type="button"
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  style={{ width: 34, height: 34, borderRadius: 10, background: "#CBD5E1", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#0F172A" }}
-                >
-                  <Minus style={{ width: 16, height: 16, strokeWidth: 2.5 }} />
-                </button>
-                <span style={{ minWidth: 40, textAlign: "center", fontSize: 17, fontWeight: 700, color: "#0F172A" }}>
-                  {quantity}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setQuantity((q) => q + 1)}
-                  style={{ width: 34, height: 34, borderRadius: 10, background: "#0F172A", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFFFFF" }}
-                >
-                  <Plus style={{ width: 16, height: 16, strokeWidth: 2.5 }} />
-                </button>
+                )}
               </div>
-            </div>
 
-            {/* SHIPPING MODE SELECTOR (Uniquement pour articles avec fret international requis) */}
-            {hasFreight && (
+              {/* QUANTITY SELECTOR */}
               <div>
                 <label style={{ display: "block", fontSize: 11.5, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
-                  Mode de Transit Chine ➔ Bénin :
+                  Quantité commandée :
                 </label>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                  {/* AIR FREIGHT */}
-                  <div
-                    onClick={() => setShippingMode("air")}
-                    style={{
-                      background: shippingMode === "air" ? "#E0F2FE" : "#FFFFFF",
-                      border: shippingMode === "air" ? "2px solid #0284C7" : "1.5px solid #E2E8F0",
-                      borderRadius: 14,
-                      padding: "12px",
-                      cursor: "pointer",
-                      textAlign: "center",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    <Plane style={{ width: 22, height: 22, color: "#0284C7", margin: "0 auto 4px" }} />
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>Fret Aérien Express</div>
-                    <div style={{ fontSize: 11, color: "#0369A1", fontWeight: 700 }}>5–12 jours • Aéroport Cotonou</div>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div style={{ display: "flex", alignItems: "center", background: "#F1F5F9", borderRadius: 12, padding: 4 }}>
+                    <button
+                      onClick={() => setQuantity(Math.max(product.minimum_order_quantity || 1, quantity - 1))}
+                      style={{ width: 36, height: 36, borderRadius: 8, background: "#FFFFFF", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#0F172A" }}
+                    >
+                      <Minus style={{ width: 16, height: 16 }} />
+                    </button>
+                    <span style={{ minWidth: 44, textAlign: "center", fontWeight: 700, fontSize: 15, color: "#0F172A" }}>
+                      {quantity}
+                    </span>
+                    <button
+                      onClick={() => setQuantity(quantity + 1)}
+                      style={{ width: 36, height: 36, borderRadius: 8, background: "#FFFFFF", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#0F172A" }}
+                    >
+                      <Plus style={{ width: 16, height: 16 }} />
+                    </button>
                   </div>
-
-                  {/* SEA FREIGHT */}
-                  <div
-                    onClick={() => setShippingMode("sea")}
-                    style={{
-                      background: shippingMode === "sea" ? "#DCFCE7" : "#FFFFFF",
-                      border: shippingMode === "sea" ? "2px solid #16A34A" : "1.5px solid #E2E8F0",
-                      borderRadius: 14,
-                      padding: "12px",
-                      cursor: "pointer",
-                      textAlign: "center",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    <Ship style={{ width: 22, height: 22, color: "#16A34A", margin: "0 auto 4px" }} />
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>Fret Maritime Groupé</div>
-                    <div style={{ fontSize: 11, color: "#15803D", fontWeight: 700 }}>40–65 jours • Port Cotonou</div>
-                  </div>
+                  <span style={{ fontSize: 12, color: "#64748B" }}>
+                    {hasWholesaleDiscount && wholesalePrice5 && quantity < 5 ? (
+                      <span style={{ color: "#16A34A", fontWeight: 600 }}>
+                        💡 Ajoutez encore {5 - quantity} article{5 - quantity > 1 ? "s" : ""} pour débloquer le tarif de gros à {formatPrice(wholesalePrice5)}/u !
+                      </span>
+                    ) : (
+                      `Min. de commande usine : ${product.minimum_order_quantity || 1} unité`
+                    )}
+                  </span>
                 </div>
               </div>
-            )}
 
-            {/* TRANSPARENT COST BREAKDOWN */}
-            <div
-              style={{
-                background: "#F8FAFC",
-                borderRadius: 16,
-                padding: "18px",
-                border: "1px solid #E2E8F0",
-                display: "flex",
-                flexDirection: "column",
-                gap: 8,
-              }}
-            >
-              <div style={{ fontSize: 12, fontWeight: 600, color: "#0F172A", textTransform: "uppercase", marginBottom: 2 }}>
-                Estimation {hasFreight ? "Transparente (Tout Compris)" : "Directe (Sans Fret)"}
-              </div>
-
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
-                <span>Marchandise ({quantity} × {formatPrice(unitPrice)})</span>
-                <strong style={{ color: "#0F172A" }}>{formatPrice(productTotal)}</strong>
-              </div>
-
-              {serviceFee > 0 && (
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
-                  <span>Service & Contrôle Qualité Usine ({marginPercent}%)</span>
-                  <strong style={{ color: "#0F172A" }}>{formatPrice(serviceFee)}</strong>
-                </div>
-              )}
-
+              {/* SHIPPING MODE SELECTOR (Uniquement pour articles avec fret international requis) */}
               {hasFreight && (
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
-                  <span>Fret international ({shippingMode === "air" ? "Aérien Express" : "Maritime Groupé"})</span>
-                  {shippingFee === 0 ? (
-                    <span style={{ color: "#16A34A", fontWeight: 700 }}>Inclus / Offert (0 FCFA)</span>
-                  ) : (
-                    <strong style={{ color: "#0284C7" }}>{formatPrice(shippingFee)}</strong>
-                  )}
+                <div>
+                  <label style={{ display: "block", fontSize: 11.5, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+                    Mode de Transit Chine ➔ Bénin :
+                  </label>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                    {/* AIR FREIGHT */}
+                    <div
+                      onClick={() => setShippingMode("air")}
+                      style={{
+                        background: shippingMode === "air" ? "#E0F2FE" : "#FFFFFF",
+                        border: shippingMode === "air" ? "2px solid #0284C7" : "1.5px solid #E2E8F0",
+                        borderRadius: 14,
+                        padding: "12px",
+                        cursor: "pointer",
+                        textAlign: "center",
+                        transition: "all 0.2s ease",
+                      }}
+                    >
+                      <Plane style={{ width: 22, height: 22, color: "#0284C7", margin: "0 auto 4px" }} />
+                      <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>Fret Aérien Express</div>
+                      <div style={{ fontSize: 11, color: "#0369A1", fontWeight: 700 }}>5–12 jours • Aéroport Cotonou</div>
+                    </div>
+
+                    {/* SEA FREIGHT */}
+                    <div
+                      onClick={() => setShippingMode("sea")}
+                      style={{
+                        background: shippingMode === "sea" ? "#DCFCE7" : "#FFFFFF",
+                        border: shippingMode === "sea" ? "2px solid #16A34A" : "1.5px solid #E2E8F0",
+                        borderRadius: 14,
+                        padding: "12px",
+                        cursor: "pointer",
+                        textAlign: "center",
+                        transition: "all 0.2s ease",
+                      }}
+                    >
+                      <Ship style={{ width: 22, height: 22, color: "#16A34A", margin: "0 auto 4px" }} />
+                      <div style={{ fontSize: 13, fontWeight: 600, color: "#0F172A" }}>Fret Maritime Groupé</div>
+                      <div style={{ fontSize: 11, color: "#15803D", fontWeight: 700 }}>40–65 jours • Port Cotonou</div>
+                    </div>
+                  </div>
                 </div>
               )}
 
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#16A34A", fontWeight: 700 }}>
-                <span>{hasFreight ? "Dédouanement Cotonou" : "Frais de Fret & Logistique"}</span>
-                <span>{hasFreight ? "Inclus (0 frais caché)" : "Non facturé (0 FCFA)"}</span>
-              </div>
-
-              <div style={{ height: 1, background: "#E2E8F0", margin: "4px 0" }} />
-
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontSize: 14.5, fontWeight: 700, color: "#0F172A" }}>Total TTC</span>
-                <span style={{ fontSize: 22, fontWeight: 700, color: "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
-                  {formatPrice(total)}
-                </span>
-              </div>
-            </div>
-
-            {/* ACTION CTA BUTTONS */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <button
-                onClick={handleAddToCart}
+              {/* TRANSPARENT COST BREAKDOWN */}
+              <div
                 style={{
-                  background: "#16A34A",
-                  color: "#FFFFFF",
-                  border: "none",
-                  borderRadius: 14,
-                  padding: "16px 24px",
-                  fontSize: 16,
-                  fontWeight: 700,
-                  cursor: "pointer",
+                  background: "#F8FAFC",
+                  borderRadius: 16,
+                  padding: "18px",
+                  border: "1px solid #E2E8F0",
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 10,
-                  boxShadow: "0 6px 20px rgba(22, 163, 74, 0.25)",
-                  transition: "all 0.2s ease",
-                }}
-              >
-                <ShoppingBag style={{ width: 20, height: 20 }} />
-                <span>Ajouter au Panier ({formatPrice(total)})</span>
-              </button>
-
-              <Link
-                href={`/quote-request?prod=${encodeURIComponent(product.name)}&qty=${quantity}${isBeauty ? "" : `&mode=${shippingMode}`}`}
-                style={{
-                  background: "#FFFFFF",
-                  color: "#0F172A",
-                  border: "1.5px solid #CBD5E1",
-                  borderRadius: 14,
-                  padding: "12px 20px",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  flexDirection: "column",
                   gap: 8,
-                  textAlign: "center",
                 }}
               >
-                <Calculator style={{ width: 18, height: 18 }} />
-                <span>Demander un Devis Personnalisé</span>
-              </Link>
-            </div>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "#0F172A", textTransform: "uppercase", marginBottom: 2 }}>
+                  Estimation {hasFreight ? "Transparente (Tout Compris)" : "Directe (Sans Fret)"}
+                </div>
+
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
+                  <span>Marchandise ({quantity} × {formatPrice(activeUnitPrice)})</span>
+                  <strong style={{ color: "#0F172A" }}>{formatPrice(productTotal)}</strong>
+                </div>
+
+                {serviceFee > 0 && (
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
+                    <span>Service & Contrôle Qualité Usine ({marginPercent}%)</span>
+                    <strong style={{ color: "#0F172A" }}>{formatPrice(serviceFee)}</strong>
+                  </div>
+                )}
+
+                {hasFreight && (
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#475569" }}>
+                    <span>Fret international ({shippingMode === "air" ? "Aérien Express" : "Maritime Groupé"})</span>
+                    {shippingFee === 0 ? (
+                      <span style={{ color: "#16A34A", fontWeight: 700 }}>Inclus / Offert (0 FCFA)</span>
+                    ) : (
+                      <strong style={{ color: "#0284C7" }}>{formatPrice(shippingFee)}</strong>
+                    )}
+                  </div>
+                )}
+
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#16A34A", fontWeight: 700 }}>
+                  <span>{hasFreight ? "Dédouanement Cotonou" : "Frais de Fret & Logistique"}</span>
+                  <span>{hasFreight ? "Inclus (0 frais caché)" : "Non facturé (0 FCFA)"}</span>
+                </div>
+
+                <div style={{ height: 1, background: "#E2E8F0", margin: "4px 0" }} />
+
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: 14.5, fontWeight: 700, color: "#0F172A" }}>Total TTC</span>
+                  <span style={{ fontSize: 22, fontWeight: 700, color: "#DC2626", fontFamily: "'Poppins', sans-serif" }}>
+                    {formatPrice(total)}
+                  </span>
+                </div>
+              </div>
+
+              {/* ACTION CTA BUTTONS */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <button
+                  type="button"
+                  onClick={handleAddToCart}
+                  disabled={!isVariantInStock}
+                  style={{
+                    background: isVariantInStock ? "#16A34A" : "#94A3B8",
+                    color: "#FFFFFF",
+                    border: "none",
+                    borderRadius: 14,
+                    padding: "16px 24px",
+                    fontSize: 16,
+                    fontWeight: 700,
+                    cursor: isVariantInStock ? "pointer" : "not-allowed",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 10,
+                    boxShadow: isVariantInStock ? "0 6px 20px rgba(22, 163, 74, 0.25)" : "none",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  {isVariantInStock ? (
+                    <>
+                      <ShoppingBag style={{ width: 20, height: 20 }} />
+                      <span>Ajouter au Panier ({formatPrice(total)})</span>
+                    </>
+                  ) : (
+                    <>
+                      <XCircle style={{ width: 20, height: 20 }} />
+                      <span>Combinaison Épuisée / Indisponible</span>
+                    </>
+                  )}
+                </button>
+
+                <Link
+                  href={`/quote-request?prod=${encodeURIComponent(product.name)}&qty=${quantity}${isBeauty ? "" : `&mode=${shippingMode}`}`}
+                  style={{
+                    background: "#FFFFFF",
+                    color: "#0F172A",
+                    border: "1.5px solid #CBD5E1",
+                    borderRadius: 14,
+                    padding: "12px 20px",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textDecoration: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                    textAlign: "center",
+                  }}
+                >
+                  <Calculator style={{ width: 18, height: 18 }} />
+                  <span>Demander un Devis Personnalisé</span>
+                </Link>
+              </div>
 
           </div>
 

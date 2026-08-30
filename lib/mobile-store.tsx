@@ -14,6 +14,9 @@ export interface CartItem {
   image: string;
   deliveryRange: string;
   shippingMode: "air" | "sea";
+  variantId?: string | null;
+  variantTitle?: string | null;
+  variantAttributes?: Record<string, string> | null;
 }
 
 export interface FavoriteItem {
@@ -221,12 +224,17 @@ export function MobileStoreProvider({ children }: { children: React.ReactNode })
   // Cart methods
   const addToCart = (item: Omit<CartItem, "quantity"> & { quantity?: number }) => {
     const qtyToAdd = item.quantity && item.quantity > 0 ? item.quantity : 1;
+    const cartKey = item.variantId ? `${item.id}-${item.variantId}` : item.id;
+    const itemToInsert = { ...item, id: cartKey, quantity: qtyToAdd };
+
     setCart((prev) => {
-      const existing = prev.find((p) => p.id === item.id);
-      if (existing) {
-        return prev.map((p) => (p.id === item.id ? { ...p, quantity: p.quantity + qtyToAdd } : p));
+      const existingIndex = prev.findIndex((p) => p.id === cartKey);
+      if (existingIndex >= 0) {
+        return prev.map((p, idx) =>
+          idx === existingIndex ? { ...p, quantity: p.quantity + qtyToAdd } : p
+        );
       }
-      return [...prev, { ...item, quantity: qtyToAdd }];
+      return [...prev, itemToInsert];
     });
   };
 

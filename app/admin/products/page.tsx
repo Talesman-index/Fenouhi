@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { logAdminAction } from "@/lib/admin/activity-logger";
-import type { Product, Category, ProductStatus } from "@/types/catalog";
+import type { Product, Category, ProductStatus, ProductAttributeDefinition, ProductVariant } from "@/types/catalog";
+import { getPresetAttributesForCategory, generateCartesianVariants } from "@/lib/variant-presets";
 import {
   Package,
   Plus,
@@ -26,7 +27,13 @@ import {
   Zap,
   Camera,
   Images,
-  Info
+  Info,
+  Layers,
+  Check,
+  Copy,
+  Wand2,
+  CheckSquare,
+  Square
 } from "lucide-react";
 
 import { PRODUCTS } from "@/lib/products";
@@ -56,7 +63,7 @@ export default function ProductsManagementPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   // Modal Active Tab State
-  const [activeTab, setActiveTab] = useState<"info" | "pricing" | "media" | "specs">("info");
+  const [activeTab, setActiveTab] = useState<"info" | "variants" | "pricing" | "media" | "specs">("info");
 
   // Custom Delete Modal & Toast State
   const [deleteModalProduct, setDeleteModalProduct] = useState<Product | null>(null);
@@ -98,6 +105,16 @@ export default function ProductsManagementPage() {
   const [isDemo, setIsDemo] = useState<boolean>(false);
   const [isFeatured, setIsFeatured] = useState<boolean>(false);
   
+  // Dynamic Product Variants & Attributes State
+  const [hasVariants, setHasVariants] = useState<boolean>(false);
+  const [attributesDefinition, setAttributesDefinition] = useState<ProductAttributeDefinition[]>([]);
+  const [variants, setVariants] = useState<ProductVariant[]>([]);
+  const [newAttrInputName, setNewAttrInputName] = useState<string>("");
+  const [newAttrValueInput, setNewAttrValueInput] = useState<Record<string, string>>({});
+  const [batchPriceInput, setBatchPriceInput] = useState<string>("");
+  const [batchWholesaleInput, setBatchWholesaleInput] = useState<string>("");
+  const [batchStockInput, setBatchStockInput] = useState<string>("");
+
   // Custom CargoLink Margin & Freight Controls
   const [cargolinkMarginPercent, setCargolinkMarginPercent] = useState<number>(10);
   const [airFreightRatePerKg, setAirFreightRatePerKg] = useState<number>(2000);
@@ -399,6 +416,124 @@ export default function ProductsManagementPage() {
     setGalleryUrls((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // Variant Management Handlers
+  const handleLoadCategoryPreset = (templateKey?: string) => {
+    const selectedCat = categories.find((c) => c.id === categoryId);
+    const catSlug = selectedCat ? selectedCat.slug : "";
+    const preset = getPresetAttributesForCategory(templateKey || catSlug, name);
+    setAttributesDefinition(preset);
+    setHasVariants(true);
+    showToast("Attributs chargés", `Modèle d'attributs appliqué pour ${templateKey || selectedCat?.name || "cette catégorie"}.`, "info");
+  };
+
+  const handleAddAttribute = () => {
+    if (!newAttrInputName.trim()) return;
+    const trimmed = newAttrInputName.trim();
+    if (attributesDefinition.some((a) => a.name.toLowerCase() === trimmed.toLowerCase())) {
+      showToast("Attribut existant", "Cet attribut est déjà présent dans la liste.", "info");
+      return;
+    }
+    setAttributesDefinition((prev) => [...prev, { name: trimmed, values: [] }]);
+    setNewAttrInputName("");
+    setHasVariants(true);
+  };
+
+  const handleRemoveAttribute = (attrIndex: number) => {
+    setAttributesDefinition((prev) => prev.filter((_, i) => i !== attrIndex));
+  };
+
+  const handleAddAttributeValue = (attrName: string) => {
+    const val = (newAttrValueInput[attrName] || "").trim();
+    if (!val) return;
+    setAttributesDefinition((prev) =>
+      prev.map((attr) => {
+        if (attr.name === attrName) {
+          if (!attr.values.includes(val)) {
+            return { ...attr, values: [...attr.values, val] };
+          }
+        }
+        return attr;
+      })
+    );
+    setNewAttrValueInput((prev) => ({ ...prev, [attrName]: "" }));
+  };
+
+  const handleRemoveAttributeValue = (attrName: string, valueToRemove: string) => {
+    setAttributesDefinition((prev) =>
+      prev.map((attr) => {
+        if (attr.name === attrName) {
+          return { ...attr, values: attr.values.filter((v) => v !== valueToRemove) };
+        }
+        return attr;
+      })
+    );
+  };
+
+  const handleGenerateVariantsMatrix = () => {
+    const activeAttrs = attributesDefinition.filter((a) => a.values && a.values.length > 0);
+    if (activeAttrs.length === 0) {
+      showToast("Aucun attribut", "Veuillez renseigner au moins une valeur pour vos attributs.", "error");
+      return;
+    }
+    const generated = generateCartesianVariants(
+      activeAttrs,
+      price,
+      wholesalePrice5 > 0 ? wholesalePrice5 : null,
+      stockQuantity > 0 ? Math.round(stockQuantity / Math.max(1, activeAttrs.length)) : 15,
+      slug || name
+    );
+    setVariants(generated);
+    setHasVariants(true);
+    showToast(
+      "Matrice générée",
+      `${generated.length} combinaisons de variantes générées avec succès.`,
+      "success"
+    );
+  };
+
+  const handleUpdateVariantField = (
+    variantId: string,
+    field: keyof ProductVariant,
+    value: any
+  ) => {
+    setVariants((prev) =>
+      prev.map((v) => (v.id === variantId ? { ...v, [field]: value } : v))
+    );
+  };
+
+  const handleBatchApplyPrices = () => {
+    const numPrice = Number(batchPriceInput);
+    if (!numPrice || numPrice <= 0) return;
+    setVariants((prev) => prev.map((v) => ({ ...v, price: numPrice })));
+    setBatchPriceInput("");
+    showToast("Prix mis à jour", `Le prix ${numPrice.toLocaleString()} FCFA a été appliqué à toutes les variantes.`, "info");
+  };
+
+  const handleBatchApplyWholesale = () => {
+    const numWholesale = Number(batchWholesaleInput);
+    if (!numWholesale || numWholesale <= 0) return;
+    setVariants((prev) => prev.map((v) => ({ ...v, wholesale_price_5_units: numWholesale })));
+    setBatchWholesaleInput("");
+    showToast("Prix de gros mis à jour", `Le prix de gros ${numWholesale.toLocaleString()} FCFA a été appliqué à toutes les variantes.`, "info");
+  };
+
+  const handleBatchApplyStock = () => {
+    const numStock = Number(batchStockInput);
+    if (isNaN(numStock) || numStock < 0) return;
+    setVariants((prev) => prev.map((v) => ({ ...v, stock_quantity: numStock })));
+    setBatchStockInput("");
+    showToast("Stock mis à jour", `Le stock ${numStock} a été appliqué à toutes les variantes.`, "info");
+  };
+
+  const handleBatchToggleAllActive = (active: boolean) => {
+    setVariants((prev) => prev.map((v) => ({ ...v, is_active: active })));
+    showToast("Disponibilité", active ? "Toutes les variantes ont été activées." : "Toutes les variantes ont été désactivées.", "info");
+  };
+
+  const handleRemoveVariant = (variantId: string) => {
+    setVariants((prev) => prev.filter((v) => v.id !== variantId));
+  };
+
   const openCreateModal = () => {
     try {
       setIsModalOpen(true);
@@ -434,6 +569,9 @@ export default function ProductsManagementPage() {
       setStatus("active");
       setIsDemo(false);
       setIsFeatured(true);
+      setHasVariants(false);
+      setAttributesDefinition(getPresetAttributesForCategory(defaultCatId, ""));
+      setVariants([]);
       setImageUrl("/images/assets/item_1.jpg");
       setGalleryUrls([]);
     } catch (err) {
@@ -470,6 +608,15 @@ export default function ProductsManagementPage() {
     setIsDemo(product.is_demo);
     setIsFeatured(product.is_featured);
 
+    const isVar = Boolean(product.has_variants || (product.variants && product.variants.length > 0));
+    setHasVariants(isVar);
+    setAttributesDefinition(
+      product.attributes_definition && product.attributes_definition.length > 0
+        ? product.attributes_definition
+        : getPresetAttributesForCategory(product.category?.slug || product.category_id || "", product.name)
+    );
+    setVariants(product.variants || []);
+
     const primaryImgUrl = getProductImageUrl(product);
     setImageUrl(primaryImgUrl);
 
@@ -501,7 +648,7 @@ export default function ProductsManagementPage() {
       showToast("Catégorie requise", "Veuillez choisir une catégorie pour le produit.", "error");
       return;
     }
-    if (Number(stockQuantity) < 1) {
+    if (Number(stockQuantity) < 1 && (!hasVariants || variants.length === 0)) {
       setActiveTab("info");
       showToast("Stock requis", "Veuillez renseigner une quantité de stock valide (au moins 1).", "error");
       return;
@@ -525,6 +672,11 @@ export default function ProductsManagementPage() {
     const effectiveDescription = description?.trim() || `Découvrez ${name}, disponible au meilleur prix avec contrôle qualité rigoureux et garantie Fenouhi.`;
     const finalSlug = slug.trim() || generateSlug(name);
 
+    // Calculated Stock from active variants if enabled
+    const calculatedStock = (hasVariants && variants.length > 0)
+      ? variants.filter((v) => v.is_active).reduce((sum, v) => sum + (Number(v.stock_quantity) || 0), 0)
+      : Number(stockQuantity ?? 100);
+
     setSaving(true);
     try {
       const supabase = createClient();
@@ -543,7 +695,7 @@ export default function ProductsManagementPage() {
         air_freight_rate_per_kg: Number(airFreightRatePerKg ?? 0),
         sea_freight_rate_per_cbm: Number(seaFreightRatePerCbm ?? 0),
         currency: currency || "FCFA",
-        stock_quantity: Number(stockQuantity ?? 100),
+        stock_quantity: calculatedStock,
         minimum_order_quantity: Number(minimumOrderQuantity ?? 1),
         country_of_origin: countryOfOrigin || "Hub Asie & International",
         weight: Number(weight ?? 0.5),
@@ -555,6 +707,9 @@ export default function ProductsManagementPage() {
         status: status || "active",
         is_demo: isDemo,
         is_featured: isFeatured,
+        has_variants: hasVariants && variants.length > 0,
+        attributes_definition: hasVariants ? attributesDefinition : null,
+        variants: hasVariants && variants.length > 0 ? variants : null,
         updated_at: new Date().toISOString()
       };
 
@@ -1169,17 +1324,41 @@ export default function ProductsManagementPage() {
 
                       {/* 3. PRIX & FRET */}
                       <td style={{ padding: "14px 14px" }}>
-                        <div style={{ fontWeight: 800, color: "#0F172A", fontSize: 14 }}>
-                          {Number(p.price).toLocaleString()} {p.currency || "FCFA"}
-                          <span style={{ fontSize: 10.5, fontWeight: 600, color: "#64748B", marginLeft: 4 }}>(1 art)</span>
-                        </div>
-                        {p.wholesale_price_5_units && Number(p.wholesale_price_5_units) > 0 && (
-                          <div style={{ fontSize: 11.5, fontWeight: 700, color: "#16A34A", marginTop: 2, display: "flex", alignItems: "center", gap: 4 }}>
-                            <span>{Number(p.wholesale_price_5_units).toLocaleString()} {p.currency || "FCFA"}</span>
-                            <span style={{ fontSize: 9.5, background: "#DCFCE7", color: "#15803D", padding: "1px 5px", borderRadius: 4, fontWeight: 700 }}>
-                              ≥ 5 art.
-                            </span>
-                          </div>
+                        {p.has_variants && p.variants && p.variants.length > 0 ? (
+                          <>
+                            <div style={{ fontWeight: 800, color: "#0F172A", fontSize: 13.5 }}>
+                              {(() => {
+                                const activeVars = p.variants.filter((v) => v.is_active);
+                                const prices = (activeVars.length > 0 ? activeVars : p.variants).map((v) => Number(v.price));
+                                const minP = Math.min(...prices);
+                                const maxP = Math.max(...prices);
+                                return minP === maxP
+                                  ? `${minP.toLocaleString()} ${p.currency || "FCFA"}`
+                                  : `${minP.toLocaleString()} - ${maxP.toLocaleString()} ${p.currency || "FCFA"}`;
+                              })()}
+                            </div>
+                            <div style={{ marginTop: 3 }}>
+                              <span style={{ fontSize: 10, background: "#EFF6FF", color: "#2563EB", padding: "2px 6px", borderRadius: 4, fontWeight: 700, border: "1px solid #BFDBFE", display: "inline-flex", alignItems: "center", gap: 3 }}>
+                                <Layers style={{ width: 10, height: 10 }} />
+                                {p.variants.length} variantes
+                              </span>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div style={{ fontWeight: 800, color: "#0F172A", fontSize: 14 }}>
+                              {Number(p.price).toLocaleString()} {p.currency || "FCFA"}
+                              <span style={{ fontSize: 10.5, fontWeight: 600, color: "#64748B", marginLeft: 4 }}>(1 art)</span>
+                            </div>
+                            {p.wholesale_price_5_units && Number(p.wholesale_price_5_units) > 0 && (
+                              <div style={{ fontSize: 11.5, fontWeight: 700, color: "#16A34A", marginTop: 2, display: "flex", alignItems: "center", gap: 4 }}>
+                                <span>{Number(p.wholesale_price_5_units).toLocaleString()} {p.currency || "FCFA"}</span>
+                                <span style={{ fontSize: 9.5, background: "#DCFCE7", color: "#15803D", padding: "1px 5px", borderRadius: 4, fontWeight: 700 }}>
+                                  ≥ 5 art.
+                                </span>
+                              </div>
+                            )}
+                          </>
                         )}
                         <div style={{ fontSize: 11, color: "#64748B", marginTop: 2 }}>
                           Marge : +{p.cargolink_margin_percent ?? 10}%
@@ -1327,12 +1506,13 @@ export default function ProductsManagementPage() {
             </div>
 
             {/* TAB NAVIGATION BAR */}
-            <div style={{ display: "flex", borderBottom: "1px solid #E2E8F0", background: "#F8FAFC", padding: "0 16px" }}>
+            <div style={{ display: "flex", borderBottom: "1px solid #E2E8F0", background: "#F8FAFC", padding: "0 16px", overflowX: "auto" }}>
               {[
                 { id: "info", label: "1. Infos Générales", icon: Box },
-                { id: "pricing", label: "2. Prix, Marges & Fret", icon: DollarSign },
-                { id: "media", label: "3. Photos & Médias", icon: Camera },
-                { id: "specs", label: "4. Fiche & Specs", icon: SlidersHorizontal },
+                { id: "variants", label: `2. Variantes ${variants.length > 0 ? `(${variants.length})` : ""}`, icon: Layers },
+                { id: "pricing", label: "3. Prix & Marges", icon: DollarSign },
+                { id: "media", label: "4. Photos & Médias", icon: Camera },
+                { id: "specs", label: "5. Fiche & Specs", icon: SlidersHorizontal },
               ].map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -1353,6 +1533,7 @@ export default function ProductsManagementPage() {
                       borderBottom: isActive ? "3px solid #F97316" : "3px solid transparent",
                       background: "transparent",
                       cursor: "pointer",
+                      whiteSpace: "nowrap",
                       transition: "all 0.2s ease"
                     }}
                   >
@@ -1485,7 +1666,464 @@ export default function ProductsManagementPage() {
                 </div>
               )}
 
-              {/* TAB 2: PRICE, CARGOLINK MARGIN % & FREIGHT (NEW FEATURE) */}
+              {/* TAB 2: VARIANTES & ATTRIBUTS */}
+              {activeTab === "variants" && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+                  
+                  {/* ACTIVATION TOGGLE */}
+                  <div
+                    style={{
+                      background: hasVariants ? "#F0FDF4" : "#F8FAFC",
+                      border: `1.5px solid ${hasVariants ? "#86EFAC" : "#E2E8F0"}`,
+                      padding: 16,
+                      borderRadius: 14,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      transition: "all 0.2s ease"
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: hasVariants ? "#15803D" : "#0F172A", display: "flex", alignItems: "center", gap: 8 }}>
+                        <Layers style={{ width: 18, height: 18, color: hasVariants ? "#16A34A" : "#64748B" }} />
+                        Activer les Variantes de Caractéristiques
+                      </div>
+                      <div style={{ fontSize: 12, color: "#64748B", marginTop: 2 }}>
+                        Permet de définir des prix, stocks et références distincts selon la capacité, le grade, la taille, la RAM, la couleur, etc.
+                      </div>
+                    </div>
+                    <label style={{ display: "inline-flex", alignItems: "center", cursor: "pointer", position: "relative" }}>
+                      <input
+                        type="checkbox"
+                        checked={hasVariants}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          setHasVariants(checked);
+                          if (checked && attributesDefinition.length === 0) {
+                            handleLoadCategoryPreset();
+                          }
+                        }}
+                        style={{ width: 20, height: 20, cursor: "pointer", accentColor: "#16A34A" }}
+                      />
+                    </label>
+                  </div>
+
+                  {/* PRESET SHORTCUTS BAR */}
+                  <div style={{ background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 14, padding: 14 }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ fontSize: 11.5, fontWeight: 700, color: "#1E40AF", textTransform: "uppercase", letterSpacing: 0.5, display: "flex", alignItems: "center", gap: 6 }}>
+                        <Wand2 style={{ width: 14, height: 14 }} />
+                        Modèles Prédéfinis Intelligents (Presets) :
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                      {[
+                        { key: "phones", label: "📱 Téléphones (Capacité/Grade/Couleur/SIM)" },
+                        { key: "tablets", label: "📟 iPad / Tablettes (Pouces/Puce/Capacité)" },
+                        { key: "laptops", label: "💻 MacBook / PC (Pouces/Puce/RAM/SSD)" },
+                        { key: "clothing", label: "👕 Vêtements (Profil/Taille/Couleur)" },
+                        { key: "shoes", label: "👟 Chaussures (Pointures 36-48)" },
+                        { key: "beauty", label: "💄 Beauté (Contenance/Teinte)" },
+                        { key: "home", label: "🏠 Maison / Cuisine" },
+                      ].map((preset) => (
+                        <button
+                          key={preset.key}
+                          type="button"
+                          onClick={() => handleLoadCategoryPreset(preset.key)}
+                          style={{
+                            background: "#FFFFFF",
+                            border: "1px solid #93C5FD",
+                            color: "#1D4ED8",
+                            padding: "5px 10px",
+                            borderRadius: 8,
+                            fontSize: 11.5,
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            transition: "all 0.15s ease"
+                          }}
+                        >
+                          {preset.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* SECTION 1: ATTRIBUTES BUILDER */}
+                  <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 14, padding: 16 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: "#0F172A", marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span>1. Attributs du Produit ({attributesDefinition.length})</span>
+                      <span style={{ fontSize: 11.5, color: "#64748B", fontWeight: 400 }}>
+                        Ajoutez ou personnalisez les caractéristiques disponibles
+                      </span>
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                      {attributesDefinition.map((attr, attrIdx) => (
+                        <div
+                          key={attrIdx}
+                          style={{
+                            background: "#F8FAFC",
+                            border: "1px solid #E2E8F0",
+                            borderRadius: 12,
+                            padding: 12,
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 8
+                          }}
+                        >
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                              <span style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", background: "#E2E8F0", padding: "2px 8px", borderRadius: 6 }}>
+                                {attr.name}
+                              </span>
+                              <span style={{ fontSize: 11, color: "#64748B" }}>
+                                ({attr.values.length} valeur{attr.values.length > 1 ? "s" : ""})
+                              </span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveAttribute(attrIdx)}
+                              style={{ background: "transparent", border: "none", color: "#EF4444", fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}
+                            >
+                              <Trash2 style={{ width: 13, height: 13 }} /> Supprimer
+                            </button>
+                          </div>
+
+                          {/* VALUES CHIPS */}
+                          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+                            {attr.values.map((val, valIdx) => (
+                              <span
+                                key={valIdx}
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: 4,
+                                  background: "#FFFFFF",
+                                  border: "1px solid #CBD5E1",
+                                  padding: "3px 8px",
+                                  borderRadius: 6,
+                                  fontSize: 11.5,
+                                  fontWeight: 600,
+                                  color: "#334155"
+                                }}
+                              >
+                                {val}
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveAttributeValue(attr.name, val)}
+                                  style={{ background: "transparent", border: "none", color: "#94A3B8", cursor: "pointer", padding: 0, display: "flex" }}
+                                >
+                                  <X style={{ width: 12, height: 12 }} />
+                                </button>
+                              </span>
+                            ))}
+
+                            {/* ADD CUSTOM VALUE TO THIS ATTRIBUTE */}
+                            <div style={{ display: "inline-flex", gap: 4, alignItems: "center" }}>
+                              <input
+                                type="text"
+                                placeholder="+ Ajouter une valeur..."
+                                value={newAttrValueInput[attr.name] || ""}
+                                onChange={(e) => setNewAttrValueInput({ ...newAttrValueInput, [attr.name]: e.target.value })}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    handleAddAttributeValue(attr.name);
+                                  }
+                                }}
+                                style={{
+                                  border: "1px solid #CBD5E1",
+                                  borderRadius: 6,
+                                  padding: "3px 8px",
+                                  fontSize: 11.5,
+                                  width: 140,
+                                  background: "#FFFFFF"
+                                }}
+                              />
+                              <button
+                                type="button"
+                                onClick={() => handleAddAttributeValue(attr.name)}
+                                style={{
+                                  background: "#0F172A",
+                                  color: "#FFF",
+                                  border: "none",
+                                  borderRadius: 6,
+                                  padding: "4px 8px",
+                                  fontSize: 11,
+                                  fontWeight: 600,
+                                  cursor: "pointer"
+                                }}
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+
+                      {/* ADD NEW ATTRIBUTE FIELD */}
+                      <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
+                        <input
+                          type="text"
+                          placeholder="Nom de l'attribut (ex: RAM, Matière, Puce, etc.)"
+                          value={newAttrInputName}
+                          onChange={(e) => setNewAttrInputName(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              handleAddAttribute();
+                            }
+                          }}
+                          className="admin-input"
+                          style={{ flex: 1, fontSize: 12 }}
+                        />
+                        <button
+                          type="button"
+                          onClick={handleAddAttribute}
+                          style={{
+                            background: "#0F172A",
+                            color: "#FFFFFF",
+                            border: "none",
+                            padding: "0 16px",
+                            borderRadius: 10,
+                            fontSize: 12,
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 6
+                          }}
+                        >
+                          <Plus style={{ width: 14, height: 14 }} /> Ajouter l'attribut
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* GENERATE VARIANTS MATRIX BUTTON */}
+                    <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid #E2E8F0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div style={{ fontSize: 12, color: "#64748B" }}>
+                        Attributs configurés : <strong>{attributesDefinition.filter((a) => a.values.length > 0).length}</strong>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleGenerateVariantsMatrix}
+                        style={{
+                          background: "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)",
+                          color: "#FFFFFF",
+                          border: "none",
+                          padding: "10px 18px",
+                          borderRadius: 10,
+                          fontSize: 13,
+                          fontWeight: 700,
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 8,
+                          boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25)"
+                        }}
+                      >
+                        <Zap style={{ width: 16, height: 16 }} />
+                        Générer / Synchroniser la Matrice des Variantes
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* SECTION 2: VARIANTS MATRIX TABLE */}
+                  {variants.length > 0 && (
+                    <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 14, padding: 16 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 10 }}>
+                        <div>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A" }}>
+                            2. Matrice des Variantes Générées ({variants.length} combinaisons)
+                          </div>
+                          <div style={{ fontSize: 11.5, color: "#64748B" }}>
+                            Personnalisez le prix, le stock et le SKU pour chaque combinaison spécifique.
+                          </div>
+                        </div>
+
+                        {/* BATCH ACTIONS BAR */}
+                        <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
+                          {/* Batch Price */}
+                          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                            <input
+                              type="number"
+                              placeholder="Prix unitaire..."
+                              value={batchPriceInput}
+                              onChange={(e) => setBatchPriceInput(e.target.value)}
+                              style={{ width: 100, fontSize: 11, padding: "4px 6px", border: "1px solid #CBD5E1", borderRadius: 6 }}
+                            />
+                            <button
+                              type="button"
+                              onClick={handleBatchApplyPrices}
+                              style={{ background: "#F1F5F9", border: "1px solid #CBD5E1", padding: "4px 8px", borderRadius: 6, fontSize: 10.5, fontWeight: 700, cursor: "pointer" }}
+                            >
+                              Appliquer Prix
+                            </button>
+                          </div>
+
+                          {/* Batch Stock */}
+                          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                            <input
+                              type="number"
+                              placeholder="Stock..."
+                              value={batchStockInput}
+                              onChange={(e) => setBatchStockInput(e.target.value)}
+                              style={{ width: 75, fontSize: 11, padding: "4px 6px", border: "1px solid #CBD5E1", borderRadius: 6 }}
+                            />
+                            <button
+                              type="button"
+                              onClick={handleBatchApplyStock}
+                              style={{ background: "#F1F5F9", border: "1px solid #CBD5E1", padding: "4px 8px", borderRadius: 6, fontSize: 10.5, fontWeight: 700, cursor: "pointer" }}
+                            >
+                              Appliquer Stock
+                            </button>
+                          </div>
+
+                          {/* Toggle Active All */}
+                          <button
+                            type="button"
+                            onClick={() => handleBatchToggleAllActive(true)}
+                            style={{ background: "#DCFCE7", color: "#166534", border: "1px solid #86EFAC", padding: "4px 8px", borderRadius: 6, fontSize: 10.5, fontWeight: 700, cursor: "pointer" }}
+                          >
+                            Activer tout
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* MATRIX TABLE */}
+                      <div style={{ overflowX: "auto", maxHeight: 400, border: "1px solid #E2E8F0", borderRadius: 10 }}>
+                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, textAlign: "left" }}>
+                          <thead style={{ background: "#F8FAFC", position: "sticky", top: 0, zIndex: 2 }}>
+                            <tr style={{ borderBottom: "1px solid #E2E8F0" }}>
+                              <th style={{ padding: "8px 12px", fontWeight: 700, color: "#475569" }}>Combinaison / Options</th>
+                              <th style={{ padding: "8px 10px", fontWeight: 700, color: "#475569", width: 130 }}>SKU / Réf</th>
+                              <th style={{ padding: "8px 10px", fontWeight: 700, color: "#475569", width: 120 }}>Prix (1 art) *</th>
+                              <th style={{ padding: "8px 10px", fontWeight: 700, color: "#475569", width: 120 }}>Prix Gros (≥5)</th>
+                              <th style={{ padding: "8px 10px", fontWeight: 700, color: "#475569", width: 90 }}>Stock *</th>
+                              <th style={{ padding: "8px 10px", fontWeight: 700, color: "#475569", width: 80 }}>Actif</th>
+                              <th style={{ padding: "8px 8px", width: 36 }}></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {variants.map((v, vIdx) => (
+                              <tr
+                                key={v.id || vIdx}
+                                style={{
+                                  borderBottom: "1px solid #F1F5F9",
+                                  background: v.is_active ? "#FFFFFF" : "#F8FAFC",
+                                  opacity: v.is_active ? 1 : 0.6
+                                }}
+                              >
+                                {/* COMBINATION CHIPS */}
+                                <td style={{ padding: "8px 12px" }}>
+                                  <div style={{ fontWeight: 700, color: "#0F172A", marginBottom: 2 }}>
+                                    {v.title || Object.values(v.attributes).join(" • ")}
+                                  </div>
+                                  <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                                    {Object.entries(v.attributes).map(([k, val]) => (
+                                      <span
+                                        key={k}
+                                        style={{
+                                          fontSize: 10,
+                                          background: "#EFF6FF",
+                                          color: "#1D4ED8",
+                                          padding: "1px 5px",
+                                          borderRadius: 4,
+                                          border: "1px solid #DBEAFE"
+                                        }}
+                                      >
+                                        {k}: {val}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </td>
+
+                                {/* SKU */}
+                                <td style={{ padding: "8px 10px" }}>
+                                  <input
+                                    type="text"
+                                    value={v.sku || ""}
+                                    onChange={(e) => handleUpdateVariantField(v.id, "sku", e.target.value)}
+                                    style={{ width: "100%", padding: "4px 6px", fontSize: 11, border: "1px solid #CBD5E1", borderRadius: 6 }}
+                                  />
+                                </td>
+
+                                {/* PRICE */}
+                                <td style={{ padding: "8px 10px" }}>
+                                  <input
+                                    type="number"
+                                    min={0}
+                                    value={v.price}
+                                    onChange={(e) => handleUpdateVariantField(v.id, "price", Number(e.target.value))}
+                                    style={{ width: "100%", padding: "4px 6px", fontSize: 11.5, fontWeight: 700, color: "#0F172A", border: "1px solid #CBD5E1", borderRadius: 6 }}
+                                  />
+                                </td>
+
+                                {/* WHOLESALE PRICE (5+) */}
+                                <td style={{ padding: "8px 10px" }}>
+                                  <input
+                                    type="number"
+                                    min={0}
+                                    placeholder="Optionnel"
+                                    value={v.wholesale_price_5_units || ""}
+                                    onChange={(e) => handleUpdateVariantField(v.id, "wholesale_price_5_units", e.target.value ? Number(e.target.value) : null)}
+                                    style={{ width: "100%", padding: "4px 6px", fontSize: 11.5, fontWeight: 700, color: "#166534", border: "1px solid #86EFAC", background: "#F0FDF4", borderRadius: 6 }}
+                                  />
+                                </td>
+
+                                {/* STOCK */}
+                                <td style={{ padding: "8px 10px" }}>
+                                  <input
+                                    type="number"
+                                    min={0}
+                                    value={v.stock_quantity}
+                                    onChange={(e) => handleUpdateVariantField(v.id, "stock_quantity", Number(e.target.value))}
+                                    style={{ width: "100%", padding: "4px 6px", fontSize: 11.5, fontWeight: 700, color: "#0F172A", border: "1px solid #CBD5E1", borderRadius: 6 }}
+                                  />
+                                </td>
+
+                                {/* ACTIVE TOGGLE */}
+                                <td style={{ padding: "8px 10px", textAlign: "center" }}>
+                                  <input
+                                    type="checkbox"
+                                    checked={v.is_active}
+                                    onChange={(e) => handleUpdateVariantField(v.id, "is_active", e.target.checked)}
+                                    style={{ width: 16, height: 16, cursor: "pointer", accentColor: "#16A34A" }}
+                                  />
+                                </td>
+
+                                {/* DELETE VARIANT */}
+                                <td style={{ padding: "8px 8px" }}>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleRemoveVariant(v.id)}
+                                    style={{ background: "transparent", border: "none", color: "#EF4444", cursor: "pointer", padding: 2 }}
+                                    title="Retirer cette combinaison"
+                                  >
+                                    <Trash2 style={{ width: 14, height: 14 }} />
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      {/* SUMMARY BANNER */}
+                      <div style={{ marginTop: 12, background: "#F0FDF4", border: "1px solid #86EFAC", padding: "8px 12px", borderRadius: 8, display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 12 }}>
+                        <span style={{ color: "#166534", fontWeight: 700 }}>
+                          ✓ {variants.filter((v) => v.is_active).length} variantes actives sur {variants.length}
+                        </span>
+                        <span style={{ color: "#166534" }}>
+                          Stock cumulé calculé : <strong>{variants.filter((v) => v.is_active).reduce((sum, v) => sum + (Number(v.stock_quantity) || 0), 0)} unités</strong>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* TAB 3: PRICE, CARGOLINK MARGIN % & FREIGHT (NEW FEATURE) */}
               {activeTab === "pricing" && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                   <div style={{ background: "#EFF6FF", border: "1px solid #BFDBFE", padding: 14, borderRadius: 12 }}>

@@ -181,6 +181,9 @@ function mapLocalProductToCatalogProduct(p: any): Product {
     storage_options: p.storageOptions || null,
     battery_health: p.batteryHealth || null,
     driveFolderUrl: p.driveFolderUrl || null,
+    has_variants: (p as any).has_variants ?? (p as any).hasVariants ?? Boolean((p as any).variants && (p as any).variants.length > 0),
+    attributes_definition: (p as any).attributes_definition ?? (p as any).attributesDefinition ?? null,
+    variants: (p as any).variants ?? null,
     images: rawImages.map((url: string, i: number) => ({
       id: `img-${p.id}-${i}`,
       product_id: p.id,

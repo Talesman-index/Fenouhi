@@ -352,6 +352,16 @@ export async function POST(request: NextRequest) {
         status: product.status || "active",
         is_demo: product.is_demo ?? false,
         is_featured: product.is_featured ?? true,
+        has_variants: product.has_variants ?? false,
+        attributes_definition: product.attributes_definition ?? null,
+        variants: product.variants ?? null,
+        condition_state: product.condition_state ?? null,
+        grade: product.grade ?? null,
+        sim_type: product.sim_type ?? null,
+        region_version: product.region_version ?? null,
+        storage_options: product.storage_options ?? null,
+        battery_health: product.battery_health ?? null,
+        driveFolderUrl: product.driveFolderUrl ?? null,
         updated_at: new Date().toISOString()
       };
 
