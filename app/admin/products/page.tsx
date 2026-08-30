@@ -584,79 +584,129 @@ export default function ProductsManagementPage() {
   };
 
   const openEditModal = (product: Product) => {
-    setEditingProduct(product);
-    setActiveTab("info");
-    setName(product.name);
-    setSlug(product.slug);
-    setShortDescription(product.short_description || "");
-    setDescription(product.description || "");
-    setCategoryId(product.category_id || categories[0]?.id || "");
-    setSubcategory(product.subcategory || "");
-    setPrice(product.price);
-    setWholesalePrice5(product.wholesale_price_5_units ? Number(product.wholesale_price_5_units) : 0);
-    setCargolinkMarginPercent(product.cargolink_margin_percent !== undefined && product.cargolink_margin_percent !== null ? product.cargolink_margin_percent : 10);
-    setAirFreightRatePerKg(product.air_freight_rate_per_kg !== undefined && product.air_freight_rate_per_kg !== null ? Number(product.air_freight_rate_per_kg) : 0);
-    setSeaFreightRatePerCbm(product.sea_freight_rate_per_cbm !== undefined && product.sea_freight_rate_per_cbm !== null ? Number(product.sea_freight_rate_per_cbm) : 0);
-    setCurrency(product.currency || "FCFA");
-    setStockQuantity(product.stock_quantity);
-    setMinimumOrderQuantity(product.minimum_order_quantity);
-    setCountryOfOrigin(product.country_of_origin || "Hub Asie & International");
-    setWeight(product.weight || 0.5);
-    setLength(product.length || 10);
-    setWidth(product.width || 8);
-    setHeight(product.height || 5);
-    setAvailableShippingModes(product.available_shipping_modes || ["air", "sea"]);
-    setEstimatedDeliveryTime(product.estimated_delivery_time || "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)");
-    setStatus(product.status);
-    setIsDemo(product.is_demo);
-    setIsFeatured(product.is_featured);
+    try {
+      setEditingProduct(product);
+      setActiveTab("info");
+      setName(product.name || "");
+      setSlug(product.slug || "");
+      setShortDescription(product.short_description || "");
+      setDescription(product.description || "");
+      setCategoryId(product.category_id || (product.category as any)?.id || categories[0]?.id || "");
+      setSubcategory(product.subcategory || "");
+      setPrice(Number(product.price) || 0);
+      setWholesalePrice5(product.wholesale_price_5_units ? Number(product.wholesale_price_5_units) : 0);
+      setCargolinkMarginPercent(product.cargolink_margin_percent !== undefined && product.cargolink_margin_percent !== null ? Number(product.cargolink_margin_percent) : 10);
+      setAirFreightRatePerKg(product.air_freight_rate_per_kg !== undefined && product.air_freight_rate_per_kg !== null ? Number(product.air_freight_rate_per_kg) : 0);
+      setSeaFreightRatePerCbm(product.sea_freight_rate_per_cbm !== undefined && product.sea_freight_rate_per_cbm !== null ? Number(product.sea_freight_rate_per_cbm) : 0);
+      setCurrency(product.currency || "FCFA");
+      setStockQuantity(product.stock_quantity ?? 100);
+      setMinimumOrderQuantity(product.minimum_order_quantity ?? 1);
+      setCountryOfOrigin(product.country_of_origin || "Hub Asie & International");
+      setWeight(Number(product.weight) || 0.5);
+      setLength(Number(product.length) || 10);
+      setWidth(Number(product.width) || 8);
+      setHeight(Number(product.height) || 5);
+      setAvailableShippingModes(product.available_shipping_modes || ["air", "sea"]);
+      setEstimatedDeliveryTime(product.estimated_delivery_time || "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)");
+      setStatus(product.status || "active");
+      setIsDemo(Boolean(product.is_demo));
+      setIsFeatured(Boolean(product.is_featured));
 
-    const isVar = Boolean(product.has_variants || (product.variants && product.variants.length > 0));
-    setHasVariants(isVar);
+      const isVar = Boolean(product.has_variants || (product.variants && product.variants.length > 0));
+      setHasVariants(isVar);
 
-    // Infer product type
-    const query = `${product.category?.slug || ""} ${product.name}`.toLowerCase();
-    let detectedType = "other";
-    if (query.includes("phone") || query.includes("iphone") || query.includes("samsung")) detectedType = "phones";
-    else if (query.includes("ipad") || query.includes("tab")) detectedType = "tablets";
-    else if (query.includes("mac") || query.includes("laptop") || query.includes("pc")) detectedType = "laptops";
-    else if (query.includes("robe") || query.includes("shirt") || query.includes("vetement") || query.includes("vêtement")) detectedType = "clothing";
-    else if (query.includes("chaussure") || query.includes("sneaker")) detectedType = "shoes";
-    setSelectedProductType(detectedType);
+      // Infer product type
+      const query = `${product.category?.slug || (product.category as any)?.name || ""} ${product.name || ""}`.toLowerCase();
+      let detectedType = "other";
+      if (query.includes("phone") || query.includes("iphone") || query.includes("samsung") || query.includes("téléphone")) detectedType = "phones";
+      else if (query.includes("ipad") || query.includes("tab") || query.includes("tablette")) detectedType = "tablets";
+      else if (query.includes("mac") || query.includes("laptop") || query.includes("pc") || query.includes("ordinateur")) detectedType = "laptops";
+      else if (query.includes("robe") || query.includes("shirt") || query.includes("vetement") || query.includes("vêtement")) detectedType = "clothing";
+      else if (query.includes("chaussure") || query.includes("sneaker") || query.includes("basket") || query.includes("shoe")) detectedType = "shoes";
+      setSelectedProductType(detectedType);
 
-    const existingDefs = product.attributes_definition && product.attributes_definition.length > 0
-      ? product.attributes_definition
-      : getPresetAttributesForCategory(detectedType, product.name);
-    setAttributesDefinition(existingDefs);
+      // Parse & normalize variants safely
+      const parsedVariants: ProductVariant[] = Array.isArray(product.variants)
+        ? product.variants.map((v: any, idx) => {
+            let attrs = v.attributes || {};
+            if (typeof attrs === "string") {
+              try { attrs = JSON.parse(attrs); } catch {}
+            }
+            return {
+              id: String(v.id || `var_${idx}_${Date.now()}`),
+              sku: String(v.sku || `SKU-${idx + 1}`),
+              title: String(v.title || Object.values(attrs || {}).join(" • ") || `Variante ${idx + 1}`),
+              attributes: typeof attrs === "object" && attrs !== null ? attrs : {},
+              price: Number(v.price) || Number(product.price) || 0,
+              wholesale_price_5_units: v.wholesale_price_5_units ? Number(v.wholesale_price_5_units) : null,
+              stock_quantity: Number(v.stock_quantity) || 0,
+              is_active: v.is_active !== false,
+              image_url: v.image_url || null,
+            };
+          })
+        : [];
 
-    const initChecked: Record<string, string[]> = {};
-    if (product.variants && product.variants.length > 0) {
-      existingDefs.forEach((attr) => {
-        const uniqueInVars = Array.from(new Set(product.variants!.map((v) => v.attributes[attr.name]).filter(Boolean)));
-        initChecked[attr.name] = uniqueInVars.length > 0 ? uniqueInVars : attr.values;
-      });
-    } else {
-      existingDefs.forEach((attr) => {
-        initChecked[attr.name] = attr.values;
-      });
-    }
-    setCheckedOptions(initChecked);
-    setVariants(product.variants || []);
-
-    const primaryImgUrl = getProductImageUrl(product);
-    setImageUrl(primaryImgUrl);
-
-    const rawGallery = (product.images || []).slice(1).map((img) => img.public_image_url);
-    const seen = new Set<string>([primaryImgUrl]);
-    const uniqueGallery: string[] = [];
-    for (const url of rawGallery) {
-      if (url && !seen.has(url)) {
-        seen.add(url);
-        uniqueGallery.push(url);
+      // Parse attribute definitions safely
+      let parsedDefs: ProductAttributeDefinition[] = [];
+      if (Array.isArray(product.attributes_definition) && product.attributes_definition.length > 0) {
+        parsedDefs = product.attributes_definition
+          .map((a: any) => ({
+            name: String(a.name || "").trim(),
+            values: Array.isArray(a.values) ? a.values.map(String) : [],
+          }))
+          .filter((a) => a.name !== "");
       }
+
+      if (parsedDefs.length === 0) {
+        if (parsedVariants.length > 0) {
+          const keys = Array.from(new Set(parsedVariants.flatMap((v) => Object.keys(v.attributes || {}))));
+          parsedDefs = keys.map((k) => ({
+            name: k,
+            values: Array.from(new Set(parsedVariants.map((v) => v.attributes?.[k]).filter(Boolean))),
+          }));
+        } else {
+          parsedDefs = getPresetAttributesForCategory(detectedType, product.name);
+        }
+      }
+
+      setAttributesDefinition(parsedDefs);
+
+      const initChecked: Record<string, string[]> = {};
+      if (parsedVariants.length > 0) {
+        parsedDefs.forEach((attr) => {
+          const uniqueInVars = Array.from(
+            new Set(parsedVariants.map((v) => v.attributes?.[attr.name]).filter(Boolean))
+          );
+          initChecked[attr.name] = uniqueInVars.length > 0 ? uniqueInVars : attr.values;
+        });
+      } else {
+        parsedDefs.forEach((attr) => {
+          initChecked[attr.name] = attr.values;
+        });
+      }
+      setCheckedOptions(initChecked);
+      setVariants(parsedVariants);
+
+      const primaryImgUrl = getProductImageUrl(product);
+      setImageUrl(primaryImgUrl);
+
+      const rawGallery = (product.images || []).slice(1).map((img: any) =>
+        typeof img === "string" ? img : (img?.public_image_url || img?.url || "")
+      );
+      const seen = new Set<string>([primaryImgUrl]);
+      const uniqueGallery: string[] = [];
+      for (const url of rawGallery) {
+        if (url && typeof url === "string" && !seen.has(url)) {
+          seen.add(url);
+          uniqueGallery.push(url);
+        }
+      }
+      setGalleryUrls(uniqueGallery);
+    } catch (err) {
+      console.error("Error in openEditModal:", err);
+    } finally {
+      setIsModalOpen(true);
     }
-    setGalleryUrls(uniqueGallery);
-    setIsModalOpen(true);
   };
 
   const handleSaveProduct = async (e: React.FormEvent) => {
