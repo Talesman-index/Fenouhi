@@ -425,7 +425,9 @@ export default function ProductsManagementPage() {
     // Pre-check reasonable defaults per characteristic
     const initialChecked: Record<string, string[]> = {};
     preset.forEach((attr) => {
-      if (attr.name === "Pointure") {
+      if (attr.name === "Modèle") {
+        initialChecked[attr.name] = ["Simple", "Pro", "Pro Max"].filter((p) => attr.values.includes(p));
+      } else if (attr.name === "Pointure") {
         initialChecked[attr.name] = ["39", "40", "41", "42", "43"].filter((p) => attr.values.includes(p));
       } else if (attr.name === "Profil") {
         initialChecked[attr.name] = ["Adulte"].filter((p) => attr.values.includes(p));

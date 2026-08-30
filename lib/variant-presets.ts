@@ -15,8 +15,12 @@ export const CATEGORY_VARIANT_TEMPLATES: CategoryVariantTemplate[] = [
     matchKeywords: ["phone", "iphone", "téléphone", "telephone", "smartphone", "samsung", "redmi", "xiaomi", "pixel", "huawei", "infinix", "tecno"],
     attributes: [
       {
+        name: "Modèle",
+        values: ["Simple", "Plus", "Pro", "Pro Max"],
+      },
+      {
         name: "Capacité",
-        values: ["64 Go", "128 Go", "256 Go", "512 Go", "1 To"],
+        values: ["128 Go", "256 Go", "512 Go", "1 To", "64 Go"],
       },
       {
         name: "État",
