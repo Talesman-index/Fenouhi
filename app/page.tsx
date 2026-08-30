@@ -725,6 +725,8 @@ export default function HomePage() {
                   grade={p.grade}
                   simType={p.sim_type}
                   regionVersion={p.region_version}
+                  hasVariants={p.has_variants || Boolean(p.variants && p.variants.length > 0)}
+                  variantsCount={p.variants?.length || 0}
                   stockLeft={15}
                   rating="4.8"
                   reviewsCount={201}
@@ -862,12 +864,14 @@ export default function HomePage() {
                       price: `${Number(custom.price).toLocaleString()} ${custom.currency || "FCFA"}`,
                       image: getProductImageUrl(custom),
                       category: custom.category?.name || d.category,
+                      hasVariants: custom.has_variants || Boolean(custom.variants && custom.variants.length > 0),
+                      variantsCount: custom.variants?.length || 0,
                     };
                   }
                   return d;
                 });
 
-              return visibleDeals.map((p) => (
+              return visibleDeals.map((p: any) => (
                 <ProductCard
                   key={p.id}
                   id={p.id}
@@ -879,6 +883,8 @@ export default function HomePage() {
                   stockLeft={p.stockLeft}
                   rating={p.rating}
                   reviewsCount={p.reviewsCount}
+                  hasVariants={p.hasVariants}
+                  variantsCount={p.variantsCount}
                 />
               ));
             })()}

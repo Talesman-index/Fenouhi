@@ -21,6 +21,8 @@ interface ProductCardProps {
   simType?: string | null;
   regionVersion?: string | null;
   wholesalePrice5?: string | number | null;
+  hasVariants?: boolean;
+  variantsCount?: number;
 }
 
 export default function ProductCard({
@@ -39,6 +41,8 @@ export default function ProductCard({
   simType,
   regionVersion,
   wholesalePrice5,
+  hasVariants = false,
+  variantsCount = 0,
 }: ProductCardProps) {
   const [hovered, setHovered] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
@@ -194,6 +198,30 @@ export default function ProductCard({
               (e.target as HTMLImageElement).src = "/images/assets/iphone16_white.png";
             }}
           />
+
+          {/* VARIANT CHOICES BADGE */}
+          {hasVariants && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: 8,
+                left: 8,
+                background: "rgba(15, 23, 42, 0.88)",
+                backdropFilter: "blur(4px)",
+                color: "#FFFFFF",
+                fontSize: 9.5,
+                fontWeight: 700,
+                padding: "2px 7px",
+                borderRadius: 6,
+                zIndex: 10,
+                display: "flex",
+                alignItems: "center",
+                gap: 4,
+              }}
+            >
+              <span>⚡ Options disponibles</span>
+            </div>
+          )}
         </div>
 
         {/* 2. CATEGORY LABEL */}
@@ -312,45 +340,66 @@ export default function ProductCard({
         </div>
       </div>
 
-      {/* 6. FULL-WIDTH 'AJOUTER AU PANIER' BUTTON */}
-      <button
-        onClick={handleAddToCart}
-        type="button"
-        style={{
-          width: "100%",
-          padding: "10px 14px",
-          borderRadius: 999,
-          background: justAdded ? "#15803D" : "#0D2B4D",
-          color: "#FFFFFF",
-          border: "none",
-          fontSize: 12.5,
-          fontWeight: 800,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 7,
-          cursor: "pointer",
-          boxShadow: justAdded
-            ? "0 4px 14px rgba(21, 128, 61, 0.35)"
-            : "0 4px 14px rgba(13, 43, 77, 0.25)",
-          transition: "all 0.18s ease",
-          fontFamily: "'Plus Jakarta Sans', sans-serif",
-        }}
-      >
-        {justAdded ? (
-          <>
-            <Check style={{ width: 14, height: 14 }} />
-            <span>Ajouté !</span>
-          </>
-        ) : (
-          <>
-            <ShoppingCart style={{ width: 14, height: 14, color: "#7CB6D9" }} />
-            <span>Ajouter au Panier</span>
-          </>
-        )}
-      </button>
+      {/* 6. FULL-WIDTH 'AJOUTER AU PANIER' OR 'CHOISIR LES OPTIONS' BUTTON */}
+      {hasVariants ? (
+        <div
+          style={{
+            width: "100%",
+            padding: "10px 14px",
+            borderRadius: 999,
+            background: "#0D2B4D",
+            color: "#FFFFFF",
+            border: "none",
+            fontSize: 12.5,
+            fontWeight: 800,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 7,
+            boxShadow: "0 4px 14px rgba(13, 43, 77, 0.25)",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+          }}
+        >
+          <span>Choisir les options ➔</span>
+        </div>
+      ) : (
+        <button
+          onClick={handleAddToCart}
+          type="button"
+          style={{
+            width: "100%",
+            padding: "10px 14px",
+            borderRadius: 999,
+            background: justAdded ? "#15803D" : "#0D2B4D",
+            color: "#FFFFFF",
+            border: "none",
+            fontSize: 12.5,
+            fontWeight: 800,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 7,
+            cursor: "pointer",
+            boxShadow: justAdded
+              ? "0 4px 14px rgba(21, 128, 61, 0.35)"
+              : "0 4px 14px rgba(13, 43, 77, 0.25)",
+            transition: "all 0.18s ease",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+          }}
+        >
+          {justAdded ? (
+            <>
+              <Check style={{ width: 14, height: 14 }} />
+              <span>Ajouté !</span>
+            </>
+          ) : (
+            <>
+              <ShoppingCart style={{ width: 14, height: 14, color: "#7CB6D9" }} />
+              <span>Ajouter au Panier</span>
+            </>
+          )}
+        </button>
+      )}
     </Link>
   );
 }
-
-

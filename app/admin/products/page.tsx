@@ -696,10 +696,41 @@ export default function ProductsManagementPage() {
     const effectiveDescription = description?.trim() || `Découvrez ${name}, disponible au meilleur prix avec contrôle qualité rigoureux et garantie Fenouhi.`;
     const finalSlug = slug.trim() || generateSlug(name);
 
+    // 1. Compute effective variants & attributes
+    let finalVariants = variants;
+    let finalAttributesDef = attributesDefinition;
+
+    if (hasVariants && (!finalVariants || finalVariants.length === 0)) {
+      const activeDefs = attributesDefinition
+        .map((attr) => ({
+          name: attr.name,
+          values: (checkedOptions[attr.name] || []).filter((v) => v.trim() !== ""),
+        }))
+        .filter((attr) => attr.values.length > 0);
+
+      if (activeDefs.length > 0) {
+        finalVariants = generateCartesianVariants(
+          activeDefs,
+          Number(price),
+          Number(wholesalePrice5) > 0 ? Number(wholesalePrice5) : null,
+          Number(stockQuantity) > 0 ? Math.round(Number(stockQuantity) / Math.max(1, activeDefs.length)) : 10,
+          finalSlug
+        );
+        finalAttributesDef = activeDefs;
+      }
+    }
+
+    const hasEffectiveVariants = Boolean(hasVariants && finalVariants && finalVariants.length > 0);
+
     // Calculated Stock from active variants if enabled
-    const calculatedStock = (hasVariants && variants.length > 0)
-      ? variants.filter((v) => v.is_active).reduce((sum, v) => sum + (Number(v.stock_quantity) || 0), 0)
+    const calculatedStock = hasEffectiveVariants
+      ? finalVariants.filter((v) => v.is_active).reduce((sum, v) => sum + (Number(v.stock_quantity) || 0), 0)
       : Number(stockQuantity ?? 100);
+
+    // Active base unit price from lowest active variant
+    const effectiveBasePrice = hasEffectiveVariants
+      ? Math.min(...finalVariants.filter((v) => v.is_active && Number(v.price) > 0).map((v) => Number(v.price)), Number(price))
+      : Number(price);
 
     setSaving(true);
     try {
@@ -713,7 +744,7 @@ export default function ProductsManagementPage() {
         description: effectiveDescription,
         category_id: categoryId || null,
         subcategory: subcategory || "Accessoires & Coques",
-        price: Number(price),
+        price: effectiveBasePrice,
         wholesale_price_5_units: Number(wholesalePrice5) > 0 ? Number(wholesalePrice5) : null,
         cargolink_margin_percent: Number(cargolinkMarginPercent ?? 10),
         air_freight_rate_per_kg: Number(airFreightRatePerKg ?? 0),
@@ -731,9 +762,9 @@ export default function ProductsManagementPage() {
         status: status || "active",
         is_demo: isDemo,
         is_featured: isFeatured,
-        has_variants: hasVariants && variants.length > 0,
-        attributes_definition: hasVariants ? attributesDefinition : null,
-        variants: hasVariants && variants.length > 0 ? variants : null,
+        has_variants: hasEffectiveVariants,
+        attributes_definition: hasEffectiveVariants ? finalAttributesDef : null,
+        variants: hasEffectiveVariants ? finalVariants : null,
         updated_at: new Date().toISOString()
       };
 

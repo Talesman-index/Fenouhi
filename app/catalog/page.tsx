@@ -370,6 +370,8 @@ function CatalogContent() {
                   grade={p.grade}
                   simType={p.sim_type}
                   regionVersion={p.region_version}
+                  hasVariants={p.has_variants || Boolean(p.variants && p.variants.length > 0)}
+                  variantsCount={p.variants?.length || 0}
                 />
               );
             })}
