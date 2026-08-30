@@ -187,7 +187,14 @@ export async function GET(request: NextRequest) {
         const catId = (p.category_id || "").toLowerCase();
         const catSlug = (p.category?.slug || "").toLowerCase();
         const catName = (p.category?.name || "").toLowerCase();
-        return catId === target || catSlug === target || catName === target;
+        return (
+          catId === target ||
+          catSlug === target ||
+          catName === target ||
+          (target === "electronics" && (catSlug === "electronics" || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque"))) ||
+          (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
+          (target === "sport" && (catSlug === "sport" || catName.includes("sport") || catName.includes("fitness")))
+        );
       });
     }
 

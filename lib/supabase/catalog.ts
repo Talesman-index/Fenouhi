@@ -42,7 +42,7 @@ export async function getCategories(): Promise<Category[]> {
       .order("name", { ascending: true });
 
     const timeoutPromise = new Promise<{ data: null; error: boolean }>((resolve) =>
-      setTimeout(() => resolve({ data: null, error: true }), 1000)
+      setTimeout(() => resolve({ data: null, error: true }), 1500)
     );
 
     const result: any = await Promise.race([fetchPromise, timeoutPromise]);
@@ -51,7 +51,13 @@ export async function getCategories(): Promise<Category[]> {
     if (error || !data || data.length === 0) {
       return FALLBACK_CATEGORIES;
     }
-    return data as Category[];
+    const dbList = data as Category[];
+    const dbSlugs = new Set(dbList.map((c) => (c.slug || "").toLowerCase()));
+    const dbIds = new Set(dbList.map((c) => (c.id || "").toLowerCase()));
+    const missing = FALLBACK_CATEGORIES.filter(
+      (fc) => !dbSlugs.has(fc.slug.toLowerCase()) && !dbIds.has(fc.id.toLowerCase())
+    );
+    return [...dbList, ...missing];
   } catch (err) {
     return FALLBACK_CATEGORIES;
   }
@@ -139,6 +145,7 @@ function mapLocalProductToCatalogProduct(p: any): Product {
   const matchedCat =
     FALLBACK_CATEGORIES.find((c) => c.slug === p.category || c.id === p.category) ||
     FALLBACK_CATEGORIES.find((c) => (p.category || "").toLowerCase().includes(c.slug.toLowerCase())) ||
+    FALLBACK_CATEGORIES.find((c) => ((p.category || "").toLowerCase().includes("sport") || (p.category || "").toLowerCase().includes("fitness")) && c.slug === "sport") ||
     null;
 
   const rawImages = (p.images || (p.image ? [p.image] : [])).filter(Boolean);
@@ -285,7 +292,8 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
           catSlug === target ||
           catName === target ||
           (target === "electronics" && (catSlug === "electronics" || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque"))) ||
-          (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin")))
+          (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
+          (target === "sport" && (catSlug === "sport" || catName.includes("sport") || catName.includes("fitness")))
         );
       });
     }
@@ -419,7 +427,8 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
           catSlug === target ||
           catName === target ||
           (target === "electronics" && (catSlug === "electronics" || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque"))) ||
-          (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin")))
+          (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
+          (target === "sport" && (catSlug === "sport" || catName.includes("sport") || catName.includes("fitness")))
         );
       });
     }

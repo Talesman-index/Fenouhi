@@ -117,7 +117,13 @@ export default function ProductsManagementPage() {
       const supabase = createClient();
       const { data } = await supabase.from("categories").select("*").order("name", { ascending: true });
       if (data && data.length > 0) {
-        setCategories(data as Category[]);
+        const dbList = data as Category[];
+        const dbSlugs = new Set(dbList.map((c) => (c.slug || "").toLowerCase()));
+        const dbIds = new Set(dbList.map((c) => (c.id || "").toLowerCase()));
+        const missing = FALLBACK_CATEGORIES.filter(
+          (fc) => !dbSlugs.has(fc.slug.toLowerCase()) && !dbIds.has(fc.id.toLowerCase())
+        );
+        setCategories([...dbList, ...missing]);
       } else {
         setCategories(FALLBACK_CATEGORIES);
       }
@@ -241,7 +247,8 @@ export default function ProductsManagementPage() {
             catSlug === target ||
             catName === target ||
             (target.includes("c1000000-0000-0000-0000-000000000003") && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
-            (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin")))
+            (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
+            (target === "sport" && (catSlug === "sport" || catName.includes("sport") || catName.includes("fitness")))
           );
         });
       }
