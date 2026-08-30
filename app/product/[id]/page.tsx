@@ -91,8 +91,8 @@ function ProductDetailContent() {
   if (!product) {
     return (
       <div style={{ padding: "80px 20px", textAlign: "center", background: "#FAF7F2", minHeight: "70vh" }}>
-        <h2 style={{ fontSize: 24, fontWeight: 700, color: "#0F172A", marginBottom: 12 }}>Produit Introuvable</h2>
-        <p style={{ color: "#64748B", marginBottom: 20 }}>L'article demandé n'existe pas ou a été déplacé.</p>
+        <h2 style={{ fontSize: 24, fontWeight: 700, color: "#0F172A", marginBottom: 12 }}>Produit Indisponible</h2>
+        <p style={{ color: "#64748B", marginBottom: 20 }}>Cet article n'est actuellement pas disponible ou a été retiré de la vente.</p>
         <Link href="/catalog" style={{ background: "#0F172A", color: "#FFF", padding: "12px 24px", borderRadius: 12, textDecoration: "none", fontWeight: 600 }}>
           Retour au Catalogue
         </Link>

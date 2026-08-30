@@ -137,13 +137,12 @@ export default function ProductsManagementPage() {
     try {
       const deletedIds = new Set(getStoredDeletedProductIds());
       const customProducts = getStoredCustomProducts();
-      const localProducts = getPublicProductsSync();
       const productMap = new Map<string, Product>();
 
-      // 1. Query Server API route /api/products (persisted in data/custom-products.json)
+      // 1. Query Server API route /api/products?admin=true (persisted in data/custom-products.json)
       let serverCustomProducts: Product[] = [];
       try {
-        const res = await fetch(`/api/products`, { cache: "no-store" });
+        const res = await fetch(`/api/products?admin=true`, { cache: "no-store" });
         if (res.ok) {
           const json = await res.json();
           if (json.deletedIds && Array.isArray(json.deletedIds)) {
@@ -153,13 +152,13 @@ export default function ProductsManagementPage() {
             mergedDel.forEach(id => deletedIds.add(id));
 
             const currentCustom = getStoredCustomProducts();
-            const cleanedCustom = currentCustom.filter(p => !deletedIds.has(p.id) && !deletedIds.has(p.slug));
+            const cleanedCustom = currentCustom.filter(p => !deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`));
             saveStoredCustomProducts(cleanedCustom);
           }
 
           if (json.products && json.products.length > 0) {
             for (const p of json.products) {
-              if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+              if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
                 productMap.set(p.id, p as Product);
                 if (p.id?.startsWith("custom_") || p.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === p.id)) {
                   serverCustomProducts.push(p as Product);
@@ -170,12 +169,12 @@ export default function ProductsManagementPage() {
         }
       } catch (e) {}
 
-      // 2. Add local custom products from client localStorage
+      // 2. Add local custom products from client localStorage (ensures instant sync)
       let hasNewLocalProductsToSync = false;
       const unSyncedProducts: Product[] = [];
 
       for (const p of customProducts) {
-        if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+        if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
           if (!productMap.has(p.id)) {
             hasNewLocalProductsToSync = true;
             unSyncedProducts.push(p);
@@ -217,8 +216,10 @@ export default function ProductsManagementPage() {
 
         if (dbProducts && dbProducts.length > 0) {
           for (const p of dbProducts) {
-            if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
-              productMap.set(p.id, p as Product);
+            if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
+              if (!productMap.has(p.id)) {
+                productMap.set(p.id, p as Product);
+              }
             }
           }
         }
@@ -226,10 +227,45 @@ export default function ProductsManagementPage() {
         // Fallback to local catalog
       }
 
-      // 4. Put remaining catalog products
-      for (const p of localProducts) {
-        if (!productMap.has(p.id) && !deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
-          productMap.set(p.id, p);
+      // 4. Put remaining base catalog products if not already edited or deleted
+      for (const raw of PRODUCTS) {
+        if (!productMap.has(raw.id) && !deletedIds.has(raw.id) && !deletedIds.has(`product-${raw.id}`)) {
+          const rawImages = (raw.images || (raw.image ? [raw.image] : [])).filter(Boolean);
+          if (rawImages.length === 0) rawImages.push("/images/assets/hero_iphone16.png");
+          const matchedCat = categories.find(c => c.slug === raw.category || c.id === raw.category) || { id: "cat_base", name: raw.category || "Catalogue", slug: raw.category || "general", is_active: true };
+
+          productMap.set(raw.id, {
+            id: raw.id,
+            name: raw.title,
+            slug: `product-${raw.id}`,
+            short_description: raw.subtitle || raw.description,
+            description: raw.description,
+            category_id: matchedCat.id || null,
+            subcategory: null,
+            price: raw.price,
+            cargolink_margin_percent: 10,
+            air_freight_rate_per_kg: 0,
+            sea_freight_rate_per_cbm: 0,
+            currency: "FCFA",
+            stock_quantity: 100,
+            minimum_order_quantity: raw.minQty || 1,
+            country_of_origin: raw.origin || "Hub International",
+            weight: parseFloat(raw.weight || "0.5"),
+            length: parseFloat(raw.volume || "0.01"),
+            available_shipping_modes: ["air", "sea"],
+            estimated_delivery_time: "5-15 jours (Air)",
+            status: "active",
+            is_demo: false,
+            is_featured: true,
+            images: rawImages.map((url: string, i: number) => ({
+              id: `img-${raw.id}-${i}`,
+              product_id: raw.id,
+              public_image_url: url,
+              position: i,
+              is_primary: i === 0,
+            })),
+            category: matchedCat
+          } as Product);
         }
       }
 
@@ -658,17 +694,26 @@ export default function ProductsManagementPage() {
 
   const handleToggleStatus = async (product: Product) => {
     const newStatus: ProductStatus = product.status === "active" ? "inactive" : "active";
-    const updatedProduct = { ...product, status: newStatus };
+    const updatedProduct: Product = {
+      ...product,
+      status: newStatus,
+      updated_at: new Date().toISOString()
+    };
     
     // 1. Update in custom products store
     const custom = getStoredCustomProducts();
-    const existingIndex = custom.findIndex((p) => p.id === product.id || p.slug === product.slug);
+    const existingIndex = custom.findIndex((p) => p.id === product.id || p.slug === product.slug || (p.id && product.id && `product-${p.id}` === product.id));
     if (existingIndex >= 0) {
       custom[existingIndex] = updatedProduct;
     } else {
       custom.unshift(updatedProduct);
     }
     saveStoredCustomProducts(custom);
+
+    // 2. Update UI state immediately
+    setProducts((prev) =>
+      prev.map((p) => (p.id === product.id || p.slug === product.slug ? updatedProduct : p))
+    );
 
     // Sync status with Server API route /api/products
     try {
@@ -679,11 +724,6 @@ export default function ProductsManagementPage() {
       });
     } catch {}
 
-    // 2. Update UI state immediately
-    setProducts((prev) =>
-      prev.map((p) => (p.id === product.id ? updatedProduct : p))
-    );
-
     addRealNotification({
       title: newStatus === "active" ? "Produit Publié en Boutique" : "Produit Dépublié (Inactif)",
       desc: `L'article "${product.name}" est passé au statut ${newStatus.toUpperCase()}.`,
@@ -692,13 +732,13 @@ export default function ProductsManagementPage() {
 
     showToast(
       newStatus === "active" ? "Produit Publié en Boutique" : "Produit Dépublié (Inactif)",
-      `Le statut de "${product.name}" a été mis à jour.`,
+      newStatus === "active" ? `"${product.name}" est maintenant visible sur la boutique.` : `"${product.name}" est désormais masqué de la boutique.`,
       newStatus === "active" ? "success" : "info"
     );
 
     try {
       const supabase = createClient();
-      await supabase.from("products").update({ status: newStatus }).eq("id", product.id);
+      await supabase.from("products").update({ status: newStatus, updated_at: new Date().toISOString() }).or(`id.eq.${product.id},slug.eq.${product.slug}`);
       
       await logAdminAction({
         action: newStatus === "active" ? "PUBLISH_PRODUCT" : "UNPUBLISH_PRODUCT",
@@ -717,23 +757,21 @@ export default function ProductsManagementPage() {
     setIsDeleting(true);
 
     try {
-      // 1. Add ID to deleted list so it never reappears
+      // 1. Add ID & Slug to deleted list so it never reappears
       const deletedIds = getStoredDeletedProductIds();
-      if (!deletedIds.includes(product.id)) {
-        deletedIds.push(product.id);
-      }
-      if (product.slug && !deletedIds.includes(product.slug)) {
-        deletedIds.push(product.slug);
-      }
+      if (product.id && !deletedIds.includes(product.id)) deletedIds.push(product.id);
+      if (product.id && !deletedIds.includes(`product-${product.id}`)) deletedIds.push(`product-${product.id}`);
+      if (product.slug && !deletedIds.includes(product.slug)) deletedIds.push(product.slug);
+      if (product.slug && !deletedIds.includes(`product-${product.slug}`)) deletedIds.push(`product-${product.slug}`);
       saveStoredDeletedProductIds(deletedIds);
 
       // 2. Remove from custom products
       const custom = getStoredCustomProducts();
-      const updatedCustom = custom.filter((p) => p.id !== product.id && p.slug !== product.slug);
+      const updatedCustom = custom.filter((p) => p.id !== product.id && p.slug !== product.slug && p.id !== `product-${product.id}` && p.slug !== `product-${product.slug}`);
       saveStoredCustomProducts(updatedCustom);
 
       // 3. Update React state immediately
-      setProducts((prev) => prev.filter((p) => p.id !== product.id && p.slug !== product.slug));
+      setProducts((prev) => prev.filter((p) => p.id !== product.id && p.slug !== product.slug && p.id !== `product-${product.id}`));
 
       // Sync deletion with Server API route /api/products
       try {
@@ -757,15 +795,18 @@ export default function ProductsManagementPage() {
         "error"
       );
 
-      const supabase = createClient();
-      await supabase.from("products").delete().eq("id", product.id);
+      try {
+        const supabase = createClient();
+        await supabase.from("product_images").delete().eq("product_id", product.id);
+        await supabase.from("products").delete().or(`id.eq.${product.id},slug.eq.${product.slug}`);
 
-      await logAdminAction({
-        action: "DELETE_PRODUCT",
-        entityType: "products",
-        entityId: product.id,
-        details: { name: product.name }
-      });
+        await logAdminAction({
+          action: "DELETE_PRODUCT",
+          entityType: "products",
+          entityId: product.id,
+          details: { name: product.name }
+        });
+      } catch {}
     } catch (err: any) {
       console.warn("Product deletion synced locally");
     } finally {

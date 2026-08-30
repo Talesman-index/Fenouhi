@@ -255,12 +255,12 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
 
     // 1. Add custom and newly added products FIRST so they appear at the very TOP
     for (const p of custom) {
-      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
         productMap.set(p.id, p);
       }
     }
 
-    // 2. Add base products from lib/products.ts if not already present
+    // 2. Add base products from lib/products.ts if not already present or modified
     for (const raw of PRODUCTS) {
       const p = mapLocalProductToCatalogProduct(raw);
       if (!productMap.has(p.id) && !deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
@@ -269,6 +269,9 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
     }
 
     let list = Array.from(productMap.values());
+
+    // Filter out inactive/draft products for public catalog by default
+    list = list.filter((p) => !p.status || p.status === "active");
 
     // Sort to ensure custom products appear at the top
     list.sort((a, b) => {
@@ -337,7 +340,7 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
 
     // 1. Local products & custom products
     for (const p of localProducts) {
-      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
         productMap.set(p.id, p);
       }
     }
@@ -355,7 +358,7 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
             mergedDel.forEach(id => deletedIds.add(id));
 
             const currentCustom = getStoredCustomProducts();
-            const cleanedCustom = currentCustom.filter(p => !deletedIds.has(p.id) && !deletedIds.has(p.slug));
+            const cleanedCustom = currentCustom.filter(p => !deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`));
             saveStoredCustomProducts(cleanedCustom);
           }
 
@@ -363,7 +366,7 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
             const customList: Product[] = [];
             for (const rawP of json.products) {
               const p = normalizeProduct(rawP);
-              if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+              if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
                 productMap.set(p.id, p);
                 if (p.id?.startsWith("custom_") || p.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === p.id)) {
                   customList.push(p);
@@ -396,7 +399,7 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
       if (!error && dbProducts && dbProducts.length > 0) {
         for (const rawP of dbProducts) {
           const p = normalizeProduct(rawP);
-          if (!deletedIds.has(p.id) && !deletedIds.has(p.slug)) {
+          if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
             productMap.set(p.id, p);
           }
         }
@@ -404,6 +407,9 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
     } catch {}
 
     let list = Array.from(productMap.values());
+
+    // Only active products on the public store
+    list = list.filter((p) => !p.status || p.status === "active");
 
     // Sort to ensure custom products appear at the top
     list.sort((a, b) => {
@@ -460,15 +466,18 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
 /**
  * Fetch a single product by ID or slug (from live Supabase DB or local catalogue).
  */
-export async function getProductByIdOrSlug(idOrSlug: string): Promise<Product | null> {
+export async function getProductByIdOrSlug(idOrSlug: string, allowInactive: boolean = false): Promise<Product | null> {
   try {
     const deletedIds = new Set(getStoredDeletedProductIds());
-    if (deletedIds.has(idOrSlug)) return null;
+    if (deletedIds.has(idOrSlug) || deletedIds.has(`product-${idOrSlug}`)) return null;
 
     // 1. Check local custom products (reflects real-time admin changes)
     const custom = getStoredCustomProducts();
-    const foundCustom = custom.find((p) => p.id === idOrSlug || p.slug === idOrSlug);
+    const foundCustom = custom.find((p) => p.id === idOrSlug || p.slug === idOrSlug || `product-${p.id}` === idOrSlug);
     if (foundCustom && !deletedIds.has(foundCustom.id) && !deletedIds.has(foundCustom.slug)) {
+      if (!allowInactive && foundCustom.status && foundCustom.status !== "active") {
+        return null;
+      }
       return foundCustom;
     }
 
@@ -479,7 +488,11 @@ export async function getProductByIdOrSlug(idOrSlug: string): Promise<Product | 
         if (res.ok) {
           const json = await res.json();
           if (json.product && !deletedIds.has(json.product.id) && !deletedIds.has(json.product.slug)) {
-            return json.product as Product;
+            const p = json.product as Product;
+            if (!allowInactive && p.status && p.status !== "active") {
+              return null;
+            }
+            return p;
           }
         }
       } catch {}
@@ -495,7 +508,11 @@ export async function getProductByIdOrSlug(idOrSlug: string): Promise<Product | 
         .maybeSingle();
 
       if (dbProd && !deletedIds.has(dbProd.id) && !deletedIds.has(dbProd.slug)) {
-        return dbProd as Product;
+        const p = normalizeProduct(dbProd);
+        if (!allowInactive && p.status && p.status !== "active") {
+          return null;
+        }
+        return p;
       }
     } catch {}
 

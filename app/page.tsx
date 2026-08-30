@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
-import { getPublicProducts, getPublicProductsSync, getProductImageUrl } from "@/lib/supabase/catalog";
+import { getPublicProducts, getPublicProductsSync, getProductImageUrl, getStoredCustomProducts, getStoredDeletedProductIds } from "@/lib/supabase/catalog";
 import type { Product } from "@/types/catalog";
 import { useRouter } from "next/navigation";
 import { 
@@ -839,20 +839,47 @@ export default function HomePage() {
               gap: 14,
             }}
           >
-            {todayDeals.map((p) => (
-              <ProductCard
-                key={p.id}
-                id={p.id}
-                title={p.title}
-                price={p.price}
-                oldPrice={p.oldPrice}
-                image={p.image}
-                category={p.category}
-                stockLeft={p.stockLeft}
-                rating={p.rating}
-                reviewsCount={p.reviewsCount}
-              />
-            ))}
+            {(() => {
+              const deletedIdsSet = new Set(getStoredDeletedProductIds());
+              const customProducts = getStoredCustomProducts();
+              const customMap = new Map(customProducts.map((p) => [p.id, p]));
+
+              const visibleDeals = todayDeals
+                .filter((d) => {
+                  if (deletedIdsSet.has(d.id) || deletedIdsSet.has(`product-${d.id}`)) return false;
+                  const custom = customMap.get(d.id) || customMap.get(`product-${d.id}`);
+                  if (custom && custom.status && custom.status !== "active") return false;
+                  return true;
+                })
+                .map((d) => {
+                  const custom = customMap.get(d.id) || customMap.get(`product-${d.id}`);
+                  if (custom) {
+                    return {
+                      ...d,
+                      title: custom.name || d.title,
+                      price: `${Number(custom.price).toLocaleString()} ${custom.currency || "FCFA"}`,
+                      image: getProductImageUrl(custom),
+                      category: custom.category?.name || d.category,
+                    };
+                  }
+                  return d;
+                });
+
+              return visibleDeals.map((p) => (
+                <ProductCard
+                  key={p.id}
+                  id={p.id}
+                  title={p.title}
+                  price={p.price}
+                  oldPrice={p.oldPrice}
+                  image={p.image}
+                  category={p.category}
+                  stockLeft={p.stockLeft}
+                  rating={p.rating}
+                  reviewsCount={p.reviewsCount}
+                />
+              ));
+            })()}
           </div>
         </div>
       </section>

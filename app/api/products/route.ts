@@ -102,38 +102,47 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get("cat");
     const search = searchParams.get("q");
     const idParam = searchParams.get("id");
+    const isAdmin = searchParams.get("admin") === "true" || searchParams.get("includeInactive") === "true";
 
     const deletedIds = readDeletedIdsFromFile();
     const deletedSet = new Set(deletedIds);
     const productMap = new Map<string, Product>();
     const seenSlugs = new Set<string>();
 
-    // 1. Query Supabase database first (source of truth)
+    // 1. Load persistent custom products from server disk (reflects real-time admin edits/status)
+    const customFromFile = readCustomProductsFromFile();
+    for (const p of customFromFile) {
+      if (!deletedSet.has(p.id) && !deletedSet.has(p.slug) && !deletedSet.has(`product-${p.id}`)) {
+        productMap.set(p.id, p);
+        if (p.slug) seenSlugs.add(p.slug);
+      }
+    }
+
+    // 2. Query Supabase database
     try {
       const supabase = createClient();
-      const { data: dbProducts, error } = await supabase
+      let query = supabase
         .from("products")
         .select("*, category:categories(*), images:product_images(*)")
         .order("created_at", { ascending: false });
 
+      if (!isAdmin) {
+        query = query.eq("status", "active");
+      }
+
+      const { data: dbProducts, error } = await query;
+
       if (!error && dbProducts && dbProducts.length > 0) {
         for (const p of dbProducts) {
-          if (!deletedSet.has(p.id) && !deletedSet.has(p.slug)) {
-            productMap.set(p.id, p as Product);
+          if (!deletedSet.has(p.id) && !deletedSet.has(p.slug) && !deletedSet.has(`product-${p.id}`)) {
+            if (!productMap.has(p.id)) {
+              productMap.set(p.id, p as Product);
+            }
             if (p.slug) seenSlugs.add(p.slug);
           }
         }
       }
     } catch {}
-
-    // 2. Load persistent custom products from server disk
-    const customFromFile = readCustomProductsFromFile();
-    for (const p of customFromFile) {
-      if (!deletedSet.has(p.id) && !deletedSet.has(p.slug) && !productMap.has(p.id) && !seenSlugs.has(p.slug)) {
-        productMap.set(p.id, p);
-        if (p.slug) seenSlugs.add(p.slug);
-      }
-    }
 
     // 3. Add base static products
     for (const raw of PRODUCTS) {
@@ -177,8 +186,16 @@ export async function GET(request: NextRequest) {
     if (idParam) {
       const single = list.find((p) => p.id === idParam || p.slug === idParam || `product-${p.id}` === idParam);
       if (single) {
+        if (!isAdmin && single.status && single.status !== "active") {
+          return NextResponse.json({ success: false, error: "Produit inactif ou indisponible" }, { status: 404 });
+        }
         return NextResponse.json({ success: true, product: single, deletedIds });
       }
+    }
+
+    // Filter inactive products for public requests
+    if (!isAdmin) {
+      list = list.filter((p) => !p.status || p.status === "active");
     }
 
     if (category && category !== "all") {
@@ -391,17 +408,19 @@ export async function DELETE(request: NextRequest) {
     const { id, slug } = await request.json();
     let deletedIds = readDeletedIdsFromFile();
 
-    if (id && !deletedIds.includes(id)) {
-      deletedIds.push(id);
+    if (id) {
+      if (!deletedIds.includes(id)) deletedIds.push(id);
+      if (!deletedIds.includes(`product-${id}`)) deletedIds.push(`product-${id}`);
     }
-    if (slug && !deletedIds.includes(slug)) {
-      deletedIds.push(slug);
+    if (slug) {
+      if (!deletedIds.includes(slug)) deletedIds.push(slug);
+      if (!deletedIds.includes(`product-${slug}`)) deletedIds.push(`product-${slug}`);
     }
     writeDeletedIdsToFile(deletedIds);
 
     const currentList = readCustomProductsFromFile();
     const updatedList = currentList.filter(
-      (p) => p.id !== id && p.slug !== slug
+      (p) => p.id !== id && p.slug !== slug && p.id !== `product-${id}` && p.slug !== `product-${slug}`
     );
     writeCustomProductsToFile(updatedList);
 
