@@ -1164,5 +1164,1193 @@
         "is_primary": false
       }
     ]
+  },
+  {
+    "id": "lampe-lumineuse-d-angle",
+    "name": "Lampe Lumineuse d'Angle",
+    "slug": "lampe-lumineuse-d-angle",
+    "short_description": "Lampadaire d'angle design multicolore avec télécommande & contrôle smartphone (Minuterie & Ambiance)",
+    "description": "Transformez votre intérieur en un espace chaleureux et stylé grâce à cette lampe d’angle design. Compacte, elle se glisse parfaitement dans n’importe quel coin de votre salon, chambre ou bureau pour créer une lumière douce, colorée et apaisante. Avec ses multiples couleurs, ses effets lumineux et sa télécommande, vous pouvez changer l’ambiance selon votre humeur : soirée détente, ambiance romantique ou décoration festive… tout est possible !",
+    "category_id": null,
+    "subcategory": null,
+    "price": 6000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Direct Usine Chine",
+    "weight": 0.95,
+    "length": 0.004,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-lampe-lumineuse-d-angle-0",
+        "product_id": "lampe-lumineuse-d-angle",
+        "public_image_url": "/images/assets/lampe_lumineuse_d_angle.jpg",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "category": {
+      "id": "cat_home",
+      "name": "home",
+      "slug": "home",
+      "is_active": true
+    }
+  },
+  {
+    "id": "machine-a-laver-pliable-9l",
+    "name": "Machine à Laver Pliable 9L",
+    "slug": "machine-a-laver-pliable-9l",
+    "short_description": "Mini lave-linge portable avec panier essorage & désinfection lumière bleue (9L)",
+    "description": "Finies les corvées compliquées ! Découvrez la machine à laver pliable 9L, compacte, légère et ultra-pratique. Équipée d'un puissant moteur à pulsation bidirectionnel, d'une lumière bleue antibactérienne (Blu-ray) et d'un panier d'essorage amovible. Idéale pour les petits espaces, les chambres d'étudiants, les voyages ou le lavage hygiénique séparé des vêtements de bébé et sous-vêtements. Se plie en quelques secondes pour un rangement discret.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 12000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Direct Usine Chine",
+    "weight": 1.8,
+    "length": 0.008,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-machine-a-laver-pliable-9l-0",
+        "product_id": "machine-a-laver-pliable-9l",
+        "public_image_url": "/images/assets/machine_a_laver_pliable_9l.png",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "category": {
+      "id": "cat_home",
+      "name": "home",
+      "slug": "home",
+      "is_active": true
+    }
+  },
+  {
+    "id": "bande-lumineuse-led-neon",
+    "name": "Bande Lumineuse LED Néon Décorative",
+    "slug": "bande-lumineuse-led-neon",
+    "short_description": "Ruban flexible LED néon étanche avec télécommande sans fil (5m : 6 000 F / 10m : 10 000 F)",
+    "description": "Bande lumineuse LED Néon flexible haute luminosité pour décoration intérieure, chambre, salon, setup gaming, bars et devantures. Éclairage uniforme et continu sans points LED visibles grâce à sa gaine en silicone souple étanche (IP67). Livrée avec son boîtier d'alimentation, ses clips de fixation murale et sa télécommande sans fil permettant de changer les couleurs, l'intensité et les modes d'éclairage dynamiques. Disponible en formats 5 mètres (6 000 FCFA) et 10 mètres (10 000 FCFA).",
+    "category_id": null,
+    "subcategory": null,
+    "price": 6000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Direct Usine Chine",
+    "weight": 0.35,
+    "length": 0.002,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-bande-lumineuse-led-neon-0",
+        "product_id": "bande-lumineuse-led-neon",
+        "public_image_url": "/images/assets/bande_lumineuse_led_neon.png",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "category": {
+      "id": "cat_home",
+      "name": "home",
+      "slug": "home",
+      "is_active": true
+    }
+  },
+  {
+    "id": "gourde-isotherme-mood-the-cup",
+    "name": "Gourde Isotherme Mood The Cup (1L)",
+    "slug": "gourde-isotherme-mood-the-cup",
+    "short_description": "Thermos inox double paroi avec paille et poignée ergonomique (Chaud & Froid 24h)",
+    "description": "Gourde isotherme grande capacité de 1 Litre (1000ml) modèle Mood The Cup en acier inoxydable double paroi sous vide. Conserve parfaitement vos boissons chaudes jusqu'à 12 heures et vos boissons glacées jusqu'à 24 heures. Dotée d'un couvercle hermétique 2-en-1 avec paille réutilisable en silicone, bouchon antifuite et poignée ergonomique renforcée pour un transport aisé au quotidien, au bureau ou au sport.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 4000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Direct Usine Chine",
+    "weight": 0.45,
+    "length": 0.002,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-gourde-isotherme-mood-the-cup-0",
+        "product_id": "gourde-isotherme-mood-the-cup",
+        "public_image_url": "/images/assets/gourde_isotherme_mood_the_cup.jpg",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "category": {
+      "id": "cat_home",
+      "name": "home",
+      "slug": "home",
+      "is_active": true
+    }
+  },
+  {
+    "id": "porte-manteau-roulettes-grand",
+    "name": "Porte Manteau et Habit en Fer avec Roulettes",
+    "slug": "porte-manteau-roulettes-grand",
+    "short_description": "Grand modèle double portant mobile avec roulettes 360° et double étagère chaussures",
+    "description": "Grand porte-manteau et penderie mobile en fer noir mat renforcé. Conçu avec deux grandes barres de suspension à billes anti-chute, 6 crochets latéraux pour chapeaux, sacs et écharpes, ainsi qu'une double étagère inférieure extra-large pour ranger chaussures, valises et boîtes. Équipé de 4 roulettes multidirectionnelles 360° avec freins pour un déplacement fluide et sans effort.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 15000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Direct Usine Chine",
+    "weight": 4.9,
+    "length": 0.025,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-porte-manteau-roulettes-grand-0",
+        "product_id": "porte-manteau-roulettes-grand",
+        "public_image_url": "/images/assets/porte_manteau_roulettes_grand.jpg",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "category": {
+      "id": "cat_home",
+      "name": "home",
+      "slug": "home",
+      "is_active": true
+    }
+  },
+  {
+    "id": "porte-vetements-chaussures-fer",
+    "name": "Porte Vêtements et Chaussures en Fer",
+    "slug": "porte-vetements-chaussures-fer",
+    "short_description": "Double penderie métallique avec étagère basse pour chaussures (150×110×57cm)",
+    "description": "Porte-vêtements double barre en structure métallique robuste et thermolaquée blanche. Équipé d'une double rangée pour cintres, de crochets latéraux pour sacs et chapeaux, et d'un plateau inférieur spacieux idéal pour ranger vos paires de chaussures et boîtes de rangement. Montage facile et rapide.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 12000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Direct Usine Chine",
+    "weight": 3.8,
+    "length": 0.02,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-porte-vetements-chaussures-fer-0",
+        "product_id": "porte-vetements-chaussures-fer",
+        "public_image_url": "/images/assets/porte_vetements_chaussures_fer.png",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "category": {
+      "id": "cat_home",
+      "name": "home",
+      "slug": "home",
+      "is_active": true
+    }
+  },
+  {
+    "id": "projecteur-led-rl-16",
+    "name": "Projecteur Led RL-16",
+    "slug": "projecteur-led-rl-16",
+    "short_description": "Panneau d'éclairage LED professionnel avec trépied de sol et support téléphone",
+    "description": "Projecteur lumière LED RL-16 nouveau modèle spécialement conçu pour les créateurs de contenu, le live streaming, les séances photo et vidéos TikTok / YouTube. Livré complet avec trépied de sol métallique robuste réglable en hauteur, télécommande sans fil multi-fonctions (réglage d'intensité et de température de couleur chaud/froid) et support flexible pour smartphone.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 8000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Direct Usine Chine",
+    "weight": 1.2,
+    "length": 0.006,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-projecteur-led-rl-16-0",
+        "product_id": "projecteur-led-rl-16",
+        "public_image_url": "/images/assets/projecteur_led_rl16.png",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "category": {
+      "id": "cat_electronics",
+      "name": "electronics",
+      "slug": "electronics",
+      "is_active": true
+    }
+  },
+  {
+    "id": "dr-rashel-vitamin-c-set",
+    "name": "Dr. Rashel Vitamine C & Acide Hyaluronique – Gamme Soins Anti-Âge & Éclat",
+    "slug": "dr-rashel-vitamin-c-set",
+    "short_description": "Nettoyant 80g, Sérum Visage 50ml, Sérum Yeux 30ml & Crème Visage 50g",
+    "description": "La série de soins de la peau anti-âge et éclat à la vitamine C et à l'acide hyaluronique du Dr Rashel est spécialement conçue pour la routine quotidienne des soins du visage. Formulée avec une haute concentration de vitamine C pure et d'acide hyaluronique, elle rafraîchit et restaure l'éclat et la clarté naturels du teint. Un puissant boost d'antioxydants répare et protège la peau contre les dommages environnementaux et l'exposition au soleil, estompe efficacement les taches solaires et la décoloration, affine la texture de la peau, réduit la formation des rides et élimine en douceur les impuretés pour révéler un teint visiblement plus jeune, hydraté et lumineux.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 10000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.75,
+    "length": 0.002,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-dr-rashel-vitamin-c-set-0",
+        "product_id": "dr-rashel-vitamin-c-set",
+        "public_image_url": "/images/assets/dr_rashel_vitamin_c_2.jpg",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img-dr-rashel-vitamin-c-set-1",
+        "product_id": "dr-rashel-vitamin-c-set",
+        "public_image_url": "/images/assets/dr_rashel_vitamin_c_1.jpg",
+        "position": 1,
+        "is_primary": false
+      }
+    ],
+    "category": {
+      "id": "cat_beauty",
+      "name": "beauty",
+      "slug": "beauty",
+      "is_active": true
+    }
+  },
+  {
+    "id": "efero-blanchiment-dents",
+    "name": "EFERO Essence de Blanchiment des Dents & Hygiène Buccale (10 ml)",
+    "slug": "efero-blanchiment-dents",
+    "short_description": "Élimine les taches de thé, café, plaque dentaire & améliore l'hygiène buccale",
+    "description": "Marque : EFERO. Contenance : 10 ml. Efficacité : formule ultra-performante pour éliminer les taches de thé, café, tabac, dents pigmentées et plaque dentaire. Blanchit les dents, réduit la saleté dentaire, améliore l'hygiène buccale et réduit les maladies buccales. Posologie : Avant l'utilisation, veuillez nettoyer la bouche avec de l'eau tiède, puis utilisez un coton-tige pour tremper la quantité appropriée du produit, essuyez la surface des dents uniformément et rincez-la à l'eau claire après 15-20 minutes. Recommandation : 2 à 3 fois par semaine.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 2500,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.05,
+    "length": 0.0001,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-efero-blanchiment-dents-0",
+        "product_id": "efero-blanchiment-dents",
+        "public_image_url": "/images/assets/efero_teeth_whitening.jpg",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img-efero-blanchiment-dents-1",
+        "product_id": "efero-blanchiment-dents",
+        "public_image_url": "/images/assets/efero_teeth_whitening_2.png",
+        "position": 1,
+        "is_primary": false
+      }
+    ],
+    "category": {
+      "id": "cat_beauty",
+      "name": "beauty",
+      "slug": "beauty",
+      "is_active": true
+    }
+  },
+  {
+    "id": "defroisseur-vapeur-haeger-vetements",
+    "name": "Mini Défroisseur Vapeur Portatif HAEGER – Tous Vêtements & Tissus (800W, 650 ml)",
+    "slug": "defroisseur-vapeur-haeger-vetements",
+    "short_description": "Vapeur verticale continue 15 min, brosse amovible & humidificateur multifonction",
+    "description": "Mini nettoyeur et défroisseur vapeur vertical pour tous les vêtements. Défroissage vapeur vertical ultra-efficace, léger et compact (seulement 0.65 kg) : le meilleur compagnon pour vos voyages et votre maison. Équipé d'une puissance de 800W et d'un réservoir d'eau de 650 ml, il produit une vapeur continue à 100°C pendant 15 minutes d'autonomie. Multifonction 2-en-1 : s'utilise comme fer à repasser vapeur vertical pour vêtements et humidificateur / vapeur facial. Livré complet avec brosse à main, brosse annulaire et manuel d'instructions.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 10000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.65,
+    "length": 0.002,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-defroisseur-vapeur-haeger-vetements-0",
+        "product_id": "defroisseur-vapeur-haeger-vetements",
+        "public_image_url": "/images/assets/defroisseur_vapeur_haeger_2.png",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img-defroisseur-vapeur-haeger-vetements-1",
+        "product_id": "defroisseur-vapeur-haeger-vetements",
+        "public_image_url": "/images/assets/defroisseur_vapeur_haeger_1.png",
+        "position": 1,
+        "is_primary": false
+      }
+    ],
+    "category": {
+      "id": "cat_home",
+      "name": "home",
+      "slug": "home",
+      "is_active": true
+    }
+  },
+  {
+    "id": "dr-rashel-24k-gold-5pieces",
+    "name": "Dr. Rashel 24K Gold Radiance Anti-Aging Series – Coffret Soins 5 Pièces",
+    "slug": "dr-rashel-24k-gold-5pieces",
+    "short_description": "Soin de luxe anti-âge, fermeté & éclat enrichi en Or pur 24K (99.9%) & Collagène",
+    "description": "Dr. Rashel 24K Gold Radiance Anti-Aging Series - 5 pièces est un ensemble de soins complet et luxueux haute performance. Le toner anti-âge 24K Gold régénère l'humidité perdue avec une formule douce qui rafraîchit et favorise une peau tendue et éclatante. Infusé d'or 24 carats pur (99,9%), le sérum luxueux pénètre en profondeur pour exercer de puissants effets hydratants et anti-âge, procurant un effet repulpant, raffermissant et illuminateur instantané. Complété par un gel nettoyant exfoliant doux, un sérum contour des yeux anti-cernes/anti-rides et une crème gelée d'essence pour une routine visage royale.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 10000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.95,
+    "length": 0.003,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-dr-rashel-24k-gold-5pieces-0",
+        "product_id": "dr-rashel-24k-gold-5pieces",
+        "public_image_url": "/images/assets/dr_rashel_24k_gold_2.png",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img-dr-rashel-24k-gold-5pieces-1",
+        "product_id": "dr-rashel-24k-gold-5pieces",
+        "public_image_url": "/images/assets/dr_rashel_24k_gold_1.png",
+        "position": 1,
+        "is_primary": false
+      }
+    ],
+    "category": {
+      "id": "cat_beauty",
+      "name": "beauty",
+      "slug": "beauty",
+      "is_active": true
+    }
+  },
+  {
+    "id": "support-telephone-tablette-pliable-ergonomique",
+    "name": "Support Téléphone & Tablette Télescopique – Pliable & Réglable en Hauteur / Angle",
+    "slug": "support-telephone-tablette-pliable-ergonomique",
+    "short_description": "Ergonomique pour bureau, visioconférence & mains libres – Universel jusqu'à 10.5 pouces",
+    "description": "Support de bureau pliable télescopique pour smartphones et tablettes. Réglable en hauteur et en angle pour positionner votre écran au niveau parfait des yeux et soulager efficacement la fatigue du cou lors de longues visioconférences. Libérez vos mains en toute simplicité pendant que vous cuisinez, lisez, dînez, jouez à des jeux ou travaillez. Ultra-compact et pliable en format de poche : se glisse facilement dans un sac pour vous accompagner partout au quotidien. Compatibilité universelle avec tous les smartphones et tablettes jusqu'à 10.5 pouces (même avec coque de protection). Base antidérapante en silicone et patins ultra-stables pour éviter tout glissement ou rayure.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 1000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.15,
+    "length": 0.0002,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-support-telephone-tablette-pliable-ergonomique-0",
+        "product_id": "support-telephone-tablette-pliable-ergonomique",
+        "public_image_url": "/images/assets/support_telephone_pliable_2.png",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img-support-telephone-tablette-pliable-ergonomique-1",
+        "product_id": "support-telephone-tablette-pliable-ergonomique",
+        "public_image_url": "/images/assets/support_telephone_pliable_1.png",
+        "position": 1,
+        "is_primary": false
+      }
+    ],
+    "category": {
+      "id": "cat_electronics",
+      "name": "electronics",
+      "slug": "electronics",
+      "is_active": true
+    }
+  },
+  {
+    "id": "disaar-masque-vitamine-c",
+    "name": "Disaar Masque Visage Hydratant Vitamine C & Acide Hyaluronique",
+    "slug": "disaar-masque-vitamine-c",
+    "short_description": "Rajeunissant, réparateur & coup d'éclat effet SPA rafraîchissant",
+    "description": "Marque : DISAAR Beauty Skincare. Formulé avec des ingrédients rajeunissants à la Vitamine C et Acide Hyaluronique pour offrir à la peau un soin souple et hydraté. Apporte une expérience rafraîchissante unique. Riche en essence hydratante de haute pureté. Masque en pur coton absorbant la saleté et l'excès de sébum tout en hydratant en profondeur. Enrichi en vitamines, minéraux et antioxydants. Favorise la régénération de la peau pour réparer les peaux sèches et sensibles, réduire les rougeurs, réparer la couche cornée et offrir un véritable effet SPA hydratant continu.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 500,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.03,
+    "length": 0.0001,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-disaar-masque-vitamine-c-0",
+        "product_id": "disaar-masque-vitamine-c",
+        "public_image_url": "/images/assets/disaar_vitamin_c_mask.jpg",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "category": {
+      "id": "cat_beauty",
+      "name": "beauty",
+      "slug": "beauty",
+      "is_active": true
+    }
+  },
+  {
+    "id": "appareil-vapeur-facial-2en1",
+    "name": "Appareil à Vapeur Facial 2-en-1 – Sauna Visage & Inhalateur Nasal",
+    "slug": "appareil-vapeur-facial-2en1",
+    "short_description": "Soins du visage & du corps, élimination des toxines & bien-être respiratoire",
+    "description": "Appareil à vapeur facial 2-en-1 multifonction haute performance. Facile à utiliser avec son bouton de commutation unique, chauffage constant et émission ultra-rapide de brouillard de vapeur chaude. L'appareil peut être utilisé pour les soins du visage à la vapeur ainsi que la vapeur nasale. Comprend une tasse à mesurer, un masque facial ergonomique et un masque nasal spécialement conçu. La vapeur chaude apaisante ouvre les pores en profondeur et aide à éliminer la saleté, les bactéries et les résidus de maquillage. Avantages pour la santé : la vapeur chaude et humide aide à dégager les voies nasales et sinusales, facilitant la thérapie respiratoire et soulageant le rhume et la toux persistants.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 12000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.6,
+    "length": 0.002,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-appareil-vapeur-facial-2en1-0",
+        "product_id": "appareil-vapeur-facial-2en1",
+        "public_image_url": "/images/assets/facial_steamer_2.png",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img-appareil-vapeur-facial-2en1-1",
+        "product_id": "appareil-vapeur-facial-2en1",
+        "public_image_url": "/images/assets/facial_steamer_1.png",
+        "position": 1,
+        "is_primary": false
+      }
+    ],
+    "category": {
+      "id": "cat_beauty",
+      "name": "beauty",
+      "slug": "beauty",
+      "is_active": true
+    }
+  },
+  {
+    "id": "coffret-snail-collagen-5pieces",
+    "name": "Coffret Soins Complet 5-en-1 Snail & Collagen Capture Miracle",
+    "slug": "coffret-snail-collagen-5pieces",
+    "short_description": "Gamme réparatrice, anti-taches, anti-rides & éclat à la bave d'escargot & collagène",
+    "description": "Gamme complète de soins réparateurs visage et corps 5-en-1 Snail Collagen Capture Miracle enrichie au collagène pur et à l'extrait concentré de bave d'escargot (mucus filtré). Formule hautement régénérante convenant à tous les types de peau. Répare la peau endommagée, éclaircit visiblement les effets des cicatrices d'acné, hydrate intensément, prévient les signes du vieillissement comme les rides et confère un teint unifié, doux et radieux. Utilisation quotidienne Matin (AM) & Soir (PM).",
+    "category_id": null,
+    "subcategory": null,
+    "price": 12000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.85,
+    "length": 0.003,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-coffret-snail-collagen-5pieces-0",
+        "product_id": "coffret-snail-collagen-5pieces",
+        "public_image_url": "/images/assets/snail_collagen_set_2.png",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img-coffret-snail-collagen-5pieces-1",
+        "product_id": "coffret-snail-collagen-5pieces",
+        "public_image_url": "/images/assets/snail_collagen_set_1.png",
+        "position": 1,
+        "is_primary": false
+      }
+    ],
+    "category": {
+      "id": "cat_beauty",
+      "name": "beauty",
+      "slug": "beauty",
+      "is_active": true
+    }
+  },
+  {
+    "id": "aichun-huile-anti-vergetures-escargot",
+    "name": "Aichun Beauty Huile Essentielle Anti-Vergetures Snail & Collagène (30 ml)",
+    "slug": "aichun-huile-anti-vergetures-escargot",
+    "short_description": "Élimine les vergetures, raffermit la peau & prévient les rides abdominales",
+    "description": "L'huile essentielle anti-vergetures Aichun Beauty est une formule ultra-concentrée riche en extraits naturels de bave d'escargot (mucus filtré) et en collagène actif. Elle augmente l'élasticité cutanée, élimine les étirements de la peau, estompe les vergetures existantes et prévient la formation des rides et relâchements abdominaux. Efficacité prouvée avec des résultats visibles dès 3 jours à une semaine. Formule 100% sûre, naturelle, sans aucun effet secondaire, idéale pendant et après la grossesse ou lors de variations de poids. Convient pour le ventre, les cuisses, les hanches, les fesses et les genoux.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 1500,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.1,
+    "length": 0.0003,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-aichun-huile-anti-vergetures-escargot-0",
+        "product_id": "aichun-huile-anti-vergetures-escargot",
+        "public_image_url": "/images/assets/aichun_stretch_marks_2.png",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img-aichun-huile-anti-vergetures-escargot-1",
+        "product_id": "aichun-huile-anti-vergetures-escargot",
+        "public_image_url": "/images/assets/aichun_stretch_marks_1.png",
+        "position": 1,
+        "is_primary": false
+      }
+    ],
+    "category": {
+      "id": "cat_beauty",
+      "name": "beauty",
+      "slug": "beauty",
+      "is_active": true
+    }
+  },
+  {
+    "id": "disaar-creme-depilatoire",
+    "name": "Disaar Crème Dépilatoire – Épilation Rapide 3 Minutes (100 g)",
+    "slug": "disaar-creme-depilatoire",
+    "short_description": "Épilation douce & réduction de la pousse des poils sans irritation",
+    "description": "Marque : DISAAR. Contenance : 100ml / 100g. Efficacité : douce et n'irrite pas la peau. Contient des facteurs dépilatoires qui peuvent ramollir et étirer les follicules pileux, facilement absorbés par le corps humain ou la peau. Réduit la sécrétion des glandes sudoripares, rétrécit les pores et les follicules pileux. Propre, durable, facile à enlever ou à rincer et rend la peau lisse et hydratée. Épilation douce sur les bras, poils du bikini, lèvres supérieures, aisselles, jambes, visage, zone pubienne et autres zones du corps.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 2500,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.1,
+    "length": 0.0003,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-disaar-creme-depilatoire-0",
+        "product_id": "disaar-creme-depilatoire",
+        "public_image_url": "/images/assets/disaar_hair_removal.jpg",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img-disaar-creme-depilatoire-1",
+        "product_id": "disaar-creme-depilatoire",
+        "public_image_url": "/images/assets/disaar_hair_removal_2.png",
+        "position": 1,
+        "is_primary": false
+      }
+    ],
+    "category": {
+      "id": "cat_beauty",
+      "name": "beauty",
+      "slug": "beauty",
+      "is_active": true
+    }
+  },
+  {
+    "id": "roushun-gommage-aloe-vera-99",
+    "name": "Roushun 99% Aloe Vera Scrub Gel – Gommage Exfoliant Visage (150 ml)",
+    "slug": "roushun-gommage-aloe-vera-99",
+    "short_description": "Désobstrue les pores, élimine les points noirs & adoucit le grain de peau",
+    "description": "Le gel gommage exfoliant Roushun 99% Aloe Vera avec micro-perles sphériques cible précisément ce qui obstrue les pores et élimine en douceur les impuretés pour laisser un teint frais, éclatant et une peau visiblement plus douce et lisse dès la première utilisation. Au fil du temps et du renouvellement cellulaire, les peaux mortes et impuretés s'accumulent et ternissent le teint. Ce gel d'aloe vera désobstrue rapidement les pores, déloge les points noirs et élimine les cellules vieillissantes tout en nourrissant et hydratant la peau grâce à l'extrait pur d'Aloe Vera. Formule 100% douce adaptée à un usage régulier ou quotidien.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 1500,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.18,
+    "length": 0.0003,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-roushun-gommage-aloe-vera-99-0",
+        "product_id": "roushun-gommage-aloe-vera-99",
+        "public_image_url": "/images/assets/roushun_aloe_vera_scrub_2.png",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img-roushun-gommage-aloe-vera-99-1",
+        "product_id": "roushun-gommage-aloe-vera-99",
+        "public_image_url": "/images/assets/roushun_aloe_vera_scrub_1.png",
+        "position": 1,
+        "is_primary": false
+      }
+    ],
+    "category": {
+      "id": "cat_beauty",
+      "name": "beauty",
+      "slug": "beauty",
+      "is_active": true
+    }
+  },
+  {
+    "id": "masque-levres-rose-hydrogel",
+    "name": "Masque Lèvres Rose Hydrogel Hydratant & Repulpant au Collagène",
+    "slug": "masque-levres-rose-hydrogel",
+    "short_description": "Soin SOS lèvres gercées, nutrition intense & lissage avant maquillage",
+    "description": "Masque patch pour lèvres rose au collagène et hydrogel. Allié indispensable contre le dessèchement et les agressions extérieures (baisse de température, froid, vent). Le geste malin : s'applique le matin avant de se maquiller ou le soir après le démaquillage. Associe son pouvoir ultra-hydratant avec votre baume à lèvres fétiche pour des lèvres douces, lisses, nourries et naturellement repulpées.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 500,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.02,
+    "length": 0.0001,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-masque-levres-rose-hydrogel-0",
+        "product_id": "masque-levres-rose-hydrogel",
+        "public_image_url": "/images/assets/pink_lip_mask.jpg",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img-masque-levres-rose-hydrogel-1",
+        "product_id": "masque-levres-rose-hydrogel",
+        "public_image_url": "/images/assets/pink_lip_mask_2.png",
+        "position": 1,
+        "is_primary": false
+      }
+    ],
+    "category": {
+      "id": "cat_beauty",
+      "name": "beauty",
+      "slug": "beauty",
+      "is_active": true
+    }
+  },
+  {
+    "id": "aichun-masque-peeloff-collagene-lait",
+    "name": "Aichun Beauty Masque Peel-Off au Collagène & au Lait (120 ml)",
+    "slug": "aichun-masque-peeloff-collagene-lait",
+    "short_description": "Masque visage éclaircissant, désincrustant pores, enrichi en Vitamines A & E",
+    "description": "Un masque facial peel-off de haute qualité qui aide la peau à retrouver son éclat et son apparence de jeunesse. Formulé avec du collagène actif, des extraits nutritifs de lait ainsi que des vitamines antioxydantes A et E, ce masque perfecteur revitalise et maintient l'équilibre hydrique optimal de votre peau. Il nettoie en profondeur l'excès de sébum et la saleté incrustée dans les pores et favorise une absorption maximale des soins hydratants. Lorsqu'il est utilisé régulièrement, la peau est visiblement propre, soyeuse, douce et fraîche avec un aspect unifié et éclatant.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 1500,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.15,
+    "length": 0.0002,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-aichun-masque-peeloff-collagene-lait-0",
+        "product_id": "aichun-masque-peeloff-collagene-lait",
+        "public_image_url": "/images/assets/aichun_collagen_milk_mask_2.png",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "category": {
+      "id": "cat_beauty",
+      "name": "beauty",
+      "slug": "beauty",
+      "is_active": true
+    }
+  },
+  {
+    "id": "robot-nettoyeur-4en1-jallen-gabor",
+    "name": "Robot Nettoyeur Balayeur Intelligent 4-en-1 Jallen Gabor – Balayage, Frottage, Humidification & UV",
+    "slug": "robot-nettoyeur-4en1-jallen-gabor",
+    "short_description": "Double disque rotatif haute pression 3000 tr/min, désinfection UV & brumisateur d'ambiance",
+    "description": "Robot nettoyeur intelligent 4-en-1 de nouvelle génération Jallen Gabor (IS28A) conçu pour un nettoyage autonome et en profondeur de tous vos sols durs (carrelage, parquet, marbre, stratifié).\n\nGrâce à son système innovant d'essuyage rotatif à double moteur (3000 tours/min), il exerce une pression constante sur le sol pour déloger les taches tenaces, la poussière, les poils d'animaux et les traces de graisse. Équipé d'un brumisateur humidificateur intégré pour assainir l'air ambiant et d'une lumière UV stérilisante pour éliminer les acariens et bactéries.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 15000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 1.2,
+    "length": 0.004,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-robot-nettoyeur-4en1-jallen-gabor-0",
+        "product_id": "robot-nettoyeur-4en1-jallen-gabor",
+        "public_image_url": "/images/assets/robot_nettoyeur_jallen_gabor_1.png",
+        "position": 0,
+        "is_primary": true
+      },
+      {
+        "id": "img-robot-nettoyeur-4en1-jallen-gabor-1",
+        "product_id": "robot-nettoyeur-4en1-jallen-gabor",
+        "public_image_url": "/images/assets/robot_nettoyeur_jallen_gabor_2.png",
+        "position": 1,
+        "is_primary": false
+      }
+    ],
+    "category": {
+      "id": "cat_home",
+      "name": "home",
+      "slug": "home",
+      "is_active": true
+    }
+  },
+  {
+    "id": "gaine-amincissante-100-latex",
+    "name": "Gaine Amincissante Sculptante 100% Latex – Ventre Plat & Taille Affinée",
+    "slug": "gaine-amincissante-100-latex",
+    "short_description": "Double fermeture (Zip + 3 rangées d'agrafes), maintien lombaire & invisible sous les vêtements",
+    "description": "Gaine sculptante amincissante haute performance conçue en 100% Latex naturel avec doublure intérieure en coton doux et respirant. Équipée d'un double système de fermeture haute sécurité (zip frontal robuste + 3 rangées d'agrafes ajustables), elle garantit une compression ciblée et une discrétion absolue sous vos vêtements.\n\nIdéale au quotidien, pour le sport, les cérémonies ou sous une robe près du corps, elle gaine le ventre immédiatement, affine le tour de taille, lisse les bourrelets et imperfections, tout en maintenant fermement le bas du dos pour soulager les lombaires et corriger la posture.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 20000,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.35,
+    "length": 0.001,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-gaine-amincissante-100-latex-0",
+        "product_id": "gaine-amincissante-100-latex",
+        "public_image_url": "/images/assets/gaine_amincissante_latex_1.png",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "category": {
+      "id": "cat_fashion",
+      "name": "fashion",
+      "slug": "fashion",
+      "is_active": true
+    }
+  },
+  {
+    "id": "wokali-whitening-gold-caviar-peel-off-mask",
+    "name": "Wokali Whitening Gold Caviar Peel-Off Mask (130 ml)",
+    "slug": "wokali-whitening-gold-caviar-peel-off-mask",
+    "short_description": "Masque visage éclat à l'Or, Caviar & Réglisse – Élimination des taches & contrôle du sébum",
+    "description": "Ce masque facial peel-off de haute qualité Wokali Whitening Gold Caviar est spécialement formulé pour le contrôle de l'excès de sébum, l'élimination des taches, l'adoucissement de la peau et l'éclaircissement naturel du teint. Il aide la peau à retrouver son éclat et son apparence de jeunesse.\n\nFormulé avec de l'extrait précieux de caviar, d'or cosmétique, d'extrait de réglisse (Licorice) et enrichi en vitamines A et E, ce masque revitalise et maintient l'équilibre hydrique optimal de votre peau. Il nettoie en profondeur l'excès d'huile et la saleté incrustée dans les pores, tout en permettant à l'humidité d'être absorbée par la peau.\n\nLorsqu'il est utilisé régulièrement (1 à 3 fois par semaine), la peau est visiblement propre, douce, fraîche et lumineuse avec un teint clair et unifié.",
+    "category_id": null,
+    "subcategory": null,
+    "price": 1500,
+    "wholesale_price_5_units": null,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Chine (FenouShop Partner)",
+    "weight": 0.15,
+    "length": 0.0003,
+    "width": 8,
+    "height": 5,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-wokali-whitening-gold-caviar-peel-off-mask-0",
+        "product_id": "wokali-whitening-gold-caviar-peel-off-mask",
+        "public_image_url": "/images/assets/wokali_gold_caviar_mask_1.png",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "category": {
+      "id": "cat_beauty",
+      "name": "beauty",
+      "slug": "beauty",
+      "is_active": true
+    }
   }
 ]
