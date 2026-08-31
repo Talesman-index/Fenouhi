@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/client";
 import type { Category, Product, ProductFilterOptions, ProductStatus } from "@/types/catalog";
 import { PRODUCTS, getProductById as getLocalProductById } from "@/lib/products";
+import rawCustomProducts from "@/data/custom-products.json";
+import rawDeletedIds from "@/data/deleted-products.json";
 
 // Fallback seed categories (All 9 major wholesale categories)
 export const FALLBACK_CATEGORIES: Category[] = [
@@ -195,21 +197,27 @@ function mapLocalProductToCatalogProduct(p: any): Product {
   } as Product;
 }
 
-let inMemoryCustomProducts: Product[] = [];
-let inMemoryDeletedIds: string[] = [];
+let inMemoryCustomProducts: Product[] = (rawCustomProducts as any[]).map(normalizeProduct);
+let inMemoryDeletedIds: string[] = (rawDeletedIds as string[]) || [];
 
 export function getStoredCustomProducts(): Product[] {
-  if (typeof window === "undefined") return inMemoryCustomProducts.map(normalizeProduct);
+  const fileCustom = (rawCustomProducts as any[]).map(normalizeProduct);
+  if (typeof window === "undefined") {
+    const map = new Map<string, Product>();
+    fileCustom.forEach(p => map.set(p.id, p));
+    inMemoryCustomProducts.forEach(p => map.set(p.id, p));
+    return Array.from(map.values());
+  }
   try {
     const data = localStorage.getItem("fenou_custom_products");
-    const parsed = data ? JSON.parse(data) : [];
-    if (parsed && parsed.length > 0) {
-      inMemoryCustomProducts = parsed.map(normalizeProduct);
-      return inMemoryCustomProducts;
-    }
-    return inMemoryCustomProducts.map(normalizeProduct);
+    const parsed = data ? JSON.parse(data).map(normalizeProduct) : [];
+    const map = new Map<string, Product>();
+    fileCustom.forEach(p => map.set(p.id, p));
+    inMemoryCustomProducts.forEach(p => map.set(p.id, p));
+    parsed.forEach((p: Product) => map.set(p.id, p));
+    return Array.from(map.values());
   } catch {
-    return inMemoryCustomProducts.map(normalizeProduct);
+    return fileCustom;
   }
 }
 
@@ -224,17 +232,17 @@ export function saveStoredCustomProducts(products: Product[]) {
 }
 
 export function getStoredDeletedProductIds(): string[] {
-  if (typeof window === "undefined") return inMemoryDeletedIds;
+  const fileDeleted = (rawDeletedIds as string[]) || [];
+  if (typeof window === "undefined") {
+    return Array.from(new Set([...inMemoryDeletedIds, ...fileDeleted]));
+  }
   try {
     const data = localStorage.getItem("fenou_deleted_product_ids");
     const parsed = data ? JSON.parse(data) : [];
-    if (parsed && parsed.length > 0) {
-      inMemoryDeletedIds = parsed;
-      return parsed;
-    }
-    return inMemoryDeletedIds;
+    const merged = Array.from(new Set([...fileDeleted, ...inMemoryDeletedIds, ...parsed]));
+    return merged;
   } catch {
-    return inMemoryDeletedIds;
+    return Array.from(new Set([...inMemoryDeletedIds, ...fileDeleted]));
   }
 }
 

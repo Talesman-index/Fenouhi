@@ -24,7 +24,6 @@ export interface Product {
   specifications: { label: string; value: string }[];
   reviews: { author: string; rating: number; comment: string; date: string }[];
   related: string[]; // IDs of related products
-  // Étiquettes & spécifications téléphone (Catalogue FenouShop)
   conditionState?: "Scellé" | "Reconditionné" | "Occasion";
   grade?: string;
   simType?: string;
@@ -34,30 +33,34 @@ export interface Product {
   driveFolderUrl?: string;
 }
 
+export function getProductById(id: string): Product | undefined {
+  return PRODUCTS.find((p) => p.id === id || `product-${p.id}` === id);
+}
+
 export const PRODUCTS: Product[] = [
-  // 0. CHAUFFE-EAU ÉLECTRIQUE RAF R.7928 (2.3L - 1800W)
   {
-    id: "raf-electric-kettle-r7928",
-    title: "Chauffe-eau Électrique RAF R.7928",
-    subtitle: "Bouilloire électrique rapide 2.3L 1800W en acier inoxydable avec arrêt automatique et socle 360°",
-    price: 7000,
-    wholesale_price_5_units: 5500,
-    oldPrice: 12000,
-    minQty: 1,
-    image: "/images/assets/chauffe_eau_raf_r7928.png",
-    images: ["/images/assets/chauffe_eau_raf_r7928.png"],
-    category: "home",
-    badge: "BEST-SELLER",
-    origin: "Direct Usine RAF International",
-    weight: "0.9 kg",
-    volume: "0.004 CBM",
-    rating: 4.9,
-    reviewsCount: 142,
-    conditionState: "Scellé",
-    grade: "Neuf en Boîte",
-    description:
-      "Découvrez le Chauffe-eau Électrique / Bouilloire Inox RAF R.7928 haute performance 1800W. Doté d'une grande capacité de 2.3 Litres et d'un corps robuste en acier inoxydable brossé alimentaire sans BPA, il assure une ébullition ultra-rapide de votre eau en quelques minutes seulement. Équipé d'un système de sécurité avancé avec arrêt automatique après ébullition, protection anti-chauffe à sec, témoin lumineux LED et socle pivotant 360° sans fil avec poignée ergonomique anti-brûlure.",
-    features: [
+    "id": "raf-electric-kettle-r7928",
+    "title": "Chauffe-eau Électrique RAF R.7928",
+    "subtitle": "Bouilloire électrique rapide 2.3L 1800W en acier inoxydable avec arrêt automatique et socle 360°",
+    "price": 7000,
+    "wholesale_price_5_units": 5500,
+    "oldPrice": 12000,
+    "minQty": 1,
+    "image": "/images/assets/chauffe_eau_raf_r7928.png",
+    "images": [
+      "/images/assets/chauffe_eau_raf_r7928.png"
+    ],
+    "category": "home",
+    "badge": "BEST-SELLER",
+    "origin": "Direct Usine RAF International",
+    "weight": "0.9 kg",
+    "volume": "0.004 CBM",
+    "rating": 4.9,
+    "reviewsCount": 142,
+    "conditionState": "Scellé",
+    "grade": "Neuf en Boîte",
+    "description": "Découvrez le Chauffe-eau Électrique / Bouilloire Inox RAF R.7928 haute performance 1800W. Doté d'une grande capacité de 2.3 Litres et d'un corps robuste en acier inoxydable brossé alimentaire sans BPA, il assure une ébullition ultra-rapide de votre eau en quelques minutes seulement. Équipé d'un système de sécurité avancé avec arrêt automatique après ébullition, protection anti-chauffe à sec, témoin lumineux LED et socle pivotant 360° sans fil avec poignée ergonomique anti-brûlure.",
+    "features": [
       "Puissance haute performance 1800W : Ébullition ultra-rapide en moins de 3 minutes",
       "Grande capacité familiale 2.3 Litres (2.3L Large capacity)",
       "Intérieur et corps en acier inoxydable de qualité alimentaire garanti sans BPA",
@@ -65,1614 +68,1692 @@ export const PRODUCTS: Product[] = [
       "Protection contre la surchauffe et la mise en marche à vide",
       "Socle pivotant 360° sans fil avec range-cordon intégré",
       "Témoin lumineux LED de fonctionnement",
-      "Poignée ergonomique anti-brûlure Cool-Touch",
+      "Poignée ergonomique anti-brûlure Cool-Touch"
     ],
-    specifications: [
-      { label: "Marque & Modèle", value: "RAF Electric Kettle R.7928" },
-      { label: "Puissance", value: "1800 Watts (1800W)" },
-      { label: "Capacité", value: "2.3 Litres" },
-      { label: "Matériau", value: "Acier Inoxydable Brossé & Plastique Sans BPA" },
-      { label: "Alimentation", value: "220V-240V / 50-60Hz" },
-      { label: "Sécurité", value: "Arrêt automatique + Protection anti-chauffe à sec" },
-      { label: "Socle", value: "Pivotant 360° sans fil" },
-      { label: "Garantie", value: "Garantie Usine & Contrôle Qualité Fenouhi" },
+    "specifications": [
+      {
+        "label": "Marque & Modèle",
+        "value": "RAF Electric Kettle R.7928"
+      },
+      {
+        "label": "Puissance",
+        "value": "1800 Watts (1800W)"
+      },
+      {
+        "label": "Capacité",
+        "value": "2.3 Litres"
+      },
+      {
+        "label": "Matériau",
+        "value": "Acier Inoxydable Brossé & Plastique Sans BPA"
+      },
+      {
+        "label": "Alimentation",
+        "value": "220V-240V / 50-60Hz"
+      },
+      {
+        "label": "Sécurité",
+        "value": "Arrêt automatique + Protection anti-chauffe à sec"
+      },
+      {
+        "label": "Socle",
+        "value": "Pivotant 360° sans fil"
+      },
+      {
+        "label": "Garantie",
+        "value": "Garantie Usine & Contrôle Qualité Fenouhi"
+      }
     ],
-    reviews: [
-      { author: "Marc A. (Cotonou)", rating: 5, comment: "Chauffe l'eau à une vitesse impressionnante. La finition inox est de très bonne qualité.", date: "Il y a 3 jours" },
-      { author: "Félicité K. (Calavi)", rating: 5, comment: "Super bouilloire, grande capacité de 2.3L parfaite pour toute la famille. Prix imbattable !", date: "Il y a 1 semaine" },
-      { author: "Brice T. (Porto-Novo)", rating: 5, comment: "Reçu conforme, fonctionne parfaitement. Très pratique avec le socle 360.", date: "Il y a 2 semaines" },
+    "reviews": [
+      {
+        "author": "Marc A. (Cotonou)",
+        "rating": 5,
+        "comment": "Chauffe l'eau à une vitesse impressionnante. La finition inox est de très bonne qualité.",
+        "date": "Il y a 3 jours"
+      },
+      {
+        "author": "Félicité K. (Calavi)",
+        "rating": 5,
+        "comment": "Super bouilloire, grande capacité de 2.3L parfaite pour toute la famille. Prix imbattable !",
+        "date": "Il y a 1 semaine"
+      },
+      {
+        "author": "Brice T. (Porto-Novo)",
+        "rating": 5,
+        "comment": "Reçu conforme, fonctionne parfaitement. Très pratique avec le socle 360.",
+        "date": "Il y a 2 semaines"
+      }
     ],
-    related: ["lampe-lumineuse-d-angle", "robot-nettoyeur-4en1-jallen-gabor", "defroisseur-vapeur-haeger-vetements"],
+    "related": [
+      "lampe-lumineuse-d-angle",
+      "robot-nettoyeur-4en1-jallen-gabor",
+      "defroisseur-vapeur-haeger-vetements"
+    ]
   },
-  // 0. LAMPE LUMINEUSE D'ANGLE RGB
   {
-    id: "lampe-lumineuse-d-angle",
-    title: "Lampe Lumineuse d'Angle",
-    subtitle: "Lampadaire d'angle design multicolore avec télécommande & contrôle smartphone (Minuterie & Ambiance)",
-    price: 6000,
-    oldPrice: 12000,
-    minQty: 1,
-    image: "/images/assets/lampe_lumineuse_d_angle.jpg",
-    images: ["/images/assets/lampe_lumineuse_d_angle.jpg"],
-    category: "home",
-    badge: "TENDANCE",
-    origin: "Direct Usine Chine",
-    weight: "0.95 kg",
-    volume: "0.004 CBM",
-    rating: 4.9,
-    reviewsCount: 178,
-    conditionState: "Scellé",
-    grade: "Neuf en Boîte",
-    description:
-      "Transformez votre intérieur en un espace chaleureux et stylé grâce à cette lampe d’angle design. Compacte, elle se glisse parfaitement dans n’importe quel coin de votre salon, chambre ou bureau pour créer une lumière douce, colorée et apaisante. Avec ses multiples couleurs, ses effets lumineux et sa télécommande, vous pouvez changer l’ambiance selon votre humeur : soirée détente, ambiance romantique ou décoration festive… tout est possible !",
-    features: [
+    "id": "lampe-lumineuse-d-angle",
+    "title": "Lampe Lumineuse d'Angle",
+    "subtitle": "Lampadaire d'angle design multicolore avec télécommande & contrôle smartphone (Minuterie & Ambiance)",
+    "price": 6000,
+    "oldPrice": 12000,
+    "minQty": 1,
+    "image": "/images/assets/lampe_lumineuse_d_angle.jpg",
+    "images": [
+      "/images/assets/lampe_lumineuse_d_angle.jpg"
+    ],
+    "category": "home",
+    "badge": "TENDANCE",
+    "origin": "Direct Usine Chine",
+    "weight": "0.95 kg",
+    "volume": "0.004 CBM",
+    "rating": 4.9,
+    "reviewsCount": 178,
+    "conditionState": "Scellé",
+    "grade": "Neuf en Boîte",
+    "description": "Transformez votre intérieur en un espace chaleureux et stylé grâce à cette lampe d’angle design. Compacte, elle se glisse parfaitement dans n’importe quel coin de votre salon, chambre ou bureau pour créer une lumière douce, colorée et apaisante. Avec ses multiples couleurs, ses effets lumineux et sa télécommande, vous pouvez changer l’ambiance selon votre humeur : soirée détente, ambiance romantique ou décoration festive… tout est possible !",
+    "features": [
       "Design d'angle ultra-fin et minimaliste : s'intègre discrètement dans chaque coin",
       "Plus de 16 millions de couleurs RGB + Blanc chaud / Blanc froid réglables",
       "Double contrôle : Télécommande sans fil et Application mobile Bluetooth",
       "Mode synchronisation musicale et effets d'ambiance dynamiques",
       "Fonction minuterie programmable pour allumage et extinction automatiques",
-      "Alimentation USB / Secteur basse consommation",
+      "Alimentation USB / Secteur basse consommation"
     ],
-    specifications: [
-      { label: "Modèle", value: "Smart RGB Floor Lamp" },
-      { label: "Contrôle", value: "Télécommande IR + App Smartphone" },
-      { label: "Palette de couleurs", value: "16 Millions de couleurs RGB + Blancs" },
-      { label: "Alimentation", value: "Câble USB + adaptateur secteur inclus" },
-      { label: "Structure", value: "Trépied stable aluminium et diffuseur acrylique" },
-    ],
-    reviews: [
+    "specifications": [
       {
-        author: "David E.",
-        rating: 5,
-        comment: "Effet wow garanti dans le salon ! Les ambiances de couleurs le soir sont magiques et l'appli fonctionne super bien.",
-        date: "28 Août 2026",
+        "label": "Modèle",
+        "value": "Smart RGB Floor Lamp"
       },
+      {
+        "label": "Contrôle",
+        "value": "Télécommande IR + App Smartphone"
+      },
+      {
+        "label": "Palette de couleurs",
+        "value": "16 Millions de couleurs RGB + Blancs"
+      },
+      {
+        "label": "Alimentation",
+        "value": "Câble USB + adaptateur secteur inclus"
+      },
+      {
+        "label": "Structure",
+        "value": "Trépied stable aluminium et diffuseur acrylique"
+      }
     ],
-    related: ["bande-lumineuse-led-neon", "machine-a-laver-pliable-9l"],
+    "reviews": [
+      {
+        "author": "David E.",
+        "rating": 5,
+        "comment": "Effet wow garanti dans le salon ! Les ambiances de couleurs le soir sont magiques et l'appli fonctionne super bien.",
+        "date": "28 Août 2026"
+      }
+    ],
+    "related": [
+      "bande-lumineuse-led-neon",
+      "machine-a-laver-pliable-9l"
+    ]
   },
-
-  // 1. MACHINE À LAVER PLIABLE 9L
   {
-    id: "machine-a-laver-pliable-9l",
-    title: "Machine à Laver Pliable 9L",
-    subtitle: "Mini lave-linge portable avec panier essorage & désinfection lumière bleue (9L)",
-    price: 12000,
-    oldPrice: 24000,
-    minQty: 1,
-    image: "/images/assets/machine_a_laver_pliable_9l.png",
-    images: ["/images/assets/machine_a_laver_pliable_9l.png"],
-    category: "home",
-    badge: "COUP DE COEUR",
-    origin: "Direct Usine Chine",
-    weight: "1.8 kg",
-    volume: "0.008 CBM",
-    rating: 5.0,
-    reviewsCount: 230,
-    conditionState: "Scellé",
-    grade: "Neuf en Boîte",
-    description:
-      "Finies les corvées compliquées ! Découvrez la machine à laver pliable 9L, compacte, légère et ultra-pratique. Équipée d'un puissant moteur à pulsation bidirectionnel, d'une lumière bleue antibactérienne (Blu-ray) et d'un panier d'essorage amovible. Idéale pour les petits espaces, les chambres d'étudiants, les voyages ou le lavage hygiénique séparé des vêtements de bébé et sous-vêtements. Se plie en quelques secondes pour un rangement discret.",
-    features: [
+    "id": "machine-a-laver-pliable-9l",
+    "title": "Machine à Laver Pliable 9L",
+    "subtitle": "Mini lave-linge portable avec panier essorage & désinfection lumière bleue (9L)",
+    "price": 12000,
+    "oldPrice": 24000,
+    "minQty": 1,
+    "image": "/images/assets/machine_a_laver_pliable_9l.png",
+    "images": [
+      "/images/assets/machine_a_laver_pliable_9l.png"
+    ],
+    "category": "home",
+    "badge": "COUP DE COEUR",
+    "origin": "Direct Usine Chine",
+    "weight": "1.8 kg",
+    "volume": "0.008 CBM",
+    "rating": 5,
+    "reviewsCount": 230,
+    "conditionState": "Scellé",
+    "grade": "Neuf en Boîte",
+    "description": "Finies les corvées compliquées ! Découvrez la machine à laver pliable 9L, compacte, légère et ultra-pratique. Équipée d'un puissant moteur à pulsation bidirectionnel, d'une lumière bleue antibactérienne (Blu-ray) et d'un panier d'essorage amovible. Idéale pour les petits espaces, les chambres d'étudiants, les voyages ou le lavage hygiénique séparé des vêtements de bébé et sous-vêtements. Se plie en quelques secondes pour un rangement discret.",
+    "features": [
       "Grande capacité de 9 Litres pour les vêtements du quotidien",
       "Pliable et ultra-compacte : se range facilement sous un lit ou dans un placard",
       "Désinfection par lumière bleue antibactérienne intégrée (Blu-ray)",
       "Panier d'essorage amovible inclus pour un essorage rapide",
       "3 modes de minuterie tactile (3 min, 5 min, 10 min)",
-      "Tuyau d'évacuation d'eau et poignée de transport intégrés",
+      "Tuyau d'évacuation d'eau et poignée de transport intégrés"
     ],
-    specifications: [
-      { label: "Capacité de cuve", value: "9 Litres" },
-      { label: "Fonctions", value: "Lavage automatique + Essorage + Stérilisation Blu-ray" },
-      { label: "Puissance", value: "36W haute efficacité" },
-      { label: "Alimentation", value: "Adaptateur secteur 220V inclus" },
-      { label: "Matériaux", value: "Silicone TPE haute durabilité + ABS résistant" },
-    ],
-    reviews: [
+    "specifications": [
       {
-        author: "Audrey S.",
-        rating: 5,
-        comment: "Une vraie révolution pour laver les habits de mon bébé sans fatigue ! Très silencieuse et essore super bien.",
-        date: "28 Août 2026",
+        "label": "Capacité de cuve",
+        "value": "9 Litres"
       },
+      {
+        "label": "Fonctions",
+        "value": "Lavage automatique + Essorage + Stérilisation Blu-ray"
+      },
+      {
+        "label": "Puissance",
+        "value": "36W haute efficacité"
+      },
+      {
+        "label": "Alimentation",
+        "value": "Adaptateur secteur 220V inclus"
+      },
+      {
+        "label": "Matériaux",
+        "value": "Silicone TPE haute durabilité + ABS résistant"
+      }
     ],
-    related: ["bande-lumineuse-led-neon", "gourde-isotherme-mood-the-cup"],
+    "reviews": [
+      {
+        "author": "Audrey S.",
+        "rating": 5,
+        "comment": "Une vraie révolution pour laver les habits de mon bébé sans fatigue ! Très silencieuse et essore super bien.",
+        "date": "28 Août 2026"
+      }
+    ],
+    "related": [
+      "bande-lumineuse-led-neon",
+      "gourde-isotherme-mood-the-cup"
+    ]
   },
-
-  // 1. BANDE LUMINEUSE LED NÉON DÉCORATIVE (5M & 10M)
   {
-    id: "bande-lumineuse-led-neon",
-    title: "Bande Lumineuse LED Néon Décorative",
-    subtitle: "Ruban flexible LED néon étanche avec télécommande sans fil (5m : 6 000 F / 10m : 10 000 F)",
-    price: 6000,
-    oldPrice: 12000,
-    minQty: 1,
-    image: "/images/assets/bande_lumineuse_led_neon.png",
-    images: ["/images/assets/bande_lumineuse_led_neon.png"],
-    category: "home",
-    badge: "NOUVEAUTÉ",
-    origin: "Direct Usine Chine",
-    weight: "0.35 kg",
-    volume: "0.002 CBM",
-    rating: 4.9,
-    reviewsCount: 164,
-    conditionState: "Scellé",
-    grade: "Neuf en Boîte",
-    description:
-      "Bande lumineuse LED Néon flexible haute luminosité pour décoration intérieure, chambre, salon, setup gaming, bars et devantures. Éclairage uniforme et continu sans points LED visibles grâce à sa gaine en silicone souple étanche (IP67). Livrée avec son boîtier d'alimentation, ses clips de fixation murale et sa télécommande sans fil permettant de changer les couleurs, l'intensité et les modes d'éclairage dynamiques. Disponible en formats 5 mètres (6 000 FCFA) et 10 mètres (10 000 FCFA).",
-    features: [
+    "id": "bande-lumineuse-led-neon",
+    "title": "Bande Lumineuse LED Néon Décorative",
+    "subtitle": "Ruban flexible LED néon étanche avec télécommande sans fil (5m : 6 000 F / 10m : 10 000 F)",
+    "price": 6000,
+    "oldPrice": 12000,
+    "minQty": 1,
+    "image": "/images/assets/bande_lumineuse_led_neon.png",
+    "images": [
+      "/images/assets/bande_lumineuse_led_neon.png"
+    ],
+    "category": "home",
+    "badge": "NOUVEAUTÉ",
+    "origin": "Direct Usine Chine",
+    "weight": "0.35 kg",
+    "volume": "0.002 CBM",
+    "rating": 4.9,
+    "reviewsCount": 164,
+    "conditionState": "Scellé",
+    "grade": "Neuf en Boîte",
+    "description": "Bande lumineuse LED Néon flexible haute luminosité pour décoration intérieure, chambre, salon, setup gaming, bars et devantures. Éclairage uniforme et continu sans points LED visibles grâce à sa gaine en silicone souple étanche (IP67). Livrée avec son boîtier d'alimentation, ses clips de fixation murale et sa télécommande sans fil permettant de changer les couleurs, l'intensité et les modes d'éclairage dynamiques. Disponible en formats 5 mètres (6 000 FCFA) et 10 mètres (10 000 FCFA).",
+    "features": [
       "Disponible en 5 mètres (6 000 FCFA) et 10 mètres (10 000 FCFA)",
       "Diffusion lumineuse uniforme sans points apparents (effet néon continu)",
       "Silicone souple flexible pouvant former des lettres ou des formes",
       "Télécommande sans fil multi-fonctions incluse",
       "Étanchéité IP67 résistante aux éclaboussures",
-      "Clips de fixation et alimentation secteur inclus",
+      "Clips de fixation et alimentation secteur inclus"
     ],
-    specifications: [
-      { label: "Longueurs disponibles", value: "5m (6 000 FCFA) / 10m (10 000 FCFA)" },
-      { label: "Type d'éclairage", value: "Néon Flex Silicone Haute Densité" },
-      { label: "Contrôle", value: "Télécommande sans fil RF incluse" },
-      { label: "Indice de protection", value: "Étanche IP67" },
-      { label: "Alimentation", value: "Adaptateur secteur inclus" },
-    ],
-    reviews: [
+    "specifications": [
       {
-        author: "Kevin D.",
-        rating: 5,
-        comment: "L'effet néon continu est magnifique dans ma chambre ! Rien à voir avec les vieux rubans à points. Très facile à installer.",
-        date: "28 Août 2026",
+        "label": "Longueurs disponibles",
+        "value": "5m (6 000 FCFA) / 10m (10 000 FCFA)"
       },
+      {
+        "label": "Type d'éclairage",
+        "value": "Néon Flex Silicone Haute Densité"
+      },
+      {
+        "label": "Contrôle",
+        "value": "Télécommande sans fil RF incluse"
+      },
+      {
+        "label": "Indice de protection",
+        "value": "Étanche IP67"
+      },
+      {
+        "label": "Alimentation",
+        "value": "Adaptateur secteur inclus"
+      }
     ],
-    related: ["gourde-isotherme-mood-the-cup", "projecteur-led-rl-16"],
+    "reviews": [
+      {
+        "author": "Kevin D.",
+        "rating": 5,
+        "comment": "L'effet néon continu est magnifique dans ma chambre ! Rien à voir avec les vieux rubans à points. Très facile à installer.",
+        "date": "28 Août 2026"
+      }
+    ],
+    "related": [
+      "gourde-isotherme-mood-the-cup",
+      "projecteur-led-rl-16"
+    ]
   },
-
-  // 1. GOURDE ISOTHERME MOOD THE CUP (1L)
   {
-    id: "gourde-isotherme-mood-the-cup",
-    title: "Gourde Isotherme Mood The Cup (1L)",
-    subtitle: "Thermos inox double paroi avec paille et poignée ergonomique (Chaud & Froid 24h)",
-    price: 4000,
-    oldPrice: 8000,
-    minQty: 1,
-    image: "/images/assets/gourde_isotherme_mood_the_cup.jpg",
-    images: ["/images/assets/gourde_isotherme_mood_the_cup.jpg"],
-    category: "home",
-    badge: "MEILLEURE VENTE",
-    origin: "Direct Usine Chine",
-    weight: "0.45 kg",
-    volume: "0.002 CBM",
-    rating: 4.9,
-    reviewsCount: 196,
-    conditionState: "Scellé",
-    grade: "Neuf en Boîte",
-    description:
-      "Gourde isotherme grande capacité de 1 Litre (1000ml) modèle Mood The Cup en acier inoxydable double paroi sous vide. Conserve parfaitement vos boissons chaudes jusqu'à 12 heures et vos boissons glacées jusqu'à 24 heures. Dotée d'un couvercle hermétique 2-en-1 avec paille réutilisable en silicone, bouchon antifuite et poignée ergonomique renforcée pour un transport aisé au quotidien, au bureau ou au sport.",
-    features: [
+    "id": "gourde-isotherme-mood-the-cup",
+    "title": "Gourde Isotherme Mood The Cup (1L)",
+    "subtitle": "Thermos inox double paroi avec paille et poignée ergonomique (Chaud & Froid 24h)",
+    "price": 4000,
+    "oldPrice": 8000,
+    "minQty": 1,
+    "image": "/images/assets/gourde_isotherme_mood_the_cup.jpg",
+    "images": [
+      "/images/assets/gourde_isotherme_mood_the_cup.jpg"
+    ],
+    "category": "home",
+    "badge": "MEILLEURE VENTE",
+    "origin": "Direct Usine Chine",
+    "weight": "0.45 kg",
+    "volume": "0.002 CBM",
+    "rating": 4.9,
+    "reviewsCount": 196,
+    "conditionState": "Scellé",
+    "grade": "Neuf en Boîte",
+    "description": "Gourde isotherme grande capacité de 1 Litre (1000ml) modèle Mood The Cup en acier inoxydable double paroi sous vide. Conserve parfaitement vos boissons chaudes jusqu'à 12 heures et vos boissons glacées jusqu'à 24 heures. Dotée d'un couvercle hermétique 2-en-1 avec paille réutilisable en silicone, bouchon antifuite et poignée ergonomique renforcée pour un transport aisé au quotidien, au bureau ou au sport.",
+    "features": [
       "Grande contenance de 1 Litre (1000 ml)",
       "Isolation thermique double paroi sous vide (Chaud 12h / Froid 24h)",
       "Acier inoxydable alimentaire 304 sans BPA, sain et inodore",
       "Couvercle hermétique anti-fuite avec paille intégrée",
       "Poignée ergonomique confortable et solide",
-      "Compatible avec les porte-gobelets de voiture",
+      "Compatible avec les porte-gobelets de voiture"
     ],
-    specifications: [
-      { label: "Contenance", value: "1 Litre (1000 ml)" },
-      { label: "Matériau", value: "Acier Inoxydable 304 sans BPA" },
-      { label: "Performance thermique", value: "Froid 24h / Chaud 12h" },
-      { label: "Finition", value: "Revêtement mat poudré" },
-      { label: "Accessoires inclus", value: "Paille silicone + Couvercle antifuite" },
-    ],
-    reviews: [
+    "specifications": [
       {
-        author: "Fadila T.",
-        rating: 5,
-        comment: "Incroyable ! L'eau reste fraîche toute la journée sous le soleil de Cotonou. Les couleurs sont magnifiques.",
-        date: "28 Août 2026",
+        "label": "Contenance",
+        "value": "1 Litre (1000 ml)"
       },
+      {
+        "label": "Matériau",
+        "value": "Acier Inoxydable 304 sans BPA"
+      },
+      {
+        "label": "Performance thermique",
+        "value": "Froid 24h / Chaud 12h"
+      },
+      {
+        "label": "Finition",
+        "value": "Revêtement mat poudré"
+      },
+      {
+        "label": "Accessoires inclus",
+        "value": "Paille silicone + Couvercle antifuite"
+      }
     ],
-    related: ["porte-manteau-roulettes-grand", "porte-vetements-chaussures-fer"],
+    "reviews": [
+      {
+        "author": "Fadila T.",
+        "rating": 5,
+        "comment": "Incroyable ! L'eau reste fraîche toute la journée sous le soleil de Cotonou. Les couleurs sont magnifiques.",
+        "date": "28 Août 2026"
+      }
+    ],
+    "related": [
+      "porte-manteau-roulettes-grand",
+      "porte-vetements-chaussures-fer"
+    ]
   },
-
-  // 1. PORTE MANTEAU ET HABIT EN FER AVEC ROULETTES (GRAND MODÈLE)
   {
-    id: "porte-manteau-roulettes-grand",
-    title: "Porte Manteau et Habit en Fer avec Roulettes",
-    subtitle: "Grand modèle double portant mobile avec roulettes 360° et double étagère chaussures",
-    price: 15000,
-    oldPrice: 28000,
-    minQty: 1,
-    image: "/images/assets/porte_manteau_roulettes_grand.jpg",
-    images: ["/images/assets/porte_manteau_roulettes_grand.jpg"],
-    category: "home",
-    badge: "GRAND MODÈLE",
-    origin: "Direct Usine Chine",
-    weight: "4.9 kg",
-    volume: "0.025 CBM",
-    rating: 5.0,
-    reviewsCount: 112,
-    conditionState: "Scellé",
-    grade: "Neuf en Carton",
-    description:
-      "Grand porte-manteau et penderie mobile en fer noir mat renforcé. Conçu avec deux grandes barres de suspension à billes anti-chute, 6 crochets latéraux pour chapeaux, sacs et écharpes, ainsi qu'une double étagère inférieure extra-large pour ranger chaussures, valises et boîtes. Équipé de 4 roulettes multidirectionnelles 360° avec freins pour un déplacement fluide et sans effort.",
-    features: [
+    "id": "porte-manteau-roulettes-grand",
+    "title": "Porte Manteau et Habit en Fer avec Roulettes",
+    "subtitle": "Grand modèle double portant mobile avec roulettes 360° et double étagère chaussures",
+    "price": 15000,
+    "oldPrice": 28000,
+    "minQty": 1,
+    "image": "/images/assets/porte_manteau_roulettes_grand.jpg",
+    "images": [
+      "/images/assets/porte_manteau_roulettes_grand.jpg"
+    ],
+    "category": "home",
+    "badge": "GRAND MODÈLE",
+    "origin": "Direct Usine Chine",
+    "weight": "4.9 kg",
+    "volume": "0.025 CBM",
+    "rating": 5,
+    "reviewsCount": 112,
+    "conditionState": "Scellé",
+    "grade": "Neuf en Carton",
+    "description": "Grand porte-manteau et penderie mobile en fer noir mat renforcé. Conçu avec deux grandes barres de suspension à billes anti-chute, 6 crochets latéraux pour chapeaux, sacs et écharpes, ainsi qu'une double étagère inférieure extra-large pour ranger chaussures, valises et boîtes. Équipé de 4 roulettes multidirectionnelles 360° avec freins pour un déplacement fluide et sans effort.",
+    "features": [
       "Grand format haute capacité avec double penderie étagée",
       "4 roulettes pivotantes à 360° avec système de blocage / freins",
       "Double niveau d'étagères basses pour chaussures, valises et linge",
       "Structure en acier tubulaire noir mat anti-corrosion et anti-rayures",
       "Crochets latéraux ergonomiques pour sacs, manteaux et accessoires",
-      "Billes d'espacement sur les barres pour maintenir les cintres ordonnés",
+      "Billes d'espacement sur les barres pour maintenir les cintres ordonnés"
     ],
-    specifications: [
-      { label: "Modèle", value: "Grand Modèle Renforcé" },
-      { label: "Mobilité", value: "4 Roulettes 360° avec freins" },
-      { label: "Rangement", value: "Double portant + Double étagère + 6 crochets" },
-      { label: "Couleur", value: "Noir mat élégant" },
-      { label: "Capacité max", value: "Jusqu'à 65 kg" },
-    ],
-    reviews: [
+    "specifications": [
       {
-        author: "Boris M.",
-        rating: 5,
-        comment: "Ce grand modèle est parfait ! Les roulettes permettent de le déplacer très facilement et il supporte beaucoup d'habits et vestes.",
-        date: "28 Août 2026",
+        "label": "Modèle",
+        "value": "Grand Modèle Renforcé"
       },
+      {
+        "label": "Mobilité",
+        "value": "4 Roulettes 360° avec freins"
+      },
+      {
+        "label": "Rangement",
+        "value": "Double portant + Double étagère + 6 crochets"
+      },
+      {
+        "label": "Couleur",
+        "value": "Noir mat élégant"
+      },
+      {
+        "label": "Capacité max",
+        "value": "Jusqu'à 65 kg"
+      }
     ],
-    related: ["porte-vetements-chaussures-fer", "projecteur-led-rl-16"],
+    "reviews": [
+      {
+        "author": "Boris M.",
+        "rating": 5,
+        "comment": "Ce grand modèle est parfait ! Les roulettes permettent de le déplacer très facilement et il supporte beaucoup d'habits et vestes.",
+        "date": "28 Août 2026"
+      }
+    ],
+    "related": [
+      "porte-vetements-chaussures-fer",
+      "projecteur-led-rl-16"
+    ]
   },
-
-  // 1. PORTE VÊTEMENTS ET CHAUSSURES EN FER
   {
-    id: "porte-vetements-chaussures-fer",
-    title: "Porte Vêtements et Chaussures en Fer",
-    subtitle: "Double penderie métallique avec étagère basse pour chaussures (150×110×57cm)",
-    price: 12000,
-    oldPrice: 22000,
-    minQty: 1,
-    image: "/images/assets/porte_vetements_chaussures_fer.png",
-    images: ["/images/assets/porte_vetements_chaussures_fer.png"],
-    category: "home",
-    badge: "TENDANCE",
-    origin: "Direct Usine Chine",
-    weight: "3.8 kg",
-    volume: "0.02 CBM",
-    rating: 4.9,
-    reviewsCount: 89,
-    conditionState: "Scellé",
-    grade: "Neuf en Carton",
-    description:
-      "Porte-vêtements double barre en structure métallique robuste et thermolaquée blanche. Équipé d'une double rangée pour cintres, de crochets latéraux pour sacs et chapeaux, et d'un plateau inférieur spacieux idéal pour ranger vos paires de chaussures et boîtes de rangement. Montage facile et rapide.",
-    features: [
+    "id": "porte-vetements-chaussures-fer",
+    "title": "Porte Vêtements et Chaussures en Fer",
+    "subtitle": "Double penderie métallique avec étagère basse pour chaussures (150×110×57cm)",
+    "price": 12000,
+    "oldPrice": 22000,
+    "minQty": 1,
+    "image": "/images/assets/porte_vetements_chaussures_fer.png",
+    "images": [
+      "/images/assets/porte_vetements_chaussures_fer.png"
+    ],
+    "category": "home",
+    "badge": "TENDANCE",
+    "origin": "Direct Usine Chine",
+    "weight": "3.8 kg",
+    "volume": "0.02 CBM",
+    "rating": 4.9,
+    "reviewsCount": 89,
+    "conditionState": "Scellé",
+    "grade": "Neuf en Carton",
+    "description": "Porte-vêtements double barre en structure métallique robuste et thermolaquée blanche. Équipé d'une double rangée pour cintres, de crochets latéraux pour sacs et chapeaux, et d'un plateau inférieur spacieux idéal pour ranger vos paires de chaussures et boîtes de rangement. Montage facile et rapide.",
+    "features": [
       "Dimensions : 150 cm (hauteur) × 110 cm (largeur) × 57 cm (profondeur)",
       "Structure double tringle pour suspendre 2× plus de vêtements",
       "Étagère basse intégrée pour chaussures, paniers et boîtes",
       "Métal renforcé anti-rouille et finition laquée blanche élégante",
       "Butées anti-glissement sur les barres pour maintenir les cintres",
-      "Montage et démontage ultra-rapide",
+      "Montage et démontage ultra-rapide"
     ],
-    specifications: [
-      { label: "Dimensions", value: "150 × 110 × 57 cm" },
-      { label: "Matériau", value: "Fer / Acier thermolaqué haute résistance" },
-      { label: "Configuration", value: "Double portant + étagère chaussures" },
-      { label: "Couleur", value: "Blanc épuré" },
-      { label: "Capacité de charge", value: "Jusqu'à 45 kg" },
-    ],
-    reviews: [
+    "specifications": [
       {
-        author: "Sandrine K.",
-        rating: 5,
-        comment: "Super pratique et solide ! Prend peu de place dans la chambre et permet de ranger plein de vêtements et chaussures.",
-        date: "28 Août 2026",
+        "label": "Dimensions",
+        "value": "150 × 110 × 57 cm"
       },
+      {
+        "label": "Matériau",
+        "value": "Fer / Acier thermolaqué haute résistance"
+      },
+      {
+        "label": "Configuration",
+        "value": "Double portant + étagère chaussures"
+      },
+      {
+        "label": "Couleur",
+        "value": "Blanc épuré"
+      },
+      {
+        "label": "Capacité de charge",
+        "value": "Jusqu'à 45 kg"
+      }
     ],
-    related: ["projecteur-led-rl-16", "coque-iphone-15-pro-max-silicone"],
+    "reviews": [
+      {
+        "author": "Sandrine K.",
+        "rating": 5,
+        "comment": "Super pratique et solide ! Prend peu de place dans la chambre et permet de ranger plein de vêtements et chaussures.",
+        "date": "28 Août 2026"
+      }
+    ],
+    "related": [
+      "projecteur-led-rl-16",
+      "coque-iphone-15-pro-max-silicone"
+    ]
   },
-
-  // 1. PROJECTEUR LED RL-16 (NOUVEAU MODÈLE AVEC TRÉPIED ET SUPPORT TÉLÉPHONE)
   {
-    id: "projecteur-led-rl-16",
-    title: "Projecteur Led RL-16",
-    subtitle: "Panneau d'éclairage LED professionnel avec trépied de sol et support téléphone",
-    price: 8000,
-    oldPrice: 15000,
-    minQty: 1,
-    image: "/images/assets/projecteur_led_rl16.png",
-    images: ["/images/assets/projecteur_led_rl16.png"],
-    category: "electronics",
-    badge: "NOUVEAUTÉ",
-    origin: "Direct Usine Chine",
-    weight: "1.2 kg",
-    volume: "0.006 CBM",
-    rating: 4.9,
-    reviewsCount: 148,
-    conditionState: "Scellé",
-    grade: "Neuf en Boîte",
-    description:
-      "Projecteur lumière LED RL-16 nouveau modèle spécialement conçu pour les créateurs de contenu, le live streaming, les séances photo et vidéos TikTok / YouTube. Livré complet avec trépied de sol métallique robuste réglable en hauteur, télécommande sans fil multi-fonctions (réglage d'intensité et de température de couleur chaud/froid) et support flexible pour smartphone.",
-    features: [
+    "id": "projecteur-led-rl-16",
+    "title": "Projecteur Led RL-16",
+    "subtitle": "Panneau d'éclairage LED professionnel avec trépied de sol et support téléphone",
+    "price": 8000,
+    "oldPrice": 15000,
+    "minQty": 1,
+    "image": "/images/assets/projecteur_led_rl16.png",
+    "images": [
+      "/images/assets/projecteur_led_rl16.png"
+    ],
+    "category": "electronics",
+    "badge": "NOUVEAUTÉ",
+    "origin": "Direct Usine Chine",
+    "weight": "1.2 kg",
+    "volume": "0.006 CBM",
+    "rating": 4.9,
+    "reviewsCount": 148,
+    "conditionState": "Scellé",
+    "grade": "Neuf en Boîte",
+    "description": "Projecteur lumière LED RL-16 nouveau modèle spécialement conçu pour les créateurs de contenu, le live streaming, les séances photo et vidéos TikTok / YouTube. Livré complet avec trépied de sol métallique robuste réglable en hauteur, télécommande sans fil multi-fonctions (réglage d'intensité et de température de couleur chaud/froid) et support flexible pour smartphone.",
+    "features": [
       "Panneau LED RL-16 haute puissance et lumière ultra-douce",
       "Inclus : Grand trépied de sol réglable en hauteur",
       "Inclus : Support rotatif et flexible pour smartphone",
       "Télécommande sans fil pour contrôle à distance",
       "3 modes de température de couleur (blanc froid, chaud, neutre)",
-      "Branchement secteur direct pour utilisation prolongée",
+      "Branchement secteur direct pour utilisation prolongée"
     ],
-    specifications: [
-      { label: "Modèle", value: "RL-16 Nouveau Modèle" },
-      { label: "Type d'éclairage", value: "Panneau LED Studio & Vidéo" },
-      { label: "Accessoires inclus", value: "Trépied + Télécommande + Support Téléphone" },
-      { label: "Alimentation", value: "Secteur 220V" },
-      { label: "État", value: "Neuf Scellé d'origine" },
-    ],
-    reviews: [
+    "specifications": [
       {
-        author: "Grâce A.",
-        rating: 5,
-        comment: "Excellente luminosité pour mes lives TikTok et shooting produits. Le trépied est très stable et la télécommande super pratique !",
-        date: "28 Août 2026",
+        "label": "Modèle",
+        "value": "RL-16 Nouveau Modèle"
       },
+      {
+        "label": "Type d'éclairage",
+        "value": "Panneau LED Studio & Vidéo"
+      },
+      {
+        "label": "Accessoires inclus",
+        "value": "Trépied + Télécommande + Support Téléphone"
+      },
+      {
+        "label": "Alimentation",
+        "value": "Secteur 220V"
+      },
+      {
+        "label": "État",
+        "value": "Neuf Scellé d'origine"
+      }
     ],
-    related: ["coque-iphone-15-pro-max-silicone", "iphone-15"],
+    "reviews": [
+      {
+        "author": "Grâce A.",
+        "rating": 5,
+        "comment": "Excellente luminosité pour mes lives TikTok et shooting produits. Le trépied est très stable et la télécommande super pratique !",
+        "date": "28 Août 2026"
+      }
+    ],
+    "related": [
+      "coque-iphone-15-pro-max-silicone",
+      "iphone-15"
+    ]
   },
-
-  // 1. COQUE IPHONE 15 PRO MAX (Accessoire Nouveauté)
   {
-    id: "coque-iphone-15-pro-max-silicone",
-    title: "Coque iPhone 15 Pro Max Silicone",
-    subtitle: "Protection antichoc en silicone liquide doux avec doublure microfibre",
-    price: 3500,
-    oldPrice: 6000,
-    minQty: 1,
-    image: "/images/assets/iphone16_case_blue.png",
-    images: ["/images/assets/iphone16_case_blue.png", "/images/assets/iphone16_case_black.png", "/images/assets/iphone16_case_pink.png"],
-    category: "electronics",
-    badge: "NOUVEAUTÉ",
-    origin: "Hub Asie & International",
-    weight: "0.08 kg",
-    volume: "0.0005 CBM",
-    rating: 5.0,
-    reviewsCount: 38,
-    conditionState: "Scellé",
-    grade: "Neuf Scellé",
-    description:
-      "Coque de protection antichoc en silicone liquide haute qualité pour iPhone 15 Pro Max. Doublure intérieure en microfibre anti-rayures, découpes précises pour tous les boutons et ports, et compatible charge sans fil MagSafe.",
-    features: [
+    "id": "coque-iphone-15-pro-max-silicone",
+    "title": "Coque iPhone 15 Pro Max Silicone",
+    "subtitle": "Protection antichoc en silicone liquide doux avec doublure microfibre",
+    "price": 3500,
+    "oldPrice": 6000,
+    "minQty": 1,
+    "image": "/images/assets/iphone16_case_blue.png",
+    "images": [
+      "/images/assets/iphone16_case_blue.png",
+      "/images/assets/iphone16_case_black.png",
+      "/images/assets/iphone16_case_pink.png"
+    ],
+    "category": "electronics",
+    "badge": "NOUVEAUTÉ",
+    "origin": "Hub Asie & International",
+    "weight": "0.08 kg",
+    "volume": "0.0005 CBM",
+    "rating": 5,
+    "reviewsCount": 38,
+    "conditionState": "Scellé",
+    "grade": "Neuf Scellé",
+    "description": "Coque de protection antichoc en silicone liquide haute qualité pour iPhone 15 Pro Max. Doublure intérieure en microfibre anti-rayures, découpes précises pour tous les boutons et ports, et compatible charge sans fil MagSafe.",
+    "features": [
       "Silicone liquide soyeux et anti-dérapant",
       "Doublure intérieure en microfibre douce",
       "Rebords surélevés pour protéger l'écran et la caméra",
       "Protection contre les chocs et chutes",
-      "Compatible charge sans fil",
+      "Compatible charge sans fil"
     ],
-    specifications: [
-      { label: "Modèle compatible", value: "iPhone 15 Pro Max / 16 Pro Max" },
-      { label: "Matériau", value: "Silicone liquide + Microfibre" },
-      { label: "Poids", value: "80 g" },
-      { label: "Finition", value: "Toucher soyeux anti-traces" },
+    "specifications": [
+      {
+        "label": "Modèle compatible",
+        "value": "iPhone 15 Pro Max / 16 Pro Max"
+      },
+      {
+        "label": "Matériau",
+        "value": "Silicone liquide + Microfibre"
+      },
+      {
+        "label": "Poids",
+        "value": "80 g"
+      },
+      {
+        "label": "Finition",
+        "value": "Toucher soyeux anti-traces"
+      }
     ],
-    reviews: [
-      { author: "Marc A.", rating: 5, comment: "Excellente qualité de coque, très douce et protège parfaitement le téléphone !", date: "27 Août 2026" },
+    "reviews": [
+      {
+        "author": "Marc A.",
+        "rating": 5,
+        "comment": "Excellente qualité de coque, très douce et protège parfaitement le téléphone !",
+        "date": "27 Août 2026"
+      }
     ],
-    related: ["iphone-15", "iphone-16"],
+    "related": [
+      "iphone-15",
+      "iphone-16"
+    ]
   },
-
-  // 1. IPHONE 15 (High-Tech Flagship)
   {
-    id: "iphone-15",
-    title: "iPhone 15",
-    subtitle: "Châssis Titane de qualité spatiale & USB-C Universel",
-    price: 230000,
-    oldPrice: 310000,
-    minQty: 1,
-    image: "/images/assets/iphone15/iphone15_bluetitanium.jpg",
-    images: ["/images/assets/iphone15/iphone15_bluetitanium.jpg", "/images/assets/hero_iphone16.png"],
-    driveFolderUrl: "https://drive.google.com/drive/folders/18GZI_kVisZptLbaawH3LXWV2Y4WvKpYc?usp=sharing",
-    category: "electronics",
-    badge: "PREMIUM",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.19 kg",
-    volume: "0.001 CBM",
-    rating: 5.0,
-    reviewsCount: 215,
-    conditionState: "Scellé",
-    grade: "Grade A/B/C",
-    simType: "eSIM & Dual SIM",
-    regionVersion: "Version US / EU",
-    storageOptions: ["128 Go", "256 Go", "512 Go", "1 To"],
-    batteryHealth: "100% Scellé / Neuf",
-    description:
-      "La génération iPhone 15 en version Scellée / Neuf ou Grade A. Conçu en titane ultra léger et résistant, port USB-C 3.0 ultra rapide, bouton Action personnalisable et zoom optique 5x. Tarifs grossistes de 230 000 à 492 000 FCFA.",
-    features: [
-      "Design Titane ultra léger et robuste",
-      "Connectique universelle USB-C",
-      "Bouton Action programmable",
-      "Puce A17 Pro gravée en 3nm",
-      "Zoom optique 5x télescopique",
+    "id": "dr-rashel-vitamin-c-set",
+    "title": "Dr. Rashel Vitamine C & Acide Hyaluronique – Gamme Soins Anti-Âge & Éclat",
+    "subtitle": "Nettoyant 80g, Sérum Visage 50ml, Sérum Yeux 30ml & Crème Visage 50g",
+    "price": 10000,
+    "oldPrice": 16000,
+    "minQty": 1,
+    "image": "/images/assets/dr_rashel_vitamin_c_2.jpg",
+    "images": [
+      "/images/assets/dr_rashel_vitamin_c_2.jpg",
+      "/images/assets/dr_rashel_vitamin_c_1.jpg"
     ],
-    specifications: [
-      { label: "Gamme", value: "iPhone 15" },
-      { label: "État produit", value: "Scellé / Neuf & Grade A/B/C" },
-      { label: "Connecteur", value: "USB-C" },
-      { label: "SIM", value: "eSIM / Dual SIM physique" },
-      { label: "Plage tarifaire", value: "230 000 à 492 000 FCFA" },
-    ],
-    reviews: [
-      { author: "Rodrigue T.", rating: 5, comment: "Reçu l'iPhone 15 scellé en boîte d'origine. Produit 100% authentique !", date: "15 Jan. 2025" },
-    ],
-    related: ["iphone-14", "iphone-16", "iphone-17"],
-  },
-
-  // 2. DR RASHEL VITAMINE C (Beauty Best Seller)
-  {
-    id: "dr-rashel-vitamin-c-set",
-    title: "Dr. Rashel Vitamine C & Acide Hyaluronique – Gamme Soins Anti-Âge & Éclat",
-    subtitle: "Nettoyant 80g, Sérum Visage 50ml, Sérum Yeux 30ml & Crème Visage 50g",
-    price: 10000,
-    oldPrice: 16000,
-    minQty: 1,
-    image: "/images/assets/dr_rashel_vitamin_c_2.jpg",
-    images: ["/images/assets/dr_rashel_vitamin_c_2.jpg", "/images/assets/dr_rashel_vitamin_c_1.jpg"],
-    category: "beauty",
-    badge: "VITAMINE C & ACIDE HYALURONIQUE",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.75 kg",
-    volume: "0.002 CBM",
-    rating: 4.9,
-    reviewsCount: 148,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "La série de soins de la peau anti-âge et éclat à la vitamine C et à l'acide hyaluronique du Dr Rashel est spécialement conçue pour la routine quotidienne des soins du visage. Formulée avec une haute concentration de vitamine C pure et d'acide hyaluronique, elle rafraîchit et restaure l'éclat et la clarté naturels du teint. Un puissant boost d'antioxydants répare et protège la peau contre les dommages environnementaux et l'exposition au soleil, estompe efficacement les taches solaires et la décoloration, affine la texture de la peau, réduit la formation des rides et élimine en douceur les impuretés pour révéler un teint visiblement plus jeune, hydraté et lumineux.",
-    features: [
+    "category": "beauty",
+    "badge": "VITAMINE C & ACIDE HYALURONIQUE",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.75 kg",
+    "volume": "0.002 CBM",
+    "rating": 4.9,
+    "reviewsCount": 148,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "La série de soins de la peau anti-âge et éclat à la vitamine C et à l'acide hyaluronique du Dr Rashel est spécialement conçue pour la routine quotidienne des soins du visage. Formulée avec une haute concentration de vitamine C pure et d'acide hyaluronique, elle rafraîchit et restaure l'éclat et la clarté naturels du teint. Un puissant boost d'antioxydants répare et protège la peau contre les dommages environnementaux et l'exposition au soleil, estompe efficacement les taches solaires et la décoloration, affine la texture de la peau, réduit la formation des rides et élimine en douceur les impuretés pour révéler un teint visiblement plus jeune, hydraté et lumineux.",
+    "features": [
       "Nettoyant Visage Vitamine C (80 g) : Rafraîchit, purifie et restaure la clarté naturelle en éliminant les impuretés",
       "Sérum Visage Vitamine C & Acide Hyaluronique (50 ml) : Estompe taches solaires et hyperpigmentation, réduit les rides",
       "Sérum Contour des Yeux Vitamine C (30 ml) : Hydratation 24h, atténue cernes, poches et ridules du regard",
       "Crème Visage Vitamine C (50 g) : Hydratation intense en profondeur, nutrition et fermeté",
       "Riche en antioxydants puissants pour réparer les dommages environnementaux et solaires",
-      "Routine quotidienne complète pour un teint radieux, unifié et éclatant de santé",
+      "Routine quotidienne complète pour un teint radieux, unifié et éclatant de santé"
     ],
-    specifications: [
-      { label: "Marque / Fabricant", value: "DR. RASHEL Skincare" },
-      { label: "Gamme", value: "Vitamin C Brightening & Anti-Aging Series" },
-      { label: "Contenu du pack", value: "4 pièces (Nettoyant 80g + Sérum Visage 50ml + Sérum Yeux 30ml + Crème Visage 50g)" },
-      { label: "Actifs clés", value: "Vitamine C pure, Acide Hyaluronique, Collagène, Antioxydants" },
-      { label: "Actions principales", value: "Anti-taches, Anti-âge, Éclat naturel & Protection antioxydante" },
-      { label: "Moment d'application", value: "Routine quotidienne Matin & Soir" },
-      { label: "État / Condition", value: "Neuf Boîte Scellée avec emballages individuels" },
+    "specifications": [
+      {
+        "label": "Marque / Fabricant",
+        "value": "DR. RASHEL Skincare"
+      },
+      {
+        "label": "Gamme",
+        "value": "Vitamin C Brightening & Anti-Aging Series"
+      },
+      {
+        "label": "Contenu du pack",
+        "value": "4 pièces (Nettoyant 80g + Sérum Visage 50ml + Sérum Yeux 30ml + Crème Visage 50g)"
+      },
+      {
+        "label": "Actifs clés",
+        "value": "Vitamine C pure, Acide Hyaluronique, Collagène, Antioxydants"
+      },
+      {
+        "label": "Actions principales",
+        "value": "Anti-taches, Anti-âge, Éclat naturel & Protection antioxydante"
+      },
+      {
+        "label": "Moment d'application",
+        "value": "Routine quotidienne Matin & Soir"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Boîte Scellée avec emballages individuels"
+      }
     ],
-    reviews: [
-      { author: "Mariam O.", rating: 5, comment: "La gamme vitamine C de Dr. Rashel a complètement transformé mon teint ! Mes taches brunes ont presque disparu en 3 semaines.", date: "23 Fév. 2025" },
-      { author: "Flore K.", rating: 5, comment: "Très bon rapport qualité-prix. Les flacons sont généreux et la crème sent divinement bon l'orange.", date: "23 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Mariam O.",
+        "rating": 5,
+        "comment": "La gamme vitamine C de Dr. Rashel a complètement transformé mon teint ! Mes taches brunes ont presque disparu en 3 semaines.",
+        "date": "23 Fév. 2025"
+      },
+      {
+        "author": "Flore K.",
+        "rating": 5,
+        "comment": "Très bon rapport qualité-prix. Les flacons sont généreux et la crème sent divinement bon l'orange.",
+        "date": "23 Fév. 2025"
+      }
     ],
-    related: ["dr-rashel-24k-gold-5pieces", "coffret-snail-collagen-5pieces", "disaar-masque-vitamine-c"],
+    "related": [
+      "dr-rashel-24k-gold-5pieces",
+      "coffret-snail-collagen-5pieces",
+      "disaar-masque-vitamine-c"
+    ]
   },
-
-  // 3. IPHONE 13 (High-Tech Top Ventes)
   {
-    id: "iphone-13",
-    title: "iPhone 13",
-    subtitle: "Puce A15 Bionic, Écran 120Hz & Mode Cinéma",
-    price: 131000,
-    oldPrice: 180000,
-    minQty: 1,
-    image: "/images/assets/iphone13/iphone13_gold.png",
-    images: ["/images/assets/iphone13/iphone13_gold.png", "/images/assets/card_hero_iphone.jpg"],
-    driveFolderUrl: "https://drive.google.com/drive/folders/1pWGNnSNlNAc4JY6kUn1rRvcOO7VAjh_e?usp=sharing",
-    category: "electronics",
-    badge: "TOP VENTES",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.20 kg",
-    volume: "0.001 CBM",
-    rating: 4.9,
-    reviewsCount: 380,
-    conditionState: "Reconditionné",
-    grade: "Grade B/C",
-    simType: "eSIM & Dual SIM",
-    regionVersion: "Version US (LL/A)",
-    storageOptions: ["128 Go", "256 Go", "512 Go", "1 To"],
-    batteryHealth: "90% - 100%",
-    description:
-      "Excellence technologique : iPhone 13. Encoche réduite de 20%, écran fluide 120 Hz, Mode Cinéma pour des vidéos professionnelles avec faible profondeur de champ. Tarifs de 131 000 à 328 000 FCFA.",
-    features: [
-      "Écran 120 Hz adaptatif",
-      "Mode Cinéma automatique avec focus dynamique",
-      "Puce A15 Bionic 6-cœurs",
-      "Capacité jusqu'à 1 To",
-      "Prise en charge eSIM + Dual SIM",
-    ],
-    specifications: [
-      { label: "Série", value: "iPhone 13" },
-      { label: "État", value: "Reconditionné Certifié (Grade B/C)" },
-      { label: "Type SIM", value: "eSIM / Dual SIM" },
-      { label: "Version", value: "Version US (LL/A) / Global" },
-      { label: "Plage tarifaire", value: "131 000 à 328 000 FCFA" },
-    ],
-    reviews: [],
-    related: ["iphone-12", "iphone-14", "iphone-15"],
-  },
-
-  // 4. EFERO BLANCHIMENT DENTS (Beauty Bestseller)
-  {
-    id: "efero-blanchiment-dents",
-    title: "EFERO Essence de Blanchiment des Dents & Hygiène Buccale (10 ml)",
-    subtitle: "Élimine les taches de thé, café, plaque dentaire & améliore l'hygiène buccale",
-    price: 2500,
-    oldPrice: 4500,
-    minQty: 1,
-    image: "/images/assets/efero_teeth_whitening.jpg",
-    images: [
+    "id": "efero-blanchiment-dents",
+    "title": "EFERO Essence de Blanchiment des Dents & Hygiène Buccale (10 ml)",
+    "subtitle": "Élimine les taches de thé, café, plaque dentaire & améliore l'hygiène buccale",
+    "price": 2500,
+    "oldPrice": 4500,
+    "minQty": 1,
+    "image": "/images/assets/efero_teeth_whitening.jpg",
+    "images": [
       "/images/assets/efero_teeth_whitening.jpg",
-      "/images/assets/efero_teeth_whitening_2.png",
+      "/images/assets/efero_teeth_whitening_2.png"
     ],
-    category: "beauty",
-    badge: "HYGIÈNE BUCCALE",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.05 kg",
-    volume: "0.0001 CBM",
-    rating: 4.9,
-    reviewsCount: 158,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Marque : EFERO. Contenance : 10 ml. Efficacité : formule ultra-performante pour éliminer les taches de thé, café, tabac, dents pigmentées et plaque dentaire. Blanchit les dents, réduit la saleté dentaire, améliore l'hygiène buccale et réduit les maladies buccales. Posologie : Avant l'utilisation, veuillez nettoyer la bouche avec de l'eau tiède, puis utilisez un coton-tige pour tremper la quantité appropriée du produit, essuyez la surface des dents uniformément et rincez-la à l'eau claire après 15-20 minutes. Recommandation : 2 à 3 fois par semaine.",
-    features: [
+    "category": "beauty",
+    "badge": "HYGIÈNE BUCCALE",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.05 kg",
+    "volume": "0.0001 CBM",
+    "rating": 4.9,
+    "reviewsCount": 158,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Marque : EFERO. Contenance : 10 ml. Efficacité : formule ultra-performante pour éliminer les taches de thé, café, tabac, dents pigmentées et plaque dentaire. Blanchit les dents, réduit la saleté dentaire, améliore l'hygiène buccale et réduit les maladies buccales. Posologie : Avant l'utilisation, veuillez nettoyer la bouche avec de l'eau tiède, puis utilisez un coton-tige pour tremper la quantité appropriée du produit, essuyez la surface des dents uniformément et rincez-la à l'eau claire après 15-20 minutes. Recommandation : 2 à 3 fois par semaine.",
+    "features": [
       "Élimine efficacement taches de café, thé, tabac et plaque dentaire",
       "Blanchit les dents & réduit la saleté dentaire pour un sourire éclatant",
       "Améliore l'hygiène buccale & réduit les risques d'affections gingivales",
       "Application facile et précise au coton-tige",
-      "Recommandé 2 à 3 fois par semaine (résultat visible rapide)",
+      "Recommandé 2 à 3 fois par semaine (résultat visible rapide)"
     ],
-    specifications: [
-      { label: "Marque", value: "EFERO Oral Care" },
-      { label: "Contenance / Contenu", value: "10 ml" },
-      { label: "Fonction principale", value: "Blanchiment & Élimination de la plaque" },
-      { label: "Fréquence d'utilisation", value: "2 à 3 fois par semaine" },
-      { label: "Temps d'application", value: "15 à 20 minutes" },
-      { label: "État / Condition", value: "Neuf Scellé" },
+    "specifications": [
+      {
+        "label": "Marque",
+        "value": "EFERO Oral Care"
+      },
+      {
+        "label": "Contenance / Contenu",
+        "value": "10 ml"
+      },
+      {
+        "label": "Fonction principale",
+        "value": "Blanchiment & Élimination de la plaque"
+      },
+      {
+        "label": "Fréquence d'utilisation",
+        "value": "2 à 3 fois par semaine"
+      },
+      {
+        "label": "Temps d'application",
+        "value": "15 à 20 minutes"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Scellé"
+      }
     ],
-    reviews: [
-      { author: "Marc O.", rating: 5, comment: "Incroyable résultat dès la première semaine ! Mes taches de café ont complètement disparu.", date: "20 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Marc O.",
+        "rating": 5,
+        "comment": "Incroyable résultat dès la première semaine ! Mes taches de café ont complètement disparu.",
+        "date": "20 Fév. 2025"
+      }
     ],
-    related: ["disaar-creme-depilatoire", "cat_beauty"],
+    "related": [
+      "disaar-creme-depilatoire",
+      "cat_beauty"
+    ]
   },
-
-  // 5. DÉFROISSEUR VAPEUR HAEGER (Home / Électroménager)
   {
-    id: "defroisseur-vapeur-haeger-vetements",
-    title: "Mini Défroisseur Vapeur Portatif HAEGER – Tous Vêtements & Tissus (800W, 650 ml)",
-    subtitle: "Vapeur verticale continue 15 min, brosse amovible & humidificateur multifonction",
-    price: 10000,
-    oldPrice: 16500,
-    minQty: 1,
-    image: "/images/assets/defroisseur_vapeur_haeger_2.png",
-    images: [
+    "id": "defroisseur-vapeur-haeger-vetements",
+    "title": "Mini Défroisseur Vapeur Portatif HAEGER – Tous Vêtements & Tissus (800W, 650 ml)",
+    "subtitle": "Vapeur verticale continue 15 min, brosse amovible & humidificateur multifonction",
+    "price": 10000,
+    "oldPrice": 16500,
+    "minQty": 1,
+    "image": "/images/assets/defroisseur_vapeur_haeger_2.png",
+    "images": [
       "/images/assets/defroisseur_vapeur_haeger_2.png",
-      "/images/assets/defroisseur_vapeur_haeger_1.png",
+      "/images/assets/defroisseur_vapeur_haeger_1.png"
     ],
-    category: "home",
-    badge: "ÉLECTROMÉNAGER • 800W",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.65 kg",
-    volume: "0.002 CBM",
-    rating: 4.9,
-    reviewsCount: 96,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Mini nettoyeur et défroisseur vapeur vertical pour tous les vêtements. Défroissage vapeur vertical ultra-efficace, léger et compact (seulement 0.65 kg) : le meilleur compagnon pour vos voyages et votre maison. Équipé d'une puissance de 800W et d'un réservoir d'eau de 650 ml, il produit une vapeur continue à 100°C pendant 15 minutes d'autonomie. Multifonction 2-en-1 : s'utilise comme fer à repasser vapeur vertical pour vêtements et humidificateur / vapeur facial. Livré complet avec brosse à main, brosse annulaire et manuel d'instructions.",
-    features: [
+    "category": "home",
+    "badge": "ÉLECTROMÉNAGER • 800W",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.65 kg",
+    "volume": "0.002 CBM",
+    "rating": 4.9,
+    "reviewsCount": 96,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Mini nettoyeur et défroisseur vapeur vertical pour tous les vêtements. Défroissage vapeur vertical ultra-efficace, léger et compact (seulement 0.65 kg) : le meilleur compagnon pour vos voyages et votre maison. Équipé d'une puissance de 800W et d'un réservoir d'eau de 650 ml, il produit une vapeur continue à 100°C pendant 15 minutes d'autonomie. Multifonction 2-en-1 : s'utilise comme fer à repasser vapeur vertical pour vêtements et humidificateur / vapeur facial. Livré complet avec brosse à main, brosse annulaire et manuel d'instructions.",
+    "features": [
       "Défroissage vapeur vertical ultra-efficace pour tous types de vêtements et tissus",
       "Léger et ultra-compact (0.65 kg) : idéal pour le voyage et un usage quotidien à la maison",
       "Vapeur continue puissante pendant 15 minutes (Température de vapeur 100°C)",
       "Puissance 800W / Tension 220V avec bouton marche/arrêt simple et ergonomique",
       "Réservoir d'eau haute capacité 650 ml en matériau ABS + plastique de haute qualité",
-      "Pack complet inclus : hôte défroisseur vapeur, brosse à main, brosse annulaire et manuel",
+      "Pack complet inclus : hôte défroisseur vapeur, brosse à main, brosse annulaire et manuel"
     ],
-    specifications: [
-      { label: "Marque / Fabricant", value: "HAEGER Appliance" },
-      { label: "Nom du produit", value: "Mini Défroisseur Vapeur Portatif Vêtements" },
-      { label: "Puissance", value: "800W" },
-      { label: "Tension", value: "220V (Prise EU standard)" },
-      { label: "Capacité du réservoir", value: "650 ml" },
-      { label: "Température de vapeur", value: "100 °C" },
-      { label: "Durée vapeur continue", value: "15 minutes" },
-      { label: "Poids de l'appareil", value: "0.65 kg" },
-      { label: "Dimensions", value: "150 × 100 × 210 mm" },
-      { label: "Accessoires inclus", value: "Brosse à main, Brosse annulaire, Manuel d'instructions" },
-      { label: "État / Condition", value: "Neuf Scellé" },
+    "specifications": [
+      {
+        "label": "Marque / Fabricant",
+        "value": "HAEGER Appliance"
+      },
+      {
+        "label": "Nom du produit",
+        "value": "Mini Défroisseur Vapeur Portatif Vêtements"
+      },
+      {
+        "label": "Puissance",
+        "value": "800W"
+      },
+      {
+        "label": "Tension",
+        "value": "220V (Prise EU standard)"
+      },
+      {
+        "label": "Capacité du réservoir",
+        "value": "650 ml"
+      },
+      {
+        "label": "Température de vapeur",
+        "value": "100 °C"
+      },
+      {
+        "label": "Durée vapeur continue",
+        "value": "15 minutes"
+      },
+      {
+        "label": "Poids de l'appareil",
+        "value": "0.65 kg"
+      },
+      {
+        "label": "Dimensions",
+        "value": "150 × 100 × 210 mm"
+      },
+      {
+        "label": "Accessoires inclus",
+        "value": "Brosse à main, Brosse annulaire, Manuel d'instructions"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Scellé"
+      }
     ],
-    reviews: [
-      { author: "Koffi A.", rating: 5, comment: "Très pratique pour défroisser les chemises le matin en quelques secondes. Chauffe super vite et prend peu de place.", date: "23 Fév. 2025" },
-      { author: "Marina S.", rating: 5, comment: "Je l'emporte toujours en voyage. Plus besoin de fer à repasser d'hôtel, la vapeur est bien dense.", date: "23 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Koffi A.",
+        "rating": 5,
+        "comment": "Très pratique pour défroisser les chemises le matin en quelques secondes. Chauffe super vite et prend peu de place.",
+        "date": "23 Fév. 2025"
+      },
+      {
+        "author": "Marina S.",
+        "rating": 5,
+        "comment": "Je l'emporte toujours en voyage. Plus besoin de fer à repasser d'hôtel, la vapeur est bien dense.",
+        "date": "23 Fév. 2025"
+      }
     ],
-    related: ["appareil-vapeur-facial-2en1", "iphone-16"],
+    "related": [
+      "appareil-vapeur-facial-2en1",
+      "iphone-16"
+    ]
   },
-
-  // 6. IPHONE 16 (High-Tech Nouveauté)
   {
-    id: "iphone-16",
-    title: "iPhone 16",
-    subtitle: "Apple Intelligence & Nouveau Bouton Commande de l'Appareil Photo",
-    price: 295000,
-    oldPrice: 380000,
-    minQty: 1,
-    image: "/images/assets/iphone16_white.png",
-    images: [
-      "/images/assets/iphone16_white.png",
-      "/images/assets/iphone16_black.png",
+    "id": "dr-rashel-24k-gold-5pieces",
+    "title": "Dr. Rashel 24K Gold Radiance Anti-Aging Series – Coffret Soins 5 Pièces",
+    "subtitle": "Soin de luxe anti-âge, fermeté & éclat enrichi en Or pur 24K (99.9%) & Collagène",
+    "price": 10000,
+    "oldPrice": 16500,
+    "minQty": 1,
+    "image": "/images/assets/dr_rashel_24k_gold_2.png",
+    "images": [
+      "/images/assets/dr_rashel_24k_gold_2.png",
+      "/images/assets/dr_rashel_24k_gold_1.png"
     ],
-    driveFolderUrl: "https://drive.google.com/drive/folders/1quRc7S5h9nUlMOU4t7krrYV-RhHKmaWa?usp=sharing",
-    category: "electronics",
-    badge: "NOUVEAU",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.20 kg",
-    volume: "0.001 CBM",
-    rating: 5.0,
-    reviewsCount: 165,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    simType: "eSIM & Dual SIM",
-    regionVersion: "Version US (LL/A)",
-    storageOptions: ["128 Go", "256 Go", "512 Go", "1 To"],
-    batteryHealth: "100% Neuf d'origine",
-    description:
-      "Dernier né d'Apple : l'iPhone 16. Intégration d'Apple Intelligence, nouveau bouton de contrôle tactile pour la caméra, puce A18 et enregistrement vidéo 4K 120 ips Dolby Vision. Prix de 295 000 à 623 000 FCFA.",
-    features: [
-      "Bouton haptique Commande de la Caméra",
-      "Puce A18 optimisée IA",
-      "Écrans agrandis 6.3\"",
-      "Vidéo 4K 120 ips Dolby Vision",
-      "Produits 100% Scellés avec boite scellée",
-    ],
-    specifications: [
-      { label: "Série", value: "iPhone 16" },
-      { label: "État", value: "Scellé / Neuf (Grade A Premium)" },
-      { label: "Puce", value: "Apple A18" },
-      { label: "Plage tarifaire", value: "295 000 à 623 000 FCFA" },
-    ],
-    reviews: [],
-    related: ["iphone-15", "iphone-17"],
-  },
-
-  // 7. DR RASHEL 24K GOLD (Beauty Luxe)
-  {
-    id: "dr-rashel-24k-gold-5pieces",
-    title: "Dr. Rashel 24K Gold Radiance Anti-Aging Series – Coffret Soins 5 Pièces",
-    subtitle: "Soin de luxe anti-âge, fermeté & éclat enrichi en Or pur 24K (99.9%) & Collagène",
-    price: 10000,
-    oldPrice: 16500,
-    minQty: 1,
-    image: "/images/assets/dr_rashel_24k_gold_2.png",
-    images: ["/images/assets/dr_rashel_24k_gold_2.png", "/images/assets/dr_rashel_24k_gold_1.png"],
-    category: "beauty",
-    badge: "OR PUR 24K • 5 PIÈCES",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.95 kg",
-    volume: "0.003 CBM",
-    rating: 4.9,
-    reviewsCount: 136,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Dr. Rashel 24K Gold Radiance Anti-Aging Series - 5 pièces est un ensemble de soins complet et luxueux haute performance. Le toner anti-âge 24K Gold régénère l'humidité perdue avec une formule douce qui rafraîchit et favorise une peau tendue et éclatante. Infusé d'or 24 carats pur (99,9%), le sérum luxueux pénètre en profondeur pour exercer de puissants effets hydratants et anti-âge, procurant un effet repulpant, raffermissant et illuminateur instantané. Complété par un gel nettoyant exfoliant doux, un sérum contour des yeux anti-cernes/anti-rides et une crème gelée d'essence pour une routine visage royale.",
-    features: [
+    "category": "beauty",
+    "badge": "OR PUR 24K • 5 PIÈCES",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.95 kg",
+    "volume": "0.003 CBM",
+    "rating": 4.9,
+    "reviewsCount": 136,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Dr. Rashel 24K Gold Radiance Anti-Aging Series - 5 pièces est un ensemble de soins complet et luxueux haute performance. Le toner anti-âge 24K Gold régénère l'humidité perdue avec une formule douce qui rafraîchit et favorise une peau tendue et éclatante. Infusé d'or 24 carats pur (99,9%), le sérum luxueux pénètre en profondeur pour exercer de puissants effets hydratants et anti-âge, procurant un effet repulpant, raffermissant et illuminateur instantané. Complété par un gel nettoyant exfoliant doux, un sérum contour des yeux anti-cernes/anti-rides et une crème gelée d'essence pour une routine visage royale.",
+    "features": [
       "Toner Anti-Âge Essence 24K Gold (300 ml) : Hydratation profonde, tonus et éclat doré revitalisant",
       "Primer Sérum Anti-Âge Éclat 24K Gold (100 ml) : Or pur 24K (99,9%) hautement concentré, repulpe et lisse les rides",
       "Sérum Contour des Yeux 24K Gold (30 ml) : Atténue cernes, poches et ridules du regard",
       "Gel Nettoyant & Exfoliant 24K Gold (100 g) : Élimine le maquillage et les impuretés sans assécher",
       "Crème Gelée Essence 24K Gold (50 g) : Nutrition intense, protection antioxydante et effet liftant",
-      "Action globale anti-rides, anti-âge, fermeté et teint radieux au quotidien",
+      "Action globale anti-rides, anti-âge, fermeté et teint radieux au quotidien"
     ],
-    specifications: [
-      { label: "Marque / Fabricant", value: "DR. RASHEL Skincare" },
-      { label: "Gamme", value: "24K Gold Radiance & Anti-Aging Series" },
-      { label: "Contenu du pack", value: "5 pièces (Nettoyant 100g + Toner 300ml + Primer Sérum 100ml + Sérum Yeux 30ml + Gel-Crème 50g)" },
-      { label: "Actifs clés", value: "Or pur 24 Carats (99.9%), Collagène, Antioxydants & Acide Hyaluronique" },
-      { label: "Actions principales", value: "Anti-âge, Fermeté, Éclat instantané & Hydratation intense" },
-      { label: "Type de peau", value: "Tous types de peaux (Idéal peaux ternes, matures ou déshydratées)" },
-      { label: "État / Condition", value: "Neuf Coffret Scellé" },
+    "specifications": [
+      {
+        "label": "Marque / Fabricant",
+        "value": "DR. RASHEL Skincare"
+      },
+      {
+        "label": "Gamme",
+        "value": "24K Gold Radiance & Anti-Aging Series"
+      },
+      {
+        "label": "Contenu du pack",
+        "value": "5 pièces (Nettoyant 100g + Toner 300ml + Primer Sérum 100ml + Sérum Yeux 30ml + Gel-Crème 50g)"
+      },
+      {
+        "label": "Actifs clés",
+        "value": "Or pur 24 Carats (99.9%), Collagène, Antioxydants & Acide Hyaluronique"
+      },
+      {
+        "label": "Actions principales",
+        "value": "Anti-âge, Fermeté, Éclat instantané & Hydratation intense"
+      },
+      {
+        "label": "Type de peau",
+        "value": "Tous types de peaux (Idéal peaux ternes, matures ou déshydratées)"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Coffret Scellé"
+      }
     ],
-    reviews: [
-      { author: "Aïcha B.", rating: 5, comment: "Ce set Dr. Rashel est exceptionnel ! Le flacon de toner 300ml est immense et le sérum donne un éclat doré magnifique.", date: "23 Fév. 2025" },
-      { author: "Yasmine D.", rating: 5, comment: "Produit authentique, packaging luxueux et résultats visibles sur les ridules dès 1 semaine.", date: "23 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Aïcha B.",
+        "rating": 5,
+        "comment": "Ce set Dr. Rashel est exceptionnel ! Le flacon de toner 300ml est immense et le sérum donne un éclat doré magnifique.",
+        "date": "23 Fév. 2025"
+      },
+      {
+        "author": "Yasmine D.",
+        "rating": 5,
+        "comment": "Produit authentique, packaging luxueux et résultats visibles sur les ridules dès 1 semaine.",
+        "date": "23 Fév. 2025"
+      }
     ],
-    related: ["coffret-snail-collagen-5pieces", "appareil-vapeur-facial-2en1", "disaar-masque-vitamine-c"],
+    "related": [
+      "coffret-snail-collagen-5pieces",
+      "appareil-vapeur-facial-2en1",
+      "disaar-masque-vitamine-c"
+    ]
   },
-
-  // 8. SUPPORT TÉLÉPHONE & TABLETTE (Accessoire High-Tech)
   {
-    id: "support-telephone-tablette-pliable-ergonomique",
-    title: "Support Téléphone & Tablette Télescopique – Pliable & Réglable en Hauteur / Angle",
-    subtitle: "Ergonomique pour bureau, visioconférence & mains libres – Universel jusqu'à 10.5 pouces",
-    price: 1000,
-    oldPrice: 2500,
-    minQty: 1,
-    image: "/images/assets/support_telephone_pliable_2.png",
-    images: [
+    "id": "support-telephone-tablette-pliable-ergonomique",
+    "title": "Support Téléphone & Tablette Télescopique – Pliable & Réglable en Hauteur / Angle",
+    "subtitle": "Ergonomique pour bureau, visioconférence & mains libres – Universel jusqu'à 10.5 pouces",
+    "price": 1000,
+    "oldPrice": 2500,
+    "minQty": 1,
+    "image": "/images/assets/support_telephone_pliable_2.png",
+    "images": [
       "/images/assets/support_telephone_pliable_2.png",
-      "/images/assets/support_telephone_pliable_1.png",
+      "/images/assets/support_telephone_pliable_1.png"
     ],
-    category: "electronics",
-    badge: "ACCESSOIRE • ERGONOMIQUE",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.15 kg",
-    volume: "0.0002 CBM",
-    rating: 4.9,
-    reviewsCount: 214,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Support de bureau pliable télescopique pour smartphones et tablettes. Réglable en hauteur et en angle pour positionner votre écran au niveau parfait des yeux et soulager efficacement la fatigue du cou lors de longues visioconférences. Libérez vos mains en toute simplicité pendant que vous cuisinez, lisez, dînez, jouez à des jeux ou travaillez. Ultra-compact et pliable en format de poche : se glisse facilement dans un sac pour vous accompagner partout au quotidien. Compatibilité universelle avec tous les smartphones et tablettes jusqu'à 10.5 pouces (même avec coque de protection). Base antidérapante en silicone et patins ultra-stables pour éviter tout glissement ou rayure.",
-    features: [
+    "category": "electronics",
+    "badge": "ACCESSOIRE • ERGONOMIQUE",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.15 kg",
+    "volume": "0.0002 CBM",
+    "rating": 4.9,
+    "reviewsCount": 214,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Support de bureau pliable télescopique pour smartphones et tablettes. Réglable en hauteur et en angle pour positionner votre écran au niveau parfait des yeux et soulager efficacement la fatigue du cou lors de longues visioconférences. Libérez vos mains en toute simplicité pendant que vous cuisinez, lisez, dînez, jouez à des jeux ou travaillez. Ultra-compact et pliable en format de poche : se glisse facilement dans un sac pour vous accompagner partout au quotidien. Compatibilité universelle avec tous les smartphones et tablettes jusqu'à 10.5 pouces (même avec coque de protection). Base antidérapante en silicone et patins ultra-stables pour éviter tout glissement ou rayure.",
+    "features": [
       "Réglable et télescopique : hauteur et inclinaison ergonomiques pour soulager les cervicales",
       "Mains libres idéales pour visioconférences Zoom/Meet, visionnage vidéo, cuisine et bureau",
       "Format de poche pliable ultra-compact : facile à transporter partout en voyage ou travail",
       "Compatibilité universelle : s'adapte à tous les téléphones et tablettes jusqu'à 10,5 pouces",
       "Base lestée stable et patins en silicone antidérapants anti-rayures",
-      "Conception robuste en alliage d'aluminium et finition métallique soignée",
+      "Conception robuste en alliage d'aluminium et finition métallique soignée"
     ],
-    specifications: [
-      { label: "Type de produit", value: "Support bureau réglable & pliable pour téléphone/tablette" },
-      { label: "Compatibilité", value: "Smartphones et tablettes jusqu'à 10.5 pouces (iPhone, Samsung, iPad, etc.)" },
-      { label: "Réglages", value: "Hauteur télescopique & Double axe d'inclinaison multi-angles" },
-      { label: "Matériaux", value: "Alliage métallique + ABS renforcé + Patins silicone antidérapants" },
-      { label: "Format", value: "Pliable 100% à plat (Format de poche)" },
-      { label: "Poids", value: "150 g (Base lestée ultra-stable)" },
-      { label: "État / Condition", value: "Neuf Scellé avec boîte individuelle" },
+    "specifications": [
+      {
+        "label": "Type de produit",
+        "value": "Support bureau réglable & pliable pour téléphone/tablette"
+      },
+      {
+        "label": "Compatibilité",
+        "value": "Smartphones et tablettes jusqu'à 10.5 pouces (iPhone, Samsung, iPad, etc.)"
+      },
+      {
+        "label": "Réglages",
+        "value": "Hauteur télescopique & Double axe d'inclinaison multi-angles"
+      },
+      {
+        "label": "Matériaux",
+        "value": "Alliage métallique + ABS renforcé + Patins silicone antidérapants"
+      },
+      {
+        "label": "Format",
+        "value": "Pliable 100% à plat (Format de poche)"
+      },
+      {
+        "label": "Poids",
+        "value": "150 g (Base lestée ultra-stable)"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Scellé avec boîte individuelle"
+      }
     ],
-    reviews: [
-      { author: "Stéphane M.", rating: 5, comment: "Ce support est génial ! Très solide, tient parfaitement mon iPhone et mon iPad sans basculer.", date: "23 Fév. 2025" },
-      { author: "Carine A.", rating: 5, comment: "Indispensable pour mes appels vidéo et mes cours en ligne. Se plie tout plat dans mon sac.", date: "23 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Stéphane M.",
+        "rating": 5,
+        "comment": "Ce support est génial ! Très solide, tient parfaitement mon iPhone et mon iPad sans basculer.",
+        "date": "23 Fév. 2025"
+      },
+      {
+        "author": "Carine A.",
+        "rating": 5,
+        "comment": "Indispensable pour mes appels vidéo et mes cours en ligne. Se plie tout plat dans mon sac.",
+        "date": "23 Fév. 2025"
+      }
     ],
-    related: ["iphone-16-rugged-case", "iphone-16"],
+    "related": [
+      "iphone-16-rugged-case",
+      "iphone-16"
+    ]
   },
-
-  // 9. DISAAR MASQUE VITAMINE C (Beauty Masque)
   {
-    id: "disaar-masque-vitamine-c",
-    title: "Disaar Masque Visage Hydratant Vitamine C & Acide Hyaluronique",
-    subtitle: "Rajeunissant, réparateur & coup d'éclat effet SPA rafraîchissant",
-    price: 500,
-    oldPrice: 1200,
-    minQty: 1,
-    image: "/images/assets/disaar_vitamin_c_mask.jpg",
-    images: [
-      "/images/assets/disaar_vitamin_c_mask.jpg",
+    "id": "disaar-masque-vitamine-c",
+    "title": "Disaar Masque Visage Hydratant Vitamine C & Acide Hyaluronique",
+    "subtitle": "Rajeunissant, réparateur & coup d'éclat effet SPA rafraîchissant",
+    "price": 500,
+    "oldPrice": 1200,
+    "minQty": 1,
+    "image": "/images/assets/disaar_vitamin_c_mask.jpg",
+    "images": [
+      "/images/assets/disaar_vitamin_c_mask.jpg"
     ],
-    category: "beauty",
-    badge: "HYDRATATION & ÉCLAT",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.03 kg",
-    volume: "0.0001 CBM",
-    rating: 4.9,
-    reviewsCount: 210,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Marque : DISAAR Beauty Skincare. Formulé avec des ingrédients rajeunissants à la Vitamine C et Acide Hyaluronique pour offrir à la peau un soin souple et hydraté. Apporte une expérience rafraîchissante unique. Riche en essence hydratante de haute pureté. Masque en pur coton absorbant la saleté et l'excès de sébum tout en hydratant en profondeur. Enrichi en vitamines, minéraux et antioxydants. Favorise la régénération de la peau pour réparer les peaux sèches et sensibles, réduire les rougeurs, réparer la couche cornée et offrir un véritable effet SPA hydratant continu.",
-    features: [
+    "category": "beauty",
+    "badge": "HYDRATATION & ÉCLAT",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.03 kg",
+    "volume": "0.0001 CBM",
+    "rating": 4.9,
+    "reviewsCount": 210,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Marque : DISAAR Beauty Skincare. Formulé avec des ingrédients rajeunissants à la Vitamine C et Acide Hyaluronique pour offrir à la peau un soin souple et hydraté. Apporte une expérience rafraîchissante unique. Riche en essence hydratante de haute pureté. Masque en pur coton absorbant la saleté et l'excès de sébum tout en hydratant en profondeur. Enrichi en vitamines, minéraux et antioxydants. Favorise la régénération de la peau pour réparer les peaux sèches et sensibles, réduire les rougeurs, réparer la couche cornée et offrir un véritable effet SPA hydratant continu.",
+    "features": [
       "Formule concentrée Vitamine C + Acide Hyaluronique + Glutathion de baies",
       "Masque 100% pur coton absorbant le sébum et la saleté",
       "Hydratation en profondeur & réparation des peaux sèches et sensibles",
       "Effet rajeunissant, améliore la souplesse et réduit la sensibilité",
-      "Expérience fraîcheur instantanée type SPA à domicile",
+      "Expérience fraîcheur instantanée type SPA à domicile"
     ],
-    specifications: [
-      { label: "Marque", value: "DISAAR Beauty Skincare" },
-      { label: "Actifs principaux", value: "Vitamine C & Acide Hyaluronique" },
-      { label: "Matière du masque", value: "Pur Coton doux & respirant" },
-      { label: "Type de peau", value: "Tous types de peaux, y compris sensibles" },
-      { label: "Action", value: "Hydratation continuous, Éclat & Anti-âge" },
-      { label: "État / Condition", value: "Neuf Scellé Sachet individuel" },
+    "specifications": [
+      {
+        "label": "Marque",
+        "value": "DISAAR Beauty Skincare"
+      },
+      {
+        "label": "Actifs principaux",
+        "value": "Vitamine C & Acide Hyaluronique"
+      },
+      {
+        "label": "Matière du masque",
+        "value": "Pur Coton doux & respirant"
+      },
+      {
+        "label": "Type de peau",
+        "value": "Tous types de peaux, y compris sensibles"
+      },
+      {
+        "label": "Action",
+        "value": "Hydratation continuous, Éclat & Anti-âge"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Scellé Sachet individuel"
+      }
     ],
-    reviews: [
-      { author: "Clarisse N.", rating: 5, comment: "Incroyable sensation de fraîcheur ! Ma peau est super douce et lumineuse dès le premier masque.", date: "21 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Clarisse N.",
+        "rating": 5,
+        "comment": "Incroyable sensation de fraîcheur ! Ma peau est super douce et lumineuse dès le premier masque.",
+        "date": "21 Fév. 2025"
+      }
     ],
-    related: ["disaar-creme-depilatoire", "efero-blanchiment-dents", "cat_beauty"],
+    "related": [
+      "disaar-creme-depilatoire",
+      "efero-blanchiment-dents",
+      "cat_beauty"
+    ]
   },
-
-  // 10. IPHONE 14 (High-Tech Dynamic Island)
   {
-    id: "iphone-14",
-    title: "iPhone 14",
-    subtitle: "Dynamic Island, Capteur 48 MP & Détection d'Accident",
-    price: 197000,
-    oldPrice: 260000,
-    minQty: 1,
-    image: "/images/assets/iphone14/iphone14_spaceblack.png",
-    images: ["/images/assets/iphone14/iphone14_spaceblack.png", "/images/assets/hero_iphone16.png"],
-    driveFolderUrl: "https://drive.google.com/drive/folders/1Qs6ijeFtKX1aj4HobL9nBgy7eI-QtaYw?usp=sharing",
-    category: "electronics",
-    badge: "BEST SELLER",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.21 kg",
-    volume: "0.001 CBM",
-    rating: 4.9,
-    reviewsCount: 290,
-    conditionState: "Reconditionné",
-    grade: "Grade B/C",
-    simType: "eSIM & Dual SIM",
-    regionVersion: "Version US (LL/A)",
-    storageOptions: ["128 Go", "256 Go", "512 Go", "1 To"],
-    batteryHealth: "90% - 100%",
-    description:
-      "La gamme iPhone 14. Capteur principal 48 MP, écran Toujours Activé, puce A16 Bionic et détection des accidents de la route. Fourchette tarifaire de 197 000 à 394 000 FCFA.",
-    features: [
-      "Dynamic Island interactive",
-      "Capteur photo professionnel 48 MP",
-      "Puce A16 Bionic",
-      "Détection d'accident et SOS urgence",
-      "Disponibilité immédiate FenouShop",
+    "id": "appareil-vapeur-facial-2en1",
+    "title": "Appareil à Vapeur Facial 2-en-1 – Sauna Visage & Inhalateur Nasal",
+    "subtitle": "Soins du visage & du corps, élimination des toxines & bien-être respiratoire",
+    "price": 12000,
+    "oldPrice": 18000,
+    "minQty": 1,
+    "image": "/images/assets/facial_steamer_2.png",
+    "images": [
+      "/images/assets/facial_steamer_2.png",
+      "/images/assets/facial_steamer_1.png"
     ],
-    specifications: [
-      { label: "Modèles", value: "iPhone 14" },
-      { label: "État", value: "Reconditionné Certifié (Grade B/C)" },
-      { label: "Compatibilité SIM", value: "eSIM & Dual SIM" },
-      { label: "Région", value: "Version US (LL/A)" },
-      { label: "Plage tarifaire", value: "197 000 à 394 000 FCFA" },
-    ],
-    reviews: [],
-    related: ["iphone-13", "iphone-15", "iphone-16"],
-  },
-
-  // 11. APPAREIL VAPEUR FACIAL 2-EN-1 (Beauty & Bien-être)
-  {
-    id: "appareil-vapeur-facial-2en1",
-    title: "Appareil à Vapeur Facial 2-en-1 – Sauna Visage & Inhalateur Nasal",
-    subtitle: "Soins du visage & du corps, élimination des toxines & bien-être respiratoire",
-    price: 12000,
-    oldPrice: 18000,
-    minQty: 1,
-    image: "/images/assets/facial_steamer_2.png",
-    images: ["/images/assets/facial_steamer_2.png", "/images/assets/facial_steamer_1.png"],
-    category: "beauty",
-    badge: "SOINS & BIEN-ÊTRE",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.60 kg",
-    volume: "0.002 CBM",
-    rating: 4.9,
-    reviewsCount: 89,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Appareil à vapeur facial 2-en-1 multifonction haute performance. Facile à utiliser avec son bouton de commutation unique, chauffage constant et émission ultra-rapide de brouillard de vapeur chaude. L'appareil peut être utilisé pour les soins du visage à la vapeur ainsi que la vapeur nasale. Comprend une tasse à mesurer, un masque facial ergonomique et un masque nasal spécialement conçu. La vapeur chaude apaisante ouvre les pores en profondeur et aide à éliminer la saleté, les bactéries et les résidus de maquillage. Avantages pour la santé : la vapeur chaude et humide aide à dégager les voies nasales et sinusales, facilitant la thérapie respiratoire et soulageant le rhume et la toux persistants.",
-    features: [
+    "category": "beauty",
+    "badge": "SOINS & BIEN-ÊTRE",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.60 kg",
+    "volume": "0.002 CBM",
+    "rating": 4.9,
+    "reviewsCount": 89,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Appareil à vapeur facial 2-en-1 multifonction haute performance. Facile à utiliser avec son bouton de commutation unique, chauffage constant et émission ultra-rapide de brouillard de vapeur chaude. L'appareil peut être utilisé pour les soins du visage à la vapeur ainsi que la vapeur nasale. Comprend une tasse à mesurer, un masque facial ergonomique et un masque nasal spécialement conçu. La vapeur chaude apaisante ouvre les pores en profondeur et aide à éliminer la saleté, les bactéries et les résidus de maquillage. Avantages pour la santé : la vapeur chaude et humide aide à dégager les voies nasales et sinusales, facilitant la thérapie respiratoire et soulageant le rhume et la toux persistants.",
+    "features": [
       "Appareil 2-en-1 : Sauna facial pour le visage et masque nasal ergonomique inclus",
       "Chauffage constant et émission ultra-rapide de brouillard de vapeur chaude",
       "Nettoyage en profondeur : ouvre les pores, élimine toxines, bactéries et maquillage",
       "Thérapie respiratoire : dégage les voies nasales & sinus, soulage rhume et congestion",
       "Bouton de commande unique simple et sécurisé pour une utilisation à domicile",
-      "Pack complet inclus : appareil à vapeur, masque facial, masque nasal et tasse à mesurer",
+      "Pack complet inclus : appareil à vapeur, masque facial, masque nasal et tasse à mesurer"
     ],
-    specifications: [
-      { label: "Type de produit", value: "Appareil à vapeur facial 2-en-1 / Sauna facial" },
-      { label: "Catégories", value: "Soins du visage & corps, Vapeur faciale, Bien-être" },
-      { label: "Accessoires inclus", value: "Tasse à mesurer, Masque facial, Masque nasal" },
-      { label: "Commande", value: "Bouton de commutation unique" },
-      { label: "Fonctionnalité", value: "Chauffage constant & Émission rapide de brouillard" },
-      { label: "Couleur", value: "Selon arrivage stock (Violet / Blanc)" },
-      { label: "État / Condition", value: "Neuf Scellé" },
+    "specifications": [
+      {
+        "label": "Type de produit",
+        "value": "Appareil à vapeur facial 2-en-1 / Sauna facial"
+      },
+      {
+        "label": "Catégories",
+        "value": "Soins du visage & corps, Vapeur faciale, Bien-être"
+      },
+      {
+        "label": "Accessoires inclus",
+        "value": "Tasse à mesurer, Masque facial, Masque nasal"
+      },
+      {
+        "label": "Commande",
+        "value": "Bouton de commutation unique"
+      },
+      {
+        "label": "Fonctionnalité",
+        "value": "Chauffage constant & Émission rapide de brouillard"
+      },
+      {
+        "label": "Couleur",
+        "value": "Selon arrivage stock (Violet / Blanc)"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Scellé"
+      }
     ],
-    reviews: [
-      { author: "Nadège M.", rating: 5, comment: "Super appareil ! Très efficace pour nettoyer la peau avant les soins et très relaxant.", date: "22 Fév. 2025" },
-      { author: "Eric K.", rating: 5, comment: "Reçu conforme, la vapeur chauffe rapidement et l'embout nasal est top pour le rhume.", date: "23 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Nadège M.",
+        "rating": 5,
+        "comment": "Super appareil ! Très efficace pour nettoyer la peau avant les soins et très relaxant.",
+        "date": "22 Fév. 2025"
+      },
+      {
+        "author": "Eric K.",
+        "rating": 5,
+        "comment": "Reçu conforme, la vapeur chauffe rapidement et l'embout nasal est top pour le rhume.",
+        "date": "23 Fév. 2025"
+      }
     ],
-    related: ["disaar-masque-vitamine-c", "disaar-creme-depilatoire", "masque-levres-rose-hydrogel"],
+    "related": [
+      "disaar-masque-vitamine-c",
+      "disaar-creme-depilatoire",
+      "masque-levres-rose-hydrogel"
+    ]
   },
-
-  // 12. IPHONE 12 (High-Tech 5G)
   {
-    id: "iphone-12",
-    title: "iPhone 12",
-    subtitle: "Design Ceramic Shield, Réseau 5G & MagSafe",
-    price: 98000,
-    oldPrice: 135000,
-    minQty: 1,
-    image: "/images/assets/iphone12/iphone12_pacificblue.png",
-    images: ["/images/assets/iphone12/iphone12_pacificblue.png", "/images/assets/card_hero_iphone.jpg"],
-    driveFolderUrl: "https://drive.google.com/drive/folders/1jGmuaj1z5hKrRtpEopKMtLOyL-PGYEFS?usp=sharing",
-    category: "electronics",
-    badge: "TENDANCE",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.18 kg",
-    volume: "0.001 CBM",
-    rating: 4.8,
-    reviewsCount: 412,
-    conditionState: "Reconditionné",
-    grade: "Grade B/C",
-    simType: "SIM physique",
-    regionVersion: "Version Global",
-    storageOptions: ["64 Go", "128 Go", "256 Go"],
-    batteryHealth: "88% - 100%",
-    description:
-      "La révolution 5G avec l'iPhone 12. Écran Super Retina XDR OLED, façade Ceramic Shield 4x plus résistante aux chutes et recharge MagSafe. Tarifs grossistes de 98 000 à 249 000 FCFA.",
-    features: [
-      "Connexion ultra rapide 5G",
-      "Ceramic Shield & bords plats aluminium/acier",
-      "Recharge magnétique MagSafe",
-      "Double capteur photo pour portraits de nuit",
+    "id": "coffret-snail-collagen-5pieces",
+    "title": "Coffret Soins Complet 5-en-1 Snail & Collagen Capture Miracle",
+    "subtitle": "Gamme réparatrice, anti-taches, anti-rides & éclat à la bave d'escargot & collagène",
+    "price": 12000,
+    "oldPrice": 19500,
+    "minQty": 1,
+    "image": "/images/assets/snail_collagen_set_2.png",
+    "images": [
+      "/images/assets/snail_collagen_set_2.png",
+      "/images/assets/snail_collagen_set_1.png"
     ],
-    specifications: [
-      { label: "Gamme", value: "iPhone 12" },
-      { label: "État", value: "Reconditionné Certifié (Grade B/C)" },
-      { label: "Capacités", value: "64 Go / 128 Go / 256 Go" },
-      { label: "Plage tarifaire", value: "98 000 à 249 000 FCFA" },
-    ],
-    reviews: [],
-    related: ["iphone-11", "iphone-13", "iphone-14"],
-  },
-
-  // 13. COFFRET SNAIL COLLAGEN 5 PIÈCES (Beauty Soin Visage & Corps)
-  {
-    id: "coffret-snail-collagen-5pieces",
-    title: "Coffret Soins Complet 5-en-1 Snail & Collagen Capture Miracle",
-    subtitle: "Gamme réparatrice, anti-taches, anti-rides & éclat à la bave d'escargot & collagène",
-    price: 12000,
-    oldPrice: 19500,
-    minQty: 1,
-    image: "/images/assets/snail_collagen_set_2.png",
-    images: ["/images/assets/snail_collagen_set_2.png", "/images/assets/snail_collagen_set_1.png"],
-    category: "beauty",
-    badge: "COFFRET 5 PIÈCES",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.85 kg",
-    volume: "0.003 CBM",
-    rating: 4.9,
-    reviewsCount: 112,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Gamme complète de soins réparateurs visage et corps 5-en-1 Snail Collagen Capture Miracle enrichie au collagène pur et à l'extrait concentré de bave d'escargot (mucus filtré). Formule hautement régénérante convenant à tous les types de peau. Répare la peau endommagée, éclaircit visiblement les effets des cicatrices d'acné, hydrate intensément, prévient les signes du vieillissement comme les rides et confère un teint unifié, doux et radieux. Utilisation quotidienne Matin (AM) & Soir (PM).",
-    features: [
+    "category": "beauty",
+    "badge": "COFFRET 5 PIÈCES",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.85 kg",
+    "volume": "0.003 CBM",
+    "rating": 4.9,
+    "reviewsCount": 112,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Gamme complète de soins réparateurs visage et corps 5-en-1 Snail Collagen Capture Miracle enrichie au collagène pur et à l'extrait concentré de bave d'escargot (mucus filtré). Formule hautement régénérante convenant à tous les types de peau. Répare la peau endommagée, éclaircit visiblement les effets des cicatrices d'acné, hydrate intensément, prévient les signes du vieillissement comme les rides et confère un teint unifié, doux et radieux. Utilisation quotidienne Matin (AM) & Soir (PM).",
+    "features": [
       "Sérum Corporel Snail Collagène (100 ml) : Hydratation profonde, pénétration rapide et douceur durable du corps",
       "Crème Anti-Cernes Snail Collagène (20 ml) : Défatigue le regard, estompe cernes, poches et ridules",
       "Crème Visage & Corps Éclaircissante (80 g) : Répare la peau abîmée, lisse les cicatrices d'acné et illumine le teint",
       "Nettoyant Visage Deep Cleansing Face Wash : Élimine le sébum et purifie les pores en douceur",
       "Sérum Visage Régénérant Concentré : Boost d'élasticité, fermeté et éclat jeunesse AM / PM",
-      "Actifs naturels précieux : Bave d'escargot ultra-réparatrice + Collagène marin raffermissant",
+      "Actifs naturels précieux : Bave d'escargot ultra-réparatrice + Collagène marin raffermissant"
     ],
-    specifications: [
-      { label: "Gamme / Marque", value: "Capture Miracle – Collagen & Snail Skin Care Series" },
-      { label: "Contenu du coffret", value: "5 pièces (Nettoyant + Sérum visage + Sérum corps 100ml + Crème visage/corps 80g + Contour des yeux 20ml)" },
-      { label: "Actifs clés", value: "Mucus d'escargot filtré réparateur & Collagène" },
-      { label: "Actions principales", value: "Réparation cicatrices d'acné, Anti-rides, Hydratation & Teint radieux" },
-      { label: "Type de peau", value: "Convient à tous types de peaux (visage & corps)" },
-      { label: "Moment d'application", value: "Matin (AM) & Soir (PM)" },
-      { label: "État / Condition", value: "Neuf Coffret Cadeau Scellé" },
+    "specifications": [
+      {
+        "label": "Gamme / Marque",
+        "value": "Capture Miracle – Collagen & Snail Skin Care Series"
+      },
+      {
+        "label": "Contenu du coffret",
+        "value": "5 pièces (Nettoyant + Sérum visage + Sérum corps 100ml + Crème visage/corps 80g + Contour des yeux 20ml)"
+      },
+      {
+        "label": "Actifs clés",
+        "value": "Mucus d'escargot filtré réparateur & Collagène"
+      },
+      {
+        "label": "Actions principales",
+        "value": "Réparation cicatrices d'acné, Anti-rides, Hydratation & Teint radieux"
+      },
+      {
+        "label": "Type de peau",
+        "value": "Convient à tous types de peaux (visage & corps)"
+      },
+      {
+        "label": "Moment d'application",
+        "value": "Matin (AM) & Soir (PM)"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Coffret Cadeau Scellé"
+      }
     ],
-    reviews: [
-      { author: "Bintou S.", rating: 5, comment: "Ce coffret est une merveille ! Ma peau est nettement plus claire, mes taches d'acné s'estompent rapidement.", date: "23 Fév. 2025" },
-      { author: "Christelle T.", rating: 5, comment: "Le sérum corps et la crème sont super hydratants sans coller. Le contour des yeux défatigue direct.", date: "23 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Bintou S.",
+        "rating": 5,
+        "comment": "Ce coffret est une merveille ! Ma peau est nettement plus claire, mes taches d'acné s'estompent rapidement.",
+        "date": "23 Fév. 2025"
+      },
+      {
+        "author": "Christelle T.",
+        "rating": 5,
+        "comment": "Le sérum corps et la crème sont super hydratants sans coller. Le contour des yeux défatigue direct.",
+        "date": "23 Fév. 2025"
+      }
     ],
-    related: ["appareil-vapeur-facial-2en1", "disaar-masque-vitamine-c", "disaar-creme-depilatoire"],
+    "related": [
+      "appareil-vapeur-facial-2en1",
+      "disaar-masque-vitamine-c",
+      "disaar-creme-depilatoire"
+    ]
   },
-
-  // 14. COQUE BLINDÉE IPHONE 16 (Accessoire Protection)
   {
-    id: "iphone-16-rugged-case",
-    title: "Coque Blindée Tri-Couche iPhone 16 avec Protège Écran & Béquille",
-    subtitle: "Protection Militaire Anti-Choc 360°, Rebord Caméra Surélevé 3.5mm & Support Intégré",
-    price: 3500,
-    oldPrice: 6500,
-    minQty: 2,
-    image: "/images/assets/iphone16_case_black.png",
-    images: [
-      "/images/assets/iphone16_case_black.png",
-      "/images/assets/iphone16_case_pink.png",
-      "/images/assets/iphone16_case_blue.png",
-      "/images/assets/iphone16_case_white.png",
+    "id": "aichun-huile-anti-vergetures-escargot",
+    "title": "Aichun Beauty Huile Essentielle Anti-Vergetures Snail & Collagène (30 ml)",
+    "subtitle": "Élimine les vergetures, raffermit la peau & prévient les rides abdominales",
+    "price": 1500,
+    "oldPrice": 3000,
+    "minQty": 1,
+    "image": "/images/assets/aichun_stretch_marks_2.png",
+    "images": [
+      "/images/assets/aichun_stretch_marks_2.png",
+      "/images/assets/aichun_stretch_marks_1.png"
     ],
-    category: "electronics",
-    badge: "ACCESSOIRE USINE",
-    origin: "Chine (Usine Partenaire FenouShop)",
-    weight: "0.09 kg",
-    volume: "0.0005 CBM",
-    rating: 4.9,
-    reviewsCount: 184,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Coque renforcée militaire Tri-Couche ultra-résistante pour iPhone 16 (6.1\"). Livrée avec verre trempé écran haute transparence, béquille invisible intégrée et rebord surélevé de 3.5mm pour la protection complète des objectifs photos. Disponible en Violet et Noir.",
-    features: [
-      "Protection Militaire Tri-Couche Anti-Choc & Chutes",
-      "Protège-Écran en Verre Trempé haute résistance inclus",
-      "Béquille invisible intégrée pour visionnage vidéo Hands-Free",
-      "Rebord surélevé de 3.5mm pour préserver les appareils photos",
-      "Disponible en Violet (Purple) et Noir Tactique",
-    ],
-    specifications: [
-      { label: "Modèle compatible", value: "iPhone 16 (6.1 pouces)" },
-      { label: "Type de protection", value: "Tri-Couche Militaire 360°" },
-      { label: "Verre Trempé", value: "Inclus dans le pack usine" },
-      { label: "Béquille", value: "Invisible & Escamotable" },
-      { label: "Coloris dispo.", value: "Violet / Purple & Noir" },
-    ],
-    reviews: [],
-    related: ["iphone-16"],
-  },
-
-  // 15. AICHUN HUILE ANTI-VERGETURES (Beauty Soin)
-  {
-    id: "aichun-huile-anti-vergetures-escargot",
-    title: "Aichun Beauty Huile Essentielle Anti-Vergetures Snail & Collagène (30 ml)",
-    subtitle: "Élimine les vergetures, raffermit la peau & prévient les rides abdominales",
-    price: 1500,
-    oldPrice: 3000,
-    minQty: 1,
-    image: "/images/assets/aichun_stretch_marks_2.png",
-    images: ["/images/assets/aichun_stretch_marks_2.png", "/images/assets/aichun_stretch_marks_1.png"],
-    category: "beauty",
-    badge: "100% NATUREL • RAPIDE",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.10 kg",
-    volume: "0.0003 CBM",
-    rating: 4.8,
-    reviewsCount: 176,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "L'huile essentielle anti-vergetures Aichun Beauty est une formule ultra-concentrée riche en extraits naturels de bave d'escargot (mucus filtré) et en collagène actif. Elle augmente l'élasticité cutanée, élimine les étirements de la peau, estompe les vergetures existantes et prévient la formation des rides et relâchements abdominaux. Efficacité prouvée avec des résultats visibles dès 3 jours à une semaine. Formule 100% sûre, naturelle, sans aucun effet secondaire, idéale pendant et après la grossesse ou lors de variations de poids. Convient pour le ventre, les cuisses, les hanches, les fesses et les genoux.",
-    features: [
+    "category": "beauty",
+    "badge": "100% NATUREL • RAPIDE",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.10 kg",
+    "volume": "0.0003 CBM",
+    "rating": 4.8,
+    "reviewsCount": 176,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "L'huile essentielle anti-vergetures Aichun Beauty est une formule ultra-concentrée riche en extraits naturels de bave d'escargot (mucus filtré) et en collagène actif. Elle augmente l'élasticité cutanée, élimine les étirements de la peau, estompe les vergetures existantes et prévient la formation des rides et relâchements abdominaux. Efficacité prouvée avec des résultats visibles dès 3 jours à une semaine. Formule 100% sûre, naturelle, sans aucun effet secondaire, idéale pendant et après la grossesse ou lors de variations de poids. Convient pour le ventre, les cuisses, les hanches, les fesses et les genoux.",
+    "features": [
       "Flacon verre de 30 ml avec pipette compte-gouttes pour une application précise et économique",
       "Riche en extraits concentrés d'escargot et collagène qui renforcent l'élasticité cutanée",
       "Élimine les vergetures et prévient les étirements et rides du ventre et du corps",
       "Recommandé pour les femmes enceintes (post-partum), fesses, hanches, cuisses et genoux",
       "Formule 100% naturelle et douce, pénètre rapidement sans laisser de film gras",
-      "Résultats visibles et peau durablement assouplie dès 3 à 7 jours d'utilisation",
+      "Résultats visibles et peau durablement assouplie dès 3 à 7 jours d'utilisation"
     ],
-    specifications: [
-      { label: "Marque / Fabricant", value: "AICHUN BEAUTY" },
-      { label: "Nom du produit", value: "The Snail Removes Stretch Marks Essential Oil" },
-      { label: "Contenance", value: "Flacon verre 30 ml avec pipette" },
-      { label: "Actifs clés", value: "Extrait de bave d'escargot pur, Collagène & Huiles végétales" },
-      { label: "Zones ciblées", value: "Ventre, fesses, hanches, cuisses, genoux et seins" },
-      { label: "Conseil d'utilisation", value: "Appliquer sur peau propre et masser doucement jusqu'à absorption" },
-      { label: "État / Condition", value: "Neuf Scellé avec boîte individuelle" },
+    "specifications": [
+      {
+        "label": "Marque / Fabricant",
+        "value": "AICHUN BEAUTY"
+      },
+      {
+        "label": "Nom du produit",
+        "value": "The Snail Removes Stretch Marks Essential Oil"
+      },
+      {
+        "label": "Contenance",
+        "value": "Flacon verre 30 ml avec pipette"
+      },
+      {
+        "label": "Actifs clés",
+        "value": "Extrait de bave d'escargot pur, Collagène & Huiles végétales"
+      },
+      {
+        "label": "Zones ciblées",
+        "value": "Ventre, fesses, hanches, cuisses, genoux et seins"
+      },
+      {
+        "label": "Conseil d'utilisation",
+        "value": "Appliquer sur peau propre et masser doucement jusqu'à absorption"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Scellé avec boîte individuelle"
+      }
     ],
-    reviews: [
-      { author: "Sonia G.", rating: 5, comment: "Incroyable après ma grossesse ! Mes vergetures sur le ventre ont nettement blanchi et diminué après 2 semaines de massage quotidien.", date: "23 Fév. 2025" },
-      { author: "Prisca M.", rating: 5, comment: "Très bonne huile, ne colle pas, sent bon et laisse la peau super souple. Excellent rapport qualité prix.", date: "23 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Sonia G.",
+        "rating": 5,
+        "comment": "Incroyable après ma grossesse ! Mes vergetures sur le ventre ont nettement blanchi et diminué après 2 semaines de massage quotidien.",
+        "date": "23 Fév. 2025"
+      },
+      {
+        "author": "Prisca M.",
+        "rating": 5,
+        "comment": "Très bonne huile, ne colle pas, sent bon et laisse la peau super souple. Excellent rapport qualité prix.",
+        "date": "23 Fév. 2025"
+      }
     ],
-    related: ["coffret-snail-collagen-5pieces", "disaar-creme-depilatoire", "dr-rashel-vitamin-c-set"],
+    "related": [
+      "coffret-snail-collagen-5pieces",
+      "disaar-creme-depilatoire",
+      "dr-rashel-vitamin-c-set"
+    ]
   },
-
-  // 16. IPHONE 11 (High-Tech Best-Seller)
   {
-    id: "iphone-11",
-    title: "iPhone 11",
-    subtitle: "Double appareil photo 4K, Mode Nuit & A13 Bionic",
-    price: 79000,
-    oldPrice: 110000,
-    minQty: 1,
-    image: "/images/assets/iphone11/iphone11_black.png",
-    images: ["/images/assets/iphone11/iphone11_black.png", "/images/assets/card_hero_iphone.jpg"],
-    driveFolderUrl: "https://drive.google.com/drive/folders/1ISu5htHPwMzug_bGsqDDME5vrbEDJuSm?usp=sharing",
-    category: "electronics",
-    badge: "BEST SELLER",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.19 kg",
-    volume: "0.001 CBM",
-    rating: 4.9,
-    reviewsCount: 520,
-    conditionState: "Reconditionné",
-    grade: "Grade B/C",
-    simType: "SIM physique",
-    regionVersion: "Version Global",
-    storageOptions: ["64 Go", "256 Go"],
-    batteryHealth: "88% - 100%",
-    description:
-      "Incontournable pour la revente : iPhone 11 reconditionné. Double capteur ultra grand-angle, vidéo 4K à 60 ips, autonomie record et verre dépoli ultra résistant. Prix grossiste de 79 000 à 198 000 FCFA.",
-    features: [
-      "Double capteur photo 12 MP avec Mode Nuit",
-      "Puce A13 Bionic surpuissante",
-      "Batterie longue autonomie",
-      "Finition verre mat",
-      "Reconditionné certifié FenouShop",
-    ],
-    specifications: [
-      { label: "Série", value: "iPhone 11" },
-      { label: "État", value: "Reconditionné Certifié (Grade B/C)" },
-      { label: "Stockages", value: "64 Go / 256 Go" },
-      { label: "SIM", value: "SIM physique" },
-      { label: "Plage tarifaire", value: "79 000 à 198 000 FCFA" },
-    ],
-    reviews: [
-      { author: "Saliou M.", rating: 5, comment: "Superbe lot d'iPhone 11. Qualité d'écran et batterie parfaites !", date: "02 Mar. 2025" },
-    ],
-    related: ["iphone-x", "iphone-12", "iphone-13"],
-  },
-
-  // 17. DISAAR CRÈME DÉPILATOIRE (Beauty Épilation)
-  {
-    id: "disaar-creme-depilatoire",
-    title: "Disaar Crème Dépilatoire – Épilation Rapide 3 Minutes (100 g)",
-    subtitle: "Épilation douce & réduction de la pousse des poils sans irritation",
-    price: 2500,
-    oldPrice: 4000,
-    minQty: 1,
-    image: "/images/assets/disaar_hair_removal.jpg",
-    images: [
+    "id": "disaar-creme-depilatoire",
+    "title": "Disaar Crème Dépilatoire – Épilation Rapide 3 Minutes (100 g)",
+    "subtitle": "Épilation douce & réduction de la pousse des poils sans irritation",
+    "price": 2500,
+    "oldPrice": 4000,
+    "minQty": 1,
+    "image": "/images/assets/disaar_hair_removal.jpg",
+    "images": [
       "/images/assets/disaar_hair_removal.jpg",
-      "/images/assets/disaar_hair_removal_2.png",
+      "/images/assets/disaar_hair_removal_2.png"
     ],
-    category: "beauty",
-    badge: "BEAUTÉ & SOINS",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.10 kg",
-    volume: "0.0003 CBM",
-    rating: 4.9,
-    reviewsCount: 124,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Marque : DISAAR. Contenance : 100ml / 100g. Efficacité : douce et n'irrite pas la peau. Contient des facteurs dépilatoires qui peuvent ramollir et étirer les follicules pileux, facilement absorbés par le corps humain ou la peau. Réduit la sécrétion des glandes sudoripares, rétrécit les pores et les follicules pileux. Propre, durable, facile à enlever ou à rincer et rend la peau lisse et hydratée. Épilation douce sur les bras, poils du bikini, lèvres supérieures, aisselles, jambes, visage, zone pubienne et autres zones du corps.",
-    features: [
+    "category": "beauty",
+    "badge": "BEAUTÉ & SOINS",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.10 kg",
+    "volume": "0.0003 CBM",
+    "rating": 4.9,
+    "reviewsCount": 124,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Marque : DISAAR. Contenance : 100ml / 100g. Efficacité : douce et n'irrite pas la peau. Contient des facteurs dépilatoires qui peuvent ramollir et étirer les follicules pileux, facilement absorbés par le corps humain ou la peau. Réduit la sécrétion des glandes sudoripares, rétrécit les pores et les follicules pileux. Propre, durable, facile à enlever ou à rincer et rend la peau lisse et hydratée. Épilation douce sur les bras, poils du bikini, lèvres supérieures, aisselles, jambes, visage, zone pubienne et autres zones du corps.",
+    "features": [
       "Épilation ultra-rapide 3 minutes douce et sans douleur",
       "Facteurs dépilatoires réducteurs de repousse des poils",
       "Rétrécit les pores & hydrate la peau en profondeur",
       "Convient pour bras, aisselles, maillot, jambes, visage et zone pubienne",
-      "Contrôle de qualité professionnel épilation + réduction pousse",
+      "Contrôle de qualité professionnel épilation + réduction pousse"
     ],
-    specifications: [
-      { label: "Marque", value: "DISAAR Beauty Skincare" },
-      { label: "Contenance / Contenu", value: "100 g / 100 ml" },
-      { label: "Temps d'action", value: "3 à 8 minutes" },
-      { label: "Zones d'application", value: "Corps, bras, aisselles, bikini, jambes, visage" },
-      { label: "Propriétés", value: "Épilation douce & Réduction pousse" },
-      { label: "État / Condition", value: "Neuf Scellé" },
+    "specifications": [
+      {
+        "label": "Marque",
+        "value": "DISAAR Beauty Skincare"
+      },
+      {
+        "label": "Contenance / Contenu",
+        "value": "100 g / 100 ml"
+      },
+      {
+        "label": "Temps d'action",
+        "value": "3 à 8 minutes"
+      },
+      {
+        "label": "Zones d'application",
+        "value": "Corps, bras, aisselles, bikini, jambes, visage"
+      },
+      {
+        "label": "Propriétés",
+        "value": "Épilation douce & Réduction pousse"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Scellé"
+      }
     ],
-    reviews: [
-      { author: "Amina K.", rating: 5, comment: "Crème très efficace et douce, ne brûle pas du tout la peau !", date: "18 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Amina K.",
+        "rating": 5,
+        "comment": "Crème très efficace et douce, ne brûle pas du tout la peau !",
+        "date": "18 Fév. 2025"
+      }
     ],
-    related: ["cat_beauty"],
+    "related": [
+      "cat_beauty"
+    ]
   },
-
-  // 18. IPHONE 17 (High-Tech Avant-Première)
   {
-    id: "iphone-17",
-    title: "iPhone 17",
-    subtitle: "Nouvelle Génération Apple A19 & Refroidissement Chambre à Vapeur",
-    price: 394000,
-    oldPrice: 520000,
-    minQty: 1,
-    image: "/images/assets/iphone17_pro_dark.png",
-    images: [
-      "/images/assets/iphone17_pro_dark.png",
-      "/images/assets/iphone17_pro_silver.png",
+    "id": "roushun-gommage-aloe-vera-99",
+    "title": "Roushun 99% Aloe Vera Scrub Gel – Gommage Exfoliant Visage (150 ml)",
+    "subtitle": "Désobstrue les pores, élimine les points noirs & adoucit le grain de peau",
+    "price": 1500,
+    "oldPrice": 2800,
+    "minQty": 1,
+    "image": "/images/assets/roushun_aloe_vera_scrub_2.png",
+    "images": [
+      "/images/assets/roushun_aloe_vera_scrub_2.png",
+      "/images/assets/roushun_aloe_vera_scrub_1.png"
     ],
-    driveFolderUrl: "https://drive.google.com/drive/folders/1MQ6F-SZHMqsn5y2zcEDGA2BxpPWbbAe3?usp=sharing",
-    category: "electronics",
-    badge: "AVANT-PREMIÈRE",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.21 kg",
-    volume: "0.001 CBM",
-    rating: 5.0,
-    reviewsCount: 42,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    simType: "Dual SIM",
-    regionVersion: "Version Global",
-    storageOptions: ["256 Go", "512 Go", "1 To", "2 To"],
-    batteryHealth: "100% Neuf d'origine",
-    description:
-      "La future référence d'Apple proposée en réservation grossiste par FenouShop. Puce A19, jusqu'à 2 To de stockage, système thermique à chambre à vapeur et capteurs ultra avancés. Tarifs indicatifs de 394 000 à 886 000 FCFA.",
-    features: [
-      "Puce A19 nouvelle génération",
-      "Système thermique avancé par chambre à vapeur",
-      "Stockage étendu jusqu'à 2 To",
-      "Design avant-gardiste ultra fin",
-    ],
-    specifications: [
-      { label: "Gamme", value: "iPhone 17" },
-      { label: "État", value: "Scellé / Neuf d'origine" },
-      { label: "Stockage max.", value: "Jusqu'à 2 To" },
-      { label: "Plage tarifaire", value: "394 000 à 886 000 FCFA" },
-    ],
-    reviews: [],
-    related: ["iphone-16"],
-  },
-
-  // 19. ROUSHUN GOMMAGE ALOE VERA (Beauty Gommage)
-  {
-    id: "roushun-gommage-aloe-vera-99",
-    title: "Roushun 99% Aloe Vera Scrub Gel – Gommage Exfoliant Visage (150 ml)",
-    subtitle: "Désobstrue les pores, élimine les points noirs & adoucit le grain de peau",
-    price: 1500,
-    oldPrice: 2800,
-    minQty: 1,
-    image: "/images/assets/roushun_aloe_vera_scrub_2.png",
-    images: ["/images/assets/roushun_aloe_vera_scrub_2.png", "/images/assets/roushun_aloe_vera_scrub_1.png"],
-    category: "beauty",
-    badge: "99% ALOE VERA PUR",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.18 kg",
-    volume: "0.0003 CBM",
-    rating: 4.9,
-    reviewsCount: 152,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Le gel gommage exfoliant Roushun 99% Aloe Vera avec micro-perles sphériques cible précisément ce qui obstrue les pores et élimine en douceur les impuretés pour laisser un teint frais, éclatant et une peau visiblement plus douce et lisse dès la première utilisation. Au fil du temps et du renouvellement cellulaire, les peaux mortes et impuretés s'accumulent et ternissent le teint. Ce gel d'aloe vera désobstrue rapidement les pores, déloge les points noirs et élimine les cellules vieillissantes tout en nourrissant et hydratant la peau grâce à l'extrait pur d'Aloe Vera. Formule 100% douce adaptée à un usage régulier ou quotidien.",
-    features: [
+    "category": "beauty",
+    "badge": "99% ALOE VERA PUR",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.18 kg",
+    "volume": "0.0003 CBM",
+    "rating": 4.9,
+    "reviewsCount": 152,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Le gel gommage exfoliant Roushun 99% Aloe Vera avec micro-perles sphériques cible précisément ce qui obstrue les pores et élimine en douceur les impuretés pour laisser un teint frais, éclatant et une peau visiblement plus douce et lisse dès la première utilisation. Au fil du temps et du renouvellement cellulaire, les peaux mortes et impuretés s'accumulent et ternissent le teint. Ce gel d'aloe vera désobstrue rapidement les pores, déloge les points noirs et élimine les cellules vieillissantes tout en nourrissant et hydratant la peau grâce à l'extrait pur d'Aloe Vera. Formule 100% douce adaptée à un usage régulier ou quotidien.",
+    "features": [
       "Contient 99% d'extrait pur d'Aloe Vera hydratant et micro-perles sphériques exfoliantes",
       "Désobstrue les pores en profondeur et élimine les points noirs incrustés",
       "Élimine les cellules mortes et fait renaître un teint éclatant et lumineux",
       "Procure une peau soyeuse, douce et assainie dès la première utilisation",
       "Formule naturelle non agressive adaptée à tous types de peaux, même sensibles",
-      "Flacon ergonomique design feuille d'aloe vera de 150 ml facile à doser",
+      "Flacon ergonomique design feuille d'aloe vera de 150 ml facile à doser"
     ],
-    specifications: [
-      { label: "Marque / Fabricant", value: "ROUSHUN Skincare" },
-      { label: "Nom du produit", value: "99% Aloe Vera Scrub Gel Nourish Repair" },
-      { label: "Contenance", value: "150 ml (Flacon design feuille)" },
-      { label: "Actifs clés", value: "99% Extrait d'Aloe Vera biologique, Micro-perles exfoliantes douces" },
-      { label: "Actions principales", value: "Exfoliation douce, Anti-points noirs, Désincrustant & Éclat" },
-      { label: "Mode d'emploi", value: "Humidifier le visage, masser par mouvements circulaires et rincer à l'eau" },
-      { label: "État / Condition", value: "Neuf Scellé" },
+    "specifications": [
+      {
+        "label": "Marque / Fabricant",
+        "value": "ROUSHUN Skincare"
+      },
+      {
+        "label": "Nom du produit",
+        "value": "99% Aloe Vera Scrub Gel Nourish Repair"
+      },
+      {
+        "label": "Contenance",
+        "value": "150 ml (Flacon design feuille)"
+      },
+      {
+        "label": "Actifs clés",
+        "value": "99% Extrait d'Aloe Vera biologique, Micro-perles exfoliantes douces"
+      },
+      {
+        "label": "Actions principales",
+        "value": "Exfoliation douce, Anti-points noirs, Désincrustant & Éclat"
+      },
+      {
+        "label": "Mode d'emploi",
+        "value": "Humidifier le visage, masser par mouvements circulaires et rincer à l'eau"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Scellé"
+      }
     ],
-    reviews: [
-      { author: "Esther B.", rating: 5, comment: "Ce gommage à l'aloe vera est une pépite ! Très doux, il n'agresse pas la peau et enlève tous les points noirs sur le nez.", date: "23 Fév. 2025" },
-      { author: "Sandrine T.", rating: 5, comment: "Texture gel hyper fraîche, odeur agréable et laisse la peau toute douce comme un bébé.", date: "23 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Esther B.",
+        "rating": 5,
+        "comment": "Ce gommage à l'aloe vera est une pépite ! Très doux, il n'agresse pas la peau et enlève tous les points noirs sur le nez.",
+        "date": "23 Fév. 2025"
+      },
+      {
+        "author": "Sandrine T.",
+        "rating": 5,
+        "comment": "Texture gel hyper fraîche, odeur agréable et laisse la peau toute douce comme un bébé.",
+        "date": "23 Fév. 2025"
+      }
     ],
-    related: ["disaar-masque-vitamine-c", "dr-rashel-vitamin-c-set", "aichun-masque-peeloff-collagene-lait"],
+    "related": [
+      "disaar-masque-vitamine-c",
+      "dr-rashel-vitamin-c-set",
+      "aichun-masque-peeloff-collagene-lait"
+    ]
   },
-
-  // 20. IPHONE X (High-Tech Borderless)
   {
-    id: "iphone-x",
-    title: "iPhone X",
-    subtitle: "Écran Super Retina OLED & Face ID sécurisé",
-    price: 46000,
-    oldPrice: 65000,
-    minQty: 1,
-    image: "/images/assets/iphonex/iphonex_spacegray.png",
-    images: [
-      "/images/assets/iphonex/iphonex_spacegray.png",
-      "/images/assets/iphonex/iphonex_silver.png",
-    ],
-    driveFolderUrl: "https://drive.google.com/drive/folders/1FbSidVBOsmF9OQ3j5iV2W-VtamLUAlAt?usp=sharing",
-    category: "electronics",
-    badge: "POPULAIRE",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.17 kg",
-    volume: "0.001 CBM",
-    rating: 4.8,
-    reviewsCount: 310,
-    conditionState: "Occasion",
-    grade: "Grade B/C",
-    simType: "SIM physique",
-    regionVersion: "Version Global",
-    storageOptions: ["64 Go", "128 Go", "256 Go"],
-    batteryHealth: "85% - 100% origine",
-    description:
-      "La génération borderless d'Apple : iPhone X. Écran OLED Super Retina, déverrouillage Face ID 3D et puce A12 Bionic. Tarifs de 46 000 à 125 000 FCFA selon la configuration.",
-    features: [
-      "Écran panoramique borderless OLED",
-      "Face ID ultra rapide et sécurisé",
-      "Puce A12 Bionic Neural Engine",
-      "Double appareil photo 12 MP",
-      "Autonomie batterie longue durée",
-    ],
-    specifications: [
-      { label: "Modèles", value: "iPhone X" },
-      { label: "État", value: "Occasion Contrôlée (Grade B/C)" },
-      { label: "Capacités", value: "64 Go / 128 Go / 256 Go" },
-      { label: "Type SIM", value: "SIM physique" },
-      { label: "Plage tarifaire", value: "46 000 à 125 000 FCFA" },
-    ],
-    reviews: [],
-    related: ["iphone-8", "iphone-11", "iphone-12"],
-  },
-
-  // 21. MASQUE LÈVRES ROSE (Beauty Soin Lèvres)
-  {
-    id: "masque-levres-rose-hydrogel",
-    title: "Masque Lèvres Rose Hydrogel Hydratant & Repulpant au Collagène",
-    subtitle: "Soin SOS lèvres gercées, nutrition intense & lissage avant maquillage",
-    price: 500,
-    oldPrice: 1200,
-    minQty: 1,
-    image: "/images/assets/pink_lip_mask.jpg",
-    images: [
+    "id": "masque-levres-rose-hydrogel",
+    "title": "Masque Lèvres Rose Hydrogel Hydratant & Repulpant au Collagène",
+    "subtitle": "Soin SOS lèvres gercées, nutrition intense & lissage avant maquillage",
+    "price": 500,
+    "oldPrice": 1200,
+    "minQty": 1,
+    "image": "/images/assets/pink_lip_mask.jpg",
+    "images": [
       "/images/assets/pink_lip_mask.jpg",
-      "/images/assets/pink_lip_mask_2.png",
+      "/images/assets/pink_lip_mask_2.png"
     ],
-    category: "beauty",
-    badge: "SOIN LÈVRES",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.02 kg",
-    volume: "0.0001 CBM",
-    rating: 4.9,
-    reviewsCount: 185,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Masque patch pour lèvres rose au collagène et hydrogel. Allié indispensable contre le dessèchement et les agressions extérieures (baisse de température, froid, vent). Le geste malin : s'applique le matin avant de se maquiller ou le soir après le démaquillage. Associe son pouvoir ultra-hydratant avec votre baume à lèvres fétiche pour des lèvres douces, lisses, nourries et naturellement repulpées.",
-    features: [
+    "category": "beauty",
+    "badge": "SOIN LÈVRES",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.02 kg",
+    "volume": "0.0001 CBM",
+    "rating": 4.9,
+    "reviewsCount": 185,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Masque patch pour lèvres rose au collagène et hydrogel. Allié indispensable contre le dessèchement et les agressions extérieures (baisse de température, froid, vent). Le geste malin : s'applique le matin avant de se maquiller ou le soir après le démaquillage. Associe son pouvoir ultra-hydratant avec votre baume à lèvres fétiche pour des lèvres douces, lisses, nourries et naturellement repulpées.",
+    "features": [
       "Patch hydrogel au collagène rose lissant & repulpant",
       "Hydratation intense SOS contre le dessèchement des lèvres",
       "S'applique 15-20 min le matin (pré-maquillage) ou le soir",
       "Prépare les lèvres pour une tenue parfaite du rouge à lèvres",
-      "Format individuel stérile scellé à emporter partout",
+      "Format individuel stérile scellé à emporter partout"
     ],
-    specifications: [
-      { label: "Type de produit", value: "Masque Lèvres Hydrogel Patch" },
-      { label: "Actifs principaux", value: "Collagène, Acide Hyaluronique, Extrait de Rose" },
-      { label: "Utilisation conseillée", value: "Matin (avant maquillage) / Soir (après démaquillage)" },
-      { label: "Temps de pose", value: "15 à 20 minutes" },
-      { label: "Bénéfice", value: "Hydratation intense & Lèvres lisses" },
-      { label: "État / Condition", value: "Neuf Scellé Sachet individuel" },
+    "specifications": [
+      {
+        "label": "Type de produit",
+        "value": "Masque Lèvres Hydrogel Patch"
+      },
+      {
+        "label": "Actifs principaux",
+        "value": "Collagène, Acide Hyaluronique, Extrait de Rose"
+      },
+      {
+        "label": "Utilisation conseillée",
+        "value": "Matin (avant maquillage) / Soir (après démaquillage)"
+      },
+      {
+        "label": "Temps de pose",
+        "value": "15 à 20 minutes"
+      },
+      {
+        "label": "Bénéfice",
+        "value": "Hydratation intense & Lèvres lisses"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Scellé Sachet individuel"
+      }
     ],
-    reviews: [
-      { author: "Sandrine K.", rating: 5, comment: "Indispensable avant le rouge à lèvres ! Mes lèvres ne gercent plus du tout.", date: "22 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Sandrine K.",
+        "rating": 5,
+        "comment": "Indispensable avant le rouge à lèvres ! Mes lèvres ne gercent plus du tout.",
+        "date": "22 Fév. 2025"
+      }
     ],
-    related: ["disaar-masque-vitamine-c", "disaar-creme-depilatoire", "cat_beauty"],
+    "related": [
+      "disaar-masque-vitamine-c",
+      "disaar-creme-depilatoire",
+      "cat_beauty"
+    ]
   },
-
-  // 22. IPHONE 8 (High-Tech Économique)
   {
-    id: "iphone-8",
-    title: "iPhone 8",
-    subtitle: "Dos en verre, Puce A11 Bionic & Charge sans fil",
-    price: 33000,
-    oldPrice: 45000,
-    minQty: 1,
-    image: "/images/assets/iphone8/iphone8_gold.png",
-    images: [
-      "/images/assets/iphone8/iphone8_gold.png",
-      "/images/assets/iphone8/iphone8_silver.png",
-      "/images/assets/iphone8/iphone8_spacegray.png",
+    "id": "aichun-masque-peeloff-collagene-lait",
+    "title": "Aichun Beauty Masque Peel-Off au Collagène & au Lait (120 ml)",
+    "subtitle": "Masque visage éclaircissant, désincrustant pores, enrichi en Vitamines A & E",
+    "price": 1500,
+    "oldPrice": 2800,
+    "minQty": 1,
+    "image": "/images/assets/aichun_collagen_milk_mask_2.png",
+    "images": [
+      "/images/assets/aichun_collagen_milk_mask_2.png"
     ],
-    driveFolderUrl: "https://drive.google.com/drive/folders/1_f8mhhl7NyxaOUsM-jCdF5eZSooZL286?usp=sharing",
-    category: "electronics",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.15 kg",
-    volume: "0.001 CBM",
-    rating: 4.7,
-    reviewsCount: 198,
-    conditionState: "Occasion",
-    grade: "Grade B/C",
-    simType: "SIM physique",
-    regionVersion: "Version Global",
-    storageOptions: ["32 Go", "128 Go", "256 Go"],
-    batteryHealth: "85% - 100% origine",
-    description:
-      "Gamme iPhone 8 direct usine via FenouShop. Design élégant en verre résistant, compatibilité avec la recharge sans fil Qi et processeur A11 Bionic avec Neural Engine. Fourchette tarifaire de 33 000 à 85 000 FCFA selon la version.",
-    features: [
-      "Dos en verre avec recharge sans fil Qi",
-      "Puce A11 Bionic haute rapidité",
-      "Écran True Tone Retina HD",
-      "Capteur photo 12 MP",
-      "Vérification batterie & boutons OK",
-    ],
-    specifications: [
-      { label: "Marque / Modèle", value: "Apple iPhone 8" },
-      { label: "État", value: "Occasion Contrôlée (Grade B/C)" },
-      { label: "Stockage", value: "32 Go / 128 Go / 256 Go" },
-      { label: "SIM", value: "SIM physique" },
-      { label: "Plage tarifaire", value: "33 000 à 85 000 FCFA" },
-    ],
-    reviews: [],
-    related: ["iphone-7", "iphone-x", "iphone-11"],
-  },
-
-  // 23. AICHUN MASQUE PEEL-OFF COLLAGÈNE & LAIT (Beauty)
-  {
-    id: "aichun-masque-peeloff-collagene-lait",
-    title: "Aichun Beauty Masque Peel-Off au Collagène & au Lait (120 ml)",
-    subtitle: "Masque visage éclaircissant, désincrustant pores, enrichi en Vitamines A & E",
-    price: 1500,
-    oldPrice: 2800,
-    minQty: 1,
-    image: "/images/assets/aichun_collagen_milk_mask_2.png",
-    images: ["/images/assets/aichun_collagen_milk_mask_2.png"],
-    category: "beauty",
-    badge: "PEEL-OFF • COLLAGÈNE & LAIT",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.15 kg",
-    volume: "0.0002 CBM",
-    rating: 4.9,
-    reviewsCount: 138,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Un masque facial peel-off de haute qualité qui aide la peau à retrouver son éclat et son apparence de jeunesse. Formulé avec du collagène actif, des extraits nutritifs de lait ainsi que des vitamines antioxydantes A et E, ce masque perfecteur revitalise et maintient l'équilibre hydrique optimal de votre peau. Il nettoie en profondeur l'excès de sébum et la saleté incrustée dans les pores et favorise une absorption maximale des soins hydratants. Lorsqu'il est utilisé régulièrement, la peau est visiblement propre, soyeuse, douce et fraîche avec un aspect unifié et éclatant.",
-    features: [
+    "category": "beauty",
+    "badge": "PEEL-OFF • COLLAGÈNE & LAIT",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.15 kg",
+    "volume": "0.0002 CBM",
+    "rating": 4.9,
+    "reviewsCount": 138,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Un masque facial peel-off de haute qualité qui aide la peau à retrouver son éclat et son apparence de jeunesse. Formulé avec du collagène actif, des extraits nutritifs de lait ainsi que des vitamines antioxydantes A et E, ce masque perfecteur revitalise et maintient l'équilibre hydrique optimal de votre peau. Il nettoie en profondeur l'excès de sébum et la saleté incrustée dans les pores et favorise une absorption maximale des soins hydratants. Lorsqu'il est utilisé régulièrement, la peau est visiblement propre, soyeuse, douce et fraîche avec un aspect unifié et éclatant.",
+    "features": [
       "Formule enrichie en collagène, extraits de lait éclaircissants et vitamines A & E",
       "Action peel-off : se retire comme un film en emportant peaux mortes et points noirs",
       "Nettoie en profondeur l'excès de sébum et les impuretés logées dans les pores",
       "Revitalise et préserve l'hydratation naturelle pour une peau douce et lumineuse",
       "Effet coup d'éclat immédiat avec texture soyeuse et teint visiblement rajeuni",
-      "Application simple et séchage rapide en 15 à 20 minutes",
+      "Application simple et séchage rapide en 15 à 20 minutes"
     ],
-    specifications: [
-      { label: "Marque / Fabricant", value: "AICHUN BEAUTY" },
-      { label: "Nom du produit", value: "Whitening Peel Off Mask Collagen & Milk" },
-      { label: "Contenance", value: "Tube de 120 ml" },
-      { label: "Actifs clés", value: "Protéines de lait, Collagène actif, Vitamines A & E" },
-      { label: "Type de soin", value: "Masque Peel-Off traitement & éclat visage" },
-      { label: "Temps de pose", value: "15 à 20 minutes (retirer délicatement de bas en haut)" },
-      { label: "État / Condition", value: "Neuf Scellé avec étui" },
+    "specifications": [
+      {
+        "label": "Marque / Fabricant",
+        "value": "AICHUN BEAUTY"
+      },
+      {
+        "label": "Nom du produit",
+        "value": "Whitening Peel Off Mask Collagen & Milk"
+      },
+      {
+        "label": "Contenance",
+        "value": "Tube de 120 ml"
+      },
+      {
+        "label": "Actifs clés",
+        "value": "Protéines de lait, Collagène actif, Vitamines A & E"
+      },
+      {
+        "label": "Type de soin",
+        "value": "Masque Peel-Off traitement & éclat visage"
+      },
+      {
+        "label": "Temps de pose",
+        "value": "15 à 20 minutes (retirer délicatement de bas en haut)"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Scellé avec étui"
+      }
     ],
-    reviews: [
-      { author: "Vanessa L.", rating: 5, comment: "Ce masque peel-off au lait est formidable ! Il se décolle très bien et retire toutes les impuretés. Teint super frais après.", date: "23 Fév. 2025" },
-      { author: "Pauline D.", rating: 5, comment: "Effet coup d'éclat immédiat. La peau est douce comme de la soie.", date: "23 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Vanessa L.",
+        "rating": 5,
+        "comment": "Ce masque peel-off au lait est formidable ! Il se décolle très bien et retire toutes les impuretés. Teint super frais après.",
+        "date": "23 Fév. 2025"
+      },
+      {
+        "author": "Pauline D.",
+        "rating": 5,
+        "comment": "Effet coup d'éclat immédiat. La peau est douce comme de la soie.",
+        "date": "23 Fév. 2025"
+      }
     ],
-    related: ["roushun-gommage-aloe-vera-99", "disaar-masque-vitamine-c", "dr-rashel-vitamin-c-set"],
+    "related": [
+      "roushun-gommage-aloe-vera-99",
+      "disaar-masque-vitamine-c",
+      "dr-rashel-vitamin-c-set"
+    ]
   },
-
-  // 24. IPHONE 7 (High-Tech Prix Minimal)
   {
-    id: "iphone-7",
-    title: "iPhone 7",
-    subtitle: "Modèles 4.7\" et 5.5\" — État certifié FenouShop",
-    price: 26000,
-    oldPrice: 35000,
-    minQty: 1,
-    image: "/images/assets/iphone7/iphone7_gold.png",
-    images: [
-      "/images/assets/iphone7/iphone7_gold.png",
-      "/images/assets/iphone7/iphone7_rosegold.png",
-      "/images/assets/iphone7/iphone7_silver.png",
-      "/images/assets/iphone7/iphone7_black.png",
-      "/images/assets/iphone7/iphone7_jetblack.png",
-    ],
-    driveFolderUrl: "https://drive.google.com/drive/folders/1y6gmTjsFFKyy2Y_P6ilk16u85KYgeZN2?usp=sharing",
-    category: "electronics",
-    badge: "PRIX MINIMAL",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.14 kg",
-    volume: "0.001 CBM",
-    rating: 4.6,
-    reviewsCount: 142,
-    conditionState: "Occasion",
-    grade: "Grade B/C",
-    simType: "SIM physique",
-    regionVersion: "Version Global",
-    storageOptions: ["32 Go", "128 Go", "256 Go"],
-    batteryHealth: "85% - 100% origine",
-    description:
-      "Lot grossiste d'iPhone 7 authentiques issus du catalogue FenouShop. Écran Retina HD, processeur A10 Fusion, appareil photo 12 MP et étanchéité IP67. Chaque téléphone subit un contrôle qualité rigoureux (batterie, écran, haut-parleur). Fourchette tarifaire de 26 000 à 72 000 FCFA selon la capacité et le grade.",
-    features: [
-      "Écran Retina HD 4.7\" / 5.5\"",
-      "Puce A10 Fusion performante",
-      "Capteur photo 12 MP 4K",
-      "Touch ID empreinte digitale",
-      "Batterie contrôlée (85% à 100%)",
-      "Contrôle qualité FenouShop inclus",
-    ],
-    specifications: [
-      { label: "Marque / Modèle", value: "Apple iPhone 7" },
-      { label: "État / Condition", value: "Occasion Contrôlée (Grade B/C)" },
-      { label: "Stockage dispo.", value: "32 Go / 128 Go / 256 Go" },
-      { label: "Type SIM", value: "SIM physique" },
-      { label: "État Batterie", value: "85% - 100%" },
-      { label: "Plage tarifaire", value: "26 000 à 72 000 FCFA" },
-      { label: "Garantie", value: "Contrôle avant expédition" },
-    ],
-    reviews: [],
-    related: ["iphone-8"],
-  },
-
-  // 25. MINI DÉFROISSEUR VAPEUR PORTATIF HAEGER (Électroménager / Home)
-  {
-    id: "defroisseur-vapeur-haeger-vetements",
-    title: "Mini Défroisseur Vapeur Portatif HAEGER – Défroissage Express 1500W & Anti-Bactérien",
-    subtitle: "Défroisse tous tissus à la verticale / horizontale, réservoir amovible & idéal voyage",
-    price: 10000,
-    oldPrice: 16500,
-    minQty: 1,
-    image: "/images/assets/defroisseur_vapeur_haeger_2.png",
-    images: [
-      "/images/assets/defroisseur_vapeur_haeger_2.png",
-      "/images/assets/defroisseur_vapeur_haeger_1.png",
-    ],
-    category: "home",
-    badge: "MAISON & VOYAGE",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.90 kg",
-    volume: "0.002 CBM",
-    rating: 4.8,
-    reviewsCount: 120,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Défroisseur à vapeur portatif multifonction HAEGER d'une puissance optimale de 1500W. Conçu pour défroisser rapidement, assainir et éliminer 99,9% des bactéries et mauvaises odeurs sur tous types de textiles (coton, soie, lin, velours, rideaux, costumes et robes de soirée).\n\nPrêt en seulement 25 secondes, sa semelle en acier inoxydable distribue un flux de vapeur continu haute pression qui pénètre au cœur des fibres sans jamais risquer de brûler vos vêtements délicats. Son design ergonomique et compact se glisse facilement dans une valise pour vous assurer une tenue impeccable en voyage d'affaires ou au quotidien.",
-    features: [
-      "Préchauffage ultra-rapide en 25 secondes seulement",
-      "Débit de vapeur continu puissant pour un défroissage vertical et horizontal",
-      "Réservoir d'eau transparent amovible de 280 ml facile à remplir",
-      "Semelle en acier inoxydable anti-accrochage et anti-brûlure",
-      "Assainit et purifie les vêtements, rideaux, canapés et literie",
-      "Compact, léger et facilement transportable en voyage",
-    ],
-    specifications: [
-      { label: "Marque / Modèle", value: "HAEGER Garment Steamer" },
-      { label: "Puissance", value: "1500 Watts" },
-      { label: "Capacité réservoir", value: "280 ml (Autonomie 15 à 20 min)" },
-      { label: "Temps de chauffe", value: "25 secondes" },
-      { label: "Tension", value: "220-240V ~ 50/60Hz (Prise standard)" },
-      { label: "Sécurité", value: "Arrêt automatique anti-surchauffe & manque d'eau" },
-      { label: "État / Condition", value: "Neuf Boîte Scellée d'origine" },
-    ],
-    reviews: [
-      { author: "Marc D.", rating: 5, comment: "Ce défroisseur Haeger m'a sauvé la vie en voyage d'affaires ! Mes costumes sont parfaits en 2 minutes.", date: "24 Fév. 2025" },
-      { author: "Estelle N.", rating: 5, comment: "Très maniable, chauffe instantanément et ne fuit pas du tout. Beaucoup plus pratique qu'un fer classique.", date: "25 Fév. 2025" },
-    ],
-    related: ["robot-nettoyeur-4en1-jallen-gabor", "gaine-amincissante-100-latex"],
-  },
-
-  // 26. ROBOT NETTOYEUR 4-EN-1 JALLEN GABOR (Électroménager Intelligent)
-  {
-    id: "robot-nettoyeur-4en1-jallen-gabor",
-    title: "Robot Nettoyeur Balayeur Intelligent 4-en-1 Jallen Gabor – Balayage, Frottage, Humidification & UV",
-    subtitle: "Double disque rotatif haute pression 3000 tr/min, désinfection UV & brumisateur d'ambiance",
-    price: 15000,
-    oldPrice: 25000,
-    minQty: 1,
-    image: "/images/assets/robot_nettoyeur_jallen_gabor_1.png",
-    images: [
+    "id": "robot-nettoyeur-4en1-jallen-gabor",
+    "title": "Robot Nettoyeur Balayeur Intelligent 4-en-1 Jallen Gabor – Balayage, Frottage, Humidification & UV",
+    "subtitle": "Double disque rotatif haute pression 3000 tr/min, désinfection UV & brumisateur d'ambiance",
+    "price": 15000,
+    "oldPrice": 25000,
+    "minQty": 1,
+    "image": "/images/assets/robot_nettoyeur_jallen_gabor_1.png",
+    "images": [
       "/images/assets/robot_nettoyeur_jallen_gabor_1.png",
-      "/images/assets/robot_nettoyeur_jallen_gabor_2.png",
+      "/images/assets/robot_nettoyeur_jallen_gabor_2.png"
     ],
-    category: "home",
-    badge: "ROBOTIQUE • 4-EN-1",
-    origin: "Chine (FenouShop Partner)",
-    weight: "1.20 kg",
-    volume: "0.004 CBM",
-    rating: 4.7,
-    reviewsCount: 89,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Robot nettoyeur intelligent 4-en-1 de nouvelle génération Jallen Gabor (IS28A) conçu pour un nettoyage autonome et en profondeur de tous vos sols durs (carrelage, parquet, marbre, stratifié).\n\nGrâce à son système innovant d'essuyage rotatif à double moteur (3000 tours/min), il exerce une pression constante sur le sol pour déloger les taches tenaces, la poussière, les poils d'animaux et les traces de graisse. Équipé d'un brumisateur humidificateur intégré pour assainir l'air ambiant et d'une lumière UV stérilisante pour éliminer les acariens et bactéries.",
-    features: [
+    "category": "home",
+    "badge": "ROBOTIQUE • 4-EN-1",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "1.20 kg",
+    "volume": "0.004 CBM",
+    "rating": 4.7,
+    "reviewsCount": 89,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Robot nettoyeur intelligent 4-en-1 de nouvelle génération Jallen Gabor (IS28A) conçu pour un nettoyage autonome et en profondeur de tous vos sols durs (carrelage, parquet, marbre, stratifié).\n\nGrâce à son système innovant d'essuyage rotatif à double moteur (3000 tours/min), il exerce une pression constante sur le sol pour déloger les taches tenaces, la poussière, les poils d'animaux et les traces de graisse. Équipé d'un brumisateur humidificateur intégré pour assainir l'air ambiant et d'une lumière UV stérilisante pour éliminer les acariens et bactéries.",
+    "features": [
       "4 actions simultanées : Balaye, frotte à haute pression, humidifie et désinfecte par UV",
       "Double plateau rotatif haute vitesse 3000 tr/min simulant un frottement manuel vigoureux",
       "Brumisateur d'eau / parfum intégré pour rafraîchir l'air pendant le nettoyage",
       "Lampe UV germicide intégrée pour éliminer bactéries et allergènes au sol",
       "Batterie rechargeable Lithium 2400mAh offrant plus de 90 minutes d'autonomie continue",
-      "Navigation intelligente anti-collision et profil ultra-fin pour passer sous les meubles et lits",
+      "Navigation intelligente anti-collision et profil ultra-fin pour passer sous les meubles et lits"
     ],
-    specifications: [
-      { label: "Marque / Modèle", value: "JALLEN GABOR 4-in-1 Smart Mopping Robot (IS28A)" },
-      { label: "Batterie", value: "Lithium 2400mAh (Recharge USB 3-4h)" },
-      { label: "Autonomie", value: "90 à 120 minutes en continu" },
-      { label: "Niveau sonore", value: "Ultra-silencieux (< 50 dB)" },
-      { label: "Vitesse moteur", value: "3000 tr/min" },
-      { label: "Efficacité de pression", value: "+200% vs essuyage classique" },
-      { label: "Types de sols", value: "Carrelage, Parquet / Bois, Marbre, Stratifié" },
-      { label: "Accessoires inclus", value: "Robot Jallen Gabor, 2 lingettes microfibres, Câble USB, Flacon de remplissage" },
-      { label: "État / Condition", value: "Neuf Boîte Scellée d'origine" },
+    "specifications": [
+      {
+        "label": "Marque / Modèle",
+        "value": "JALLEN GABOR 4-in-1 Smart Mopping Robot (IS28A)"
+      },
+      {
+        "label": "Batterie",
+        "value": "Lithium 2400mAh (Recharge USB 3-4h)"
+      },
+      {
+        "label": "Autonomie",
+        "value": "90 à 120 minutes en continu"
+      },
+      {
+        "label": "Niveau sonore",
+        "value": "Ultra-silencieux (< 50 dB)"
+      },
+      {
+        "label": "Vitesse moteur",
+        "value": "3000 tr/min"
+      },
+      {
+        "label": "Efficacité de pression",
+        "value": "+200% vs essuyage classique"
+      },
+      {
+        "label": "Types de sols",
+        "value": "Carrelage, Parquet / Bois, Marbre, Stratifié"
+      },
+      {
+        "label": "Accessoires inclus",
+        "value": "Robot Jallen Gabor, 2 lingettes microfibres, Câble USB, Flacon de remplissage"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Boîte Scellée d'origine"
+      }
     ],
-    reviews: [
-      { author: "Christelle B.", rating: 5, comment: "Ce robot est une bénédiction au quotidien ! Il passe partout sous les meubles et lave le carrelage sans laisser de traces.", date: "24 Fév. 2025" },
-      { author: "Armel D.", rating: 5, comment: "L'autonomie de la batterie 2400mAh tient largement 2h30. La fonction brumisateur + UV apporte une vraie fraîcheur et propreté.", date: "25 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Christelle B.",
+        "rating": 5,
+        "comment": "Ce robot est une bénédiction au quotidien ! Il passe partout sous les meubles et lave le carrelage sans laisser de traces.",
+        "date": "24 Fév. 2025"
+      },
+      {
+        "author": "Armel D.",
+        "rating": 5,
+        "comment": "L'autonomie de la batterie 2400mAh tient largement 2h30. La fonction brumisateur + UV apporte une vraie fraîcheur et propreté.",
+        "date": "25 Fév. 2025"
+      }
     ],
-    related: ["defroisseur-vapeur-haeger-vetements", "dr-rashel-vitamin-c-set", "iphone-16-16pro-16promax"],
+    "related": [
+      "defroisseur-vapeur-haeger-vetements",
+      "dr-rashel-vitamin-c-set",
+      "iphone-16-16pro-16promax"
+    ]
   },
-
-  // 27. GAINE AMINCISSANTE 100% LATEX (Fashion / Sculpting Shapewear)
   {
-    id: "gaine-amincissante-100-latex",
-    title: "Gaine Amincissante Sculptante 100% Latex – Ventre Plat & Taille Affinée",
-    subtitle: "Double fermeture (Zip + 3 rangées d'agrafes), maintien lombaire & invisible sous les vêtements",
-    price: 20000,
-    oldPrice: 32000,
-    minQty: 1,
-    image: "/images/assets/gaine_amincissante_latex_1.png",
-    images: [
-      "/images/assets/gaine_amincissante_latex_1.png",
+    "id": "gaine-amincissante-100-latex",
+    "title": "Gaine Amincissante Sculptante 100% Latex – Ventre Plat & Taille Affinée",
+    "subtitle": "Double fermeture (Zip + 3 rangées d'agrafes), maintien lombaire & invisible sous les vêtements",
+    "price": 20000,
+    "oldPrice": 32000,
+    "minQty": 1,
+    "image": "/images/assets/gaine_amincissante_latex_1.png",
+    "images": [
+      "/images/assets/gaine_amincissante_latex_1.png"
     ],
-    category: "fashion",
-    badge: "100% LATEX • EFFET IMMÉDIAT",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.35 kg",
-    volume: "0.001 CBM",
-    rating: 4.9,
-    reviewsCount: 167,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Gaine sculptante amincissante haute performance conçue en 100% Latex naturel avec doublure intérieure en coton doux et respirant. Équipée d'un double système de fermeture haute sécurité (zip frontal robuste + 3 rangées d'agrafes ajustables), elle garantit une compression ciblée et une discrétion absolue sous vos vêtements.\n\nIdéale au quotidien, pour le sport, les cérémonies ou sous une robe près du corps, elle gaine le ventre immédiatement, affine le tour de taille, lisse les bourrelets et imperfections, tout en maintenant fermement le bas du dos pour soulager les lombaires et corriger la posture.",
-    features: [
+    "category": "fashion",
+    "badge": "100% LATEX • EFFET IMMÉDIAT",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.35 kg",
+    "volume": "0.001 CBM",
+    "rating": 4.9,
+    "reviewsCount": 167,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Gaine sculptante amincissante haute performance conçue en 100% Latex naturel avec doublure intérieure en coton doux et respirant. Équipée d'un double système de fermeture haute sécurité (zip frontal robuste + 3 rangées d'agrafes ajustables), elle garantit une compression ciblée et une discrétion absolue sous vos vêtements.\n\nIdéale au quotidien, pour le sport, les cérémonies ou sous une robe près du corps, elle gaine le ventre immédiatement, affine le tour de taille, lisse les bourrelets et imperfections, tout en maintenant fermement le bas du dos pour soulager les lombaires et corriger la posture.",
+    "features": [
       "100% Latex naturel haute densité à forte compression et grande souplesse",
       "Discrète et invisible sous les vêtements, parfaite sous les robes de soirée et tenues ajustées",
       "Gaine et aplatit le ventre immédiatement dès la première mise en place",
@@ -1680,84 +1761,144 @@ export const PRODUCTS: Product[] = [
       "Marque la taille par compression superficielle homogène sans rouler",
       "Cache les bourrelets, les rondeurs et les graisses disgracieuses des hanches",
       "Soulage les lombaires et corrige la posture grâce aux baleines de soutien souples",
-      "Double attache ultra-sécurisée : Fermeture éclair zippée + 3 rangées d'agrafes ajustables",
+      "Double attache ultra-sécurisée : Fermeture éclair zippée + 3 rangées d'agrafes ajustables"
     ],
-    specifications: [
-      { label: "Matière principale", value: "100% Latex Naturel Premium" },
-      { label: "Doublure intérieure", value: "Coton doux hypoallergénique & respirant" },
-      { label: "Système de fermeture", value: "Fermeture à glissière renforcée + 3 rangées de crochets réglables" },
-      { label: "Armatures", value: "Baleines flexibles anti-déformation (maintien du dos)" },
-      { label: "Effets ciblés", value: "Ventre plat immédiat, tour de taille sculpté, soutien lombaire" },
-      { label: "Tailles disponibles", value: "S, M, L, XL, 2XL, 3XL" },
-      { label: "Couleur", value: "Noir Ébène" },
-      { label: "État / Condition", value: "Neuf Sachet individuel scellé" },
+    "specifications": [
+      {
+        "label": "Matière principale",
+        "value": "100% Latex Naturel Premium"
+      },
+      {
+        "label": "Doublure intérieure",
+        "value": "Coton doux hypoallergénique & respirant"
+      },
+      {
+        "label": "Système de fermeture",
+        "value": "Fermeture à glissière renforcée + 3 rangées de crochets réglables"
+      },
+      {
+        "label": "Armatures",
+        "value": "Baleines flexibles anti-déformation (maintien du dos)"
+      },
+      {
+        "label": "Effets ciblés",
+        "value": "Ventre plat immédiat, tour de taille sculpté, soutien lombaire"
+      },
+      {
+        "label": "Tailles disponibles",
+        "value": "S, M, L, XL, 2XL, 3XL"
+      },
+      {
+        "label": "Couleur",
+        "value": "Noir Ébène"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Sachet individuel scellé"
+      }
     ],
-    reviews: [
-      { author: "Félicité K.", rating: 5, comment: "Incroyable ! Sous ma robe de soirée on ne voit absolument rien et ma taille est super bien marquée sans m'étouffer.", date: "24 Fév. 2025" },
-      { author: "Sonia T.", rating: 5, comment: "La qualité du latex est top, le zip est très costaud et les agrafes permettent de bien régler la compression.", date: "25 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Félicité K.",
+        "rating": 5,
+        "comment": "Incroyable ! Sous ma robe de soirée on ne voit absolument rien et ma taille est super bien marquée sans m'étouffer.",
+        "date": "24 Fév. 2025"
+      },
+      {
+        "author": "Sonia T.",
+        "rating": 5,
+        "comment": "La qualité du latex est top, le zip est très costaud et les agrafes permettent de bien régler la compression.",
+        "date": "25 Fév. 2025"
+      }
     ],
-    related: ["aichun-huile-anti-vergetures-escargot", "coffret-snail-collagen-5pieces", "defroisseur-vapeur-haeger-vetements"],
+    "related": [
+      "aichun-huile-anti-vergetures-escargot",
+      "coffret-snail-collagen-5pieces",
+      "defroisseur-vapeur-haeger-vetements"
+    ]
   },
-
-  // 28. WOKALI MASQUE PEEL-OFF GOLD CAVIAR (Beauty Soin Visage & Éclat)
   {
-    id: "wokali-whitening-gold-caviar-peel-off-mask",
-    title: "Wokali Whitening Gold Caviar Peel-Off Mask (130 ml)",
-    subtitle: "Masque visage éclat à l'Or, Caviar & Réglisse – Élimination des taches & contrôle du sébum",
-    price: 1500,
-    oldPrice: 3000,
-    minQty: 1,
-    image: "/images/assets/wokali_gold_caviar_mask_1.png",
-    images: [
-      "/images/assets/wokali_gold_caviar_mask_1.png",
+    "id": "wokali-whitening-gold-caviar-peel-off-mask",
+    "title": "Wokali Whitening Gold Caviar Peel-Off Mask (130 ml)",
+    "subtitle": "Masque visage éclat à l'Or, Caviar & Réglisse – Élimination des taches & contrôle du sébum",
+    "price": 1500,
+    "oldPrice": 3000,
+    "minQty": 1,
+    "image": "/images/assets/wokali_gold_caviar_mask_1.png",
+    "images": [
+      "/images/assets/wokali_gold_caviar_mask_1.png"
     ],
-    category: "beauty",
-    badge: "OR & CAVIAR • ÉCLAT JEUNESSE",
-    origin: "Chine (FenouShop Partner)",
-    weight: "0.15 kg",
-    volume: "0.0003 CBM",
-    rating: 4.9,
-    reviewsCount: 178,
-    conditionState: "Scellé",
-    grade: "Grade A",
-    description:
-      "Ce masque facial peel-off de haute qualité Wokali Whitening Gold Caviar est spécialement formulé pour le contrôle de l'excès de sébum, l'élimination des taches, l'adoucissement de la peau et l'éclaircissement naturel du teint. Il aide la peau à retrouver son éclat et son apparence de jeunesse.\n\nFormulé avec de l'extrait précieux de caviar, d'or cosmétique, d'extrait de réglisse (Licorice) et enrichi en vitamines A et E, ce masque revitalise et maintient l'équilibre hydrique optimal de votre peau. Il nettoie en profondeur l'excès d'huile et la saleté incrustée dans les pores, tout en permettant à l'humidité d'être absorbée par la peau.\n\nLorsqu'il est utilisé régulièrement (1 à 3 fois par semaine), la peau est visiblement propre, douce, fraîche et lumineuse avec un teint clair et unifié.",
-    features: [
+    "category": "beauty",
+    "badge": "OR & CAVIAR • ÉCLAT JEUNESSE",
+    "origin": "Chine (FenouShop Partner)",
+    "weight": "0.15 kg",
+    "volume": "0.0003 CBM",
+    "rating": 4.9,
+    "reviewsCount": 178,
+    "conditionState": "Scellé",
+    "grade": "Grade A",
+    "description": "Ce masque facial peel-off de haute qualité Wokali Whitening Gold Caviar est spécialement formulé pour le contrôle de l'excès de sébum, l'élimination des taches, l'adoucissement de la peau et l'éclaircissement naturel du teint. Il aide la peau à retrouver son éclat et son apparence de jeunesse.\n\nFormulé avec de l'extrait précieux de caviar, d'or cosmétique, d'extrait de réglisse (Licorice) et enrichi en vitamines A et E, ce masque revitalise et maintient l'équilibre hydrique optimal de votre peau. Il nettoie en profondeur l'excès d'huile et la saleté incrustée dans les pores, tout en permettant à l'humidité d'être absorbée par la peau.\n\nLorsqu'il est utilisé régulièrement (1 à 3 fois par semaine), la peau est visiblement propre, douce, fraîche et lumineuse avec un teint clair et unifié.",
+    "features": [
       "Formule royale enrichie aux extraits d'Or pur, de Caviar précieux et de Réglisse éclaircissante",
       "Action Peel-Off désincrustante : élimine points noirs, peaux mortes et impuretés des pores",
       "Régulation efficace du sébum et contrôle de la brillance sans dessécher la peau",
       "Enrichi en vitamines A et E antioxydantes pour préserver l'équilibre hydrique et la jeunesse",
       "Estompe les taches d'hyperpigmentation et unifie le teint pour un éclat doré radieux",
       "Sensation de peau ultra-douce, lisse, fraîche et revitalisée dès le premier retrait",
-      "Convient pour 1 à 3 applications par semaine sur tous types de peaux",
+      "Convient pour 1 à 3 applications par semaine sur tous types de peaux"
     ],
-    specifications: [
-      { label: "Marque / Fabricant", value: "WOKALI Cosmetics" },
-      { label: "Nom du produit", value: "Whitening Gold Caviar Peel Off Mask" },
-      { label: "Contenance", value: "Tube de 130 ml avec étui doré" },
-      { label: "Actifs clés", value: "Extrait de Caviar, Or cosmétique, Extrait de Réglisse (Licorice), Vitamines A & E" },
-      { label: "Actions principales", value: "Éclaircissant, Anti-taches, Désincrustant pores, Contrôle sébum & Anti-âge" },
-      { label: "Mode d'emploi", value: "Appliquer en couche fine (éviter yeux/lèvres), laisser sécher 15-20 min de bas en haut, décoller délicatement et rincer" },
-      { label: "Fréquence recommandée", value: "1 à 3 fois par semaine" },
-      { label: "État / Condition", value: "Neuf Scellé avec boîte individuelle" },
+    "specifications": [
+      {
+        "label": "Marque / Fabricant",
+        "value": "WOKALI Cosmetics"
+      },
+      {
+        "label": "Nom du produit",
+        "value": "Whitening Gold Caviar Peel Off Mask"
+      },
+      {
+        "label": "Contenance",
+        "value": "Tube de 130 ml avec étui doré"
+      },
+      {
+        "label": "Actifs clés",
+        "value": "Extrait de Caviar, Or cosmétique, Extrait de Réglisse (Licorice), Vitamines A & E"
+      },
+      {
+        "label": "Actions principales",
+        "value": "Éclaircissant, Anti-taches, Désincrustant pores, Contrôle sébum & Anti-âge"
+      },
+      {
+        "label": "Mode d'emploi",
+        "value": "Appliquer en couche fine (éviter yeux/lèvres), laisser sécher 15-20 min de bas en haut, décoller délicatement et rincer"
+      },
+      {
+        "label": "Fréquence recommandée",
+        "value": "1 à 3 fois par semaine"
+      },
+      {
+        "label": "État / Condition",
+        "value": "Neuf Scellé avec boîte individuelle"
+      }
     ],
-    reviews: [
-      { author: "Séphora M.", rating: 5, comment: "Ce masque Wokali à l'or et au caviar est magique ! Il se décolle en un seul morceau et retire tous les points noirs. Teint super lumineux.", date: "24 Fév. 2025" },
-      { author: "Inès K.", rating: 5, comment: "Très bon masque pour réguler le sébum et donner un coup d'éclat instantané avant de sortir.", date: "25 Fév. 2025" },
+    "reviews": [
+      {
+        "author": "Séphora M.",
+        "rating": 5,
+        "comment": "Ce masque Wokali à l'or et au caviar est magique ! Il se décolle en un seul morceau et retire tous les points noirs. Teint super lumineux.",
+        "date": "24 Fév. 2025"
+      },
+      {
+        "author": "Inès K.",
+        "rating": 5,
+        "comment": "Très bon masque pour réguler le sébum et donner un coup d'éclat instantané avant de sortir.",
+        "date": "25 Fév. 2025"
+      }
     ],
-    related: ["dr-rashel-24k-gold-5pieces", "aichun-masque-peeloff-collagene-lait", "roushun-gommage-aloe-vera-99"],
-  },
+    "related": [
+      "dr-rashel-24k-gold-5pieces",
+      "aichun-masque-peeloff-collagene-lait",
+      "roushun-gommage-aloe-vera-99"
+    ]
+  }
 ];
-
-export function getProductById(id: string): Product | undefined {
-  return PRODUCTS.find((p) => p.id === id);
-}
-
-export function getRelatedProducts(ids: string[]): Product[] {
-  return PRODUCTS.filter((p) => ids.includes(p.id)).slice(0, 4);
-}
-
-export function getProductsByCategory(category: string): Product[] {
-  if (category === "all") return PRODUCTS;
-  return PRODUCTS.filter((p) => p.category === category);
-}
