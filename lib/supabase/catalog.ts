@@ -347,53 +347,10 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
 export async function getPublicProducts(options: ProductFilterOptions = {}): Promise<Product[]> {
   try {
     const deletedIds = new Set(getStoredDeletedProductIds());
-    const localProducts = getPublicProductsSync(options);
     const productMap = new Map<string, Product>();
 
-    // 1. Local products & custom products
-    for (const p of localProducts) {
-      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
-        productMap.set(p.id, p);
-      }
-    }
-
-    // 2. Fetch from Server API route /api/products
-    try {
-      if (typeof window !== "undefined") {
-        const res = await fetch(`/api/products?cat=${options.categorySlug || "all"}&q=${options.search || ""}`, { cache: "no-store" });
-        if (res.ok) {
-          const json = await res.json();
-          if (json.deletedIds && Array.isArray(json.deletedIds)) {
-            const existingDel = getStoredDeletedProductIds();
-            const mergedDel = Array.from(new Set([...existingDel, ...json.deletedIds]));
-            saveStoredDeletedProductIds(mergedDel);
-            mergedDel.forEach(id => deletedIds.add(id));
-
-            const currentCustom = getStoredCustomProducts();
-            const cleanedCustom = currentCustom.filter(p => !deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`));
-            saveStoredCustomProducts(cleanedCustom);
-          }
-
-          if (json.products && json.products.length > 0) {
-            const customList: Product[] = [];
-            for (const rawP of json.products) {
-              const p = normalizeProduct(rawP);
-              if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
-                productMap.set(p.id, p);
-                if (p.id?.startsWith("custom_") || p.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === p.id)) {
-                  customList.push(p);
-                }
-              }
-            }
-            if (customList.length > 0) {
-              saveStoredCustomProducts(customList);
-            }
-          }
-        }
-      }
-    } catch {}
-
-    // 3. Query Supabase
+    // 1. Query live Supabase database FIRST (absolute source of truth in production)
+    let supabaseSuccess = false;
     try {
       const supabase = createClient();
       let query = supabase
@@ -409,6 +366,7 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
 
       const { data: dbProducts, error } = await query;
       if (!error && dbProducts && dbProducts.length > 0) {
+        supabaseSuccess = true;
         for (const rawP of dbProducts) {
           const p = normalizeProduct(rawP);
           if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
@@ -417,6 +375,28 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
         }
       }
     } catch {}
+
+    // 2. If Supabase is offline or empty, use persistent custom products & static catalog
+    if (!supabaseSuccess || productMap.size === 0) {
+      const localProducts = getPublicProductsSync(options);
+      for (const p of localProducts) {
+        if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
+          if (!productMap.has(p.id)) {
+            productMap.set(p.id, p);
+          }
+        }
+      }
+    }
+
+    // 3. Add any fresh un-synced custom products from client storage
+    const custom = getStoredCustomProducts();
+    for (const p of custom) {
+      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
+        if (!productMap.has(p.id)) {
+          productMap.set(p.id, p);
+        }
+      }
+    }
 
     let list = Array.from(productMap.values());
 
@@ -483,17 +463,29 @@ export async function getProductByIdOrSlug(idOrSlug: string, allowInactive: bool
     const deletedIds = new Set(getStoredDeletedProductIds());
     if (deletedIds.has(idOrSlug) || deletedIds.has(`product-${idOrSlug}`)) return null;
 
-    // 1. Check local custom products (reflects real-time admin changes)
-    const custom = getStoredCustomProducts();
-    const foundCustom = custom.find((p) => p.id === idOrSlug || p.slug === idOrSlug || `product-${p.id}` === idOrSlug);
-    if (foundCustom && !deletedIds.has(foundCustom.id) && !deletedIds.has(foundCustom.slug)) {
-      if (!allowInactive && foundCustom.status && foundCustom.status !== "active") {
-        return null;
-      }
-      return foundCustom;
-    }
+    // 1. Try live Supabase DB FIRST
+    let triedSupabase = false;
+    try {
+      const supabase = createClient();
+      const { data: dbProd, error } = await supabase
+        .from("products")
+        .select("*, category:categories(*), images:product_images(*)")
+        .or(`id.eq.${idOrSlug},slug.eq.${idOrSlug}`)
+        .maybeSingle();
 
-    // 2. Try fetching from server API (synchronizes custom-products.json)
+      if (!error) {
+        triedSupabase = true;
+        if (dbProd && !deletedIds.has(dbProd.id) && !deletedIds.has(dbProd.slug)) {
+          const p = normalizeProduct(dbProd);
+          if (!allowInactive && p.status && p.status !== "active") {
+            return null;
+          }
+          return p;
+        }
+      }
+    } catch {}
+
+    // 2. Try fetching from server API route
     if (typeof window !== "undefined") {
       try {
         const res = await fetch(`/api/products?id=${encodeURIComponent(idOrSlug)}`, { cache: "no-store" });
@@ -510,23 +502,15 @@ export async function getProductByIdOrSlug(idOrSlug: string, allowInactive: bool
       } catch {}
     }
 
-    // 3. Try live Supabase DB
-    try {
-      const supabase = createClient();
-      const { data: dbProd } = await supabase
-        .from("products")
-        .select("*, category:categories(*), images:product_images(*)")
-        .or(`id.eq.${idOrSlug},slug.eq.${idOrSlug}`)
-        .maybeSingle();
-
-      if (dbProd && !deletedIds.has(dbProd.id) && !deletedIds.has(dbProd.slug)) {
-        const p = normalizeProduct(dbProd);
-        if (!allowInactive && p.status && p.status !== "active") {
-          return null;
-        }
-        return p;
+    // 3. Fallback to local custom products ONLY if not marked as deleted
+    const custom = getStoredCustomProducts();
+    const foundCustom = custom.find((p) => p.id === idOrSlug || p.slug === idOrSlug || `product-${p.id}` === idOrSlug);
+    if (foundCustom && !deletedIds.has(foundCustom.id) && !deletedIds.has(foundCustom.slug)) {
+      if (!allowInactive && foundCustom.status && foundCustom.status !== "active") {
+        return null;
       }
-    } catch {}
+      return foundCustom;
+    }
 
     const cleanId = idOrSlug.replace(/^product-/, "");
     const local = getLocalProductById(cleanId) || getLocalProductById(idOrSlug) || PRODUCTS.find((p) => `product-${p.id}` === idOrSlug || p.id === idOrSlug);
