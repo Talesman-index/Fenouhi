@@ -49,9 +49,9 @@ import {
 import { addRealNotification } from "@/lib/admin/notifications";
 
 export default function ProductsManagementPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>(() => getPublicProductsSync());
   const [categories, setCategories] = useState<Category[]>(FALLBACK_CATEGORIES);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // Filters
   const [search, setSearch] = useState("");

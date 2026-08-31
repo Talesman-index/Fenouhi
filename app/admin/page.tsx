@@ -23,28 +23,31 @@ import {
 import type { Order, Quote, ActivityLog } from "@/types/supabase";
 import type { Product } from "@/types/catalog";
 import { PRODUCTS } from "@/lib/products";
-import { getPublicProducts, getProductImageUrl } from "@/lib/supabase/catalog";
+import { getPublicProducts, getPublicProductsSync, getProductImageUrl } from "@/lib/supabase/catalog";
 
 export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
-  const [kpis, setKpis] = useState({
-    totalUsers: 1,
-    newUsersMonth: 1,
-    totalQuotes: 0,
-    pendingQuotes: 0,
-    activeOrders: 0,
-    deliveredOrders: 0,
-    parcelsInTransit: 0,
-    totalRevenue: 0,
-    pendingPayments: 0,
-    openDisputes: 0,
-    totalCatalogProducts: PRODUCTS.length,
+  const [kpis, setKpis] = useState(() => {
+    const syncProducts = getPublicProductsSync();
+    return {
+      totalUsers: 1,
+      newUsersMonth: 1,
+      totalQuotes: 0,
+      pendingQuotes: 0,
+      activeOrders: 0,
+      deliveredOrders: 0,
+      parcelsInTransit: 0,
+      totalRevenue: 0,
+      pendingPayments: 0,
+      openDisputes: 0,
+      totalCatalogProducts: syncProducts.length,
+    };
   });
 
   const [recentOrders, setRecentOrders] = useState<Order[]>([]);
   const [recentQuotes, setRecentQuotes] = useState<Quote[]>([]);
   const [recentActivities, setRecentActivities] = useState<ActivityLog[]>([]);
-  const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+  const [recentProducts, setRecentProducts] = useState<Product[]>(() => getPublicProductsSync().slice(0, 5));
 
   useEffect(() => {
     let isMounted = true;
@@ -91,8 +94,8 @@ export default function AdminDashboardPage() {
 
         const totalRevenueCalculated = paidPayments?.reduce((sum, p) => sum + (Number(p.amount) || 0), 0) || 0;
 
-        let dynamicProductCount = PRODUCTS.length;
-        let fetchedProds: Product[] = [];
+        let dynamicProductCount = getPublicProductsSync().length;
+        let fetchedProds: Product[] = getPublicProductsSync().slice(0, 5);
         try {
           const prods = await getPublicProducts();
           if (prods && prods.length > 0) {
