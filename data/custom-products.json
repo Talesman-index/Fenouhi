@@ -10,8 +10,8 @@
     "price": 35000,
     "wholesale_price_5_units": 29000,
     "cargolink_margin_percent": 10,
-    "air_freight_rate_per_kg": 2000,
-    "sea_freight_rate_per_cbm": 2000,
+    "air_freight_rate_per_kg": 0,
+    "sea_freight_rate_per_cbm": 0,
     "currency": "FCFA",
     "stock_quantity": 100,
     "minimum_order_quantity": 1,
@@ -20,10 +20,7 @@
     "length": 10,
     "width": 10,
     "height": 6,
-    "available_shipping_modes": [
-      "air",
-      "sea"
-    ],
+    "available_shipping_modes": [],
     "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
     "status": "active",
     "is_demo": false,

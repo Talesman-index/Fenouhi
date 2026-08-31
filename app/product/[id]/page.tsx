@@ -165,7 +165,7 @@ function ProductDetailContent() {
   const unitSeaFreight = (isBeauty || seaRatePerCbm === 0) ? 0 : Math.round(0.01 * seaRatePerCbm);
 
   // Check if freight applies (fret > 0)
-  const hasFreight = !isBeauty && (unitAirFreight > 0 || unitSeaFreight > 0 || (airRatePerKg > 0) || (seaRatePerCbm > 0));
+  const hasFreight = !isBeauty && (unitAirFreight > 0 || unitSeaFreight > 0);
 
   // Margin / Service rate from product configuration (5% standard Service & Contrôle Qualité Usine)
   const marginPercent = product.cargolink_margin_percent !== undefined && product.cargolink_margin_percent !== null
