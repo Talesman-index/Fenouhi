@@ -651,57 +651,6 @@
     ]
   },
   {
-    "id": "a64b4d59-a365-48de-9c74-deee399431e1",
-    "name": "iPhone 16 ",
-    "slug": "product-iphone-16-16pro-16promax",
-    "short_description": "Apple Intelligence & Nouveau Bouton Commande de l'Appareil Photo",
-    "description": "Dernier né d'Apple : l'iPhone 16. Intégration d'Apple Intelligence, nouveau bouton de contrôle tactile pour la caméra, puce A18 / A18 Pro et enregistrement vidéo 4K 120 ips Dolby Vision. Prix de 295 000 à 623 000 FCFA.",
-    "category_id": "c1000000-0000-0000-0000-000000000003",
-    "subcategory": "Accessoires & Coques",
-    "price": 295000,
-    "cargolink_margin_percent": 10,
-    "air_freight_rate_per_kg": 0,
-    "sea_freight_rate_per_cbm": 0,
-    "currency": "FCFA",
-    "stock_quantity": 100,
-    "minimum_order_quantity": 1,
-    "country_of_origin": "Chine (FenouShop Partner)",
-    "weight": 0.2,
-    "length": 0,
-    "width": 8,
-    "height": 5,
-    "available_shipping_modes": [
-      "air",
-      "sea"
-    ],
-    "estimated_delivery_time": "5-15 jours (Air)",
-    "status": "active",
-    "is_demo": false,
-    "is_featured": true,
-    "created_by": null,
-    "created_at": "2026-08-27T23:27:17.146187+00:00",
-    "updated_at": "2026-08-28T18:26:27.523+00:00",
-    "category": {
-      "id": "c1000000-0000-0000-0000-000000000003",
-      "icon": "Sparkles",
-      "name": "Beauté & Soins",
-      "slug": "beauty",
-      "is_active": true,
-      "created_at": "2026-08-24T02:46:55.043408+00:00",
-      "updated_at": "2026-08-24T02:46:55.043408+00:00",
-      "description": "Sérums visage, soin de la peau, cosmétiques et équipements esthétiques."
-    },
-    "images": [
-      {
-        "id": "img-a64b4d59-a365-48de-9c74-deee399431e1-0",
-        "product_id": "a64b4d59-a365-48de-9c74-deee399431e1",
-        "public_image_url": "/images/assets/hero_iphone16.png",
-        "position": 0,
-        "is_primary": true
-      }
-    ]
-  },
-  {
     "id": "a70454f8-a988-48a1-ab0b-d58cd5cf2fa2",
     "name": "Etui de protection hybride pour telephone",
     "slug": "etui-de-protection-hybride-pour-telephone",

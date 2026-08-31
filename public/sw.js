@@ -4,12 +4,11 @@
 //   - API / dynamic pages:                    Network First → fallback to cache
 //   - Offline fallback page for navigation
 
-const CACHE_VERSION = "v4-instant-pwa-splash";
+const CACHE_VERSION = "v5-live-catalog-sync";
 const STATIC_CACHE = `fenouhi-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `fenouhi-dynamic-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
-  "/",
   "/offline",
   "/favicon.svg",
   "/favicon.ico",
