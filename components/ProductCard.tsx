@@ -48,6 +48,11 @@ export default function ProductCard({
   const [justAdded, setJustAdded] = useState(false);
   const { isFavorite, toggleFavorite, addToCart } = useMobileStore();
 
+  const safeCategory =
+    typeof category === "object" && category !== null
+      ? (category.name || category.slug || "HIGH-TECH & ELECTRONICS")
+      : (typeof category === "string" ? category : "HIGH-TECH & ELECTRONICS");
+
   const isFav = isFavorite(`prod-${id}`);
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
@@ -57,7 +62,7 @@ export default function ProductCard({
     toggleFavorite({
       id: `prod-${id}`,
       name: title,
-      category: category,
+      category: safeCategory,
       price: numPrice,
       image: image,
       inStock: true,
@@ -236,7 +241,7 @@ export default function ProductCard({
             fontFamily: "'Plus Jakarta Sans', sans-serif",
           }}
         >
-          {category}
+          {safeCategory}
         </div>
 
         {/* 3. PRODUCT TITLE */}
