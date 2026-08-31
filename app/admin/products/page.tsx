@@ -188,17 +188,25 @@ export default function ProductsManagementPage() {
         }
       } catch (e) {}
 
-      // 2. Add local custom products from client localStorage (ensures instant sync)
-      let hasNewLocalProductsToSync = false;
-      const unSyncedProducts: Product[] = [];
-
+      // 2. Add local custom products from client localStorage: only add or update if local is newer or has variants
       for (const p of customProducts) {
         if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
           if (!productMap.has(p.id)) {
             hasNewLocalProductsToSync = true;
             unSyncedProducts.push(p);
+            productMap.set(p.id, p);
+          } else {
+            const serverP = productMap.get(p.id)!;
+            // If server product has variants and local doesn't, keep richer server product
+            if (serverP.variants && serverP.variants.length > 0 && (!p.variants || p.variants.length === 0)) {
+              // Preserve serverP in productMap
+            } else if (p.variants && p.variants.length > 0 && (!serverP.variants || serverP.variants.length === 0)) {
+              productMap.set(p.id, p);
+            } else {
+              // Prefer server product for consistency
+              productMap.set(p.id, serverP);
+            }
           }
-          productMap.set(p.id, p);
         }
       }
 
@@ -213,16 +221,17 @@ export default function ProductsManagementPage() {
         } catch {}
       }
 
-      // Sync server custom products back to localStorage as backup
+      // Sync server custom products back to localStorage to overwrite any stale cached version
       if (serverCustomProducts.length > 0) {
         const existingLocal = getStoredCustomProducts();
-        const mergedCustom = [...existingLocal];
+        const localMap = new Map(existingLocal.map((lp) => [lp.id, lp]));
         for (const sp of serverCustomProducts) {
-          if (!mergedCustom.some(lp => lp.id === sp.id)) {
-            mergedCustom.push(sp);
+          const lp = localMap.get(sp.id);
+          if (!lp || (sp.variants && sp.variants.length > 0 && (!lp.variants || lp.variants.length === 0))) {
+            localMap.set(sp.id, sp);
           }
         }
-        saveStoredCustomProducts(mergedCustom);
+        saveStoredCustomProducts(Array.from(localMap.values()));
       }
 
       // 3. Query Supabase for any additional/updated DB products
@@ -609,10 +618,11 @@ export default function ProductsManagementPage() {
       setAvailableShippingModes(product.available_shipping_modes || ["air", "sea"]);
       setEstimatedDeliveryTime(product.estimated_delivery_time || "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)");
       setStatus(product.status || "active");
-      setIsDemo(Boolean(product.is_demo));
-      setIsFeatured(Boolean(product.is_featured));
-
-      const isVar = Boolean(product.has_variants || (product.variants && product.variants.length > 0));
+      const isVar = Boolean(
+        product.has_variants === true ||
+        (Array.isArray(product.variants) && product.variants.length > 0) ||
+        (Array.isArray(product.attributes_definition) && product.attributes_definition.length > 0)
+      );
       setHasVariants(isVar);
 
       // Infer product type
@@ -686,6 +696,9 @@ export default function ProductsManagementPage() {
       }
       setCheckedOptions(initChecked);
       setVariants(parsedVariants);
+      if (parsedVariants.length > 0) {
+        setHasVariants(true);
+      }
 
       const primaryImgUrl = getProductImageUrl(product);
       setImageUrl(primaryImgUrl);
