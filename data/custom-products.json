@@ -1,5 +1,53 @@
 [
   {
+    "id": "smartwatch-amis-5g-wifi-4-64g",
+    "name": "Montre Connectée Intelligente AMIS 5G WiFi (RAM 4+64G avec Carte SIM)",
+    "slug": "smartwatch-amis-5g-wifi-4-64g",
+    "short_description": "Smartwatch autonome 5G / WiFi avec caméra intégrée, emplacement carte SIM, 4 Go RAM + 64 Go stockage. Appels vidéo, GPS et applications.",
+    "description": "Découvrez la Montre Connectée Intelligente AMIS 5G WiFi autonome de dernière génération. Dotée d'un emplacement Nano-SIM pour réseau 5G/4G et connectivité WiFi ultra-rapide, elle vous permet de passer des appels, surfer sur internet, utiliser vos applications préférées et passer des appels vidéo grâce à sa caméra frontale intégrée. Performances fluides avec 4 Go de RAM et un grand espace de stockage de 64 Go. Écran tactile HD haute définition, suivi complet de la santé et du sport, autonomie longue durée.",
+    "category_id": "c1000000-0000-0000-0000-000000000001",
+    "subcategory": "Montres Connectées",
+    "price": 35000,
+    "wholesale_price_5_units": 29000,
+    "cargolink_margin_percent": 10,
+    "air_freight_rate_per_kg": 2000,
+    "sea_freight_rate_per_cbm": 2000,
+    "currency": "FCFA",
+    "stock_quantity": 100,
+    "minimum_order_quantity": 1,
+    "country_of_origin": "Hub Asie & International",
+    "weight": 0.25,
+    "length": 10,
+    "width": 10,
+    "height": 6,
+    "available_shipping_modes": [
+      "air",
+      "sea"
+    ],
+    "estimated_delivery_time": "15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)",
+    "status": "active",
+    "is_demo": false,
+    "is_featured": true,
+    "has_variants": false,
+    "attributes_definition": null,
+    "variants": null,
+    "images": [
+      {
+        "id": "img-smartwatch-amis-5g-wifi-0",
+        "product_id": "smartwatch-amis-5g-wifi-4-64g",
+        "public_image_url": "/images/assets/smartwatch_amis_5g_wifi.jpg",
+        "position": 0,
+        "is_primary": true
+      }
+    ],
+    "category": {
+      "id": "c1000000-0000-0000-0000-000000000001",
+      "name": "High-Tech & Electronics",
+      "slug": "electronics",
+      "is_active": true
+    }
+  },
+  {
     "id": "raf-electric-kettle-r7928",
     "name": "Chauffe-eau Électrique RAF R.7928 (2.3L - 1800W Inox)",
     "slug": "chauffe-eau-electrique-raf-r7928-2-3l-1800w",
