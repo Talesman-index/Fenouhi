@@ -39,6 +39,8 @@ import {
 import { PRODUCTS } from "@/lib/products";
 import {
   FALLBACK_CATEGORIES,
+  getCategories,
+  mergeCategoriesWithFallback,
   getPublicProductsSync,
   getStoredCustomProducts,
   saveStoredCustomProducts,
@@ -50,7 +52,7 @@ import { addRealNotification } from "@/lib/admin/notifications";
 
 export default function ProductsManagementPage() {
   const [products, setProducts] = useState<Product[]>(() => getPublicProductsSync());
-  const [categories, setCategories] = useState<Category[]>(FALLBACK_CATEGORIES);
+  const [categories, setCategories] = useState<Category[]>(() => mergeCategoriesWithFallback([]));
   const [loading, setLoading] = useState(false);
 
   // Filters
@@ -134,21 +136,14 @@ export default function ProductsManagementPage() {
 
   async function fetchCategories() {
     try {
-      const supabase = createClient();
-      const { data } = await supabase.from("categories").select("*").order("name", { ascending: true });
-      if (data && data.length > 0) {
-        const dbList = data as Category[];
-        const dbSlugs = new Set(dbList.map((c) => (c.slug || "").toLowerCase()));
-        const dbIds = new Set(dbList.map((c) => (c.id || "").toLowerCase()));
-        const missing = FALLBACK_CATEGORIES.filter(
-          (fc) => !dbSlugs.has(fc.slug.toLowerCase()) && !dbIds.has(fc.id.toLowerCase())
-        );
-        setCategories([...dbList, ...missing]);
+      const cats = await getCategories();
+      if (cats && cats.length > 0) {
+        setCategories(cats);
       } else {
-        setCategories(FALLBACK_CATEGORIES);
+        setCategories(mergeCategoriesWithFallback([]));
       }
     } catch {
-      setCategories(FALLBACK_CATEGORIES);
+      setCategories(mergeCategoriesWithFallback([]));
     }
   }
 

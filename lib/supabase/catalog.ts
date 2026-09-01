@@ -27,12 +27,54 @@ const isSupabaseConfigured = () => {
   return Boolean(url && !url.includes("placeholder") && key && !key.includes("placeholder"));
 };
 
+export function mergeCategoriesWithFallback(dbCategories: Category[]): Category[] {
+  const map = new Map<string, Category>();
+
+  // 1. Seed with all fallback categories first (guaranteeing sport, high-tech, mode, etc. exist)
+  for (const fc of FALLBACK_CATEGORIES) {
+    if (fc.slug) {
+      map.set(fc.slug.toLowerCase(), fc);
+    }
+  }
+
+  // 2. Overlay db categories by slug or id
+  if (Array.isArray(dbCategories)) {
+    for (const dbc of dbCategories) {
+      const slug = (dbc.slug || "").toLowerCase();
+      if (slug && map.has(slug)) {
+        map.set(slug, {
+          ...map.get(slug),
+          ...dbc,
+          name: dbc.name || map.get(slug)!.name,
+        });
+      } else if (slug) {
+        map.set(slug, dbc);
+      } else if (dbc.id) {
+        map.set(dbc.id, dbc);
+      }
+    }
+  }
+
+  // 3. Guarantee every standard category slug is strictly present
+  for (const fc of FALLBACK_CATEGORIES) {
+    const slug = fc.slug.toLowerCase();
+    if (!map.has(slug)) {
+      map.set(slug, fc);
+    }
+  }
+
+  // 4. Return list sorted alphabetically by name
+  return Array.from(map.values()).sort((a, b) =>
+    (a.name || "").localeCompare(b.name || "", "fr", { sensitivity: "base" })
+  );
+}
+
 /**
  * Fetch all active categories from Supabase (with instant fallback if DB table or URL not configured).
  */
 export async function getCategories(): Promise<Category[]> {
   if (!isSupabaseConfigured()) {
-    return FALLBACK_CATEGORIES;
+    return mergeCategoriesWithFallback([]);
   }
 
   try {
@@ -51,17 +93,11 @@ export async function getCategories(): Promise<Category[]> {
     const { data, error } = result || {};
 
     if (error || !data || data.length === 0) {
-      return FALLBACK_CATEGORIES;
+      return mergeCategoriesWithFallback([]);
     }
-    const dbList = data as Category[];
-    const dbSlugs = new Set(dbList.map((c) => (c.slug || "").toLowerCase()));
-    const dbIds = new Set(dbList.map((c) => (c.id || "").toLowerCase()));
-    const missing = FALLBACK_CATEGORIES.filter(
-      (fc) => !dbSlugs.has(fc.slug.toLowerCase()) && !dbIds.has(fc.id.toLowerCase())
-    );
-    return [...dbList, ...missing];
+    return mergeCategoriesWithFallback(data as Category[]);
   } catch (err) {
-    return FALLBACK_CATEGORIES;
+    return mergeCategoriesWithFallback([]);
   }
 }
 
@@ -349,8 +385,40 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
     const deletedIds = new Set(getStoredDeletedProductIds());
     const productMap = new Map<string, Product>();
 
-    // 1. Query live Supabase database FIRST (absolute source of truth in production)
-    let supabaseSuccess = false;
+    // 1. Fetch from Server API route /api/products (which provides all custom products saved in data/custom-products.json and synced with Supabase)
+    if (typeof window !== "undefined") {
+      try {
+        let apiUrl = "/api/products";
+        const params = new URLSearchParams();
+        if (options.categorySlug && options.categorySlug !== "all") {
+          params.append("cat", options.categorySlug);
+        }
+        if (options.search && options.search.trim()) {
+          params.append("q", options.search.trim());
+        }
+        const qs = params.toString();
+        if (qs) apiUrl += `?${qs}`;
+
+        const res = await fetch(apiUrl, { cache: "no-store" });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.products && Array.isArray(json.products)) {
+            for (const rawP of json.products) {
+              const p = normalizeProduct(rawP);
+              if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
+                if (!p.status || p.status === "active") {
+                  productMap.set(p.id, p);
+                }
+              }
+            }
+          }
+        }
+      } catch (apiErr) {
+        console.warn("[getPublicProducts] API fetch fallback notice:", apiErr);
+      }
+    }
+
+    // 2. Query live Supabase database
     try {
       const supabase = createClient();
       let query = supabase
@@ -366,27 +434,16 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
 
       const { data: dbProducts, error } = await query;
       if (!error && dbProducts && dbProducts.length > 0) {
-        supabaseSuccess = true;
         for (const rawP of dbProducts) {
           const p = normalizeProduct(rawP);
           if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
-            productMap.set(p.id, p);
+            if (!productMap.has(p.id)) {
+              productMap.set(p.id, p);
+            }
           }
         }
       }
     } catch {}
-
-    // 2. If Supabase is offline or empty, use persistent custom products & static catalog
-    if (!supabaseSuccess || productMap.size === 0) {
-      const localProducts = getPublicProductsSync(options);
-      for (const p of localProducts) {
-        if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
-          if (!productMap.has(p.id)) {
-            productMap.set(p.id, p);
-          }
-        }
-      }
-    }
 
     // 3. Add any fresh un-synced custom products from client storage
     const custom = getStoredCustomProducts();
@@ -394,6 +451,18 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
       if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
         if (!productMap.has(p.id)) {
           productMap.set(p.id, p);
+        }
+      }
+    }
+
+    // 4. Fallback to static catalog if nothing found yet
+    if (productMap.size === 0) {
+      const localProducts = getPublicProductsSync(options);
+      for (const p of localProducts) {
+        if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
+          if (!productMap.has(p.id)) {
+            productMap.set(p.id, p);
+          }
         }
       }
     }
