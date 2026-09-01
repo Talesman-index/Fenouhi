@@ -141,7 +141,28 @@ export const CATEGORY_VARIANT_TEMPLATES: CategoryVariantTemplate[] = [
     ],
   },
 
-  // 6. AUTRE PRODUIT
+  // 6. SPORT & FITNESS
+  {
+    key: "sport",
+    label: "Sport & Fitness",
+    matchKeywords: ["sport", "fitness", "musculation", "ballon", "vélo", "velo", "haltère", "haltere", "tapis", "yoga", "maillot", "crampons", "gants", "jogging", "survêtement", "survetement", "gourde", "corde", "bouteille sport", "training"],
+    attributes: [
+      {
+        name: "Taille / Format",
+        values: ["S", "M", "L", "XL", "2XL", "Standard", "Pliable"],
+      },
+      {
+        name: "Poids / Résistance",
+        values: ["5 kg", "10 kg", "15 kg", "20 kg", "Léger", "Moyen", "Lourd"],
+      },
+      {
+        name: "Couleur",
+        values: ["Noir", "Bleu", "Rouge", "Vert", "Gris", "Orange"],
+      },
+    ],
+  },
+
+  // 7. AUTRE PRODUIT
   {
     key: "other",
     label: "Autre Produit",

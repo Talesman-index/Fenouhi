@@ -99,6 +99,7 @@ export default function ProductsManagementPage() {
   const [length, setLength] = useState<number>(10);
   const [width, setWidth] = useState<number>(8);
   const [height, setHeight] = useState<number>(5);
+  const [availableShippingModes, setAvailableShippingModes] = useState<string[]>(["air", "sea"]);
   const [estimatedDeliveryTime, setEstimatedDeliveryTime] = useState("15j (Aérien Express) / 30j (Aérien Simple) / 50–95j (Maritime)");
   const [status, setStatus] = useState<ProductStatus>("active");
   const [isDemo, setIsDemo] = useState<boolean>(false);
@@ -154,6 +155,8 @@ export default function ProductsManagementPage() {
   async function fetchProducts() {
     setLoading(true);
     try {
+      let hasNewLocalProductsToSync = false;
+      let unSyncedProducts: Product[] = [];
       const deletedIds = new Set(getStoredDeletedProductIds());
       const customProducts = getStoredCustomProducts();
       const productMap = new Map<string, Product>();
@@ -1843,6 +1846,7 @@ export default function ProductsManagementPage() {
                             { key: "laptops", label: "MacBook / PC", icon: "💻" },
                             { key: "clothing", label: "Vêtement", icon: "👕" },
                             { key: "shoes", label: "Chaussure", icon: "👟" },
+                            { key: "sport", label: "Sport & Fitness", icon: "🏃" },
                             { key: "other", label: "Autre", icon: "📦" },
                           ].map((t) => {
                             const isSelected = selectedProductType === t.key;

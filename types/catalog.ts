@@ -1,5 +1,7 @@
 import type { UserRole } from "./supabase";
 
+export type ProductStatus = "draft" | "active" | "out_of_stock" | "inactive" | "archived";
+
 export interface Category {
   id: string;
   name: string;

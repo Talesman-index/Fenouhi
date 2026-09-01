@@ -50,7 +50,7 @@ export default function ProductCard({
 
   const safeCategory =
     typeof category === "object" && category !== null
-      ? (category.name || category.slug || "HIGH-TECH & ELECTRONICS")
+      ? ((category as any).name || (category as any).slug || "HIGH-TECH & ELECTRONICS")
       : (typeof category === "string" ? category : "HIGH-TECH & ELECTRONICS");
 
   const isFav = isFavorite(`prod-${id}`);
