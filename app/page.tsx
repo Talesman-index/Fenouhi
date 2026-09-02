@@ -18,26 +18,8 @@ export default function HomePage() {
   const [searchUrl, setSearchUrl] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(24);
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>(() => {
-    const all = getPublicProductsSync();
-    // Interleave by category for a vibrant diverse mix
-    const catMap = new Map<string, Product[]>();
-    for (const p of all) {
-      const cat = p.category?.slug || p.category?.name || "other";
-      if (!catMap.has(cat)) catMap.set(cat, []);
-      catMap.get(cat)!.push(p);
-    }
-    const arrays = Array.from(catMap.values());
-    const maxLen = Math.max(...arrays.map((a) => a.length), 0);
-    const mixed: Product[] = [];
-    for (let i = 0; i < maxLen; i++) {
-      for (const arr of arrays) {
-        if (arr[i]) mixed.push(arr[i]);
-      }
-    }
-    return mixed.length > 0 ? mixed : all;
-  });
+  const [visibleCount, setVisibleCount] = useState(48);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>(() => getPublicProductsSync());
   const [recentProducts, setRecentProducts] = useState<Product[]>(() => getPublicProductsSync());
   const [activeCategory, setActiveCategory] = useState("all");
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -84,52 +66,14 @@ export default function HomePage() {
     const filterCat = activeCategory === "all" ? undefined : activeCategory;
     const localItems = getPublicProductsSync({ categorySlug: filterCat });
     setRecentProducts(localItems);
-
-    let mixedList: Product[] = [];
-    if (activeCategory === "all") {
-      const catMap = new Map<string, Product[]>();
-      for (const p of localItems) {
-        const cat = p.category?.slug || p.category?.name || "other";
-        if (!catMap.has(cat)) catMap.set(cat, []);
-        catMap.get(cat)!.push(p);
-      }
-      const arrays = Array.from(catMap.values());
-      const maxLen = Math.max(...arrays.map((a) => a.length), 0);
-      for (let i = 0; i < maxLen; i++) {
-        for (const arr of arrays) {
-          if (arr[i]) mixedList.push(arr[i]);
-        }
-      }
-    } else {
-      mixedList = localItems;
-    }
-
-    setFeaturedProducts(mixedList.length > 0 ? mixedList : localItems);
+    setFeaturedProducts(localItems);
 
     // 2. Query Supabase async
     async function loadHomeProducts() {
       try {
         const recent = await getPublicProducts({ categorySlug: filterCat });
         if (recent && recent.length > 0) {
-          if (activeCategory === "all") {
-            const catMap = new Map<string, Product[]>();
-            for (const p of recent) {
-              const cat = p.category?.slug || p.category?.name || "other";
-              if (!catMap.has(cat)) catMap.set(cat, []);
-              catMap.get(cat)!.push(p);
-            }
-            const arrays = Array.from(catMap.values());
-            const maxLen = Math.max(...arrays.map((a) => a.length), 0);
-            const asyncMixed: Product[] = [];
-            for (let i = 0; i < maxLen; i++) {
-              for (const arr of arrays) {
-                if (arr[i]) asyncMixed.push(arr[i]);
-              }
-            }
-            setFeaturedProducts(asyncMixed.length > 0 ? asyncMixed : recent);
-          } else {
-            setFeaturedProducts(recent);
-          }
+          setFeaturedProducts(recent);
           setRecentProducts(recent);
         }
       } catch {}

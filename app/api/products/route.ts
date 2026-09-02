@@ -4,6 +4,7 @@ import path from "path";
 import { createClient } from "@/lib/supabase/client";
 import { PRODUCTS } from "@/lib/products";
 import type { Product } from "@/types/catalog";
+import { sanitizeProductForSupabase } from "@/lib/supabase/catalog";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const PRODUCTS_FILE = path.join(DATA_DIR, "custom-products.json");
@@ -182,6 +183,17 @@ export async function GET(request: NextRequest) {
 
     let list = Array.from(productMap.values());
 
+    // Sort so newest / custom products always appear at the top
+    list.sort((a, b) => {
+      const aIsCustom = a.id?.startsWith("custom_") || a.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === a.id);
+      const bIsCustom = b.id?.startsWith("custom_") || b.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === b.id);
+      if (aIsCustom && !bIsCustom) return -1;
+      if (!aIsCustom && bIsCustom) return 1;
+      const aTime = (a as any).updated_at ? new Date((a as any).updated_at).getTime() : ((a as any).created_at ? new Date((a as any).created_at).getTime() : 0);
+      const bTime = (b as any).updated_at ? new Date((b as any).updated_at).getTime() : ((b as any).created_at ? new Date((b as any).created_at).getTime() : 0);
+      return bTime - aTime;
+    });
+
     // Single item query
     if (idParam) {
       const single = list.find((p) => p.id === idParam || p.slug === idParam || `product-${p.id}` === idParam);
@@ -208,9 +220,9 @@ export async function GET(request: NextRequest) {
           catId === target ||
           catSlug === target ||
           catName === target ||
-          (target === "electronics" && (catSlug === "electronics" || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque"))) ||
-          (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
-          (target === "sport" && (catSlug === "sport" || catName.includes("sport") || catName.includes("fitness")))
+          (target === "electronics" && (catSlug === "electronics" || catId.includes("c1000000-0000-0000-0000-000000000001") || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque") || catName.includes("chargeur") || catName.includes("câble"))) ||
+          (target === "beauty" && (catSlug === "beauty" || catId.includes("c1000000-0000-0000-0000-000000000003") || catName.includes("beauté") || catName.includes("soin"))) ||
+          (target === "sport" && (catSlug === "sport" || catId.includes("c1000000-0000-0000-0000-000000000009") || catName.includes("sport") || catName.includes("fitness")))
         );
       });
     }
@@ -263,8 +275,9 @@ export async function POST(request: NextRequest) {
         const supabase = createClient();
         for (const p of incomingProducts) {
           if (p && p.name) {
-            await supabase.from("products").upsert({
-              id: p.id.startsWith("custom_") || p.id.startsWith("prod_") ? undefined : p.id,
+            const isUUID = p.id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(p.id);
+            const cleanDb = sanitizeProductForSupabase({
+              id: isUUID ? p.id : undefined,
               name: p.name,
               slug: p.slug,
               short_description: p.short_description,
@@ -272,7 +285,6 @@ export async function POST(request: NextRequest) {
               category_id: p.category_id,
               subcategory: p.subcategory,
               price: p.price,
-              wholesale_price_5_units: p.wholesale_price_5_units ?? null,
               cargolink_margin_percent: p.cargolink_margin_percent ?? 10,
               air_freight_rate_per_kg: p.air_freight_rate_per_kg ?? 2000,
               sea_freight_rate_per_cbm: p.sea_freight_rate_per_cbm ?? 2000,
@@ -291,6 +303,7 @@ export async function POST(request: NextRequest) {
               is_featured: p.is_featured ?? true,
               updated_at: new Date().toISOString()
             });
+            await supabase.from("products").upsert(cleanDb, { onConflict: "slug" });
           }
         }
       } catch (dbErr) {
@@ -327,7 +340,10 @@ export async function POST(request: NextRequest) {
     // Upsert into Supabase database
     try {
       const supabase = createClient();
-      const payload: any = {
+      const isUUID = product.id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(product.id);
+      
+      const cleanDbPayload = sanitizeProductForSupabase({
+        id: isUUID ? product.id : undefined,
         name: product.name,
         slug: product.slug,
         short_description: product.short_description || `${product.name} - Produit certifié avec expédition rapide.`,
@@ -335,7 +351,6 @@ export async function POST(request: NextRequest) {
         category_id: product.category_id || null,
         subcategory: product.subcategory || null,
         price: Number(product.price) || 0,
-        wholesale_price_5_units: product.wholesale_price_5_units ? Number(product.wholesale_price_5_units) : null,
         cargolink_margin_percent: Number(product.cargolink_margin_percent ?? 10),
         air_freight_rate_per_kg: Number(product.air_freight_rate_per_kg ?? 2000),
         sea_freight_rate_per_cbm: Number(product.sea_freight_rate_per_cbm ?? 2000),
@@ -352,26 +367,10 @@ export async function POST(request: NextRequest) {
         status: product.status || "active",
         is_demo: product.is_demo ?? false,
         is_featured: product.is_featured ?? true,
-        has_variants: product.has_variants ?? false,
-        attributes_definition: product.attributes_definition ?? null,
-        variants: product.variants ?? null,
-        condition_state: product.condition_state ?? null,
-        grade: product.grade ?? null,
-        sim_type: product.sim_type ?? null,
-        region_version: product.region_version ?? null,
-        storage_options: product.storage_options ?? null,
-        battery_health: product.battery_health ?? null,
-        driveFolderUrl: product.driveFolderUrl ?? null,
         updated_at: new Date().toISOString()
-      };
+      });
 
-      // If valid UUID, pass id for upsert
-      const isUUID = product.id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(product.id);
-      if (isUUID) {
-        payload.id = product.id;
-      }
-
-      const { data: dbProd, error: dbErr } = await supabase.from("products").upsert(payload).select().single();
+      const { data: dbProd, error: dbErr } = await supabase.from("products").upsert(cleanDbPayload, { onConflict: "slug" }).select().single();
       if (!dbErr && dbProd?.id) {
         // Clear previous images to avoid duplicate image stacking
         await supabase.from("product_images").delete().eq("product_id", dbProd.id);

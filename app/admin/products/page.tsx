@@ -46,7 +46,9 @@ import {
   saveStoredCustomProducts,
   getStoredDeletedProductIds,
   saveStoredDeletedProductIds,
-  getProductImageUrl
+  getProductImageUrl,
+  normalizeProduct,
+  sanitizeProductForSupabase
 } from "@/lib/supabase/catalog";
 import { addRealNotification } from "@/lib/admin/notifications";
 
@@ -156,7 +158,26 @@ export default function ProductsManagementPage() {
       const customProducts = getStoredCustomProducts();
       const productMap = new Map<string, Product>();
 
-      // 1. Query Server API route /api/products?admin=true (persisted in data/custom-products.json)
+      // 1. Query Supabase directly (Primary Source of Truth for Admin)
+      try {
+        const supabase = createClient();
+        const { data: dbProducts } = await supabase
+          .from("products")
+          .select("*, category:categories(*), images:product_images(*)")
+          .order("created_at", { ascending: false });
+
+        if (dbProducts && dbProducts.length > 0) {
+          for (const p of dbProducts) {
+            if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
+              productMap.set(p.id, normalizeProduct(p as Product));
+            }
+          }
+        }
+      } catch (e) {
+        console.warn("Direct Supabase query warning:", e);
+      }
+
+      // 2. Query Server API route /api/products?admin=true (persisted in data/custom-products.json)
       let serverCustomProducts: Product[] = [];
       try {
         const res = await fetch(`/api/products?admin=true`, { cache: "no-store" });
@@ -176,7 +197,9 @@ export default function ProductsManagementPage() {
           if (json.products && json.products.length > 0) {
             for (const p of json.products) {
               if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
-                productMap.set(p.id, p as Product);
+                if (!productMap.has(p.id)) {
+                  productMap.set(p.id, normalizeProduct(p as Product));
+                }
                 if (p.id?.startsWith("custom_") || p.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === p.id)) {
                   serverCustomProducts.push(p as Product);
                 }
@@ -186,24 +209,13 @@ export default function ProductsManagementPage() {
         }
       } catch (e) {}
 
-      // 2. Add local custom products from client localStorage: only add or update if local is newer or has variants
+      // 3. Add local custom products from client localStorage
       for (const p of customProducts) {
         if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
           if (!productMap.has(p.id)) {
             hasNewLocalProductsToSync = true;
             unSyncedProducts.push(p);
-            productMap.set(p.id, p);
-          } else {
-            const serverP = productMap.get(p.id)!;
-            // If server product has variants and local doesn't, keep richer server product
-            if (serverP.variants && serverP.variants.length > 0 && (!p.variants || p.variants.length === 0)) {
-              // Preserve serverP in productMap
-            } else if (p.variants && p.variants.length > 0 && (!serverP.variants || serverP.variants.length === 0)) {
-              productMap.set(p.id, p);
-            } else {
-              // Prefer server product for consistency
-              productMap.set(p.id, serverP);
-            }
+            productMap.set(p.id, normalizeProduct(p));
           }
         }
       }
@@ -219,41 +231,7 @@ export default function ProductsManagementPage() {
         } catch {}
       }
 
-      // Sync server custom products back to localStorage to overwrite any stale cached version
-      if (serverCustomProducts.length > 0) {
-        const existingLocal = getStoredCustomProducts();
-        const localMap = new Map(existingLocal.map((lp) => [lp.id, lp]));
-        for (const sp of serverCustomProducts) {
-          const lp = localMap.get(sp.id);
-          if (!lp || (sp.variants && sp.variants.length > 0 && (!lp.variants || lp.variants.length === 0))) {
-            localMap.set(sp.id, sp);
-          }
-        }
-        saveStoredCustomProducts(Array.from(localMap.values()));
-      }
-
-      // 3. Query Supabase for any additional/updated DB products
-      try {
-        const supabase = createClient();
-        const { data: dbProducts } = await supabase
-          .from("products")
-          .select("*, category:categories(*), images:product_images(*)")
-          .order("created_at", { ascending: false });
-
-        if (dbProducts && dbProducts.length > 0) {
-          for (const p of dbProducts) {
-            if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
-              if (!productMap.has(p.id)) {
-                productMap.set(p.id, p as Product);
-              }
-            }
-          }
-        }
-      } catch (e) {
-        // Fallback to local catalog
-      }
-
-      // 4. Put remaining base catalog products if not already edited or deleted
+      // 4. Put remaining base catalog products if not already present or deleted
       for (const raw of PRODUCTS) {
         if (!productMap.has(raw.id) && !deletedIds.has(raw.id) && !deletedIds.has(`product-${raw.id}`)) {
           const rawImages = (raw.images || (raw.image ? [raw.image] : [])).filter(Boolean);
@@ -308,7 +286,9 @@ export default function ProductsManagementPage() {
             catId === target ||
             catSlug === target ||
             catName === target ||
+            (target.includes("c1000000-0000-0000-0000-000000000001") && (catSlug === "electronics" || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque") || catName.includes("chargeur") || catName.includes("câble"))) ||
             (target.includes("c1000000-0000-0000-0000-000000000003") && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
+            (target === "electronics" && (catSlug === "electronics" || catId.includes("c1000000-0000-0000-0000-000000000001") || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque") || catName.includes("chargeur") || catName.includes("câble"))) ||
             (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
             (target === "sport" && (catSlug === "sport" || catName.includes("sport") || catName.includes("fitness")))
           );
@@ -799,12 +779,21 @@ export default function ProductsManagementPage() {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
 
-      const payload = {
+      const matchedCategory =
+        categories.find((c) => c.id === categoryId || c.slug === categoryId) ||
+        FALLBACK_CATEGORIES.find((c) => c.id === categoryId || c.slug === categoryId) ||
+        { id: "c1000000-0000-0000-0000-000000000001", name: "High-Tech & Electronics", slug: "electronics", is_active: true } as any;
+
+      const effectiveCategoryId = matchedCategory.id;
+      const baseSlug = slug.trim() || generateSlug(name);
+      const finalUniqueSlug = editingProduct ? baseSlug : `${baseSlug}-${Date.now().toString(36)}`;
+
+      const fullProductPayload = {
         name,
-        slug: finalSlug,
+        slug: finalUniqueSlug,
         short_description: effectiveShortDescription,
         description: effectiveDescription,
-        category_id: categoryId || null,
+        category_id: effectiveCategoryId,
         subcategory: subcategory || "Accessoires & Coques",
         price: effectiveBasePrice,
         wholesale_price_5_units: Number(wholesalePrice5) > 0 ? Number(wholesalePrice5) : null,
@@ -830,87 +819,87 @@ export default function ProductsManagementPage() {
         updated_at: new Date().toISOString()
       };
 
-      let newProdId = editingProduct?.id || `custom_prod_${Date.now()}`;
-      let dbError: any = null;
-
       // Filter galleryUrls to make sure they are distinct and don't duplicate the primary image
       const distinctGallery = galleryUrls.filter(
         (url, idx, self) => url && url !== effectiveImageUrl && self.indexOf(url) === idx
       );
 
-      // 1. Supabase database write
-      try {
+      let newProdId = editingProduct?.id || "";
+
+      // 1. Supabase database write with strictly sanitized schema
+      const cleanDbPayload = sanitizeProductForSupabase({
+        ...fullProductPayload,
+        created_by: user?.id || null
+      });
+
+      if (editingProduct) {
+        newProdId = editingProduct.id;
+        const { error: updErr } = await supabase
+          .from("products")
+          .update(cleanDbPayload)
+          .eq("id", editingProduct.id);
+
+        if (updErr) {
+          console.error("Supabase update error:", updErr);
+          throw new Error("Erreur Supabase: " + updErr.message);
+        }
+
+        // Refresh images
+        await supabase.from("product_images").delete().eq("product_id", editingProduct.id);
         const imagesToInsert = [
-          { product_id: newProdId, public_image_url: effectiveImageUrl, is_primary: true, position: 0 },
+          { product_id: editingProduct.id, public_image_url: effectiveImageUrl, is_primary: true, position: 0 },
           ...distinctGallery.map((url, i) => ({
-            product_id: newProdId,
+            product_id: editingProduct.id,
             public_image_url: url,
             is_primary: false,
             position: i + 1
           }))
         ];
+        await supabase.from("product_images").insert(imagesToInsert);
+      } else {
+        const { data: newProd, error: insErr } = await supabase
+          .from("products")
+          .insert(cleanDbPayload)
+          .select()
+          .single();
 
-        if (editingProduct) {
-          const { error } = await supabase.from("products").update(payload).eq("id", editingProduct.id);
-          if (error) {
-            dbError = error;
-          } else {
-            // Delete old images to prevent duplicate stacking
-            await supabase.from("product_images").delete().eq("product_id", editingProduct.id);
-            // Insert primary and gallery images
-            await supabase.from("product_images").insert(
-              imagesToInsert.map(img => ({ ...img, product_id: editingProduct.id }))
-            );
-          }
-        } else {
-          const isExistingUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(newProdId);
-          const insertPayload = isExistingUUID
-            ? { ...payload, id: newProdId, created_by: user?.id || null }
-            : { ...payload, created_by: user?.id || null };
-
-          const { data: newProd, error } = await supabase
-            .from("products")
-            .insert(insertPayload)
-            .select()
-            .single();
-
-          if (error) {
-            dbError = error;
-          } else if (newProd?.id) {
-            newProdId = newProd.id;
-            await supabase.from("product_images").insert(
-              imagesToInsert.map(img => ({ ...img, product_id: newProd.id }))
-            );
-          }
+        if (insErr) {
+          console.error("Supabase insert error:", insErr);
+          throw new Error("Erreur création Supabase: " + insErr.message);
         }
 
-        if (!dbError) {
-          await logAdminAction({
-            action: editingProduct ? "UPDATE_PRODUCT" : "CREATE_PRODUCT",
-            entityType: "products",
-            entityId: newProdId,
-            details: { name, price, isDemo, status }
-          });
+        if (newProd?.id) {
+          newProdId = newProd.id;
+          const imagesToInsert = [
+            { product_id: newProd.id, public_image_url: effectiveImageUrl, is_primary: true, position: 0 },
+            ...distinctGallery.map((url, i) => ({
+              product_id: newProd.id,
+              public_image_url: url,
+              is_primary: false,
+              position: i + 1
+            }))
+          ];
+          await supabase.from("product_images").insert(imagesToInsert);
         }
-      } catch (dbErr: any) {
-        dbError = dbErr;
       }
 
-      // Build product object for local catalog persistence
+      await logAdminAction({
+        action: editingProduct ? "UPDATE_PRODUCT" : "CREATE_PRODUCT",
+        entityType: "products",
+        entityId: newProdId,
+        details: { name, price: effectiveBasePrice, isDemo, status }
+      }).catch(() => {});
+
+      // Build complete product object for local catalog persistence and API sync
       const fullImages = [
         { id: `img_${newProdId}_0`, product_id: newProdId, public_image_url: effectiveImageUrl, position: 0, is_primary: true },
         ...distinctGallery.map((url, i) => ({ id: `img_${newProdId}_${i + 1}`, product_id: newProdId, public_image_url: url, position: i + 1, is_primary: false }))
       ];
 
-      const matchedCategory =
-        categories.find((c) => c.id === categoryId || c.slug === categoryId) ||
-        FALLBACK_CATEGORIES.find((c) => c.id === categoryId || c.slug === categoryId) ||
-        { id: categoryId, name: "High-Tech & Electronics", slug: "electronics", is_active: true } as any;
-
       const productObject: Product = {
         id: newProdId,
-        ...payload,
-        category_id: matchedCategory.id,
+        ...fullProductPayload,
+        category_id: effectiveCategoryId,
         category: matchedCategory,
         images: fullImages,
       };
@@ -923,7 +912,7 @@ export default function ProductsManagementPage() {
           body: JSON.stringify(productObject)
         });
       } catch (apiErr: any) {
-        console.warn("Server API sync warning:", apiErr);
+        console.warn("Server API sync notice:", apiErr);
       }
 
       // SUCCESS: Update local cache and state
@@ -939,7 +928,7 @@ export default function ProductsManagementPage() {
 
       addRealNotification({
         title: editingProduct ? "Produit Modifié" : "Nouveau Produit Ajouté",
-        desc: `"${name}" (${Number(price).toLocaleString()} FCFA) a été enregistré dans le catalogue.`,
+        desc: `"${name}" (${Number(effectiveBasePrice).toLocaleString()} FCFA) a été enregistré dans le catalogue.`,
         type: "product"
       });
 

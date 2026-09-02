@@ -4,7 +4,7 @@ import { PRODUCTS, getProductById as getLocalProductById } from "@/lib/products"
 import rawCustomProducts from "@/data/custom-products.json";
 import rawDeletedIds from "@/data/deleted-products.json";
 
-// Fallback seed categories (All 9 major wholesale categories)
+// Fallback seed categories (Aligned with Supabase categories table)
 export const FALLBACK_CATEGORIES: Category[] = [
   { id: "c1000000-0000-0000-0000-000000000001", name: "High-Tech & Electronics", slug: "electronics", description: "Smartphones, montres connectées, écouteurs, casques audio et high-tech.", icon: "Smartphone", is_active: true },
   { id: "c1000000-0000-0000-0000-000000000002", name: "Mode & Chaussures", slug: "fashion", description: "Sneakers, vêtements streetwear, sacs maroquinerie, bijoux et textiles.", icon: "Shirt", is_active: true },
@@ -14,10 +14,29 @@ export const FALLBACK_CATEGORIES: Category[] = [
   { id: "c1000000-0000-0000-0000-000000000006", name: "Pièces Auto & Moto", slug: "automotive", description: "Pièces détachées, éclairage LED et accessoires véhicules.", icon: "Car", is_active: true },
   { id: "c1000000-0000-0000-0000-000000000007", name: "Quincaillerie & Matériaux", slug: "hardware", description: "Matériaux de construction, robinetterie, quincaillerie et outillage.", icon: "Hammer", is_active: true },
   { id: "c1000000-0000-0000-0000-000000000008", name: "Jouets & Puériculture", slug: "toys", description: "Jeux éducatifs, jouets enfants et articles de puériculture.", icon: "Smile", is_active: true },
-  { id: "c1000000-0000-0000-0000-000000000009", name: "Sport & Fitness", slug: "sport", description: "Équipements fitness, vêtements sportifs, musculation et articles de plein air.", icon: "Activity", is_active: true },
-  { id: "c1000000-0000-0000-0000-000000000010", name: "Vrac & Grossistes", slug: "wholesale", description: "Lots d'articles en vrac et approvisionnement direct usines.", icon: "Package", is_active: true },
-  { id: "c1000000-0000-0000-0000-000000000011", name: "Mode Pagne Africain", slug: "mode-pagne-africain", description: "Pagnes traditionnels, wax hollandais, imprimés africains, tenues sur-mesure et accessoires en pagne.", icon: "Sparkles", is_active: true }
+  { id: "c1000000-0000-0000-0000-000000000009", name: "Vrac & Grossistes", slug: "wholesale", description: "Lots d'articles en vrac et approvisionnement direct usines.", icon: "Package", is_active: true },
+  { id: "c1000000-0000-0000-0000-000000000011", name: "Mode Pagne Africain", slug: "mode-pagne-africain", description: "Pagnes traditionnels, wax hollandais, imprimés africains, tenues sur-mesure et accessoires en pagne.", icon: "Sparkles", is_active: true },
+  { id: "c1000000-0000-0000-0000-000000000012", name: "Sport & Fitness", slug: "sport", description: "Équipements fitness, vêtements sportifs, musculation et articles de plein air.", icon: "Activity", is_active: true }
 ];
+
+export const VALID_SUPABASE_PRODUCT_COLUMNS = new Set([
+  "id", "name", "slug", "short_description", "description", "category_id",
+  "subcategory", "price", "cargolink_margin_percent", "air_freight_rate_per_kg",
+  "sea_freight_rate_per_cbm", "currency", "stock_quantity", "minimum_order_quantity",
+  "country_of_origin", "weight", "length", "width", "height",
+  "available_shipping_modes", "estimated_delivery_time", "status", "is_demo",
+  "is_featured", "created_by", "created_at", "updated_at"
+]);
+
+export function sanitizeProductForSupabase(data: Record<string, any>): Record<string, any> {
+  const clean: Record<string, any> = {};
+  for (const [k, v] of Object.entries(data)) {
+    if (VALID_SUPABASE_PRODUCT_COLUMNS.has(k) && v !== undefined) {
+      clean[k] = v;
+    }
+  }
+  return clean;
+}
 
 const isSupabaseConfigured = () => {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -250,7 +269,15 @@ export function getStoredCustomProducts(): Product[] {
     const map = new Map<string, Product>();
     fileCustom.forEach(p => map.set(p.id, p));
     inMemoryCustomProducts.forEach(p => map.set(p.id, p));
-    parsed.forEach((p: Product) => map.set(p.id, p));
+    parsed.forEach((p: Product) => {
+      const existing = map.get(p.id);
+      // Keep rich memory/file product if parsed has placeholder
+      if (existing && existing.images && existing.images[0]?.public_image_url?.startsWith("data:") && (!p.images || !p.images[0]?.public_image_url?.startsWith("data:"))) {
+        map.set(p.id, { ...p, images: existing.images });
+      } else {
+        map.set(p.id, p);
+      }
+    });
     return Array.from(map.values());
   } catch {
     return fileCustom;
@@ -261,9 +288,24 @@ export function saveStoredCustomProducts(products: Product[]) {
   inMemoryCustomProducts = products;
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem("fenou_custom_products", JSON.stringify(products));
+    // To prevent browser localStorage 5MB quota errors from large base64 image strings:
+    const safePayload = products.map((p) => {
+      const lightImages = Array.isArray(p.images)
+        ? p.images.map((img: any) => {
+            const url = typeof img === "string" ? img : img?.public_image_url || "";
+            if (url && url.length > 500 && url.startsWith("data:")) {
+              return typeof img === "string"
+                ? "/images/assets/hero_iphone16.png"
+                : { ...img, public_image_url: "/images/assets/hero_iphone16.png" };
+            }
+            return img;
+          })
+        : p.images;
+      return { ...p, images: lightImages };
+    });
+    localStorage.setItem("fenou_custom_products", JSON.stringify(safePayload));
   } catch (err) {
-    console.warn("LocalStorage error, preserved in memory:", err);
+    console.warn("LocalStorage save notice, preserved in memory:", err);
   }
 }
 
@@ -321,7 +363,7 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
     // Filter out inactive/draft products for public catalog by default
     list = list.filter((p) => !p.status || p.status === "active");
 
-    // Sort to ensure custom products appear at the top
+    // Sort to ensure custom & newest products always appear at the very top
     list.sort((a, b) => {
       const aIsCustom = a.id?.startsWith("custom_") || a.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === a.id);
       const bIsCustom = b.id?.startsWith("custom_") || b.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === b.id);
@@ -342,9 +384,9 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
           catId === target ||
           catSlug === target ||
           catName === target ||
-          (target === "electronics" && (catSlug === "electronics" || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque"))) ||
-          (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
-          (target === "sport" && (catSlug === "sport" || catName.includes("sport") || catName.includes("fitness")))
+          (target === "electronics" && (catSlug === "electronics" || catId.includes("c1000000-0000-0000-0000-000000000001") || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque") || catName.includes("chargeur") || catName.includes("câble"))) ||
+          (target === "beauty" && (catSlug === "beauty" || catId.includes("c1000000-0000-0000-0000-000000000003") || catName.includes("beauté") || catName.includes("soin"))) ||
+          (target === "sport" && (catSlug === "sport" || catId.includes("c1000000-0000-0000-0000-000000000009") || catName.includes("sport") || catName.includes("fitness")))
         );
       });
     }
@@ -378,14 +420,41 @@ export function getPublicProductsSync(options: ProductFilterOptions = {}): Produ
 }
 
 /**
- * Fetch active products for the public catalog (live Supabase query + fallback).
+ * Fetch active products for the public catalog (live Supabase query + API + fallback).
  */
 export async function getPublicProducts(options: ProductFilterOptions = {}): Promise<Product[]> {
   try {
     const deletedIds = new Set(getStoredDeletedProductIds());
     const productMap = new Map<string, Product>();
 
-    // 1. Fetch from Server API route /api/products (which provides all custom products saved in data/custom-products.json and synced with Supabase)
+    // 1. Query live Supabase database FIRST (source of truth for client additions)
+    try {
+      const supabase = createClient();
+      let query = supabase
+        .from("products")
+        .select("*, category:categories(*), images:product_images(*)")
+        .eq("status", "active")
+        .order("created_at", { ascending: false });
+
+      const isUUID = options.categorySlug && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(options.categorySlug);
+      if (isUUID && options.categorySlug !== "all") {
+        query = query.eq("category_id", options.categorySlug);
+      }
+
+      const { data: dbProducts, error } = await query;
+      if (!error && dbProducts && dbProducts.length > 0) {
+        for (const rawP of dbProducts) {
+          const p = normalizeProduct(rawP);
+          if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
+            productMap.set(p.id, p);
+          }
+        }
+      }
+    } catch (dbErr) {
+      console.warn("[getPublicProducts] Supabase direct query notice:", dbErr);
+    }
+
+    // 2. Fetch from Server API route /api/products
     if (typeof window !== "undefined") {
       try {
         let apiUrl = "/api/products";
@@ -407,45 +476,20 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
               const p = normalizeProduct(rawP);
               if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
                 if (!p.status || p.status === "active") {
-                  productMap.set(p.id, p);
+                  if (!productMap.has(p.id)) {
+                    productMap.set(p.id, p);
+                  }
                 }
               }
             }
           }
         }
       } catch (apiErr) {
-        console.warn("[getPublicProducts] API fetch fallback notice:", apiErr);
+        console.warn("[getPublicProducts] API fetch notice:", apiErr);
       }
     }
 
-    // 2. Query live Supabase database
-    try {
-      const supabase = createClient();
-      let query = supabase
-        .from("products")
-        .select("*, category:categories(*), images:product_images(*)")
-        .eq("status", "active")
-        .order("created_at", { ascending: false });
-
-      const isUUID = options.categorySlug && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(options.categorySlug);
-      if (isUUID && options.categorySlug !== "all") {
-        query = query.eq("category_id", options.categorySlug);
-      }
-
-      const { data: dbProducts, error } = await query;
-      if (!error && dbProducts && dbProducts.length > 0) {
-        for (const rawP of dbProducts) {
-          const p = normalizeProduct(rawP);
-          if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
-            if (!productMap.has(p.id)) {
-              productMap.set(p.id, p);
-            }
-          }
-        }
-      }
-    } catch {}
-
-    // 3. Add any fresh un-synced custom products from client storage
+    // 3. Add any custom products from local storage / memory
     const custom = getStoredCustomProducts();
     for (const p of custom) {
       if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
@@ -472,7 +516,7 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
     // Only active products on the public store
     list = list.filter((p) => !p.status || p.status === "active");
 
-    // Sort to ensure custom products appear at the top
+    // Sort to ensure custom & newest products appear at the top
     list.sort((a, b) => {
       const aIsCustom = a.id?.startsWith("custom_") || a.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === a.id);
       const bIsCustom = b.id?.startsWith("custom_") || b.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === b.id);
@@ -493,9 +537,8 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
           catId === target ||
           catSlug === target ||
           catName === target ||
-          (target === "electronics" && (catSlug === "electronics" || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque"))) ||
-          (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
-          (target === "sport" && (catSlug === "sport" || catName.includes("sport") || catName.includes("fitness")))
+          (target === "beauty" && (catSlug === "beauty" || catId.includes("c1000000-0000-0000-0000-000000000003") || catName.includes("beauté") || catName.includes("soin"))) ||
+          (target === "sport" && (catSlug === "sport" || catId.includes("c1000000-0000-0000-0000-000000000009") || catName.includes("sport") || catName.includes("fitness")))
         );
       });
     }
