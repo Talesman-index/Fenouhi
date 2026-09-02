@@ -684,9 +684,45 @@ export default function ProductsManagementPage() {
         });
       }
       setCheckedOptions(initChecked);
-      setVariants(parsedVariants);
+
+      // 3. Setup active variants list
       if (parsedVariants.length > 0) {
+        setVariants(parsedVariants);
         setHasVariants(true);
+      } else if (
+        product.has_variants ||
+        detectedType === "phones" ||
+        detectedType === "tablets" ||
+        detectedType === "laptops" ||
+        detectedType === "clothing" ||
+        detectedType === "shoes" ||
+        detectedType === "sport"
+      ) {
+        // Auto-generate active default variants from the preset options
+        const activeDefs = parsedDefs
+          .map((attr) => ({
+            name: attr.name,
+            values: (initChecked[attr.name] || attr.values).slice(0, 3).filter((v) => v.trim() !== ""),
+          }))
+          .filter((attr) => attr.values.length > 0);
+
+        if (activeDefs.length > 0) {
+          const generated = generateCartesianVariants(
+            activeDefs,
+            Number(product.price) || 5000,
+            product.wholesale_price_5_units ? Number(product.wholesale_price_5_units) : null,
+            product.stock_quantity ? Math.round(Number(product.stock_quantity) / Math.max(1, activeDefs.length)) : 50,
+            product.slug || product.name || "item"
+          );
+          setVariants(generated);
+          setHasVariants(true);
+        } else {
+          setVariants([]);
+          setHasVariants(Boolean(product.has_variants));
+        }
+      } else {
+        setVariants([]);
+        setHasVariants(Boolean(product.has_variants));
       }
 
       const primaryImgUrl = getProductImageUrl(product);
@@ -2589,14 +2625,31 @@ export default function ProductsManagementPage() {
                       {/* ÉTAPE 3 : PRIX & STOCK DES VARIANTES (LISTE ULTRA-LISIBLE) */}
                       {variants.length > 0 && (
                         <div>
-                          <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A", marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A", marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                               <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#0F172A", color: "#FFF", fontSize: 12, display: "inline-flex", alignItems: "center", justifyContent: "center", fontWeight: 800 }}>3</span>
                               Prix & stock des variantes ({variants.length})
                             </div>
-                            <span style={{ fontSize: 12, color: "#166534", fontWeight: 600 }}>
-                              ✓ {variants.filter((v) => v.is_active).length} actives • Stock total : {variants.filter((v) => v.is_active).reduce((sum, v) => sum + (Number(v.stock_quantity) || 0), 0)} unités
-                            </span>
+                            
+                            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                              <span style={{ fontSize: 12, color: "#166534", fontWeight: 700, background: "#DCFCE7", padding: "3px 8px", borderRadius: 6 }}>
+                                ✓ {variants.filter((v) => v.is_active).length} actives / {variants.length} au total
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => setVariants((prev) => prev.map((v) => ({ ...v, is_active: true })))}
+                                style={{ background: "#EFF6FF", border: "1px solid #DBEAFE", color: "#1D4ED8", fontSize: 11.5, fontWeight: 700, padding: "4px 8px", borderRadius: 6, cursor: "pointer" }}
+                              >
+                                Tout Activer
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setVariants((prev) => prev.map((v) => ({ ...v, is_active: false })))}
+                                style={{ background: "#F1F5F9", border: "1px solid #E2E8F0", color: "#64748B", fontSize: 11.5, fontWeight: 700, padding: "4px 8px", borderRadius: 6, cursor: "pointer" }}
+                              >
+                                Tout Désactiver
+                              </button>
+                            </div>
                           </div>
 
                           <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 16, overflow: "hidden" }}>
@@ -2606,7 +2659,7 @@ export default function ProductsManagementPage() {
                                   <th style={{ padding: "12px 16px", fontWeight: 700, color: "#475569" }}>Variante</th>
                                   <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569", width: 160 }}>Prix (FCFA)</th>
                                   <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569", width: 120 }}>Stock</th>
-                                  <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569", width: 110, textAlign: "center" }}>Disponible</th>
+                                  <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569", width: 120, textAlign: "center" }}>Statut</th>
                                   <th style={{ padding: "12px 10px", width: 40 }}></th>
                                 </tr>
                               </thead>
@@ -2617,13 +2670,13 @@ export default function ProductsManagementPage() {
                                     style={{
                                       borderBottom: "1px solid #F1F5F9",
                                       background: v.is_active ? "#FFFFFF" : "#F8FAFC",
-                                      opacity: v.is_active ? 1 : 0.6,
+                                      opacity: v.is_active ? 1 : 0.65,
                                       transition: "all 0.15s ease",
                                     }}
                                   >
                                     {/* TITLE */}
                                     <td style={{ padding: "12px 16px" }}>
-                                      <div style={{ fontWeight: 700, color: "#0F172A" }}>
+                                      <div style={{ fontWeight: 700, color: v.is_active ? "#0F172A" : "#64748B", display: "flex", alignItems: "center", gap: 6 }}>
                                         {v.title || Object.values(v.attributes).join(" · ")}
                                       </div>
                                     </td>
@@ -2668,14 +2721,28 @@ export default function ProductsManagementPage() {
 
                                     {/* DISPONIBLE TOGGLE */}
                                     <td style={{ padding: "10px 14px", textAlign: "center" }}>
-                                      <label style={{ display: "inline-flex", alignItems: "center", cursor: "pointer" }}>
-                                        <input
-                                          type="checkbox"
-                                          checked={v.is_active}
-                                          onChange={(e) => handleUpdateVariantField(v.id, "is_active", e.target.checked)}
-                                          style={{ width: 18, height: 18, cursor: "pointer", accentColor: "#16A34A" }}
-                                        />
-                                      </label>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleUpdateVariantField(v.id, "is_active", !v.is_active)}
+                                        style={{
+                                          padding: "5px 12px",
+                                          borderRadius: 999,
+                                          fontSize: 11.5,
+                                          fontWeight: 700,
+                                          border: "none",
+                                          cursor: "pointer",
+                                          background: v.is_active ? "#DCFCE7" : "#F1F5F9",
+                                          color: v.is_active ? "#15803D" : "#64748B",
+                                          display: "inline-flex",
+                                          alignItems: "center",
+                                          gap: 5,
+                                          transition: "all 0.15s ease"
+                                        }}
+                                        title={v.is_active ? "Cliquer pour désactiver cette variante" : "Cliquer pour activer cette variante"}
+                                      >
+                                        <span style={{ width: 6, height: 6, borderRadius: "50%", background: v.is_active ? "#16A34A" : "#94A3B8" }} />
+                                        {v.is_active ? "Actif (En Vente)" : "Inactif"}
+                                      </button>
                                     </td>
 
                                     {/* DELETE */}
