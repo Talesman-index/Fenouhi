@@ -33,7 +33,10 @@ import {
   Copy,
   Wand2,
   CheckSquare,
-  Square
+  Square,
+  MinusSquare,
+  EyeOff,
+  Tags
 } from "lucide-react";
 
 import { PRODUCTS } from "@/lib/products";
@@ -62,6 +65,14 @@ export default function ProductsManagementPage() {
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [demoFilter, setDemoFilter] = useState<string>("all"); // 'all' | 'real' | 'demo'
+
+  // Multi-Selection State
+  const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+  const [isBulkDeleting, setIsBulkDeleting] = useState(false);
+  const [showBulkCategoryModal, setShowBulkCategoryModal] = useState(false);
+  const [bulkTargetCategoryId, setBulkTargetCategoryId] = useState("");
+  const [isBulkUpdating, setIsBulkUpdating] = useState(false);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -1079,6 +1090,242 @@ export default function ProductsManagementPage() {
     }
   };
 
+  // Selection & Bulk Action Handlers
+  const handleToggleSelect = (id: string) => {
+    setSelectedProductIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleSelectAllFiltered = () => {
+    const allFilteredIds = filteredProducts.map((p) => p.id);
+    const isAllSelected =
+      allFilteredIds.length > 0 &&
+      allFilteredIds.every((id) => selectedProductIds.includes(id));
+
+    if (isAllSelected) {
+      setSelectedProductIds((prev) =>
+        prev.filter((id) => !allFilteredIds.includes(id))
+      );
+    } else {
+      setSelectedProductIds((prev) =>
+        Array.from(new Set([...prev, ...allFilteredIds]))
+      );
+    }
+  };
+
+  const handleDeselectAll = () => {
+    setSelectedProductIds([]);
+  };
+
+  const handleBulkStatusChange = async (newStatus: ProductStatus) => {
+    if (selectedProductIds.length === 0) return;
+    setIsBulkUpdating(true);
+    try {
+      const selectedSet = new Set(selectedProductIds);
+
+      // 1. Update in local custom products
+      const custom = getStoredCustomProducts();
+      const updatedCustom = custom.map((p) =>
+        selectedSet.has(p.id) ? { ...p, status: newStatus, updated_at: new Date().toISOString() } : p
+      );
+      saveStoredCustomProducts(updatedCustom);
+
+      // 2. Update React state immediately
+      setProducts((prev) =>
+        prev.map((p) =>
+          selectedSet.has(p.id) ? { ...p, status: newStatus, updated_at: new Date().toISOString() } : p
+        )
+      );
+
+      // 3. Batch API sync
+      const changedProducts = updatedCustom.filter((p) => selectedSet.has(p.id));
+      if (changedProducts.length > 0) {
+        try {
+          await fetch("/api/products", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ products: changedProducts })
+          });
+        } catch {}
+      }
+
+      // 4. Update Supabase database
+      try {
+        const supabase = createClient();
+        await supabase
+          .from("products")
+          .update({ status: newStatus, updated_at: new Date().toISOString() })
+          .in("id", selectedProductIds);
+
+        await logAdminAction({
+          action: newStatus === "active" ? "BULK_PUBLISH" : "BULK_UNPUBLISH",
+          entityType: "products",
+          entityId: `bulk_${selectedProductIds.length}`,
+          details: { count: selectedProductIds.length, status: newStatus }
+        });
+      } catch (dbErr) {
+        console.warn("Supabase bulk status update:", dbErr);
+      }
+
+      addRealNotification({
+        title: newStatus === "active" ? "Articles Publiés en Masse" : "Articles Dépubliés",
+        desc: `${selectedProductIds.length} article(s) sont passés au statut ${newStatus.toUpperCase()}.`,
+        type: "product"
+      });
+
+      showToast(
+        newStatus === "active" ? "Articles Publiés en Boutique !" : "Articles Dépubliés",
+        `${selectedProductIds.length} article(s) ont été mis à jour avec succès.`,
+        "success"
+      );
+      setSelectedProductIds([]);
+    } catch (err: any) {
+      showToast("Échec de la mise à jour groupée", err.message, "error");
+    } finally {
+      setIsBulkUpdating(false);
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedProductIds.length === 0) return;
+    setIsBulkDeleting(true);
+    try {
+      const selectedSet = new Set(selectedProductIds);
+
+      // 1. Add all IDs & Slugs to deleted list
+      const deletedIds = getStoredDeletedProductIds();
+      selectedProductIds.forEach((id) => {
+        if (!deletedIds.includes(id)) deletedIds.push(id);
+        if (!deletedIds.includes(`product-${id}`)) deletedIds.push(`product-${id}`);
+      });
+      const selectedProductsList = products.filter((p) => selectedSet.has(p.id));
+      selectedProductsList.forEach((p) => {
+        if (p.slug && !deletedIds.includes(p.slug)) deletedIds.push(p.slug);
+        if (p.slug && !deletedIds.includes(`product-${p.slug}`)) deletedIds.push(`product-${p.slug}`);
+      });
+      saveStoredDeletedProductIds(deletedIds);
+
+      // 2. Remove from custom products
+      const custom = getStoredCustomProducts();
+      const updatedCustom = custom.filter((p) => !selectedSet.has(p.id) && !selectedSet.has(p.slug));
+      saveStoredCustomProducts(updatedCustom);
+
+      // 3. Update React state immediately
+      setProducts((prev) => prev.filter((p) => !selectedSet.has(p.id)));
+
+      // 4. Batch delete on Supabase
+      try {
+        const supabase = createClient();
+        await supabase.from("product_images").delete().in("product_id", selectedProductIds);
+        await supabase.from("products").delete().in("id", selectedProductIds);
+
+        await logAdminAction({
+          action: "BULK_DELETE_PRODUCTS",
+          entityType: "products",
+          entityId: `bulk_${selectedProductIds.length}`,
+          details: { count: selectedProductIds.length, ids: selectedProductIds }
+        });
+      } catch (dbErr) {
+        console.warn("Supabase bulk delete:", dbErr);
+      }
+
+      // 5. Delete on server API
+      for (const p of selectedProductsList) {
+        try {
+          await fetch("/api/products", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: p.id, slug: p.slug })
+          });
+        } catch {}
+      }
+
+      addRealNotification({
+        title: "Articles Supprimés en Masse",
+        desc: `${selectedProductIds.length} article(s) ont été définitivement retirés du catalogue.`,
+        type: "product"
+      });
+
+      showToast(
+        "Suppression Groupée Réussie",
+        `${selectedProductIds.length} article(s) ont été retirés de la boutique.`,
+        "error"
+      );
+
+      setShowBulkDeleteModal(false);
+      setSelectedProductIds([]);
+    } catch (err: any) {
+      showToast("Échec de la suppression groupée", err.message, "error");
+    } finally {
+      setIsBulkDeleting(false);
+    }
+  };
+
+  const handleBulkCategoryChange = async () => {
+    if (!bulkTargetCategoryId || selectedProductIds.length === 0) return;
+    setIsBulkUpdating(true);
+    try {
+      const selectedSet = new Set(selectedProductIds);
+      const targetCat = categories.find((c) => c.id === bulkTargetCategoryId || c.slug === bulkTargetCategoryId) || FALLBACK_CATEGORIES.find((c) => c.id === bulkTargetCategoryId || c.slug === bulkTargetCategoryId);
+
+      // 1. Update in local custom products
+      const custom = getStoredCustomProducts();
+      const updatedCustom = custom.map((p) =>
+        selectedSet.has(p.id) ? { ...p, category_id: targetCat?.id || bulkTargetCategoryId, category: targetCat, updated_at: new Date().toISOString() } : p
+      );
+      saveStoredCustomProducts(updatedCustom);
+
+      // 2. Update React state immediately
+      setProducts((prev) =>
+        prev.map((p) =>
+          selectedSet.has(p.id) ? { ...p, category_id: targetCat?.id || bulkTargetCategoryId, category: targetCat, updated_at: new Date().toISOString() } : p
+        )
+      );
+
+      // 3. Batch API sync
+      const changedProducts = updatedCustom.filter((p) => selectedSet.has(p.id));
+      if (changedProducts.length > 0) {
+        try {
+          await fetch("/api/products", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ products: changedProducts })
+          });
+        } catch {}
+      }
+
+      // 4. Update Supabase
+      try {
+        const supabase = createClient();
+        await supabase
+          .from("products")
+          .update({ category_id: targetCat?.id || bulkTargetCategoryId, updated_at: new Date().toISOString() })
+          .in("id", selectedProductIds);
+
+        await logAdminAction({
+          action: "BULK_CATEGORY_UPDATE",
+          entityType: "products",
+          entityId: `bulk_${selectedProductIds.length}`,
+          details: { count: selectedProductIds.length, targetCategoryId: bulkTargetCategoryId }
+        });
+      } catch (dbErr) {}
+
+      showToast(
+        "Catégorie Mise à Jour !",
+        `${selectedProductIds.length} article(s) déplacés vers "${targetCat?.name || "Catégorie"}".`,
+        "success"
+      );
+      setShowBulkCategoryModal(false);
+      setBulkTargetCategoryId("");
+      setSelectedProductIds([]);
+    } catch (err: any) {
+      showToast("Échec du changement de catégorie", err.message, "error");
+    } finally {
+      setIsBulkUpdating(false);
+    }
+  };
+
   const filteredProducts = products.filter((p) => {
     if (!search.trim()) return true;
     const query = search.toLowerCase();
@@ -1325,6 +1572,180 @@ export default function ProductsManagementPage() {
         </div>
       </div>
 
+      {/* 3.5 BATCH ACTIONS TOOLBAR (Appears when 1 or more products are selected) */}
+      {selectedProductIds.length > 0 && (
+        <div
+          style={{
+            background: "#0F172A",
+            color: "#FFFFFF",
+            borderRadius: 16,
+            padding: "12px 20px",
+            marginBottom: 20,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 12,
+            boxShadow: "0 10px 30px rgba(15, 23, 42, 0.25)",
+            border: "1px solid #1E293B",
+            animation: "slideIn 0.25s ease"
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span
+              style={{
+                background: "#165491",
+                color: "#FFFFFF",
+                padding: "6px 14px",
+                borderRadius: 999,
+                fontSize: 12.5,
+                fontWeight: 700,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6
+              }}
+            >
+              <CheckSquare style={{ width: 15, height: 15 }} />
+              {selectedProductIds.length} article{selectedProductIds.length > 1 ? "s" : ""} sélectionné{selectedProductIds.length > 1 ? "s" : ""}
+            </span>
+            <button
+              type="button"
+              onClick={handleSelectAllFiltered}
+              style={{
+                background: "transparent",
+                border: "none",
+                color: "#94A3B8",
+                fontSize: 12.5,
+                fontWeight: 600,
+                cursor: "pointer",
+                textDecoration: "underline"
+              }}
+            >
+              {filteredProducts.every((p) => selectedProductIds.includes(p.id))
+                ? "Tout désélectionner"
+                : `Sélectionner tous les ${filteredProducts.length} articles`}
+            </button>
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+            {/* Activer / Publier en masse */}
+            <button
+              type="button"
+              onClick={() => handleBulkStatusChange("active")}
+              disabled={isBulkUpdating}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "8px 14px",
+                borderRadius: 10,
+                background: "#16A34A",
+                color: "#FFFFFF",
+                border: "none",
+                fontSize: 12.5,
+                fontWeight: 700,
+                cursor: "pointer",
+                transition: "all 0.15s ease"
+              }}
+              title="Rendre les articles sélectionnés visibles en vente sur la boutique"
+            >
+              <Eye style={{ width: 14, height: 14 }} /> Publier (En Vente)
+            </button>
+
+            {/* Désactiver / Dépublier en masse */}
+            <button
+              type="button"
+              onClick={() => handleBulkStatusChange("inactive")}
+              disabled={isBulkUpdating}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "8px 14px",
+                borderRadius: 10,
+                background: "#334155",
+                color: "#FFFFFF",
+                border: "none",
+                fontSize: 12.5,
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.15s ease"
+              }}
+              title="Masquer les articles sélectionnés de la boutique"
+            >
+              <EyeOff style={{ width: 14, height: 14 }} /> Dépublier (Inactif)
+            </button>
+
+            {/* Changer de catégorie en masse */}
+            <button
+              type="button"
+              onClick={() => {
+                setBulkTargetCategoryId(categories[0]?.id || "");
+                setShowBulkCategoryModal(true);
+              }}
+              disabled={isBulkUpdating}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "8px 14px",
+                borderRadius: 10,
+                background: "#2563EB",
+                color: "#FFFFFF",
+                border: "none",
+                fontSize: 12.5,
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.15s ease"
+              }}
+            >
+              <Tags style={{ width: 14, height: 14 }} /> Changer Catégorie
+            </button>
+
+            {/* Supprimer en masse */}
+            <button
+              type="button"
+              onClick={() => setShowBulkDeleteModal(true)}
+              disabled={isBulkDeleting || isBulkUpdating}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "8px 14px",
+                borderRadius: 10,
+                background: "#DC2626",
+                color: "#FFFFFF",
+                border: "none",
+                fontSize: 12.5,
+                fontWeight: 700,
+                cursor: "pointer",
+                transition: "all 0.15s ease"
+              }}
+            >
+              <Trash2 style={{ width: 14, height: 14 }} /> Supprimer ({selectedProductIds.length})
+            </button>
+
+            {/* Annuler */}
+            <button
+              type="button"
+              onClick={handleDeselectAll}
+              style={{
+                padding: "8px 12px",
+                borderRadius: 10,
+                background: "rgba(255,255,255,0.1)",
+                color: "#CBD5E1",
+                border: "none",
+                fontSize: 12.5,
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* 4. BALANCED MODERN PRODUCTS TABLE */}
       <div
         style={{
@@ -1339,7 +1760,35 @@ export default function ProductsManagementPage() {
           <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
             <thead>
               <tr style={{ background: "#F8FAFC", borderBottom: "1.5px solid #E2E8F0" }}>
-                <th style={{ padding: "14px 18px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px", width: "35%" }}>
+                <th style={{ padding: "14px 10px 14px 18px", width: 44, textAlign: "center" }}>
+                  <button
+                    type="button"
+                    onClick={handleSelectAllFiltered}
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      cursor: "pointer",
+                      padding: 0,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
+                    title={
+                      filteredProducts.length > 0 && filteredProducts.every((p) => selectedProductIds.includes(p.id))
+                        ? "Tout désélectionner"
+                        : "Tout sélectionner"
+                    }
+                  >
+                    {filteredProducts.length > 0 && filteredProducts.every((p) => selectedProductIds.includes(p.id)) ? (
+                      <CheckSquare style={{ width: 18, height: 18, color: "#165491" }} />
+                    ) : selectedProductIds.length > 0 ? (
+                      <MinusSquare style={{ width: 18, height: 18, color: "#165491" }} />
+                    ) : (
+                      <Square style={{ width: 18, height: 18, color: "#CBD5E1" }} />
+                    )}
+                  </button>
+                </th>
+                <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px", width: "35%" }}>
                   Article & Détails
                 </th>
                 <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px", width: "18%" }}>
@@ -1363,14 +1812,14 @@ export default function ProductsManagementPage() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={6} style={{ textAlign: "center", padding: "60px 20px", color: "#64748B" }}>
+                  <td colSpan={7} style={{ textAlign: "center", padding: "60px 20px", color: "#64748B" }}>
                     <RefreshCw style={{ width: 28, height: 28, animation: "spin 1.5s linear infinite", margin: "0 auto 12px", color: "#165491" }} />
                     <div style={{ fontWeight: 600, fontSize: 14 }}>Chargement du catalogue Supabase...</div>
                   </td>
                 </tr>
               ) : filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan={6} style={{ textAlign: "center", padding: "60px 20px", color: "#64748B" }}>
+                  <td colSpan={7} style={{ textAlign: "center", padding: "60px 20px", color: "#64748B" }}>
                     <Package style={{ width: 42, height: 42, margin: "0 auto 12px", color: "#CBD5E1" }} />
                     <div style={{ fontWeight: 700, fontSize: 15, color: "#0F172A", marginBottom: 4 }}>Aucun article trouvé</div>
                     <div style={{ fontSize: 13 }}>Modifiez vos critères de recherche ou ajoutez un nouveau produit.</div>
@@ -1380,6 +1829,7 @@ export default function ProductsManagementPage() {
                 filteredProducts.map((p, idx) => {
                   const img = getProductImageUrl(p);
                   const isActive = p.status === "active";
+                  const isSelected = selectedProductIds.includes(p.id);
                   const stockNum = p.stock_quantity ?? 100;
                   const isStockOk = stockNum > 10;
 
@@ -1389,13 +1839,40 @@ export default function ProductsManagementPage() {
                       style={{
                         borderBottom: "1px solid #F1F5F9",
                         transition: "background-color 0.15s ease",
-                        background: idx % 2 === 0 ? "#FFFFFF" : "#FAFAFA"
+                        background: isSelected ? "#F0F7FF" : idx % 2 === 0 ? "#FFFFFF" : "#FAFAFA"
                       }}
-                      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F8FAFC"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = idx % 2 === 0 ? "#FFFFFF" : "#FAFAFA"; }}
+                      onMouseEnter={(e) => {
+                        if (!isSelected) e.currentTarget.style.backgroundColor = "#F8FAFC";
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isSelected) e.currentTarget.style.backgroundColor = idx % 2 === 0 ? "#FFFFFF" : "#FAFAFA";
+                      }}
                     >
+                      {/* CHECKBOX */}
+                      <td style={{ padding: "14px 10px 14px 18px", width: 44, textAlign: "center" }}>
+                        <button
+                          type="button"
+                          onClick={() => handleToggleSelect(p.id)}
+                          style={{
+                            background: "transparent",
+                            border: "none",
+                            cursor: "pointer",
+                            padding: 0,
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center"
+                          }}
+                        >
+                          {isSelected ? (
+                            <CheckSquare style={{ width: 18, height: 18, color: "#165491" }} />
+                          ) : (
+                            <Square style={{ width: 18, height: 18, color: "#CBD5E1" }} />
+                          )}
+                        </button>
+                      </td>
+
                       {/* 1. PRODUIT */}
-                      <td style={{ padding: "14px 18px" }}>
+                      <td style={{ padding: "14px 14px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                           <div style={{ width: 48, height: 48, borderRadius: 12, overflow: "hidden", border: "1.5px solid #E2E8F0", background: "#FFFFFF", flexShrink: 0, boxShadow: "0 2px 6px rgba(0,0,0,0.04)" }}>
                             <img
@@ -2659,6 +3136,110 @@ export default function ProductsManagementPage() {
                 style={{ flex: 1, padding: "11px 16px", background: "linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)", color: "#FFFFFF", fontWeight: 600, borderRadius: 10, boxShadow: "0 4px 12px rgba(220, 38, 38, 0.3)" }}
               >
                 {isDeleting ? "Suppression..." : "Oui, Supprimer"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* POP-UP DESIGN: CONFIRMATION DE SUPPRESSION EN MASSE */}
+      {showBulkDeleteModal && (
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(15, 23, 42, 0.75)", backdropFilter: "blur(6px)", zIndex: 999999, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+          <div style={{ background: "#FFFFFF", maxWidth: 460, width: "100%", borderRadius: 20, padding: 24, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.35)", border: "1px solid #FEE2E2", textAlign: "center" }}>
+            
+            {/* ICON RED GLOW */}
+            <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#FEE2E2", color: "#DC2626", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px", boxShadow: "0 0 20px rgba(239, 68, 68, 0.2)" }}>
+              <Trash2 style={{ width: 28, height: 28 }} />
+            </div>
+
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: "0 0 8px" }}>
+              Supprimer {selectedProductIds.length} article{selectedProductIds.length > 1 ? "s" : ""} en masse ?
+            </h3>
+
+            <p style={{ fontSize: 13, color: "#64748B", margin: "0 0 16px", lineHeight: 1.5 }}>
+              Cette action retirera définitivement les <strong>{selectedProductIds.length} articles sélectionnés</strong> de la boutique en ligne et de la base de données.
+            </p>
+
+            {/* ACTION BUTTONS */}
+            <div style={{ display: "flex", gap: 12 }}>
+              <button
+                type="button"
+                onClick={() => setShowBulkDeleteModal(false)}
+                disabled={isBulkDeleting}
+                className="btn"
+                style={{ flex: 1, padding: "11px 16px", background: "#F1F5F9", color: "#334155", fontWeight: 600, borderRadius: 10 }}
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                onClick={handleBulkDelete}
+                disabled={isBulkDeleting}
+                className="btn"
+                style={{ flex: 1, padding: "11px 16px", background: "linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)", color: "#FFFFFF", fontWeight: 600, borderRadius: 10, boxShadow: "0 4px 12px rgba(220, 38, 38, 0.3)" }}
+              >
+                {isBulkDeleting ? "Suppression en cours..." : `Supprimer les ${selectedProductIds.length} articles`}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* POP-UP DESIGN: MODAL CHANGEMENT DE CATÉGORIE EN MASSE */}
+      {showBulkCategoryModal && (
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(15, 23, 42, 0.75)", backdropFilter: "blur(6px)", zIndex: 999999, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+          <div style={{ background: "#FFFFFF", maxWidth: 440, width: "100%", borderRadius: 20, padding: 24, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.35)", border: "1px solid #E2E8F0", textAlign: "center" }}>
+            
+            {/* ICON BLUE GLOW */}
+            <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#EFF6FF", color: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+              <Tags style={{ width: 28, height: 28 }} />
+            </div>
+
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: "0 0 8px" }}>
+              Assigner une Catégorie en Masse
+            </h3>
+
+            <p style={{ fontSize: 13, color: "#64748B", margin: "0 0 16px", lineHeight: 1.5 }}>
+              Choisissez la nouvelle catégorie pour les <strong>{selectedProductIds.length} articles sélectionnés</strong> :
+            </p>
+
+            <div style={{ marginBottom: 20, textAlign: "left" }}>
+              <label className="admin-label" style={{ fontSize: 12.5, fontWeight: 600, color: "#334155", marginBottom: 6, display: "block" }}>
+                Nouvelle Catégorie Cible :
+              </label>
+              <select
+                value={bulkTargetCategoryId}
+                onChange={(e) => setBulkTargetCategoryId(e.target.value)}
+                className="admin-input"
+                style={{ width: "100%", padding: "10px 14px", borderRadius: 10, border: "1.5px solid #E2E8F0", fontSize: 13, fontWeight: 600 }}
+              >
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* ACTION BUTTONS */}
+            <div style={{ display: "flex", gap: 12 }}>
+              <button
+                type="button"
+                onClick={() => setShowBulkCategoryModal(false)}
+                disabled={isBulkUpdating}
+                className="btn"
+                style={{ flex: 1, padding: "11px 16px", background: "#F1F5F9", color: "#334155", fontWeight: 600, borderRadius: 10 }}
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                onClick={handleBulkCategoryChange}
+                disabled={isBulkUpdating || !bulkTargetCategoryId}
+                className="btn btn-primary"
+                style={{ flex: 1, padding: "11px 16px", fontWeight: 600, borderRadius: 10 }}
+              >
+                {isBulkUpdating ? "Mise à jour..." : "Appliquer"}
               </button>
             </div>
           </div>
