@@ -1789,24 +1789,42 @@ export default function ProductsManagementPage() {
           <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
             <thead>
               <tr style={{ background: "#F8FAFC", borderBottom: "1.5px solid #E2E8F0" }}>
-                <th style={{ padding: "14px 12px 14px 18px", width: 48, textAlign: "center" }}>
-                  <input
-                    type="checkbox"
-                    checked={filteredProducts.length > 0 && filteredProducts.every((p) => selectedProductIds.includes(p.id))}
-                    onChange={handleSelectAllFiltered}
+                <th style={{ padding: "14px 12px 14px 18px", width: 52, textAlign: "center" }}>
+                  <div
+                    onClick={handleSelectAllFiltered}
                     style={{
-                      width: 18,
-                      height: 18,
-                      accentColor: "#165491",
+                      width: 22,
+                      height: 22,
+                      borderRadius: 6,
+                      border: filteredProducts.length > 0 && filteredProducts.every((p) => selectedProductIds.includes(p.id))
+                        ? "2px solid #165491"
+                        : selectedProductIds.length > 0
+                        ? "2px solid #165491"
+                        : "2px solid #CBD5E1",
+                      background: filteredProducts.length > 0 && filteredProducts.every((p) => selectedProductIds.includes(p.id))
+                        ? "#165491"
+                        : selectedProductIds.length > 0
+                        ? "#EFF6FF"
+                        : "#FFFFFF",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       cursor: "pointer",
-                      borderRadius: 4
+                      transition: "all 0.15s ease",
+                      boxShadow: "0 1px 2px rgba(0,0,0,0.05)"
                     }}
                     title={
                       filteredProducts.length > 0 && filteredProducts.every((p) => selectedProductIds.includes(p.id))
                         ? "Tout désélectionner"
                         : "Tout sélectionner"
                     }
-                  />
+                  >
+                    {filteredProducts.length > 0 && filteredProducts.every((p) => selectedProductIds.includes(p.id)) ? (
+                      <Check style={{ width: 14, height: 14, strokeWidth: 3.5, color: "#FFFFFF" }} />
+                    ) : selectedProductIds.length > 0 ? (
+                      <div style={{ width: 10, height: 3, borderRadius: 2, background: "#165491" }} />
+                    ) : null}
+                  </div>
                 </th>
                 <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px", width: "35%" }}>
                   Article & Détails
@@ -1856,10 +1874,14 @@ export default function ProductsManagementPage() {
                   return (
                     <tr
                       key={p.id || idx}
+                      onClick={() => handleToggleSelect(p.id)}
                       style={{
                         borderBottom: "1px solid #F1F5F9",
-                        transition: "background-color 0.15s ease",
-                        background: isSelected ? "#F0F7FF" : idx % 2 === 0 ? "#FFFFFF" : "#FAFAFA"
+                        borderLeft: isSelected ? "5px solid #165491" : "5px solid transparent",
+                        transition: "all 0.15s ease",
+                        background: isSelected ? "#EBF3FF" : idx % 2 === 0 ? "#FFFFFF" : "#FAFAFA",
+                        boxShadow: isSelected ? "inset 0 0 0 1px #BFDBFE" : "none",
+                        cursor: "pointer"
                       }}
                       onMouseEnter={(e) => {
                         if (!isSelected) e.currentTarget.style.backgroundColor = "#F8FAFC";
@@ -1869,25 +1891,34 @@ export default function ProductsManagementPage() {
                       }}
                     >
                       {/* CHECKBOX */}
-                      <td style={{ padding: "14px 12px 14px 18px", width: 48, textAlign: "center" }}>
-                        <input
-                          type="checkbox"
-                          checked={isSelected}
-                          onChange={() => handleToggleSelect(p.id)}
-                          style={{
-                            width: 18,
-                            height: 18,
-                            accentColor: "#165491",
-                            cursor: "pointer",
-                            borderRadius: 4
+                      <td style={{ padding: "14px 12px 14px 18px", width: 52, textAlign: "center" }}>
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggleSelect(p.id);
                           }}
-                        />
+                          style={{
+                            width: 22,
+                            height: 22,
+                            borderRadius: 6,
+                            border: isSelected ? "2px solid #165491" : "2px solid #CBD5E1",
+                            background: isSelected ? "#165491" : "#FFFFFF",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                            transition: "all 0.15s ease",
+                            boxShadow: isSelected ? "0 2px 6px rgba(22, 84, 145, 0.35)" : "0 1px 2px rgba(0,0,0,0.05)"
+                          }}
+                        >
+                          {isSelected && <Check style={{ width: 14, height: 14, strokeWidth: 3.5, color: "#FFFFFF" }} />}
+                        </div>
                       </td>
 
                       {/* 1. PRODUIT */}
                       <td style={{ padding: "14px 14px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                          <div style={{ width: 48, height: 48, borderRadius: 12, overflow: "hidden", border: "1.5px solid #E2E8F0", background: "#FFFFFF", flexShrink: 0, boxShadow: "0 2px 6px rgba(0,0,0,0.04)" }}>
+                          <div style={{ width: 48, height: 48, borderRadius: 12, overflow: "hidden", border: isSelected ? "2px solid #165491" : "1.5px solid #E2E8F0", background: "#FFFFFF", flexShrink: 0, boxShadow: isSelected ? "0 2px 8px rgba(22, 84, 145, 0.25)" : "0 2px 6px rgba(0,0,0,0.04)", transition: "all 0.15s ease" }}>
                             <img
                               src={img}
                               alt={p.name}
@@ -1899,10 +1930,15 @@ export default function ProductsManagementPage() {
                           </div>
 
                           <div style={{ minWidth: 0 }}>
-                            <div style={{ fontWeight: 700, color: "#0F172A", fontSize: 13.5, lineHeight: 1.3, marginBottom: 2 }}>
+                            <div style={{ fontWeight: 700, color: isSelected ? "#0F3B5F" : "#0F172A", fontSize: 13.5, lineHeight: 1.3, marginBottom: 2 }}>
                               {p.name}
                             </div>
                             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                              {isSelected && (
+                                <span style={{ fontSize: 10, fontWeight: 800, padding: "2px 8px", borderRadius: 999, background: "#165491", color: "#FFFFFF", display: "inline-flex", alignItems: "center", gap: 3 }}>
+                                  <Check style={{ width: 10, height: 10, strokeWidth: 3 }} /> Sélectionné
+                                </span>
+                              )}
                               <span style={{ fontSize: 11, color: "#64748B", fontFamily: "monospace" }}>
                                 {p.slug}
                               </span>
@@ -1929,7 +1965,7 @@ export default function ProductsManagementPage() {
                             borderRadius: 8,
                             fontSize: 11.5,
                             fontWeight: 600,
-                            background: "#EFF6FF",
+                            background: isSelected ? "#DBEAFE" : "#EFF6FF",
                             color: "#1D4ED8",
                             border: "1px solid #DBEAFE"
                           }}
@@ -2003,7 +2039,10 @@ export default function ProductsManagementPage() {
                       <td style={{ padding: "14px 14px" }}>
                         <button
                           type="button"
-                          onClick={() => handleToggleStatus(p)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggleStatus(p);
+                          }}
                           style={{
                             display: "inline-flex",
                             alignItems: "center",
@@ -2033,6 +2072,7 @@ export default function ProductsManagementPage() {
                             href={`/product/${p.slug || p.id}`}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
                             style={{
                               width: 32,
                               height: 32,
@@ -2054,7 +2094,10 @@ export default function ProductsManagementPage() {
                           {/* EDIT BUTTON */}
                           <button
                             type="button"
-                            onClick={() => openEditModal(p)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openEditModal(p);
+                            }}
                             style={{
                               width: 32,
                               height: 32,
@@ -2076,7 +2119,10 @@ export default function ProductsManagementPage() {
                           {/* DELETE BUTTON */}
                           <button
                             type="button"
-                            onClick={() => setDeleteModalProduct(p)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setDeleteModalProduct(p);
+                            }}
                             style={{
                               width: 32,
                               height: 32,
