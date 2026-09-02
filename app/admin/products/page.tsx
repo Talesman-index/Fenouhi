@@ -1569,6 +1569,35 @@ export default function ProductsManagementPage() {
           <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", background: "#F1F5F9", padding: "6px 12px", borderRadius: 999 }}>
             {filteredProducts.length} résultat{filteredProducts.length > 1 ? "s" : ""}
           </div>
+
+          {/* Quick Select All Button in Toolbar */}
+          <button
+            type="button"
+            onClick={handleSelectAllFiltered}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "8px 14px",
+              borderRadius: 10,
+              border: selectedProductIds.length > 0 ? "1.5px solid #165491" : "1.5px solid #CBD5E1",
+              background: selectedProductIds.length > 0 ? "#EFF6FF" : "#FFFFFF",
+              color: selectedProductIds.length > 0 ? "#165491" : "#475569",
+              fontSize: 12.5,
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "all 0.15s ease",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.04)"
+            }}
+            title="Sélectionner ou désélectionner tous les articles affichés"
+          >
+            <CheckSquare style={{ width: 15, height: 15, color: selectedProductIds.length > 0 ? "#165491" : "#64748B" }} />
+            {filteredProducts.length > 0 && filteredProducts.every((p) => selectedProductIds.includes(p.id))
+              ? "Tout Désélectionner"
+              : selectedProductIds.length > 0
+              ? `Sélection (${selectedProductIds.length})`
+              : "Sélection Multiple"}
+          </button>
         </div>
       </div>
 
@@ -1760,33 +1789,24 @@ export default function ProductsManagementPage() {
           <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
             <thead>
               <tr style={{ background: "#F8FAFC", borderBottom: "1.5px solid #E2E8F0" }}>
-                <th style={{ padding: "14px 10px 14px 18px", width: 44, textAlign: "center" }}>
-                  <button
-                    type="button"
-                    onClick={handleSelectAllFiltered}
+                <th style={{ padding: "14px 12px 14px 18px", width: 48, textAlign: "center" }}>
+                  <input
+                    type="checkbox"
+                    checked={filteredProducts.length > 0 && filteredProducts.every((p) => selectedProductIds.includes(p.id))}
+                    onChange={handleSelectAllFiltered}
                     style={{
-                      background: "transparent",
-                      border: "none",
+                      width: 18,
+                      height: 18,
+                      accentColor: "#165491",
                       cursor: "pointer",
-                      padding: 0,
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center"
+                      borderRadius: 4
                     }}
                     title={
                       filteredProducts.length > 0 && filteredProducts.every((p) => selectedProductIds.includes(p.id))
                         ? "Tout désélectionner"
                         : "Tout sélectionner"
                     }
-                  >
-                    {filteredProducts.length > 0 && filteredProducts.every((p) => selectedProductIds.includes(p.id)) ? (
-                      <CheckSquare style={{ width: 18, height: 18, color: "#165491" }} />
-                    ) : selectedProductIds.length > 0 ? (
-                      <MinusSquare style={{ width: 18, height: 18, color: "#165491" }} />
-                    ) : (
-                      <Square style={{ width: 18, height: 18, color: "#CBD5E1" }} />
-                    )}
-                  </button>
+                  />
                 </th>
                 <th style={{ padding: "14px 14px", fontSize: 11.5, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px", width: "35%" }}>
                   Article & Détails
@@ -1849,26 +1869,19 @@ export default function ProductsManagementPage() {
                       }}
                     >
                       {/* CHECKBOX */}
-                      <td style={{ padding: "14px 10px 14px 18px", width: 44, textAlign: "center" }}>
-                        <button
-                          type="button"
-                          onClick={() => handleToggleSelect(p.id)}
+                      <td style={{ padding: "14px 12px 14px 18px", width: 48, textAlign: "center" }}>
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => handleToggleSelect(p.id)}
                           style={{
-                            background: "transparent",
-                            border: "none",
+                            width: 18,
+                            height: 18,
+                            accentColor: "#165491",
                             cursor: "pointer",
-                            padding: 0,
-                            display: "inline-flex",
-                            alignItems: "center",
-                            justifyContent: "center"
+                            borderRadius: 4
                           }}
-                        >
-                          {isSelected ? (
-                            <CheckSquare style={{ width: 18, height: 18, color: "#165491" }} />
-                          ) : (
-                            <Square style={{ width: 18, height: 18, color: "#CBD5E1" }} />
-                          )}
-                        </button>
+                        />
                       </td>
 
                       {/* 1. PRODUIT */}
