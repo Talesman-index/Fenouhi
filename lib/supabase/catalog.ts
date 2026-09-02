@@ -499,15 +499,11 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
       }
     }
 
-    // 4. Fallback to static catalog if nothing found yet
-    if (productMap.size === 0) {
-      const localProducts = getPublicProductsSync(options);
-      for (const p of localProducts) {
-        if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
-          if (!productMap.has(p.id)) {
-            productMap.set(p.id, p);
-          }
-        }
+    // 4. Add base catalog products from lib/products.ts if not already present or modified
+    for (const raw of PRODUCTS) {
+      const p = mapLocalProductToCatalogProduct(raw);
+      if (!productMap.has(p.id) && !deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
+        productMap.set(p.id, p);
       }
     }
 

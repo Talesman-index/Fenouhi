@@ -96,23 +96,24 @@ export default function AdminDashboardPage() {
 
         let dynamicProductCount = getPublicProductsSync().length;
         let fetchedProds: Product[] = getPublicProductsSync().slice(0, 5);
+
         try {
-          const prods = await getPublicProducts();
-          if (prods && prods.length > 0) {
-            dynamicProductCount = prods.length;
-            fetchedProds = prods.slice(0, 5);
+          const prodsRes = await fetch("/api/products", { cache: "no-store" });
+          if (prodsRes.ok) {
+            const prodsJson = await prodsRes.json();
+            if (typeof prodsJson.count === "number") {
+              dynamicProductCount = prodsJson.count;
+            }
+            if (prodsJson.products && Array.isArray(prodsJson.products)) {
+              fetchedProds = prodsJson.products.slice(0, 5);
+            }
           }
         } catch {
           try {
-            const prodsRes = await fetch("/api/products", { cache: "no-store" });
-            if (prodsRes.ok) {
-              const prodsJson = await prodsRes.json();
-              if (typeof prodsJson.count === "number") {
-                dynamicProductCount = prodsJson.count;
-              }
-              if (prodsJson.products && Array.isArray(prodsJson.products)) {
-                fetchedProds = prodsJson.products.slice(0, 5);
-              }
+            const prods = await getPublicProducts();
+            if (prods && prods.length > 0) {
+              dynamicProductCount = prods.length;
+              fetchedProds = prods.slice(0, 5);
             }
           } catch {}
         }
