@@ -1107,7 +1107,32 @@ export default function ProductsManagementPage() {
           </p>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <a
+            href="https://fenouhi.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 7,
+              padding: "10px 15px",
+              background: "#FFF7ED",
+              border: "1px solid #FFEDD5",
+              color: "#C2410C",
+              borderRadius: 12,
+              fontWeight: 700,
+              fontSize: 13,
+              textDecoration: "none",
+              boxShadow: "0 1px 3px rgba(234,88,12,0.08)",
+              transition: "all 0.15s ease"
+            }}
+            title="Ouvrir la boutique en direct sur https://fenouhi.vercel.app"
+          >
+            <ExternalLink style={{ width: 15, height: 15 }} /> Aperçu Boutique Live
+          </a>
+
           <button
             type="button"
             onClick={fetchProducts}

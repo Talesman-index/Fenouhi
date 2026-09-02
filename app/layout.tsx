@@ -31,7 +31,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://fenouhimin.vercel.app"),
+  metadataBase: new URL("https://fenouhi.vercel.app"),
   title: "Fenouhi — Shopping Tendance Direct Usine Chine → Afrique",
   description:
     "Découvrez l'univers Fenouhi pour la mode, la maison, la beauté et le lifestyle. Vos produits préférés direct usine livrés chez vous.",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "FENOUHI — Shopping Tendance | Tout en un seul endroit",
     description: "Découvrez l'univers Fenouhi pour la mode, la maison, la beauté et le lifestyle. Tarifs direct usine et livraison rapide !",
-    url: "https://fenouhimin.vercel.app",
+    url: "https://fenouhi.vercel.app",
     siteName: "FENOUHI",
     images: [
       {

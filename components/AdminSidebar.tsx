@@ -19,7 +19,8 @@ import {
   LogOut,
   ShieldCheck,
   X,
-  Package
+  Package,
+  ExternalLink
 } from "lucide-react";
 import type { Profile } from "@/types/supabase";
 
@@ -201,12 +202,15 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
           })}
 
           <li style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid #F1F5F9" }}>
-            <Link
-              href="/catalog"
+            <a
+              href="https://fenouhi.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={onCloseMobile}
               style={{
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "space-between",
                 gap: 10,
                 padding: "8px 12px",
                 borderRadius: 10,
@@ -219,10 +223,14 @@ export default function AdminSidebar({ profile, onCloseMobile }: AdminSidebarPro
                 marginBottom: 6,
                 transition: "all 0.15s ease",
               }}
+              title="Ouvrir la boutique en ligne sur https://fenouhi.vercel.app"
             >
-              <ShoppingBag style={{ width: 17, height: 17 }} />
-              <span>Voir la Boutique</span>
-            </Link>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <ShoppingBag style={{ width: 17, height: 17 }} />
+                <span>Voir la Boutique (Live)</span>
+              </div>
+              <ExternalLink style={{ width: 14, height: 14, opacity: 0.7 }} />
+            </a>
 
             <button
               onClick={handleSignOut}
