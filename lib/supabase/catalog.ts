@@ -21,11 +21,13 @@ export const FALLBACK_CATEGORIES: Category[] = [
 
 export const VALID_SUPABASE_PRODUCT_COLUMNS = new Set([
   "id", "name", "slug", "short_description", "description", "category_id",
-  "subcategory", "price", "cargolink_margin_percent", "air_freight_rate_per_kg",
+  "subcategory", "price", "wholesale_price_5_units", "cargolink_margin_percent", "air_freight_rate_per_kg",
   "sea_freight_rate_per_cbm", "currency", "stock_quantity", "minimum_order_quantity",
   "country_of_origin", "weight", "length", "width", "height",
   "available_shipping_modes", "estimated_delivery_time", "status", "is_demo",
-  "is_featured", "created_by", "created_at", "updated_at"
+  "is_featured", "condition_state", "grade", "sim_type", "region_version",
+  "storage_options", "battery_health", "has_variants", "attributes_definition",
+  "variants", "created_by", "created_at", "updated_at"
 ]);
 
 export function sanitizeProductForSupabase(data: Record<string, any>): Record<string, any> {

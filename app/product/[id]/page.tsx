@@ -36,8 +36,8 @@ import {
 } from "lucide-react";
 import { MobileStoreProvider, useMobileStore } from "@/lib/mobile-store";
 import PhoneStateBadge from "@/components/PhoneStateBadge";
-import { findMatchingVariant, getAvailableOptionsForAttribute } from "@/lib/variant-presets";
-import type { ProductAttributeDefinition } from "@/types/catalog";
+import { findMatchingVariant, getAvailableOptionsForAttribute, getPresetAttributesForCategory, generateCartesianVariants } from "@/lib/variant-presets";
+import type { ProductAttributeDefinition, ProductVariant } from "@/types/catalog";
 
 type TabId = "description" | "specs" | "shipping" | "reviews";
 
@@ -76,10 +76,56 @@ function ProductDetailContent() {
         setSelectedStorage(data.storage_options[0]);
       }
       // Initialize dynamic variant selection
-      if (data?.has_variants && data.variants && data.variants.length > 0) {
-        const firstActive = data.variants.find((v) => v.is_active) || data.variants[0];
-        if (firstActive && firstActive.attributes) {
-          setSelectedAttributes(firstActive.attributes);
+      if (data) {
+        let initialVars = data.variants;
+        if ((!initialVars || initialVars.length === 0)) {
+          const query = `${data.category?.slug || (data.category as any)?.name || ""} ${data.name || ""}`.toLowerCase();
+          let detectedType = "other";
+          if (query.includes("phone") || query.includes("iphone") || query.includes("samsung") || query.includes("téléphone")) detectedType = "phones";
+          else if (query.includes("ipad") || query.includes("tab") || query.includes("tablette")) detectedType = "tablets";
+          else if (query.includes("mac") || query.includes("laptop") || query.includes("pc") || query.includes("ordinateur")) detectedType = "laptops";
+          else if (query.includes("robe") || query.includes("shirt") || query.includes("vetement") || query.includes("vêtement")) detectedType = "clothing";
+          else if (query.includes("chaussure") || query.includes("sneaker") || query.includes("basket") || query.includes("shoe")) detectedType = "shoes";
+          else if (query.includes("sport") || query.includes("fitness")) detectedType = "sport";
+
+          if (detectedType !== "other" || (data.storage_options && data.storage_options.length > 0)) {
+            const presetDefs = getPresetAttributesForCategory(detectedType, data.name || "");
+            const initChecked: Record<string, string[]> = {};
+            presetDefs.forEach((attr) => {
+              if (attr.name === "Modèle") {
+                initChecked[attr.name] = ["Simple", "Pro", "Pro Max"].filter((p) => attr.values.includes(p));
+              } else if (attr.name === "Pointure") {
+                initChecked[attr.name] = ["39", "40", "41", "42", "43"].filter((p) => attr.values.includes(p));
+              } else if (attr.name === "Taille") {
+                initChecked[attr.name] = ["M", "L", "XL"].filter((p) => attr.values.includes(p));
+              } else {
+                initChecked[attr.name] = attr.values.slice(0, Math.min(attr.values.length, 3));
+              }
+            });
+            const activeDefs = presetDefs
+              .map((attr) => ({
+                name: attr.name,
+                values: (initChecked[attr.name] || attr.values).slice(0, 3).filter((v) => v.trim() !== ""),
+              }))
+              .filter((attr) => attr.values.length > 0);
+
+            if (activeDefs.length > 0) {
+              initialVars = generateCartesianVariants(
+                activeDefs,
+                Number(data.price) || 3500,
+                data.wholesale_price_5_units ? Number(data.wholesale_price_5_units) : Math.round((Number(data.price) || 3500) * 0.8),
+                data.stock_quantity ? Math.round(Number(data.stock_quantity) / Math.max(1, activeDefs.length)) : 50,
+                data.slug || data.name || "item"
+              );
+            }
+          }
+        }
+
+        if (initialVars && initialVars.length > 0) {
+          const firstActive = initialVars.find((v) => v.is_active) || initialVars[0];
+          if (firstActive && firstActive.attributes) {
+            setSelectedAttributes(firstActive.attributes);
+          }
         }
       }
       setLoading(false);
@@ -117,16 +163,68 @@ function ProductDetailContent() {
     : [getProductImageUrl(product)];
   const mainImage = productImages[activeImage] || productImages[0] || "/images/assets/hero_iphone16.png";
 
-  // Dynamic Variant Resolution
-  const hasProductVariants = Boolean(
-    product &&
-    product.has_variants &&
-    product.variants &&
-    product.variants.length > 0
-  );
+  // Dynamic Variant Resolution with Category Preset Fallback
+  let resolvedVariants: ProductVariant[] = [];
+  let resolvedAttributesDef: ProductAttributeDefinition[] = [];
 
+  if (product.variants && Array.isArray(product.variants) && product.variants.length > 0) {
+    resolvedVariants = product.variants;
+    resolvedAttributesDef = (product.attributes_definition && product.attributes_definition.length > 0)
+      ? product.attributes_definition
+      : (() => {
+          const keys = Array.from(new Set(product.variants!.flatMap((v) => Object.keys(v.attributes || {}))));
+          return keys.map((k) => ({
+            name: k,
+            values: Array.from(new Set(product.variants!.map((v) => v.attributes?.[k]).filter(Boolean))),
+          }));
+        })();
+  } else {
+    const query = `${product.category?.slug || (product.category as any)?.name || ""} ${product.name || ""}`.toLowerCase();
+    let detectedType = "other";
+    if (query.includes("phone") || query.includes("iphone") || query.includes("samsung") || query.includes("téléphone")) detectedType = "phones";
+    else if (query.includes("ipad") || query.includes("tab") || query.includes("tablette")) detectedType = "tablets";
+    else if (query.includes("mac") || query.includes("laptop") || query.includes("pc") || query.includes("ordinateur")) detectedType = "laptops";
+    else if (query.includes("robe") || query.includes("shirt") || query.includes("vetement") || query.includes("vêtement")) detectedType = "clothing";
+    else if (query.includes("chaussure") || query.includes("sneaker") || query.includes("basket") || query.includes("shoe")) detectedType = "shoes";
+    else if (query.includes("sport") || query.includes("fitness")) detectedType = "sport";
+
+    if (detectedType !== "other" || (product.storage_options && product.storage_options.length > 0)) {
+      const presetDefs = getPresetAttributesForCategory(detectedType, product.name || "");
+      const initChecked: Record<string, string[]> = {};
+      presetDefs.forEach((attr) => {
+        if (attr.name === "Modèle") {
+          initChecked[attr.name] = ["Simple", "Pro", "Pro Max"].filter((p) => attr.values.includes(p));
+        } else if (attr.name === "Pointure") {
+          initChecked[attr.name] = ["39", "40", "41", "42", "43"].filter((p) => attr.values.includes(p));
+        } else if (attr.name === "Taille") {
+          initChecked[attr.name] = ["M", "L", "XL"].filter((p) => attr.values.includes(p));
+        } else {
+          initChecked[attr.name] = attr.values.slice(0, Math.min(attr.values.length, 3));
+        }
+      });
+      const activeDefs = presetDefs
+        .map((attr) => ({
+          name: attr.name,
+          values: (initChecked[attr.name] || attr.values).slice(0, 3).filter((v) => v.trim() !== ""),
+        }))
+        .filter((attr) => attr.values.length > 0);
+
+      if (activeDefs.length > 0) {
+        resolvedVariants = generateCartesianVariants(
+          activeDefs,
+          Number(product.price) || 3500,
+          product.wholesale_price_5_units ? Number(product.wholesale_price_5_units) : Math.round((Number(product.price) || 3500) * 0.8),
+          product.stock_quantity ? Math.round(Number(product.stock_quantity) / Math.max(1, activeDefs.length)) : 50,
+          product.slug || product.name || "item"
+        );
+        resolvedAttributesDef = activeDefs;
+      }
+    }
+  }
+
+  const hasProductVariants = resolvedVariants.length > 0;
   const currentVariant = hasProductVariants
-    ? findMatchingVariant(product.variants, selectedAttributes)
+    ? findMatchingVariant(resolvedVariants, selectedAttributes) || resolvedVariants.find((v) => v.is_active) || resolvedVariants[0]
     : null;
 
   const currentAvailableStock = currentVariant
@@ -178,9 +276,11 @@ function ProductDetailContent() {
     ? Number(currentVariant.price)
     : (Number(product.price) || 0);
 
-  const wholesalePrice5 = currentVariant
-    ? (currentVariant.wholesale_price_5_units ? Number(currentVariant.wholesale_price_5_units) : null)
-    : (product.wholesale_price_5_units ? Number(product.wholesale_price_5_units) : null);
+  const wholesalePrice5 = currentVariant && currentVariant.wholesale_price_5_units
+    ? Number(currentVariant.wholesale_price_5_units)
+    : product.wholesale_price_5_units && Number(product.wholesale_price_5_units) > 0
+    ? Number(product.wholesale_price_5_units)
+    : Math.round(baseUnitPrice * 0.8);
 
   const hasWholesaleDiscount = Boolean(wholesalePrice5 && wholesalePrice5 > 0 && wholesalePrice5 < baseUnitPrice);
   const isWholesaleApplied = Boolean(hasWholesaleDiscount && quantity >= 5);
@@ -538,7 +638,7 @@ function ProductDetailContent() {
             </div>
 
                 {/* DYNAMIC ATTRIBUTE & VARIANT SELECTORS */}
-                {hasProductVariants && product.variants && product.variants.length > 0 ? (
+                {hasProductVariants && resolvedVariants.length > 0 ? (
                   <div style={{ background: "#F8FAFC", padding: "16px", borderRadius: 16, border: "1.5px solid #E2E8F0", display: "flex", flexDirection: "column", gap: 14 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <div style={{ fontSize: 12, fontWeight: 700, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.5px", display: "flex", alignItems: "center", gap: 6 }}>
@@ -554,19 +654,19 @@ function ProductDetailContent() {
 
                     {/* GROUPS PER ATTRIBUTE */}
                     {(() => {
-                      const effectiveDefs = (product.attributes_definition && product.attributes_definition.length > 0)
-                        ? product.attributes_definition
+                      const effectiveDefs = (resolvedAttributesDef && resolvedAttributesDef.length > 0)
+                        ? resolvedAttributesDef
                         : (() => {
-                            const keys = Array.from(new Set(product.variants!.flatMap((v) => Object.keys(v.attributes))));
+                            const keys = Array.from(new Set(resolvedVariants.flatMap((v) => Object.keys(v.attributes))));
                             return keys.map((k) => ({
                               name: k,
-                              values: Array.from(new Set(product.variants!.map((v) => v.attributes[k]).filter(Boolean))),
+                              values: Array.from(new Set(resolvedVariants.map((v) => v.attributes[k]).filter(Boolean))),
                             }));
                           })();
 
                       return effectiveDefs.map((attr) => {
                         const selectedVal = selectedAttributes[attr.name] || "";
-                        const availableOptions = getAvailableOptionsForAttribute(product.variants, selectedAttributes, attr.name);
+                        const availableOptions = getAvailableOptionsForAttribute(resolvedVariants, selectedAttributes, attr.name);
 
                         return (
                           <div key={attr.name} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
