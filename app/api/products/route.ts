@@ -250,12 +250,24 @@ export async function POST(request: NextRequest) {
         for (const p of incomingProducts) {
           if (p && p.name) {
             const isUUID = p.id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(p.id);
+            const richDesc = packProductMetadata(p.description || p.short_description || `${p.name} - Produit certifié.`, {
+              has_variants: p.has_variants,
+              variants: p.variants,
+              attributes_definition: p.attributes_definition,
+              wholesale_price_5_units: p.wholesale_price_5_units,
+              condition_state: p.condition_state,
+              grade: p.grade,
+              sim_type: p.sim_type,
+              region_version: p.region_version,
+              storage_options: p.storage_options,
+              battery_health: p.battery_health
+            });
             const cleanDb = sanitizeProductForSupabase({
               id: isUUID ? p.id : undefined,
               name: p.name,
               slug: p.slug,
               short_description: p.short_description,
-              description: p.description,
+              description: richDesc,
               category_id: p.category_id,
               subcategory: p.subcategory,
               price: p.price,
