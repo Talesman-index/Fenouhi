@@ -4,7 +4,7 @@ import path from "path";
 import { createClient } from "@/lib/supabase/client";
 import { PRODUCTS } from "@/lib/products";
 import type { Product } from "@/types/catalog";
-import { sanitizeProductForSupabase } from "@/lib/supabase/catalog";
+import { sanitizeProductForSupabase, packProductMetadata, normalizeProduct } from "@/lib/supabase/catalog";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const PRODUCTS_FILE = path.join(DATA_DIR, "custom-products.json");
@@ -32,33 +32,7 @@ function readCustomProductsFromFile(): Product[] {
     if (fs.existsSync(PRODUCTS_FILE)) {
       const raw = fs.readFileSync(PRODUCTS_FILE, "utf-8");
       const list = JSON.parse(raw) as any[];
-      return list.map((p) => {
-        const rawList: string[] = [];
-        if (Array.isArray(p.images) && p.images.length > 0) {
-          for (const item of p.images) {
-            if (typeof item === "string" && item.trim()) rawList.push(item.trim());
-            else if (item && typeof item === "object") {
-              const u = item.public_image_url || item.url || item.src || item.image_url;
-              if (typeof u === "string" && u.trim()) rawList.push(u.trim());
-            }
-          }
-        }
-        const direct = p.image || p.image_url || p.imageUrl;
-        if (typeof direct === "string" && direct.trim() && !rawList.includes(direct.trim())) {
-          rawList.unshift(direct.trim());
-        }
-        if (rawList.length === 0) {
-          rawList.push("/images/assets/hero_iphone16.png");
-        }
-        p.images = rawList.map((url, i) => ({
-          id: `img-${p.id || "prod"}-${i}`,
-          product_id: p.id || "",
-          public_image_url: url,
-          position: i,
-          is_primary: i === 0,
-        }));
-        return p as Product;
-      });
+      return list.map(normalizeProduct);
     }
   } catch (e) {
     console.warn("[API Products] Could not read custom products file:", e);
@@ -112,14 +86,15 @@ export async function GET(request: NextRequest) {
 
     // 1. Load persistent custom products from server disk (reflects real-time admin edits/status)
     const customFromFile = readCustomProductsFromFile();
-    for (const p of customFromFile) {
+    for (const rawP of customFromFile) {
+      const p = normalizeProduct(rawP);
       if (!deletedSet.has(p.id) && !deletedSet.has(p.slug) && !deletedSet.has(`product-${p.id}`)) {
         productMap.set(p.id, p);
         if (p.slug) seenSlugs.add(p.slug);
       }
     }
 
-    // 2. Query Supabase database
+    // 2. Query Supabase database (source of truth)
     try {
       const supabase = createClient();
       let query = supabase
@@ -134,13 +109,12 @@ export async function GET(request: NextRequest) {
       const { data: dbProducts, error } = await query;
 
       if (!error && dbProducts && dbProducts.length > 0) {
-        for (const p of dbProducts) {
-          if (!deletedSet.has(p.id) && !deletedSet.has(p.slug) && !deletedSet.has(`product-${p.id}`)) {
-            if (!productMap.has(p.id)) {
-              productMap.set(p.id, p as Product);
-            }
-            if (p.slug) seenSlugs.add(p.slug);
+        for (const rawP of dbProducts) {
+          const p = normalizeProduct(rawP as Product);
+          if (!productMap.has(p.id)) {
+            productMap.set(p.id, p);
           }
+          if (p.slug) seenSlugs.add(p.slug);
         }
       }
     } catch {}
@@ -325,7 +299,7 @@ export async function POST(request: NextRequest) {
     // Un-delete if previously deleted
     let deletedIds = readDeletedIdsFromFile();
     deletedIds = deletedIds.filter(
-      (id) => id !== product.id && id !== product.slug
+      (id) => id !== product.id && id !== product.slug && id !== `product-${product.id}` && id !== `product-${product.slug}`
     );
     writeDeletedIdsToFile(deletedIds);
 
@@ -337,17 +311,30 @@ export async function POST(request: NextRequest) {
     updatedList.unshift(product);
     writeCustomProductsToFile(updatedList);
 
-    // Upsert into Supabase database
+    // Upsert into Supabase database with packed metadata and clean schema
     try {
       const supabase = createClient();
       const isUUID = product.id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(product.id);
       
+      const richDescription = packProductMetadata(product.description || `${product.name} - Produit certifié.`, {
+        has_variants: product.has_variants,
+        variants: product.variants,
+        attributes_definition: product.attributes_definition,
+        wholesale_price_5_units: product.wholesale_price_5_units,
+        condition_state: product.condition_state,
+        grade: product.grade,
+        sim_type: product.sim_type,
+        region_version: product.region_version,
+        storage_options: product.storage_options,
+        battery_health: product.battery_health
+      });
+
       const cleanDbPayload = sanitizeProductForSupabase({
         id: isUUID ? product.id : undefined,
         name: product.name,
         slug: product.slug,
         short_description: product.short_description || `${product.name} - Produit certifié avec expédition rapide.`,
-        description: product.description || `Découvrez ${product.name}, disponible au meilleur prix avec contrôle qualité.`,
+        description: richDescription,
         category_id: product.category_id || null,
         subcategory: product.subcategory || null,
         price: Number(product.price) || 0,

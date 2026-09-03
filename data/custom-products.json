@@ -55,7 +55,17 @@
         "position": 1,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "703225eb-06e6-47fd-bfca-420f37c30e7d",
@@ -120,7 +130,17 @@
         "position": 2,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "5184b96d-e641-4a12-bd46-f3eb0bdda651",
@@ -171,7 +191,17 @@
         "position": 0,
         "is_primary": true
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "ff9d179c-aa51-4eb0-9e23-1b81f7f6d0a4",
@@ -229,7 +259,17 @@
         "position": 1,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "c61221fa-633e-481e-96ba-a341ec19c63f",
@@ -287,7 +327,17 @@
         "position": 1,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "5acd0181-581b-4ff6-8775-5c3f7841649d",
@@ -345,7 +395,17 @@
         "position": 1,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "156114bd-71c0-42a1-9963-b640033d974c",
@@ -417,7 +477,17 @@
         "position": 3,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "260c8ca7-e1ca-4999-916b-00270440ce34",
@@ -489,7 +559,17 @@
         "position": 3,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "a70454f8-a988-48a1-ab0b-d58cd5cf2fa2",
@@ -568,7 +648,17 @@
         "position": 4,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "e6b6fb1a-9ad4-4520-96c0-ca8966ef65b8",
@@ -640,7 +730,17 @@
         "position": 3,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "b7fec11d-41b0-48ce-a312-bcc6053c8c3b",
@@ -712,7 +812,17 @@
         "position": 3,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "313b64f5-6a2f-4805-9bc9-432984644644",
@@ -784,7 +894,17 @@
         "position": 3,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "ccd5e73f-15a1-4eb5-b0a3-43926f1766a0",
@@ -863,7 +983,17 @@
         "position": 4,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "raf-electric-kettle-r7928",
@@ -912,7 +1042,16 @@
         "position": 0,
         "is_primary": true
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "smartwatch-amis-5g-wifi-4-64g",
@@ -957,7 +1096,13 @@
       "name": "High-Tech & Electronics",
       "slug": "electronics",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "coque-iphone-15-pro-max-silicone",
@@ -1016,7 +1161,17 @@
         "position": 2,
         "is_primary": false
       }
-    ]
+    ],
+    "has_variants": false,
+    "variants": null,
+    "attributes_definition": null,
+    "wholesale_price_5_units": null,
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "lampe-lumineuse-d-angle",
@@ -1064,7 +1219,13 @@
       "name": "home",
       "slug": "home",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "machine-a-laver-pliable-9l",
@@ -1112,7 +1273,13 @@
       "name": "home",
       "slug": "home",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "bande-lumineuse-led-neon",
@@ -1160,7 +1327,13 @@
       "name": "home",
       "slug": "home",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "gourde-isotherme-mood-the-cup",
@@ -1208,7 +1381,13 @@
       "name": "home",
       "slug": "home",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "porte-manteau-roulettes-grand",
@@ -1256,7 +1435,13 @@
       "name": "home",
       "slug": "home",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "porte-vetements-chaussures-fer",
@@ -1304,7 +1489,13 @@
       "name": "home",
       "slug": "home",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "projecteur-led-rl-16",
@@ -1352,7 +1543,13 @@
       "name": "electronics",
       "slug": "electronics",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "dr-rashel-vitamin-c-set",
@@ -1407,7 +1604,13 @@
       "name": "beauty",
       "slug": "beauty",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "efero-blanchiment-dents",
@@ -1462,7 +1665,13 @@
       "name": "beauty",
       "slug": "beauty",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "defroisseur-vapeur-haeger-vetements",
@@ -1517,7 +1726,13 @@
       "name": "home",
       "slug": "home",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "dr-rashel-24k-gold-5pieces",
@@ -1572,7 +1787,13 @@
       "name": "beauty",
       "slug": "beauty",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "support-telephone-tablette-pliable-ergonomique",
@@ -1627,7 +1848,13 @@
       "name": "electronics",
       "slug": "electronics",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "disaar-masque-vitamine-c",
@@ -1675,7 +1902,13 @@
       "name": "beauty",
       "slug": "beauty",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "appareil-vapeur-facial-2en1",
@@ -1730,7 +1963,13 @@
       "name": "beauty",
       "slug": "beauty",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "coffret-snail-collagen-5pieces",
@@ -1785,7 +2024,13 @@
       "name": "beauty",
       "slug": "beauty",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "aichun-huile-anti-vergetures-escargot",
@@ -1840,7 +2085,13 @@
       "name": "beauty",
       "slug": "beauty",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "disaar-creme-depilatoire",
@@ -1895,7 +2146,13 @@
       "name": "beauty",
       "slug": "beauty",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "roushun-gommage-aloe-vera-99",
@@ -1950,7 +2207,13 @@
       "name": "beauty",
       "slug": "beauty",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "masque-levres-rose-hydrogel",
@@ -2005,7 +2268,13 @@
       "name": "beauty",
       "slug": "beauty",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "aichun-masque-peeloff-collagene-lait",
@@ -2053,7 +2322,13 @@
       "name": "beauty",
       "slug": "beauty",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "robot-nettoyeur-4en1-jallen-gabor",
@@ -2108,7 +2383,13 @@
       "name": "home",
       "slug": "home",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "gaine-amincissante-100-latex",
@@ -2156,7 +2437,13 @@
       "name": "fashion",
       "slug": "fashion",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   },
   {
     "id": "wokali-whitening-gold-caviar-peel-off-mask",
@@ -2204,6 +2491,12 @@
       "name": "beauty",
       "slug": "beauty",
       "is_active": true
-    }
+    },
+    "condition_state": null,
+    "grade": null,
+    "sim_type": null,
+    "region_version": null,
+    "storage_options": null,
+    "battery_health": null
   }
 ]

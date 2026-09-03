@@ -79,6 +79,14 @@ export default function HomePage() {
       } catch {}
     }
     loadHomeProducts();
+
+    const handleCatalogUpdate = () => {
+      loadHomeProducts();
+    };
+    window.addEventListener("cargolink_catalog_updated", handleCatalogUpdate);
+    return () => {
+      window.removeEventListener("cargolink_catalog_updated", handleCatalogUpdate);
+    };
   }, [activeCategory]);
 
   const categoryChips = [

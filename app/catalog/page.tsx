@@ -43,7 +43,7 @@ function CatalogContent() {
     });
     setProducts(filteredProds);
 
-    // Optional background sync with Supabase
+    // Background sync with Supabase
     async function loadBackgroundData() {
       try {
         const [cats, prods] = await Promise.all([
@@ -62,6 +62,16 @@ function CatalogContent() {
     }
 
     loadBackgroundData();
+
+    // Listen to real-time catalog updates from admin creations/edits
+    const handleCatalogUpdate = () => {
+      loadBackgroundData();
+    };
+
+    window.addEventListener("cargolink_catalog_updated", handleCatalogUpdate);
+    return () => {
+      window.removeEventListener("cargolink_catalog_updated", handleCatalogUpdate);
+    };
   }, [selectedCategory, selectedConditionState, searchQuery]);
 
   const CONDITION_OPTIONS = [

@@ -51,7 +51,9 @@ import {
   saveStoredDeletedProductIds,
   getProductImageUrl,
   normalizeProduct,
-  sanitizeProductForSupabase
+  sanitizeProductForSupabase,
+  packProductMetadata,
+  unpackProductMetadata
 } from "@/lib/supabase/catalog";
 import { addRealNotification } from "@/lib/admin/notifications";
 
@@ -172,16 +174,18 @@ export default function ProductsManagementPage() {
       // 1. Query Supabase directly (Primary Source of Truth for Admin)
       try {
         const supabase = createClient();
-        const { data: dbProducts } = await supabase
+        const { data: dbProducts, error: dbErr } = await supabase
           .from("products")
           .select("*, category:categories(*), images:product_images(*)")
           .order("created_at", { ascending: false });
 
-        if (dbProducts && dbProducts.length > 0) {
-          for (const p of dbProducts) {
-            if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
-              productMap.set(p.id, normalizeProduct(p as Product));
-            }
+        if (dbErr) {
+          console.warn("[fetchProducts] Supabase query notice:", dbErr);
+        } else if (dbProducts && dbProducts.length > 0) {
+          for (const rawP of dbProducts) {
+            const p = normalizeProduct(rawP as Product);
+            // Live Supabase products are always displayed in admin
+            productMap.set(p.id, p);
           }
         }
       } catch (e) {
@@ -206,13 +210,14 @@ export default function ProductsManagementPage() {
           }
 
           if (json.products && json.products.length > 0) {
-            for (const p of json.products) {
+            for (const rawP of json.products) {
+              const p = normalizeProduct(rawP as Product);
               if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
                 if (!productMap.has(p.id)) {
-                  productMap.set(p.id, normalizeProduct(p as Product));
+                  productMap.set(p.id, p);
                 }
                 if (p.id?.startsWith("custom_") || p.id?.startsWith("prod_") || !PRODUCTS.some(raw => raw.id === p.id)) {
-                  serverCustomProducts.push(p as Product);
+                  serverCustomProducts.push(p);
                 }
               }
             }
@@ -301,7 +306,9 @@ export default function ProductsManagementPage() {
             (target.includes("c1000000-0000-0000-0000-000000000003") && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
             (target === "electronics" && (catSlug === "electronics" || catId.includes("c1000000-0000-0000-0000-000000000001") || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque") || catName.includes("chargeur") || catName.includes("câble"))) ||
             (target === "beauty" && (catSlug === "beauty" || catName.includes("beauté") || catName.includes("soin"))) ||
-            (target === "sport" && (catSlug === "sport" || catName.includes("sport") || catName.includes("fitness")))
+            (target === "sport" && (catSlug === "sport" || catId.includes("c1000000-0000-0000-0000-000000000012") || catId.includes("c1000000-0000-0000-0000-000000000009") || catName.includes("sport") || catName.includes("fitness"))) ||
+            (target === "fashion" && (catSlug === "fashion" || catId.includes("c1000000-0000-0000-0000-000000000002") || catName.includes("mode") || catName.includes("chaussure"))) ||
+            (target === "mode-pagne-africain" && (catSlug === "mode-pagne-africain" || catId.includes("c1000000-0000-0000-0000-000000000011") || catName.includes("pagne") || catName.includes("africain")))
           );
         });
       }
@@ -835,11 +842,36 @@ export default function ProductsManagementPage() {
       const baseSlug = slug.trim() || generateSlug(name);
       const finalUniqueSlug = editingProduct ? baseSlug : `${baseSlug}-${Date.now().toString(36)}`;
 
+      // 4. Temporary Structured Logging for flow audit
+      console.log("[PRODUCT_CREATION_FLOW] =========================================");
+      console.log("[PRODUCT_CREATION_FLOW] Starting product save process...");
+      console.log("[PRODUCT_CREATION_FLOW] Action:", editingProduct ? "UPDATE" : "INSERT");
+      console.log("[PRODUCT_CREATION_FLOW] User/Vendor/Shop ID:", user?.id || "unauthenticated/anon");
+      console.log("[PRODUCT_CREATION_FLOW] Category ID:", effectiveCategoryId);
+      console.log("[PRODUCT_CREATION_FLOW] Status:", status || "active");
+      console.log("[PRODUCT_CREATION_FLOW] is_active / is_demo:", { is_demo: isDemo, status: status || "active" });
+      console.log("[PRODUCT_CREATION_FLOW] Name:", name);
+      console.log("[PRODUCT_CREATION_FLOW] Price:", effectiveBasePrice);
+
+      // Pack rich variant and options metadata safely into description
+      const richDescription = packProductMetadata(effectiveDescription, {
+        has_variants: hasEffectiveVariants,
+        variants: hasEffectiveVariants ? finalVariants : null,
+        attributes_definition: hasEffectiveVariants ? finalAttributesDef : null,
+        wholesale_price_5_units: Number(wholesalePrice5) > 0 ? Number(wholesalePrice5) : null,
+        condition_state: conditionState || null,
+        grade: grade || null,
+        sim_type: simType || null,
+        region_version: regionVersion || null,
+        storage_options: storageOptions || null,
+        battery_health: batteryHealth || null,
+      });
+
       const fullProductPayload = {
         name,
         slug: finalUniqueSlug,
         short_description: effectiveShortDescription,
-        description: effectiveDescription,
+        description: richDescription,
         category_id: effectiveCategoryId,
         subcategory: subcategory || "Accessoires & Coques",
         price: effectiveBasePrice,
@@ -863,6 +895,12 @@ export default function ProductsManagementPage() {
         has_variants: hasEffectiveVariants,
         attributes_definition: hasEffectiveVariants ? finalAttributesDef : null,
         variants: hasEffectiveVariants ? finalVariants : null,
+        condition_state: conditionState || null,
+        grade: grade || null,
+        sim_type: simType || null,
+        region_version: regionVersion || null,
+        storage_options: storageOptions || null,
+        battery_health: batteryHealth || null,
         updated_at: new Date().toISOString()
       };
 
@@ -881,14 +919,19 @@ export default function ProductsManagementPage() {
 
       if (editingProduct) {
         newProdId = editingProduct.id;
-        const { error: updErr } = await supabase
+        const { data: updatedProd, error: updErr } = await supabase
           .from("products")
           .update(cleanDbPayload)
-          .eq("id", editingProduct.id);
+          .eq("id", editingProduct.id)
+          .select()
+          .single();
+
+        console.log("[PRODUCT_CREATION_FLOW] Supabase Update Result:", { data: updatedProd, error: updErr });
+        console.log("[PRODUCT_CREATION_FLOW] Product ID:", newProdId);
 
         if (updErr) {
-          console.error("Supabase update error:", updErr);
-          throw new Error("Erreur Supabase: " + updErr.message);
+          console.error("[PRODUCT_CREATION_FLOW] ❌ Supabase update error:", updErr);
+          throw new Error(`Erreur Supabase [${updErr.code || "DB"}]: ${updErr.message}`);
         }
 
         // Refresh images
@@ -902,7 +945,11 @@ export default function ProductsManagementPage() {
             position: i + 1
           }))
         ];
-        await supabase.from("product_images").insert(imagesToInsert);
+        const { error: imgErr } = await supabase.from("product_images").insert(imagesToInsert).select();
+        if (imgErr) {
+          console.error("[PRODUCT_CREATION_FLOW] ❌ Product images update error:", imgErr);
+          throw new Error(`Erreur Supabase Images [${imgErr.code || "IMG"}]: ${imgErr.message}`);
+        }
       } else {
         const { data: newProd, error: insErr } = await supabase
           .from("products")
@@ -910,23 +957,28 @@ export default function ProductsManagementPage() {
           .select()
           .single();
 
-        if (insErr) {
-          console.error("Supabase insert error:", insErr);
-          throw new Error("Erreur création Supabase: " + insErr.message);
+        console.log("[PRODUCT_CREATION_FLOW] Supabase Insert Result:", { data: newProd, error: insErr });
+        console.log("[PRODUCT_CREATION_FLOW] Product ID:", newProd?.id || null);
+
+        if (insErr || !newProd?.id) {
+          console.error("[PRODUCT_CREATION_FLOW] ❌ Supabase insert error:", insErr);
+          throw new Error(insErr ? `Erreur création Supabase [${insErr.code || "DB"}]: ${insErr.message}` : "Échec de création du produit (aucun enregistrement retourné).");
         }
 
-        if (newProd?.id) {
-          newProdId = newProd.id;
-          const imagesToInsert = [
-            { product_id: newProd.id, public_image_url: effectiveImageUrl, is_primary: true, position: 0 },
-            ...distinctGallery.map((url, i) => ({
-              product_id: newProd.id,
-              public_image_url: url,
-              is_primary: false,
-              position: i + 1
-            }))
-          ];
-          await supabase.from("product_images").insert(imagesToInsert);
+        newProdId = newProd.id;
+        const imagesToInsert = [
+          { product_id: newProd.id, public_image_url: effectiveImageUrl, is_primary: true, position: 0 },
+          ...distinctGallery.map((url, i) => ({
+            product_id: newProd.id,
+            public_image_url: url,
+            is_primary: false,
+            position: i + 1
+          }))
+        ];
+        const { error: imgErr } = await supabase.from("product_images").insert(imagesToInsert).select();
+        if (imgErr) {
+          console.error("[PRODUCT_CREATION_FLOW] ❌ Product images insert error:", imgErr);
+          throw new Error(`Erreur Supabase Images [${imgErr.code || "IMG"}]: ${imgErr.message}`);
         }
       }
 
@@ -969,8 +1021,9 @@ export default function ProductsManagementPage() {
       saveStoredCustomProducts(updatedCustom);
 
       const deletedIds = getStoredDeletedProductIds();
-      if (deletedIds.includes(newProdId)) {
-        saveStoredDeletedProductIds(deletedIds.filter(id => id !== newProdId));
+      const cleanedDeletedIds = deletedIds.filter(id => id !== newProdId && id !== finalUniqueSlug && id !== baseSlug);
+      if (cleanedDeletedIds.length !== deletedIds.length) {
+        saveStoredDeletedProductIds(cleanedDeletedIds);
       }
 
       addRealNotification({
@@ -985,18 +1038,25 @@ export default function ProductsManagementPage() {
         return [productObject, ...filtered];
       });
 
+      // Close modal only upon total success
       setIsModalOpen(false);
       await fetchProducts();
+
+      // Dispatch event to refresh public store and catalog components
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("cargolink_catalog_updated", { detail: { action: editingProduct ? "update" : "create", product: productObject } }));
+      }
+
       showToast(
         editingProduct ? "Produit Modifié avec Succès !" : "Nouveau Produit Ajouté !",
         `L'article "${name}" est désormais enregistré et visible en boutique.`,
         "success"
       );
     } catch (err: any) {
-      console.error("Erreur ajout produit:", err);
+      console.error("[PRODUCT_CREATION_FLOW] ❌ Erreur ajout produit:", err);
       showToast(
         "Échec de l'enregistrement !",
-        err.message || "Une erreur inattendue est survenue.",
+        err.message || "Une erreur inattendue est survenue lors de l'enregistrement Supabase.",
         "error"
       );
     } finally {

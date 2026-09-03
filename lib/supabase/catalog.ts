@@ -21,14 +21,33 @@ export const FALLBACK_CATEGORIES: Category[] = [
 
 export const VALID_SUPABASE_PRODUCT_COLUMNS = new Set([
   "id", "name", "slug", "short_description", "description", "category_id",
-  "subcategory", "price", "wholesale_price_5_units", "cargolink_margin_percent", "air_freight_rate_per_kg",
+  "subcategory", "price", "cargolink_margin_percent", "air_freight_rate_per_kg",
   "sea_freight_rate_per_cbm", "currency", "stock_quantity", "minimum_order_quantity",
   "country_of_origin", "weight", "length", "width", "height",
   "available_shipping_modes", "estimated_delivery_time", "status", "is_demo",
-  "is_featured", "condition_state", "grade", "sim_type", "region_version",
-  "storage_options", "battery_health", "has_variants", "attributes_definition",
-  "variants", "created_by", "created_at", "updated_at"
+  "is_featured", "created_by", "created_at", "updated_at"
 ]);
+
+export function packProductMetadata(description: string, metadata: Record<string, any>): string {
+  const cleanDesc = (description || "").replace(/<!--CARGOLINK_META:[\s\S]*?-->/g, "").trim();
+  const validMetaEntries = Object.entries(metadata).filter(([, v]) => v !== undefined && v !== null);
+  if (validMetaEntries.length === 0) return cleanDesc;
+  const jsonMeta = JSON.stringify(Object.fromEntries(validMetaEntries));
+  return `${cleanDesc}\n\n<!--CARGOLINK_META:${jsonMeta}-->`;
+}
+
+export function unpackProductMetadata(rawDescription: string | null | undefined): { description: string; meta: Record<string, any> } {
+  if (!rawDescription) return { description: "", meta: {} };
+  const match = rawDescription.match(/<!--CARGOLINK_META:([\s\S]*?)-->/);
+  if (!match) return { description: rawDescription, meta: {} };
+  try {
+    const meta = JSON.parse(match[1]);
+    const cleanDesc = rawDescription.replace(/<!--CARGOLINK_META:[\s\S]*?-->/g, "").trim();
+    return { description: cleanDesc, meta };
+  } catch {
+    return { description: rawDescription, meta: {} };
+  }
+}
 
 export function sanitizeProductForSupabase(data: Record<string, any>): Record<string, any> {
   const clean: Record<string, any> = {};
@@ -155,10 +174,13 @@ export function getProductImageUrl(p: any): string {
 }
 
 /**
- * Normalizes a product so its `images` property is guaranteed to be an array of ProductImage objects with valid `public_image_url`.
+ * Normalizes a product so its `images` property is guaranteed to be an array of ProductImage objects with valid `public_image_url`,
+ * and extracts any embedded JSON metadata (variants, attributes, conditions).
  */
 export function normalizeProduct(p: any): Product {
   if (!p) return p;
+
+  const { description: cleanDesc, meta } = unpackProductMetadata(p.description);
 
   const rawList: string[] = [];
   if (Array.isArray(p.images) && p.images.length > 0) {
@@ -191,8 +213,30 @@ export function normalizeProduct(p: any): Product {
     is_primary: i === 0,
   }));
 
+  const hasVariants = (p as any).has_variants ?? (p as any).hasVariants ?? meta.has_variants ?? Boolean(p.variants && p.variants.length > 0);
+  const variants = p.variants || meta.variants || null;
+  const attributesDef = p.attributes_definition || p.attributesDefinition || meta.attributes_definition || null;
+  const wholesalePrice = p.wholesale_price_5_units || p.wholesalePrice5 || meta.wholesale_price_5_units || null;
+  const conditionState = p.condition_state || p.conditionState || meta.condition_state || null;
+  const grade = p.grade || meta.grade || null;
+  const simType = p.sim_type || meta.sim_type || null;
+  const regionVersion = p.region_version || meta.region_version || null;
+  const storageOptions = p.storage_options || meta.storage_options || null;
+  const batteryHealth = p.battery_health || meta.battery_health || null;
+
   return {
     ...p,
+    description: cleanDesc || p.description,
+    has_variants: hasVariants,
+    variants: variants,
+    attributes_definition: attributesDef,
+    wholesale_price_5_units: wholesalePrice,
+    condition_state: conditionState,
+    grade: grade,
+    sim_type: simType,
+    region_version: regionVersion,
+    storage_options: storageOptions,
+    battery_health: batteryHealth,
     images: normalizedImages,
   } as Product;
 }
@@ -429,7 +473,7 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
     const deletedIds = new Set(getStoredDeletedProductIds());
     const productMap = new Map<string, Product>();
 
-    // 1. Query live Supabase database FIRST (source of truth for client additions)
+    // 1. Query live Supabase database FIRST (absolute source of truth)
     try {
       const supabase = createClient();
       let query = supabase
@@ -447,9 +491,8 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
       if (!error && dbProducts && dbProducts.length > 0) {
         for (const rawP of dbProducts) {
           const p = normalizeProduct(rawP);
-          if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
-            productMap.set(p.id, p);
-          }
+          // Live Supabase products are always trusted
+          productMap.set(p.id, p);
         }
       }
     } catch (dbErr) {
@@ -535,10 +578,17 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
           catId === target ||
           catSlug === target ||
           catName === target ||
+          (target === "electronics" && (catSlug === "electronics" || catId.includes("c1000000-0000-0000-0000-000000000001") || catName.includes("high-tech") || catName.includes("phone") || catName.includes("téléphone") || catName.includes("coque") || catName.includes("chargeur") || catName.includes("câble"))) ||
           (target === "beauty" && (catSlug === "beauty" || catId.includes("c1000000-0000-0000-0000-000000000003") || catName.includes("beauté") || catName.includes("soin"))) ||
-          (target === "sport" && (catSlug === "sport" || catId.includes("c1000000-0000-0000-0000-000000000009") || catName.includes("sport") || catName.includes("fitness")))
+          (target === "sport" && (catSlug === "sport" || catId.includes("c1000000-0000-0000-0000-000000000012") || catId.includes("c1000000-0000-0000-0000-000000000009") || catName.includes("sport") || catName.includes("fitness"))) ||
+          (target === "fashion" && (catSlug === "fashion" || catId.includes("c1000000-0000-0000-0000-000000000002") || catName.includes("mode") || catName.includes("chaussure"))) ||
+          (target === "mode-pagne-africain" && (catSlug === "mode-pagne-africain" || catId.includes("c1000000-0000-0000-0000-000000000011") || catName.includes("pagne") || catName.includes("africain")))
         );
       });
+    }
+
+    if (options.conditionState && options.conditionState !== "all") {
+      list = list.filter((p) => p.condition_state === options.conditionState);
     }
 
     if (options.search && options.search.trim() !== "") {
@@ -571,10 +621,8 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
 export async function getProductByIdOrSlug(idOrSlug: string, allowInactive: boolean = false): Promise<Product | null> {
   try {
     const deletedIds = new Set(getStoredDeletedProductIds());
-    if (deletedIds.has(idOrSlug) || deletedIds.has(`product-${idOrSlug}`)) return null;
 
-    // 1. Try live Supabase DB FIRST
-    let triedSupabase = false;
+    // 1. Try live Supabase DB FIRST (source of truth)
     try {
       const supabase = createClient();
       const { data: dbProd, error } = await supabase
@@ -583,17 +631,16 @@ export async function getProductByIdOrSlug(idOrSlug: string, allowInactive: bool
         .or(`id.eq.${idOrSlug},slug.eq.${idOrSlug}`)
         .maybeSingle();
 
-      if (!error) {
-        triedSupabase = true;
-        if (dbProd && !deletedIds.has(dbProd.id) && !deletedIds.has(dbProd.slug)) {
-          const p = normalizeProduct(dbProd);
-          if (!allowInactive && p.status && p.status !== "active") {
-            return null;
-          }
-          return p;
+      if (!error && dbProd) {
+        const p = normalizeProduct(dbProd);
+        if (!allowInactive && p.status && p.status !== "active") {
+          return null;
         }
+        return p;
       }
     } catch {}
+
+    if (deletedIds.has(idOrSlug) || deletedIds.has(`product-${idOrSlug}`)) return null;
 
     // 2. Try fetching from server API route
     if (typeof window !== "undefined") {
@@ -602,7 +649,7 @@ export async function getProductByIdOrSlug(idOrSlug: string, allowInactive: bool
         if (res.ok) {
           const json = await res.json();
           if (json.product && !deletedIds.has(json.product.id) && !deletedIds.has(json.product.slug)) {
-            const p = json.product as Product;
+            const p = normalizeProduct(json.product);
             if (!allowInactive && p.status && p.status !== "active") {
               return null;
             }
