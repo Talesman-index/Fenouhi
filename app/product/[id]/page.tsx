@@ -36,7 +36,7 @@ import {
 } from "lucide-react";
 import { MobileStoreProvider, useMobileStore } from "@/lib/mobile-store";
 import PhoneStateBadge from "@/components/PhoneStateBadge";
-import { findMatchingVariant, getAvailableOptionsForAttribute, getPresetAttributesForCategory, generateCartesianVariants } from "@/lib/variant-presets";
+import { findMatchingVariant, getAvailableOptionsForAttribute } from "@/lib/variant-presets";
 import type { ProductAttributeDefinition, ProductVariant } from "@/types/catalog";
 
 type TabId = "description" | "specs" | "shipping" | "reviews";
@@ -75,57 +75,11 @@ function ProductDetailContent() {
       if (data?.storage_options && data.storage_options.length > 0) {
         setSelectedStorage(data.storage_options[0]);
       }
-      // Initialize dynamic variant selection
-      if (data) {
-        let initialVars = data.variants;
-        if ((!initialVars || initialVars.length === 0)) {
-          const query = `${data.category?.slug || (data.category as any)?.name || ""} ${data.name || ""}`.toLowerCase();
-          let detectedType = "other";
-          if (query.includes("phone") || query.includes("iphone") || query.includes("samsung") || query.includes("téléphone")) detectedType = "phones";
-          else if (query.includes("ipad") || query.includes("tab") || query.includes("tablette")) detectedType = "tablets";
-          else if (query.includes("mac") || query.includes("laptop") || query.includes("pc") || query.includes("ordinateur")) detectedType = "laptops";
-          else if (query.includes("robe") || query.includes("shirt") || query.includes("vetement") || query.includes("vêtement")) detectedType = "clothing";
-          else if (query.includes("chaussure") || query.includes("sneaker") || query.includes("basket") || query.includes("shoe")) detectedType = "shoes";
-          else if (query.includes("sport") || query.includes("fitness")) detectedType = "sport";
-
-          if (detectedType !== "other" || (data.storage_options && data.storage_options.length > 0)) {
-            const presetDefs = getPresetAttributesForCategory(detectedType, data.name || "");
-            const initChecked: Record<string, string[]> = {};
-            presetDefs.forEach((attr) => {
-              if (attr.name === "Modèle") {
-                initChecked[attr.name] = ["Simple", "Pro", "Pro Max"].filter((p) => attr.values.includes(p));
-              } else if (attr.name === "Pointure") {
-                initChecked[attr.name] = ["39", "40", "41", "42", "43"].filter((p) => attr.values.includes(p));
-              } else if (attr.name === "Taille") {
-                initChecked[attr.name] = ["M", "L", "XL"].filter((p) => attr.values.includes(p));
-              } else {
-                initChecked[attr.name] = attr.values.slice(0, Math.min(attr.values.length, 3));
-              }
-            });
-            const activeDefs = presetDefs
-              .map((attr) => ({
-                name: attr.name,
-                values: (initChecked[attr.name] || attr.values).slice(0, 3).filter((v) => v.trim() !== ""),
-              }))
-              .filter((attr) => attr.values.length > 0);
-
-            if (activeDefs.length > 0) {
-              initialVars = generateCartesianVariants(
-                activeDefs,
-                Number(data.price) || 3500,
-                data.wholesale_price_5_units ? Number(data.wholesale_price_5_units) : Math.round((Number(data.price) || 3500) * 0.8),
-                data.stock_quantity ? Math.round(Number(data.stock_quantity) / Math.max(1, activeDefs.length)) : 50,
-                data.slug || data.name || "item"
-              );
-            }
-          }
-        }
-
-        if (initialVars && initialVars.length > 0) {
-          const firstActive = initialVars.find((v) => v.is_active) || initialVars[0];
-          if (firstActive && firstActive.attributes) {
-            setSelectedAttributes(firstActive.attributes);
-          }
+      // Initialize dynamic variant selection strictly if product has real variants configured
+      if (data && data.variants && Array.isArray(data.variants) && data.variants.length > 0) {
+        const firstActive = data.variants.find((v) => v.is_active) || data.variants[0];
+        if (firstActive && firstActive.attributes) {
+          setSelectedAttributes(firstActive.attributes);
         }
       }
       setLoading(false);
@@ -163,7 +117,7 @@ function ProductDetailContent() {
     : [getProductImageUrl(product)];
   const mainImage = productImages[activeImage] || productImages[0] || "/images/assets/hero_iphone16.png";
 
-  // Dynamic Variant Resolution with Category Preset Fallback
+  // Dynamic Variant Resolution: ONLY for products that have variants configured
   let resolvedVariants: ProductVariant[] = [];
   let resolvedAttributesDef: ProductAttributeDefinition[] = [];
 
@@ -178,48 +132,6 @@ function ProductDetailContent() {
             values: Array.from(new Set(product.variants!.map((v) => v.attributes?.[k]).filter(Boolean))),
           }));
         })();
-  } else {
-    const query = `${product.category?.slug || (product.category as any)?.name || ""} ${product.name || ""}`.toLowerCase();
-    let detectedType = "other";
-    if (query.includes("phone") || query.includes("iphone") || query.includes("samsung") || query.includes("téléphone")) detectedType = "phones";
-    else if (query.includes("ipad") || query.includes("tab") || query.includes("tablette")) detectedType = "tablets";
-    else if (query.includes("mac") || query.includes("laptop") || query.includes("pc") || query.includes("ordinateur")) detectedType = "laptops";
-    else if (query.includes("robe") || query.includes("shirt") || query.includes("vetement") || query.includes("vêtement")) detectedType = "clothing";
-    else if (query.includes("chaussure") || query.includes("sneaker") || query.includes("basket") || query.includes("shoe")) detectedType = "shoes";
-    else if (query.includes("sport") || query.includes("fitness")) detectedType = "sport";
-
-    if (detectedType !== "other" || (product.storage_options && product.storage_options.length > 0)) {
-      const presetDefs = getPresetAttributesForCategory(detectedType, product.name || "");
-      const initChecked: Record<string, string[]> = {};
-      presetDefs.forEach((attr) => {
-        if (attr.name === "Modèle") {
-          initChecked[attr.name] = ["Simple", "Pro", "Pro Max"].filter((p) => attr.values.includes(p));
-        } else if (attr.name === "Pointure") {
-          initChecked[attr.name] = ["39", "40", "41", "42", "43"].filter((p) => attr.values.includes(p));
-        } else if (attr.name === "Taille") {
-          initChecked[attr.name] = ["M", "L", "XL"].filter((p) => attr.values.includes(p));
-        } else {
-          initChecked[attr.name] = attr.values.slice(0, Math.min(attr.values.length, 3));
-        }
-      });
-      const activeDefs = presetDefs
-        .map((attr) => ({
-          name: attr.name,
-          values: (initChecked[attr.name] || attr.values).slice(0, 3).filter((v) => v.trim() !== ""),
-        }))
-        .filter((attr) => attr.values.length > 0);
-
-      if (activeDefs.length > 0) {
-        resolvedVariants = generateCartesianVariants(
-          activeDefs,
-          Number(product.price) || 3500,
-          product.wholesale_price_5_units ? Number(product.wholesale_price_5_units) : Math.round((Number(product.price) || 3500) * 0.8),
-          product.stock_quantity ? Math.round(Number(product.stock_quantity) / Math.max(1, activeDefs.length)) : 50,
-          product.slug || product.name || "item"
-        );
-        resolvedAttributesDef = activeDefs;
-      }
-    }
   }
 
   const hasProductVariants = resolvedVariants.length > 0;
