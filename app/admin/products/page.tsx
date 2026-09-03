@@ -853,18 +853,25 @@ export default function ProductsManagementPage() {
       console.log("[PRODUCT_CREATION_FLOW] Name:", name);
       console.log("[PRODUCT_CREATION_FLOW] Price:", effectiveBasePrice);
 
+      const productConditionState = (editingProduct as any)?.condition_state || (editingProduct as any)?.conditionState || null;
+      const productGrade = (editingProduct as any)?.grade || null;
+      const productSimType = (editingProduct as any)?.sim_type || (editingProduct as any)?.simType || null;
+      const productRegionVersion = (editingProduct as any)?.region_version || (editingProduct as any)?.regionVersion || null;
+      const productStorageOptions = (editingProduct as any)?.storage_options || (editingProduct as any)?.storageOptions || null;
+      const productBatteryHealth = (editingProduct as any)?.battery_health || (editingProduct as any)?.batteryHealth || null;
+
       // Pack rich variant and options metadata safely into description
       const richDescription = packProductMetadata(effectiveDescription, {
         has_variants: hasEffectiveVariants,
         variants: hasEffectiveVariants ? finalVariants : null,
         attributes_definition: hasEffectiveVariants ? finalAttributesDef : null,
         wholesale_price_5_units: Number(wholesalePrice5) > 0 ? Number(wholesalePrice5) : null,
-        condition_state: conditionState || null,
-        grade: grade || null,
-        sim_type: simType || null,
-        region_version: regionVersion || null,
-        storage_options: storageOptions || null,
-        battery_health: batteryHealth || null,
+        condition_state: productConditionState,
+        grade: productGrade,
+        sim_type: productSimType,
+        region_version: productRegionVersion,
+        storage_options: productStorageOptions,
+        battery_health: productBatteryHealth,
       });
 
       const fullProductPayload = {
@@ -895,12 +902,12 @@ export default function ProductsManagementPage() {
         has_variants: hasEffectiveVariants,
         attributes_definition: hasEffectiveVariants ? finalAttributesDef : null,
         variants: hasEffectiveVariants ? finalVariants : null,
-        condition_state: conditionState || null,
-        grade: grade || null,
-        sim_type: simType || null,
-        region_version: regionVersion || null,
-        storage_options: storageOptions || null,
-        battery_health: batteryHealth || null,
+        condition_state: productConditionState,
+        grade: productGrade,
+        sim_type: productSimType,
+        region_version: productRegionVersion,
+        storage_options: productStorageOptions,
+        battery_health: productBatteryHealth,
         updated_at: new Date().toISOString()
       };
 
