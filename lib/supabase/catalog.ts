@@ -316,13 +316,7 @@ export function getStoredCustomProducts(): Product[] {
     fileCustom.forEach(p => map.set(p.id, p));
     inMemoryCustomProducts.forEach(p => map.set(p.id, p));
     parsed.forEach((p: Product) => {
-      const existing = map.get(p.id);
-      // Keep rich memory/file product if parsed has placeholder
-      if (existing && existing.images && existing.images[0]?.public_image_url?.startsWith("data:") && (!p.images || !p.images[0]?.public_image_url?.startsWith("data:"))) {
-        map.set(p.id, { ...p, images: existing.images });
-      } else {
-        map.set(p.id, p);
-      }
+      map.set(p.id, p);
     });
     return Array.from(map.values());
   } catch {
@@ -334,22 +328,7 @@ export function saveStoredCustomProducts(products: Product[]) {
   inMemoryCustomProducts = products;
   if (typeof window === "undefined") return;
   try {
-    // To prevent browser localStorage 5MB quota errors from large base64 image strings:
-    const safePayload = products.map((p) => {
-      const lightImages = Array.isArray(p.images)
-        ? p.images.map((img: any) => {
-            const url = typeof img === "string" ? img : img?.public_image_url || "";
-            if (url && url.length > 500 && url.startsWith("data:")) {
-              return typeof img === "string"
-                ? "/images/assets/hero_iphone16.png"
-                : { ...img, public_image_url: "/images/assets/hero_iphone16.png" };
-            }
-            return img;
-          })
-        : p.images;
-      return { ...p, images: lightImages };
-    });
-    localStorage.setItem("fenou_custom_products", JSON.stringify(safePayload));
+    localStorage.setItem("fenou_custom_products", JSON.stringify(products));
   } catch (err) {
     console.warn("LocalStorage save notice, preserved in memory:", err);
   }

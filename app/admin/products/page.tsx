@@ -140,7 +140,7 @@ export default function ProductsManagementPage() {
   const [seaFreightRatePerCbm, setSeaFreightRatePerCbm] = useState<number>(2000);
 
   // Image Upload & Gallery State
-  const [imageUrl, setImageUrl] = useState("/images/assets/item_1.jpg");
+  const [imageUrl, setImageUrl] = useState("");
   const [galleryUrls, setGalleryUrls] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
 
@@ -580,7 +580,7 @@ export default function ProductsManagementPage() {
       });
       setCheckedOptions(initChecked);
       setVariants([]);
-      setImageUrl("/images/assets/item_1.jpg");
+      setImageUrl("");
       setGalleryUrls([]);
     } catch (err) {
       console.error("Error opening create modal:", err);
@@ -787,7 +787,7 @@ export default function ProductsManagementPage() {
     }
 
     // Smart fallbacks for descriptions & images
-    const effectiveImageUrl = imageUrl?.trim() || "/images/assets/item_1.jpg";
+    const effectiveImageUrl = imageUrl?.trim() || (galleryUrls.length > 0 ? galleryUrls[0] : "/images/assets/item_1.jpg");
     const effectiveShortDescription = shortDescription?.trim() || `${name} - Produit certifié avec expédition rapide.`;
     const effectiveDescription = description?.trim() || `Découvrez ${name}, disponible au meilleur prix avec contrôle qualité rigoureux et garantie Fenouhi.`;
     const finalSlug = slug.trim() || generateSlug(name);
