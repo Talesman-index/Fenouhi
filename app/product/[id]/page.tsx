@@ -113,9 +113,9 @@ function ProductDetailContent() {
   }
 
   const productImages = Array.isArray(product.images) && product.images.length > 0 
-    ? product.images.map((img: any) => typeof img === "string" ? img : (img?.public_image_url || img?.url || "/images/assets/hero_iphone16.png"))
+    ? product.images.map((img: any) => typeof img === "string" ? img : (img?.public_image_url || img?.url || "/images/assets/placeholder_product.svg"))
     : [getProductImageUrl(product)];
-  const mainImage = productImages[activeImage] || productImages[0] || "/images/assets/hero_iphone16.png";
+  const mainImage = productImages[activeImage] || productImages[0] || "/images/assets/placeholder_product.svg";
 
   // Dynamic Variant Resolution: ONLY for products that have variants configured
   let resolvedVariants: ProductVariant[] = [];

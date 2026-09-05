@@ -46,8 +46,15 @@ export const PRODUCTS: Product[] = (rawCustomProducts as any[])
   .map((p) => {
     const images: string[] = (p.images || [])
       .map((img: any) => (typeof img === "string" ? img : img?.public_image_url))
-      .filter(Boolean);
-    if (images.length === 0) images.push(p.image || "/images/assets/hero_iphone16.png");
+      .filter(Boolean)
+      .filter((img: string) => !img.includes("hero_iphone16.png") || (p.name || p.title || "").toLowerCase().includes("iphone"));
+    if (images.length === 0) {
+      if (p.image && !p.image.includes("hero_iphone16.png")) {
+        images.push(p.image);
+      } else {
+        images.push("/images/assets/placeholder_product.svg");
+      }
+    }
 
     return {
       id: p.id,

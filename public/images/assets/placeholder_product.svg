@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F8FAFC" />
+      <stop offset="100%" stop-color="#EDF2F7" />
+    </linearGradient>
+    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D2B4D" />
+      <stop offset="100%" stop-color="#1E4E79" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bgGrad)" rx="24" />
+  <g transform="translate(130, 120)">
+    <!-- Elegant Package Box Icon -->
+    <path d="M70 10 L130 40 L70 70 L10 40 Z" fill="#CBD5E1" stroke="#94A3B8" stroke-width="2" stroke-linejoin="round" />
+    <path d="M10 40 L70 70 L70 140 L10 110 Z" fill="#94A3B8" stroke="#64748B" stroke-width="2" stroke-linejoin="round" />
+    <path d="M130 40 L70 70 L70 140 L130 110 Z" fill="#E2E8F0" stroke="#94A3B8" stroke-width="2" stroke-linejoin="round" />
+    <!-- Tape / Ribbon -->
+    <path d="M55 32.5 L85 47.5 L85 117.5 L55 102.5 Z" fill="#7CB6D9" opacity="0.85" />
+    <path d="M70 10 L85 17.5 L25 47.5 L10 40 Z" fill="#7CB6D9" opacity="0.6" />
+    <!-- Fenouhi Sparkle -->
+    <circle cx="115" cy="20" r="4" fill="#0D2B4D" />
+    <path d="M115 12 L115 28 M107 20 L123 20" stroke="#0D2B4D" stroke-width="2" stroke-linecap="round" />
+  </g>
+  <!-- Subtle Brand Text -->
+  <text x="200" y="300" text-anchor="middle" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" letter-spacing="1">FENOUHI</text>
+  <text x="200" y="322" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500">Chargement de l'image...</text>
+</svg>

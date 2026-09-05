@@ -33,7 +33,7 @@ export default function ProductCard({
   rating = "4.8",
   reviewsCount = 120,
   image,
-  category = "HIGH-TECH & ELECTRONICS",
+  category = "Boutique Fenouhi",
   isDemo = false,
   stockLeft = 15,
   conditionState,
@@ -46,12 +46,29 @@ export default function ProductCard({
 }: ProductCardProps) {
   const [hovered, setHovered] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  
+  // Guard against unwanted iPhone fallback if product is not an iPhone
+  const initialImage = 
+    image && image.includes("hero_iphone16.png") && !title.toLowerCase().includes("iphone")
+      ? "/images/assets/placeholder_product.svg"
+      : (image || "/images/assets/placeholder_product.svg");
+  const [currentImg, setCurrentImg] = useState(initialImage);
+
+  React.useEffect(() => {
+    const validImg = 
+      image && image.includes("hero_iphone16.png") && !title.toLowerCase().includes("iphone")
+        ? "/images/assets/placeholder_product.svg"
+        : (image || "/images/assets/placeholder_product.svg");
+    setCurrentImg(validImg);
+  }, [image, title]);
+
   const { isFavorite, toggleFavorite, addToCart } = useMobileStore();
 
   const safeCategory =
     typeof category === "object" && category !== null
-      ? ((category as any).name || (category as any).slug || "HIGH-TECH & ELECTRONICS")
-      : (typeof category === "string" ? category : "HIGH-TECH & ELECTRONICS");
+      ? ((category as any).name || (category as any).slug || "Boutique Fenouhi")
+      : (typeof category === "string" ? category : "Boutique Fenouhi");
 
   const isFav = isFavorite(`prod-${id}`);
 
@@ -187,20 +204,41 @@ export default function ProductCard({
             </div>
           )}
 
+          {/* SKELETON SHIMMER WHILE LOADING */}
+          {!imageLoaded && (
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: "linear-gradient(90deg, #F5F3EF 25%, #EBE7DF 50%, #F5F3EF 75%)",
+                backgroundSize: "200% 100%",
+                animation: "pulse 1.5s ease-in-out infinite",
+                borderRadius: 16,
+                zIndex: 1,
+              }}
+            />
+          )}
+
           {/* PRODUCT VISUAL */}
           <img
-            src={image}
+            src={currentImg}
             alt={title}
+            loading="lazy"
+            onLoad={() => setImageLoaded(true)}
             style={{
               width: "100%",
               height: "100%",
               objectFit: "contain",
               padding: 8,
-              transition: "transform 0.3s ease",
+              opacity: imageLoaded ? 1 : 0,
+              transition: "opacity 0.25s ease, transform 0.3s ease",
               transform: hovered ? "scale(1.06)" : "scale(1)",
+              position: "relative",
+              zIndex: 2,
             }}
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "/images/assets/iphone16_white.png";
+            onError={() => {
+              setCurrentImg("/images/assets/placeholder_product.svg");
+              setImageLoaded(true);
             }}
           />
 

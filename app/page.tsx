@@ -671,7 +671,7 @@ export default function HomePage() {
                   price={`${p.price.toLocaleString()} ${p.currency}`}
                   wholesalePrice5={p.wholesale_price_5_units ? `${Number(p.wholesale_price_5_units).toLocaleString()} ${p.currency}` : null}
                   image={img}
-                  category={typeof p.category === "object" && p.category !== null ? (p.category.name || "High-Tech") : (typeof p.category === "string" ? p.category : "High-Tech")}
+                  category={typeof p.category === "object" && p.category !== null ? (p.category.name || p.category.slug || "Boutique Fenouhi") : (typeof p.category === "string" ? p.category : "Boutique Fenouhi")}
                   isDemo={p.is_demo}
                   conditionState={p.condition_state}
                   grade={p.grade}

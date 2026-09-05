@@ -250,8 +250,10 @@ export default function ProductsManagementPage() {
       // 4. Put remaining base catalog products if not already present or deleted
       for (const raw of PRODUCTS) {
         if (!productMap.has(raw.id) && !deletedIds.has(raw.id) && !deletedIds.has(`product-${raw.id}`)) {
-          const rawImages = (raw.images || (raw.image ? [raw.image] : [])).filter(Boolean);
-          if (rawImages.length === 0) rawImages.push("/images/assets/hero_iphone16.png");
+          const rawImages = (raw.images || (raw.image ? [raw.image] : []))
+            .filter(Boolean)
+            .filter((url: string) => !url.includes("hero_iphone16.png") || raw.title.toLowerCase().includes("iphone"));
+          if (rawImages.length === 0) rawImages.push("/images/assets/placeholder_product.svg");
           const matchedCat = categories.find(c => c.slug === raw.category || c.id === raw.category) || { id: "cat_base", name: raw.category || "Catalogue", slug: raw.category || "general", is_active: true };
 
           productMap.set(raw.id, {

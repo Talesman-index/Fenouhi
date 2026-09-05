@@ -145,32 +145,54 @@ export async function getCategories(): Promise<Category[]> {
  * Safely extracts the best public image URL from any product representation.
  */
 export function getProductImageUrl(p: any): string {
-  if (!p) return "/images/assets/hero_iphone16.png";
+  if (!p) return "/images/assets/placeholder_product.svg";
 
-  if (typeof p === "string" && p.trim()) return p.trim();
+  if (typeof p === "string" && p.trim()) {
+    if (p.includes("hero_iphone16.png")) return "/images/assets/placeholder_product.svg";
+    return p.trim();
+  }
 
   // 1. Array of images (supports both objects with public_image_url and raw string URLs)
   if (Array.isArray(p.images) && p.images.length > 0) {
-    const primary = p.images.find((img: any) => img && (img.is_primary === true || img.isPrimary === true));
-    const target = primary || p.images[0];
-    if (typeof target === "string" && target.trim()) {
-      return target.trim();
-    }
-    if (target && typeof target === "object") {
-      const url = target.public_image_url || target.url || target.src || target.image_url;
-      if (typeof url === "string" && url.trim()) {
-        return url.trim();
+    const validImages = p.images.filter((img: any) => {
+      const url = typeof img === "string" ? img : (img?.public_image_url || img?.url || img?.src);
+      return typeof url === "string" && url.trim() && !url.includes("hero_iphone16.png");
+    });
+    if (validImages.length > 0) {
+      const primary = validImages.find((img: any) => img && (img.is_primary === true || img.isPrimary === true));
+      const target = primary || validImages[0];
+      if (typeof target === "string" && target.trim()) {
+        return target.trim();
+      }
+      if (target && typeof target === "object") {
+        const url = target.public_image_url || target.url || target.src || target.image_url;
+        if (typeof url === "string" && url.trim()) {
+          return url.trim();
+        }
       }
     }
   }
 
   // 2. Direct string image properties
   const direct = p.image || p.image_url || p.imageUrl || p.primary_image || p.img;
-  if (typeof direct === "string" && direct.trim()) {
+  if (typeof direct === "string" && direct.trim() && !direct.includes("hero_iphone16.png")) {
     return direct.trim();
   }
 
-  return "/images/assets/hero_iphone16.png";
+  // 3. Smart cross-reference lookup in rawCustomProducts by slug or name
+  if (p.slug || p.name || p.id) {
+    const matched = (rawCustomProducts as any[]).find(
+      (cp) => (p.slug && cp.slug === p.slug) || (p.name && cp.name === p.name) || (p.id && cp.id === p.id)
+    );
+    if (matched) {
+      const matchUrl = (matched.images && matched.images[0]?.public_image_url) || matched.image;
+      if (matchUrl && typeof matchUrl === "string" && matchUrl.trim() && !matchUrl.includes("hero_iphone16.png")) {
+        return matchUrl.trim();
+      }
+    }
+  }
+
+  return "/images/assets/placeholder_product.svg";
 }
 
 /**
@@ -186,10 +208,13 @@ export function normalizeProduct(p: any): Product {
   if (Array.isArray(p.images) && p.images.length > 0) {
     for (const item of p.images) {
       if (typeof item === "string" && item.trim()) {
-        rawList.push(item.trim());
+        const trimmed = item.trim();
+        if (!trimmed.includes("hero_iphone16.png")) {
+          rawList.push(trimmed);
+        }
       } else if (item && typeof item === "object") {
         const url = item.public_image_url || item.url || item.src || item.image_url;
-        if (typeof url === "string" && url.trim()) {
+        if (typeof url === "string" && url.trim() && !url.includes("hero_iphone16.png")) {
           rawList.push(url.trim());
         }
       }
@@ -197,12 +222,27 @@ export function normalizeProduct(p: any): Product {
   }
 
   const direct = p.image || p.image_url || p.imageUrl;
-  if (typeof direct === "string" && direct.trim() && !rawList.includes(direct.trim())) {
+  if (typeof direct === "string" && direct.trim() && !direct.includes("hero_iphone16.png") && !rawList.includes(direct.trim())) {
     rawList.unshift(direct.trim());
   }
 
+  // If no images found on this product, cross-reference custom products by slug/name/id
   if (rawList.length === 0) {
-    rawList.push("/images/assets/hero_iphone16.png");
+    const matched = (rawCustomProducts as any[]).find(
+      (cp) => (p.slug && cp.slug === p.slug) || (p.name && cp.name === p.name) || (p.id && cp.id === p.id)
+    );
+    if (matched) {
+      const matchImages = (matched.images || (matched.image ? [matched.image] : []))
+        .map((img: any) => (typeof img === "string" ? img : img?.public_image_url))
+        .filter((url: any) => typeof url === "string" && url.trim() && !url.includes("hero_iphone16.png"));
+      if (matchImages.length > 0) {
+        rawList.push(...matchImages);
+      }
+    }
+  }
+
+  if (rawList.length === 0) {
+    rawList.push("/images/assets/placeholder_product.svg");
   }
 
   const normalizedImages = rawList.map((url, i) => ({
@@ -212,6 +252,20 @@ export function normalizeProduct(p: any): Product {
     position: i,
     is_primary: i === 0,
   }));
+
+  // Resolve category if missing or generic
+  let categoryObj = p.category;
+  if (!categoryObj && p.category_id) {
+    categoryObj = FALLBACK_CATEGORIES.find((c) => c.id === p.category_id || c.slug === p.category_id) || null;
+  }
+  if (!categoryObj) {
+    const matched = (rawCustomProducts as any[]).find(
+      (cp) => (p.slug && cp.slug === p.slug) || (p.name && cp.name === p.name) || (p.id && cp.id === p.id)
+    );
+    if (matched && matched.category) {
+      categoryObj = typeof matched.category === "object" ? matched.category : FALLBACK_CATEGORIES.find((c) => c.slug === matched.category) || null;
+    }
+  }
 
   const hasVariants = (p as any).has_variants ?? (p as any).hasVariants ?? meta.has_variants ?? Boolean(p.variants && p.variants.length > 0);
   const variants = p.variants || meta.variants || null;
@@ -227,6 +281,8 @@ export function normalizeProduct(p: any): Product {
   return {
     ...p,
     description: cleanDesc || p.description,
+    category: categoryObj || p.category,
+    category_id: categoryObj?.id || p.category_id,
     has_variants: hasVariants,
     variants: variants,
     attributes_definition: attributesDef,
@@ -251,9 +307,11 @@ function mapLocalProductToCatalogProduct(p: any): Product {
     FALLBACK_CATEGORIES.find((c) => ((p.category || "").toLowerCase().includes("sport") || (p.category || "").toLowerCase().includes("fitness")) && c.slug === "sport") ||
     null;
 
-  const rawImages = (p.images || (p.image ? [p.image] : [])).filter(Boolean);
+  const rawImages = (p.images || (p.image ? [p.image] : []))
+    .filter(Boolean)
+    .filter((url: string) => typeof url === "string" && !url.includes("hero_iphone16.png"));
   if (rawImages.length === 0) {
-    rawImages.push("/images/assets/hero_iphone16.png");
+    rawImages.push("/images/assets/placeholder_product.svg");
   }
 
   return {
@@ -315,10 +373,36 @@ export function getStoredCustomProducts(): Product[] {
     const map = new Map<string, Product>();
     fileCustom.forEach(p => map.set(p.id, p));
     inMemoryCustomProducts.forEach(p => map.set(p.id, p));
+
+    let hadStaleImages = false;
     parsed.forEach((p: Product) => {
+      // Find matching fresh product from local files by slug, name or id
+      const fresh = Array.from(map.values()).find(f => f.slug === p.slug || f.name === p.name || f.id === p.id);
+      const pImage = p.images && p.images[0]?.public_image_url;
+      const isPlaceholder = !pImage || pImage.includes("hero_iphone16.png") || pImage.includes("placeholder_product.svg");
+
+      if (fresh && fresh.images && fresh.images.length > 0 && !fresh.images[0].public_image_url.includes("hero_iphone16.png") && !fresh.images[0].public_image_url.includes("placeholder_product.svg")) {
+        if (isPlaceholder) {
+          hadStaleImages = true;
+          map.set(p.id, {
+            ...p,
+            images: fresh.images,
+            category: p.category || fresh.category,
+            category_id: p.category_id || fresh.category_id
+          });
+          return;
+        }
+      }
       map.set(p.id, p);
     });
-    return Array.from(map.values());
+
+    const result = Array.from(map.values());
+    if (hadStaleImages) {
+      try {
+        localStorage.setItem("fenou_custom_products", JSON.stringify(result));
+      } catch {}
+    }
+    return result;
   } catch {
     return fileCustom;
   }
@@ -472,6 +556,7 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
           const p = normalizeProduct(rawP);
           // Live Supabase products are always trusted
           productMap.set(p.id, p);
+          if (p.slug) productMap.set(`slug:${p.slug}`, p);
         }
       }
     } catch (dbErr) {
@@ -500,8 +585,10 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
               const p = normalizeProduct(rawP);
               if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
                 if (!p.status || p.status === "active") {
-                  if (!productMap.has(p.id)) {
+                  const alreadyInMap = productMap.has(p.id) || (p.slug && productMap.has(`slug:${p.slug}`));
+                  if (!alreadyInMap) {
                     productMap.set(p.id, p);
+                    if (p.slug) productMap.set(`slug:${p.slug}`, p);
                   }
                 }
               }
@@ -517,8 +604,10 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
     const custom = getStoredCustomProducts();
     for (const p of custom) {
       if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
-        if (!productMap.has(p.id)) {
+        const alreadyInMap = productMap.has(p.id) || (p.slug && productMap.has(`slug:${p.slug}`));
+        if (!alreadyInMap) {
           productMap.set(p.id, p);
+          if (p.slug) productMap.set(`slug:${p.slug}`, p);
         }
       }
     }
@@ -526,12 +615,24 @@ export async function getPublicProducts(options: ProductFilterOptions = {}): Pro
     // 4. Add base catalog products from lib/products.ts if not already present or modified
     for (const raw of PRODUCTS) {
       const p = mapLocalProductToCatalogProduct(raw);
-      if (!productMap.has(p.id) && !deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
-        productMap.set(p.id, p);
+      if (!deletedIds.has(p.id) && !deletedIds.has(p.slug) && !deletedIds.has(`product-${p.id}`)) {
+        const alreadyInMap = productMap.has(p.id) || (p.slug && productMap.has(`slug:${p.slug}`));
+        if (!alreadyInMap) {
+          productMap.set(p.id, p);
+          if (p.slug) productMap.set(`slug:${p.slug}`, p);
+        }
       }
     }
 
-    let list = Array.from(productMap.values());
+    const seenFinalIds = new Set<string>();
+    const seenFinalSlugs = new Set<string>();
+    let list: Product[] = [];
+    for (const p of productMap.values()) {
+      if (seenFinalIds.has(p.id) || (p.slug && seenFinalSlugs.has(p.slug))) continue;
+      seenFinalIds.add(p.id);
+      if (p.slug) seenFinalSlugs.add(p.slug);
+      list.push(p);
+    }
 
     // Only active products on the public store
     list = list.filter((p) => !p.status || p.status === "active");

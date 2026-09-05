@@ -331,7 +331,7 @@ function CartPageInner() {
                           padding: 6,
                         }}
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = "/images/assets/hero_iphone16.png";
+                          (e.target as HTMLImageElement).src = "/images/assets/placeholder_product.svg";
                         }}
                       />
                     </div>
